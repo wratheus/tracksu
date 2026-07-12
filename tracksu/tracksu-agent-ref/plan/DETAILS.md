@@ -136,11 +136,17 @@ applicationId/Bundle ID/ключи остаются baseline, даже если 
   [Android: application ID и namespace](https://developer.android.com/build/configure-app-module).
 
 Текущее направление P00: новый Android developer account, прежние signing keys
-потеряны, новый application ID ещё не выбран. Старую identity сохраняем как
-исторический baseline, но не обещаем update-path. Скриншот владельца от
+потеряны; будущие Android `applicationId`, `namespace` и Kotlin package выбраны
+как `io.github.wratheus.tracksu`. Старую identity сохраняем как исторический
+baseline, но не обещаем update-path. Скриншот владельца от
 2026-09-04 подтверждает удаление старого developer profile и запрет публикации
 из него; новый release планируем только через новый account и новый application
 ID. Reset upload key не выполняем автоматически и не решает удаление account.
+
+Публичное product/developer name, iOS Bundle ID, OAuth display/redirect и Dart
+package naming всё ещё решаются на P01.1. Не выполнять global search/replace
+`com.sgoollreps.tracksu` до P03: выбранная technical identity применяется там
+вместе с чистым Android template и новой подписью.
 
 **Критерий P01.1:** есть выбранные имена, карта переименований и документированное
 решение по технической identity. Если store-вопрос ещё открыт, не менять ID;
