@@ -19,9 +19,9 @@
 | [P00](DETAILS.md#p00) · [P00.1](work/P00.1.md) | Релиз, подпись, локальные данные, старые сборки | Подтверждены идентификаторы, ключи, статус магазинов и доступный baseline | in_progress |
 | [P01](DETAILS.md#p01) | Уточнение TSD-референса, ADR, карта экранов и прав на assets | Согласованы package graph, границы feature/UI kit, scope и отличия от TSD | backlog |
 | [P01.1](DETAILS.md#p01-1) | Новый нейминг и карта product/developer identity | Выбраны новые публичные имена, package prefix и план ребрендинга; store/account решение отделено от названия | backlog |
-| [P02](DETAILS.md#p02) | Flutter/Dart, Pub workspace, матрица plugins, технический CI | Единый workspace/lockfile; совместимы SDK/packages; CI ограничен format/analyze/build | backlog |
+| [P02](DETAILS.md#p02) · [toolchain](work/P02-toolchain.md) | Flutter/Dart, Pub workspace, матрица plugins, технический CI | Pin candidate выбран; workspace root ждёт решения, затем единый workspace/lockfile и CI | in_progress |
 | [P02.1](DETAILS.md#p02-1) | README, документация проекта и CHANGELOG | Актуальная точка входа для разработчика, структура технической документации и журнал реальных изменений | backlog |
-| [P03](DETAILS.md#p03) · [P03.1](work/P03.1.md) | Android build, namespace/Kotlin и системные интеграции | Новый ID введён последовательно; затем clean Gradle/template и подпись | in_progress |
+| [P03](DETAILS.md#p03) · [P03.1](work/P03.1.md) | Android build, namespace/Kotlin и системные интеграции | Новый ID введён последовательно; clean Gradle/template и подпись ждут P02 | blocked: P02 |
 | [P04](DETAILS.md#p04) | iOS host и SPM | Симулятор/устройство запускают shell; восстановлены signing/capabilities; проверен archive | backlog |
 | [P05](DETAILS.md#p05) | GitHub Pages, собственный OAuth callback и контракт API v2 | Проверены старые зависимости; выбран вариант возврата/необходимость сайта, описаны flow/scopes; пользователь проверяет доступный auth spike | backlog |
 | [P05.1](DETAILS.md#p05-1) | DI и bootstrap по TSD — отдельная часть | registerDependencies, DepsContainer/DepsScope, явный lifetime и локальное wiring feature; основа для следующих частей | backlog |
