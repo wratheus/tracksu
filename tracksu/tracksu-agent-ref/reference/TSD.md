@@ -193,7 +193,8 @@ feature. Не нужна обязательная цепочка из use case/p
   plugins, Xcode, signing и capabilities; сгенерированные package registrants
   не копируются из TSD.
 - Android TSD: Kotlin MainActivity + Groovy Gradle, явный namespace. В Tracksu
-  уже Kotlin и `com.sgoollreps.tracksu`; нужно обновить namespace/package wiring,
+  P03.1 уже применил Kotlin package `io.github.wratheus.tracksu`; explicit
+  namespace/package wiring завершаем после P02,
   а не искать отсутствующую Java MainActivity. Kotlin source, Kotlin DSL,
   JVM target и app ID — четыре разных аспекта.
 

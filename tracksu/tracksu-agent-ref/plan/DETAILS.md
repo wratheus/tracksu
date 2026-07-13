@@ -18,11 +18,11 @@
   разрешить такой `pubspec` без миграции.
 - Android использует Gradle 7.4, AGP 4.1.3, Kotlin 1.6.21, legacy `apply from`
   Flutter Gradle script, Java 8 и `targetSdkVersion 33`.
-- `applicationId` уже `com.sgoollreps.tracksu`, MainActivity уже написана на
-  Kotlin в `src/main/kotlin/com/sgoollreps/tracksu/`. Собственных Java-файлов в
-  `android/app/src` не найдено. Явного Gradle `namespace` пока нет. Java 8 здесь
-  означает JVM target, а не язык MainActivity; оставшийся template TODO про ID
-  не означает, что ID всё ещё `com.example`.
+- Legacy baseline использовал `com.sgoollreps.tracksu`. P03.1 переключил
+  applicationId, manifest package и Kotlin MainActivity на
+  `io.github.wratheus.tracksu`; Java-файлов в `android/app/src` нет. В legacy
+  AGP ещё нет explicit Gradle `namespace`: он будет задан при clean Gradle
+  rewrite после P02. Java 8 здесь означает JVM target, а не язык MainActivity.
 - iOS — старый CocoaPods-проект c deployment target 9.0 и legacy Xcode build
   settings. Bundle ID в проекте: `com.sgoollreps.tracksu`.
 - Команда `flutter` отсутствовала в PATH первоначальной проверки, но FVM и SDK
@@ -610,8 +610,9 @@ no-op, безопасный контекст и единая привязка; �
 - Сохранить `applicationId`, package MainActivity, versionCode/versionName,
   icon, network permission и release signing. Обновить `compileSdk`/
   `targetSdk` до поддерживаемого выбранным toolchain уровня.
-- Явно задать начальный `namespace = com.sgoollreps.tracksu`; согласовать с ним
-  `package` MainActivity, путь `src/main/kotlin/com/sgoollreps/tracksu/`, ссылки
+- Явно задать `namespace = io.github.wratheus.tracksu`; согласовать с ним
+  `applicationId`, `package` MainActivity, путь
+  `src/main/kotlin/io/github/wratheus/tracksu/`, ссылки
   на activity в main/debug/profile manifests и R/BuildConfig imports. Старые
   manifest package attributes обработать по новому template. Удалить устаревший
   template TODO про `com.example`, не переименовывая опубликованный app ID.

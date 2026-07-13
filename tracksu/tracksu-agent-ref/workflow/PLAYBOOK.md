@@ -310,8 +310,9 @@ Android tools и Xcode. Версии выбираются по матрице с
 - Старые native-папки сначала инвентаризируем и сохраняем. Keystore и прочие
   секреты в Git не добавляем. Сборка на новом template не подтверждает сама
   по себе возможность обновить старое приложение.
-- Android уже имеет `applicationId = com.sgoollreps.tracksu` и Kotlin MainActivity.
-  На P03 добавляем явный namespace, согласуем package/path/manifest/R/BuildConfig
+- Android P03.1 использует `applicationId = io.github.wratheus.tracksu` и Kotlin
+  MainActivity. Следующий P03 checkpoint добавляет explicit namespace и согласует
+  package/path/manifest/R/BuildConfig
   и современный JVM target. Не подменяем app ID новым ради naming. Собственный
   native code — Kotlin; язык Gradle scripts выбирается по template отдельно.
 - Новый нейминг фиксируется картой P01.1: display name, developer brand,

@@ -48,8 +48,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.sgoollreps.tracksu"
+        applicationId "io.github.wratheus.tracksu"
         minSdkVersion 26
         targetSdkVersion 33
         multiDexEnabled true
