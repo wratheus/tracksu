@@ -11,8 +11,8 @@ Gradle rewrite, package split или обновления зависимосте
 
 | Область | Факт |
 | --- | --- |
-| Candidate Flutter | `3.47.2` stable, локально установлен через FVM |
-| Candidate Dart | `3.13.2`, поставляется с Flutter 3.47.2 |
+| Selected Flutter | `3.47.2` stable, локально установлен через FVM |
+| Selected Dart | `3.13.2`, поставляется с Flutter 3.47.2 |
 | TSD reference | `.fvmrc` закреплён на Flutter `3.47.2`; root SDK constraint `^3.13.0` |
 | JDK | Локально доступен JBR `21.0.11`; shell default Java — 25, не используем его для Gradle без отдельной совместимости |
 | Legacy Tracksu | Gradle 7.4, AGP 4.1.3, Kotlin 1.6.21, Java 8, imperative Flutter Gradle scripts |
@@ -21,12 +21,17 @@ Gradle rewrite, package split или обновления зависимосте
 Команда `flutter --version` выполнилась на локальном SDK. Не запускались `pub get`,
 analyze, format, build, tests или генерация; project dependencies не менялись.
 
-## Предлагаемое решение
+## Принятое решение: toolchain pin
 
-Закрепить Flutter `3.47.2` через FVM и использовать JDK 21 для Android Gradle.
+Flutter `3.47.2` закреплён в root `.fvmrc`; для Android Gradle выбираем JDK 21.
 Это даёт Dart 3.13, совпадает с проверенным TSD toolchain и не требует скачивать
 новый SDK. До P03.2 отдельно подтвердить фактические AGP/Gradle/Kotlin versions
 из Flutter 3.47.2 template и совместимость выбранных Flutter plugins.
+
+`pubspec.yaml` SDK constraints и `pubspec.lock` намеренно не менялись: старые
+packages отсутствуют в local pub-cache и их совместимость с Dart 3.13 не
+подтверждена. Их обновление и новый resolution будут отдельной P02 compatibility
+группой, чтобы не фиксировать заведомо непроверяемое промежуточное состояние.
 
 Не копировать из TSD: `tsd_device` AAR, `material_ui`, corporate analyzer,
 release/debug signing, `logger.quiet`, release shrinking policy и временные
@@ -46,8 +51,9 @@ DNS или внешний Pages deployment; новый auth flow всё ещё �
 
 ## Следующие небольшие checkpoints после решения
 
-1. `chore(toolchain): pin Flutter 3.47.2` — FVM config, SDK constraints и
-   документирование JDK 21; без dependency upgrade.
+1. `chore(toolchain): pin Flutter 3.47.2` — выполнен: `.fvmrc`, исключение
+   локального `.fvm/` и документирование JDK 21; SDK constraints намеренно
+   отложены до compatibility-группы.
 2. `chore(workspace): establish selected root` — выполнен отдельным commit после
    обновления ссылок и документации.
 3. `chore(android): regenerate modern Gradle layer` — clean template comparison,
