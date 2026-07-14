@@ -21,7 +21,7 @@
 | [P01.1](DETAILS.md#p01-1) | Новый нейминг и карта product/developer identity | Выбраны новые публичные имена, package prefix и план ребрендинга; store/account решение отделено от названия | backlog |
 | [P02](DETAILS.md#p02) · [toolchain](work/P02-toolchain.md) | Flutter/Dart, Pub workspace, матрица plugins, технический CI | Pin candidate выбран; Flutter workspace поднят в root, далее FVM pin, единый workspace/lockfile и CI | in_progress |
 | [P02.1](DETAILS.md#p02-1) | README, документация проекта и CHANGELOG | Актуальная точка входа для разработчика, структура технической документации и журнал реальных изменений | backlog |
-| [P03](DETAILS.md#p03) · [P03.1](work/P03.1.md) | Android build, namespace/Kotlin и системные интеграции | Новый ID введён последовательно; clean Gradle/template и подпись ждут P02 | blocked: P02 |
+| [P03](DETAILS.md#p03) · [P03.2](work/P03.2.md) | Android build, namespace/Kotlin и системные интеграции | Новый ID и Flutter 3.47.2 Gradle layer введены; production signing, native build и device checks остаются | in_progress |
 | [P04](DETAILS.md#p04) | iOS host и SPM | Симулятор/устройство запускают shell; восстановлены signing/capabilities; проверен archive | backlog |
 | [P05](DETAILS.md#p05) | GitHub Pages, собственный OAuth callback и контракт API v2 | Проверены старые зависимости; выбран вариант возврата/необходимость сайта, описаны flow/scopes; пользователь проверяет доступный auth spike | backlog |
 | [P05.1](DETAILS.md#p05-1) | DI и bootstrap по TSD — отдельная часть | registerDependencies, DepsContainer/DepsScope, явный lifetime и локальное wiring feature; основа для следующих частей | backlog |

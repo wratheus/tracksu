@@ -16,20 +16,21 @@
 
 - Dart SDK ограничен `>=2.18.2 <3.3.0`; актуальный Flutter/Dart не сможет
   разрешить такой `pubspec` без миграции.
-- Android использует Gradle 7.4, AGP 4.1.3, Kotlin 1.6.21, legacy `apply from`
-  Flutter Gradle script, Java 8 и `targetSdkVersion 33`.
+- Android использует Flutter 3.47.2 template layer: Gradle 9.3.1, AGP 9.1.0,
+  Kotlin 2.4.0, declarative Plugin DSL и JVM target 17. Gradle запускается
+  локальным JBR 21. Compatibility legacy Flutter packages ещё не подтверждена.
 - Legacy baseline использовал `com.sgoollreps.tracksu`. P03.1 переключил
   applicationId, manifest package и Kotlin MainActivity на
-  `io.github.wratheus.tracksu`; Java-файлов в `android/app/src` нет. В legacy
-  AGP ещё нет explicit Gradle `namespace`: он будет задан при clean Gradle
-  rewrite после P02. Java 8 здесь означает JVM target, а не язык MainActivity.
-- iOS — старый CocoaPods-проект c deployment target 9.0 и legacy Xcode build
-  settings. Bundle ID в проекте: `com.sgoollreps.tracksu`.
+  `io.github.wratheus.tracksu`; Java-файлов в `android/app/src` нет. P03.2
+  закрепил совпадающий explicit Gradle `namespace`. JVM target 17 не меняет
+  Kotlin MainActivity.
+- Legacy iOS CocoaPods host удалён по решению пользователя; P04 создаст новый
+  iOS shell только при возвращении платформы в scope.
 - Команда `flutter` отсутствовала в PATH первоначальной проверки, но FVM и SDK
   установлены: найдены 3.41.9, 3.47.0 и 3.47.2. В SDK 3.47.2 файл версии Dart
-  содержит 3.13.2. Проект пока не закреплён за SDK; analyze/test/build в рамках
-  планирования не запускались. Эти установленные версии — кандидаты для P02,
-  совместимость plugins ещё предстоит проверить.
+  содержит 3.13.2. Проект закреплён `.fvmrc` на Flutter 3.47.2; analyze/test/
+  build Flutter app пока не запускались. Совместимость plugins ещё предстоит
+  проверить отдельной P02 compatibility-группой.
 - Локальный `authentication.dart` намеренно не закоммичен, но импортируется из
   исходников. В чистом checkout это сейчас ошибка компиляции.
 - При первоначальном аудите был шаблонный Counter test; сейчас он удалён
@@ -595,8 +596,8 @@ no-op, безопасный контекст и единая привязка; �
 
 ### P03. Android — пересоздать build layer, не application identity
 
-**Результат:** современная Android-сборка сохраняет существующий package и
-подпись.
+**Результат:** современная Android-сборка сохраняет выбранный package; новая
+production-подпись создаётся отдельно для нового developer account.
 
 - В отдельном scratch-проекте с тем же Flutter сгенерировать Android template,
   сравнить с текущим и перенести структуру, а не вручную латать AGP 4.1.3.
@@ -608,8 +609,9 @@ no-op, безопасный контекст и единая привязка; �
   9.4.1, а Flutter 3.44+ отдельно требует миграции от Kotlin Gradle Plugin к
   built-in Kotlin для AGP 9+.
 - Сохранить `applicationId`, package MainActivity, versionCode/versionName,
-  icon, network permission и release signing. Обновить `compileSdk`/
-  `targetSdk` до поддерживаемого выбранным toolchain уровня.
+  icon и network permission. До создания нового keystore release builds могут
+  использовать debug signing только для локальной технической проверки.
+  Обновить `compileSdk`/`targetSdk` до поддерживаемого выбранным toolchain уровня.
 - Явно задать `namespace = io.github.wratheus.tracksu`; согласовать с ним
   `applicationId`, `package` MainActivity, путь
   `src/main/kotlin/io/github/wratheus/tracksu/`, ссылки
