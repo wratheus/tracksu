@@ -33,22 +33,23 @@ release/debug signing, `logger.quiet`, release shrinking policy и времен�
 Kotlin compatibility comments. Берём только Plugin DSL, explicit namespace,
 Kotlin host и принцип одной согласованной toolchain.
 
-## Нужное решение владельца
+## Принятое решение: workspace root
 
-Выбрать workspace root:
+Пользователь выбрал корень repository как Flutter workspace root. В отдельном
+checkpoint перенесены `pubspec.yaml`, `android/`, `lib/`, `assets/`,
+`analysis_options.yaml` и `tracksu-agent-ref/` из вложенной `tracksu/` в root.
+Будущие внутренние packages будут располагаться в `packages/`.
 
-1. **Рекомендуется:** оставить `tracksu/` Flutter workspace root. В нём остаются
-   `pubspec.yaml`, `android/`, `lib/`, `assets/`, `tracksu-agent-ref/`; будущие
-   packages появятся в `tracksu/packages/`. Это исключает массовый move.
-2. Перенести Flutter app на корень repository и сделать его workspace root как
-   в TSD. Это отдельная механическая migration-задача с переносом paths, assets,
-   scripts и CI; не смешивать с Gradle rewrite.
+Одновременно по явному решению пользователя удалены legacy GitHub Pages source:
+`index.html` и `web_assets/Rolling-200px.gif`. Это не меняет OAuth registration,
+DNS или внешний Pages deployment; новый auth flow всё ещё выбирается на P05.
 
 ## Следующие небольшие checkpoints после решения
 
 1. `chore(toolchain): pin Flutter 3.47.2` — FVM config, SDK constraints и
    документирование JDK 21; без dependency upgrade.
-2. `chore(workspace): establish selected root` — только если root меняется.
+2. `chore(workspace): establish selected root` — выполнен отдельным commit после
+   обновления ссылок и документации.
 3. `chore(android): regenerate modern Gradle layer` — clean template comparison,
    Plugin DSL, explicit namespace and new identity; без feature rewrite.
 4. Compatibility groups for dependencies, analyzer policy and CI — отдельными

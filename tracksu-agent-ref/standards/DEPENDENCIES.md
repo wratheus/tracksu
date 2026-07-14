@@ -21,15 +21,15 @@
 
 На момент чтения: `home_page.dart` импортирует curved_navigation_bar,
 `user_widget.dart` — fluttericon/FontAwesome5, `requests.dart` — http.
-Поиск `CupertinoIcons` в `tracksu/lib` usages не показал; перед удалением
+Поиск `CupertinoIcons` в `lib` usages не показал; перед удалением
 перепроверить весь актуальный source/config, а не полагаться на старый аудит.
 Оба генератора сейчас объявлены в dependencies, их конфигурации находятся
 в pubspec. Простое перемещение в dev_dependencies не завершает задачу удаления.
 
-Исходные файлы: [pubspec](/Users/aleksandrpavlenko/Projects/tracksu/tracksu/pubspec.yaml),
-[навигация](/Users/aleksandrpavlenko/Projects/tracksu/tracksu/lib/src/pages/home_page.dart),
-[профиль](/Users/aleksandrpavlenko/Projects/tracksu/tracksu/lib/src/widgets/user_widgets/user_widget.dart),
-[старые запросы](/Users/aleksandrpavlenko/Projects/tracksu/tracksu/lib/src/requests/requests.dart).
+Исходные файлы: [pubspec](/Users/aleksandrpavlenko/Projects/tracksu/pubspec.yaml),
+[навигация](/Users/aleksandrpavlenko/Projects/tracksu/lib/src/pages/home_page.dart),
+[профиль](/Users/aleksandrpavlenko/Projects/tracksu/lib/src/widgets/user_widgets/user_widget.dart),
+[старые запросы](/Users/aleksandrpavlenko/Projects/tracksu/lib/src/requests/requests.dart).
 
 ## Иконки и splash: что не теряем при удалении генераторов
 

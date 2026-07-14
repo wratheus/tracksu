@@ -19,7 +19,7 @@
 | [P00](DETAILS.md#p00) · [P00.1](work/P00.1.md) | Релиз, подпись, локальные данные, старые сборки | Подтверждены идентификаторы, ключи, статус магазинов и доступный baseline | in_progress |
 | [P01](DETAILS.md#p01) | Уточнение TSD-референса, ADR, карта экранов и прав на assets | Согласованы package graph, границы feature/UI kit, scope и отличия от TSD | backlog |
 | [P01.1](DETAILS.md#p01-1) | Новый нейминг и карта product/developer identity | Выбраны новые публичные имена, package prefix и план ребрендинга; store/account решение отделено от названия | backlog |
-| [P02](DETAILS.md#p02) · [toolchain](work/P02-toolchain.md) | Flutter/Dart, Pub workspace, матрица plugins, технический CI | Pin candidate выбран; workspace root ждёт решения, затем единый workspace/lockfile и CI | in_progress |
+| [P02](DETAILS.md#p02) · [toolchain](work/P02-toolchain.md) | Flutter/Dart, Pub workspace, матрица plugins, технический CI | Pin candidate выбран; Flutter workspace поднят в root, далее FVM pin, единый workspace/lockfile и CI | in_progress |
 | [P02.1](DETAILS.md#p02-1) | README, документация проекта и CHANGELOG | Актуальная точка входа для разработчика, структура технической документации и журнал реальных изменений | backlog |
 | [P03](DETAILS.md#p03) · [P03.1](work/P03.1.md) | Android build, namespace/Kotlin и системные интеграции | Новый ID введён последовательно; clean Gradle/template и подпись ждут P02 | blocked: P02 |
 | [P04](DETAILS.md#p04) | iOS host и SPM | Симулятор/устройство запускают shell; восстановлены signing/capabilities; проверен archive | backlog |
@@ -63,7 +63,7 @@ Deferred — отдельно отложено. Blocker и его причина
 Эти решения принимаются внутри соответствующих частей, не блокируют чтение плана:
 
 - P00: доступность подписей/старой сборки, статус магазинов, путь обновления.
-- P01/P01.1: workspace root, scope платформ/функций, имена и package prefix,
+- P01/P01.1: scope платформ/функций, имена и package prefix,
   UI-направление, языки/рынки и права на используемые assets.
 - P02–P04: конкретный SDK/toolchain и совместимые plugins/native settings.
 - P05: допустимый OAuth callback, необходимость своего HTTPS landing и контракт

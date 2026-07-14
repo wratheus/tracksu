@@ -2,7 +2,8 @@
 
 2026-09-04 · TSD: `/Users/aleksandrpavlenko/Projects/tsd`, HEAD `e2ce51a94`
 (2026-09-01); рабочее дерево при сверке чистое. Tracksu:
-`/Users/aleksandrpavlenko/Projects/tracksu`, Flutter app пока во вложенной `tracksu/`.
+`/Users/aleksandrpavlenko/Projects/tracksu`, Flutter workspace расположен в корне
+репозитория.
 
 Сверка выполнена чтением исходников: root manifest/config/scripts, все девять
 package manifests, bootstrap/DI, полный вертикальный срез free_tasks, router,

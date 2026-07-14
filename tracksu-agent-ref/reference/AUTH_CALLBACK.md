@@ -1,23 +1,25 @@
 # Зачем Tracksu использовал GitHub Pages и что можно заменить
 
-2026-09-04 · предварительное исследование для P05, без изменения приложения.
+2026-09-04 · предварительное исследование для P05. Legacy Pages source позже
+удалён из repository по явному решению пользователя; приложение, OAuth
+registration и внешний hosting этим документом не менялись.
 
 ## Подтверждено исходниками
 
-1. [authorization_page.dart:19](/Users/aleksandrpavlenko/Projects/tracksu/tracksu/lib/src/pages/authorization_page.dart:19)
+1. [authorization_page.dart:19](/Users/aleksandrpavlenko/Projects/tracksu/lib/src/pages/authorization_page.dart:19)
    открывает официальный `/oauth/authorize` в WebView и передаёт
    `redirect_uri=https://wratheus.github.io/tracksu`.
 2. После загрузки страницы WebView вызывает `currentUrlCheck`. В
-   [обработчике:45](/Users/aleksandrpavlenko/Projects/tracksu/tracksu/lib/src/pages/authorization_page.dart:45)
+   [обработчике:45](/Users/aleksandrpavlenko/Projects/tracksu/lib/src/pages/authorization_page.dart:45)
    приложение читает текущий URL, ищет возврат на Pages, извлекает `code`
    регулярным выражением и вызывает `getTokenAsAuthorize`.
-3. [requests.dart:24](/Users/aleksandrpavlenko/Projects/tracksu/tracksu/lib/src/requests/requests.dart:24)
+3. [requests.dart:24](/Users/aleksandrpavlenko/Projects/tracksu/lib/src/requests/requests.dart:24)
    выполняет POST на osu! `/oauth/token` прямо из приложения; тот же Pages URL
    передаётся как redirect_uri. Обмен кода на токены не выполняется сайтом.
-4. Корневой [index.html](/Users/aleksandrpavlenko/Projects/tracksu/index.html)
+4. Удалённый в workspace migration корневой `index.html`
    содержит только HTML-заглушку: заголовок loading и фон. Нет JS, формы входа,
    обмена токенов или сервера. Это не Flutter Web app: при первичном осмотре
-   отдельный Flutter Web template был в `tracksu/web/index.html`.
+   отдельный Flutter Web template в этом checkout отсутствовал.
 
 Следовательно, роль Pages в этом checkout — адрес назначения OAuth-редиректа
 и визуальная заглушка внутри WebView. Это не BFF, API proxy или собственная
@@ -105,10 +107,10 @@ referrer/logging/cache policy хостинга и перехода; секрет
   сослаться на P08; не начинать весь auth rewrite внутри исследования P05.
 - Проверить будущий flow вручную пользователем: login/cancel, invalid state,
   warm/cold start, повторный возврат, offline/token failure. Автотесты не добавлять.
-- Старый index.html, callback registration и Pages deployment не удалять сейчас.
-  Сначала выяснить потребителей, включая старые установки, и определить момент
-  отключения/ротации. Работающий новый экран не означает, что старый endpoint
-  больше никому не нужен.
+- Legacy source уже удалён из repository по явному решению пользователя. P05
+  отдельно выясняет потребителей, включая старые установки, и определяет момент
+  отключения/ротации OAuth registration и внешнего Pages deployment. Работающий
+  новый экран не означает, что старый endpoint больше никому не нужен.
 
 Исследование не завершает P05 и не выбирает первый этап реализации. До нового
 поручения не меняем OAuth registration, hosting/DNS, приложение, подпись и секреты.

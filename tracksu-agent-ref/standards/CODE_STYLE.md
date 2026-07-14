@@ -17,7 +17,7 @@
 - [ROADMAP](../plan/ROADMAP.md) определяет очередь, [регламент](../workflow/PLAYBOOK.md)
   — границы изменений и коммитов, [SKILLS](../standards/SKILLS.md) — дополнительные правила.
 
-Активный `tracksu/analysis_options.yaml`, pubspec и Dart-код сейчас не менялись.
+Активный `analysis_options.yaml`, pubspec и Dart-код сейчас не менялись.
 Не запускались analyzer приложения, formatter, сборки, pub get или автотесты.
 Проверка YAML и названий правил не означает, что legacy-код уже им соответствует.
 

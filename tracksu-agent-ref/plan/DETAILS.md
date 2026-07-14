@@ -198,9 +198,9 @@ network/models на P06, analytics contract на P06.1, UI на P07, l10n на P
 secure storage на P08; utils — по
 реальной необходимости. Каждый package использует `resolution: workspace`,
 узкий `lib/tracksu_*.dart` и `publish_to: none`; чужие `src/` не импортируем.
-Сейчас Flutter app находится во вложенной `tracksu/`. На P01 выбираем расположение
-workspace; выравнивание с корнем репозитория TSD, если принято, выполняем отдельной
-механической P02-подзадачей с учётом CI/assets, не вместе с переносом экранов.
+Flutter workspace расположен в корне repository; это решение закреплено на P02.
+На P01 определяем только будущую package graph и границы package/feature, не
+возвращаясь к механическому переносу root, CI или assets.
 
 На P01/P06 определить владельцев общих понятий `UserId`, `BeatmapId`,
 `BeatmapsetId`, `Ruleset`, `Score` и `Mod`: feature не импортирует внутренние
@@ -719,9 +719,10 @@ Flutter-виджетов и управления состоянием экран
   собственной статической fallback-страницы решаем по выбранному flow. Старый
   Pages URL не остаётся обязательной зависимостью нового login-path; хостинг
   нового HTTPS-варианта ещё не выбран. HTML не хранит secret и не заменяет BFF.
-- Старый index.html/Pages и OAuth registration отключать только после проверки
-  потребителей, включая старые версии, и определения cutover. Сейчас исследование
-  не разрешает менять домен, регистрацию приложения, hosting или credentials.
+- Legacy Pages source (`index.html` и `web_assets/`) удалён из repository по
+  явному решению пользователя на этапе workspace migration. Это не доказывает,
+  что внешний Pages deployment, OAuth registration или старые установки уже
+  отключены: их не меняем до P05 и отдельного решения о cutover.
 - Вынести в `AuthRepository`/`TokenStore`: expiry (`expires_in`), сериализацию
   refresh, один shared refresh на параллельные 401, logout/clear и typed
   `AuthFailure`. Не обновлять токен «на любой 400».
