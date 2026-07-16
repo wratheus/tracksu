@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       }// default page is User page
       if (_username != null) pageList[1] = UserTabPage(username: _username); // i// f username provided -> open that userpage
       return Scaffold(
-          drawer: NavigationDrawer(),
+          drawer: TracksuNavigationDrawer(),
           backgroundColor: my_colors.Palette.purple,
           body: pageList.elementAt(_pageIndex!),
           bottomNavigationBar: Container(

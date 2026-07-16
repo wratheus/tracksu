@@ -76,7 +76,7 @@ class _LastNewsPage extends StatelessWidget {
           backgroundColor: my_colors.Palette.brown.shade100,
                   child: Scaffold(
                       backgroundColor: my_colors.Palette.brown.shade100,
-                    drawer: NavigationDrawer(),
+                    drawer: TracksuNavigationDrawer(),
                     appBar: AppBar(
                       flexibleSpace: Container(
                           decoration: BoxDecoration(

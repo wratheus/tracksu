@@ -4,16 +4,16 @@ import '../../pages/home_page.dart';
 import '../../utils/color_contrasts.dart' as my_colors;
 import '../../utils/secure_storage.dart';
 // ignore: must_be_immutable
-class NavigationDrawer extends StatefulWidget {
+class TracksuNavigationDrawer extends StatefulWidget {
   String? _userMeAvatar;
   String? _userMeUsername;
-  NavigationDrawer({Key? key}) :
+  TracksuNavigationDrawer({Key? key}) :
         super(key: key);
   @override
-  State<NavigationDrawer> createState() => _NavigationDrawerState();
+  State<TracksuNavigationDrawer> createState() => _NavigationDrawerState();
 }
 
-class _NavigationDrawerState extends State<NavigationDrawer> {
+class _NavigationDrawerState extends State<TracksuNavigationDrawer> {
   late final bool userMeFromStorageLoaded;
 
   void getUserFromSecureStorage() async {
@@ -298,4 +298,3 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
         );
   }
-

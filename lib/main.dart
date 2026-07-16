@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Tracksu',
       theme: ThemeData(
         primarySwatch:  my_colors.Palette.pink,
-        backgroundColor: my_colors.Palette.brown,
+        scaffoldBackgroundColor: my_colors.Palette.brown,
       ),
       home: LoginPageWidget()
       );

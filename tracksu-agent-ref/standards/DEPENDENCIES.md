@@ -14,9 +14,9 @@
 | --- | --- | --- |
 | `curved_navigation_bar: ^1.0.3` | Удалить. Навигационный компонент своего UI kit на Flutter primitives; штатный NavigationBar — кандидат, дизайн решаем на P07. Сохранить tab/back behavior, состояние вкладок и accessibility, не воспроизводить старую анимацию автоматически | P07, при переносе app shell/navigation |
 | `fluttericon: ^2.0.0` | Удалить. Единый semantic icon API в UI kit, небольшой согласованный набор SDK icons/собственных разрешённых assets вместо зависимости на весь каталог | API — P07; profile consumers — P09/P10; удаление после последнего consumer |
-| `cupertino_icons: ^1.0.5` | Удалить. Использовать ту же icon policy; не добавлять обратно ради одного значка | P02 после полного поиска usages либо P07, если обнаружатся consumers |
-| `flutter_native_splash: ^2.2.13` | Удалить генератор и его YAML-конфиг после переноса splash в поддерживаемые Android resources. Если iOS вернётся в scope, добавить его resources в P04 | P03; P04 только при возврате iOS |
-| `flutter_launcher_icons: ^0.10.0` | Удалить генератор и legacy `flutter_icons` config после подготовки native icon resources и инструкции их обновления. Наличие Android icon обязательно | P03, с учётом naming/assets P01.1 |
+| `cupertino_icons: ^1.0.5` | Прямую dependency удалить — usages не найдены. Транзитивное присутствие не является API приложения; не добавлять обратно ради одного значка | Выполнено P02.3 |
+| `flutter_native_splash: ^2.2.13` | Генератор и YAML-конфиг удалены; Android launch resources сохранены. Если iOS вернётся в scope, добавить его resources в P04 | Выполнено P02.3; P04 для iOS |
+| `flutter_launcher_icons: ^0.10.0` | Генератор и `flutter_icons` config удалены; Android launcher resources сохранены. Инструкция обновления assets — P02.1 | Выполнено P02.3 |
 | `http: ^0.13.5` | Старую версию не переносить в целевой stack. Выбрать актуальный совместимый `http` либо Dio; поверх выбранного транспорта — собственный небольшой REST-клиент. Удаление самого `http` условно, в отличие от пяти строк выше | Критерии — P02/P05; решение и клиент — P06; auth wiring — P08 |
 
 На момент чтения: `home_page.dart` импортирует curved_navigation_bar,

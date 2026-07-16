@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/country.dart';
 import '../../pages/cubit/rankings_cubit.dart';

@@ -67,7 +67,7 @@ class _BeatmapPage extends StatelessWidget {
           return (Platform.isIOS || Platform.isAndroid == true) ? RefreshIndicator(
             backgroundColor: my_colors.Palette.brown.shade100,
             child: Scaffold(
-              drawer: NavigationDrawer(),
+              drawer: TracksuNavigationDrawer(),
                 body: Container(
                   decoration: BoxDecoration(
                       gradient: LinearGradient(

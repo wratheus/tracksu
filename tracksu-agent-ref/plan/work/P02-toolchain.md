@@ -49,6 +49,20 @@ checkpoint перенесены `pubspec.yaml`, `android/`, `lib/`, `assets/`,
 `index.html` и `web_assets/Rolling-200px.gif`. Это не меняет OAuth registration,
 DNS или внешний Pages deployment; новый auth flow всё ещё выбирается на P05.
 
+## P02.3 — compatibility baseline
+
+`pubspec` теперь объявляет Dart `^3.13.0` и Flutter `>=3.47.0`; `pub get`
+успешно создал новый lockfile. Удалены прямые `cupertino_icons`,
+`flutter_launcher_icons`, `flutter_native_splash` и их legacy YAML-конфиги.
+Android icon/splash resources сохранены. `provider` и `meta` объявлены явно,
+а единственный import из чужого `provider/src/` переведён на public API.
+
+Добавлен `flutter_lints` для существующего active analyzer config. Static analyze
+теперь имеет один blocking error: локальный, намеренно не закоммиченный
+`lib/src/authentication.dart`; секретную заглушку не создавать. Остальные
+сообщения — legacy style/deprecation debt, они не входят в этот dependency
+checkpoint. Автотесты не запускались.
+
 ## Следующие небольшие checkpoints после решения
 
 1. `chore(toolchain): pin Flutter 3.47.2` — выполнен: `.fvmrc`, исключение
