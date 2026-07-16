@@ -39,7 +39,17 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   initState() {
     super.initState();
-    WebView.platform = SurfaceAndroidWebView();
+    _webViewController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(my_colors.Palette.brown.shade200)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (_) {
+            currentUrlCheck();
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(loginUrl));
   }
 
   Future<void> currentUrlCheck() async {
@@ -108,17 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   begin: Alignment.topLeft,
                   end: Alignment.topRight,
                   colors: [my_colors.Palette.brown.withOpacity(0.65), my_colors.Palette.purple.withOpacity(0.65)])),
-          child: WebView(
-            javascriptMode: JavascriptMode.unrestricted,
-            initialUrl: loginUrl,
-            onWebViewCreated: (controller) {
-              _webViewController = controller;
-            },
-            onPageFinished: (_) {
-              currentUrlCheck();
-            },
-            backgroundColor: my_colors.Palette.brown.shade200,
-          ),
+          child: WebViewWidget(controller: _webViewController),
         )
     );
   }

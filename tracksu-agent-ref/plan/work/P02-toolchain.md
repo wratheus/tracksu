@@ -63,6 +63,20 @@ Android icon/splash resources сохранены. `provider` и `meta` объя�
 сообщения — legacy style/deprecation debt, они не входят в этот dependency
 checkpoint. Автотесты не запускались.
 
+## P02.4 — runtime package compatibility
+
+Обновлены совместимая группа `http` 1.6, `cached_network_image` 4,
+`flutter_widget_from_html` 0.17, `webview_flutter` 4, `audioplayers` 6,
+`bloc` 9, `flutter_bloc` 9, `url_launcher` 6.3 и `intl` 0.20. Обновление
+HTML renderer требует WebView 4, а cache 4 — `http` 1.x; `audioplayers` 1.x
+несовместим с этим transport API, поэтому также обновлён до 6.x.
+
+Единственный legacy consumer WebView переведён на controller API версии 4 без
+изменения OAuth-сценария. Это техническая совместимость, не реализация P05:
+legacy GitHub Pages redirect и сам WebView будут заменены отдельно. `pub get`
+успешен; analyzer по-прежнему блокируется только отсутствующим локальным
+`lib/src/authentication.dart`. Автотесты не запускались.
+
 ## Следующие небольшие checkpoints после решения
 
 1. `chore(toolchain): pin Flutter 3.47.2` — выполнен: `.fvmrc`, исключение
