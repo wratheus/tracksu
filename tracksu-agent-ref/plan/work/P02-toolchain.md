@@ -14,7 +14,7 @@ Gradle rewrite, package split или обновления зависимосте
 | Selected Flutter | `3.47.2` stable, локально установлен через FVM |
 | Selected Dart | `3.13.2`, поставляется с Flutter 3.47.2 |
 | TSD reference | `.fvmrc` закреплён на Flutter `3.47.2`; root SDK constraint `^3.13.0` |
-| JDK | Локально доступен JBR `21.0.11`; shell default Java — 25, не используем его для Gradle без отдельной совместимости |
+| Gradle runtime | Homebrew OpenJDK `25.0.4.1`; shell resolves `java` from `openjdk@25` |
 | Legacy Tracksu | Gradle 7.4, AGP 4.1.3, Kotlin 1.6.21, Java 8, imperative Flutter Gradle scripts |
 | TSD Android snapshot | Plugin DSL, AGP 9.3.2, Kotlin 2.4.10, JVM 21, но также корпоративные AAR/signing/transition flags |
 
@@ -23,9 +23,10 @@ analyze, format, build, tests или генерация; project dependencies н
 
 ## Принятое решение: toolchain pin
 
-Flutter `3.47.2` закреплён в root `.fvmrc`; для Android Gradle выбираем JDK 21.
-Это даёт Dart 3.13, совпадает с проверенным TSD toolchain и не требует скачивать
-новый SDK. До P03.2 отдельно подтвердить фактические AGP/Gradle/Kotlin versions
+Flutter `3.47.2` закреплён в root `.fvmrc`; Android Gradle запускается на
+системном Homebrew OpenJDK 25. Java/Kotlin compilation target остаётся 21 — это
+target bytecode приложения, а не JDK, запускающий Gradle. До P03.2 отдельно
+подтвердить фактические AGP/Gradle/Kotlin versions
 из Flutter 3.47.2 template и совместимость выбранных Flutter plugins.
 
 `pubspec.yaml` SDK constraints и `pubspec.lock` намеренно не менялись: старые
@@ -76,6 +77,14 @@ HTML renderer требует WebView 4, а cache 4 — `http` 1.x; `audioplayers
 legacy GitHub Pages redirect и сам WebView будут заменены отдельно. `pub get`
 успешен; analyzer по-прежнему блокируется только отсутствующим локальным
 `lib/src/authentication.dart`. Автотесты не запускались.
+
+## P02.5 — native compatibility follow-up
+
+`flutter_secure_storage` 7 не имеет Android namespace и не конфигурируется с
+AGP 9.3.2; он обновлён до 11.x. Package требует compileSdk 37, поэтому app
+явно компилируется с API 37 (SDK platform локально установлена), сохраняя
+minSdk 26. Android `processDebugMainManifest` прошёл на OpenJDK 25; warnings
+Flutter/plugin transition API не подавлялись. Автотесты не запускались.
 
 ## Следующие небольшие checkpoints после решения
 

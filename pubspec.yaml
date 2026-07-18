@@ -17,7 +17,7 @@ dependencies:
   cached_network_image: ^4.0.0
   bloc: ^9.2.1
   flutter_bloc: ^9.1.1
-  flutter_secure_storage: ^7.0.1
+  flutter_secure_storage: ^11.0.0
   webview_flutter: ^4.14.1
   audioplayers: ^6.8.1
   curved_navigation_bar: ^1.0.3

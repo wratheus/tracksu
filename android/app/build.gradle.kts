@@ -6,7 +6,9 @@ plugins {
 
 android {
     namespace = "io.github.wratheus.tracksu"
-    compileSdk = flutter.compileSdkVersion
+    // flutter_secure_storage 11 requires API 37; it remains backward compatible
+    // with the app's minSdk 26.
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

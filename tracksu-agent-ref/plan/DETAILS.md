@@ -17,8 +17,9 @@
 - Dart SDK ограничен `>=2.18.2 <3.3.0`; актуальный Flutter/Dart не сможет
   разрешить такой `pubspec` без миграции.
 - Android использует TSD-aligned layer: Gradle 9.7.1, AGP 9.3.2,
-  Kotlin 2.4.10, declarative Plugin DSL и JVM target 21. Gradle запускается
-  локальным JBR 21. Compatibility legacy Flutter packages ещё не подтверждена.
+  Kotlin 2.4.10, declarative Plugin DSL, OpenJDK 25 runtime и JVM target 21.
+  `flutter_secure_storage` обновлён до 11.x, app compileSdk — 37; compatibility
+  остальных legacy Flutter packages всё ещё переносится по частям.
 - Legacy baseline использовал `com.sgoollreps.tracksu`. P03.1 переключил
   applicationId, manifest package и Kotlin MainActivity на
   `io.github.wratheus.tracksu`; Java-файлов в `android/app/src` нет. P03.2
