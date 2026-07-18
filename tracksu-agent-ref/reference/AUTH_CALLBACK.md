@@ -85,10 +85,20 @@ Native OAuth через внешний user-agent — профильный ре�
    [Apple associated domains](https://developer.apple.com/documentation/xcode/supporting-associated-domains).
 
 Минимальный собственный HTTPS-сайт можно разместить на статическом хостинге;
-это отдельное решение о домене/доставке, не backend-разработка. GitHub Pages —
-один из статических хостингов, но старый URL Wratheus не должен оставаться
-обязательной зависимостью новой схемы. Выбор хостинга пока не сделан.
+это отдельное решение о домене/доставке, не backend-разработка. Временно выбран
+GitHub Pages в отдельном repository `wratheus/wratheus.github.io`, а не
+web-часть Flutter repository.
 [Что предоставляет GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages).
+
+## Выбранный временный HTTPS callback
+
+Опубликованный callback: `https://wratheus.github.io/oauth/osu/callback/`.
+Страница не читает параметры URL, не выполняет token exchange и не содержит
+секретов. Android manifest принимает только этот host/path как App Link. Перед
+реальной проверкой входа нужно опубликовать `.well-known/assetlinks.json` с
+SHA-256 fingerprint нового release certificate; до появления подписи шаблон
+association-файла намеренно не публикуется. OAuth registration пока не
+переключалась.
 
 Для callback-страницы: без Firebase Analytics, сторонних скриптов и внешних
 ресурсов, без вывода code/token, без произвольного redirect target. Проверить
