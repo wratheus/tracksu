@@ -693,9 +693,9 @@ archive с прежним Bundle ID. Login и storage проверяются п�
 **Результат:** токены и сетевые ошибки не текут в логи, транспорт отделён от
 Flutter-виджетов и управления состоянием экрана.
 
-- Немедленно удалить текущие `print` access/refresh token и исключения, которые
-  включают refresh token. В production использовать редактируемый structured
-  logging без PII/credentials.
+- Выполнено отдельным P05 checkpoint: `print` access/refresh token и исключение,
+  включавшее refresh token, удалены из legacy request path. В production
+  использовать редактируемый structured logging без PII/credentials.
 - **Решение текущей программы:** BFF не строим. В `flutter_secure_storage`
   храним access token, refresh token, expiry и минимальную session metadata.
   Client secret не коммитим и не логируем, передаём только через local/CI build

@@ -72,7 +72,6 @@ class _LoginScreenState extends State<LoginScreen> {
           RegExp regExp = RegExp("code=(.*)");
           this.code = regExp.firstMatch(currentUrl)?.group(1);
           if (this.code != null) {
-            print("requesting new token");
             await getTokenAsAuthorize(this.code);
             if (await loadUserMeToSecureStorage() == true){ // wait result of func
               setState(() {

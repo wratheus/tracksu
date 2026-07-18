@@ -38,12 +38,9 @@ Future<bool> getTokenAsAuthorize(String? code) async{
     final token = convert.jsonDecode(tokenRequestResponse.body) as Map<String, dynamic>;
     await UserSecureStorage.setTokenInStorage(token['access_token']!);
     await UserSecureStorage.setRefreshTokenFromStorage(token['refresh_token']!);
-    print('new request token = ' + token['access_token']);
-    print('new refresh token = ' + token['refresh_token']);
     return true;
   }
    if(tokenRequestResponse.statusCode == 400){
-     print("Token request response code = ${tokenRequestResponse.statusCode}, trying to request new token with refresh token");
       //refresh token
       try {
 
@@ -55,15 +52,15 @@ Future<bool> getTokenAsAuthorize(String? code) async{
             body: body
         );
         final token = convert.jsonDecode(tokenRequestResponse.body) as Map<String, dynamic>;
-        // print('old token =' + (await UserSecureStorage.getTokenFromStorage())!);
         await UserSecureStorage.setTokenInStorage(token['access_token']);
         await UserSecureStorage.setRefreshTokenFromStorage(token['refresh_token']);
-        print('updated token = ' + token['access_token']);
-        print('updated refresh token = ' + token['refresh_token']);
 
         return true;
-      }catch(e) {
-        throw Exception("Error requesting new Token with refresh token (${await UserSecureStorage.getRefreshTokenFromStorage()})");
+      } catch (_, stackTrace) {
+        Error.throwWithStackTrace(
+          Exception('Error requesting a new token with a refresh token'),
+          stackTrace,
+        );
       }
     }
   else {
@@ -88,7 +85,6 @@ Future<bool> getTokenAsGuestWithClientCredential() async{
     // If the server did return a 200 CREATED response,
     final token = convert.jsonDecode(tokenRequestResponse.body) as Map<String, dynamic>;
     await UserSecureStorage.setTokenInStorage(token['access_token']!);
-    print('new request token = ' + token['access_token']);
     return true;
   }
   else {
