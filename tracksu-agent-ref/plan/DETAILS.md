@@ -268,7 +268,9 @@ P06/P06.1; инфраструктурные клиенты и repositories за�
 через новый DI без второго параллельного владельца состояния. Исполнитель проверяет
 diff/format/analyzer и сборку по scope, пользователь — запуск, ошибку/retry и
 переоткрытие consumer вручную. Автотесты и DI test harness не добавляются.
-Сейчас только план: исходники DI ещё не создаём.
+Основа введена в P05.1: bootstrap, container/scope и router app shell готовы;
+первый consumer — `AppMain`. Подключение HTTP/repositories, analytics и session
+остаётся в соответствующих следующих этапах.
 
 <a id="p07"></a>
 
