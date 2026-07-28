@@ -114,6 +114,8 @@ resources сохранены, icon/navigation replacement проверен по�
 Выбор http/Dio зафиксирован, новый REST path отделён от UI/domain, временные
 consumers учтены. Lockfile обновляется package manager, не ручным вырезанием.
 Diff/format/analyze/build — по scope; автотесты не писать и не запускать до T01.
-Выполнены только P02 compatibility-группы: удалены три generator/icon direct
-dependencies и обновлена согласованная runtime-группа. Удаление navigation,
-fluttericon, WebView и реализация REST-клиента ещё не начинались.
+Выполнены P02 compatibility-группы и P05 auth spike: удалены три generator/icon
+direct dependencies, обновлена согласованная runtime-группа и удалена прямая
+dependency `webview_flutter`. Она пока остаётся транзитивной зависимостью HTML
+renderer; её последний consumer разбирается отдельно на P13. Удаление navigation,
+fluttericon и реализация REST-клиента ещё не начинались.

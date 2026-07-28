@@ -1,124 +1,242 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
+import 'package:tracksu/src/auth/domain/oauth_callback.dart';
+import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
+import 'package:tracksu/src/authentication.dart' as auth;
+import 'package:tracksu/src/models/user.dart';
+import 'package:tracksu/src/pages/home_page.dart';
 import 'package:tracksu/src/requests/requests.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:tracksu/src/utils/color_contrasts.dart' as colors;
+import 'package:tracksu/src/utils/secure_storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../models/user.dart';
-import '../pages/home_page.dart';
-import '../utils/color_contrasts.dart' as my_colors;
-import '../utils/secure_storage.dart';
+final class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
-
-class LoginScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  bool _userMeLoaded = false;
-  String loginUrl = "https://osu.ppy.sh/oauth/authorize?client_id=9725&redirect_uri=https://wratheus.github.io/tracksu&response_type=code&scope=public";
-  late WebViewController _webViewController;
-  String? code = '0';
+final class _LoginScreenState extends State<LoginScreen> {
+  final OAuthCallbackParser _callbackParser = const OAuthCallbackParser();
 
-  Future<bool> loadUserMeToSecureStorage() async {
-    try{
-      final User userMeInstance = await getUserMe((await UserSecureStorage.getTokenFromStorage())!);
-    await UserSecureStorage.setUserMeAvatarFromStorage(userMeInstance.avatarURL);
-    await UserSecureStorage.setUserMeUsernameFromStorage(userMeInstance.username);
-    }catch(e){
-      final User userMeInstance = await getUser((await UserSecureStorage.getTokenFromStorage())!, "Peppy"); // if catch error while loading me
-      await UserSecureStorage.setUserMeAvatarFromStorage(userMeInstance.avatarURL);
-      await UserSecureStorage.setUserMeUsernameFromStorage(userMeInstance.username);
+  StreamSubscription<Uri>? _callbackSubscription;
+  OAuthCallbackLinkSource? _callbackLinkSource;
+  String? _expectedState;
+  var _isCompletingLogin = false;
+  var _isOpeningAuthorization = false;
+  String? _errorMessage;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_callbackLinkSource != null) {
+      return;
     }
-    setState(() {
-      _userMeLoaded = true;
-    });
-    return _userMeLoaded;
+
+    final OAuthCallbackLinkSource callbackLinkSource = DepsScope.of(context)
+        .oauthCallbackLinkSource;
+    _callbackLinkSource = callbackLinkSource;
+    _callbackSubscription = callbackLinkSource.uriStream.listen(
+      _onIncomingUri,
+      onError: _onCallbackStreamError,
+    );
+    unawaited(_readInitialUri(callbackLinkSource));
   }
 
   @override
-  initState() {
-    super.initState();
-    _webViewController = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(my_colors.Palette.brown.shade200)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageFinished: (_) {
-            currentUrlCheck();
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse(loginUrl));
+  void dispose() {
+    unawaited(_callbackSubscription?.cancel());
+    super.dispose();
   }
 
-  Future<void> currentUrlCheck() async {
-    String currentUrl = (await(_webViewController.currentUrl()))!;
-    print(currentUrl);
-    if (currentUrl != loginUrl) {
+  Future<void> _readInitialUri(
+    OAuthCallbackLinkSource callbackLinkSource,
+  ) async {
+    try {
+      final Uri? initialUri = await callbackLinkSource.getInitialUri();
+      if (initialUri != null) {
+        await _handleIncomingUri(initialUri);
+      }
+    } on Object {
+      _showError('Unable to receive the authorization response.');
+    }
+  }
+
+  void _onIncomingUri(Uri uri) {
+    unawaited(_handleIncomingUri(uri));
+  }
+
+  void _onCallbackStreamError(Object error, StackTrace stackTrace) {
+    _showError('Unable to receive the authorization response.');
+  }
+
+  Future<void> _handleIncomingUri(Uri uri) async {
+    final OAuthCallbackResult callback = _callbackParser.parse(uri);
+    final String? expectedState = _expectedState;
+
+    if (expectedState == null || !_isOpeningAuthorization) {
+      return;
+    }
+
+    switch (callback) {
+      case OAuthAuthorizationCodeCallback(:final code, :final state):
+        if (state != expectedState || _isCompletingLogin) {
+          _showError(
+            'The authorization response did not match this login attempt.',
+          );
+          return;
+        }
+
+        await _completeAuthorization(code);
+      case OAuthAuthorizationErrorCallback(:final state):
+        if (state != expectedState) {
+          _showError(
+            'The authorization response did not match this login attempt.',
+          );
+          return;
+        }
+
+        _showError('Authorization was cancelled or refused.');
+      case OAuthRejectedCallback():
+        _showError('The authorization response is invalid.');
+    }
+  }
+
+  Future<void> _startAuthorization() async {
+    if (_isOpeningAuthorization || _isCompletingLogin) {
+      return;
+    }
+
+    final String state = _createState();
+    final Uri authorizationUri = _createAuthorizationUri(state);
+
+    setState(() {
+      _expectedState = state;
+      _errorMessage = null;
+      _isOpeningAuthorization = true;
+    });
+
+    final bool launched = await launchUrl(
+      authorizationUri,
+      mode: LaunchMode.externalApplication,
+    );
+
+    if (!launched) {
+      _showError('Unable to open osu! authorization.');
+    }
+  }
+
+  Future<void> _completeAuthorization(String code) async {
+    setState(() {
+      _isCompletingLogin = true;
+    });
+
+    try {
+      final bool tokenReceived = await getTokenAsAuthorize(code);
+      if (!tokenReceived) {
+        _showError('Unable to finish authorization.');
+        return;
+      }
+
+      await _loadUserMeToSecureStorage();
+      if (!mounted) {
+        return;
+      }
+
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute<void>(builder: (_) => HomePage()));
+    } on Object {
+      _showError('Unable to finish authorization.');
+    } finally {
       if (mounted) {
-        // error redirect if, restart login url
-        if (currentUrl.startsWith('https://wratheus.github.io/tracksu')) {
-          RegExp regExpError = RegExp("error=(.*)");
-          if (regExpError.hasMatch(currentUrl) == true) {
-            setState(() {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
-            });
-          }
-        }
-        // success login redirect
-        if (currentUrl.startsWith('https://wratheus.github.io/tracksu/?code=')) {
-          RegExp regExp = RegExp("code=(.*)");
-          this.code = regExp.firstMatch(currentUrl)?.group(1);
-          if (this.code != null) {
-            await getTokenAsAuthorize(this.code);
-            if (await loadUserMeToSecureStorage() == true){ // wait result of func
-              setState(() {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => HomePage()));
-            });}
-            else AsyncSnapshot.waiting(); // if loadUserMeToSecureStorage failed
-          };
-        }
+        setState(() {
+          _isCompletingLogin = false;
+        });
       }
     }
   }
+
+  Future<void> _loadUserMeToSecureStorage() async {
+    final String? token = await UserSecureStorage.getTokenFromStorage();
+    if (token == null) {
+      throw StateError('Authorization did not produce an access token.');
+    }
+
+    final User user = await getUserMe(token);
+    await UserSecureStorage.setUserMeAvatarFromStorage(user.avatarURL);
+    await UserSecureStorage.setUserMeUsernameFromStorage(user.username);
+  }
+
+  Uri _createAuthorizationUri(String state) {
+    return Uri.https('osu.ppy.sh', '/oauth/authorize', <String, String>{
+      'client_id': auth.clientId.toString(),
+      'redirect_uri': 'https://wratheus.github.io/oauth/osu/callback/',
+      'response_type': 'code',
+      'scope': 'public identify',
+      'state': state,
+    });
+  }
+
+  String _createState() {
+    final Random random = Random.secure();
+    final List<int> bytes = List<int>.generate(
+      32,
+      (_) => random.nextInt(256),
+      growable: false,
+    );
+
+    return base64UrlEncode(bytes).replaceAll('=', '');
+  }
+
+  void _showError(String message) {
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _errorMessage = message;
+      _isOpeningAuthorization = false;
+      _isCompletingLogin = false;
+      _expectedState = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bool isBusy = _isOpeningAuthorization || _isCompletingLogin;
+
     return Scaffold(
-        backgroundColor: my_colors.Palette.brown.shade200,
-        appBar: AppBar(
-          flexibleSpace: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      colors: [my_colors.Palette.brown.withOpacity(0.65), my_colors.Palette.purple.withOpacity(0.65)]))),
-          title: Text("Login to osu!..", style: TextStyle(
-            fontSize: 22.0,
-            color: Colors.white,
-            fontFamily: 'Exo 2',
-            fontWeight: FontWeight.bold,
-            shadows: [
-              Shadow(
-                color: my_colors.Palette.hotPink.shade900.withOpacity(0.25),
-                offset: Offset(7, 5),
-                blurRadius: 10,
-              )
+      backgroundColor: colors.Palette.brown.shade200,
+      appBar: AppBar(
+        backgroundColor: colors.Palette.purple,
+        title: const Text('Login to osu!'),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              if (isBusy) const CircularProgressIndicator(),
+              if (_errorMessage case final String message) ...<Widget>[
+                const SizedBox(height: 16),
+                Text(message, textAlign: TextAlign.center),
+              ],
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: isBusy ? null : _startAuthorization,
+                child: const Text('Continue with osu!'),
+              ),
             ],
           ),
-          ),
-          backgroundColor: my_colors.Palette.purple,
         ),
-        body: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.topRight,
-                  colors: [my_colors.Palette.brown.withOpacity(0.65), my_colors.Palette.purple.withOpacity(0.65)])),
-          child: WebViewWidget(controller: _webViewController),
-        )
+      ),
     );
   }
 }

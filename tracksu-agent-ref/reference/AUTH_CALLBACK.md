@@ -100,6 +100,22 @@ SHA-256 fingerprint нового release certificate; до появления п
 association-файла намеренно не публикуется. OAuth registration пока не
 переключалась.
 
+## P05 auth spike
+
+Legacy `LoginScreen` больше не открывает OAuth в WebView. Он формирует URL
+официальной osu! страницы с криптографически случайным `state`, открывает его
+во внешнем браузере и получает HTTPS callback через `app_links`, переданный
+через `DepsContainer`. Parser принимает только выбранный callback host/path,
+одиночные `code`/`error` и совпавший state; code, URI и tokens не логируются.
+Прежний token exchange — временный legacy bridge до P08, где он перейдёт в
+AuthRepository/TokenStore.
+
+При cold start state пока отсутствует в памяти и callback отклоняется
+намеренно. Persistent pending authorization transaction, восстановление
+session и полный ручной сценарий cold/warm start относятся к P08. До него
+проверяем только запуск внешнего браузера и безопасное отклонение неверного
+callback; не объявляем end-to-end login готовым.
+
 Для callback-страницы: без Firebase Analytics, сторонних скриптов и внешних
 ресурсов, без вывода code/token, без произвольного redirect target. Проверить
 referrer/logging/cache policy хостинга и перехода; секрет не помещать в JS.

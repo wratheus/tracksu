@@ -21,12 +21,17 @@ const clientId = 'your id'; */
 
 // Token Request from user Auth
 // puts token to UserSecureStorage
-Future<bool> getTokenAsAuthorize(String? code) async{
-  String body = "grant_type=authorization_code&client_id=${auth.clientId}&client_secret=${auth.clientSecret}&code=${code}&redirect_uri=https://wratheus.github.io/tracksu";
+Future<bool> getTokenAsAuthorize(String code) async{
+  final Map<String, String> body = <String, String>{
+    'grant_type': 'authorization_code',
+    'client_id': auth.clientId.toString(),
+    'client_secret': auth.clientSecret,
+    'code': code,
+    'redirect_uri': 'https://wratheus.github.io/oauth/osu/callback/',
+  };
   Map<String, String> headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/x-www-form-urlencoded',
-    'Access-Control-Allow-Origin': '*' // http://osu.ppy.sh
   };
   http.Response tokenRequestResponse = await http.post(
       Uri.https('osu.ppy.sh', '/oauth/token'),

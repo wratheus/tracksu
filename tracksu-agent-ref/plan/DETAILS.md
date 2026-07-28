@@ -712,7 +712,10 @@ Flutter-виджетов и управления состоянием экран
   извлекался из URL WebView, token exchange выполнялся в Dart. Отдельного auth
   backend в index.html нет. Детали, хрупкий parsing и ограничения проверки
   live-сайта — reference/AUTH_CALLBACK.md; на P05 не исследовать всё заново без причины.
-- Полностью убрать legacy WebView/GitHub Pages flow. При этом не следует делать
+- P05 auth spike удалил direct WebView path: официальный экран открывается во
+  внешнем browser через `url_launcher`, HTTPS callback приходит через App Link
+  и валидируется вместе с `state`. Полный persistent transaction/session ещё
+  относится к P08. При этом не следует делать
   «свою страницу входа» с osu! логином и паролем: credential/consent screen
   обязан остаться на домене osu!. Наш UI — это screen «Continue with osu!»,
   progress/error/cancel и post-login профиль. Сам авторизационный экран
