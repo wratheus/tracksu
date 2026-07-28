@@ -17,7 +17,7 @@
 | `cupertino_icons: ^1.0.5` | Прямую dependency удалить — usages не найдены. Транзитивное присутствие не является API приложения; не добавлять обратно ради одного значка | Выполнено P02.3 |
 | `flutter_native_splash: ^2.2.13` | Генератор и YAML-конфиг удалены; Android launch resources сохранены. Если iOS вернётся в scope, добавить его resources в P04 | Выполнено P02.3; P04 для iOS |
 | `flutter_launcher_icons: ^0.10.0` | Генератор и `flutter_icons` config удалены; Android launcher resources сохранены. Инструкция обновления assets — P02.1 | Выполнено P02.3 |
-| `http: ^0.13.5` | В P02.4 технически обновлён до `^1.6.0`, так как это требуется `cached_network_image` 4. Выбрать `http` либо Dio для целевого REST-клиента всё ещё предстоит; обновление версии не является этим архитектурным решением | Решение и клиент — P06; auth wiring — P08 |
+| `http: ^0.13.5` | В P02.4 технически обновлён до `^1.6.0`, так как это требуется `cached_network_image` 4. На P06 выбран как transport собственного клиента; не использовать его напрямую из feature/UI | REST foundation — P06; auth wiring — P08 |
 
 На момент чтения: `home_page.dart` импортирует curved_navigation_bar,
 `user_widget.dart` — fluttericon/FontAwesome5, `requests.dart` — http.
@@ -114,8 +114,10 @@ resources сохранены, icon/navigation replacement проверен по�
 Выбор http/Dio зафиксирован, новый REST path отделён от UI/domain, временные
 consumers учтены. Lockfile обновляется package manager, не ручным вырезанием.
 Diff/format/analyze/build — по scope; автотесты не писать и не запускать до T01.
-Выполнены P02 compatibility-группы и P05 auth spike: удалены три generator/icon
+Выполнены P02 compatibility-группы, P05 auth spike и foundation P06: выбран
+`http`, создан `tracksu_network` с DI-owned transport, отменой и узкими hooks.
+Удалены три generator/icon
 direct dependencies, обновлена согласованная runtime-группа и удалена прямая
 dependency `webview_flutter`. Она пока остаётся транзитивной зависимостью HTML
 renderer; её последний consumer разбирается отдельно на P13. Удаление navigation,
-fluttericon и реализация REST-клиента ещё не начинались.
+fluttericon ещё не начинался; legacy REST consumers переносятся по одному.

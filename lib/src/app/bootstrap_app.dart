@@ -44,6 +44,15 @@ final class _BootstrapAppState extends State<BootstrapApp> {
   }
 
   @override
+  void dispose() {
+    _dependenciesFuture.then<void>(
+      (DepsContainer dependencies) => dependencies.close(),
+      onError: (Object error, StackTrace stackTrace) {},
+    );
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<DepsContainer>(
       future: _dependenciesFuture,

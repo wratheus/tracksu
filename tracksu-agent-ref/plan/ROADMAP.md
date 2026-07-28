@@ -25,7 +25,7 @@
 | [P04](DETAILS.md#p04) | iOS host и SPM | Симулятор/устройство запускают shell; восстановлены signing/capabilities; проверен archive | backlog |
 | [P05](DETAILS.md#p05) | GitHub Pages, собственный OAuth callback и контракт API v2 | Проверены старые зависимости; выбран вариант возврата/необходимость сайта, описаны flow/scopes; пользователь проверяет доступный auth spike | backlog |
 | [P05.1](DETAILS.md#p05-1) · [карточка](work/P05.1-di.md) | DI и bootstrap по TSD — отдельная часть | registerDependencies, DepsContainer/DepsScope, явный lifetime и локальное wiring feature; основа для следующих частей | awaiting_manual_check |
-| [P06](DETAILS.md#p06) | Clean/DDD foundation и лёгкий REST-клиент | Выбран http или Dio; через готовый DI подключены собственный REST/Failure и один repository без полного копирования TSD | backlog |
+| [P06](DETAILS.md#p06) | Clean/DDD foundation и лёгкий REST-клиент | `http` выбран; transport через DI, отмена и hooks готовы. Дальше — один source/repository без полного копирования TSD | in_progress |
 | [P06.1](DETAILS.md#p06-1) | Firebase Analytics: единый клиент и контракт действий | Типизированные события, безопасный контекст, отключение сбора и простой способ подключения к UI kit/feature | backlog |
 | [P07](DETAILS.md#p07) | UI kit foundation | Tokens, базовые компоненты, loading/empty/error patterns и каталог примеров | backlog |
 | [P07.1](DETAILS.md#p07-1) | Обязательная localization foundation | Отдельный l10n package, ARB, locale resolution/выбор языка, fallback и правила перевода каждой feature | backlog |

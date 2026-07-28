@@ -9,9 +9,13 @@ environment:
   sdk: ^3.13.0
   flutter: ">=3.47.0"
 
+workspace:
+  - packages/*
+
 dependencies:
   flutter:
     sdk: flutter
+  tracksu_network: ^1.0.0
   http: ^1.6.0
   url_launcher: ^6.3.2
   cached_network_image: ^4.0.0
