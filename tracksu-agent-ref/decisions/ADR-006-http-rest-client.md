@@ -23,6 +23,10 @@ endpoint, HTTP-статусы, JSON-модели и auth. Для следующ�
 - `RestCancellationToken`, подключённый к `http.AbortableRequest`;
 - небольшие request/response interceptor hooks для общих безопасных политик.
 
+Первый interceptor — `OsuApiHeadersInterceptor`: он задаёт API v2 response
+version и JSON accept-header. Bearer token и refresh не входят в него до P08,
+чтобы transport не получал credentials из UI/storage.
+
 Interceptor не управляет UI, не логирует credential/body и не реализует
 универсальные retries. Status-code mapping и JSON parsing остаются у remote
 source/repository соответствующей feature.
