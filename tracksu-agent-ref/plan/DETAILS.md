@@ -280,10 +280,14 @@ UI kit создаётся до массового переноса экрано�
 сотни гипотетических компонентов. Сначала делаем tokens и 8–12 примитивов,
 затем дополняем kit только после второго повторного использования.
 
-- **Foundation:** semantic colors для light/dark theme, typography scale,
-  spacing, radius, elevation, icon size, motion, breakpoints и состояние
-  loading/disabled/error. Никаких scattered `withOpacity`, magic numbers и
-  прямых цветов osu! в feature widgets.
+- **Единая темизация:** `tracksu_ui` владеет semantic tokens и светлой/тёмной
+  `ThemeData`; `app` владеет `ThemeMode`, выбором темы и применением его ко
+  всему `MaterialApp`. Theme preference получит persistence через settings/
+  storage owner, а не через локальные `setState` экранов. В feature/widget нет
+  второй палитры, прямых цветов osu!, scattered `withOpacity` или magic numbers.
+- **Foundation:** typography scale, spacing, radius, elevation, icon size,
+  motion и состояния loading/disabled/error. Tokens должны одинаково работать
+  в обеих темах, включая error/disabled/focus/selected, изображения и контраст.
 - **Primitives:** публичные semantic-компоненты `tracksu_ui` в стиле TSD:
   `UiText`, `UiTextField`, button/ink button, image/avatar, surface/card,
   loader/empty/error. Точные имена фиксируем в P07, не заводим параллельные
@@ -297,9 +301,14 @@ UI kit создаётся до массового переноса экрано�
   touch targets, focus/keyboard и reduced motion. Строки вынести в ARB; набор
   языков согласовать на P01. Даты хранить как время, форматировать в UI с locale;
   числовые значения и проценты не превращать в строки в domain.
-- **Адаптация:** согласовать телефон/планшет/landscape, safe areas, клавиатуру,
-  длинные username/title и ошибки загрузки изображений. Feature cards остаются
-  в feature, пока их повторное использование не требует общей абстракции.
+- **Mobile-only scope:** первый продуктовый релиз поддерживает только Android
+  и будущий iOS на телефонах. Поддержку desktop/web/tablet breakpoints не
+  переносим и не тестируем; phone landscape, safe areas, клавиатуру, длинные
+  username/title и ошибки изображений учитываем. При миграции app shell
+  удалить `utils/responsive.dart`, `home_page_desktop.dart` и `Platform`-ветки,
+  которые выбирают desktop UI, одним отдельным cleanup commit после замены
+  последнего consumer. Feature cards остаются в feature, пока повторное
+  использование не требует общей абстракции.
 - **Analytics hooks:** кнопки, icon/ink buttons, tabs, toggles, selectable tiles
   и submit-действия поддерживают единый optional interaction callback. Привязка
   типизированного события к нему делается общим helper из P06.1, без ручного
@@ -475,6 +484,9 @@ no-op, безопасный контекст и единая привязка; �
 - Уточнить в этом документе платформы, минимальные OS и функции первого релиза:
   guest просмотр, OAuth login, профиль, рейтинги, beatmap, news и решение по
   preview-аудио. Новую копию общего плана не заводить.
+- Первый UI scope — Android/iOS телефоны. Desktop/web/tablet layouts не входят
+  в migration target; возвращение любого из них требует отдельного продуктового
+  решения, а не сохранения legacy responsive-кода «на всякий случай».
 - Утвердить архитектурные решения одной страницей (ADR): Clean/DDD rules,
   event-based Bloc, DI boundary, router, UI kit, codegen и strategy для
   feature-by-feature strangler migration. Это защитит от нового слоя
