@@ -16,6 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
   tracksu_network: ^1.0.0
+  tracksu_storage: ^1.0.0
   http: ^1.6.0
   url_launcher: ^6.3.2
   cached_network_image: ^4.0.0
