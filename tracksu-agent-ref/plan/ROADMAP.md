@@ -36,8 +36,9 @@
 | [P12](DETAILS.md#features) | Beatmap и leaderboard | Типизированные ID/маршруты, корректные score/mods и возвращение назад | backlog |
 | [P13](DETAILS.md#features) | Новости и HTML-контент | Список/ссылки/ошибки; определены обработка HTML и допустимые URL-схемы | backlog |
 | [P14](DETAILS.md#features) | Audio preview, если подтверждены права | Один владелец player, корректные lifecycle/audio focus; либо явный перенос feature в backlog | backlog |
+| [P16](DETAILS.md#p16) | Legacy cleanup | Только подтверждённо заменённые пути, imports, assets и packages удалены отдельными маленькими commit'ами | backlog |
 | [P15](DETAILS.md#p15) | Ручная регрессия пользователем и подготовка выпуска | Обновление поверх старого релиза, исправления лишних обновлений, licences/privacy и пакет для beta | backlog |
-| [T01](DETAILS.md#t01) | Автоматические тесты — отдельная отложенная часть | Не начата и не выполняется параллельно с P00–P15; объём/время старта выбираются отдельно | deferred |
+| [T01](DETAILS.md#t01) | Автоматические тесты — отдельная отложенная часть | Не начата и не выполняется параллельно с P00–P16; объём/время старта выбираются отдельно | deferred |
 
 Статусы: backlog → ready → in_progress → awaiting_manual_check → verified.
 Deferred — отдельно отложено. Blocker и его причина записываются в карточке;

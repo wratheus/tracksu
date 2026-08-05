@@ -909,6 +909,31 @@ HTML из новостей/профилей обрабатывается по я
 запрет произвольных URL-схем, открытие внешних ссылок и fallback для битых media.
 Загрузка HTML/images не должна блокировать весь profile state.
 
+<a id="p16"></a>
+
+### P16. Legacy cleanup — только после подтверждённой замены
+
+Это самостоятельная часть, а не хвост каждого большого рефакторинга. Она
+удаляет только путь, который заменён новым consumer и вручную проверен
+пользователем; история Git остаётся точкой восстановления.
+
+- Один cleanup commit удаляет один завершённый legacy slice: source/request,
+  DTO/model, Cubit/widget/route, imports, assets и dependency только после
+  поиска всех usages. Не смешивать удаление с созданием новой feature.
+- До удаления сверить route registration, DI, deep links, storage keys,
+  native configs и direct/transitive package consumers. Нельзя удалить package
+  по одному import, если его ещё использует HTML/audio/другая feature.
+- Для mobile-only migration после нового app shell отдельным cleanup commit
+  удалить `utils/responsive.dart`, `home_page_desktop.dart` и desktop branches.
+  Пока существует legacy mobile consumer, `Platform` не переписывать массово.
+- В changelog/документации отмечать только реально удалённые пути; planned
+  deletion не выдавать за выполненную работу. После удаления — scoped format,
+  analyze и ручной сценарий заменённой feature.
+
+**Критерий готовности:** у каждого удалённого slice есть replacement commit,
+ручной checkpoint и поиск, подтверждающий отсутствие consumers. Остальной
+legacy не трогается этим шагом.
+
 ### Границы обновлений — для каждой feature
 
 Применять разделы 8 и 13 [регламента](../workflow/PLAYBOOK.md): в карточке
