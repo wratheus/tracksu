@@ -29,7 +29,7 @@
 | [P06.1](DETAILS.md#p06-1) | Firebase Analytics: единый клиент и контракт действий | Типизированные события, безопасный контекст, отключение сбора и простой способ подключения к UI kit/feature | backlog |
 | [P07](DETAILS.md#p07) | UI kit и единая темизация | Light/dark tokens, app ThemeMode, базовые компоненты, mobile-only shell и каталог примеров | backlog |
 | [P07.1](DETAILS.md#p07-1) | Обязательная localization foundation | Отдельный l10n package, ARB, locale resolution/выбор языка, fallback и правила перевода каждой feature | backlog |
-| [P08](DETAILS.md#p08) | Auth/session и миграция secure storage | Login/cancel/restore/logout/refresh работают; старые данные обрабатываются предсказуемо | backlog |
+| [P08](DETAILS.md#p08) | Auth/session и миграция secure storage | TokenStore, session restore, bearer и code exchange готовы; refresh/logout/legacy migration и ручный flow остаются | in_progress |
 | [P09](DETAILS.md#features) | Первая feature: шапка и статистика профиля | Полный срез DTO → repository → Bloc → UI, четыре ruleset, refresh и ошибки | backlog |
 | [P10](DETAILS.md#features) | Scores и списки карт профиля | Независимые состояния секций, пагинация, устойчивость к пустым/новым данным | backlog |
 | [P11](DETAILS.md#features) | Рейтинги | Фильтры и страницы без гонок, пропавших строк и сброса позиции | backlog |

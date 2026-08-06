@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/auth/domain/oauth_callback.dart';
 import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
-import 'package:tracksu/src/authentication.dart' as auth;
-import 'package:tracksu/src/models/user.dart';
 import 'package:tracksu/src/pages/home_page.dart';
-import 'package:tracksu/src/requests/requests.dart';
+import 'package:tracksu/src/profile/domain/profile.dart';
+import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/utils/color_contrasts.dart' as colors;
 import 'package:tracksu/src/utils/secure_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -138,12 +137,8 @@ final class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final bool tokenReceived = await getTokenAsAuthorize(code);
-      if (!tokenReceived) {
-        _showError('Unable to finish authorization.');
-        return;
-      }
-
+      await DepsScope.of(context).authRepository
+          .exchangeAuthorizationCode(code: code);
       await _loadUserMeToSecureStorage();
       if (!mounted) {
         return;
@@ -163,20 +158,18 @@ final class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _loadUserMeToSecureStorage() async {
-    final String? token = await UserSecureStorage.getTokenFromStorage();
-    if (token == null) {
-      throw StateError('Authorization did not produce an access token.');
-    }
-
-    final User user = await getUserMe(token);
-    await UserSecureStorage.setUserMeAvatarFromStorage(user.avatarURL);
-    await UserSecureStorage.setUserMeUsernameFromStorage(user.username);
+    final Profile profile = await DepsScope.of(context).profileRepository
+        .getCurrentProfile(ruleset: ProfileRuleset.osu);
+    await UserSecureStorage.setUserMeAvatarFromStorage(
+      profile.avatarUri.toString(),
+    );
+    await UserSecureStorage.setUserMeUsernameFromStorage(profile.username);
   }
 
   Uri _createAuthorizationUri(String state) {
     return Uri.https('osu.ppy.sh', '/oauth/authorize', <String, String>{
-      'client_id': auth.clientId.toString(),
-      'redirect_uri': 'https://wratheus.github.io/oauth/osu/callback/',
+      'client_id': DepsScope.of(context).oauthClientCredentials.clientId,
+      'redirect_uri': OAuthCallbackParser.callbackUri,
       'response_type': 'code',
       'scope': 'public identify',
       'state': state,

@@ -29,6 +29,7 @@ final class OAuthRejectedCallback extends OAuthCallbackResult {
 final class OAuthCallbackParser {
   const OAuthCallbackParser();
 
+  static const callbackUri = 'https://wratheus.github.io/oauth/osu/callback/';
   static const _scheme = 'https';
   static const _host = 'wratheus.github.io';
   static const _path = '/oauth/osu/callback/';

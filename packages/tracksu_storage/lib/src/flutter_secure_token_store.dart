@@ -10,6 +10,7 @@ final class FlutterSecureTokenStore implements TokenStore {
   FlutterSecureTokenStore._(this._storage);
 
   static const _accessTokenKey = 'access_token';
+  static const _expiresAtKey = 'session_expires_at';
   static const _refreshTokenKey = 'refresh_token';
 
   final FlutterSecureStorage _storage;
@@ -22,9 +23,13 @@ final class FlutterSecureTokenStore implements TokenStore {
     }
 
     final String? refreshToken = await _storage.read(key: _refreshTokenKey);
+    final String? expiresAtValue = await _storage.read(key: _expiresAtKey);
     return StoredAuthTokens(
       accessToken: accessToken,
       refreshToken: (refreshToken?.isEmpty ?? true) ? null : refreshToken,
+      expiresAt: expiresAtValue == null
+          ? null
+          : DateTime.tryParse(expiresAtValue)?.toUtc(),
     );
   }
 
@@ -34,15 +39,25 @@ final class FlutterSecureTokenStore implements TokenStore {
     final String? refreshToken = tokens.refreshToken;
     if (refreshToken == null) {
       await _storage.delete(key: _refreshTokenKey);
-      return;
+    } else {
+      await _storage.write(key: _refreshTokenKey, value: refreshToken);
     }
 
-    await _storage.write(key: _refreshTokenKey, value: refreshToken);
+    final DateTime? expiresAt = tokens.expiresAt;
+    if (expiresAt == null) {
+      await _storage.delete(key: _expiresAtKey);
+    } else {
+      await _storage.write(
+        key: _expiresAtKey,
+        value: expiresAt.toUtc().toIso8601String(),
+      );
+    }
   }
 
   @override
   Future<void> clear() async {
     await _storage.delete(key: _accessTokenKey);
+    await _storage.delete(key: _expiresAtKey);
     await _storage.delete(key: _refreshTokenKey);
   }
 }

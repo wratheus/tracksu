@@ -94,11 +94,10 @@ web-часть Flutter repository.
 
 Опубликованный callback: `https://wratheus.github.io/oauth/osu/callback/`.
 Страница не читает параметры URL, не выполняет token exchange и не содержит
-секретов. Android manifest принимает только этот host/path как App Link. Перед
-реальной проверкой входа нужно опубликовать `.well-known/assetlinks.json` с
-SHA-256 fingerprint нового release certificate; до появления подписи шаблон
-association-файла намеренно не публикуется. OAuth registration пока не
-переключалась.
+секретов. Android manifest принимает только этот host/path как App Link.
+`.well-known/assetlinks.json` опубликован с debug SHA-256 fingerprint; перед
+release в тот же association array добавляется fingerprint нового release
+certificate. OAuth registration переключена на опубликованный callback.
 
 ## P05 auth spike
 
@@ -107,8 +106,10 @@ Legacy `LoginScreen` больше не открывает OAuth в WebView. Он
 во внешнем браузере и получает HTTPS callback через `app_links`, переданный
 через `DepsContainer`. Parser принимает только выбранный callback host/path,
 одиночные `code`/`error` и совпавший state; code, URI и tokens не логируются.
-Прежний token exchange — временный legacy bridge до P08, где он перейдёт в
-AuthRepository/TokenStore.
+P08 перенёс обмен кода в `AuthRepository`/`TokenStore`: отдельный OAuth client
+не получает API headers, response содержит expiry, а `SessionController`
+сохраняет tokens и даёт bearer interceptor актуальный access token. Локальные
+OAuth credentials по-прежнему загружаются только из ignored `authentication.dart`.
 
 При cold start state пока отсутствует в памяти и callback отклоняется
 намеренно. Persistent pending authorization transaction, восстановление
