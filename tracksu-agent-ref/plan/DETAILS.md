@@ -711,11 +711,15 @@ Flutter-виджетов и управления состоянием экран
 - Выполнено отдельным P05 checkpoint: `print` access/refresh token и исключение,
   включавшее refresh token, удалены из legacy request path. В production
   использовать редактируемый structured logging без PII/credentials.
-- **Решение текущей программы:** BFF не строим. В `flutter_secure_storage`
+- **Решение client MVP:** BFF не строим. В `flutter_secure_storage`
   храним access token, refresh token, expiry и минимальную session metadata.
   Client secret не коммитим и не логируем, передаём только через local/CI build
   configuration. Это защищает репозиторий и токены at rest, но не скрывает
   client secret от владельца мобильного бинарника — явно оставляем как debt.
+  После client MVP это закрывается отдельной P17: BFF владеет secret, OAuth
+  callback и обменом кода; мобильный клиент не получает secret и не принимает
+  токены в callback URL. P17 не заменяет текущий HTTPS App Link до момента
+  отдельного спланированного cutover.
 - До внешнего тестирования зарегистрировать/перепроверить OAuth redirect URI,
   `public identify` scopes и владельца osu! приложения. `redirect_uri` должен
   совпадать с registered callback буквально; `state` генерируется криптографически
@@ -866,6 +870,72 @@ server defaults. Проверить response на новые score поля.
 
 **Критерий готовности:** нет asset без provenance, есть approved store/About/
 privacy texts и явно принято решение по osu!/ppy branding и audio preview.
+
+<a id="p01-2"></a>
+
+### P01.2. Аудит и рационализация bundled assets
+
+Это отдельный технический и product audit перед UI kit, а не массовая чистка
+папки `assets/`. Его результат — версионируемый `THIRD_PARTY_ASSETS.md` и
+маленькие обратимые изменения только после подтверждения конкретного ресурса.
+
+- Инвентаризировать каждый файл из `assets/`: путь, тип/размер, import или
+  manifest consumer, экран/feature, source/provenance, copyright holder,
+  licence/attribution и решение `retain`, `replace` или `remove`.
+- Собрать фактический size budget: суммарный размер по каталогам, крупнейшие
+  файлы и их доля в APK/AAB. Проверять варианты одного изображения, не тащить
+  одновременно исходник, экспорт и неиспользуемые density-копии.
+- Искать через references, `pubspec.yaml` и native resources: orphan files,
+  дубли по назначению, устаревшие splash/launcher exports, шрифты и иконки,
+  которые уже могут быть системными/Material. Не удалять по названию или
+  размеру без поиска consumer и ручной проверки экрана.
+- Для изображений выбрать подходящий формат/разрешение под mobile phones;
+  для векторов — SVG/Flutter-native решение только если это совместимо с
+  лицензией и renderer. Не вводить новый image package ради одного файла.
+- Отдельно проверить icon fonts, country flags, osu!/ppy branding, audio,
+  HTML illustrations и данные/обложки: факт нахождения в GitHub не даёт
+  права распространять в APK. Неясный provenance означает `replace/remove`.
+- После подтверждённой замены удалить asset, manifest entry, consumer и
+  ненужный generator/package отдельным commit'ом по правилам P16. Никаких
+  «оптимизаций ассетов» вперемешку с UI/feature refactor.
+
+**Критерий готовности:** есть полный inventory и size report, у каждого
+bundled ресурса есть правовое и техническое решение, а release bundle не
+содержит known-orphan/duplicate assets. Пользователь вручную подтверждает
+экраны после каждого удаления или замены.
+
+<a id="p17"></a>
+
+### P17. BFF и серверный OAuth callback — после client MVP
+
+P17 не запускается вместе с текущей client migration. Это отдельный security
+проект после стабильного client MVP и явного выбора домена, hosting и server
+stack. Его задача — убрать OAuth client secret и token exchange из мобильного
+бинарника, а не перенести текущую GitHub Pages страницу на сервер.
+
+- BFF хранит OAuth client secret в server secret manager, принимает
+  зарегистрированный HTTPS callback от osu! и сам выполняет token exchange.
+  Secret, authorization code, access/refresh token и полный callback URL не
+  попадают в мобильные логи, analytics или browser history.
+- Создать одноразовый, короткоживущий и привязанный к `state` handoff между
+  browser/BFF/app. Нельзя редиректить access/refresh tokens в universal link
+  или показывать их HTML-странице. Выбрать session/token contract клиента и
+  endpoint'ы только после threat model.
+- Отдельно описать PKCE/state/nonce, CSRF, rate limits, secret rotation,
+  session revocation/logout, monitoring без PII, data retention, privacy
+  notice, incident/recovery и стоимость hosting. OAuth scopes остаются
+  минимальными.
+- Cutover планируется как отдельная цепочка commit/deployment: BFF contract →
+  server callback → temporary dual-path client → ручной warm/cold login,
+  cancel/logout/expired-token checks → отключение старого client-secret flow.
+  Rollback не должен требовать публикации нового APK.
+- До P17 GitHub Pages остаётся только временной HTTPS App Link callback,
+  не сервером и не местом хранения секретов. Домен, backend provider и
+  публикация не выбираются автоматически в рамках Flutter-задачи.
+
+**Критерий готовности:** release client не содержит OAuth client secret, BFF
+callback и handoff прошли security review и ручные auth scenarios, а старый
+flow отключён контролируемо с documented rollback.
 
 <a id="features"></a>
 
