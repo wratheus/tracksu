@@ -1,10 +1,10 @@
 import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tracksu/src/_core/config/app_environment.dart';
 import 'package:flutter/services.dart';
 
 import '../utils/color_contrasts.dart' as my_colors;
-import '../authentication.dart' as auth;
 import '../models/user.dart';
 import '../models/scores.dart';
 import '../models/news.dart';
@@ -13,19 +13,13 @@ import '../models/rankings.dart';
 import '../models/beatmap_score.dart';
 import '../models/country.dart';
 import '../utils/secure_storage.dart';
-/*  Before you go, you need to create your own <authentication.dart> file in /src folder
-and put there your personal Osu! API oAuth2 as listed below:  | (you can get oath2 data here https://osu.ppy.sh/home/account/edit)
-const clientSecret = 'your oAuth2 pass';
-const clientId = 'your id'; */
-
-
 // Token Request from user Auth
 // puts token to UserSecureStorage
 Future<bool> getTokenAsAuthorize(String code) async{
   final Map<String, String> body = <String, String>{
     'grant_type': 'authorization_code',
-    'client_id': auth.clientId.toString(),
-    'client_secret': auth.clientSecret,
+    'client_id': AppEnvironment.osuClientId,
+    'client_secret': AppEnvironment.osuClientSecret,
     'code': code,
     'redirect_uri': 'https://wratheus.github.io/oauth/osu/callback/',
   };
@@ -50,7 +44,7 @@ Future<bool> getTokenAsAuthorize(String code) async{
       try {
 
         String body = "grant_type=refresh_token&refresh_token=${await UserSecureStorage
-            .getRefreshTokenFromStorage()}&client_id=${auth.clientId}&client_secret=${auth.clientSecret}";
+            .getRefreshTokenFromStorage()}&client_id=${AppEnvironment.osuClientId}&client_secret=${AppEnvironment.osuClientSecret}";
         http.Response tokenRequestResponse = await http.post(
             Uri.https('osu.ppy.sh', '/oauth/token'),
             headers: headers,
@@ -76,7 +70,7 @@ Future<bool> getTokenAsAuthorize(String code) async{
 }
 //Token request with client credential
 Future<bool> getTokenAsGuestWithClientCredential() async{
-  String body = "grant_type=client_credentials&client_id=${auth.clientId}&client_secret=${auth.clientSecret}&scope=public";
+  String body = "grant_type=client_credentials&client_id=${AppEnvironment.osuClientId}&client_secret=${AppEnvironment.osuClientSecret}&scope=public";
   Map<String, String> headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/x-www-form-urlencoded',

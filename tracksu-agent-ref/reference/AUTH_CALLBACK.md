@@ -109,7 +109,10 @@ Legacy `LoginScreen` больше не открывает OAuth в WebView. Он
 P08 перенёс обмен кода в `AuthRepository`/`TokenStore`: отдельный OAuth client
 не получает API headers, response содержит expiry, а `SessionController`
 сохраняет tokens и даёт bearer interceptor актуальный access token. Локальные
-OAuth credentials по-прежнему загружаются только из ignored `authentication.dart`.
+OAuth credentials загружаются генератором `envied` из ignored `.env`; шаблон
+`.env.example` содержит только имена переменных, а `app_environment.g.dart`
+также ignored. Поля обфусцированы в generated Dart, но это не защищает secret
+от владельца мобильного бинарника и не заменяет будущий BFF.
 
 При cold start state пока отсутствует в памяти и callback отклоняется
 намеренно. Persistent pending authorization transaction, восстановление
