@@ -288,6 +288,12 @@ UI kit создаётся до массового переноса экрано�
 - **Foundation:** typography scale, spacing, radius, elevation, icon size,
   motion и состояния loading/disabled/error. Tokens должны одинаково работать
   в обеих темах, включая error/disabled/focus/selected, изображения и контраст.
+- **Зафиксированный visual debt legacy revival:** текущие rounded white/purple
+  кнопки не соответствуют ни будущему продукту, ни visual language osu!, а
+  чёрные AppBar titles на тёмном фоне теряют читаемость. Это не чинить
+  точечно до tokens/theme: P07 заменяет их единым контрастным button/AppBar
+  contract и показывает состояния в catalog. Текущий scope — auth/function,
+  не косметический редизайн.
 - **Primitives:** публичные semantic-компоненты `tracksu_ui` в стиле TSD:
   `UiText`, `UiTextField`, button/ink button, image/avatar, surface/card,
   loader/empty/error. Точные имена фиксируем в P07, не заводим параллельные
@@ -655,6 +661,11 @@ production-подпись создаётся отдельно для новог�
 - Проверить edge-to-edge/insets, system back/predictive back, Android splash,
   внешние ссылки и возврат из browser. Минимальная OS и тестовые устройства
   фиксируются до UI-миграции.
+- На Android 12+ отдельно проверить system splash: fallback через
+  `launch_background.xml` и icon-based platform splash имеют разные правила.
+  Наблюдаемый белый круг вокруг legacy logo не исправлять случайной заменой
+  drawable: P03/P01.2 сначала подтверждают source, transparent safe zone,
+  background и право использования обновлённого asset.
 - Перенести launcher icons/splash в собственные native resources по
   standards/DEPENDENCIES.md. Отказ от генераторов не удаляет иконку/launch screen;
   удаление общих packages/config согласовать с готовностью iOS на P04.
@@ -737,6 +748,13 @@ Flutter-виджетов и управления состоянием экран
   progress/error/cancel и post-login профиль. Сам авторизационный экран
   открывается в системной auth session (ASWebAuthenticationSession / Chrome
   Custom Tabs), не в `webview_flutter`.
+- **Observed Android revival defects (2026-09-04):** исходная `Login` —
+  единственный явный user gesture для открытия системного browser; переходный
+  экран не требует второго `Continue with osu!`. При возврате из browser без
+  callback/cancel нельзя оставлять бесконечный spinner: показать recoverable
+  error и retry. Язык внешней osu! страницы не подменять неподтверждённым
+  OAuth query parameter: зафиксировать browser/account locale и проверить
+  поддерживаемый провайдером способ выбора языка отдельно.
 - Отдельный auth spike проверит callback: принимаемый osu! custom scheme либо
   HTTPS Universal Link/App Link на контролируемом домене, возврат в Android и
   iOS, cancel и state mismatch. Свой entry UI и callback реализуем; необходимость

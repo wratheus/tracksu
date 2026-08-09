@@ -14,21 +14,33 @@ import 'package:tracksu/src/utils/secure_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, this.startAuthorizationOnOpen = false});
+
+  final bool startAuthorizationOnOpen;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-final class _LoginScreenState extends State<LoginScreen> {
+final class _LoginScreenState extends State<LoginScreen>
+    with WidgetsBindingObserver {
   final OAuthCallbackParser _callbackParser = const OAuthCallbackParser();
 
   StreamSubscription<Uri>? _callbackSubscription;
+  Timer? _returnFallbackTimer;
   OAuthCallbackLinkSource? _callbackLinkSource;
   String? _expectedState;
+  var _hasStartedAutomaticAuthorization = false;
   var _isCompletingLogin = false;
   var _isOpeningAuthorization = false;
+  var _wasInExternalAuthorization = false;
   String? _errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
 
   @override
   void didChangeDependencies() {
@@ -46,12 +58,41 @@ final class _LoginScreenState extends State<LoginScreen> {
       onError: _onCallbackStreamError,
     );
     unawaited(_readInitialUri(callbackLinkSource));
+
+    if (widget.startAuthorizationOnOpen && !_hasStartedAutomaticAuthorization) {
+      _hasStartedAutomaticAuthorization = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          unawaited(_startAuthorization());
+        }
+      });
+    }
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _returnFallbackTimer?.cancel();
     unawaited(_callbackSubscription?.cancel());
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+        if (_isOpeningAuthorization) {
+          _wasInExternalAuthorization = true;
+        }
+        break;
+      case AppLifecycleState.resumed:
+        _scheduleReturnFallback();
+        break;
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+        break;
+    }
   }
 
   Future<void> _readInitialUri(
@@ -76,6 +117,7 @@ final class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _handleIncomingUri(Uri uri) async {
+    _returnFallbackTimer?.cancel();
     final OAuthCallbackResult callback = _callbackParser.parse(uri);
     final String? expectedState = _expectedState;
 
@@ -119,6 +161,7 @@ final class _LoginScreenState extends State<LoginScreen> {
       _expectedState = state;
       _errorMessage = null;
       _isOpeningAuthorization = true;
+      _wasInExternalAuthorization = false;
     });
 
     final bool launched = await launchUrl(
@@ -197,6 +240,25 @@ final class _LoginScreenState extends State<LoginScreen> {
       _isOpeningAuthorization = false;
       _isCompletingLogin = false;
       _expectedState = null;
+      _wasInExternalAuthorization = false;
+    });
+  }
+
+  void _scheduleReturnFallback() {
+    if (!_wasInExternalAuthorization ||
+        !_isOpeningAuthorization ||
+        _isCompletingLogin) {
+      return;
+    }
+
+    _wasInExternalAuthorization = false;
+    _returnFallbackTimer?.cancel();
+    _returnFallbackTimer = Timer(const Duration(seconds: 2), () {
+      if (!mounted || !_isOpeningAuthorization || _isCompletingLogin) {
+        return;
+      }
+
+      _showError('Authorization was not completed. Try again.');
     });
   }
 

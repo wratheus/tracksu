@@ -43,8 +43,11 @@ class _LoginPageWidget extends State<LoginPageWidget> {
         MaterialPageRoute(builder: (context) => (Platform.isAndroid || Platform.isIOS == true ) ? HomePage() : HomePageDesktop()));
   }
   void initLoginAsUser() {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => LoginScreen()));
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (_) => const LoginScreen(startAuthorizationOnOpen: true),
+      ),
+    );
   }
 
   @override
