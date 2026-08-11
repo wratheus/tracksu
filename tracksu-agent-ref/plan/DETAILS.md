@@ -778,6 +778,14 @@ Flutter-виджетов и управления состоянием экран
 - При смене аккаунта/logout отменять или игнорировать старые запросы, очищать
   session-scoped cache и данные в памяти. Auth callback проверяется при cold
   start, warm start, повторной доставке и закрытии auth session пользователем.
+- **Guest-first product decision:** после migration app сразу открывает
+  доступный guest shell, а OAuth не является gate для profile/rankings/beatmap/
+  news. Sign in размещается как отдельное добровольное действие в account/
+  profile/settings surface и добавляет только user-scoped возможности. Новый
+  shell не должен снова показывать обязательный login landing page; при logout
+  он возвращает пользователя в guest mode, а не блокирует приложение. Точные
+  private capabilities и copy определяются вместе с P07/P07.1, без скрытого
+  автоматического открытия browser.
 - Только после прохождения security/auth smoke reset client secret в osu!
   application, убрать старые local credentials и выпустить версию с forced
   re-login. Reset отключает уже выданные приложению токены, поэтому он должен
@@ -979,6 +987,10 @@ flow отключён контролируемо с documented rollback.
 - после проверки diff/analyzer/сборки переключить route для ручного просмотра;
 - пользователь проверяет сценарий и сообщает о проблемах;
 - только потом удалить соответствующий legacy screen/DTO/request code.
+
+Guest shell — базовый entry для P09–P14. Feature запрашивает OAuth only там,
+где конкретный endpoint или действие действительно требует user token; публичный
+контент не подменяется профилем Peppy и не заставляет открыть login screen.
 
 `BlocProvider` создаётся выше route, стартовое событие отправляется один раз
 при создании (`..add(LoadRequested())`) или в `initState`, но не из `build`.
