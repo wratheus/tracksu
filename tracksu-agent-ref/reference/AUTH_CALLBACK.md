@@ -114,11 +114,14 @@ OAuth credentials загружаются генератором `envied` из ig
 также ignored. Поля обфусцированы в generated Dart, но это не защищает secret
 от владельца мобильного бинарника и не заменяет будущий BFF.
 
-При cold start state пока отсутствует в памяти и callback отклоняется
-намеренно. Persistent pending authorization transaction, восстановление
-session и полный ручной сценарий cold/warm start относятся к P08. До него
-проверяем только запуск внешнего браузера и безопасное отклонение неверного
-callback; не объявляем end-to-end login готовым.
+P08 сохраняет до открытия browser только криптографически случайный `state` и
+время старта transaction в secure storage. При cold start bootstrap забирает
+initial App Link и направляет его в auth route; code принимается только при
+совпавшем state и transaction не старше 10 минут. Success/error/cancel очищают
+transaction. Access/refresh tokens, authorization code и полный callback URL
+в эту запись не попадают. Полный ручной сценарий cold/warm start остаётся
+обязательной пользовательской проверкой; не объявляем end-to-end login готовым
+до неё.
 
 Для callback-страницы: без Firebase Analytics, сторонних скриптов и внешних
 ресурсов, без вывода code/token, без произвольного redirect target. Проверить

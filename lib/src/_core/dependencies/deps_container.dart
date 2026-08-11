@@ -14,6 +14,7 @@ final class DepsContainer {
     required this.oauthClientCredentials,
     required this.oauthCallbackLinkSource,
     required this.oauthRestClient,
+    required this.oauthTransactionStore,
     required this.profileRepository,
     required this.restClient,
     required this.sessionController,
@@ -25,6 +26,7 @@ final class DepsContainer {
   final OAuthClientCredentials oauthClientCredentials;
   final OAuthCallbackLinkSource oauthCallbackLinkSource;
   final RestClient oauthRestClient;
+  final OAuthTransactionStore oauthTransactionStore;
   final ProfileRepository profileRepository;
   final RestClient restClient;
   final SessionController sessionController;

@@ -8,14 +8,21 @@ import 'package:tracksu/src/auth/domain/oauth_callback.dart';
 import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
 import 'package:tracksu/src/pages/home_page.dart';
 import 'package:tracksu/src/profile/domain/profile.dart';
+import 'package:tracksu/src/profile/domain/profile_repository.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/utils/color_contrasts.dart' as colors;
 import 'package:tracksu/src/utils/secure_storage.dart';
+import 'package:tracksu_storage/tracksu_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, this.startAuthorizationOnOpen = false});
+  const LoginScreen({
+    super.key,
+    this.initialCallbackUri,
+    this.startAuthorizationOnOpen = false,
+  });
 
+  final Uri? initialCallbackUri;
   final bool startAuthorizationOnOpen;
 
   @override
@@ -57,7 +64,7 @@ final class _LoginScreenState extends State<LoginScreen>
       _onIncomingUri,
       onError: _onCallbackStreamError,
     );
-    unawaited(_readInitialUri(callbackLinkSource));
+    unawaited(_handleInitialCallback());
 
     if (widget.startAuthorizationOnOpen && !_hasStartedAutomaticAuthorization) {
       _hasStartedAutomaticAuthorization = true;
@@ -95,14 +102,33 @@ final class _LoginScreenState extends State<LoginScreen>
     }
   }
 
-  Future<void> _readInitialUri(
-    OAuthCallbackLinkSource callbackLinkSource,
-  ) async {
+  Future<void> _handleInitialCallback() async {
+    final Uri? initialCallbackUri = widget.initialCallbackUri;
+    if (initialCallbackUri == null) {
+      return;
+    }
+
+    final OAuthTransactionStore transactionStore = DepsScope.of(context)
+        .oauthTransactionStore;
+
     try {
-      final Uri? initialUri = await callbackLinkSource.getInitialUri();
-      if (initialUri != null) {
-        await _handleIncomingUri(initialUri);
+      final PendingOAuthTransaction? transaction = await transactionStore
+          .read();
+      if (transaction == null || _isTransactionExpired(transaction)) {
+        await transactionStore.clear();
+        _showError('This authorization request has expired. Try again.');
+        return;
       }
+
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _expectedState = transaction.state;
+        _isOpeningAuthorization = true;
+      });
+      await _handleIncomingUri(initialCallbackUri);
     } on Object {
       _showError('Unable to receive the authorization response.');
     }
@@ -156,6 +182,24 @@ final class _LoginScreenState extends State<LoginScreen>
 
     final String state = _createState();
     final Uri authorizationUri = _createAuthorizationUri(state);
+    final OAuthTransactionStore transactionStore = DepsScope.of(context)
+        .oauthTransactionStore;
+
+    try {
+      await transactionStore.write(
+        PendingOAuthTransaction(
+          state: state,
+          startedAt: DateTime.now().toUtc(),
+        ),
+      );
+    } on Object {
+      _showError('Unable to prepare osu! authorization.');
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
       _expectedState = state;
@@ -175,14 +219,15 @@ final class _LoginScreenState extends State<LoginScreen>
   }
 
   Future<void> _completeAuthorization(String code) async {
+    final dependencies = DepsScope.of(context);
     setState(() {
       _isCompletingLogin = true;
     });
 
     try {
-      await DepsScope.of(context).authRepository
-          .exchangeAuthorizationCode(code: code);
-      await _loadUserMeToSecureStorage();
+      await dependencies.authRepository.exchangeAuthorizationCode(code: code);
+      await dependencies.oauthTransactionStore.clear();
+      await _loadUserMeToSecureStorage(dependencies.profileRepository);
       if (!mounted) {
         return;
       }
@@ -200,9 +245,12 @@ final class _LoginScreenState extends State<LoginScreen>
     }
   }
 
-  Future<void> _loadUserMeToSecureStorage() async {
-    final Profile profile = await DepsScope.of(context).profileRepository
-        .getCurrentProfile(ruleset: ProfileRuleset.osu);
+  Future<void> _loadUserMeToSecureStorage(
+    ProfileRepository profileRepository,
+  ) async {
+    final Profile profile = await profileRepository.getCurrentProfile(
+      ruleset: ProfileRuleset.osu,
+    );
     await UserSecureStorage.setUserMeAvatarFromStorage(
       profile.avatarUri.toString(),
     );
@@ -242,6 +290,12 @@ final class _LoginScreenState extends State<LoginScreen>
       _expectedState = null;
       _wasInExternalAuthorization = false;
     });
+    unawaited(DepsScope.of(context).oauthTransactionStore.clear());
+  }
+
+  bool _isTransactionExpired(PendingOAuthTransaction transaction) {
+    return DateTime.now().toUtc().difference(transaction.startedAt) >
+        const Duration(minutes: 10);
   }
 
   void _scheduleReturnFallback() {

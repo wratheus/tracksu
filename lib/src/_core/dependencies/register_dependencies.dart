@@ -5,6 +5,7 @@ import 'package:tracksu/src/auth/data/auth_repository_impl.dart';
 import 'package:tracksu/src/auth/data/local_osu_oauth_client_credentials.dart';
 import 'package:tracksu/src/auth/data/oauth_client_credentials.dart';
 import 'package:tracksu/src/auth/data/osu_oauth_remote_source.dart';
+import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
 import 'package:tracksu/src/_core/dependencies/deps_container.dart';
 import 'package:tracksu/src/_core/network/osu_authorization_interceptor.dart';
 import 'package:tracksu/src/_core/network/osu_api_headers_interceptor.dart';
@@ -16,9 +17,14 @@ import 'package:tracksu_network/tracksu_network.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
 
 Future<DepsContainer> registerDependencies() async {
-  final TokenStore tokenStore = FlutterSecureTokenStore(
-    storage: const FlutterSecureStorage(),
-  );
+  const FlutterSecureStorage storage = FlutterSecureStorage();
+  final TokenStore tokenStore = FlutterSecureTokenStore(storage: storage);
+  final OAuthTransactionStore oauthTransactionStore =
+      FlutterSecureOAuthTransactionStore(storage: storage);
+  final OAuthCallbackLinkSource oauthCallbackLinkSource =
+      AppLinksOAuthCallbackLinkSource();
+  final Uri? initialOAuthCallbackUri = await oauthCallbackLinkSource
+      .getInitialUri();
   final SessionController sessionController = SessionController(
     tokenStore: tokenStore,
   );
@@ -41,7 +47,9 @@ Future<DepsContainer> registerDependencies() async {
   );
 
   return DepsContainer(
-    appRouter: const TracksuAppRouter(),
+    appRouter: TracksuAppRouter(
+      initialOAuthCallbackUri: initialOAuthCallbackUri,
+    ),
     authRepository: AuthRepositoryImpl(
       remoteSource: OsuOAuthRemoteSource(
         clientCredentials: oauthClientCredentials,
@@ -50,8 +58,9 @@ Future<DepsContainer> registerDependencies() async {
       sessionController: sessionController,
     ),
     oauthClientCredentials: oauthClientCredentials,
-    oauthCallbackLinkSource: AppLinksOAuthCallbackLinkSource(),
+    oauthCallbackLinkSource: oauthCallbackLinkSource,
     oauthRestClient: oauthRestClient,
+    oauthTransactionStore: oauthTransactionStore,
     profileRepository: ProfileRepositoryImpl(
       remoteSource: OsuProfileRemoteSource(restClient: restClient),
     ),
