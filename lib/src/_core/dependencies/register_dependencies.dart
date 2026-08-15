@@ -5,6 +5,7 @@ import 'package:tracksu/src/auth/data/auth_repository_impl.dart';
 import 'package:tracksu/src/auth/data/local_osu_oauth_client_credentials.dart';
 import 'package:tracksu/src/auth/data/oauth_client_credentials.dart';
 import 'package:tracksu/src/auth/data/osu_oauth_remote_source.dart';
+import 'package:tracksu/src/auth/domain/auth_repository.dart';
 import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
 import 'package:tracksu/src/_core/dependencies/deps_container.dart';
 import 'package:tracksu/src/_core/network/osu_authorization_interceptor.dart';
@@ -36,13 +37,23 @@ Future<DepsContainer> registerDependencies() async {
     client: http.Client(),
     baseUri: Uri.https('osu.ppy.sh'),
   );
+  final AuthRepository authRepository = AuthRepositoryImpl(
+    remoteSource: OsuOAuthRemoteSource(
+      clientCredentials: oauthClientCredentials,
+      restClient: oauthRestClient,
+    ),
+    sessionController: sessionController,
+  );
 
   final RestClient restClient = HttpRestClient(
     client: http.Client(),
     baseUri: Uri.https('osu.ppy.sh', '/api/v2'),
     interceptors: <RestClientInterceptor>[
       const OsuApiHeadersInterceptor(),
-      OsuAuthorizationInterceptor(tokenProvider: sessionController),
+      OsuAuthorizationInterceptor(
+        authRepository: authRepository,
+        tokenProvider: sessionController,
+      ),
     ],
   );
 
@@ -50,13 +61,7 @@ Future<DepsContainer> registerDependencies() async {
     appRouter: TracksuAppRouter(
       initialOAuthCallbackUri: initialOAuthCallbackUri,
     ),
-    authRepository: AuthRepositoryImpl(
-      remoteSource: OsuOAuthRemoteSource(
-        clientCredentials: oauthClientCredentials,
-        restClient: oauthRestClient,
-      ),
-      sessionController: sessionController,
-    ),
+    authRepository: authRepository,
     oauthClientCredentials: oauthClientCredentials,
     oauthCallbackLinkSource: oauthCallbackLinkSource,
     oauthRestClient: oauthRestClient,

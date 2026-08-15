@@ -126,8 +126,10 @@ transaction. Access/refresh tokens, authorization code и полный callback 
 Refresh token использует отдельный OAuth request `grant_type=refresh_token`
 с `public identify`; `AuthRepository` объединяет параллельные refresh calls в
 одну operation и сохраняет новую пару tokens только после успешного response.
-Автоматический повтор исходного API request после `401` ещё не подключён: это
-следующий отдельный transport commit, чтобы не прятать retry semantics в auth.
+API transport повторяет исходный request только один раз после `401`: refresh
+выполняется через отдельный OAuth client, старый Authorization header удаляется
+и request снова проходит bearer interceptor. Второй `401` возвращается caller
+без нового refresh/retry; failure refresh также сохраняет исходный `401`.
 
 Для callback-страницы: без Firebase Analytics, сторонних скриптов и внешних
 ресурсов, без вывода code/token, без произвольного redirect target. Проверить

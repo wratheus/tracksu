@@ -7,6 +7,7 @@ import 'package:tracksu_network/src/rest_client.dart';
 import 'package:tracksu_network/src/rest_client_exception.dart';
 import 'package:tracksu_network/src/rest_client_interceptor.dart';
 import 'package:tracksu_network/src/rest_client_options.dart';
+import 'package:tracksu_network/src/rest_client_retry_interceptor.dart';
 import 'package:tracksu_network/src/rest_request.dart';
 import 'package:tracksu_network/src/rest_response.dart';
 
@@ -212,8 +213,9 @@ final class HttpRestClient implements RestClient {
 
   Future<RestResponse> _send(
     RestRequest request,
-    RestCancellationToken? cancellationToken,
-  ) async {
+    RestCancellationToken? cancellationToken, {
+    bool allowRetry = true,
+  }) async {
     if (_isClosed) {
       throw StateError('Rest client has already been closed.');
     }
@@ -256,6 +258,20 @@ final class HttpRestClient implements RestClient {
         );
       }
 
+      if (allowRetry) {
+        final RestRequest? retryRequest = await _retryRequest(
+          request: interceptedRequest,
+          response: restResponse,
+        );
+        if (retryRequest != null) {
+          return await _send(
+            retryRequest,
+            cancellationToken,
+            allowRetry: false,
+          );
+        }
+      }
+
       return restResponse;
     } on http.RequestAbortedException catch (error, stackTrace) {
       throw RestRequestCancelledException(
@@ -276,6 +292,25 @@ final class HttpRestClient implements RestClient {
         stackTrace: stackTrace,
       );
     }
+  }
+
+  Future<RestRequest?> _retryRequest({
+    required RestRequest request,
+    required RestResponse response,
+  }) async {
+    for (final RestClientInterceptor interceptor in _interceptors) {
+      if (interceptor case final RestClientRetryInterceptor retryInterceptor) {
+        final RestRequest? retryRequest = await retryInterceptor.retryRequest(
+          request: request,
+          response: response,
+        );
+        if (retryRequest != null) {
+          return retryRequest;
+        }
+      }
+    }
+
+    return null;
   }
 
   @override
