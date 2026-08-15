@@ -123,6 +123,12 @@ transaction. Access/refresh tokens, authorization code и полный callback 
 обязательной пользовательской проверкой; не объявляем end-to-end login готовым
 до неё.
 
+Refresh token использует отдельный OAuth request `grant_type=refresh_token`
+с `public identify`; `AuthRepository` объединяет параллельные refresh calls в
+одну operation и сохраняет новую пару tokens только после успешного response.
+Автоматический повтор исходного API request после `401` ещё не подключён: это
+следующий отдельный transport commit, чтобы не прятать retry semantics в auth.
+
 Для callback-страницы: без Firebase Analytics, сторонних скриптов и внешних
 ресурсов, без вывода code/token, без произвольного redirect target. Проверить
 referrer/logging/cache policy хостинга и перехода; секрет не помещать в JS.

@@ -48,4 +48,33 @@ final class OsuOAuthRemoteSource implements OAuthRemoteSource {
 
     return OAuthTokensDto.fromJson(decoded);
   }
+
+  @override
+  Future<OAuthTokensDto> refreshAccessToken({
+    required String refreshToken,
+  }) async {
+    final RestResponse response = await _restClient.post(
+      path: '/oauth/token',
+      body: <String, Object?>{
+        'client_id': _clientCredentials.clientId,
+        'client_secret': _clientCredentials.clientSecret,
+        'grant_type': 'refresh_token',
+        'refresh_token': refreshToken,
+        'scope': 'public identify',
+      },
+      contentType: RestContentType.form,
+    );
+    if (response.statusCode != 200) {
+      throw OAuthRemoteSourceException(statusCode: response.statusCode);
+    }
+
+    final Object? decoded = jsonDecode(response.bodyText);
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException(
+        'The OAuth token response must be a JSON object.',
+      );
+    }
+
+    return OAuthTokensDto.fromJson(decoded);
+  }
 }

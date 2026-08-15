@@ -25,6 +25,10 @@ final class SessionController implements SessionTokenProvider {
     _tokens = null;
   }
 
+  Future<String?> getRefreshToken() {
+    return Future<String?>.value(_tokens?.refreshToken);
+  }
+
   @override
   Future<String?> getAccessToken() {
     return Future<String?>.value(_tokens?.accessToken);
