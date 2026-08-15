@@ -332,7 +332,14 @@ final class _LoginScreenState extends State<LoginScreen>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (isBusy) const CircularProgressIndicator(),
+              if (isBusy) ...<Widget>[
+                const CircularProgressIndicator(),
+                const SizedBox(height: 16),
+                Text(
+                  _isCompletingLogin ? 'Signing in...' : 'Opening osu!...',
+                  textAlign: TextAlign.center,
+                ),
+              ],
               if (_errorMessage case final String message) ...<Widget>[
                 const SizedBox(height: 16),
                 Text(message, textAlign: TextAlign.center),
