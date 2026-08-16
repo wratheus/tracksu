@@ -138,6 +138,12 @@ legacy user profile/cache мигрируется и очищается отде�
 потребителей. Будущий guest shell использует этот status, а не читает токены
 напрямую.
 
+Root route уже ведёт в отдельный `guest` feature, а не в legacy `LoginPage`.
+OAuth запускается только после нажатия пользователя. До переноса public
+feature на P09–P14 shell намеренно является минимальной точкой входа; успешный
+legacy login пока сохраняет переход в legacy `HomePage`, поэтому этот bridge
+не считать завершённой миграцией навигации.
+
 Для callback-страницы: без Firebase Analytics, сторонних скриптов и внешних
 ресурсов, без вывода code/token, без произвольного redirect target. Проверить
 referrer/logging/cache policy хостинга и перехода; секрет не помещать в JS.

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/pages/authorization_page.dart';
-import 'package:tracksu/src/pages/login_page.dart';
+import 'package:tracksu/src/guest/presentation/guest_shell.dart';
 
 final class TracksuAppRouter {
   const TracksuAppRouter({this.initialOAuthCallbackUri});
@@ -23,7 +23,7 @@ final class TracksuAppRouter {
 
     return MaterialPageRoute<void>(
       settings: settings,
-      builder: (_) => LoginPageWidget(),
+      builder: (_) => const GuestShell(),
     );
   }
 }
