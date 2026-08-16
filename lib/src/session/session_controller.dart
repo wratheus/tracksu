@@ -1,6 +1,8 @@
 import 'package:tracksu/src/session/session_token_provider.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
 
+enum SessionStatus { signedOut, authenticated }
+
 final class SessionController implements SessionTokenProvider {
   factory SessionController({required TokenStore tokenStore}) {
     return SessionController._(tokenStore);
@@ -10,6 +12,11 @@ final class SessionController implements SessionTokenProvider {
 
   final TokenStore _tokenStore;
   StoredAuthTokens? _tokens;
+
+  SessionStatus get status => switch (_tokens) {
+    null => SessionStatus.signedOut,
+    _ => SessionStatus.authenticated,
+  };
 
   Future<void> restore() async {
     _tokens = await _tokenStore.read();

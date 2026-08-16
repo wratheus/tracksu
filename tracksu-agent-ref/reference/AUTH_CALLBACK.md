@@ -131,6 +131,13 @@ API transport повторяет исходный request только один 
 и request снова проходит bearer interceptor. Второй `401` возвращается caller
 без нового refresh/retry; failure refresh также сохраняет исходный `401`.
 
+`AuthRepository.logout()` очищает только локальную пару OAuth tokens через
+`TokenStore`; `SessionController.status` сразу становится `signedOut`. Это не
+является server-side revocation и намеренно не удаляет весь Secure Storage:
+legacy user profile/cache мигрируется и очищается отдельно при замене его
+потребителей. Будущий guest shell использует этот status, а не читает токены
+напрямую.
+
 Для callback-страницы: без Firebase Analytics, сторонних скриптов и внешних
 ресурсов, без вывода code/token, без произвольного redirect target. Проверить
 referrer/logging/cache policy хостинга и перехода; секрет не помещать в JS.

@@ -41,6 +41,11 @@ final class AuthRepositoryImpl implements AuthRepository {
     });
   }
 
+  @override
+  Future<void> logout() async {
+    await _sessionController.clear();
+  }
+
   Future<void> _refreshAccessToken() async {
     final String? refreshToken = await _sessionController.getRefreshToken();
     if (refreshToken == null) {
