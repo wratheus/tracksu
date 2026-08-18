@@ -147,6 +147,11 @@ OAuth login очищает navigation stack и возвращает в guest she
 неактуального runtime-path. Legacy feature-экраны остаются до подтверждённой
 замены на P09–P13 и не участвуют в новом entry flow.
 
+В authenticated варианте guest shell есть локальный `Sign out`: кнопка вызывает
+`AuthRepository.logout()`, не открывает browser и после завершения немедленно
+показывает signed-out UI. Server-side revoke и чистка legacy profile/cache не
+подменяются этим действием.
+
 Для callback-страницы: без Firebase Analytics, сторонних скриптов и внешних
 ресурсов, без вывода code/token, без произвольного redirect target. Проверить
 referrer/logging/cache policy хостинга и перехода; секрет не помещать в JS.
