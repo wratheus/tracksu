@@ -141,8 +141,11 @@ legacy user profile/cache мигрируется и очищается отде�
 Root route уже ведёт в отдельный `guest` feature, а не в legacy `LoginPage`.
 OAuth запускается только после нажатия пользователя. До переноса public
 feature на P09–P14 shell намеренно является минимальной точкой входа; успешный
-legacy login пока сохраняет переход в legacy `HomePage`, поэтому этот bridge
-не считать завершённой миграцией навигации.
+OAuth login очищает navigation stack и возвращает в guest shell со статусом
+`authenticated`. Legacy `LoginPage` с client-credentials guest-token удалён:
+история git остаётся recovery-механизмом, но не оправдывает сохранение
+неактуального runtime-path. Legacy feature-экраны остаются до подтверждённой
+замены на P09–P13 и не участвуют в новом entry flow.
 
 Для callback-страницы: без Firebase Analytics, сторонних скриптов и внешних
 ресурсов, без вывода code/token, без произвольного redirect target. Проверить
