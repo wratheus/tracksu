@@ -4,6 +4,7 @@ import 'package:tracksu/src/profile/data/profile_remote_source.dart';
 import 'package:tracksu/src/profile/domain/profile.dart';
 import 'package:tracksu/src/profile/domain/profile_repository.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
+import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 
 final class ProfileRepositoryImpl implements ProfileRepository {
   factory ProfileRepositoryImpl({required ProfileRemoteSource remoteSource}) {
@@ -17,6 +18,18 @@ final class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Profile> getCurrentProfile({required ProfileRuleset ruleset}) async {
     final ProfileDto profileDto = await _remoteSource.getCurrentProfile(
+      ruleset: ruleset,
+    );
+    return profileDto.toDomain();
+  }
+
+  @override
+  Future<Profile> getProfile({
+    required ProfileUserReference user,
+    required ProfileRuleset ruleset,
+  }) async {
+    final ProfileDto profileDto = await _remoteSource.getProfile(
+      userIdentifier: user.apiValue,
       ruleset: ruleset,
     );
     return profileDto.toDomain();

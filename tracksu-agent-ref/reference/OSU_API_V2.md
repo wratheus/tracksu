@@ -24,7 +24,7 @@
 
 | Legacy consumer | Актуальный путь и решение миграции |
 | --- | --- |
-| `getUser` | `GET /users/{user}/{mode}` остаётся. `key=username` устарел: поиск username будет нормализовать значение к `@username`, а ID оставит ID. Проверить encoding пробелов/`@` на реальном ответе. |
+| `getUser` | `GET /users/{user}/{mode}` остаётся. `key=username` устарел: новый `ProfileUserReference` разделяет положительный ID и нормализованное имя к `@username`; source кодирует route segment. UI/Bloc ещё не подключены. |
 | `getUserMe` | `GET /me/{mode}` остаётся. Первый переносимый consumer: `profile` source → DTO → mapper → repository. |
 | `getUserScore` | `GET /users/{user}/scores/{type}`. Явно передавать `legacy_only=false`, `include_fails`, ruleset/mode, limit, offset; `Score` DTO создавать только после sample response выбранной response version. |
 | `getNews` | `GET /news`; `limit` ограничен 1–21, cursor pagination через `cursor_string`. Не индексировать ответ до фиксированной длины. |

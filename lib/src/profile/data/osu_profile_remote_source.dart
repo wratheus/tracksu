@@ -35,4 +35,27 @@ final class OsuProfileRemoteSource implements ProfileRemoteSource {
 
     return ProfileDto.fromJson(decoded);
   }
+
+  @override
+  Future<ProfileDto> getProfile({
+    required String userIdentifier,
+    required ProfileRuleset ruleset,
+  }) async {
+    final String encodedUserIdentifier = Uri.encodeComponent(userIdentifier);
+    final RestResponse response = await _restClient.get(
+      path: '/users/$encodedUserIdentifier/${ruleset.apiValue}',
+    );
+    if (response.statusCode != 200) {
+      throw ProfileRemoteSourceException(statusCode: response.statusCode);
+    }
+
+    final Object? decoded = jsonDecode(response.bodyText);
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException(
+        'The profile response must be a JSON object.',
+      );
+    }
+
+    return ProfileDto.fromJson(decoded);
+  }
 }
