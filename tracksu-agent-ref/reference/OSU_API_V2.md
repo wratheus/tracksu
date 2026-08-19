@@ -41,3 +41,13 @@
    поля и map в domain model внутри repository.
 3. После ручной проверки удалить только соответствующий legacy вызов. Остальные
    endpoints не меняются этим commit.
+
+## Profile P09 foundation
+
+`profile` теперь принимает публичный lookup как `ProfileUserReference`: ID
+валидируется как положительное число, username normalizes to API-required
+`@username`, а source кодирует route segment. `ProfileBloc` владеет только
+feature state: отдельные `ProfileLookupRequested` и
+`CurrentProfileLoadRequested`, затем loading/loaded/failure с исходным request
+для будущего retry. Он не знает HTTP, DTO или Flutter UI. Успешный ручной
+request пока не заявлен: UI и guest credentials не подключались этим шагом.
