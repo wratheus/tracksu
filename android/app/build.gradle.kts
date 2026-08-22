@@ -6,8 +6,6 @@ plugins {
 
 android {
     namespace = "io.github.wratheus.tracksu"
-    // flutter_secure_storage 11 requires API 37; it remains backward compatible
-    // with the app's minSdk 26.
     compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
@@ -25,10 +23,40 @@ android {
     }
 
     buildTypes {
+        val debugSigning = signingConfigs.getByName("debug")
+
+        getByName("debug") {
+            // A new production keystore has not been created yet.
+            signingConfig = debugSigning
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+        }
+
+        maybeCreate("profile").apply {
+            initWith(getByName("release"))
+            signingConfig = debugSigning
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+        }
+
         release {
             // No production keystore exists yet. This keeps local release builds possible;
             // P03 will replace it when the new developer account and key are ready.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = debugSigning
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }
