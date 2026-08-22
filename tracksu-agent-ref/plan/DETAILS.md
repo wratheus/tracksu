@@ -57,6 +57,12 @@
 - Есть `SingleChildScrollView + ListView(shrinkWrap: true,
   NeverScrollableScrollPhysics())` на крупных списках. Такой layout измеряет
   весь список и является вероятной причиной лагов.
+- **Scroll/image migration rule:** не исправлять `shrinkWrap` одиночными
+  заменами на legacy screen. При переносе каждой feature построить один
+  `CustomScrollView` из `SliverToBoxAdapter` и ленивых `SliverList`/
+  `SliverChildBuilderDelegate`; API-backed списки пагинируются. PNG и network
+  images не создаются для всей коллекции заранее: определить display size,
+  decode/cache policy и placeholders в UI kit. Это обязательный критерий P09–P14.
 - В цикле обработки рейтинга используется `length - 1`; последний элемент
   каждой страницы рейтинга стабильно теряется. Остальные коллекции нужно
   изучить по коду и передать пользователю ручные сценарии проверки.

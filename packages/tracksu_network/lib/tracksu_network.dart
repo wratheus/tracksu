@@ -9,3 +9,4 @@ export 'src/rest_client_options.dart';
 export 'src/rest_client_retry_interceptor.dart';
 export 'src/rest_request.dart';
 export 'src/rest_response.dart';
+export 'src/rest_response_payload.dart';

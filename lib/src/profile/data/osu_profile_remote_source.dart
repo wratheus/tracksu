@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:tracksu/src/profile/data/profile_dto.dart';
 import 'package:tracksu/src/profile/data/profile_remote_source.dart';
 import 'package:tracksu/src/profile/data/profile_remote_source_exception.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
@@ -16,7 +13,7 @@ final class OsuProfileRemoteSource implements ProfileRemoteSource {
   final RestClient _restClient;
 
   @override
-  Future<ProfileDto> getCurrentProfile({
+  Future<Map<String, dynamic>> getCurrentProfile({
     required ProfileRuleset ruleset,
   }) async {
     final RestResponse response = await _restClient.get(
@@ -26,18 +23,11 @@ final class OsuProfileRemoteSource implements ProfileRemoteSource {
       throw ProfileRemoteSourceException(statusCode: response.statusCode);
     }
 
-    final Object? decoded = jsonDecode(response.bodyText);
-    if (decoded is! Map<String, dynamic>) {
-      throw const FormatException(
-        'The profile response must be a JSON object.',
-      );
-    }
-
-    return ProfileDto.fromJson(decoded);
+    return response.payload.asMap();
   }
 
   @override
-  Future<ProfileDto> getProfile({
+  Future<Map<String, dynamic>> getProfile({
     required String userIdentifier,
     required ProfileRuleset ruleset,
   }) async {
@@ -49,13 +39,6 @@ final class OsuProfileRemoteSource implements ProfileRemoteSource {
       throw ProfileRemoteSourceException(statusCode: response.statusCode);
     }
 
-    final Object? decoded = jsonDecode(response.bodyText);
-    if (decoded is! Map<String, dynamic>) {
-      throw const FormatException(
-        'The profile response must be a JSON object.',
-      );
-    }
-
-    return ProfileDto.fromJson(decoded);
+    return response.payload.asMap();
   }
 }

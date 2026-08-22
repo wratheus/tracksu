@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:tracksu/src/auth/data/oauth_client_credentials.dart';
 import 'package:tracksu/src/auth/data/oauth_remote_source.dart';
 import 'package:tracksu/src/auth/data/oauth_remote_source_exception.dart';
-import 'package:tracksu/src/auth/data/oauth_tokens_dto.dart';
 import 'package:tracksu/src/auth/domain/oauth_callback.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 
@@ -21,7 +18,7 @@ final class OsuOAuthRemoteSource implements OAuthRemoteSource {
   final RestClient _restClient;
 
   @override
-  Future<OAuthTokensDto> exchangeAuthorizationCode({
+  Future<Map<String, dynamic>> exchangeAuthorizationCode({
     required String code,
   }) async {
     final RestResponse response = await _restClient.post(
@@ -39,18 +36,11 @@ final class OsuOAuthRemoteSource implements OAuthRemoteSource {
       throw OAuthRemoteSourceException(statusCode: response.statusCode);
     }
 
-    final Object? decoded = jsonDecode(response.bodyText);
-    if (decoded is! Map<String, dynamic>) {
-      throw const FormatException(
-        'The OAuth token response must be a JSON object.',
-      );
-    }
-
-    return OAuthTokensDto.fromJson(decoded);
+    return response.payload.asMap();
   }
 
   @override
-  Future<OAuthTokensDto> refreshAccessToken({
+  Future<Map<String, dynamic>> refreshAccessToken({
     required String refreshToken,
   }) async {
     final RestResponse response = await _restClient.post(
@@ -68,13 +58,6 @@ final class OsuOAuthRemoteSource implements OAuthRemoteSource {
       throw OAuthRemoteSourceException(statusCode: response.statusCode);
     }
 
-    final Object? decoded = jsonDecode(response.bodyText);
-    if (decoded is! Map<String, dynamic>) {
-      throw const FormatException(
-        'The OAuth token response must be a JSON object.',
-      );
-    }
-
-    return OAuthTokensDto.fromJson(decoded);
+    return response.payload.asMap();
   }
 }

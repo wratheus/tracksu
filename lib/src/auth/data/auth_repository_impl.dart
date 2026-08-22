@@ -20,9 +20,9 @@ final class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> exchangeAuthorizationCode({required String code}) async {
-    final OAuthTokensDto tokens = await _remoteSource.exchangeAuthorizationCode(
-      code: code,
-    );
+    final Map<String, dynamic> response = await _remoteSource
+        .exchangeAuthorizationCode(code: code);
+    final OAuthTokensDto tokens = OAuthTokensDto.fromJson(response);
     await _sessionController.save(
       StoredAuthTokens(
         accessToken: tokens.accessToken,
@@ -52,9 +52,9 @@ final class AuthRepositoryImpl implements AuthRepository {
       throw StateError('No refresh token is available for this session.');
     }
 
-    final OAuthTokensDto tokens = await _remoteSource.refreshAccessToken(
-      refreshToken: refreshToken,
-    );
+    final Map<String, dynamic> response = await _remoteSource
+        .refreshAccessToken(refreshToken: refreshToken);
+    final OAuthTokensDto tokens = OAuthTokensDto.fromJson(response);
     await _sessionController.save(
       StoredAuthTokens(
         accessToken: tokens.accessToken,

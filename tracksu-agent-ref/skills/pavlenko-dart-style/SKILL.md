@@ -97,6 +97,15 @@ For new code, use `FeatureLoadedState`, not legacy `$`-separated names. Preserve
 ## Serialization
 
 - Keep `dynamic` at JSON/wire boundaries only.
+- Use `RestResponse.payload` for typed raw JSON roots (`asMap`, `asList`,
+  `asString`, `asBool`, `asNumber`); do not repeat `jsonDecode` in remote
+  sources.
+- Remote source returns raw typed payload (`Map<String, dynamic>`,
+  `List<dynamic>`, or a primitive) after endpoint/status validation. Repository
+  owns `Dto.fromJson` and DTO-to-domain mapping.
+- Use the shared `JsonMapReader` for required/optional primitive and nested map
+  validation. Do not add per-DTO `_requiredString`/`_requiredInt` helper
+  families unless a feature-specific semantic validation genuinely differs.
 - Parse required fields strictly so malformed server responses fail visibly.
 - Check optional nested objects with `is Map<String, dynamic>` before conversion.
 - Use shared typed list converters before writing loops.

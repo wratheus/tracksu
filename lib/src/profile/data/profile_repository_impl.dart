@@ -17,9 +17,10 @@ final class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<Profile> getCurrentProfile({required ProfileRuleset ruleset}) async {
-    final ProfileDto profileDto = await _remoteSource.getCurrentProfile(
+    final Map<String, dynamic> response = await _remoteSource.getCurrentProfile(
       ruleset: ruleset,
     );
+    final ProfileDto profileDto = ProfileDto.fromJson(response);
     return profileDto.toDomain();
   }
 
@@ -28,10 +29,11 @@ final class ProfileRepositoryImpl implements ProfileRepository {
     required ProfileUserReference user,
     required ProfileRuleset ruleset,
   }) async {
-    final ProfileDto profileDto = await _remoteSource.getProfile(
+    final Map<String, dynamic> response = await _remoteSource.getProfile(
       userIdentifier: user.apiValue,
       ruleset: ruleset,
     );
+    final ProfileDto profileDto = ProfileDto.fromJson(response);
     return profileDto.toDomain();
   }
 }

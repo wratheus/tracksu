@@ -55,6 +55,11 @@ Hard rule: never use `SizedBox` as spacing between elements.
 - Use `Expanded` for bounded remaining space, not guessed heights.
 - Use slivers or builder lists for long/dynamic collections.
 - Do not wrap a large dynamic list in `SingleChildScrollView`.
+- Never use `shrinkWrap: true` with a long or API-backed list. Migrate the
+  surrounding screen to `CustomScrollView` with `SliverList`/
+  `SliverChildBuilderDelegate` (or one bounded builder list when it is the only
+  scrollable). Avoid eagerly constructing image-heavy rows; paginate and let
+  images decode lazily with bounded cache/size policy.
 
 Preferred fixed-bottom-action shape:
 

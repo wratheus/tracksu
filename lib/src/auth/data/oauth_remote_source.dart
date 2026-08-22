@@ -1,7 +1,9 @@
-import 'package:tracksu/src/auth/data/oauth_tokens_dto.dart';
-
 abstract interface class OAuthRemoteSource {
-  Future<OAuthTokensDto> exchangeAuthorizationCode({required String code});
+  Future<Map<String, dynamic>> exchangeAuthorizationCode({
+    required String code,
+  });
 
-  Future<OAuthTokensDto> refreshAccessToken({required String refreshToken});
+  Future<Map<String, dynamic>> refreshAccessToken({
+    required String refreshToken,
+  });
 }
