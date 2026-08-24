@@ -15,6 +15,15 @@ final class _GuestShellState extends State<GuestShell> {
   var _isLoggingOut = false;
   String? _logoutErrorMessage;
 
+  Future<void> _selectLocale(_LocaleSelection selection) {
+    final Locale? locale = switch (selection) {
+      _LocaleSelection.system => null,
+      _LocaleSelection.english => const Locale('en'),
+      _LocaleSelection.russian => const Locale('ru'),
+    };
+    return DepsScope.of(context).localeController.select(locale);
+  }
+
   Future<void> _logout() async {
     if (_isLoggingOut) {
       return;
@@ -59,7 +68,30 @@ final class _GuestShellState extends State<GuestShell> {
         };
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.t.appTitle)),
+      appBar: AppBar(
+        title: Text(context.t.appTitle),
+        actions: <Widget>[
+          PopupMenuButton<_LocaleSelection>(
+            icon: const Icon(Icons.language),
+            onSelected: _selectLocale,
+            itemBuilder: (BuildContext context) =>
+                <PopupMenuEntry<_LocaleSelection>>[
+                  PopupMenuItem<_LocaleSelection>(
+                    value: _LocaleSelection.system,
+                    child: Text(context.t.systemLanguage),
+                  ),
+                  PopupMenuItem<_LocaleSelection>(
+                    value: _LocaleSelection.english,
+                    child: Text(context.t.englishLanguage),
+                  ),
+                  PopupMenuItem<_LocaleSelection>(
+                    value: _LocaleSelection.russian,
+                    child: Text(context.t.russianLanguage),
+                  ),
+                ],
+          ),
+        ],
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -104,3 +136,5 @@ final class _GuestShellState extends State<GuestShell> {
     );
   }
 }
+
+enum _LocaleSelection { system, english, russian }
