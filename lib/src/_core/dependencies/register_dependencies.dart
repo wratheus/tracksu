@@ -10,6 +10,7 @@ import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
 import 'package:tracksu/src/_core/dependencies/deps_container.dart';
 import 'package:tracksu/src/_core/network/osu_authorization_interceptor.dart';
 import 'package:tracksu/src/_core/network/osu_api_headers_interceptor.dart';
+import 'package:tracksu/src/_core/l10n/locale_controller.dart';
 import 'package:tracksu/src/_core/router/app_router.dart';
 import 'package:tracksu/src/profile/data/osu_profile_remote_source.dart';
 import 'package:tracksu/src/profile/data/profile_repository_impl.dart';
@@ -20,6 +21,10 @@ import 'package:tracksu_storage/tracksu_storage.dart';
 Future<DepsContainer> registerDependencies() async {
   const FlutterSecureStorage storage = FlutterSecureStorage();
   final TokenStore tokenStore = FlutterSecureTokenStore(storage: storage);
+  final LocaleController localeController = LocaleController(
+    localeStore: FlutterSecureLocaleStore(storage: storage),
+  );
+  await localeController.restore();
   final OAuthTransactionStore oauthTransactionStore =
       FlutterSecureOAuthTransactionStore(storage: storage);
   final OAuthCallbackLinkSource oauthCallbackLinkSource =
@@ -61,6 +66,7 @@ Future<DepsContainer> registerDependencies() async {
     appRouter: TracksuAppRouter(
       initialOAuthCallbackUri: initialOAuthCallbackUri,
     ),
+    localeController: localeController,
     authRepository: authRepository,
     oauthClientCredentials: oauthClientCredentials,
     oauthCallbackLinkSource: oauthCallbackLinkSource,

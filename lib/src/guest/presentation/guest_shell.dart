@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
+import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/pages/authorization_page.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 
@@ -28,7 +29,7 @@ final class _GuestShellState extends State<GuestShell> {
     } on Object {
       if (mounted) {
         setState(() {
-          _logoutErrorMessage = 'Unable to sign out. Try again.';
+          _logoutErrorMessage = context.t.signOutFailed;
         });
       }
     } finally {
@@ -48,24 +49,24 @@ final class _GuestShellState extends State<GuestShell> {
     final ({String actionLabel, String description}) content =
         switch (sessionStatus) {
           SessionStatus.signedOut => (
-            actionLabel: 'Sign in with osu!',
-            description: 'Browse public osu! data as a guest. Signing in will add account features.',
+            actionLabel: context.t.signInWithOsu,
+            description: context.t.guestSignedOutDescription,
           ),
           SessionStatus.authenticated => (
-            actionLabel: 'Sign in with another account',
-            description: 'You are signed in. Public browsing stays available without an account.',
+            actionLabel: context.t.signInWithAnotherAccount,
+            description: context.t.guestSignedInDescription,
           ),
         };
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Tracksu')),
+      appBar: AppBar(title: Text(context.t.appTitle)),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Text('Guest mode'),
+              Text(context.t.guestModeTitle),
               const SizedBox(height: 12),
               Text(content.description, textAlign: TextAlign.center),
               if (_logoutErrorMessage case final String message) ...<Widget>[
@@ -91,7 +92,9 @@ final class _GuestShellState extends State<GuestShell> {
                 const SizedBox(height: 12),
                 TextButton(
                   onPressed: _isLoggingOut ? null : _logout,
-                  child: Text(_isLoggingOut ? 'Signing out...' : 'Sign out'),
+                  child: Text(
+                    _isLoggingOut ? context.t.signingOut : context.t.signOut,
+                  ),
                 ),
               ],
             ],

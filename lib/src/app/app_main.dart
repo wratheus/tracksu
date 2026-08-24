@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_container.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
+import 'package:tracksu/src/_core/l10n/generated/app_localizations.dart';
+import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/utils/color_contrasts.dart' as colors;
 
 final class AppMain extends StatelessWidget {
@@ -12,15 +14,23 @@ final class AppMain extends StatelessWidget {
   Widget build(BuildContext context) {
     return DepsScope(
       dependencies: dependencies,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Tracksu',
-        theme: ThemeData(
-          primarySwatch: colors.Palette.pink,
-          scaffoldBackgroundColor: colors.Palette.brown,
-        ),
-        initialRoute: dependencies.appRouter.initialRoute,
-        onGenerateRoute: dependencies.appRouter.onGenerateRoute,
+      child: ValueListenableBuilder<Locale?>(
+        valueListenable: dependencies.localeController,
+        builder: (BuildContext context, Locale? locale, Widget? child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            onGenerateTitle: (BuildContext context) => context.t.appTitle,
+            locale: locale,
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            theme: ThemeData(
+              primarySwatch: colors.Palette.pink,
+              scaffoldBackgroundColor: colors.Palette.brown,
+            ),
+            initialRoute: dependencies.appRouter.initialRoute,
+            onGenerateRoute: dependencies.appRouter.onGenerateRoute,
+          );
+        },
       ),
     );
   }
