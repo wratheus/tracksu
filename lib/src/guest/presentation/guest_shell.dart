@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/pages/authorization_page.dart';
+import 'package:tracksu/src/profile/presentation/profile_main.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 
 final class GuestShell extends StatefulWidget {
@@ -122,6 +123,16 @@ final class _GuestShellState extends State<GuestShell> {
               ),
               if (sessionStatus == SessionStatus.authenticated) ...<Widget>[
                 const SizedBox(height: 12),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const ProfileMain(),
+                      ),
+                    );
+                  },
+                  child: Text(context.t.viewMyProfile),
+                ),
                 TextButton(
                   onPressed: _isLoggingOut ? null : _logout,
                   child: Text(

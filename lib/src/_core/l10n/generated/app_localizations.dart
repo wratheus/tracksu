@@ -247,6 +247,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Authorization was not completed. Try again.'**
   String get authorizationIncomplete;
+
+  /// No description provided for @viewMyProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'View my profile'**
+  String get viewMyProfile;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @profileLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading profile...'**
+  String get profileLoading;
+
+  /// No description provided for @profileUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile is unavailable. Try again.'**
+  String get profileUnavailable;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @profileId.
+  ///
+  /// In en, this message translates to:
+  /// **'ID: {id}'**
+  String profileId(int id);
+
+  /// No description provided for @profilePerformance.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance: {pp}'**
+  String profilePerformance(double pp);
 }
 
 class _AppLocalizationsDelegate

@@ -24,5 +24,14 @@
   "authorizationPreparationFailed": "Не удалось подготовить авторизацию в osu!.",
   "authorizationLaunchFailed": "Не удалось открыть авторизацию в osu!.",
   "authorizationCompletionFailed": "Не удалось завершить авторизацию.",
-  "authorizationIncomplete": "Авторизация не была завершена. Повторите попытку."
+  "authorizationIncomplete": "Авторизация не была завершена. Повторите попытку.",
+  "viewMyProfile": "Мой профиль",
+  "profileTitle": "Профиль",
+  "profileLoading": "Загружаем профиль...",
+  "profileUnavailable": "Профиль недоступен. Повторите попытку.",
+  "retry": "Повторить",
+  "profileId": "ID: {id}",
+  "@profileId": {"placeholders": {"id": {"type": "int"}}},
+  "profilePerformance": "Рейтинг: {pp}",
+  "@profilePerformance": {"placeholders": {"pp": {"type": "double"}}}
 }

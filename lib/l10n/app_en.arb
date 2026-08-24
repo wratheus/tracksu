@@ -24,5 +24,14 @@
   "authorizationPreparationFailed": "Unable to prepare osu! authorization.",
   "authorizationLaunchFailed": "Unable to open osu! authorization.",
   "authorizationCompletionFailed": "Unable to finish authorization.",
-  "authorizationIncomplete": "Authorization was not completed. Try again."
+  "authorizationIncomplete": "Authorization was not completed. Try again.",
+  "viewMyProfile": "View my profile",
+  "profileTitle": "Profile",
+  "profileLoading": "Loading profile...",
+  "profileUnavailable": "Profile is unavailable. Try again.",
+  "retry": "Retry",
+  "profileId": "ID: {id}",
+  "@profileId": {"placeholders": {"id": {"type": "int"}}},
+  "profilePerformance": "Performance: {pp}",
+  "@profilePerformance": {"placeholders": {"pp": {"type": "double"}}}
 }

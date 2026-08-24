@@ -95,4 +95,29 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get authorizationIncomplete =>
       'Авторизация не была завершена. Повторите попытку.';
+
+  @override
+  String get viewMyProfile => 'Мой профиль';
+
+  @override
+  String get profileTitle => 'Профиль';
+
+  @override
+  String get profileLoading => 'Загружаем профиль...';
+
+  @override
+  String get profileUnavailable => 'Профиль недоступен. Повторите попытку.';
+
+  @override
+  String get retry => 'Повторить';
+
+  @override
+  String profileId(int id) {
+    return 'ID: $id';
+  }
+
+  @override
+  String profilePerformance(double pp) {
+    return 'Рейтинг: $pp';
+  }
 }

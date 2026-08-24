@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
+import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/profile/domain/profile.dart';
+import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
+import 'package:tracksu/src/profile/presentation/profile_bloc.dart';
+
+final class ProfileMain extends StatelessWidget {
+  const ProfileMain({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<ProfileBloc>(
+      create: (BuildContext context) => ProfileBloc(
+        repository: DepsScope.of(context).profileRepository,
+      )..add(const CurrentProfileLoadRequested(ruleset: ProfileRuleset.osu)),
+      child: const ProfileScreen(),
+    );
+  }
+}
+
+final class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(context.t.profileTitle)),
+      body: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (BuildContext context, ProfileState state) => switch (state) {
+          ProfileInitialState() || ProfileLoadingState() => Center(
+            child: Text(context.t.profileLoading),
+          ),
+          ProfileFailureState(:final request) => Center(
+            child: TextButton(
+              onPressed: () => context.read<ProfileBloc>().add(request),
+              child: Text(context.t.retry),
+            ),
+          ),
+          ProfileLoadedState(:final Profile profile) => CustomScrollView(
+            slivers: <Widget>[
+              SliverPadding(
+                padding: const EdgeInsets.all(24),
+                sliver: SliverList.list(
+                  children: <Widget>[
+                    Text(profile.username),
+                    Text(context.t.profileId(profile.id)),
+                    if (profile.statistics
+                        case final ProfileStatistics statistics)
+                      Text(
+                        context.t.profilePerformance(
+                          statistics.performancePoints,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        },
+      ),
+    );
+  }
+}

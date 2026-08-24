@@ -92,4 +92,29 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get authorizationIncomplete =>
       'Authorization was not completed. Try again.';
+
+  @override
+  String get viewMyProfile => 'View my profile';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profileLoading => 'Loading profile...';
+
+  @override
+  String get profileUnavailable => 'Profile is unavailable. Try again.';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String profileId(int id) {
+    return 'ID: $id';
+  }
+
+  @override
+  String profilePerformance(double pp) {
+    return 'Performance: $pp';
+  }
 }
