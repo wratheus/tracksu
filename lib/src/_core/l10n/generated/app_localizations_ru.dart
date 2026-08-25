@@ -132,4 +132,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String profilePerformance(double pp) {
     return 'Рейтинг: $pp';
   }
+
+  @override
+  String profileCountry(String country) {
+    return 'Страна: $country';
+  }
+
+  @override
+  String profileAccuracy(double accuracy) {
+    return 'Точность: $accuracy%';
+  }
+
+  @override
+  String profilePlayCount(int count) {
+    return 'Количество игр: $count';
+  }
 }

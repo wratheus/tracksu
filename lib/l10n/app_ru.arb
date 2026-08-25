@@ -37,5 +37,11 @@
   "profileId": "ID: {id}",
   "@profileId": {"placeholders": {"id": {"type": "int"}}},
   "profilePerformance": "Рейтинг: {pp}",
-  "@profilePerformance": {"placeholders": {"pp": {"type": "double"}}}
+  "@profilePerformance": {"placeholders": {"pp": {"type": "double"}}},
+  "profileCountry": "Страна: {country}",
+  "@profileCountry": {"placeholders": {"country": {"type": "String"}}},
+  "profileAccuracy": "Точность: {accuracy}%",
+  "@profileAccuracy": {"placeholders": {"accuracy": {"type": "double"}}},
+  "profilePlayCount": "Количество игр: {count}",
+  "@profilePlayCount": {"placeholders": {"count": {"type": "int"}}}
 }

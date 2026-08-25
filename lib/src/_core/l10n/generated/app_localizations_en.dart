@@ -129,4 +129,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String profilePerformance(double pp) {
     return 'Performance: $pp';
   }
+
+  @override
+  String profileCountry(String country) {
+    return 'Country: $country';
+  }
+
+  @override
+  String profileAccuracy(double accuracy) {
+    return 'Accuracy: $accuracy%';
+  }
+
+  @override
+  String profilePlayCount(int count) {
+    return 'Play count: $count';
+  }
 }

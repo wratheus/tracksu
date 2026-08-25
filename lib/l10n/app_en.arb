@@ -37,5 +37,11 @@
   "profileId": "ID: {id}",
   "@profileId": {"placeholders": {"id": {"type": "int"}}},
   "profilePerformance": "Performance: {pp}",
-  "@profilePerformance": {"placeholders": {"pp": {"type": "double"}}}
+  "@profilePerformance": {"placeholders": {"pp": {"type": "double"}}},
+  "profileCountry": "Country: {country}",
+  "@profileCountry": {"placeholders": {"country": {"type": "String"}}},
+  "profileAccuracy": "Accuracy: {accuracy}%",
+  "@profileAccuracy": {"placeholders": {"accuracy": {"type": "double"}}},
+  "profilePlayCount": "Play count: {count}",
+  "@profilePlayCount": {"placeholders": {"count": {"type": "int"}}}
 }

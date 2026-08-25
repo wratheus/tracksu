@@ -52,9 +52,15 @@ final class ProfileScreen extends StatelessWidget {
             child: Text(context.t.profileLoading),
           ),
           ProfileFailureState(:final request) => Center(
-            child: TextButton(
-              onPressed: () => context.read<ProfileBloc>().add(request),
-              child: Text(context.t.retry),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(context.t.profileUnavailable),
+                TextButton(
+                  onPressed: () => context.read<ProfileBloc>().add(request),
+                  child: Text(context.t.retry),
+                ),
+              ],
             ),
           ),
           ProfileLoadedState(:final Profile profile) => CustomScrollView(
@@ -63,8 +69,15 @@ final class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 sliver: SliverList.list(
                   children: <Widget>[
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundImage: NetworkImage(
+                        profile.avatarUri.toString(),
+                      ),
+                    ),
                     Text(profile.username),
                     Text(context.t.profileId(profile.id)),
+                    Text(context.t.profileCountry(profile.countryCode)),
                     if (profile.statistics
                         case final ProfileStatistics statistics)
                       Text(
@@ -72,6 +85,12 @@ final class ProfileScreen extends StatelessWidget {
                           statistics.performancePoints,
                         ),
                       ),
+                    if (profile.statistics
+                        case final ProfileStatistics statistics)
+                      Text(context.t.profileAccuracy(statistics.hitAccuracy)),
+                    if (profile.statistics
+                        case final ProfileStatistics statistics)
+                      Text(context.t.profilePlayCount(statistics.playCount)),
                   ],
                 ),
               ),

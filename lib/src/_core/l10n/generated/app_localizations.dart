@@ -313,6 +313,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Performance: {pp}'**
   String profilePerformance(double pp);
+
+  /// No description provided for @profileCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Country: {country}'**
+  String profileCountry(String country);
+
+  /// No description provided for @profileAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy: {accuracy}%'**
+  String profileAccuracy(double accuracy);
+
+  /// No description provided for @profilePlayCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Play count: {count}'**
+  String profilePlayCount(int count);
 }
 
 class _AppLocalizationsDelegate
