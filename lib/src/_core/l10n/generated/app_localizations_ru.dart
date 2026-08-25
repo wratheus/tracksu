@@ -103,6 +103,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileTitle => 'Профиль';
 
   @override
+  String get rulesetOsu => 'osu!';
+
+  @override
+  String get rulesetTaiko => 'taiko';
+
+  @override
+  String get rulesetFruits => 'catch';
+
+  @override
+  String get rulesetMania => 'mania';
+
+  @override
   String get profileLoading => 'Загружаем профиль...';
 
   @override

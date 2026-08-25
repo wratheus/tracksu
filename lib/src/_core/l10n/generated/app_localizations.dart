@@ -260,6 +260,30 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profileTitle;
 
+  /// No description provided for @rulesetOsu.
+  ///
+  /// In en, this message translates to:
+  /// **'osu!'**
+  String get rulesetOsu;
+
+  /// No description provided for @rulesetTaiko.
+  ///
+  /// In en, this message translates to:
+  /// **'taiko'**
+  String get rulesetTaiko;
+
+  /// No description provided for @rulesetFruits.
+  ///
+  /// In en, this message translates to:
+  /// **'catch'**
+  String get rulesetFruits;
+
+  /// No description provided for @rulesetMania.
+  ///
+  /// In en, this message translates to:
+  /// **'mania'**
+  String get rulesetMania;
+
   /// No description provided for @profileLoading.
   ///
   /// In en, this message translates to:

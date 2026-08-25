@@ -26,7 +26,26 @@ final class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.t.profileTitle)),
+      appBar: AppBar(
+        title: Text(context.t.profileTitle),
+        actions: <Widget>[
+          PopupMenuButton<ProfileRuleset>(
+            onSelected: (ProfileRuleset ruleset) {
+              context.read<ProfileBloc>().add(
+                CurrentProfileLoadRequested(ruleset: ruleset),
+              );
+            },
+            itemBuilder: (BuildContext context) => ProfileRuleset.values
+                .map(
+                  (ProfileRuleset ruleset) => PopupMenuItem<ProfileRuleset>(
+                    value: ruleset,
+                    child: Text(_rulesetLabel(context, ruleset)),
+                  ),
+                )
+                .toList(growable: false),
+          ),
+        ],
+      ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (BuildContext context, ProfileState state) => switch (state) {
           ProfileInitialState() || ProfileLoadingState() => Center(
@@ -62,4 +81,13 @@ final class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+String _rulesetLabel(BuildContext context, ProfileRuleset ruleset) {
+  return switch (ruleset) {
+    ProfileRuleset.osu => context.t.rulesetOsu,
+    ProfileRuleset.taiko => context.t.rulesetTaiko,
+    ProfileRuleset.fruits => context.t.rulesetFruits,
+    ProfileRuleset.mania => context.t.rulesetMania,
+  };
 }

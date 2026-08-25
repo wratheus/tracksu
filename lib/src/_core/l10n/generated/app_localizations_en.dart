@@ -100,6 +100,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileTitle => 'Profile';
 
   @override
+  String get rulesetOsu => 'osu!';
+
+  @override
+  String get rulesetTaiko => 'taiko';
+
+  @override
+  String get rulesetFruits => 'catch';
+
+  @override
+  String get rulesetMania => 'mania';
+
+  @override
   String get profileLoading => 'Loading profile...';
 
   @override
