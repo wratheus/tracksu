@@ -28,6 +28,7 @@
   "viewMyProfile": "Мой профиль",
   "profileTitle": "Профиль",
   "profileSearchHint": "Имя пользователя или ID",
+  "profileSearchInvalid": "Введите корректное имя пользователя или положительный ID.",
   "rulesetOsu": "osu!",
   "rulesetTaiko": "taiko",
   "rulesetFruits": "catch",

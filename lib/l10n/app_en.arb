@@ -28,6 +28,7 @@
   "viewMyProfile": "View my profile",
   "profileTitle": "Profile",
   "profileSearchHint": "Username or ID",
+  "profileSearchInvalid": "Enter a valid username or positive ID.",
   "rulesetOsu": "osu!",
   "rulesetTaiko": "taiko",
   "rulesetFruits": "catch",

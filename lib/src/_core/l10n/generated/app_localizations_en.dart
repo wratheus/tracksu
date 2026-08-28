@@ -103,6 +103,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSearchHint => 'Username or ID';
 
   @override
+  String get profileSearchInvalid => 'Enter a valid username or positive ID.';
+
+  @override
   String get rulesetOsu => 'osu!';
 
   @override

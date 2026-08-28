@@ -266,6 +266,12 @@ abstract class AppLocalizations {
   /// **'Username or ID'**
   String get profileSearchHint;
 
+  /// No description provided for @profileSearchInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid username or positive ID.'**
+  String get profileSearchInvalid;
+
   /// No description provided for @rulesetOsu.
   ///
   /// In en, this message translates to:

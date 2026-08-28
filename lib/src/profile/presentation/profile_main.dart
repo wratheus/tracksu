@@ -31,6 +31,7 @@ final class ProfileScreen extends StatefulWidget {
 final class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _searchController = TextEditingController();
   var _ruleset = ProfileRuleset.osu;
+  String? _searchError;
 
   @override
   void dispose() {
@@ -45,9 +46,14 @@ final class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     final int? id = int.tryParse(query);
-    final ProfileUserReference user = id == null
-        ? ProfileUsername(query)
-        : ProfileUserId(id);
+    final ProfileUserReference user;
+    try {
+      user = id == null ? ProfileUsername(query) : ProfileUserId(id);
+    } on ArgumentError {
+      setState(() => _searchError = context.t.profileSearchInvalid);
+      return;
+    }
+    setState(() => _searchError = null);
     context.read<ProfileBloc>().add(
       ProfileLookupRequested(user: user, ruleset: _ruleset),
     );
@@ -89,6 +95,7 @@ final class _ProfileScreenState extends State<ProfileScreen> {
               onSubmitted: _submitSearch,
               decoration: InputDecoration(
                 hintText: context.t.profileSearchHint,
+                errorText: _searchError,
               ),
             ),
           ),
