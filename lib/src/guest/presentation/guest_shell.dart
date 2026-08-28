@@ -1,151 +1,135 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
-import 'package:tracksu/src/pages/authorization_page.dart';
-import 'package:tracksu/src/profile/presentation/profile_main.dart';
+import 'package:tracksu/src/profile/bloc/bloc.dart';
+import 'package:tracksu/src/profile/main.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 
-final class GuestShell extends StatefulWidget {
+final class GuestShell extends StatelessWidget {
   const GuestShell({super.key});
 
   @override
-  State<GuestShell> createState() => _GuestShellState();
+  Widget build(BuildContext context) =>
+      const ProfileMain(actions: _AccountActions());
 }
 
-final class _GuestShellState extends State<GuestShell> {
-  var _isLoggingOut = false;
-  String? _logoutErrorMessage;
+final class _AccountActions extends StatefulWidget {
+  const _AccountActions();
 
-  Future<void> _selectLocale(_LocaleSelection selection) {
+  @override
+  State<_AccountActions> createState() => _AccountActionsState();
+}
+
+final class _AccountActionsState extends State<_AccountActions> {
+  bool _isLoggingOut = false;
+
+  Future<void> _selectLocale(_LocaleSelection selection) async {
     final Locale? locale = switch (selection) {
       _LocaleSelection.system => null,
       _LocaleSelection.english => const Locale('en'),
       _LocaleSelection.russian => const Locale('ru'),
     };
-    return DepsScope.of(context).localeController.select(locale);
+    try {
+      await DepsScope.of(context).localeController.select(locale);
+    } on Object {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(context.t.languageChangeFailed)));
+      }
+    }
   }
 
-  Future<void> _logout() async {
+  Future<void> _selectAccount(_AccountSelection selection) async {
     if (_isLoggingOut) {
       return;
     }
-
-    setState(() {
-      _isLoggingOut = true;
-    });
-
-    try {
-      await DepsScope.of(context).authRepository.logout();
-    } on Object {
-      if (mounted) {
-        setState(() {
-          _logoutErrorMessage = context.t.signOutFailed;
-        });
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoggingOut = false;
-        });
-      }
+    switch (selection) {
+      case _AccountSelection.signIn:
+        await DepsScope.of(context).appRouter.openLogin(context);
+      case _AccountSelection.myProfile:
+        context.read<ProfileBloc>().add(const CurrentProfileLoadRequested());
+      case _AccountSelection.signOut:
+        setState(() => _isLoggingOut = true);
+        context.read<ProfileBloc>().add(const ProfileCleared());
+        try {
+          await DepsScope.of(context).authRepository.logout();
+        } on Object {
+          if (mounted) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(context.t.signOutFailed)));
+          }
+        } finally {
+          if (mounted) {
+            setState(() => _isLoggingOut = false);
+          }
+        }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final SessionStatus sessionStatus = DepsScope.of(context)
-        .sessionController
-        .status;
-    final ({String actionLabel, String description}) content =
-        switch (sessionStatus) {
-          SessionStatus.signedOut => (
-            actionLabel: context.t.signInWithOsu,
-            description: context.t.guestSignedOutDescription,
-          ),
-          SessionStatus.authenticated => (
-            actionLabel: context.t.signInWithAnotherAccount,
-            description: context.t.guestSignedInDescription,
-          ),
-        };
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.t.appTitle),
-        actions: <Widget>[
-          PopupMenuButton<_LocaleSelection>(
-            icon: const Icon(Icons.language),
-            onSelected: _selectLocale,
-            itemBuilder: (BuildContext context) =>
-                <PopupMenuEntry<_LocaleSelection>>[
-                  PopupMenuItem<_LocaleSelection>(
-                    value: _LocaleSelection.system,
-                    child: Text(context.t.systemLanguage),
-                  ),
-                  PopupMenuItem<_LocaleSelection>(
-                    value: _LocaleSelection.english,
-                    child: Text(context.t.englishLanguage),
-                  ),
-                  PopupMenuItem<_LocaleSelection>(
-                    value: _LocaleSelection.russian,
-                    child: Text(context.t.russianLanguage),
-                  ),
-                ],
-          ),
-        ],
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(context.t.guestModeTitle),
-              const SizedBox(height: 12),
-              Text(content.description, textAlign: TextAlign.center),
-              if (_logoutErrorMessage case final String message) ...<Widget>[
-                const SizedBox(height: 12),
-                Text(message, textAlign: TextAlign.center),
-              ],
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _isLoggingOut
-                    ? null
-                    : () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => const LoginScreen(
-                              startAuthorizationOnOpen: true,
-                            ),
-                          ),
-                        );
-                      },
-                child: Text(content.actionLabel),
-              ),
-              if (sessionStatus == SessionStatus.authenticated) ...<Widget>[
-                const SizedBox(height: 12),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const ProfileMain(),
-                      ),
-                    );
-                  },
-                  child: Text(context.t.viewMyProfile),
+    final bool authenticated =
+        DepsScope.of(context).sessionController.status ==
+        SessionStatus.authenticated;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        PopupMenuButton<_LocaleSelection>(
+          tooltip: context.t.languageSelection,
+          icon: const Icon(Icons.language),
+          onSelected: _selectLocale,
+          itemBuilder: (BuildContext context) =>
+              <PopupMenuEntry<_LocaleSelection>>[
+                PopupMenuItem<_LocaleSelection>(
+                  value: _LocaleSelection.system,
+                  child: Text(context.t.systemLanguage),
                 ),
-                TextButton(
-                  onPressed: _isLoggingOut ? null : _logout,
-                  child: Text(
-                    _isLoggingOut ? context.t.signingOut : context.t.signOut,
-                  ),
+                PopupMenuItem<_LocaleSelection>(
+                  value: _LocaleSelection.english,
+                  child: Text(context.t.englishLanguage),
+                ),
+                PopupMenuItem<_LocaleSelection>(
+                  value: _LocaleSelection.russian,
+                  child: Text(context.t.russianLanguage),
                 ),
               ],
-            ],
-          ),
         ),
-      ),
+        PopupMenuButton<_AccountSelection>(
+          enabled: !_isLoggingOut,
+          tooltip: _isLoggingOut ? context.t.signingOut : context.t.account,
+          icon: Icon(
+            authenticated ? Icons.account_circle : Icons.person_outline,
+          ),
+          onSelected: _selectAccount,
+          itemBuilder: (BuildContext context) =>
+              <PopupMenuEntry<_AccountSelection>>[
+                if (authenticated)
+                  PopupMenuItem<_AccountSelection>(
+                    value: _AccountSelection.myProfile,
+                    child: Text(context.t.viewMyProfile),
+                  ),
+                PopupMenuItem<_AccountSelection>(
+                  value: _AccountSelection.signIn,
+                  child: Text(
+                    authenticated
+                        ? context.t.signInWithAnotherAccount
+                        : context.t.signInWithOsu,
+                  ),
+                ),
+                if (authenticated)
+                  PopupMenuItem<_AccountSelection>(
+                    value: _AccountSelection.signOut,
+                    child: Text(context.t.signOut),
+                  ),
+              ],
+        ),
+      ],
     );
   }
 }
 
 enum _LocaleSelection { system, english, russian }
+
+enum _AccountSelection { signIn, myProfile, signOut }

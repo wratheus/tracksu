@@ -12,6 +12,7 @@ final class SessionController implements SessionTokenProvider {
 
   final TokenStore _tokenStore;
   StoredAuthTokens? _tokens;
+  Future<void> _pendingWrite = Future<void>.value();
 
   SessionStatus get status => switch (_tokens) {
     null => SessionStatus.signedOut,
@@ -22,14 +23,28 @@ final class SessionController implements SessionTokenProvider {
     _tokens = await _tokenStore.read();
   }
 
-  Future<void> save(StoredAuthTokens tokens) async {
-    await _tokenStore.write(tokens);
-    _tokens = tokens;
+  Future<void> save(StoredAuthTokens tokens) {
+    return _serializeWrite(() async {
+      await _tokenStore.write(tokens);
+      _tokens = tokens;
+    });
   }
 
-  Future<void> clear() async {
-    await _tokenStore.clear();
-    _tokens = null;
+  Future<void> clear() {
+    return _serializeWrite(() async {
+      await _tokenStore.clear();
+      _tokens = null;
+    });
+  }
+
+  Future<void> _serializeWrite(Future<void> Function() operation) {
+    final Future<void> result = _pendingWrite.then((_) => operation());
+    // Preserve failures for the caller without poisoning subsequent writes.
+    _pendingWrite = result.then<void>(
+      (_) {},
+      onError: (Object _, StackTrace _) {},
+    );
+    return result;
   }
 
   Future<String?> getRefreshToken() {

@@ -37,13 +37,107 @@
   "profileUnavailable": "Профиль недоступен. Повторите попытку.",
   "retry": "Повторить",
   "profileId": "ID: {id}",
-  "@profileId": {"placeholders": {"id": {"type": "int"}}},
+  "@profileId": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
   "profilePerformance": "Рейтинг: {pp}",
-  "@profilePerformance": {"placeholders": {"pp": {"type": "double"}}},
+  "@profilePerformance": {
+    "placeholders": {
+      "pp": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
   "profileCountry": "Страна: {country}",
-  "@profileCountry": {"placeholders": {"country": {"type": "String"}}},
+  "@profileCountry": {
+    "placeholders": {
+      "country": {
+        "type": "String"
+      }
+    }
+  },
   "profileAccuracy": "Точность: {accuracy}%",
-  "@profileAccuracy": {"placeholders": {"accuracy": {"type": "double"}}},
+  "@profileAccuracy": {
+    "placeholders": {
+      "accuracy": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
   "profilePlayCount": "Количество игр: {count}",
-  "@profilePlayCount": {"placeholders": {"count": {"type": "int"}}}
+  "@profilePlayCount": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "profileSearchIntroduction": "Найдите игрока osu!, чтобы посмотреть профиль и статистику. Вход не нужен.",
+  "profileSearchHelp": "Для числового имени добавьте @ перед именем.",
+  "profileSearch": "Найти игрока",
+  "profileRefreshing": "Обновление профиля",
+  "profileRefresh": "Обновить",
+  "profileShowingPreviousData": "Обновление не удалось. Показаны ранее загруженные данные.",
+  "profileNotFound": "Игрок не найден. Проверьте имя или ID.",
+  "profileAccessDenied": "osu! отказал в доступе. Для своего профиля попробуйте войти заново.",
+  "profileRateLimited": "Слишком много запросов. Подождите перед повтором.",
+  "profileConnectionFailed": "Не удалось подключиться. Проверьте интернет и повторите.",
+  "profileInvalidResponse": "Сервер вернул неподдерживаемый ответ профиля.",
+  "profileOnline": "В сети",
+  "profileOffline": "Не в сети",
+  "profileSupporter": "osu!supporter",
+  "profileNoStatistics": "Для этого режима пока нет статистики.",
+  "profileUnranked": "Нет места в мировом рейтинге",
+  "profileGlobalRank": "Мировой рейтинг: #{rank}",
+  "profileCountryRank": "Рейтинг страны: #{rank}",
+  "profilePlayTime": "Время игры: {hours} ч",
+  "profileMaximumCombo": "Максимальное комбо: {combo}",
+  "languageChangeFailed": "Не удалось сохранить язык.",
+  "languageSelection": "Язык",
+  "account": "Аккаунт",
+  "@profileGlobalRank": {
+    "placeholders": {
+      "rank": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "@profileCountryRank": {
+    "placeholders": {
+      "rank": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "@profilePlayTime": {
+    "placeholders": {
+      "hours": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "@profileMaximumCombo": {
+    "placeholders": {
+      "combo": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  }
 }

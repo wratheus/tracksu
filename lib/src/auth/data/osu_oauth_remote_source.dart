@@ -18,6 +18,24 @@ final class OsuOAuthRemoteSource implements OAuthRemoteSource {
   final RestClient _restClient;
 
   @override
+  Future<Map<String, dynamic>> requestPublicToken() async {
+    final RestResponse response = await _restClient.post(
+      path: '/oauth/token',
+      body: <String, Object?>{
+        'client_id': _clientCredentials.clientId,
+        'client_secret': _clientCredentials.clientSecret,
+        'grant_type': 'client_credentials',
+        'scope': 'public',
+      },
+      contentType: RestContentType.form,
+    );
+    if (response.statusCode != 200) {
+      throw OAuthRemoteSourceException(statusCode: response.statusCode);
+    }
+    return response.payload.asMap();
+  }
+
+  @override
   Future<Map<String, dynamic>> exchangeAuthorizationCode({
     required String code,
   }) async {

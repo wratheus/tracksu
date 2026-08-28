@@ -343,6 +343,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Play count: {count}'**
   String profilePlayCount(int count);
+
+  /// No description provided for @profileSearchIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Find an osu! player to view their profile and statistics. No sign-in required.'**
+  String get profileSearchIntroduction;
+
+  /// No description provided for @profileSearchHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Use @ before a numeric username.'**
+  String get profileSearchHelp;
+
+  /// No description provided for @profileSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Find player'**
+  String get profileSearch;
+
+  /// No description provided for @profileRefreshing.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating profile'**
+  String get profileRefreshing;
+
+  /// No description provided for @profileRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get profileRefresh;
+
+  /// No description provided for @profileShowingPreviousData.
+  ///
+  /// In en, this message translates to:
+  /// **'Update failed. Previously loaded data is shown.'**
+  String get profileShowingPreviousData;
+
+  /// No description provided for @profileNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Player not found. Check the name or ID.'**
+  String get profileNotFound;
+
+  /// No description provided for @profileAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Access denied by osu!. For your own profile, try signing in again.'**
+  String get profileAccessDenied;
+
+  /// No description provided for @profileRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many requests. Wait before trying again.'**
+  String get profileRateLimited;
+
+  /// No description provided for @profileConnectionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot connect. Check your connection and try again.'**
+  String get profileConnectionFailed;
+
+  /// No description provided for @profileInvalidResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'The server returned an unsupported profile response.'**
+  String get profileInvalidResponse;
+
+  /// No description provided for @profileOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get profileOnline;
+
+  /// No description provided for @profileOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get profileOffline;
+
+  /// No description provided for @profileSupporter.
+  ///
+  /// In en, this message translates to:
+  /// **'osu!supporter'**
+  String get profileSupporter;
+
+  /// No description provided for @profileNoStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'No statistics for this ruleset yet.'**
+  String get profileNoStatistics;
+
+  /// No description provided for @profileUnranked.
+  ///
+  /// In en, this message translates to:
+  /// **'No global rank'**
+  String get profileUnranked;
+
+  /// No description provided for @profileGlobalRank.
+  ///
+  /// In en, this message translates to:
+  /// **'Global rank: #{rank}'**
+  String profileGlobalRank(int rank);
+
+  /// No description provided for @profileCountryRank.
+  ///
+  /// In en, this message translates to:
+  /// **'Country rank: #{rank}'**
+  String profileCountryRank(int rank);
+
+  /// No description provided for @profilePlayTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time played: {hours} h'**
+  String profilePlayTime(int hours);
+
+  /// No description provided for @profileMaximumCombo.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum combo: {combo}'**
+  String profileMaximumCombo(int combo);
+
+  /// No description provided for @languageChangeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to save the language.'**
+  String get languageChangeFailed;
+
+  /// No description provided for @languageSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageSelection;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
 }
 
 class _AppLocalizationsDelegate

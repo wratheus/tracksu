@@ -37,13 +37,107 @@
   "profileUnavailable": "Profile is unavailable. Try again.",
   "retry": "Retry",
   "profileId": "ID: {id}",
-  "@profileId": {"placeholders": {"id": {"type": "int"}}},
+  "@profileId": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
   "profilePerformance": "Performance: {pp}",
-  "@profilePerformance": {"placeholders": {"pp": {"type": "double"}}},
+  "@profilePerformance": {
+    "placeholders": {
+      "pp": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
   "profileCountry": "Country: {country}",
-  "@profileCountry": {"placeholders": {"country": {"type": "String"}}},
+  "@profileCountry": {
+    "placeholders": {
+      "country": {
+        "type": "String"
+      }
+    }
+  },
   "profileAccuracy": "Accuracy: {accuracy}%",
-  "@profileAccuracy": {"placeholders": {"accuracy": {"type": "double"}}},
+  "@profileAccuracy": {
+    "placeholders": {
+      "accuracy": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
+  },
   "profilePlayCount": "Play count: {count}",
-  "@profilePlayCount": {"placeholders": {"count": {"type": "int"}}}
+  "@profilePlayCount": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "profileSearchIntroduction": "Find an osu! player to view their profile and statistics. No sign-in required.",
+  "profileSearchHelp": "Use @ before a numeric username.",
+  "profileSearch": "Find player",
+  "profileRefreshing": "Updating profile",
+  "profileRefresh": "Refresh",
+  "profileShowingPreviousData": "Update failed. Previously loaded data is shown.",
+  "profileNotFound": "Player not found. Check the name or ID.",
+  "profileAccessDenied": "Access denied by osu!. For your own profile, try signing in again.",
+  "profileRateLimited": "Too many requests. Wait before trying again.",
+  "profileConnectionFailed": "Cannot connect. Check your connection and try again.",
+  "profileInvalidResponse": "The server returned an unsupported profile response.",
+  "profileOnline": "Online",
+  "profileOffline": "Offline",
+  "profileSupporter": "osu!supporter",
+  "profileNoStatistics": "No statistics for this ruleset yet.",
+  "profileUnranked": "No global rank",
+  "profileGlobalRank": "Global rank: #{rank}",
+  "profileCountryRank": "Country rank: #{rank}",
+  "profilePlayTime": "Time played: {hours} h",
+  "profileMaximumCombo": "Maximum combo: {combo}",
+  "languageChangeFailed": "Unable to save the language.",
+  "languageSelection": "Language",
+  "account": "Account",
+  "@profileGlobalRank": {
+    "placeholders": {
+      "rank": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "@profileCountryRank": {
+    "placeholders": {
+      "rank": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "@profilePlayTime": {
+    "placeholders": {
+      "hours": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "@profileMaximumCombo": {
+    "placeholders": {
+      "combo": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  }
 }

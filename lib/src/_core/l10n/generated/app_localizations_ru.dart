@@ -137,7 +137,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String profilePerformance(double pp) {
-    return 'Рейтинг: $pp';
+    final intl.NumberFormat ppNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 2,
+        );
+    final String ppString = ppNumberFormat.format(pp);
+
+    return 'Рейтинг: $ppString';
   }
 
   @override
@@ -147,11 +154,124 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String profileAccuracy(double accuracy) {
-    return 'Точность: $accuracy%';
+    final intl.NumberFormat accuracyNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 2,
+        );
+    final String accuracyString = accuracyNumberFormat.format(accuracy);
+
+    return 'Точность: $accuracyString%';
   }
 
   @override
   String profilePlayCount(int count) {
-    return 'Количество игр: $count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Количество игр: $countString';
   }
+
+  @override
+  String get profileSearchIntroduction =>
+      'Найдите игрока osu!, чтобы посмотреть профиль и статистику. Вход не нужен.';
+
+  @override
+  String get profileSearchHelp =>
+      'Для числового имени добавьте @ перед именем.';
+
+  @override
+  String get profileSearch => 'Найти игрока';
+
+  @override
+  String get profileRefreshing => 'Обновление профиля';
+
+  @override
+  String get profileRefresh => 'Обновить';
+
+  @override
+  String get profileShowingPreviousData =>
+      'Обновление не удалось. Показаны ранее загруженные данные.';
+
+  @override
+  String get profileNotFound => 'Игрок не найден. Проверьте имя или ID.';
+
+  @override
+  String get profileAccessDenied =>
+      'osu! отказал в доступе. Для своего профиля попробуйте войти заново.';
+
+  @override
+  String get profileRateLimited =>
+      'Слишком много запросов. Подождите перед повтором.';
+
+  @override
+  String get profileConnectionFailed =>
+      'Не удалось подключиться. Проверьте интернет и повторите.';
+
+  @override
+  String get profileInvalidResponse =>
+      'Сервер вернул неподдерживаемый ответ профиля.';
+
+  @override
+  String get profileOnline => 'В сети';
+
+  @override
+  String get profileOffline => 'Не в сети';
+
+  @override
+  String get profileSupporter => 'osu!supporter';
+
+  @override
+  String get profileNoStatistics => 'Для этого режима пока нет статистики.';
+
+  @override
+  String get profileUnranked => 'Нет места в мировом рейтинге';
+
+  @override
+  String profileGlobalRank(int rank) {
+    final intl.NumberFormat rankNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String rankString = rankNumberFormat.format(rank);
+
+    return 'Мировой рейтинг: #$rankString';
+  }
+
+  @override
+  String profileCountryRank(int rank) {
+    final intl.NumberFormat rankNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String rankString = rankNumberFormat.format(rank);
+
+    return 'Рейтинг страны: #$rankString';
+  }
+
+  @override
+  String profilePlayTime(int hours) {
+    final intl.NumberFormat hoursNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String hoursString = hoursNumberFormat.format(hours);
+
+    return 'Время игры: $hoursString ч';
+  }
+
+  @override
+  String profileMaximumCombo(int combo) {
+    final intl.NumberFormat comboNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String comboString = comboNumberFormat.format(combo);
+
+    return 'Максимальное комбо: $comboString';
+  }
+
+  @override
+  String get languageChangeFailed => 'Не удалось сохранить язык.';
+
+  @override
+  String get languageSelection => 'Язык';
+
+  @override
+  String get account => 'Аккаунт';
 }

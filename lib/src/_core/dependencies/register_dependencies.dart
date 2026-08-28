@@ -5,6 +5,8 @@ import 'package:tracksu/src/auth/data/auth_repository_impl.dart';
 import 'package:tracksu/src/auth/data/local_osu_oauth_client_credentials.dart';
 import 'package:tracksu/src/auth/data/oauth_client_credentials.dart';
 import 'package:tracksu/src/auth/data/osu_oauth_remote_source.dart';
+import 'package:tracksu/src/auth/data/public_access_repository_impl.dart';
+import 'package:tracksu/src/_core/network/osu_public_authorization_interceptor.dart';
 import 'package:tracksu/src/auth/domain/auth_repository.dart';
 import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
 import 'package:tracksu/src/_core/dependencies/deps_container.dart';
@@ -12,8 +14,6 @@ import 'package:tracksu/src/_core/network/osu_authorization_interceptor.dart';
 import 'package:tracksu/src/_core/network/osu_api_headers_interceptor.dart';
 import 'package:tracksu/src/_core/l10n/locale_controller.dart';
 import 'package:tracksu/src/_core/router/app_router.dart';
-import 'package:tracksu/src/profile/data/osu_profile_remote_source.dart';
-import 'package:tracksu/src/profile/data/profile_repository_impl.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
@@ -62,6 +62,22 @@ Future<DepsContainer> registerDependencies() async {
     ],
   );
 
+  final RestClient publicRestClient = HttpRestClient(
+    client: http.Client(),
+    baseUri: Uri.https('osu.ppy.sh', '/api/v2'),
+    interceptors: <RestClientInterceptor>[
+      const OsuApiHeadersInterceptor(),
+      OsuPublicAuthorizationInterceptor(
+        repository: PublicAccessRepositoryImpl(
+          remoteSource: OsuOAuthRemoteSource(
+            clientCredentials: oauthClientCredentials,
+            restClient: oauthRestClient,
+          ),
+        ),
+      ),
+    ],
+  );
+
   return DepsContainer(
     appRouter: TracksuAppRouter(
       initialOAuthCallbackUri: initialOAuthCallbackUri,
@@ -72,9 +88,7 @@ Future<DepsContainer> registerDependencies() async {
     oauthCallbackLinkSource: oauthCallbackLinkSource,
     oauthRestClient: oauthRestClient,
     oauthTransactionStore: oauthTransactionStore,
-    profileRepository: ProfileRepositoryImpl(
-      remoteSource: OsuProfileRemoteSource(restClient: restClient),
-    ),
+    publicRestClient: publicRestClient,
     restClient: restClient,
     sessionController: sessionController,
     tokenStore: tokenStore,

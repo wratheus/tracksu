@@ -233,18 +233,20 @@ final class HttpRestClient implements RestClient {
       );
     }
 
+    final Completer<void> timeoutAbort = Completer<void>();
     final http.AbortableRequest httpRequest = _createHttpRequest(
       request: interceptedRequest,
-      abortTrigger: cancellationToken?.whenCancelled,
+      abortTrigger: Future.any<void>(<Future<void>>[
+        timeoutAbort.future,
+        if (cancellationToken != null) cancellationToken.whenCancelled,
+      ]),
     );
 
     try {
-      final http.StreamedResponse streamedResponse = await _client
+      final http.Response response = await _client
           .send(httpRequest)
+          .then(http.Response.fromStream)
           .timeout(interceptedRequest.timeout);
-      final http.Response response = await http.Response.fromStream(
-        streamedResponse,
-      );
       RestResponse restResponse = RestResponse(
         statusCode: response.statusCode,
         headers: response.headers,
@@ -280,11 +282,14 @@ final class HttpRestClient implements RestClient {
         stackTrace: stackTrace,
       );
     } on TimeoutException catch (error, stackTrace) {
+      timeoutAbort.complete();
       throw RestRequestTimeoutException(
         uri: interceptedRequest.uri,
         cause: error,
         stackTrace: stackTrace,
       );
+    } on RestClientException {
+      rethrow;
     } on Object catch (error, stackTrace) {
       throw RestTransportException(
         uri: interceptedRequest.uri,
@@ -364,7 +369,10 @@ final class HttpRestClient implements RestClient {
 
   Uri _resolveUri(String path, Map<String, Object?> queryParameters) {
     final Uri pathUri = Uri.parse(path);
-    if (pathUri.hasScheme || pathUri.hasAuthority || pathUri.hasQuery) {
+    if (pathUri.hasScheme ||
+        pathUri.hasAuthority ||
+        pathUri.hasQuery ||
+        pathUri.hasFragment) {
       throw ArgumentError.value(
         path,
         'path',

@@ -133,7 +133,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String profilePerformance(double pp) {
-    return 'Performance: $pp';
+    final intl.NumberFormat ppNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 2,
+        );
+    final String ppString = ppNumberFormat.format(pp);
+
+    return 'Performance: $ppString';
   }
 
   @override
@@ -143,11 +150,123 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String profileAccuracy(double accuracy) {
-    return 'Accuracy: $accuracy%';
+    final intl.NumberFormat accuracyNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 2,
+        );
+    final String accuracyString = accuracyNumberFormat.format(accuracy);
+
+    return 'Accuracy: $accuracyString%';
   }
 
   @override
   String profilePlayCount(int count) {
-    return 'Play count: $count';
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Play count: $countString';
   }
+
+  @override
+  String get profileSearchIntroduction =>
+      'Find an osu! player to view their profile and statistics. No sign-in required.';
+
+  @override
+  String get profileSearchHelp => 'Use @ before a numeric username.';
+
+  @override
+  String get profileSearch => 'Find player';
+
+  @override
+  String get profileRefreshing => 'Updating profile';
+
+  @override
+  String get profileRefresh => 'Refresh';
+
+  @override
+  String get profileShowingPreviousData =>
+      'Update failed. Previously loaded data is shown.';
+
+  @override
+  String get profileNotFound => 'Player not found. Check the name or ID.';
+
+  @override
+  String get profileAccessDenied =>
+      'Access denied by osu!. For your own profile, try signing in again.';
+
+  @override
+  String get profileRateLimited =>
+      'Too many requests. Wait before trying again.';
+
+  @override
+  String get profileConnectionFailed =>
+      'Cannot connect. Check your connection and try again.';
+
+  @override
+  String get profileInvalidResponse =>
+      'The server returned an unsupported profile response.';
+
+  @override
+  String get profileOnline => 'Online';
+
+  @override
+  String get profileOffline => 'Offline';
+
+  @override
+  String get profileSupporter => 'osu!supporter';
+
+  @override
+  String get profileNoStatistics => 'No statistics for this ruleset yet.';
+
+  @override
+  String get profileUnranked => 'No global rank';
+
+  @override
+  String profileGlobalRank(int rank) {
+    final intl.NumberFormat rankNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String rankString = rankNumberFormat.format(rank);
+
+    return 'Global rank: #$rankString';
+  }
+
+  @override
+  String profileCountryRank(int rank) {
+    final intl.NumberFormat rankNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String rankString = rankNumberFormat.format(rank);
+
+    return 'Country rank: #$rankString';
+  }
+
+  @override
+  String profilePlayTime(int hours) {
+    final intl.NumberFormat hoursNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String hoursString = hoursNumberFormat.format(hours);
+
+    return 'Time played: $hoursString h';
+  }
+
+  @override
+  String profileMaximumCombo(int combo) {
+    final intl.NumberFormat comboNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String comboString = comboNumberFormat.format(combo);
+
+    return 'Maximum combo: $comboString';
+  }
+
+  @override
+  String get languageChangeFailed => 'Unable to save the language.';
+
+  @override
+  String get languageSelection => 'Language';
+
+  @override
+  String get account => 'Account';
 }

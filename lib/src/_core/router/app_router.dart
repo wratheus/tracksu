@@ -12,6 +12,14 @@ final class TracksuAppRouter {
   String get initialRoute =>
       initialOAuthCallbackUri == null ? '/' : _oauthCallbackRoute;
 
+  Future<void> openLogin(BuildContext context) async {
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        builder: (_) => const LoginScreen(startAuthorizationOnOpen: true),
+      ),
+    );
+  }
+
   Route<void> onGenerateRoute(RouteSettings settings) {
     if (settings.name == _oauthCallbackRoute) {
       return MaterialPageRoute<void>(
