@@ -260,6 +260,12 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get profileTitle;
 
+  /// No description provided for @profileSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Username or ID'**
+  String get profileSearchHint;
+
   /// No description provided for @rulesetOsu.
   ///
   /// In en, this message translates to:

@@ -27,6 +27,7 @@
   "authorizationIncomplete": "Авторизация не была завершена. Повторите попытку.",
   "viewMyProfile": "Мой профиль",
   "profileTitle": "Профиль",
+  "profileSearchHint": "Имя пользователя или ID",
   "rulesetOsu": "osu!",
   "rulesetTaiko": "taiko",
   "rulesetFruits": "catch",

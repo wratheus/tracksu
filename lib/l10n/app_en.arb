@@ -27,6 +27,7 @@
   "authorizationIncomplete": "Authorization was not completed. Try again.",
   "viewMyProfile": "View my profile",
   "profileTitle": "Profile",
+  "profileSearchHint": "Username or ID",
   "rulesetOsu": "osu!",
   "rulesetTaiko": "taiko",
   "rulesetFruits": "catch",

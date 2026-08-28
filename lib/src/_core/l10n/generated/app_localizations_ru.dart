@@ -103,6 +103,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileTitle => 'Профиль';
 
   @override
+  String get profileSearchHint => 'Имя пользователя или ID';
+
+  @override
   String get rulesetOsu => 'osu!';
 
   @override
