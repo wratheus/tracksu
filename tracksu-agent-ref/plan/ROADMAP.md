@@ -17,14 +17,15 @@
 | Порядок / ID | Следующий цельный результат | Статус |
 | --- | --- | --- |
 | 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
-| 2 · [P07 + P07.1](DETAILS.md#p07) | Единый tracksu_ui, темы light/dark/ThemeMode, читаемые AppBar и кнопки, phone-only shell; вынос l10n в пакет, перевод auth; без responsive desktop | backlog |
-| 3 · [P10](DETAILS.md#features) | Scores и карты профиля: актуальные DTO, независимые состояния, lazy slivers, пагинация, пустые/ошибочные ответы, один флаг legacy: false с возможностью переключения | backlog |
-| 4 · [P11](DETAILS.md#features) | Рейтинги: фильтры/страницы без гонок, потерь строк и сброса scroll position | backlog |
-| 5 · [P12](DETAILS.md#features) | Beatmap/leaderboard: typed navigation, новые score/mods, возврат назад | backlog |
-| 6 · [P13](DETAILS.md#features) | Новости: список, безопасный HTML и ссылки, ошибки/пагинация | backlog |
-| 7 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade, базовые действия и UI binding, privacy/consent; выбрать Firebase environment | backlog |
-| 8 · [P01.2](DETAILS.md#p01-2) | Аудит assets: происхождение/права, вес, usage, дубли/форматы; заменить или удалить лишнее | backlog |
-| 9 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |
+| 2 · [P10](DETAILS.md#features) | Scores и карты профиля: актуальные DTO, независимые состояния, lazy slivers, пагинация, пустые/ошибочные ответы, один флаг legacy: false с возможностью переключения | backlog |
+| 3 · [P12](DETAILS.md#features) | Beatmap/leaderboard: переход из профиля, typed navigation, новые score/mods, возврат назад | backlog |
+| 4 · [P11](DETAILS.md#features) | Рейтинги: фильтры/страницы без гонок, потерь строк и сброса scroll position; доступ из mobile shell | backlog |
+| 5 · [P13](DETAILS.md#features) | Новости: список, безопасный HTML и ссылки, ошибки/пагинация; доступ из mobile shell | backlog |
+| 6 · [P01.2](DETAILS.md#p01-2) | Аудит assets: происхождение/права, вес, usage, дубли/форматы; основа согласования визуального направления | backlog |
+| 7 · [P07 — планирование](DETAILS.md#p07) | Согласовать с пользователем аккуратный osu!-стиль, пригодные assets, палитру/шрифты/иконки, состояния и примеры ключевых экранов. Не реализовывать темы до согласования | backlog |
+| 8 · [P07 + P07.1 — реализация](DETAILS.md#p07) | После согласования: tracksu_ui, единые light/dark/ThemeMode, AppBar/кнопки, вынос l10n в пакет. Не блокирует функциональный перенос страниц | backlog |
+| 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade, базовые действия и UI binding, privacy/consent; выбрать Firebase environment | backlog |
+| 10 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |
 | По срезам · [P16](DETAILS.md#p16) | Удалять заменённый legacy по usages, routes и assets; убрать curved_navigation_bar/fluttericon после последних consumers. История Git вместо вечных bridges | backlog |
 | До выпуска · [P08](DETAILS.md#p08) | Полный ручной auth/session flow, решение об очистке/миграции старого storage, восстановление после ошибок; новый guest token не пользовательская сессия | backlog |
 | До выпуска · [P02 + P06](DETAILS.md#p02) | Scripts/CI format-analyze-build без тестов; устранить legacy analyzer debt, проверить оставшиеся plugins; общий error reporting/lifetime по фактическим consumers | backlog |
@@ -36,9 +37,23 @@
 | [P17](DETAILS.md#p17) | BFF с callback/token exchange, убрать secret из binary, выбрать domain/hosting/stack после client MVP | deferred |
 | [T01](DETAILS.md#t01) | Автотесты — только по отдельному решению; не пишем и не запускаем параллельно | deferred |
 
-Следующая рекомендуемая большая задача после проверки P09 — **UI kit + единая
-темизация + пакет локализации**, затем scores. Это инфраструктура для всех
-следующих экранов; не нужно заново дробить её на «добавить одну кнопку».
+Следующая большая задача после проверки P09 — **scores и списки карт профиля
+(P10)**, затем связанный экран beatmap (P12). Приоритет — восстановление
+функциональности, а не редизайн. P09 заменяет только поиск/шапку/статистику,
+не весь legacy user_page и его вложенные сценарии.
+
+Переносим пользовательские сценарии, не файлы один к одному: user_page/
+user_tab_page → profile и его секции; beatmap_page → beatmap; rankings_page/
+rankings_tab_page → rankings; last_news_page → news. HomePage/mobile navigation
+восстанавливаем по мере подключения разделов без curved_navigation_bar.
+authorization_page ещё требует переноса из legacy presentation; error_page —
+замены локальными typed error states. Desktop-ветки не переносим: удаляем после
+проверки imports/consumers вместе с соответствующим срезом P16.
+
+До P07 используем текущее временное оформление и изолированные widgets,
+не вводим новую палитру/брендинг. Локализация новых экранов продолжает работать
+через существующие ARB/context.t и не ждёт редизайна. Аудит assets → визуальный
+план/примеры → согласование пользователя → реализация тем и UI kit.
 
 ## Уже принятые решения — не спрашивать повторно
 
