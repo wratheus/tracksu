@@ -1,67 +1,90 @@
-## removed from playmarket (reason: outdated playmarket info and deprecated osu api /v)
+# Tracksu
 
+Неофициальный Flutter-клиент для просмотра статистики osu!. Проект проходит
+поэтапную переработку; это рабочая Android-версия, не готовый новый релиз.
 
-<p align="center">
-  <img src="https://i.imgur.com/2qgZ0aL.png" alt="application" width="216" />
-</p>
-<p align="left">
-Tracksu is Dart / Flutter Android app which visualises data provided by osu! API
-that could be useful for phone users.
+## Что сейчас доступно
 
-<b> Current features:</b></br>
-<ul>
+- Старт без авторизации: поиск игрока по имени или ID, статистика четырёх режимов.
+- Для числового имени — префикс `@`, например `@12345`; без него число означает ID.
+- Обновление профиля с сохранением данных, сообщения об ошибках и повтор.
+- Дополнительный вход через браузер osu!, свой профиль и локальный выход
+  через меню аккаунта справа сверху.
+- Английский/русский интерфейс нового профиля и сохранённый выбор языка.
 
-  <li><b>Leaderboard: </b></br>
-  Displays world statistic by performance points. 
-  Leaderboard can be filtered by friends or country. 
-  Now it support all of osu! game mods.
-<li><b>User page: </b></br>
-user statistics in every game mode (rank, rank by country,
-accuracy points, performance points, etc, the total time of the game, the number of ranks received, scores);
-<li><b>Beatmap information: </b></br>
-beatmap information: map duration, difficulty, combo, AR OD CS HP;
-<li><b>News: </b></br>
-Displays last news from osu! website;
-</ul>
-</p>      
-Android look
-<p align="center">
-  <img src="https://i.imgur.com/sAJppQf.png" alt="application" width="1000" />
-</p>
+Scores, рейтинги, карты, новости и audio ещё находятся в legacy-коде и не
+объявляются готовыми функциями нового shell. UI kit/единые темы — следующий
+этап, поэтому нынешнее оформление временное.
 
-# Update log:
-<p>
-<b>Update (ver 1.21):</b> 🧚
-<ul>
-<li>Add a filter by country to the rankings;
-<li>Optimize the user's loading;
-<li>Add the display information that the user shows about himself in the profile: social networks, interests, a block with his custom info, etc.;
-<li>Add info for mappers and created/graveyard/ranked maps;
-<li>Re-style application by refactoring flex widgets, adding shadows, gradients etc..
-<li>Refactoring code to adaptive for Windows;
-<li>Added IOS adaptive support;
-</ul>
-<b>What we will probably add in future (for ver 1.3):</b>
-<ul>
-<li>Implementing a map search;
-<li>Adding the playcount and rank charts to the profile;
-<li>Adding a performance score counter.
-<li>Adding beatmaps difficulties
-</ul>
+## Локальный запуск
 
-# Download
-You can find the newest source-code build at the [Releases page ](https://github.com/Wratheus/osu-Track/releases/latest); </br>
-# Obtaining osu!api v2 OAuth Client Credentials
-<ol>
-<li>Go to the OAuth section on the account settings page and create a new OAuth Application.</li>
-<li>Give it a name you want. (You don't need to set a Callback URL)</li>
-<li>Register your Application and copy the ID and Secret into the app.</li>
-</ol>
+Требования: FVM, Flutter **3.47.2** / Dart **3.13**, Android SDK, JDK **25**.
+Android использует AGP **9.3.2**, Gradle **9.7.1**, JVM target **21**,
+compileSdk **37**, minSdk **26**. Pub workspace находится в корне.
 
-# Resources
-<b>This project uses resources form the following projects:</b>
-<ul>
-<li>osu! API documentation - https://osu.ppy.sh/docs/index.html#introduction</li>
-<li>osu! Assets - https://github.com/ppy/osu-resources</li>
-<li>osu! rythm game - https://osu.ppy.sh/ | https://github.com/ppy/osu </li>
-</ul>
+1. Установить закреплённый Flutter: `fvm install`.
+2. Создать локальный `.env` по `.env.example` и заполнить
+   `OSU_CLIENT_ID` / `OSU_CLIENT_SECRET`. Не коммитить и не публиковать значения.
+3. Получить зависимости и сгенерировать конфигурацию/локализацию:
+
+```sh
+fvm flutter pub get
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm flutter gen-l10n
+fvm flutter run
+```
+
+После изменения .env повторить build_runner. Generated environment ignored;
+его не редактируем вручную. Envied затрудняет чтение строки, но не делает
+client secret недоступным в binary. Перенос на BFF предусмотрен отдельно.
+
+Для пользовательского OAuth зарегистрированный callback должен точно совпадать:
+`https://wratheus.github.io/oauth/osu/callback/`. Android App Links дополнительно
+требуют корректного fingerprint подписи на внешнем Pages hosting. Локальный
+debug keystore на другом компьютере может иметь другой fingerprint.
+Guest client-credentials flow браузер/callback не использует.
+
+## Структура и проверки
+
+- `lib/src/_core` — bootstrap/DI, router, network policy, l10n/config.
+- `lib/src/profile` — Main → source/repository → Bloc → widgets;
+  source возвращает raw payload, repository создаёт DTO/domain.
+- `lib/src/auth`, `lib/src/session` — OAuth и пользовательская сессия;
+  гостевой token cache изолирован и хранится только в памяти.
+- `packages/tracksu_network` — REST поверх http, interceptors/options/payload.
+- `packages/tracksu_storage` — secure tokens, callback transaction и locale.
+- Старые `pages/models/requests/widgets` удаляются по мере замены consumers,
+  а не используются как архитектурный образец для новых features.
+
+```sh
+fvm dart analyze lib/src/profile lib/src/guest lib/src/auth lib/src/session lib/src/_core packages/tracksu_network
+fvm flutter analyze --no-pub
+fvm flutter build apk --debug
+```
+
+Полный analyzer пока выявляет legacy debt; локальный clean gate не означает
+clean всего репозитория. Автотесты сейчас намеренно не пишутся и не запускаются:
+поведение проверяется вручную.
+
+APK: `build/app/outputs/flutter-apk/app-debug.apk`.
+Все variants пока используют **debug signing**; это не production-конфигурация.
+Новый ID: `io.github.wratheus.tracksu`. Старое обновление приложения/подпись не
+гарантируются. iOS host удалён, будет создан отдельно после Android.
+
+## План и документация
+
+Начинать с [активной очереди](tracksu-agent-ref/plan/ROADMAP.md).
+[Карточка профиля и ручная проверка](tracksu-agent-ref/plan/work/P09-profile-explorer.md),
+[реализованная основа](tracksu-agent-ref/plan/IMPLEMENTED.md),
+[правила работы](tracksu-agent-ref/workflow/PLAYBOOK.md),
+[CHANGELOG](CHANGELOG.md). Документация хранится только в этом репозитории.
+
+## Источники и права
+
+Проект не является официальным приложением osu! и не заявляет одобрения ppy.
+Используемые источники:
+[osu! API](https://osu.ppy.sh/docs/index.html),
+[osu-resources](https://github.com/ppy/osu-resources),
+[osu!](https://github.com/ppy/osu).
+Упоминание источника не заменяет лицензию: аудит происхождения, прав и веса
+bundled assets остаётся отдельной задачей P01.2 перед выпуском.

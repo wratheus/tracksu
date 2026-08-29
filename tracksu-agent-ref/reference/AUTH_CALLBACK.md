@@ -1,5 +1,11 @@
 # Зачем Tracksu использовал GitHub Pages и что можно заменить
 
+> Исторический аудит legacy от 2026-09-04, не текущая инструкция настройки.
+> Сейчас используется внешний браузер + App Links, typed callback parser и
+> сохранённый state. Callback: `https://wratheus.github.io/oauth/osu/callback/`.
+> Актуальный запуск описан в корневом README; результаты основы — IMPLEMENTED.
+> Ниже сохранены причины прежних решений; WebView flow уже заменён.
+
 2026-09-04 · предварительное исследование для P05. Legacy Pages source позже
 удалён из repository по явному решению пользователя; приложение, OAuth
 registration и внешний hosting этим документом не менялись.
