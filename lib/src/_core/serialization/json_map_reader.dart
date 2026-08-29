@@ -17,6 +17,21 @@ final class JsonMapReader {
     };
   }
 
+  double? optionalDouble(String key) {
+    return switch (_json[key]) {
+      null => null,
+      final num value => value.toDouble(),
+      _ => throw FormatException('$key must be a number or null.'),
+    };
+  }
+
+  List<dynamic> requiredList(String key) {
+    return switch (_json[key]) {
+      final List<dynamic> value => value,
+      _ => throw FormatException('$key must be an array.'),
+    };
+  }
+
   int requiredInt(String key, {bool positive = false}) {
     return switch (_json[key]) {
       final int value when !positive || value > 0 => value,

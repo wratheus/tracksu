@@ -17,7 +17,7 @@
 | Порядок / ID | Следующий цельный результат | Статус |
 | --- | --- | --- |
 | 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
-| 2 · [P10](DETAILS.md#features) | Scores и карты профиля: актуальные DTO, независимые состояния, lazy slivers, пагинация, пустые/ошибочные ответы, один флаг legacy: false с возможностью переключения | backlog |
+| 2 · [P10](work/P10-scores.md) | Data-контракт best/recent подготовлен; дальше Bloc и lazy sliver list, состояния/пагинация и карты профиля. legacy: false по умолчанию, переключение предусмотрено | in_progress |
 | 3 · [P12](DETAILS.md#features) | Beatmap/leaderboard: переход из профиля, typed navigation, новые score/mods, возврат назад | backlog |
 | 4 · [P11](DETAILS.md#features) | Рейтинги: фильтры/страницы без гонок, потерь строк и сброса scroll position; доступ из mobile shell | backlog |
 | 5 · [P13](DETAILS.md#features) | Новости: список, безопасный HTML и ссылки, ошибки/пагинация; доступ из mobile shell | backlog |

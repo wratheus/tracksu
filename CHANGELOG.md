@@ -4,6 +4,9 @@
 
 ### Added
 
+- Profile scores data foundation (best/recent): typed query/page/summary,
+  cancellation, modern score parsing and domain failures. Not connected to UI yet.
+
 - Guest-first player lookup by username/ID, optional account menu and own profile.
 - Four rulesets for the selected player; rank, accuracy, performance, play count,
   play time, maximum combo and explicit missing-statistics state.
