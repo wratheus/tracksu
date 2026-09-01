@@ -1,6 +1,6 @@
 # P10 — scores профиля
 
-## Шаг 1: data-контракт (6fbd111)
+## Шаг 1: data-контракт (084bd41)
 
 Сетевой/data-контракт best/recent: typed query, limit/offset, единая policy
 legacy=false, отмена, raw source → DTO → domain repository. Образец — P09.
