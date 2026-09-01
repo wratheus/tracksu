@@ -16,10 +16,22 @@ final class ProfileScoreDto {
     required this.pp,
     required this.endedAt,
     required this.mods,
+    this.beatmapTitle,
+    this.artist,
+    this.difficulty,
   });
 
   factory ProfileScoreDto.fromJson(Map<String, dynamic> json) {
     final JsonMapReader reader = JsonMapReader(json);
+    final Map<String, dynamic>? beatmap = reader.optionalMap('beatmap');
+    final Map<String, dynamic>? beatmapset = reader.optionalMap('beatmapset');
+    final int beatmapId = reader.requiredInt('beatmap_id', positive: true);
+    if (beatmap != null &&
+        JsonMapReader(beatmap).requiredInt('id', positive: true) != beatmapId) {
+      throw const FormatException(
+        'Nested beatmap does not match score beatmap.',
+      );
+    }
     final List<String> mods = <String>[];
     for (final Object? item in reader.requiredList('mods')) {
       if (item is! Map<String, dynamic>) {
@@ -31,7 +43,7 @@ final class ProfileScoreDto {
     }
     return ProfileScoreDto(
       id: reader.requiredInt('id', positive: true),
-      beatmapId: reader.requiredInt('beatmap_id', positive: true),
+      beatmapId: beatmapId,
       userId: reader.requiredInt('user_id', positive: true),
       rulesetId: reader.requiredInt('ruleset_id'),
       accuracy: reader.requiredDouble('accuracy'),
@@ -42,6 +54,15 @@ final class ProfileScoreDto {
       pp: reader.optionalDouble('pp'),
       endedAt: reader.requiredString('ended_at'),
       mods: List<String>.unmodifiable(mods),
+      beatmapTitle: beatmapset == null
+          ? null
+          : JsonMapReader(beatmapset).requiredString('title'),
+      artist: beatmapset == null
+          ? null
+          : JsonMapReader(beatmapset).requiredString('artist'),
+      difficulty: beatmap == null
+          ? null
+          : JsonMapReader(beatmap).requiredString('version'),
     );
   }
 
@@ -57,6 +78,9 @@ final class ProfileScoreDto {
   final double? pp;
   final String endedAt;
   final List<String> mods;
+  final String? beatmapTitle;
+  final String? artist;
+  final String? difficulty;
 
   ProfileScore toDomain() {
     if (!accuracy.isFinite ||
@@ -90,6 +114,9 @@ final class ProfileScoreDto {
       performancePoints: pp,
       endedAt: DateTime.parse(endedAt).toUtc(),
       mods: mods,
+      beatmapTitle: beatmapTitle,
+      artist: artist,
+      difficulty: difficulty,
     );
   }
 }

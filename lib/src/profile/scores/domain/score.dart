@@ -15,6 +15,9 @@ final class ProfileScore {
     required this.performancePoints,
     required this.endedAt,
     required List<String> mods,
+    this.beatmapTitle,
+    this.artist,
+    this.difficulty,
   }) : mods = List<String>.unmodifiable(mods);
 
   final int id;
@@ -33,6 +36,9 @@ final class ProfileScore {
 
   /// Display acronyms, not a complete mod-settings model.
   final List<String> mods;
+  final String? beatmapTitle;
+  final String? artist;
+  final String? difficulty;
 }
 
 final class ProfileScoresPage {

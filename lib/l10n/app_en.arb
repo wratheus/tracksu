@@ -139,5 +139,71 @@
         "format": "decimalPattern"
       }
     }
+  },
+  "scoresTitle": "Scores",
+  "scoresBest": "Best",
+  "scoresRecent": "Recent",
+  "scoresRefresh": "Refresh scores",
+  "scoresLoading": "Loading scores…",
+  "scoresEmpty": "No scores found for this player and ruleset.",
+  "scoresLoadMore": "Load more",
+  "scoresKeepingContent": "Previously loaded scores are still shown.",
+  "scoresCancelled": "Loading was cancelled.",
+  "scoresNotFound": "Scores could not be found.",
+  "scoresAccessDenied": "osu! denied access to scores.",
+  "scoresInvalidResponse": "The server returned an unsupported score response.",
+  "scoresUnavailable": "Scores are temporarily unavailable.",
+  "scoresNoMods": "No mods",
+  "scoresNoPp": "PP unavailable",
+  "scoresFailedPlay": "Failed play",
+  "scoresBeatmap": "Beatmap #{id}",
+  "scoresGrade": "Grade: {grade}",
+  "scoresCombo": "Combo: {combo}",
+  "scoresTotal": "Score: {total}",
+  "scoresMods": "Mods: {mods}",
+  "scoresPlayedAt": "Played: {date}",
+  "@scoresBeatmap": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "@scoresGrade": {
+    "placeholders": {
+      "grade": {
+        "type": "String"
+      }
+    }
+  },
+  "@scoresCombo": {
+    "placeholders": {
+      "combo": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "@scoresTotal": {
+    "placeholders": {
+      "total": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "@scoresMods": {
+    "placeholders": {
+      "mods": {
+        "type": "String"
+      }
+    }
+  },
+  "@scoresPlayedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }

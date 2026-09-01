@@ -481,6 +481,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account'**
   String get account;
+
+  /// No description provided for @scoresTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scores'**
+  String get scoresTitle;
+
+  /// No description provided for @scoresBest.
+  ///
+  /// In en, this message translates to:
+  /// **'Best'**
+  String get scoresBest;
+
+  /// No description provided for @scoresRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get scoresRecent;
+
+  /// No description provided for @scoresRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh scores'**
+  String get scoresRefresh;
+
+  /// No description provided for @scoresLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading scores…'**
+  String get scoresLoading;
+
+  /// No description provided for @scoresEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No scores found for this player and ruleset.'**
+  String get scoresEmpty;
+
+  /// No description provided for @scoresLoadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more'**
+  String get scoresLoadMore;
+
+  /// No description provided for @scoresKeepingContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Previously loaded scores are still shown.'**
+  String get scoresKeepingContent;
+
+  /// No description provided for @scoresCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading was cancelled.'**
+  String get scoresCancelled;
+
+  /// No description provided for @scoresNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Scores could not be found.'**
+  String get scoresNotFound;
+
+  /// No description provided for @scoresAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'osu! denied access to scores.'**
+  String get scoresAccessDenied;
+
+  /// No description provided for @scoresInvalidResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'The server returned an unsupported score response.'**
+  String get scoresInvalidResponse;
+
+  /// No description provided for @scoresUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Scores are temporarily unavailable.'**
+  String get scoresUnavailable;
+
+  /// No description provided for @scoresNoMods.
+  ///
+  /// In en, this message translates to:
+  /// **'No mods'**
+  String get scoresNoMods;
+
+  /// No description provided for @scoresNoPp.
+  ///
+  /// In en, this message translates to:
+  /// **'PP unavailable'**
+  String get scoresNoPp;
+
+  /// No description provided for @scoresFailedPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed play'**
+  String get scoresFailedPlay;
+
+  /// No description provided for @scoresBeatmap.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmap #{id}'**
+  String scoresBeatmap(int id);
+
+  /// No description provided for @scoresGrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade: {grade}'**
+  String scoresGrade(String grade);
+
+  /// No description provided for @scoresCombo.
+  ///
+  /// In en, this message translates to:
+  /// **'Combo: {combo}'**
+  String scoresCombo(int combo);
+
+  /// No description provided for @scoresTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Score: {total}'**
+  String scoresTotal(int total);
+
+  /// No description provided for @scoresMods.
+  ///
+  /// In en, this message translates to:
+  /// **'Mods: {mods}'**
+  String scoresMods(String mods);
+
+  /// No description provided for @scoresPlayedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Played: {date}'**
+  String scoresPlayedAt(String date);
 }
 
 class _AppLocalizationsDelegate

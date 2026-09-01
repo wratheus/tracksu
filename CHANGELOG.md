@@ -5,7 +5,10 @@
 ### Added
 
 - Profile scores data foundation (best/recent): typed query/page/summary,
-  cancellation, modern score parsing and domain failures. Not connected to UI yet.
+  cancellation, modern score parsing and domain failures.
+- Best/recent scores section in the guest profile: lazy sliver cards, independent
+  refresh, load-more/retry, duplicate ID suppression and player/ruleset lifecycle.
+  Card metadata comes from the same response; there are no per-row API requests.
 
 - Guest-first player lookup by username/ID, optional account menu and own profile.
 - Four rulesets for the selected player; rank, accuracy, performance, play count,

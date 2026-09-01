@@ -139,5 +139,71 @@
         "format": "decimalPattern"
       }
     }
+  },
+  "scoresTitle": "Результаты",
+  "scoresBest": "Лучшие",
+  "scoresRecent": "Последние",
+  "scoresRefresh": "Обновить результаты",
+  "scoresLoading": "Загрузка результатов…",
+  "scoresEmpty": "У игрока нет результатов для этого режима.",
+  "scoresLoadMore": "Загрузить ещё",
+  "scoresKeepingContent": "Ранее загруженные результаты сохранены.",
+  "scoresCancelled": "Загрузка отменена.",
+  "scoresNotFound": "Результаты не найдены.",
+  "scoresAccessDenied": "osu! отказал в доступе к результатам.",
+  "scoresInvalidResponse": "Сервер вернул неподдерживаемый ответ результатов.",
+  "scoresUnavailable": "Результаты временно недоступны.",
+  "scoresNoMods": "Без модов",
+  "scoresNoPp": "PP недоступны",
+  "scoresFailedPlay": "Неудачная попытка",
+  "scoresBeatmap": "Карта №{id}",
+  "scoresGrade": "Оценка: {grade}",
+  "scoresCombo": "Комбо: {combo}",
+  "scoresTotal": "Счёт: {total}",
+  "scoresMods": "Моды: {mods}",
+  "scoresPlayedAt": "Сыграно: {date}",
+  "@scoresBeatmap": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "@scoresGrade": {
+    "placeholders": {
+      "grade": {
+        "type": "String"
+      }
+    }
+  },
+  "@scoresCombo": {
+    "placeholders": {
+      "combo": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "@scoresTotal": {
+    "placeholders": {
+      "total": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "@scoresMods": {
+    "placeholders": {
+      "mods": {
+        "type": "String"
+      }
+    }
+  },
+  "@scoresPlayedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }

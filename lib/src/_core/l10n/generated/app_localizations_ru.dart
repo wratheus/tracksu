@@ -274,4 +274,91 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get account => 'Аккаунт';
+
+  @override
+  String get scoresTitle => 'Результаты';
+
+  @override
+  String get scoresBest => 'Лучшие';
+
+  @override
+  String get scoresRecent => 'Последние';
+
+  @override
+  String get scoresRefresh => 'Обновить результаты';
+
+  @override
+  String get scoresLoading => 'Загрузка результатов…';
+
+  @override
+  String get scoresEmpty => 'У игрока нет результатов для этого режима.';
+
+  @override
+  String get scoresLoadMore => 'Загрузить ещё';
+
+  @override
+  String get scoresKeepingContent => 'Ранее загруженные результаты сохранены.';
+
+  @override
+  String get scoresCancelled => 'Загрузка отменена.';
+
+  @override
+  String get scoresNotFound => 'Результаты не найдены.';
+
+  @override
+  String get scoresAccessDenied => 'osu! отказал в доступе к результатам.';
+
+  @override
+  String get scoresInvalidResponse =>
+      'Сервер вернул неподдерживаемый ответ результатов.';
+
+  @override
+  String get scoresUnavailable => 'Результаты временно недоступны.';
+
+  @override
+  String get scoresNoMods => 'Без модов';
+
+  @override
+  String get scoresNoPp => 'PP недоступны';
+
+  @override
+  String get scoresFailedPlay => 'Неудачная попытка';
+
+  @override
+  String scoresBeatmap(int id) {
+    return 'Карта №$id';
+  }
+
+  @override
+  String scoresGrade(String grade) {
+    return 'Оценка: $grade';
+  }
+
+  @override
+  String scoresCombo(int combo) {
+    final intl.NumberFormat comboNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String comboString = comboNumberFormat.format(combo);
+
+    return 'Комбо: $comboString';
+  }
+
+  @override
+  String scoresTotal(int total) {
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return 'Счёт: $totalString';
+  }
+
+  @override
+  String scoresMods(String mods) {
+    return 'Моды: $mods';
+  }
+
+  @override
+  String scoresPlayedAt(String date) {
+    return 'Сыграно: $date';
+  }
 }

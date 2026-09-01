@@ -6,6 +6,7 @@ import 'package:tracksu/src/profile/domain/profile_failure.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/widgets/profile_summary.dart';
 import 'package:tracksu/src/profile/widgets/search_field.dart';
+import 'package:tracksu/src/profile/scores/main.dart';
 
 final class ProfileScreen extends StatelessWidget {
   const ProfileScreen({required this.actions, super.key});
@@ -143,6 +144,14 @@ final class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                           ProfileSummary(profile: state.profile),
+                          ProfileScoresMain(
+                            key: ValueKey<(int, ProfileRuleset)>((
+                              state.profile.id,
+                              state.ruleset,
+                            )),
+                            userId: state.profile.id,
+                            ruleset: state.ruleset,
+                          ),
                         ],
                       ),
                     },
