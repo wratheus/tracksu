@@ -490,4 +490,46 @@ class AppLocalizationsRu extends AppLocalizations {
   String beatmapDifficultyInfo(String mode, double stars, int seconds) {
     return '$mode · $stars ★ · $seconds с';
   }
+
+  @override
+  String get rankingsTitle => 'Рейтинги';
+
+  @override
+  String get rankingsScore => 'Очки';
+
+  @override
+  String get rankingsRefresh => 'Обновить рейтинг';
+
+  @override
+  String get rankingsEmpty => 'Игроки не найдены.';
+
+  @override
+  String get rankingsLoadMore => 'Загрузить ещё';
+
+  @override
+  String get rankingsLoading => 'Загрузка рейтинга…';
+
+  @override
+  String get rankingsKeepingContent =>
+      'Обновить не удалось. Показан ранее загруженный рейтинг.';
+
+  @override
+  String get rankingsCancelled => 'Загрузка отменена.';
+
+  @override
+  String get rankingsNotFound => 'Рейтинг не найден.';
+
+  @override
+  String get rankingsAccessDenied => 'Нет доступа к рейтингу.';
+
+  @override
+  String get rankingsInvalidResponse => 'Некорректный ответ рейтинга.';
+
+  @override
+  String get rankingsUnavailable => 'Не удалось загрузить рейтинг.';
+
+  @override
+  String rankingsRankedScore(int score) {
+    return 'Рейтинговые очки: $score';
+  }
 }

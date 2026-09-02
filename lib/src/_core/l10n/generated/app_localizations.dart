@@ -835,6 +835,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{mode} · {stars} ★ · {seconds} s'**
   String beatmapDifficultyInfo(String mode, double stars, int seconds);
+
+  /// No description provided for @rankingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rankings'**
+  String get rankingsTitle;
+
+  /// No description provided for @rankingsScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Score'**
+  String get rankingsScore;
+
+  /// No description provided for @rankingsRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh rankings'**
+  String get rankingsRefresh;
+
+  /// No description provided for @rankingsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No players found.'**
+  String get rankingsEmpty;
+
+  /// No description provided for @rankingsLoadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more players'**
+  String get rankingsLoadMore;
+
+  /// No description provided for @rankingsLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading rankings…'**
+  String get rankingsLoading;
+
+  /// No description provided for @rankingsKeepingContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update. Previously loaded rankings are shown.'**
+  String get rankingsKeepingContent;
+
+  /// No description provided for @rankingsCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading cancelled.'**
+  String get rankingsCancelled;
+
+  /// No description provided for @rankingsNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Ranking not found.'**
+  String get rankingsNotFound;
+
+  /// No description provided for @rankingsAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Ranking is not accessible.'**
+  String get rankingsAccessDenied;
+
+  /// No description provided for @rankingsInvalidResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'Unexpected ranking response.'**
+  String get rankingsInvalidResponse;
+
+  /// No description provided for @rankingsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load rankings.'**
+  String get rankingsUnavailable;
+
+  /// No description provided for @rankingsRankedScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Ranked score: {score}'**
+  String rankingsRankedScore(int score);
 }
 
 class _AppLocalizationsDelegate

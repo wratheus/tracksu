@@ -300,5 +300,25 @@
         "type": "int"
       }
     }
+  },
+  "rankingsTitle": "Rankings",
+  "rankingsScore": "Score",
+  "rankingsRefresh": "Refresh rankings",
+  "rankingsEmpty": "No players found.",
+  "rankingsLoadMore": "Load more players",
+  "rankingsLoading": "Loading rankings…",
+  "rankingsKeepingContent": "Could not update. Previously loaded rankings are shown.",
+  "rankingsCancelled": "Loading cancelled.",
+  "rankingsNotFound": "Ranking not found.",
+  "rankingsAccessDenied": "Ranking is not accessible.",
+  "rankingsInvalidResponse": "Unexpected ranking response.",
+  "rankingsUnavailable": "Could not load rankings.",
+  "rankingsRankedScore": "Ranked score: {score}",
+  "@rankingsRankedScore": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
   }
 }

@@ -4,6 +4,10 @@
 
 ### Added
 
+- Public performance/score rankings for four rulesets, accessible from the
+  profile toolbar: server cursor pagination, latest-wins filters, lazy rows,
+  refresh/load-more retry and English/Russian strings.
+
 - Typed navigation from profile scores and beatmap lists to beatmap details:
   difficulty selection, public top leaderboard, independent refresh/retry,
   cancellation on navigation and English/Russian strings.

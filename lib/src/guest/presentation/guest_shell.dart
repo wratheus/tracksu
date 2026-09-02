@@ -76,6 +76,12 @@ final class _AccountActionsState extends State<_AccountActions> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        IconButton(
+          tooltip: context.t.rankingsTitle,
+          icon: const Icon(Icons.leaderboard),
+          onPressed: () async =>
+              DepsScope.of(context).appRouter.openRankings(context),
+        ),
         PopupMenuButton<_LocaleSelection>(
           tooltip: context.t.languageSelection,
           icon: const Icon(Icons.language),

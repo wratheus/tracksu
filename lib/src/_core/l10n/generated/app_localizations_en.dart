@@ -486,4 +486,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String beatmapDifficultyInfo(String mode, double stars, int seconds) {
     return '$mode · $stars ★ · $seconds s';
   }
+
+  @override
+  String get rankingsTitle => 'Rankings';
+
+  @override
+  String get rankingsScore => 'Score';
+
+  @override
+  String get rankingsRefresh => 'Refresh rankings';
+
+  @override
+  String get rankingsEmpty => 'No players found.';
+
+  @override
+  String get rankingsLoadMore => 'Load more players';
+
+  @override
+  String get rankingsLoading => 'Loading rankings…';
+
+  @override
+  String get rankingsKeepingContent =>
+      'Could not update. Previously loaded rankings are shown.';
+
+  @override
+  String get rankingsCancelled => 'Loading cancelled.';
+
+  @override
+  String get rankingsNotFound => 'Ranking not found.';
+
+  @override
+  String get rankingsAccessDenied => 'Ranking is not accessible.';
+
+  @override
+  String get rankingsInvalidResponse => 'Unexpected ranking response.';
+
+  @override
+  String get rankingsUnavailable => 'Could not load rankings.';
+
+  @override
+  String rankingsRankedScore(int score) {
+    return 'Ranked score: $score';
+  }
 }

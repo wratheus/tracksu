@@ -300,5 +300,25 @@
         "type": "int"
       }
     }
+  },
+  "rankingsTitle": "Рейтинги",
+  "rankingsScore": "Очки",
+  "rankingsRefresh": "Обновить рейтинг",
+  "rankingsEmpty": "Игроки не найдены.",
+  "rankingsLoadMore": "Загрузить ещё",
+  "rankingsLoading": "Загрузка рейтинга…",
+  "rankingsKeepingContent": "Обновить не удалось. Показан ранее загруженный рейтинг.",
+  "rankingsCancelled": "Загрузка отменена.",
+  "rankingsNotFound": "Рейтинг не найден.",
+  "rankingsAccessDenied": "Нет доступа к рейтингу.",
+  "rankingsInvalidResponse": "Некорректный ответ рейтинга.",
+  "rankingsUnavailable": "Не удалось загрузить рейтинг.",
+  "rankingsRankedScore": "Рейтинговые очки: {score}",
+  "@rankingsRankedScore": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
   }
 }
