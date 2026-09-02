@@ -436,4 +436,58 @@ class AppLocalizationsRu extends AppLocalizations {
   String beatmapsPlayCount(int count) {
     return 'Игр: $count';
   }
+
+  @override
+  String get beatmapTitle => 'Карта';
+
+  @override
+  String get beatmapNotFound => 'Карта не найдена.';
+
+  @override
+  String get beatmapAccessDenied =>
+      'Нет доступа к карте или таблице результатов.';
+
+  @override
+  String get beatmapInvalidResponse => 'Некорректный ответ с данными карты.';
+
+  @override
+  String get beatmapUnavailable => 'Не удалось загрузить данные карты.';
+
+  @override
+  String get beatmapLeaderboard => 'Лучшие результаты';
+
+  @override
+  String get beatmapRefreshLeaderboard => 'Обновить результаты';
+
+  @override
+  String get beatmapNoScores => 'Нет доступных результатов.';
+
+  @override
+  String beatmapLeaderboardPlayer(int position, String name) {
+    return '№$position · $name';
+  }
+
+  @override
+  String beatmapPlayerId(int id) {
+    return 'Игрок №$id';
+  }
+
+  @override
+  String beatmapCreator(String name) {
+    return 'Автор: $name';
+  }
+
+  @override
+  String get beatmapRefresh => 'Обновить карту';
+
+  @override
+  String get beatmapDifficulties => 'Сложности';
+
+  @override
+  String get beatmapNoDifficulties => 'Нет доступных сложностей.';
+
+  @override
+  String beatmapDifficultyInfo(String mode, double stars, int seconds) {
+    return '$mode · $stars ★ · $seconds с';
+  }
 }

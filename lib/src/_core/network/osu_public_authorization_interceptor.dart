@@ -14,12 +14,17 @@ final class OsuPublicAuthorizationInterceptor
   bool _accepts(RestRequest request) =>
       request.uri.isScheme('https') &&
       request.uri.host == 'osu.ppy.sh' &&
-      request.uri.path.startsWith('/api/v2/users/');
+      request.method == RestMethod.get &&
+      (request.uri.path.startsWith('/api/v2/users/') ||
+          RegExp(r'^/api/v2/beatmaps/[1-9][0-9]*(/scores)?$')
+              .hasMatch(request.uri.path) ||
+          RegExp(r'^/api/v2/beatmapsets/[1-9][0-9]*$')
+              .hasMatch(request.uri.path));
 
   @override
   Future<RestRequest> onRequest(RestRequest request) async {
     if (!_accepts(request)) {
-      throw StateError('Public profile client cannot access this endpoint.');
+      throw StateError('Public API client cannot access this endpoint.');
     }
     final String token = await _repository.getAccessToken();
     return request.copyWith(

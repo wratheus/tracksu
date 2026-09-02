@@ -4,6 +4,10 @@
 
 ### Added
 
+- Typed navigation from profile scores and beatmap lists to beatmap details:
+  difficulty selection, public top leaderboard, independent refresh/retry,
+  cancellation on navigation and English/Russian strings.
+
 - Profile beatmap lists: eight categories, typed BeatmapPlaycount/beatmapset
   projections, independent cancellation and paged lazy slivers with English/
   Russian loading, empty and retry states. Refresh failures preserve content.
@@ -21,6 +25,10 @@
 - Localized search/errors/refresh in English and Russian, number formatting.
 
 ### Changed
+
+- Score DTO/model/card are shared by profile and leaderboard; no second parser.
+- Public client allows GET requests to numeric beatmap/beatmapset detail and
+  beatmap scores endpoints while retaining host/path restrictions.
 
 - Profile composition is local: Main, domain/data, Bloc parts, widgets.
 - Search/ruleset requests are latest-wins and cancel superseded transport work.

@@ -1,7 +1,8 @@
 import 'package:tracksu/src/auth/data/oauth_remote_source_exception.dart';
-import 'package:tracksu/src/profile/scores/data/score_dto.dart';
+import 'package:tracksu/src/_shared/scores/data/score_dto.dart';
 import 'package:tracksu/src/profile/scores/data/scores_remote_source.dart';
-import 'package:tracksu/src/profile/scores/domain/score.dart';
+import 'package:tracksu/src/_shared/scores/domain/score.dart';
+import 'package:tracksu/src/profile/scores/domain/scores_page.dart';
 import 'package:tracksu/src/profile/scores/domain/scores_query.dart';
 import 'package:tracksu/src/profile/scores/domain/scores_repository.dart';
 import 'package:tracksu_network/tracksu_network.dart';
@@ -35,12 +36,12 @@ final class ProfileScoresRepositoryImpl implements ProfileScoresRepository {
       if (token.isCancelled) {
         throw const ProfileScoresFailure(ProfileScoresFailureKind.cancelled);
       }
-      final List<ProfileScore> scores = <ProfileScore>[];
+      final List<OsuScore> scores = <OsuScore>[];
       for (final Object? item in payload) {
         if (item is! Map<String, dynamic>) {
           throw const FormatException('Expected a score object.');
         }
-        final ProfileScore score = ProfileScoreDto.fromJson(item).toDomain();
+        final OsuScore score = OsuScoreDto.fromJson(item).toDomain();
         if (score.userId != query.user.value ||
             score.ruleset != query.ruleset) {
           throw const FormatException(

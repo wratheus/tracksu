@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
+import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/scores/bloc/bloc.dart';
 import 'package:tracksu/src/profile/scores/domain/scores_query.dart';
 import 'package:tracksu/src/profile/scores/domain/scores_repository.dart';
-import 'package:tracksu/src/profile/scores/widgets/score_card.dart';
+import 'package:tracksu/src/_shared/scores/widgets/score_card.dart';
 
 final class ProfileScoresSection extends StatelessWidget {
   const ProfileScoresSection({super.key});
@@ -92,9 +96,18 @@ final class ProfileScoresSection extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     sliver: SliverList.builder(
                       itemCount: state.items.length,
-                      itemBuilder: (_, int index) => ProfileScoreCard(
+                      itemBuilder: (_, int index) => OsuScoreCard(
                         key: ValueKey<int>(state.items[index].id),
                         score: state.items[index],
+                        onTap: () => unawaited(
+                          DepsScope.of(context).appRouter.openBeatmap(
+                            context,
+                            BeatmapDifficultyParams(
+                              state.items[index].beatmapId,
+                              ruleset: state.items[index].ruleset,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),

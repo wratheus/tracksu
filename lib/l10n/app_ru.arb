@@ -248,5 +248,57 @@
         "type": "int"
       }
     }
+  },
+  "beatmapTitle": "Карта",
+  "beatmapNotFound": "Карта не найдена.",
+  "beatmapAccessDenied": "Нет доступа к карте или таблице результатов.",
+  "beatmapInvalidResponse": "Некорректный ответ с данными карты.",
+  "beatmapUnavailable": "Не удалось загрузить данные карты.",
+  "beatmapLeaderboard": "Лучшие результаты",
+  "beatmapRefreshLeaderboard": "Обновить результаты",
+  "beatmapNoScores": "Нет доступных результатов.",
+  "beatmapLeaderboardPlayer": "№{position} · {name}",
+  "@beatmapLeaderboardPlayer": {
+    "placeholders": {
+      "position": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "beatmapPlayerId": "Игрок №{id}",
+  "@beatmapPlayerId": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "beatmapCreator": "Автор: {name}",
+  "@beatmapCreator": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "beatmapRefresh": "Обновить карту",
+  "beatmapDifficulties": "Сложности",
+  "beatmapNoDifficulties": "Нет доступных сложностей.",
+  "beatmapDifficultyInfo": "{mode} · {stars} ★ · {seconds} с",
+  "@beatmapDifficultyInfo": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      },
+      "stars": {
+        "type": "double"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
   }
 }

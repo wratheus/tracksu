@@ -1,4 +1,4 @@
-import 'package:tracksu/src/profile/scores/domain/score.dart';
+import 'package:tracksu/src/profile/scores/domain/scores_page.dart';
 import 'package:tracksu/src/profile/scores/domain/scores_query.dart';
 
 abstract interface class ProfileScoresRepository {

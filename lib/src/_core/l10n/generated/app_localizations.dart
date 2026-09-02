@@ -745,6 +745,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Plays: {count}'**
   String beatmapsPlayCount(int count);
+
+  /// No description provided for @beatmapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmap'**
+  String get beatmapTitle;
+
+  /// No description provided for @beatmapNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmap not found.'**
+  String get beatmapNotFound;
+
+  /// No description provided for @beatmapAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'This beatmap or leaderboard is not accessible.'**
+  String get beatmapAccessDenied;
+
+  /// No description provided for @beatmapInvalidResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'Unexpected beatmap response.'**
+  String get beatmapInvalidResponse;
+
+  /// No description provided for @beatmapUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load beatmap data.'**
+  String get beatmapUnavailable;
+
+  /// No description provided for @beatmapLeaderboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Top scores'**
+  String get beatmapLeaderboard;
+
+  /// No description provided for @beatmapRefreshLeaderboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh scores'**
+  String get beatmapRefreshLeaderboard;
+
+  /// No description provided for @beatmapNoScores.
+  ///
+  /// In en, this message translates to:
+  /// **'No scores available.'**
+  String get beatmapNoScores;
+
+  /// No description provided for @beatmapLeaderboardPlayer.
+  ///
+  /// In en, this message translates to:
+  /// **'#{position} · {name}'**
+  String beatmapLeaderboardPlayer(int position, String name);
+
+  /// No description provided for @beatmapPlayerId.
+  ///
+  /// In en, this message translates to:
+  /// **'Player #{id}'**
+  String beatmapPlayerId(int id);
+
+  /// No description provided for @beatmapCreator.
+  ///
+  /// In en, this message translates to:
+  /// **'Mapped by {name}'**
+  String beatmapCreator(String name);
+
+  /// No description provided for @beatmapRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh beatmap'**
+  String get beatmapRefresh;
+
+  /// No description provided for @beatmapDifficulties.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulties'**
+  String get beatmapDifficulties;
+
+  /// No description provided for @beatmapNoDifficulties.
+  ///
+  /// In en, this message translates to:
+  /// **'No difficulties available.'**
+  String get beatmapNoDifficulties;
+
+  /// No description provided for @beatmapDifficultyInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'{mode} · {stars} ★ · {seconds} s'**
+  String beatmapDifficultyInfo(String mode, double stars, int seconds);
 }
 
 class _AppLocalizationsDelegate

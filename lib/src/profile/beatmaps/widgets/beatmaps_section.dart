@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
+import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/beatmaps/bloc/bloc.dart';
@@ -108,6 +112,16 @@ final class ProfileBeatmapsSection extends StatelessWidget {
                       itemBuilder: (_, int index) => ProfileBeatmapCard(
                         key: ValueKey<int>(state.items[index].id),
                         beatmap: state.items[index],
+                        onTap: () => unawaited(
+                          DepsScope.of(context).appRouter.openBeatmap(
+                            context,
+                            state.items[index].isBeatmapset
+                                ? BeatmapsetParams(state.items[index].id)
+                                : BeatmapDifficultyParams(
+                                    state.items[index].id,
+                                  ),
+                          ),
+                        ),
                       ),
                     ),
                   ),

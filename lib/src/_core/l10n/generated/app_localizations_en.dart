@@ -432,4 +432,58 @@ class AppLocalizationsEn extends AppLocalizations {
   String beatmapsPlayCount(int count) {
     return 'Plays: $count';
   }
+
+  @override
+  String get beatmapTitle => 'Beatmap';
+
+  @override
+  String get beatmapNotFound => 'Beatmap not found.';
+
+  @override
+  String get beatmapAccessDenied =>
+      'This beatmap or leaderboard is not accessible.';
+
+  @override
+  String get beatmapInvalidResponse => 'Unexpected beatmap response.';
+
+  @override
+  String get beatmapUnavailable => 'Could not load beatmap data.';
+
+  @override
+  String get beatmapLeaderboard => 'Top scores';
+
+  @override
+  String get beatmapRefreshLeaderboard => 'Refresh scores';
+
+  @override
+  String get beatmapNoScores => 'No scores available.';
+
+  @override
+  String beatmapLeaderboardPlayer(int position, String name) {
+    return '#$position · $name';
+  }
+
+  @override
+  String beatmapPlayerId(int id) {
+    return 'Player #$id';
+  }
+
+  @override
+  String beatmapCreator(String name) {
+    return 'Mapped by $name';
+  }
+
+  @override
+  String get beatmapRefresh => 'Refresh beatmap';
+
+  @override
+  String get beatmapDifficulties => 'Difficulties';
+
+  @override
+  String get beatmapNoDifficulties => 'No difficulties available.';
+
+  @override
+  String beatmapDifficultyInfo(String mode, double stars, int seconds) {
+    return '$mode · $stars ★ · $seconds s';
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/pages/authorization_page.dart';
 import 'package:tracksu/src/guest/presentation/guest_shell.dart';
+import 'package:tracksu/src/beatmap/domain/beatmap.dart';
+import 'package:tracksu/src/beatmap/main.dart';
 
 final class TracksuAppRouter {
   const TracksuAppRouter({this.initialOAuthCallbackUri});
@@ -8,6 +10,15 @@ final class TracksuAppRouter {
   static const _oauthCallbackRoute = '/oauth-callback';
 
   final Uri? initialOAuthCallbackUri;
+
+  Future<void> openBeatmap(BuildContext context, BeatmapParams params) async {
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        settings: RouteSettings(name: '/beatmap', arguments: params),
+        builder: (_) => BeatmapMain(params: params),
+      ),
+    );
+  }
 
   String get initialRoute =>
       initialOAuthCallbackUri == null ? '/' : _oauthCallbackRoute;

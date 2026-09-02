@@ -4,8 +4,8 @@
 
 ## Сейчас
 
-**P10 — scores и карты профиля**: подключены независимые секции.
-[Scores](work/P10-scores.md) · [Карты и ручные сценарии](work/P10-beatmaps.md).
+**P12 — карта и leaderboard**: подключены переходы и выбор сложности.
+[Карточка и ручные сценарии](work/P12-beatmap.md). Следующая реализация — P11.
 
 Уже реализованная основа вынесена в [IMPLEMENTED](IMPLEMENTED.md).
 Архив означает наличие кода, а не автоматически подтверждённое поведение.
@@ -18,7 +18,7 @@
 | --- | --- | --- |
 | 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
 | 2 · P10 · [scores](work/P10-scores.md) / [карты](work/P10-beatmaps.md) | Best/recent и восемь категорий карт подключены: scoped Bloc, lazy slivers, refresh/load-more/retry. Ручная проверка; cleanup зависимых legacy consumers после P12. legacy: false для scores | awaiting_manual_check |
-| 3 · [P12](DETAILS.md#features) | Beatmap/leaderboard: переход из профиля, typed navigation, новые score/mods, возврат назад | backlog |
+| 3 · [P12](work/P12-beatmap.md) | Подключены typed navigation из профиля, набор/выбор сложности, публичный top leaderboard, новые Score/mod acronyms и back. Ручная проверка; расширенные фильтры отдельно | awaiting_manual_check |
 | 4 · [P11](DETAILS.md#features) | Рейтинги: фильтры/страницы без гонок, потерь строк и сброса scroll position; доступ из mobile shell | backlog |
 | 5 · [P13](DETAILS.md#features) | Новости: список, безопасный HTML и ссылки, ошибки/пагинация; доступ из mobile shell | backlog |
 | 6 · [P01.2](DETAILS.md#p01-2) | Аудит assets: происхождение/права, вес, usage, дубли/форматы; основа согласования визуального направления | backlog |
@@ -37,8 +37,8 @@
 | [P17](DETAILS.md#p17) | BFF с callback/token exchange, убрать secret из binary, выбрать domain/hosting/stack после client MVP | deferred |
 | [T01](DETAILS.md#t01) | Автотесты — только по отдельному решению; не пишем и не запускаем параллельно | deferred |
 
-Следующая большая задача — **связанный экран beatmap (P12)**, параллельно
-пользователь проверяет P09/P10. Приоритет — восстановление
+Следующая большая задача — **рейтинги (P11)**, параллельно
+пользователь проверяет P09/P10/P12. Приоритет — восстановление
 функциональности, а не редизайн. P09 заменяет только поиск/шапку/статистику,
 не весь legacy user_page и его вложенные сценарии.
 

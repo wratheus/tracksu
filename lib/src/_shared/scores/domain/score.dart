@@ -1,8 +1,8 @@
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 
 /// Summary projection of API response version 20220705+, not the legacy Score.
-final class ProfileScore {
-  ProfileScore({
+final class OsuScore {
+  OsuScore({
     required this.id,
     required this.beatmapId,
     required this.userId,
@@ -39,16 +39,4 @@ final class ProfileScore {
   final String? beatmapTitle;
   final String? artist;
   final String? difficulty;
-}
-
-final class ProfileScoresPage {
-  ProfileScoresPage({
-    required List<ProfileScore> items,
-    required this.nextOffset,
-  }) : items = List<ProfileScore>.unmodifiable(items);
-
-  final List<ProfileScore> items;
-
-  /// A full page suggests another read; the endpoint supplies no total/cursor.
-  final int? nextOffset;
 }

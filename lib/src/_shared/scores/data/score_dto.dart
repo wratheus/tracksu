@@ -1,9 +1,9 @@
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
-import 'package:tracksu/src/profile/scores/domain/score.dart';
+import 'package:tracksu/src/_shared/scores/domain/score.dart';
 
-final class ProfileScoreDto {
-  const ProfileScoreDto({
+final class OsuScoreDto {
+  const OsuScoreDto({
     required this.id,
     required this.beatmapId,
     required this.userId,
@@ -21,7 +21,7 @@ final class ProfileScoreDto {
     this.difficulty,
   });
 
-  factory ProfileScoreDto.fromJson(Map<String, dynamic> json) {
+  factory OsuScoreDto.fromJson(Map<String, dynamic> json) {
     final JsonMapReader reader = JsonMapReader(json);
     final Map<String, dynamic>? beatmap = reader.optionalMap('beatmap');
     final Map<String, dynamic>? beatmapset = reader.optionalMap('beatmapset');
@@ -41,7 +41,7 @@ final class ProfileScoreDto {
       }
       mods.add(JsonMapReader(item).requiredString('acronym'));
     }
-    return ProfileScoreDto(
+    return OsuScoreDto(
       id: reader.requiredInt('id', positive: true),
       beatmapId: beatmapId,
       userId: reader.requiredInt('user_id', positive: true),
@@ -82,7 +82,7 @@ final class ProfileScoreDto {
   final String? artist;
   final String? difficulty;
 
-  ProfileScore toDomain() {
+  OsuScore toDomain() {
     if (!accuracy.isFinite ||
         accuracy < 0 ||
         accuracy > 1 ||
@@ -95,7 +95,7 @@ final class ProfileScoreDto {
     if (pp case final double value when !value.isFinite || value < 0) {
       throw const FormatException('Invalid performance points.');
     }
-    return ProfileScore(
+    return OsuScore(
       id: id,
       beatmapId: beatmapId,
       userId: userId,

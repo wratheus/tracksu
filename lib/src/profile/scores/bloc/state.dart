@@ -23,14 +23,14 @@ enum ProfileScoresOperation { refresh, loadMore }
 final class ProfileScoresLoadedState extends ProfileScoresState {
   ProfileScoresLoadedState({
     required super.type,
-    required List<ProfileScore> items,
+    required List<OsuScore> items,
     required this.nextOffset,
     this.operation,
     this.failure,
     this.failedOperation,
-  }) : items = List<ProfileScore>.unmodifiable(items);
+  }) : items = List<OsuScore>.unmodifiable(items);
 
-  final List<ProfileScore> items;
+  final List<OsuScore> items;
   final int? nextOffset;
   final ProfileScoresOperation? operation;
   final ProfileScoresFailureKind? failure;

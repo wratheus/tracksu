@@ -248,5 +248,57 @@
         "type": "int"
       }
     }
+  },
+  "beatmapTitle": "Beatmap",
+  "beatmapNotFound": "Beatmap not found.",
+  "beatmapAccessDenied": "This beatmap or leaderboard is not accessible.",
+  "beatmapInvalidResponse": "Unexpected beatmap response.",
+  "beatmapUnavailable": "Could not load beatmap data.",
+  "beatmapLeaderboard": "Top scores",
+  "beatmapRefreshLeaderboard": "Refresh scores",
+  "beatmapNoScores": "No scores available.",
+  "beatmapLeaderboardPlayer": "#{position} · {name}",
+  "@beatmapLeaderboardPlayer": {
+    "placeholders": {
+      "position": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "beatmapPlayerId": "Player #{id}",
+  "@beatmapPlayerId": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "beatmapCreator": "Mapped by {name}",
+  "@beatmapCreator": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "beatmapRefresh": "Refresh beatmap",
+  "beatmapDifficulties": "Difficulties",
+  "beatmapNoDifficulties": "No difficulties available.",
+  "beatmapDifficultyInfo": "{mode} · {stars} ★ · {seconds} s",
+  "@beatmapDifficultyInfo": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      },
+      "stars": {
+        "type": "double"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
   }
 }

@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
-import 'package:tracksu/src/profile/scores/domain/score.dart';
+import 'package:tracksu/src/_shared/scores/domain/score.dart';
+import 'package:tracksu/src/profile/scores/domain/scores_page.dart';
 import 'package:tracksu/src/profile/scores/domain/scores_query.dart';
 import 'package:tracksu/src/profile/scores/domain/scores_repository.dart';
 
@@ -94,10 +95,10 @@ final class ProfileScoresBloc
       if (generation != _generation || emit.isDone || isClosed) {
         return;
       }
-      final Map<int, ProfileScore> unique = <int, ProfileScore>{
+      final Map<int, OsuScore> unique = <int, OsuScore>{
         if (operation == ProfileScoresOperation.loadMore && previous != null)
-          for (final ProfileScore score in previous.items) score.id: score,
-        for (final ProfileScore score in page.items) score.id: score,
+          for (final OsuScore score in previous.items) score.id: score,
+        for (final OsuScore score in page.items) score.id: score,
       };
       emit(
         ProfileScoresLoadedState(
