@@ -361,4 +361,79 @@ class AppLocalizationsRu extends AppLocalizations {
   String scoresPlayedAt(String date) {
     return 'Сыграно: $date';
   }
+
+  @override
+  String get beatmapsTitle => 'Карты';
+
+  @override
+  String get beatmapsMostPlayed => 'Чаще всего играемые';
+
+  @override
+  String get beatmapsFavourite => 'Избранные';
+
+  @override
+  String get beatmapsRanked => 'Рейтинговые';
+
+  @override
+  String get beatmapsPending => 'На рассмотрении';
+
+  @override
+  String get beatmapsGraveyard => 'Заброшенные';
+
+  @override
+  String get beatmapsLoved => 'Любимые сообществом';
+
+  @override
+  String get beatmapsGuest => 'Гостевые сложности';
+
+  @override
+  String get beatmapsNominated => 'Номинированные';
+
+  @override
+  String get beatmapsRefresh => 'Обновить карты';
+
+  @override
+  String get beatmapsEmpty => 'В этой категории пока нет карт.';
+
+  @override
+  String get beatmapsLoadMore => 'Загрузить ещё карты';
+
+  @override
+  String get beatmapsLoading => 'Загрузка карт…';
+
+  @override
+  String get beatmapsKeepingContent =>
+      'Обновить не удалось. Показаны ранее загруженные карты.';
+
+  @override
+  String get beatmapsCancelled => 'Загрузка отменена.';
+
+  @override
+  String get beatmapsNotFound => 'Карты этого игрока не найдены.';
+
+  @override
+  String get beatmapsAccessDenied => 'Сейчас нет доступа к картам.';
+
+  @override
+  String get beatmapsInvalidResponse =>
+      'Сервер вернул неожиданный ответ со списком карт.';
+
+  @override
+  String get beatmapsUnavailable =>
+      'Не удалось загрузить карты. Попробуйте ещё раз.';
+
+  @override
+  String beatmapsSetFallback(int id) {
+    return 'Набор карт №$id';
+  }
+
+  @override
+  String beatmapsMapFallback(int id) {
+    return 'Карта №$id';
+  }
+
+  @override
+  String beatmapsPlayCount(int count) {
+    return 'Игр: $count';
+  }
 }

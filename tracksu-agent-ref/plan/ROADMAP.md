@@ -4,8 +4,8 @@
 
 ## Сейчас
 
-**P09 — гостевой поиск и профиль**: цельный вертикальный срез, а не серия задач
-на отдельные методы. [Карточка, проверки и ручные сценарии](work/P09-profile-explorer.md).
+**P10 — scores и карты профиля**: подключены независимые секции.
+[Scores](work/P10-scores.md) · [Карты и ручные сценарии](work/P10-beatmaps.md).
 
 Уже реализованная основа вынесена в [IMPLEMENTED](IMPLEMENTED.md).
 Архив означает наличие кода, а не автоматически подтверждённое поведение.
@@ -17,7 +17,7 @@
 | Порядок / ID | Следующий цельный результат | Статус |
 | --- | --- | --- |
 | 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
-| 2 · [P10](work/P10-scores.md) | Best/recent подключены: scoped Bloc, lazy slivers, refresh/load-more/retry; ручная проверка. Далее отдельные списки карт профиля и cleanup заменённых consumers. legacy: false по умолчанию | in_progress |
+| 2 · P10 · [scores](work/P10-scores.md) / [карты](work/P10-beatmaps.md) | Best/recent и восемь категорий карт подключены: scoped Bloc, lazy slivers, refresh/load-more/retry. Ручная проверка; cleanup зависимых legacy consumers после P12. legacy: false для scores | awaiting_manual_check |
 | 3 · [P12](DETAILS.md#features) | Beatmap/leaderboard: переход из профиля, typed navigation, новые score/mods, возврат назад | backlog |
 | 4 · [P11](DETAILS.md#features) | Рейтинги: фильтры/страницы без гонок, потерь строк и сброса scroll position; доступ из mobile shell | backlog |
 | 5 · [P13](DETAILS.md#features) | Новости: список, безопасный HTML и ссылки, ошибки/пагинация; доступ из mobile shell | backlog |
@@ -37,8 +37,8 @@
 | [P17](DETAILS.md#p17) | BFF с callback/token exchange, убрать secret из binary, выбрать domain/hosting/stack после client MVP | deferred |
 | [T01](DETAILS.md#t01) | Автотесты — только по отдельному решению; не пишем и не запускаем параллельно | deferred |
 
-Следующая большая задача после проверки P09 — **scores и списки карт профиля
-(P10)**, затем связанный экран beatmap (P12). Приоритет — восстановление
+Следующая большая задача — **связанный экран beatmap (P12)**, параллельно
+пользователь проверяет P09/P10. Приоритет — восстановление
 функциональности, а не редизайн. P09 заменяет только поиск/шапку/статистику,
 не весь legacy user_page и его вложенные сценарии.
 

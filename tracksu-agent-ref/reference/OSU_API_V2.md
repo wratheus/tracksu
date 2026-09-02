@@ -31,8 +31,21 @@
 | `getBeatmap` | `GET /beatmaps/{beatmap}` остаётся; response — extended beatmap, optional nested data проверяется decoder. |
 | `getBeatmapScores` | `GET /beatmaps/{beatmap}/scores`; текущий путь актуален. Передавать `legacy_only=false`, ruleset/mode и mods явно; старый код не отправляет `mods` и содержит ошибку записи по индексу. |
 | `getRankings` | `GET /rankings/{mode}/{type}`. Перед переносом снять actual contract pagination/filter/country и не переносить `length - 1`. |
-| `getUserBeatmaps` | `GET /users/{user}/beatmapsets/{type}`. Нужны explicit limit/offset и ограниченный параллелизм при обогащении mapper. |
+| `getUserBeatmaps` | Новый P10: `GET /users/{user}/beatmapsets/{type}`, explicit limit/offset, без N+1 обогащения. Source raw list → repository DTO → domain. |
 | commented changelog | Не переносить без реального consumer. |
+
+### P10: контракт списков карт
+
+Сверено 2026-09-05 с [Get User Beatmaps](https://osu.ppy.sh/docs/index.html#get-user-beatmaps).
+Для most_played используется BeatmapPlaycount: beatmap_id/count и nullable
+beatmap/beatmapset. Остальные семь категорий возвращают BeatmapsetExtended.
+Проекция хранит только ID, название/исполнителя, сложность и число игр,
+если применимо. Отсутствующие metadata most_played отображаются через ID;
+неверные типы обязательных полей — invalidResponse, не подставные данные.
+Mode/legacy не передаются: endpoint их не документирует.
+Пагинация offset/limit=20; полная страница допускает следующий запрос,
+короткая завершает список. Offset считается до UI-дедупликации.
+Это сверка документации, не запись live authenticated ответов.
 
 ## Последовательность
 

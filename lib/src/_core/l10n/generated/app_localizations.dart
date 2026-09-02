@@ -613,6 +613,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Played: {date}'**
   String scoresPlayedAt(String date);
+
+  /// No description provided for @beatmapsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmaps'**
+  String get beatmapsTitle;
+
+  /// No description provided for @beatmapsMostPlayed.
+  ///
+  /// In en, this message translates to:
+  /// **'Most played'**
+  String get beatmapsMostPlayed;
+
+  /// No description provided for @beatmapsFavourite.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourites'**
+  String get beatmapsFavourite;
+
+  /// No description provided for @beatmapsRanked.
+  ///
+  /// In en, this message translates to:
+  /// **'Ranked'**
+  String get beatmapsRanked;
+
+  /// No description provided for @beatmapsPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get beatmapsPending;
+
+  /// No description provided for @beatmapsGraveyard.
+  ///
+  /// In en, this message translates to:
+  /// **'Graveyard'**
+  String get beatmapsGraveyard;
+
+  /// No description provided for @beatmapsLoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Loved'**
+  String get beatmapsLoved;
+
+  /// No description provided for @beatmapsGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest difficulties'**
+  String get beatmapsGuest;
+
+  /// No description provided for @beatmapsNominated.
+  ///
+  /// In en, this message translates to:
+  /// **'Nominated'**
+  String get beatmapsNominated;
+
+  /// No description provided for @beatmapsRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh beatmaps'**
+  String get beatmapsRefresh;
+
+  /// No description provided for @beatmapsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No beatmaps in this category.'**
+  String get beatmapsEmpty;
+
+  /// No description provided for @beatmapsLoadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more beatmaps'**
+  String get beatmapsLoadMore;
+
+  /// No description provided for @beatmapsLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading beatmaps…'**
+  String get beatmapsLoading;
+
+  /// No description provided for @beatmapsKeepingContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update. Previously loaded beatmaps are still shown.'**
+  String get beatmapsKeepingContent;
+
+  /// No description provided for @beatmapsCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading was cancelled.'**
+  String get beatmapsCancelled;
+
+  /// No description provided for @beatmapsNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This player\'s beatmaps could not be found.'**
+  String get beatmapsNotFound;
+
+  /// No description provided for @beatmapsAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmaps are not accessible right now.'**
+  String get beatmapsAccessDenied;
+
+  /// No description provided for @beatmapsInvalidResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'The server returned an unexpected beatmap response.'**
+  String get beatmapsInvalidResponse;
+
+  /// No description provided for @beatmapsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load beatmaps. Please try again.'**
+  String get beatmapsUnavailable;
+
+  /// No description provided for @beatmapsSetFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmapset #{id}'**
+  String beatmapsSetFallback(int id);
+
+  /// No description provided for @beatmapsMapFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmap #{id}'**
+  String beatmapsMapFallback(int id);
+
+  /// No description provided for @beatmapsPlayCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Plays: {count}'**
+  String beatmapsPlayCount(int count);
 }
 
 class _AppLocalizationsDelegate

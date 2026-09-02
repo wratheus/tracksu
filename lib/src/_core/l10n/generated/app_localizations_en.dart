@@ -357,4 +357,79 @@ class AppLocalizationsEn extends AppLocalizations {
   String scoresPlayedAt(String date) {
     return 'Played: $date';
   }
+
+  @override
+  String get beatmapsTitle => 'Beatmaps';
+
+  @override
+  String get beatmapsMostPlayed => 'Most played';
+
+  @override
+  String get beatmapsFavourite => 'Favourites';
+
+  @override
+  String get beatmapsRanked => 'Ranked';
+
+  @override
+  String get beatmapsPending => 'Pending';
+
+  @override
+  String get beatmapsGraveyard => 'Graveyard';
+
+  @override
+  String get beatmapsLoved => 'Loved';
+
+  @override
+  String get beatmapsGuest => 'Guest difficulties';
+
+  @override
+  String get beatmapsNominated => 'Nominated';
+
+  @override
+  String get beatmapsRefresh => 'Refresh beatmaps';
+
+  @override
+  String get beatmapsEmpty => 'No beatmaps in this category.';
+
+  @override
+  String get beatmapsLoadMore => 'Load more beatmaps';
+
+  @override
+  String get beatmapsLoading => 'Loading beatmaps…';
+
+  @override
+  String get beatmapsKeepingContent =>
+      'Could not update. Previously loaded beatmaps are still shown.';
+
+  @override
+  String get beatmapsCancelled => 'Loading was cancelled.';
+
+  @override
+  String get beatmapsNotFound => 'This player\'s beatmaps could not be found.';
+
+  @override
+  String get beatmapsAccessDenied => 'Beatmaps are not accessible right now.';
+
+  @override
+  String get beatmapsInvalidResponse =>
+      'The server returned an unexpected beatmap response.';
+
+  @override
+  String get beatmapsUnavailable =>
+      'Could not load beatmaps. Please try again.';
+
+  @override
+  String beatmapsSetFallback(int id) {
+    return 'Beatmapset #$id';
+  }
+
+  @override
+  String beatmapsMapFallback(int id) {
+    return 'Beatmap #$id';
+  }
+
+  @override
+  String beatmapsPlayCount(int count) {
+    return 'Plays: $count';
+  }
 }

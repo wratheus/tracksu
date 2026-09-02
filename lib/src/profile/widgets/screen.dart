@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/bloc/bloc.dart';
+import 'package:tracksu/src/profile/beatmaps/main.dart';
 import 'package:tracksu/src/profile/domain/profile_failure.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/widgets/profile_summary.dart';
@@ -144,6 +145,10 @@ final class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                           ProfileSummary(profile: state.profile),
+                          ProfileBeatmapsMain(
+                            key: ValueKey<int>(state.profile.id),
+                            userId: state.profile.id,
+                          ),
                           ProfileScoresMain(
                             key: ValueKey<(int, ProfileRuleset)>((
                               state.profile.id,

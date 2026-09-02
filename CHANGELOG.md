@@ -4,6 +4,10 @@
 
 ### Added
 
+- Profile beatmap lists: eight categories, typed BeatmapPlaycount/beatmapset
+  projections, independent cancellation and paged lazy slivers with English/
+  Russian loading, empty and retry states. Refresh failures preserve content.
+
 - Profile scores data foundation (best/recent): typed query/page/summary,
   cancellation, modern score parsing and domain failures.
 - Best/recent scores section in the guest profile: lazy sliver cards, independent

@@ -205,5 +205,48 @@
         "type": "String"
       }
     }
+  },
+  "beatmapsTitle": "Beatmaps",
+  "beatmapsMostPlayed": "Most played",
+  "beatmapsFavourite": "Favourites",
+  "beatmapsRanked": "Ranked",
+  "beatmapsPending": "Pending",
+  "beatmapsGraveyard": "Graveyard",
+  "beatmapsLoved": "Loved",
+  "beatmapsGuest": "Guest difficulties",
+  "beatmapsNominated": "Nominated",
+  "beatmapsRefresh": "Refresh beatmaps",
+  "beatmapsEmpty": "No beatmaps in this category.",
+  "beatmapsLoadMore": "Load more beatmaps",
+  "beatmapsLoading": "Loading beatmaps…",
+  "beatmapsKeepingContent": "Could not update. Previously loaded beatmaps are still shown.",
+  "beatmapsCancelled": "Loading was cancelled.",
+  "beatmapsNotFound": "This player's beatmaps could not be found.",
+  "beatmapsAccessDenied": "Beatmaps are not accessible right now.",
+  "beatmapsInvalidResponse": "The server returned an unexpected beatmap response.",
+  "beatmapsUnavailable": "Could not load beatmaps. Please try again.",
+  "beatmapsSetFallback": "Beatmapset #{id}",
+  "beatmapsMapFallback": "Beatmap #{id}",
+  "beatmapsPlayCount": "Plays: {count}",
+  "@beatmapsSetFallback": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "@beatmapsMapFallback": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "@beatmapsPlayCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

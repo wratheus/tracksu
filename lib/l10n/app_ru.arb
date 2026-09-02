@@ -205,5 +205,48 @@
         "type": "String"
       }
     }
+  },
+  "beatmapsTitle": "Карты",
+  "beatmapsMostPlayed": "Чаще всего играемые",
+  "beatmapsFavourite": "Избранные",
+  "beatmapsRanked": "Рейтинговые",
+  "beatmapsPending": "На рассмотрении",
+  "beatmapsGraveyard": "Заброшенные",
+  "beatmapsLoved": "Любимые сообществом",
+  "beatmapsGuest": "Гостевые сложности",
+  "beatmapsNominated": "Номинированные",
+  "beatmapsRefresh": "Обновить карты",
+  "beatmapsEmpty": "В этой категории пока нет карт.",
+  "beatmapsLoadMore": "Загрузить ещё карты",
+  "beatmapsLoading": "Загрузка карт…",
+  "beatmapsKeepingContent": "Обновить не удалось. Показаны ранее загруженные карты.",
+  "beatmapsCancelled": "Загрузка отменена.",
+  "beatmapsNotFound": "Карты этого игрока не найдены.",
+  "beatmapsAccessDenied": "Сейчас нет доступа к картам.",
+  "beatmapsInvalidResponse": "Сервер вернул неожиданный ответ со списком карт.",
+  "beatmapsUnavailable": "Не удалось загрузить карты. Попробуйте ещё раз.",
+  "beatmapsSetFallback": "Набор карт №{id}",
+  "beatmapsMapFallback": "Карта №{id}",
+  "beatmapsPlayCount": "Игр: {count}",
+  "@beatmapsSetFallback": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "@beatmapsMapFallback": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "@beatmapsPlayCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }
