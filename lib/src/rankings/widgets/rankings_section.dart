@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
+import 'package:tracksu/src/profile/domain/profile_params.dart';
+import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/rankings/bloc/bloc.dart';
@@ -85,6 +88,13 @@ final class RankingsSection extends StatelessWidget {
                   itemBuilder: (_, int index) => RankingEntryCard(
                     key: ValueKey<int>(state.items[index].id),
                     entry: state.items[index],
+                    onOpen: () => DepsScope.of(context).appRouter.openProfile(
+                      context,
+                      ProfileParams(
+                        user: ProfileUserId(state.items[index].id),
+                        ruleset: state.type.ruleset,
+                      ),
+                    ),
                   ),
                 ),
               ),

@@ -4,7 +4,7 @@ Scope: performance/score × четыре ruleset, публичный клиен�
 из shell, lazy list, refresh/load-more/retry. Main → source/repository → Bloc.
 Смена фильтра latest-wins; paging сохраняет строки и scroll.
 Следующую страницу берём из cursor.page ответа, не из длины списка.
-Страны/mania variants/spotlights и переход к профилю из строки — отдельный остаток.
+Страны/mania variants/spotlights — отдельный остаток.
 Один коммит с en/ru, docs и wiring; откат отключает новый route.
 Проверки: format/analyze/debug APK, без автотестов; устройство — пользователь.
 
@@ -38,8 +38,8 @@ cursor — invalidResponse. Error refresh сохраняет строки и б�
 - Сменить фильтр во время запроса; старый ответ не подмешивается.
 - Назад в профиль, en/ru, длинные имена и крупный системный шрифт.
 
-Остаток P11: country filter, mania variants/spotlights по отдельным контрактам,
-переход из игрока рейтинга в профиль; legacy cleanup после ручной проверки.
+Остаток P11: country filter, mania variants/spotlights по отдельным контрактам;
+legacy cleanup после ручной проверки.
 
 ## Техническая проверка
 
@@ -48,5 +48,28 @@ _core/_shared и обоих workspace packages — No issues found.
 Debug APK собран командой `fvm flutter build apk --debug --no-pub`.
 Прежнее предупреждение Gradle native access на JDK 25 не блокирует сборку.
 `git diff --check` чистый. Автотесты не писали/не запускали, устройство не проверено.
-Следующий шаг P11 — переход к выбранному игроку с сохранением списка рейтинга;
-затем дополнительные фильтры. P13/news и темы этим коммитом не начинаются.
+Следующий шаг P11 — дополнительные фильтры. P13/news и темы этим коммитом
+не начинаются.
+
+## Переход рейтинг → профиль
+
+Отдельный атомарный коммит: ProfileParams (валидированный ProfileUserId +
+ruleset), appRouter.openProfile, optional initial params в существующем
+ProfileMain, callback карточки. Repository/экран не дублируются.
+Initial ruleset задаётся конструктору Bloc до единственного lookup:
+нет гонки между событиями смены режима и загрузки.
+Корневой guest ProfileMain без params по-прежнему не делает initial lookup.
+
+Ranking route остаётся mounted под profile route: фильтр, строки и scroll
+не сбрасываются при pop. Новый профиль владеет собственным Bloc/repository,
+не изменяет исходный профиль гостевого shell. Его закрытие отменяет запросы.
+Повторное нажатие блокируется локальным состоянием карточки; после await
+проверяется mounted. Account actions остаются в исходном shell.
+Rollback коммита отключает переход, не меняя API/paging рейтингов.
+
+Ручная проверка: догрузить рейтинг → игрок → убедиться в правильном режиме →
+карта → два раза назад → прежняя позиция рейтинга. Повторить taiko/fruits/mania,
+быстро дважды нажать карточку и вернуться назад во время загрузки.
+Scoped format/analyze profile/rankings/_core/guest — No issues found.
+Debug APK (--debug --no-pub) собран успешно; git diff --check чистый.
+Автотесты не писали/не запускали; проверка на устройстве остаётся пользователю.

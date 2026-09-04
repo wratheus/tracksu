@@ -4,6 +4,9 @@
 
 ### Added
 
+- Ranking rows open the selected player's profile in the ranking ruleset.
+  Back keeps the ranking route and loaded pages; repeated row taps are guarded.
+
 - Public performance/score rankings for four rulesets, accessible from the
   profile toolbar: server cursor pagination, latest-wins filters, lazy rows,
   refresh/load-more retry and English/Russian strings.

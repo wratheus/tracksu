@@ -10,10 +10,13 @@ part 'event.dart';
 part 'state.dart';
 
 final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  factory ProfileBloc({required ProfileRepository repository}) =>
-      ProfileBloc._(repository);
+  factory ProfileBloc({
+    required ProfileRepository repository,
+    ProfileRuleset initialRuleset = ProfileRuleset.osu,
+  }) => ProfileBloc._(repository, initialRuleset);
 
-  ProfileBloc._(this._repository) : super(const ProfileInitialState()) {
+  ProfileBloc._(this._repository, ProfileRuleset initialRuleset)
+    : super(ProfileInitialState(ruleset: initialRuleset)) {
     // One concurrent event bucket, latest-wins across search AND ruleset.
     // A generation guard covers completions; the repository aborts old IO.
     on<ProfileEvent>(_onEvent);

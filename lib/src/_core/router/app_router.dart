@@ -4,6 +4,8 @@ import 'package:tracksu/src/guest/presentation/guest_shell.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/beatmap/main.dart';
 import 'package:tracksu/src/rankings/main.dart';
+import 'package:tracksu/src/profile/main.dart';
+import 'package:tracksu/src/profile/domain/profile_params.dart';
 
 final class TracksuAppRouter {
   const TracksuAppRouter({this.initialOAuthCallbackUri});
@@ -11,6 +13,16 @@ final class TracksuAppRouter {
   static const _oauthCallbackRoute = '/oauth-callback';
 
   final Uri? initialOAuthCallbackUri;
+
+  Future<void> openProfile(BuildContext context, ProfileParams params) async {
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        settings: RouteSettings(name: '/profile', arguments: params),
+        builder: (_) =>
+            ProfileMain(params: params, actions: const SizedBox.shrink()),
+      ),
+    );
+  }
 
   Future<void> openRankings(BuildContext context) async {
     await Navigator.of(context).push<void>(

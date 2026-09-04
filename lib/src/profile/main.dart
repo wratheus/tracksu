@@ -5,24 +5,34 @@ import 'package:tracksu/src/profile/bloc/bloc.dart';
 import 'package:tracksu/src/profile/data/osu_profile_remote_source.dart';
 import 'package:tracksu/src/profile/data/profile_repository_impl.dart';
 import 'package:tracksu/src/profile/widgets/screen.dart';
+import 'package:tracksu/src/profile/domain/profile_params.dart';
+import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 
 final class ProfileMain extends StatelessWidget {
-  const ProfileMain({required this.actions, super.key});
+  const ProfileMain({required this.actions, this.params, super.key});
 
   final Widget actions;
+  final ProfileParams? params;
 
   @override
   Widget build(BuildContext context) {
     final deps = DepsScope.of(context);
     return BlocProvider<ProfileBloc>(
-      create: (_) => ProfileBloc(
-        repository: ProfileRepositoryImpl(
-          remoteSource: OsuProfileRemoteSource(
-            restClient: deps.restClient,
-            publicRestClient: deps.publicRestClient,
+      create: (_) {
+        final ProfileBloc bloc = ProfileBloc(
+          initialRuleset: params?.ruleset ?? ProfileRuleset.osu,
+          repository: ProfileRepositoryImpl(
+            remoteSource: OsuProfileRemoteSource(
+              restClient: deps.restClient,
+              publicRestClient: deps.publicRestClient,
+            ),
           ),
-        ),
-      ),
+        );
+        if (params case final ProfileParams target) {
+          bloc.add(ProfileLookupRequested(target.user));
+        }
+        return bloc;
+      },
       child: ProfileScreen(actions: actions),
     );
   }

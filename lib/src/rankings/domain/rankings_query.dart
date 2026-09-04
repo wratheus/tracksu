@@ -1,3 +1,5 @@
+import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
+
 enum RankingsType {
   osuPerformance('osu', 'performance'),
   osuScore('osu', 'score'),
@@ -11,6 +13,13 @@ enum RankingsType {
   const RankingsType(this.mode, this.sort);
   final String mode;
   final String sort;
+
+  ProfileRuleset get ruleset => switch (this) {
+    osuPerformance || osuScore => ProfileRuleset.osu,
+    taikoPerformance || taikoScore => ProfileRuleset.taiko,
+    fruitsPerformance || fruitsScore => ProfileRuleset.fruits,
+    maniaPerformance || maniaScore => ProfileRuleset.mania,
+  };
 }
 
 final class RankingsQuery {
