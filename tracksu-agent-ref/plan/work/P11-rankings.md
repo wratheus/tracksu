@@ -1,10 +1,70 @@
 # P11 — глобальные рейтинги
 
+## Срез spotlights — реализован, ожидает ручной проверки
+
+Цель: из рейтингов открыть каталог spotlights, выбрать подборку/ruleset,
+посмотреть её карты и рейтинг, перейти в существующие профиль/beatmap routes.
+Собственный route/repository/Bloc, общий public transport; без storage changes.
+Каталог и выбранная подборка загружаются последовательно; смена выбора
+latest-wins с отменой IO. Refresh сохраняет content, ошибка позволяет retry.
+Charts не имеет cursor: сервер возвращает до 40 игроков, пагинацию не выдумываем.
+Отсутствующий ruleset — явная ошибка, не пустой успех. Не добавляем country,
+mania variants, friends, playlists/seasons или темы. Исходная точка — 44f28c1,
+analyze/debug build успешны, устройство не проверено. Проверка: format/analyze/
+debug APK и ручной сценарий; без автотестов. Откат — scoped commit, данные
+хранилища не затрагиваются. Источники: RankingController::spotlight,
+SpotlightsController, SpotlightTransformer, Spotlight model в ppy/osu-web.
+
+### Контракт и ручная приёмка spotlights
+
+Сверено 2026-09-06 с официальными исходниками:
+[каталог](https://github.com/ppy/osu-web/blob/master/app/Http/Controllers/SpotlightsController.php),
+[charts](https://github.com/ppy/osu-web/blob/master/app/Http/Controllers/RankingController.php),
+[модель и ограничение результата](https://github.com/ppy/osu-web/blob/master/app/Models/Spotlight.php),
+[метаданные](https://github.com/ppy/osu-web/blob/master/app/Transformers/SpotlightTransformer.php).
+GET /spotlights → spotlights; GET /rankings/{mode}/charts?spotlight={id}&filter=all
+→ spotlight, beatmapsets, ranking. Загружается последняя запись каталога, затем
+выбор доступен через ленивый список. Каталог обновляется при новом входе;
+пустой каталог и его ошибка позволяют retry. Refresh выбранной подборки не
+перезагружает каталог. Источник возвращает raw map, repository разбирает DTO,
+проверяет совпадение ID и повторы. Проекция сознательно не включает даты,
+participant_count и PP: интерфейсу нужны имя, карты и ranked_score подборки.
+Никаких запросов на каждый ряд или собственных обложек.
+
+Public allowlist расширен только exact /spotlights и charts четырёх режимов;
+общие ограничения host/HTTPS/GET сохранены. Независимый route scope закрывает
+Bloc и отменяет запросы, не трогает обычный рейтинг и его фильтры. Смена
+подборки/режима начинает scroll сверху; refresh и возврат из pushed profile/map
+сохраняют позицию. Открытие/закрытие каталога не обещает сохранить scroll деталей.
+Набор открывается целиком через BeatmapsetParams, без отдельного фильтра сложностей
+spotlight. Несуществующий режим отдаёт явную ошибку и оставляет выбор доступным.
+
+- Рейтинги → Spotlights: индикатор, последняя подборка, карты и top игроков.
+- Выбрать старую подборку; переключить osu/taiko/fruits/mania, включая режим
+  без данных: ошибка с retry, без выдачи старой таблицы за новую.
+- Быстро менять подборку и режим на медленной сети; последняя комбинация побеждает.
+- Offline refresh: прежние данные остаются, ошибка видна, retry восстанавливает.
+- Карта → назад; игрок → назад: правильный профиль/ruleset и прежняя подборка.
+- Двойное нажатие строки, выход во время запроса, длинные названия, en/ru,
+  крупный шрифт; каталог и ряды создаются лениво, без shrinkWrap.
+
+UI временный Material в текущей теме. Визуальное качество новых страниц не
+считается согласованным: после функционального переноса нужны аудит assets,
+совместное планирование osu!-стиля и только затем P07/UI kit.
+
+Техническая проверка 2026-09-06: gen-l10n, scoped format; analyze rankings,
+profile, beatmap, _shared, _core, guest, auth, session и двух workspace packages
+— No issues found. Debug APK (--debug --no-pub) собран; git diff --check чистый.
+Остаётся прежнее предупреждение Gradle native access на JDK 25. Автотесты
+не писали/не запускали; live API и устройство не проверяли. Skills feature/
+dart-style/UI/quality определили локальный DI, raw source → repository mapping,
+lazy slivers и проверку lifecycle, с пользовательским исключением автотестов.
+
 Scope: performance/score × четыре ruleset, публичный клиент, отдельный route
 из shell, lazy list, refresh/load-more/retry. Main → source/repository → Bloc.
 Смена фильтра latest-wins; paging сохраняет строки и scroll.
 Следующую страницу берём из cursor.page ответа, не из длины списка.
-Страны и mania variants подключены; spotlights — отдельный остаток.
+Страны, mania variants и spotlights подключены; ожидается ручная проверка.
 Один коммит с en/ru, docs и wiring; откат отключает новый route.
 Проверки: format/analyze/debug APK, без автотестов; устройство — пользователь.
 
@@ -38,8 +98,7 @@ cursor — invalidResponse. Error refresh сохраняет строки и б�
 - Сменить фильтр во время запроса; старый ответ не подмешивается.
 - Назад в профиль, en/ru, длинные имена и крупный системный шрифт.
 
-Остаток P11: spotlights по отдельному контракту;
-legacy cleanup после ручной проверки.
+Остаток P11: ручная проверка; legacy cleanup по usages после проверки.
 
 ## Техническая проверка
 

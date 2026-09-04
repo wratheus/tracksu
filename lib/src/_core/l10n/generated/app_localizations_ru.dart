@@ -10,6 +10,31 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get spotlightsTitle => 'Подборки Spotlights';
+
+  @override
+  String get spotlightsChoose => 'Выбрать подборку';
+
+  @override
+  String get spotlightsShowRanking => 'Показать выбранную подборку';
+
+  @override
+  String get spotlightsEmpty => 'Нет доступных подборок.';
+
+  @override
+  String get spotlightsMaps => 'Наборы карт';
+
+  @override
+  String get spotlightsNoMaps =>
+      'В этой подборке нет карт для выбранного режима.';
+
+  @override
+  String get spotlightsRankingLimit => 'Рейтинг подборки · до 40 игроков';
+
+  @override
+  String get spotlightsNotFound => 'Подборка или выбранный режим недоступны.';
+
+  @override
   String get appTitle => 'Tracksu';
 
   @override

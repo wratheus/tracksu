@@ -46,6 +46,11 @@ final class RankingsSection extends StatelessWidget {
                 ),
               ),
               const RankingsFilters(),
+              TextButton(
+                onPressed: () =>
+                    DepsScope.of(context).appRouter.openSpotlights(context),
+                child: Text(context.t.spotlightsTitle),
+              ),
               BlocSelector<RankingsBloc, RankingsState, bool>(
                 selector: (RankingsState state) =>
                     state is RankingsInitialState ||

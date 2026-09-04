@@ -98,6 +98,54 @@ abstract class AppLocalizations {
     Locale('ru'),
   ];
 
+  /// No description provided for @spotlightsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Spotlights'**
+  String get spotlightsTitle;
+
+  /// No description provided for @spotlightsChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a spotlight'**
+  String get spotlightsChoose;
+
+  /// No description provided for @spotlightsShowRanking.
+  ///
+  /// In en, this message translates to:
+  /// **'Show selected spotlight'**
+  String get spotlightsShowRanking;
+
+  /// No description provided for @spotlightsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No spotlights available.'**
+  String get spotlightsEmpty;
+
+  /// No description provided for @spotlightsMaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmapsets'**
+  String get spotlightsMaps;
+
+  /// No description provided for @spotlightsNoMaps.
+  ///
+  /// In en, this message translates to:
+  /// **'No beatmapsets for this spotlight and ruleset.'**
+  String get spotlightsNoMaps;
+
+  /// No description provided for @spotlightsRankingLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Spotlight ranking · up to 40 players'**
+  String get spotlightsRankingLimit;
+
+  /// No description provided for @spotlightsNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This spotlight or ruleset is unavailable.'**
+  String get spotlightsNotFound;
+
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:

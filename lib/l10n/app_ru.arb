@@ -1,5 +1,13 @@
 {
   "@@locale": "ru",
+  "spotlightsTitle": "Подборки Spotlights",
+  "spotlightsChoose": "Выбрать подборку",
+  "spotlightsShowRanking": "Показать выбранную подборку",
+  "spotlightsEmpty": "Нет доступных подборок.",
+  "spotlightsMaps": "Наборы карт",
+  "spotlightsNoMaps": "В этой подборке нет карт для выбранного режима.",
+  "spotlightsRankingLimit": "Рейтинг подборки · до 40 игроков",
+  "spotlightsNotFound": "Подборка или выбранный режим недоступны.",
   "appTitle": "Tracksu",
   "guestModeTitle": "Гостевой режим",
   "guestSignedOutDescription": "Просматривайте публичные данные osu! в гостевом режиме. Вход добавит возможности аккаунта.",

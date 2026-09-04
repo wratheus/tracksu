@@ -1,11 +1,12 @@
 # Очередь переработки Tracksu
 
-2026-09-05 · единственная активная очередь. Сверена с кодом и историей Git.
+2026-09-06 · единственная активная очередь. Сверена с кодом и историей Git.
 
 ## Сейчас
 
-**P11 — глобальные рейтинги**: PP/score, четыре режима и серверная пагинация.
-[Карточка и ручные сценарии](work/P11-rankings.md).
+**Следующий срез — P13, новости**: список, чтение и безопасные ссылки.
+P11 (PP/score, страны, mania variants и spotlights) реализован и ждёт
+[ручной проверки](work/P11-rankings.md).
 
 Уже реализованная основа вынесена в [IMPLEMENTED](IMPLEMENTED.md).
 Архив означает наличие кода, а не автоматически подтверждённое поведение.
@@ -19,7 +20,7 @@
 | 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
 | 2 · P10 · [scores](work/P10-scores.md) / [карты](work/P10-beatmaps.md) | Best/recent и восемь категорий карт подключены: scoped Bloc, lazy slivers, refresh/load-more/retry. Ручная проверка; cleanup зависимых legacy consumers после P12. legacy: false для scores | awaiting_manual_check |
 | 3 · [P12](work/P12-beatmap.md) | Подключены typed navigation из профиля, набор/выбор сложности, публичный top leaderboard, новые Score/mod acronyms и back. Ручная проверка; расширенные фильтры отдельно | awaiting_manual_check |
-| 4 · [P11](work/P11-rankings.md) | PP/score × четыре режима, cursor paging/refresh/retry, переход в профиль, страны и mania 4K/7K подключены. Остались ручная проверка и spotlights | in_progress |
+| 4 · [P11](work/P11-rankings.md) | PP/score × четыре режима, paging, страны/mania variants, spotlights с картами и переходами подключены. Ручная проверка; legacy cleanup по usages | awaiting_manual_check |
 | 5 · [P13](DETAILS.md#features) | Новости: список, безопасный HTML и ссылки, ошибки/пагинация; доступ из mobile shell | backlog |
 | 6 · [P01.2](DETAILS.md#p01-2) | Аудит assets: происхождение/права, вес, usage, дубли/форматы; основа согласования визуального направления | backlog |
 | 7 · [P07 — планирование](DETAILS.md#p07) | Согласовать с пользователем аккуратный osu!-стиль, пригодные assets, палитру/шрифты/иконки, состояния и примеры ключевых экранов. Не реализовывать темы до согласования | backlog |
@@ -37,8 +38,8 @@
 | [P17](DETAILS.md#p17) | BFF с callback/token exchange, убрать secret из binary, выбрать domain/hosting/stack после client MVP | deferred |
 | [T01](DETAILS.md#t01) | Автотесты — только по отдельному решению; не пишем и не запускаем параллельно | deferred |
 
-Следующая большая задача — **рейтинги (P11)**, параллельно
-пользователь проверяет P09/P10/P12. Приоритет — восстановление
+Следующая большая задача — **новости (P13)**, параллельно
+пользователь проверяет P09/P10/P11/P12. Приоритет — восстановление
 функциональности, а не редизайн. P09 заменяет только поиск/шапку/статистику,
 не весь legacy user_page и его вложенные сценарии.
 

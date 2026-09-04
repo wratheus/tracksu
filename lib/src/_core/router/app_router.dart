@@ -4,6 +4,7 @@ import 'package:tracksu/src/guest/presentation/guest_shell.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/beatmap/main.dart';
 import 'package:tracksu/src/rankings/main.dart';
+import 'package:tracksu/src/rankings/spotlights/main.dart';
 import 'package:tracksu/src/profile/main.dart';
 import 'package:tracksu/src/profile/domain/profile_params.dart';
 
@@ -29,6 +30,15 @@ final class TracksuAppRouter {
       MaterialPageRoute<void>(
         settings: const RouteSettings(name: '/rankings'),
         builder: (_) => const RankingsMain(),
+      ),
+    );
+  }
+
+  Future<void> openSpotlights(BuildContext context) async {
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        settings: const RouteSettings(name: '/rankings/spotlights'),
+        builder: (_) => const SpotlightsMain(),
       ),
     );
   }

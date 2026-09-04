@@ -10,6 +10,31 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get spotlightsTitle => 'Spotlights';
+
+  @override
+  String get spotlightsChoose => 'Choose a spotlight';
+
+  @override
+  String get spotlightsShowRanking => 'Show selected spotlight';
+
+  @override
+  String get spotlightsEmpty => 'No spotlights available.';
+
+  @override
+  String get spotlightsMaps => 'Beatmapsets';
+
+  @override
+  String get spotlightsNoMaps =>
+      'No beatmapsets for this spotlight and ruleset.';
+
+  @override
+  String get spotlightsRankingLimit => 'Spotlight ranking · up to 40 players';
+
+  @override
+  String get spotlightsNotFound => 'This spotlight or ruleset is unavailable.';
+
+  @override
   String get appTitle => 'Tracksu';
 
   @override

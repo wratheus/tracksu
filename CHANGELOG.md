@@ -4,6 +4,10 @@
 
 ### Added
 
+- Spotlights catalog and charts route from rankings: ruleset selection,
+  beatmapsets and score ranking, navigation to existing profiles/map details,
+  latest-wins cancellation, content-preserving refresh/retry and en/ru strings.
+
 - Rankings country filter and mania 4K/7K selection with English/Russian labels.
   Filters persist during paging/refresh; switching away from mania resets its
   variant. Country codes are normalized and validated before requesting data.

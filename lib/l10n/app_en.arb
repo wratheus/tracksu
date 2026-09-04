@@ -1,5 +1,13 @@
 {
   "@@locale": "en",
+  "spotlightsTitle": "Spotlights",
+  "spotlightsChoose": "Choose a spotlight",
+  "spotlightsShowRanking": "Show selected spotlight",
+  "spotlightsEmpty": "No spotlights available.",
+  "spotlightsMaps": "Beatmapsets",
+  "spotlightsNoMaps": "No beatmapsets for this spotlight and ruleset.",
+  "spotlightsRankingLimit": "Spotlight ranking · up to 40 players",
+  "spotlightsNotFound": "This spotlight or ruleset is unavailable.",
   "appTitle": "Tracksu",
   "guestModeTitle": "Guest mode",
   "guestSignedOutDescription": "Browse public osu! data as a guest. Signing in will add account features.",
