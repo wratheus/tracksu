@@ -913,6 +913,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ranked score: {score}'**
   String rankingsRankedScore(int score);
+
+  /// No description provided for @rankingsCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Country code'**
+  String get rankingsCountry;
+
+  /// No description provided for @rankingsCountryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Two letters, e.g. JP or US; empty means worldwide.'**
+  String get rankingsCountryHint;
+
+  /// No description provided for @rankingsCountryInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a two-letter country code.'**
+  String get rankingsCountryInvalid;
+
+  /// No description provided for @rankingsApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply country'**
+  String get rankingsApply;
+
+  /// No description provided for @rankingsWorldwide.
+  ///
+  /// In en, this message translates to:
+  /// **'Worldwide'**
+  String get rankingsWorldwide;
+
+  /// No description provided for @rankingsAllKeys.
+  ///
+  /// In en, this message translates to:
+  /// **'All key counts'**
+  String get rankingsAllKeys;
 }
 
 class _AppLocalizationsDelegate

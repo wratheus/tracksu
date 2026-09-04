@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/rankings/domain/entry.dart';
 import 'package:tracksu/src/rankings/domain/rankings_query.dart';
 import 'package:tracksu/src/rankings/domain/rankings_repository.dart';
@@ -25,6 +26,8 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
   ) async {
     RankingsLoadedState? previous;
     var type = state.type;
+    var country = state.country;
+    var variant = state.variant;
     var operation = RankingsOperation.refresh;
     var requestedPage = 1;
     switch (event) {
@@ -37,6 +40,13 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
           return;
         }
         type = value;
+        if (type.ruleset != ProfileRuleset.mania) variant = ManiaVariant.all;
+      case RankingsCountrySelected(:final value):
+        if (value?.value == country?.value) return;
+        country = value;
+      case RankingsVariantSelected(:final value):
+        if (type.ruleset != ProfileRuleset.mania || value == variant) return;
+        variant = value;
       case RankingsRefreshRequested():
         if (state is RankingsLoadingState) {
           return;
@@ -65,9 +75,11 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
     final int generation = ++_generation;
     emit(
       previous == null
-          ? RankingsLoadingState(type: type)
+          ? RankingsLoadingState(type: type, country: country, variant: variant)
           : RankingsLoadedState(
               type: type,
+              country: country,
+              variant: variant,
               items: previous.items,
               nextPage: previous.nextPage,
               operation: operation,
@@ -75,7 +87,12 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
     );
     try {
       final RankingsPage page = await _repository.load(
-        RankingsQuery(type: type, page: requestedPage),
+        RankingsQuery(
+          type: type,
+          country: country,
+          variant: variant,
+          page: requestedPage,
+        ),
       );
       if (generation != _generation || emit.isDone || isClosed) {
         return;
@@ -88,6 +105,8 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
       emit(
         RankingsLoadedState(
           type: type,
+          country: country,
+          variant: variant,
           items: unique.values.toList(growable: false),
           nextPage: page.nextPage,
         ),
@@ -102,9 +121,16 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
       addError(RankingsFailure(kind), stackTrace);
       emit(
         previous == null
-            ? RankingsFailureState(type: type, failure: kind)
+            ? RankingsFailureState(
+                type: type,
+                country: country,
+                variant: variant,
+                failure: kind,
+              )
             : RankingsLoadedState(
                 type: type,
+                country: country,
+                variant: variant,
                 items: previous.items,
                 nextPage: previous.nextPage,
                 failure: kind,

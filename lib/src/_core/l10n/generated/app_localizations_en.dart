@@ -528,4 +528,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String rankingsRankedScore(int score) {
     return 'Ranked score: $score';
   }
+
+  @override
+  String get rankingsCountry => 'Country code';
+
+  @override
+  String get rankingsCountryHint =>
+      'Two letters, e.g. JP or US; empty means worldwide.';
+
+  @override
+  String get rankingsCountryInvalid => 'Enter a two-letter country code.';
+
+  @override
+  String get rankingsApply => 'Apply country';
+
+  @override
+  String get rankingsWorldwide => 'Worldwide';
+
+  @override
+  String get rankingsAllKeys => 'All key counts';
 }

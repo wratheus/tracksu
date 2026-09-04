@@ -8,6 +8,7 @@ import 'package:tracksu/src/rankings/bloc/bloc.dart';
 import 'package:tracksu/src/rankings/domain/rankings_query.dart';
 import 'package:tracksu/src/rankings/domain/rankings_repository.dart';
 import 'package:tracksu/src/rankings/widgets/entry_card.dart';
+import 'package:tracksu/src/rankings/widgets/filters.dart';
 
 final class RankingsSection extends StatelessWidget {
   const RankingsSection({super.key});
@@ -44,6 +45,7 @@ final class RankingsSection extends StatelessWidget {
                   ],
                 ),
               ),
+              const RankingsFilters(),
               BlocSelector<RankingsBloc, RankingsState, bool>(
                 selector: (RankingsState state) =>
                     state is RankingsInitialState ||

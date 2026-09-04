@@ -4,6 +4,10 @@
 
 ### Added
 
+- Rankings country filter and mania 4K/7K selection with English/Russian labels.
+  Filters persist during paging/refresh; switching away from mania resets its
+  variant. Country codes are normalized and validated before requesting data.
+
 - Ranking rows open the selected player's profile in the ranking ruleset.
   Back keeps the ranking route and loaded pages; repeated row taps are guarded.
 

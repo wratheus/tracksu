@@ -320,5 +320,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "rankingsCountry": "Код страны",
+  "rankingsCountryHint": "Две буквы, например JP или US; пустое поле — весь мир.",
+  "rankingsCountryInvalid": "Введите код страны из двух латинских букв.",
+  "rankingsApply": "Применить страну",
+  "rankingsWorldwide": "Весь мир",
+  "rankingsAllKeys": "Все варианты клавиш"
 }

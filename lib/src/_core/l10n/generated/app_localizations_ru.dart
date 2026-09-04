@@ -532,4 +532,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String rankingsRankedScore(int score) {
     return 'Рейтинговые очки: $score';
   }
+
+  @override
+  String get rankingsCountry => 'Код страны';
+
+  @override
+  String get rankingsCountryHint =>
+      'Две буквы, например JP или US; пустое поле — весь мир.';
+
+  @override
+  String get rankingsCountryInvalid =>
+      'Введите код страны из двух латинских букв.';
+
+  @override
+  String get rankingsApply => 'Применить страну';
+
+  @override
+  String get rankingsWorldwide => 'Весь мир';
+
+  @override
+  String get rankingsAllKeys => 'Все варианты клавиш';
 }

@@ -320,5 +320,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "rankingsCountry": "Country code",
+  "rankingsCountryHint": "Two letters, e.g. JP or US; empty means worldwide.",
+  "rankingsCountryInvalid": "Enter a two-letter country code.",
+  "rankingsApply": "Apply country",
+  "rankingsWorldwide": "Worldwide",
+  "rankingsAllKeys": "All key counts"
 }

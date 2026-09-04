@@ -23,6 +23,10 @@ final class OsuRankingsRemoteSource implements RankingsRemoteSource {
       queryParameters: <String, Object?>{
         'cursor[page]': query.page,
         'filter': 'all',
+        if (query.country case final RankingCountry country)
+          'country': country.value,
+        if (query.variant.apiValue case final String variant)
+          'variant': variant,
       },
       options: options,
     );

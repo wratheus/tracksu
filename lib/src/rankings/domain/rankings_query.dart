@@ -23,9 +23,40 @@ enum RankingsType {
 }
 
 final class RankingsQuery {
-  RankingsQuery({required this.type, this.page = 1}) {
+  RankingsQuery({
+    required this.type,
+    this.page = 1,
+    this.country,
+    this.variant = ManiaVariant.all,
+  }) {
     if (page < 1) throw ArgumentError.value(page, 'page');
+    if (type.ruleset != ProfileRuleset.mania && variant != ManiaVariant.all) {
+      throw ArgumentError('Variants are only available for mania.');
+    }
   }
   final RankingsType type;
   final int page;
+  final RankingCountry? country;
+  final ManiaVariant variant;
+}
+
+enum ManiaVariant {
+  all(null),
+  fourKeys('4k'),
+  sevenKeys('7k');
+
+  const ManiaVariant(this.apiValue);
+  final String? apiValue;
+}
+
+final class RankingCountry {
+  factory RankingCountry(String input) {
+    final String value = input.trim().toUpperCase();
+    if (!RegExp(r'^[A-Z]{2}$').hasMatch(value)) {
+      throw const FormatException('Expected a two-letter country code.');
+    }
+    return RankingCountry._(value);
+  }
+  const RankingCountry._(this.value);
+  final String value;
 }

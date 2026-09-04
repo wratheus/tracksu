@@ -8,6 +8,16 @@ final class RankingsStarted extends RankingsEvent {
   const RankingsStarted();
 }
 
+final class RankingsCountrySelected extends RankingsEvent {
+  const RankingsCountrySelected(this.value);
+  final RankingCountry? value;
+}
+
+final class RankingsVariantSelected extends RankingsEvent {
+  const RankingsVariantSelected(this.value);
+  final ManiaVariant value;
+}
+
 final class RankingsTypeSelected extends RankingsEvent {
   const RankingsTypeSelected(this.value);
   final RankingsType value;

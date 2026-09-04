@@ -19,7 +19,7 @@
 | 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
 | 2 · P10 · [scores](work/P10-scores.md) / [карты](work/P10-beatmaps.md) | Best/recent и восемь категорий карт подключены: scoped Bloc, lazy slivers, refresh/load-more/retry. Ручная проверка; cleanup зависимых legacy consumers после P12. legacy: false для scores | awaiting_manual_check |
 | 3 · [P12](work/P12-beatmap.md) | Подключены typed navigation из профиля, набор/выбор сложности, публичный top leaderboard, новые Score/mod acronyms и back. Ручная проверка; расширенные фильтры отдельно | awaiting_manual_check |
-| 4 · [P11](work/P11-rankings.md) | PP/score × четыре режима, cursor paging/refresh/retry, вход из shell и переход в профиль подключены. Ручная проверка; страны/variants/spotlights остаются | in_progress |
+| 4 · [P11](work/P11-rankings.md) | PP/score × четыре режима, cursor paging/refresh/retry, переход в профиль, страны и mania 4K/7K подключены. Остались ручная проверка и spotlights | in_progress |
 | 5 · [P13](DETAILS.md#features) | Новости: список, безопасный HTML и ссылки, ошибки/пагинация; доступ из mobile shell | backlog |
 | 6 · [P01.2](DETAILS.md#p01-2) | Аудит assets: происхождение/права, вес, usage, дубли/форматы; основа согласования визуального направления | backlog |
 | 7 · [P07 — планирование](DETAILS.md#p07) | Согласовать с пользователем аккуратный osu!-стиль, пригодные assets, палитру/шрифты/иконки, состояния и примеры ключевых экранов. Не реализовывать темы до согласования | backlog |
