@@ -5,8 +5,9 @@
 ## Сейчас
 
 **P16 — cleanup legacy, без изменения дизайна**:
-[первый срез](work/P16-legacy-cleanup.md) удаляет неиспользуемый граф старых
-экранов. Далее — активная authorization presentation. Дизайн/темы на паузе;
+[два среза](work/P16-legacy-cleanup.md) удалили неиспользуемый граф старых
+экранов и перенесли авторизацию в auth; pages больше нет. Далее — ручной OAuth
+smoke и аудит оставшихся assets/legacy-зависимостей. Дизайн/темы на паузе;
 промпт Stitch не означает начало реализации P07. P09–P13 ждут ручной приёмки.
 
 Уже реализованная основа вынесена в [IMPLEMENTED](IMPLEMENTED.md).
@@ -28,7 +29,7 @@
 | 8 · [P07 + P07.1 — реализация](DETAILS.md#p07) | После согласования: tracksu_ui, единые light/dark/ThemeMode, AppBar/кнопки, вынос l10n в пакет. Не блокирует функциональный перенос страниц | backlog |
 | 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade, базовые действия и UI binding, privacy/consent; выбрать Firebase environment | backlog |
 | 10 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |
-| Сейчас · [P16](work/P16-legacy-cleanup.md) | Неиспользуемый граф из 45 файлов и старые прямые зависимости удалены. Далее — активная authorization presentation; palette/assets отдельно, без дизайна | in_progress |
+| Сейчас · [P16](work/P16-legacy-cleanup.md) | Мёртвый граф и старые прямые зависимости удалены; авторизация перенесена в auth, pages удалена. Ручной OAuth smoke; palette/assets отдельно, без дизайна | in_progress |
 | До выпуска · [P08](DETAILS.md#p08) | Полный ручной auth/session flow, решение об очистке/миграции старого storage, восстановление после ошибок; новый guest token не пользовательская сессия | backlog |
 | До выпуска · [P02 + P06](DETAILS.md#p02) | Scripts/CI format-analyze-build без тестов; analyze всего lib/packages чистый после P16. Проверить оставшиеся plugins; общий error reporting/lifetime по фактическим consumers | backlog |
 | До выпуска · [P02.1](DETAILS.md#p02-1) | Поддерживать README/CHANGELOG при каждом срезе; дополнить команды CI, package contracts и release-инструкцию по мере реализации | ongoing |
@@ -39,7 +40,7 @@
 | [P17](DETAILS.md#p17) | BFF с callback/token exchange, убрать secret из binary, выбрать domain/hosting/stack после client MVP | deferred |
 | [T01](DETAILS.md#t01) | Автотесты — только по отдельному решению; не пишем и не запускаем параллельно | deferred |
 
-Следующие части — **P16: активная authorization presentation**, затем P01.2 аудит assets,
+Следующие части — **P16/P01.2: аудит оставшихся assets и legacy-зависимостей**,
 параллельно пользователь проверяет P09/P10/P11/P12/P13. Приоритет — восстановление
 функциональности, а не редизайн. Удаление недостижимого legacy не означает,
 что все его исторические возможности реализованы: расширенная статистика,
@@ -48,8 +49,9 @@ about/medals/audio и прочие отсутствующие сценарии �
 Старые user_page/user_tab_page, beatmap_page, rankings_page/rankings_tab_page,
 last_news_page, Home/desktop/drawer/error и зависимые модели/Cubit удалены
 как недостижимый из main.dart граф. Новый shell открывает profile, beatmap,
-rankings/spotlights, news. authorization_page ещё требует переноса; активная
-палитра сохраняется без изменений. Подробности и восстановление — в P16/Git.
+rankings/spotlights, news и AuthMain. authorization_page удалена, OAuth теперь
+изолирован в auth. Активная палитра сохраняется без изменений.
+Подробности и восстановление — в P16/Git.
 
 До P07 используем текущее временное оформление и изолированные widgets,
 не вводим новую палитру/брендинг. Локализация новых экранов продолжает работать

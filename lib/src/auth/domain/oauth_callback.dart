@@ -70,6 +70,7 @@ final class OAuthCallbackParser {
 
   bool _isExpectedCallbackUri(Uri uri) {
     return uri.scheme == _scheme &&
+        uri.port == 443 &&
         uri.host == _host &&
         uri.path == _path &&
         uri.userInfo.isEmpty &&

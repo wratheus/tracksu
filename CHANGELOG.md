@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Refactored
+
+- Moved live authorization from pages into auth: local composition, typed Bloc
+  states/events, transaction/browser repository and lifecycle-only screen.
+  Router owns success navigation. Removed the last pages file; palette retained.
+  Reused en/ru strings, guarded duplicate callbacks/start and browser failures,
+  and retained the callback URL, scopes and pending-transaction storage format.
+
 ### Removed
 
 - 45 unreachable legacy Dart files: old Home/desktop navigation, drawer/error

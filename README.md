@@ -71,9 +71,9 @@ Guest client-credentials flow браузер/callback не использует.
   гостевой token cache изолирован и хранится только в памяти.
 - `packages/tracksu_network` — REST поверх http, interceptors/options/payload.
 - `packages/tracksu_storage` — secure tokens, callback transaction и locale.
-- Неиспользуемые legacy pages/models/requests/widgets удалены. Из старых путей
-  пока активны `pages/authorization_page.dart` и `utils/color_contrasts.dart`;
-  их перенос отдельно, без изменения дизайна в cleanup.
+- Legacy pages/models/requests/widgets удалены. Вход теперь находится в `auth`:
+  AuthMain → AuthorizationBloc → screen; pending transaction/browser — repository.
+  Из старых путей осталась `utils/color_contrasts.dart`: палитра не менялась.
 
 ```sh
 fvm dart analyze lib packages/tracksu_network/lib packages/tracksu_storage/lib

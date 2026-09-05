@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:tracksu/src/pages/authorization_page.dart';
+import 'package:tracksu/src/auth/main.dart';
+import 'package:tracksu/src/auth/domain/authorization.dart';
 import 'package:tracksu/src/guest/presentation/guest_shell.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/beatmap/main.dart';
@@ -81,7 +84,17 @@ final class TracksuAppRouter {
   Future<void> openLogin(BuildContext context) async {
     await Navigator.of(context).push<void>(
       MaterialPageRoute<void>(
-        builder: (_) => const LoginScreen(startAuthorizationOnOpen: true),
+        builder: (_) =>
+            const AuthMain(params: AuthorizationParams(startOnOpen: true)),
+      ),
+    );
+  }
+
+  void finishAuthorization(BuildContext context) {
+    unawaited(
+      Navigator.of(context).pushAndRemoveUntil<void>(
+        MaterialPageRoute<void>(builder: (_) => const GuestShell()),
+        (Route<dynamic> route) => false,
       ),
     );
   }
@@ -90,8 +103,11 @@ final class TracksuAppRouter {
     if (settings.name == _oauthCallbackRoute) {
       return MaterialPageRoute<void>(
         settings: settings,
-        builder: (_) =>
-            LoginScreen(initialCallbackUri: initialOAuthCallbackUri),
+        builder: (_) => AuthMain(
+          params: AuthorizationParams(
+            initialCallbackUri: initialOAuthCallbackUri,
+          ),
+        ),
       );
     }
 
