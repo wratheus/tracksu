@@ -4,6 +4,11 @@
 
 ### Added
 
+- Guest news feed and article reader: opaque cursor pagination, content-preserving
+  refresh/retry, route-scoped cancellation, lazy slivers and en/ru UI.
+  Article HTML is reduced to allowlisted text markup; HTTPS links and the
+  canonical osu! original open externally instead of the legacy edit_url.
+
 - Spotlights catalog and charts route from rankings: ruleset selection,
   beatmapsets and score ranking, navigation to existing profiles/map details,
   latest-wins cancellation, content-preserving refresh/retry and en/ru strings.

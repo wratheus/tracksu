@@ -77,6 +77,11 @@ final class _AccountActionsState extends State<_AccountActions> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButton(
+          tooltip: context.t.newsTitle,
+          icon: const Icon(Icons.newspaper),
+          onPressed: () => DepsScope.of(context).appRouter.openNews(context),
+        ),
+        IconButton(
           tooltip: context.t.rankingsTitle,
           icon: const Icon(Icons.leaderboard),
           onPressed: () async =>

@@ -98,6 +98,90 @@ abstract class AppLocalizations {
     Locale('ru'),
   ];
 
+  /// No description provided for @newsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'News'**
+  String get newsTitle;
+
+  /// No description provided for @newsRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh news'**
+  String get newsRefresh;
+
+  /// No description provided for @newsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No news available.'**
+  String get newsEmpty;
+
+  /// No description provided for @newsLoadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more news'**
+  String get newsLoadMore;
+
+  /// No description provided for @newsLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading news…'**
+  String get newsLoading;
+
+  /// No description provided for @newsKeepingContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Previously loaded content is still shown.'**
+  String get newsKeepingContent;
+
+  /// No description provided for @newsNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This news post is unavailable.'**
+  String get newsNotFound;
+
+  /// No description provided for @newsCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'News loading was cancelled.'**
+  String get newsCancelled;
+
+  /// No description provided for @newsAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to access news.'**
+  String get newsAccessDenied;
+
+  /// No description provided for @newsInvalidResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'The news response could not be read.'**
+  String get newsInvalidResponse;
+
+  /// No description provided for @newsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'News is temporarily unavailable.'**
+  String get newsUnavailable;
+
+  /// No description provided for @newsLinkFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to open this link.'**
+  String get newsLinkFailed;
+
+  /// No description provided for @newsOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'Open original'**
+  String get newsOriginal;
+
+  /// No description provided for @newsReaderNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Text reading mode. Images, media and original formatting are available on the osu! website.'**
+  String get newsReaderNotice;
+
   /// No description provided for @spotlightsTitle.
   ///
   /// In en, this message translates to:

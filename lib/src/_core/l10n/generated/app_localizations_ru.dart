@@ -10,6 +10,49 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get newsTitle => 'Новости';
+
+  @override
+  String get newsRefresh => 'Обновить новости';
+
+  @override
+  String get newsEmpty => 'Новостей пока нет.';
+
+  @override
+  String get newsLoadMore => 'Загрузить ещё новости';
+
+  @override
+  String get newsLoading => 'Загружаем новости…';
+
+  @override
+  String get newsKeepingContent => 'Показаны ранее загруженные данные.';
+
+  @override
+  String get newsNotFound => 'Эта новость недоступна.';
+
+  @override
+  String get newsCancelled => 'Загрузка новости отменена.';
+
+  @override
+  String get newsAccessDenied => 'Нет доступа к новостям.';
+
+  @override
+  String get newsInvalidResponse => 'Не удалось прочитать ответ с новостями.';
+
+  @override
+  String get newsUnavailable => 'Новости временно недоступны.';
+
+  @override
+  String get newsLinkFailed => 'Не удалось открыть ссылку.';
+
+  @override
+  String get newsOriginal => 'Открыть оригинал';
+
+  @override
+  String get newsReaderNotice =>
+      'Режим чтения текста. Изображения, медиа и исходное оформление доступны на сайте osu!.';
+
+  @override
   String get spotlightsTitle => 'Подборки Spotlights';
 
   @override

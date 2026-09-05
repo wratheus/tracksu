@@ -10,6 +10,49 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get newsTitle => 'News';
+
+  @override
+  String get newsRefresh => 'Refresh news';
+
+  @override
+  String get newsEmpty => 'No news available.';
+
+  @override
+  String get newsLoadMore => 'Load more news';
+
+  @override
+  String get newsLoading => 'Loading news…';
+
+  @override
+  String get newsKeepingContent => 'Previously loaded content is still shown.';
+
+  @override
+  String get newsNotFound => 'This news post is unavailable.';
+
+  @override
+  String get newsCancelled => 'News loading was cancelled.';
+
+  @override
+  String get newsAccessDenied => 'Unable to access news.';
+
+  @override
+  String get newsInvalidResponse => 'The news response could not be read.';
+
+  @override
+  String get newsUnavailable => 'News is temporarily unavailable.';
+
+  @override
+  String get newsLinkFailed => 'Unable to open this link.';
+
+  @override
+  String get newsOriginal => 'Open original';
+
+  @override
+  String get newsReaderNotice =>
+      'Text reading mode. Images, media and original formatting are available on the osu! website.';
+
+  @override
   String get spotlightsTitle => 'Spotlights';
 
   @override
