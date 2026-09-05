@@ -51,10 +51,12 @@ iframe/embedded media. Ссылки только HTTPS без credentials, от�
 - Public allowlist дополнен только GET /news и /news/{positive ID} на osu.ppy.sh.
   Auth, token lifecycle и API response version не изменены.
 
-Legacy usages: LastNewsPage ещё включён в home_page/home_page_desktop, NewsCubit
+Исторический baseline до P16: LastNewsPage был включён в home_page/home_page_desktop, NewsCubit
 и NewsWidget используются только старым экраном; getNews находится в общем
 requests.dart. Их удаление относится к P16 вместе с остатком legacy Home/drawer,
 а не к удалению одного файла с оставшимися imports. Новый shell не использует их.
+Обновление 2026-09-06: весь этот недостижимый граф удалён в
+[P16](P16-legacy-cleanup.md); ручная приёмка новостей остаётся отдельной.
 
 ## Ручная приёмка
 

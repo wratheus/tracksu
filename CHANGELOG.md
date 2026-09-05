@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Removed
+
+- 45 unreachable legacy Dart files: old Home/desktop navigation, drawer/error
+  flow, profile/rankings/beatmap/news pages, Cubits, models, requests and helpers.
+  Active authorization and palette remain unchanged; assets/storage are untouched.
+- Direct dependencies on curved_navigation_bar, fluttericon, audioplayers,
+  cached_network_image and provider. The latter two remain transitively required.
+
 ### Added
 
 - Guest news feed and article reader: opaque cursor pagination, content-preserving

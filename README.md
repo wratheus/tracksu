@@ -29,7 +29,7 @@ mania, без отдельной статистики 4K/7K. Из рейтинг
 Новости доступны из верхней панели: ленивая лента с догрузкой, чтение текста
 статьи и открытие оригинала в браузере. В reader нет встроенных изображений,
 видео и оригинальных стилей — для них используется сайт osu!.
-Audio ещё находится в legacy-коде и не объявляется готовой функцией нового shell.
+Audio preview пока не реализован; неиспользуемый старый player удалён.
 Beatmap пока без audio, фильтров mods и персональных таблиц. Сначала восстанавливаем эти
 сценарии; UI kit/единые темы отдельно планируем и согласуем с assets и
 osu!-стилем. Нынешнее оформление временное.
@@ -71,18 +71,18 @@ Guest client-credentials flow браузер/callback не использует.
   гостевой token cache изолирован и хранится только в памяти.
 - `packages/tracksu_network` — REST поверх http, interceptors/options/payload.
 - `packages/tracksu_storage` — secure tokens, callback transaction и locale.
-- Старые `pages/models/requests/widgets` удаляются по мере замены consumers,
-  а не используются как архитектурный образец для новых features.
+- Неиспользуемые legacy pages/models/requests/widgets удалены. Из старых путей
+  пока активны `pages/authorization_page.dart` и `utils/color_contrasts.dart`;
+  их перенос отдельно, без изменения дизайна в cleanup.
 
 ```sh
-fvm dart analyze lib/src/profile lib/src/guest lib/src/auth lib/src/session lib/src/_core packages/tracksu_network
-fvm flutter analyze --no-pub
+fvm dart analyze lib packages/tracksu_network/lib packages/tracksu_storage/lib
 fvm flutter build apk --debug
 ```
 
-Полный analyzer пока выявляет legacy debt; локальный clean gate не означает
-clean всего репозитория. Автотесты сейчас намеренно не пишутся и не запускаются:
-поведение проверяется вручную.
+На 2026-09-06 анализ всего `lib` и исходников обоих packages проходит без
+замечаний. Это не проверка тестовых каталогов или поведения на устройстве.
+Автотесты сейчас намеренно не пишутся и не запускаются: поведение проверяется вручную.
 
 APK: `build/app/outputs/flutter-apk/app-debug.apk`.
 Все variants пока используют **debug signing**; это не production-конфигурация.
