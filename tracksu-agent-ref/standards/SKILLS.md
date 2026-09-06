@@ -63,6 +63,9 @@ regression tests, mocks/fakes, golden, coverage и test CI **не выполня
   исходная skill-шкала 5/10/15/20/30 — стартовый вариант для design tokens.
 - `context.t`, ARB и все согласованные языки обязательны для нового UI.
   Не держать временные английские/русские строки в widget в ожидании «дня перевода».
+- ARB оформляем по [Flutter-guidelines policy](LOCALIZATION.md), не по TSD:
+  английский шаблон с descriptions/typed placeholders, семь полных каталогов,
+  generated output не правим руками. Эта пользовательская policy выше примеров skills.
 - Старые адаптеры разрешены только для конкретного legacy consumer с условием
   удаления. Это обоснованный migration boundary, а не вечная compatibility framework.
 - Hardware scanner, RFID/BLE, терминальная vibration policy и server-driven UI

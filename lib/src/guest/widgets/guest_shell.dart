@@ -29,6 +29,11 @@ final class _AccountActionsState extends State<_AccountActions> {
       _LocaleSelection.system => null,
       _LocaleSelection.english => const Locale('en'),
       _LocaleSelection.russian => const Locale('ru'),
+      _LocaleSelection.german => const Locale('de'),
+      _LocaleSelection.french => const Locale('fr'),
+      _LocaleSelection.spanish => const Locale('es'),
+      _LocaleSelection.japanese => const Locale('ja'),
+      _LocaleSelection.chinese => const Locale('zh'),
     };
     try {
       await DepsScope.of(context).localeController.select(locale);
@@ -105,6 +110,26 @@ final class _AccountActionsState extends State<_AccountActions> {
                   value: _LocaleSelection.russian,
                   child: Text(context.t.russianLanguage),
                 ),
+                PopupMenuItem<_LocaleSelection>(
+                  value: _LocaleSelection.german,
+                  child: Text(context.t.germanLanguage),
+                ),
+                PopupMenuItem<_LocaleSelection>(
+                  value: _LocaleSelection.french,
+                  child: Text(context.t.frenchLanguage),
+                ),
+                PopupMenuItem<_LocaleSelection>(
+                  value: _LocaleSelection.spanish,
+                  child: Text(context.t.spanishLanguage),
+                ),
+                PopupMenuItem<_LocaleSelection>(
+                  value: _LocaleSelection.japanese,
+                  child: Text(context.t.japaneseLanguage),
+                ),
+                PopupMenuItem<_LocaleSelection>(
+                  value: _LocaleSelection.chinese,
+                  child: Text(context.t.chineseLanguage),
+                ),
               ],
         ),
         PopupMenuButton<_AccountSelection>(
@@ -141,6 +166,15 @@ final class _AccountActionsState extends State<_AccountActions> {
   }
 }
 
-enum _LocaleSelection { system, english, russian }
+enum _LocaleSelection {
+  system,
+  english,
+  russian,
+  german,
+  french,
+  spanish,
+  japanese,
+  chinese,
+}
 
 enum _AccountSelection { signIn, myProfile, signOut }

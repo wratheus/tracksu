@@ -59,54 +59,10 @@
   "profileUnavailable": "Профиль недоступен. Повторите попытку.",
   "retry": "Повторить",
   "profileId": "ID: {id}",
-  "@profileId": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "profilePerformance": "Рейтинг: {pp}",
-  "@profilePerformance": {
-    "placeholders": {
-      "pp": {
-        "type": "double",
-        "format": "decimalPatternDigits",
-        "optionalParameters": {
-          "decimalDigits": 2
-        }
-      }
-    }
-  },
   "profileCountry": "Страна: {country}",
-  "@profileCountry": {
-    "placeholders": {
-      "country": {
-        "type": "String"
-      }
-    }
-  },
   "profileAccuracy": "Точность: {accuracy}%",
-  "@profileAccuracy": {
-    "placeholders": {
-      "accuracy": {
-        "type": "double",
-        "format": "decimalPatternDigits",
-        "optionalParameters": {
-          "decimalDigits": 2
-        }
-      }
-    }
-  },
   "profilePlayCount": "Количество игр: {count}",
-  "@profilePlayCount": {
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "profileSearchIntroduction": "Найдите игрока osu!, чтобы посмотреть профиль и статистику. Вход не нужен.",
   "profileSearchHelp": "Для числового имени добавьте @ перед именем.",
   "profileSearch": "Найти игрока",
@@ -130,38 +86,6 @@
   "languageChangeFailed": "Не удалось сохранить язык.",
   "languageSelection": "Язык",
   "account": "Аккаунт",
-  "@profileGlobalRank": {
-    "placeholders": {
-      "rank": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "@profileCountryRank": {
-    "placeholders": {
-      "rank": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "@profilePlayTime": {
-    "placeholders": {
-      "hours": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "@profileMaximumCombo": {
-    "placeholders": {
-      "combo": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
   "scoresTitle": "Результаты",
   "scoresBest": "Лучшие",
   "scoresRecent": "Последние",
@@ -184,50 +108,6 @@
   "scoresTotal": "Счёт: {total}",
   "scoresMods": "Моды: {mods}",
   "scoresPlayedAt": "Сыграно: {date}",
-  "@scoresBeatmap": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
-  "@scoresGrade": {
-    "placeholders": {
-      "grade": {
-        "type": "String"
-      }
-    }
-  },
-  "@scoresCombo": {
-    "placeholders": {
-      "combo": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "@scoresTotal": {
-    "placeholders": {
-      "total": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "@scoresMods": {
-    "placeholders": {
-      "mods": {
-        "type": "String"
-      }
-    }
-  },
-  "@scoresPlayedAt": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "beatmapsTitle": "Карты",
   "beatmapsMostPlayed": "Чаще всего играемые",
   "beatmapsFavourite": "Избранные",
@@ -250,27 +130,6 @@
   "beatmapsSetFallback": "Набор карт №{id}",
   "beatmapsMapFallback": "Карта №{id}",
   "beatmapsPlayCount": "Игр: {count}",
-  "@beatmapsSetFallback": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
-  "@beatmapsMapFallback": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
-  "@beatmapsPlayCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "beatmapTitle": "Карта",
   "beatmapNotFound": "Карта не найдена.",
   "beatmapAccessDenied": "Нет доступа к карте или таблице результатов.",
@@ -280,49 +139,12 @@
   "beatmapRefreshLeaderboard": "Обновить результаты",
   "beatmapNoScores": "Нет доступных результатов.",
   "beatmapLeaderboardPlayer": "№{position} · {name}",
-  "@beatmapLeaderboardPlayer": {
-    "placeholders": {
-      "position": {
-        "type": "int"
-      },
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "beatmapPlayerId": "Игрок №{id}",
-  "@beatmapPlayerId": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "beatmapCreator": "Автор: {name}",
-  "@beatmapCreator": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "beatmapRefresh": "Обновить карту",
   "beatmapDifficulties": "Сложности",
   "beatmapNoDifficulties": "Нет доступных сложностей.",
   "beatmapDifficultyInfo": "{mode} · {stars} ★ · {seconds} с",
-  "@beatmapDifficultyInfo": {
-    "placeholders": {
-      "mode": {
-        "type": "String"
-      },
-      "stars": {
-        "type": "double"
-      },
-      "seconds": {
-        "type": "int"
-      }
-    }
-  },
   "rankingsTitle": "Рейтинги",
   "rankingsScore": "Очки",
   "rankingsRefresh": "Обновить рейтинг",
@@ -336,17 +158,15 @@
   "rankingsInvalidResponse": "Некорректный ответ рейтинга.",
   "rankingsUnavailable": "Не удалось загрузить рейтинг.",
   "rankingsRankedScore": "Рейтинговые очки: {score}",
-  "@rankingsRankedScore": {
-    "placeholders": {
-      "score": {
-        "type": "int"
-      }
-    }
-  },
   "rankingsCountry": "Код страны",
   "rankingsCountryHint": "Две буквы, например JP или US; пустое поле — весь мир.",
   "rankingsCountryInvalid": "Введите код страны из двух латинских букв.",
   "rankingsApply": "Применить страну",
   "rankingsWorldwide": "Весь мир",
-  "rankingsAllKeys": "Все варианты клавиш"
+  "rankingsAllKeys": "Все варианты клавиш",
+  "germanLanguage": "Немецкий",
+  "frenchLanguage": "Французский",
+  "spanishLanguage": "Испанский",
+  "japaneseLanguage": "Японский",
+  "chineseLanguage": "Китайский (упрощённый)"
 }

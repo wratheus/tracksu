@@ -620,4 +620,19 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get rankingsAllKeys => 'Все варианты клавиш';
+
+  @override
+  String get germanLanguage => 'Немецкий';
+
+  @override
+  String get frenchLanguage => 'Французский';
+
+  @override
+  String get spanishLanguage => 'Испанский';
+
+  @override
+  String get japaneseLanguage => 'Японский';
+
+  @override
+  String get chineseLanguage => 'Китайский (упрощённый)';
 }

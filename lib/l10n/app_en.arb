@@ -1,65 +1,240 @@
 {
   "@@locale": "en",
   "newsTitle": "News",
+  "@newsTitle": {
+    "description": "Title and navigation label for osu! news."
+  },
   "newsRefresh": "Refresh news",
+  "@newsRefresh": {
+    "description": "Button or tooltip to reload news."
+  },
   "newsEmpty": "No news available.",
+  "@newsEmpty": {
+    "description": "Empty state when no news posts are available."
+  },
   "newsLoadMore": "Load more news",
+  "@newsLoadMore": {
+    "description": "Button to fetch the next page of news."
+  },
   "newsLoading": "Loading news…",
+  "@newsLoading": {
+    "description": "Progress message while fetching news."
+  },
   "newsKeepingContent": "Previously loaded content is still shown.",
+  "@newsKeepingContent": {
+    "description": "Notice that cached news remains visible after a failed refresh."
+  },
   "newsNotFound": "This news post is unavailable.",
+  "@newsNotFound": {
+    "description": "Error when a requested article does not exist or is unavailable."
+  },
   "newsCancelled": "News loading was cancelled.",
+  "@newsCancelled": {
+    "description": "Error after cancelling a news request."
+  },
   "newsAccessDenied": "Unable to access news.",
+  "@newsAccessDenied": {
+    "description": "Error when access to news is denied."
+  },
   "newsInvalidResponse": "The news response could not be read.",
+  "@newsInvalidResponse": {
+    "description": "Error for an unreadable news API response."
+  },
   "newsUnavailable": "News is temporarily unavailable.",
+  "@newsUnavailable": {
+    "description": "Temporary news loading failure."
+  },
   "newsLinkFailed": "Unable to open this link.",
+  "@newsLinkFailed": {
+    "description": "Error when an external article link cannot be opened."
+  },
   "newsOriginal": "Open original",
+  "@newsOriginal": {
+    "description": "Button to open the original article in a browser."
+  },
   "newsReaderNotice": "Text reading mode. Images, media and original formatting are available on the osu! website.",
+  "@newsReaderNotice": {
+    "description": "Explains limitations of the in-app text-only news reader."
+  },
   "spotlightsTitle": "Spotlights",
+  "@spotlightsTitle": {
+    "description": "Title for osu! Spotlight collections; preserve the recognizable product term."
+  },
   "spotlightsChoose": "Choose a spotlight",
+  "@spotlightsChoose": {
+    "description": "Label for the Spotlight selector."
+  },
   "spotlightsShowRanking": "Show selected spotlight",
+  "@spotlightsShowRanking": {
+    "description": "Button to load the selected Spotlight ranking."
+  },
   "spotlightsEmpty": "No spotlights available.",
+  "@spotlightsEmpty": {
+    "description": "Empty Spotlight catalog."
+  },
   "spotlightsMaps": "Beatmapsets",
+  "@spotlightsMaps": {
+    "description": "Heading for beatmap sets in a Spotlight."
+  },
   "spotlightsNoMaps": "No beatmapsets for this spotlight and ruleset.",
+  "@spotlightsNoMaps": {
+    "description": "No maps for the selected Spotlight and game mode."
+  },
   "spotlightsRankingLimit": "Spotlight ranking · up to 40 players",
+  "@spotlightsRankingLimit": {
+    "description": "Explains that the Spotlight ranking shows at most 40 players, not the full ranking."
+  },
   "spotlightsNotFound": "This spotlight or ruleset is unavailable.",
+  "@spotlightsNotFound": {
+    "description": "Selected Spotlight or game mode is unavailable."
+  },
   "appTitle": "Tracksu",
+  "@appTitle": {
+    "description": "Application brand name. Do not translate Tracksu."
+  },
   "guestModeTitle": "Guest mode",
+  "@guestModeTitle": {
+    "description": "Title for unauthenticated browsing."
+  },
   "guestSignedOutDescription": "Browse public osu! data as a guest. Signing in will add account features.",
+  "@guestSignedOutDescription": {
+    "description": "Explains that guests can browse public data and sign-in is optional."
+  },
   "guestSignedInDescription": "You are signed in. Public browsing stays available without an account.",
+  "@guestSignedInDescription": {
+    "description": "Explains that public browsing does not require an account even when signed in."
+  },
   "signInWithOsu": "Sign in with osu!",
+  "@signInWithOsu": {
+    "description": "Account menu action to sign in through osu!."
+  },
   "signInWithAnotherAccount": "Sign in with another account",
+  "@signInWithAnotherAccount": {
+    "description": "Account menu action to switch osu! accounts."
+  },
   "signOut": "Sign out",
+  "@signOut": {
+    "description": "Account menu action to end the app session."
+  },
   "signingOut": "Signing out...",
+  "@signingOut": {
+    "description": "Progress label during sign-out."
+  },
   "signOutFailed": "Unable to sign out. Try again.",
+  "@signOutFailed": {
+    "description": "Sign-out failure with retry guidance."
+  },
   "systemLanguage": "System language",
+  "@systemLanguage": {
+    "description": "Language selector option that follows device preferences."
+  },
   "englishLanguage": "English",
+  "@englishLanguage": {
+    "description": "Language selector label for English."
+  },
   "russianLanguage": "Russian",
+  "@russianLanguage": {
+    "description": "Language selector label for Russian."
+  },
   "loginToOsu": "Login to osu!",
+  "@loginToOsu": {
+    "description": "Authorization screen title."
+  },
   "signingIn": "Signing in...",
+  "@signingIn": {
+    "description": "Progress label during authorization code exchange."
+  },
   "openingOsu": "Opening osu!...",
+  "@openingOsu": {
+    "description": "Progress label while launching osu! in an external browser."
+  },
   "continueWithOsu": "Continue with osu!",
+  "@continueWithOsu": {
+    "description": "Button to launch or retry browser authorization."
+  },
   "authorizationExpired": "This authorization request has expired. Try again.",
+  "@authorizationExpired": {
+    "description": "Pending OAuth transaction has expired; ask the user to retry."
+  },
   "authorizationResponseUnavailable": "Unable to receive the authorization response.",
+  "@authorizationResponseUnavailable": {
+    "description": "The app could not receive the OAuth callback."
+  },
   "authorizationResponseMismatch": "The authorization response did not match this login attempt.",
+  "@authorizationResponseMismatch": {
+    "description": "OAuth state did not match the pending login transaction."
+  },
   "authorizationCancelled": "Authorization was cancelled or refused.",
+  "@authorizationCancelled": {
+    "description": "User cancelled or denied authorization."
+  },
   "authorizationResponseInvalid": "The authorization response is invalid.",
+  "@authorizationResponseInvalid": {
+    "description": "OAuth callback has an invalid format."
+  },
   "authorizationPreparationFailed": "Unable to prepare osu! authorization.",
+  "@authorizationPreparationFailed": {
+    "description": "Unable to create or store the pending authorization request."
+  },
   "authorizationLaunchFailed": "Unable to open osu! authorization.",
+  "@authorizationLaunchFailed": {
+    "description": "Unable to launch the external authorization page."
+  },
   "authorizationCompletionFailed": "Unable to finish authorization.",
+  "@authorizationCompletionFailed": {
+    "description": "Token exchange or session completion failed."
+  },
   "authorizationIncomplete": "Authorization was not completed. Try again.",
+  "@authorizationIncomplete": {
+    "description": "Returned from the browser without completing sign-in."
+  },
   "viewMyProfile": "View my profile",
+  "@viewMyProfile": {
+    "description": "Account menu action to load the signed-in player's profile."
+  },
   "profileTitle": "Profile",
+  "@profileTitle": {
+    "description": "Player profile screen title."
+  },
   "profileSearchHint": "Username or ID",
+  "@profileSearchHint": {
+    "description": "Search field hint accepting a username or numeric player ID."
+  },
   "profileSearchInvalid": "Enter a valid username or positive ID.",
+  "@profileSearchInvalid": {
+    "description": "Validation message for an invalid player query."
+  },
   "rulesetOsu": "osu!",
+  "@rulesetOsu": {
+    "description": "Official game mode name; do not translate."
+  },
   "rulesetTaiko": "taiko",
+  "@rulesetTaiko": {
+    "description": "Official game mode name; do not translate."
+  },
   "rulesetFruits": "catch",
+  "@rulesetFruits": {
+    "description": "Official catch game mode name; do not translate."
+  },
   "rulesetMania": "mania",
+  "@rulesetMania": {
+    "description": "Official game mode name; do not translate."
+  },
   "profileLoading": "Loading profile...",
+  "@profileLoading": {
+    "description": "Progress message while fetching a player profile."
+  },
   "profileUnavailable": "Profile is unavailable. Try again.",
+  "@profileUnavailable": {
+    "description": "Generic player profile loading error."
+  },
   "retry": "Retry",
+  "@retry": {
+    "description": "Button to repeat a failed operation."
+  },
   "profileId": "ID: {id}",
   "@profileId": {
+    "description": "Player's numeric osu! ID; do not add digit grouping.",
     "placeholders": {
       "id": {
         "type": "int"
@@ -68,6 +243,7 @@
   },
   "profilePerformance": "Performance: {pp}",
   "@profilePerformance": {
+    "description": "Player or score performance points (PP), formatted with two decimal places.",
     "placeholders": {
       "pp": {
         "type": "double",
@@ -80,6 +256,7 @@
   },
   "profileCountry": "Country: {country}",
   "@profileCountry": {
+    "description": "Player's country; the parameter is supplied by the API.",
     "placeholders": {
       "country": {
         "type": "String"
@@ -88,6 +265,7 @@
   },
   "profileAccuracy": "Accuracy: {accuracy}%",
   "@profileAccuracy": {
+    "description": "Accuracy as a percentage on a 0–100 scale, not a 0–1 fraction.",
     "placeholders": {
       "accuracy": {
         "type": "double",
@@ -100,6 +278,7 @@
   },
   "profilePlayCount": "Play count: {count}",
   "@profilePlayCount": {
+    "description": "Total number of plays for the selected game mode.",
     "placeholders": {
       "count": {
         "type": "int",
@@ -108,29 +287,72 @@
     }
   },
   "profileSearchIntroduction": "Find an osu! player to view their profile and statistics. No sign-in required.",
+  "@profileSearchIntroduction": {
+    "description": "Guest-first introduction to public player search."
+  },
   "profileSearchHelp": "Use @ before a numeric username.",
+  "@profileSearchHelp": {
+    "description": "Prefix a numeric username with the literal @ character to distinguish it from an ID."
+  },
   "profileSearch": "Find player",
+  "@profileSearch": {
+    "description": "Button to submit player search."
+  },
   "profileRefreshing": "Updating profile",
+  "@profileRefreshing": {
+    "description": "Progress label for refreshing an already visible profile."
+  },
   "profileRefresh": "Refresh",
+  "@profileRefresh": {
+    "description": "Button to refresh the player profile."
+  },
   "profileShowingPreviousData": "Update failed. Previously loaded data is shown.",
+  "@profileShowingPreviousData": {
+    "description": "Refresh failed but previously loaded profile data remains visible."
+  },
   "profileNotFound": "Player not found. Check the name or ID.",
+  "@profileNotFound": {
+    "description": "No matching player; suggest checking the query."
+  },
   "profileAccessDenied": "Access denied by osu!. For your own profile, try signing in again.",
+  "@profileAccessDenied": {
+    "description": "Profile access denied, with sign-in guidance for the user's own profile."
+  },
   "profileRateLimited": "Too many requests. Wait before trying again.",
+  "@profileRateLimited": {
+    "description": "API rate limit error; ask the user to wait."
+  },
   "profileConnectionFailed": "Cannot connect. Check your connection and try again.",
+  "@profileConnectionFailed": {
+    "description": "Network connection failure."
+  },
   "profileInvalidResponse": "The server returned an unsupported profile response.",
+  "@profileInvalidResponse": {
+    "description": "Profile response does not match the supported API contract."
+  },
   "profileOnline": "Online",
+  "@profileOnline": {
+    "description": "Player is currently online."
+  },
   "profileOffline": "Offline",
+  "@profileOffline": {
+    "description": "Player is currently offline."
+  },
   "profileSupporter": "osu!supporter",
+  "@profileSupporter": {
+    "description": "Official osu!supporter label; do not translate."
+  },
   "profileNoStatistics": "No statistics for this ruleset yet.",
+  "@profileNoStatistics": {
+    "description": "No player statistics for the selected game mode."
+  },
   "profileUnranked": "No global rank",
+  "@profileUnranked": {
+    "description": "Player has no global ranking."
+  },
   "profileGlobalRank": "Global rank: #{rank}",
-  "profileCountryRank": "Country rank: #{rank}",
-  "profilePlayTime": "Time played: {hours} h",
-  "profileMaximumCombo": "Maximum combo: {combo}",
-  "languageChangeFailed": "Unable to save the language.",
-  "languageSelection": "Language",
-  "account": "Account",
   "@profileGlobalRank": {
+    "description": "Player's position in the global ranking.",
     "placeholders": {
       "rank": {
         "type": "int",
@@ -138,7 +360,9 @@
       }
     }
   },
+  "profileCountryRank": "Country rank: #{rank}",
   "@profileCountryRank": {
+    "description": "Player's position within their country.",
     "placeholders": {
       "rank": {
         "type": "int",
@@ -146,7 +370,9 @@
       }
     }
   },
+  "profilePlayTime": "Time played: {hours} h",
   "@profilePlayTime": {
+    "description": "Total hours played; use a short unit label.",
     "placeholders": {
       "hours": {
         "type": "int",
@@ -154,7 +380,9 @@
       }
     }
   },
+  "profileMaximumCombo": "Maximum combo: {combo}",
   "@profileMaximumCombo": {
+    "description": "Player's highest combo count.",
     "placeholders": {
       "combo": {
         "type": "int",
@@ -162,43 +390,103 @@
       }
     }
   },
+  "languageChangeFailed": "Unable to save the language.",
+  "@languageChangeFailed": {
+    "description": "Language preference could not be saved."
+  },
+  "languageSelection": "Language",
+  "@languageSelection": {
+    "description": "Tooltip for the app language selector."
+  },
+  "account": "Account",
+  "@account": {
+    "description": "Tooltip for the account menu."
+  },
   "scoresTitle": "Scores",
+  "@scoresTitle": {
+    "description": "Heading for player scores."
+  },
   "scoresBest": "Best",
+  "@scoresBest": {
+    "description": "Tab for a player's best scores."
+  },
   "scoresRecent": "Recent",
+  "@scoresRecent": {
+    "description": "Tab for a player's recent scores."
+  },
   "scoresRefresh": "Refresh scores",
+  "@scoresRefresh": {
+    "description": "Button or tooltip to refresh scores."
+  },
   "scoresLoading": "Loading scores…",
+  "@scoresLoading": {
+    "description": "Progress message while fetching scores."
+  },
   "scoresEmpty": "No scores found for this player and ruleset.",
+  "@scoresEmpty": {
+    "description": "No scores for this player and game mode."
+  },
   "scoresLoadMore": "Load more",
+  "@scoresLoadMore": {
+    "description": "Button to fetch the next page of scores."
+  },
   "scoresKeepingContent": "Previously loaded scores are still shown.",
+  "@scoresKeepingContent": {
+    "description": "Old scores remain visible after a failed refresh."
+  },
   "scoresCancelled": "Loading was cancelled.",
+  "@scoresCancelled": {
+    "description": "Score loading request was cancelled."
+  },
   "scoresNotFound": "Scores could not be found.",
+  "@scoresNotFound": {
+    "description": "Requested scores were not found."
+  },
   "scoresAccessDenied": "osu! denied access to scores.",
+  "@scoresAccessDenied": {
+    "description": "Score API access was denied."
+  },
   "scoresInvalidResponse": "The server returned an unsupported score response.",
+  "@scoresInvalidResponse": {
+    "description": "Score response does not match the supported API contract."
+  },
   "scoresUnavailable": "Scores are temporarily unavailable.",
+  "@scoresUnavailable": {
+    "description": "Temporary score loading failure."
+  },
   "scoresNoMods": "No mods",
+  "@scoresNoMods": {
+    "description": "Score was played without gameplay modifiers."
+  },
   "scoresNoPp": "PP unavailable",
+  "@scoresNoPp": {
+    "description": "Performance points are unavailable, not zero."
+  },
   "scoresFailedPlay": "Failed play",
+  "@scoresFailedPlay": {
+    "description": "The player did not pass the beatmap."
+  },
   "scoresBeatmap": "Beatmap #{id}",
-  "scoresGrade": "Grade: {grade}",
-  "scoresCombo": "Combo: {combo}",
-  "scoresTotal": "Score: {total}",
-  "scoresMods": "Mods: {mods}",
-  "scoresPlayedAt": "Played: {date}",
   "@scoresBeatmap": {
+    "description": "Fallback title for a beatmap whose name is missing; ID is not grouped.",
     "placeholders": {
       "id": {
         "type": "int"
       }
     }
   },
+  "scoresGrade": "Grade: {grade}",
   "@scoresGrade": {
+    "description": "Score grade such as SS, S, A or B; do not translate the parameter.",
     "placeholders": {
       "grade": {
         "type": "String"
       }
     }
   },
+  "scoresCombo": "Combo: {combo}",
   "@scoresCombo": {
+    "description": "Maximum combo achieved in this score.",
     "placeholders": {
       "combo": {
         "type": "int",
@@ -206,7 +494,9 @@
       }
     }
   },
+  "scoresTotal": "Score: {total}",
   "@scoresTotal": {
+    "description": "Numeric total score.",
     "placeholders": {
       "total": {
         "type": "int",
@@ -214,14 +504,18 @@
       }
     }
   },
+  "scoresMods": "Mods: {mods}",
   "@scoresMods": {
+    "description": "Gameplay modifier acronyms, already joined for display.",
     "placeholders": {
       "mods": {
         "type": "String"
       }
     }
   },
+  "scoresPlayedAt": "Played: {date}",
   "@scoresPlayedAt": {
+    "description": "When the score was played; parameter already contains a locale-formatted local date and time.",
     "placeholders": {
       "date": {
         "type": "String"
@@ -229,42 +523,102 @@
     }
   },
   "beatmapsTitle": "Beatmaps",
+  "@beatmapsTitle": {
+    "description": "Heading for a player's beatmaps."
+  },
   "beatmapsMostPlayed": "Most played",
+  "@beatmapsMostPlayed": {
+    "description": "Category of maps most played by the player."
+  },
   "beatmapsFavourite": "Favourites",
+  "@beatmapsFavourite": {
+    "description": "Category of maps favourited by the player."
+  },
   "beatmapsRanked": "Ranked",
+  "@beatmapsRanked": {
+    "description": "Category with the official Ranked status."
+  },
   "beatmapsPending": "Pending",
+  "@beatmapsPending": {
+    "description": "Category with the official Pending status."
+  },
   "beatmapsGraveyard": "Graveyard",
+  "@beatmapsGraveyard": {
+    "description": "Category with the official Graveyard status."
+  },
   "beatmapsLoved": "Loved",
+  "@beatmapsLoved": {
+    "description": "Category with the official Loved status."
+  },
   "beatmapsGuest": "Guest difficulties",
+  "@beatmapsGuest": {
+    "description": "Category of guest difficulties authored for other mappers; not guest browsing."
+  },
   "beatmapsNominated": "Nominated",
+  "@beatmapsNominated": {
+    "description": "Category of beatmaps nominated by the player."
+  },
   "beatmapsRefresh": "Refresh beatmaps",
+  "@beatmapsRefresh": {
+    "description": "Button or tooltip to refresh the beatmap list."
+  },
   "beatmapsEmpty": "No beatmaps in this category.",
+  "@beatmapsEmpty": {
+    "description": "No maps in the selected category."
+  },
   "beatmapsLoadMore": "Load more beatmaps",
+  "@beatmapsLoadMore": {
+    "description": "Button to fetch another page of maps."
+  },
   "beatmapsLoading": "Loading beatmaps…",
+  "@beatmapsLoading": {
+    "description": "Progress message while loading maps."
+  },
   "beatmapsKeepingContent": "Could not update. Previously loaded beatmaps are still shown.",
+  "@beatmapsKeepingContent": {
+    "description": "Map refresh failed but old content remains visible."
+  },
   "beatmapsCancelled": "Loading was cancelled.",
+  "@beatmapsCancelled": {
+    "description": "Map loading was cancelled."
+  },
   "beatmapsNotFound": "This player's beatmaps could not be found.",
+  "@beatmapsNotFound": {
+    "description": "The player's maps could not be found."
+  },
   "beatmapsAccessDenied": "Beatmaps are not accessible right now.",
+  "@beatmapsAccessDenied": {
+    "description": "Access to the map list is currently denied."
+  },
   "beatmapsInvalidResponse": "The server returned an unexpected beatmap response.",
+  "@beatmapsInvalidResponse": {
+    "description": "Map list response does not match the supported contract."
+  },
   "beatmapsUnavailable": "Could not load beatmaps. Please try again.",
+  "@beatmapsUnavailable": {
+    "description": "Generic map list loading failure."
+  },
   "beatmapsSetFallback": "Beatmapset #{id}",
-  "beatmapsMapFallback": "Beatmap #{id}",
-  "beatmapsPlayCount": "Plays: {count}",
   "@beatmapsSetFallback": {
+    "description": "Fallback beatmap set title; numeric identifier is not grouped.",
     "placeholders": {
       "id": {
         "type": "int"
       }
     }
   },
+  "beatmapsMapFallback": "Beatmap #{id}",
   "@beatmapsMapFallback": {
+    "description": "Fallback beatmap title; numeric identifier is not grouped.",
     "placeholders": {
       "id": {
         "type": "int"
       }
     }
   },
+  "beatmapsPlayCount": "Plays: {count}",
   "@beatmapsPlayCount": {
+    "description": "Number of plays of a beatmap.",
     "placeholders": {
       "count": {
         "type": "int"
@@ -272,15 +626,40 @@
     }
   },
   "beatmapTitle": "Beatmap",
+  "@beatmapTitle": {
+    "description": "Single beatmap details screen title."
+  },
   "beatmapNotFound": "Beatmap not found.",
+  "@beatmapNotFound": {
+    "description": "Requested beatmap does not exist."
+  },
   "beatmapAccessDenied": "This beatmap or leaderboard is not accessible.",
+  "@beatmapAccessDenied": {
+    "description": "Access to a beatmap or its leaderboard is denied."
+  },
   "beatmapInvalidResponse": "Unexpected beatmap response.",
+  "@beatmapInvalidResponse": {
+    "description": "Beatmap detail response does not match the supported contract."
+  },
   "beatmapUnavailable": "Could not load beatmap data.",
+  "@beatmapUnavailable": {
+    "description": "Beatmap details could not be loaded."
+  },
   "beatmapLeaderboard": "Top scores",
+  "@beatmapLeaderboard": {
+    "description": "Heading for the public top-score leaderboard."
+  },
   "beatmapRefreshLeaderboard": "Refresh scores",
+  "@beatmapRefreshLeaderboard": {
+    "description": "Button to reload the beatmap's leaderboard."
+  },
   "beatmapNoScores": "No scores available.",
+  "@beatmapNoScores": {
+    "description": "Empty beatmap leaderboard."
+  },
   "beatmapLeaderboardPlayer": "#{position} · {name}",
   "@beatmapLeaderboardPlayer": {
+    "description": "Leaderboard position followed by the player's display name; preserve the name.",
     "placeholders": {
       "position": {
         "type": "int"
@@ -292,6 +671,7 @@
   },
   "beatmapPlayerId": "Player #{id}",
   "@beatmapPlayerId": {
+    "description": "Fallback player label with numeric ID; do not group the identifier.",
     "placeholders": {
       "id": {
         "type": "int"
@@ -300,6 +680,7 @@
   },
   "beatmapCreator": "Mapped by {name}",
   "@beatmapCreator": {
+    "description": "Credits the beatmap creator; preserve the name.",
     "placeholders": {
       "name": {
         "type": "String"
@@ -307,10 +688,20 @@
     }
   },
   "beatmapRefresh": "Refresh beatmap",
+  "@beatmapRefresh": {
+    "description": "Button to reload beatmap details."
+  },
   "beatmapDifficulties": "Difficulties",
+  "@beatmapDifficulties": {
+    "description": "Heading for selectable difficulties in a beatmap set."
+  },
   "beatmapNoDifficulties": "No difficulties available.",
+  "@beatmapNoDifficulties": {
+    "description": "No available difficulties in this set."
+  },
   "beatmapDifficultyInfo": "{mode} · {stars} ★ · {seconds} s",
   "@beatmapDifficultyInfo": {
+    "description": "Compact game mode, star difficulty and length in seconds; stars is a difficulty rating.",
     "placeholders": {
       "mode": {
         "type": "String"
@@ -324,19 +715,56 @@
     }
   },
   "rankingsTitle": "Rankings",
+  "@rankingsTitle": {
+    "description": "Player rankings screen title."
+  },
   "rankingsScore": "Score",
+  "@rankingsScore": {
+    "description": "Selector for total ranked score rather than PP ranking."
+  },
   "rankingsRefresh": "Refresh rankings",
+  "@rankingsRefresh": {
+    "description": "Button or tooltip to refresh player rankings."
+  },
   "rankingsEmpty": "No players found.",
+  "@rankingsEmpty": {
+    "description": "No players match the ranking filters."
+  },
   "rankingsLoadMore": "Load more players",
+  "@rankingsLoadMore": {
+    "description": "Button to fetch another page of players."
+  },
   "rankingsLoading": "Loading rankings…",
+  "@rankingsLoading": {
+    "description": "Progress label while loading rankings."
+  },
   "rankingsKeepingContent": "Could not update. Previously loaded rankings are shown.",
+  "@rankingsKeepingContent": {
+    "description": "Refresh failed but previous ranking data remains visible."
+  },
   "rankingsCancelled": "Loading cancelled.",
+  "@rankingsCancelled": {
+    "description": "Ranking request was cancelled."
+  },
   "rankingsNotFound": "Ranking not found.",
+  "@rankingsNotFound": {
+    "description": "Requested ranking does not exist."
+  },
   "rankingsAccessDenied": "Ranking is not accessible.",
+  "@rankingsAccessDenied": {
+    "description": "Ranking access was denied."
+  },
   "rankingsInvalidResponse": "Unexpected ranking response.",
+  "@rankingsInvalidResponse": {
+    "description": "Ranking response does not match the supported contract."
+  },
   "rankingsUnavailable": "Could not load rankings.",
+  "@rankingsUnavailable": {
+    "description": "Ranking could not be loaded."
+  },
   "rankingsRankedScore": "Ranked score: {score}",
   "@rankingsRankedScore": {
+    "description": "Player's total ranked score, a number rather than a position.",
     "placeholders": {
       "score": {
         "type": "int"
@@ -344,9 +772,47 @@
     }
   },
   "rankingsCountry": "Country code",
+  "@rankingsCountry": {
+    "description": "Label for a two-letter country code filter."
+  },
   "rankingsCountryHint": "Two letters, e.g. JP or US; empty means worldwide.",
+  "@rankingsCountryHint": {
+    "description": "Country filter help; JP and US are literal examples of codes, empty means all countries."
+  },
   "rankingsCountryInvalid": "Enter a two-letter country code.",
+  "@rankingsCountryInvalid": {
+    "description": "Validation error for a country code that is not two letters."
+  },
   "rankingsApply": "Apply country",
+  "@rankingsApply": {
+    "description": "Button to apply the country filter."
+  },
   "rankingsWorldwide": "Worldwide",
-  "rankingsAllKeys": "All key counts"
+  "@rankingsWorldwide": {
+    "description": "Label for the all-countries ranking."
+  },
+  "rankingsAllKeys": "All key counts",
+  "@rankingsAllKeys": {
+    "description": "mania filter without restriction to a key count."
+  },
+  "germanLanguage": "German",
+  "@germanLanguage": {
+    "description": "Language selector label for German."
+  },
+  "frenchLanguage": "French",
+  "@frenchLanguage": {
+    "description": "Language selector label for French."
+  },
+  "spanishLanguage": "Spanish",
+  "@spanishLanguage": {
+    "description": "Language selector label for Spanish."
+  },
+  "japaneseLanguage": "Japanese",
+  "@japaneseLanguage": {
+    "description": "Language selector label for Japanese."
+  },
+  "chineseLanguage": "Chinese (Simplified)",
+  "@chineseLanguage": {
+    "description": "Language selector label for Simplified Chinese; Traditional Chinese is not offered."
+  }
 }

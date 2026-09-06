@@ -615,4 +615,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rankingsAllKeys => 'All key counts';
+
+  @override
+  String get germanLanguage => 'German';
+
+  @override
+  String get frenchLanguage => 'French';
+
+  @override
+  String get spanishLanguage => 'Spanish';
+
+  @override
+  String get japaneseLanguage => 'Japanese';
+
+  @override
+  String get chineseLanguage => 'Chinese (Simplified)';
 }

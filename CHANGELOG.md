@@ -20,6 +20,13 @@
 
 ### Added
 
+- Full UI catalogs for German, French, Spanish, Japanese and Simplified Chinese,
+  alongside English/Russian (169 messages per locale). Language selection persists;
+  English remains the unsupported-language fallback. Flutter ARB descriptions and
+  typed placeholders live in the English template, with required metadata and a
+  missing-translation report. Native-speaker/device review is still pending.
+  Included the user-approved guest shell move from presentation to widgets.
+
 - Guest news feed and article reader: opaque cursor pagination, content-preserving
   refresh/retry, route-scoped cancellation, lazy slivers and en/ru UI.
   Article HTML is reduced to allowlisted text markup; HTTPS links and the

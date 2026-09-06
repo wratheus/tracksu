@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:tracksu/src/_core/l10n/generated/app_localizations.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
 
 final class LocaleController extends ValueNotifier<Locale?> {
@@ -7,8 +8,6 @@ final class LocaleController extends ValueNotifier<Locale?> {
   }
 
   LocaleController._(this._localeStore) : super(null);
-
-  static const supportedLanguageCodes = <String>{'en', 'ru'};
 
   final LocaleStore _localeStore;
 
@@ -32,11 +31,11 @@ final class LocaleController extends ValueNotifier<Locale?> {
   }
 
   Locale? _localeFromLanguageCode(String? languageCode) {
-    if (languageCode == null ||
-        !supportedLanguageCodes.contains(languageCode)) {
-      return null;
+    for (final Locale locale in AppLocalizations.supportedLocales) {
+      if (locale.languageCode == languageCode) {
+        return locale;
+      }
     }
-
-    return Locale(languageCode);
+    return null;
   }
 }

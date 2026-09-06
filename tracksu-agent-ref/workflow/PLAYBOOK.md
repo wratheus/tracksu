@@ -435,7 +435,7 @@ DevTools traces, FPS/p95-бюджетов, бенчмарков и автома�
 
 ## 15. Git, временный код и завершение
 
-- Автор и коммитер новых коммитов: `Aleksandr Pavlenko <Morwar211@gmail.com>`.
+- Автор и коммитер новых коммитов: `Aleksandr Pavlenko <71131015+wratheus@users.noreply.github.com>`.
   Настройка локальная для Tracksu; перед коммитом проверять `git var GIT_AUTHOR_IDENT`
   и `git var GIT_COMMITTER_IDENT`, не менять глобальный Git config.
   2026-09-05 по запросу пользователя исправлены 54 коммита миграции после

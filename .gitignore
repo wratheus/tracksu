@@ -33,6 +33,7 @@
 .pub-cache/
 .pub/
 /build/
+/l10n_untranslated.json
 
 # Web related
 lib/generated_plugin_registrant.dart

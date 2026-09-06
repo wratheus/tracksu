@@ -3,3 +3,7 @@ template-arb-file: app_en.arb
 output-dir: lib/src/_core/l10n/generated
 output-localization-file: app_localizations.dart
 output-class: AppLocalizations
+preferred-supported-locales: [en]
+required-resource-attributes: true
+untranslated-messages-file: l10n_untranslated.json
+format: true

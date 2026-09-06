@@ -4,11 +4,12 @@
 
 ## Сейчас
 
-**P16 — cleanup legacy, без изменения дизайна**:
-[два среза](work/P16-legacy-cleanup.md) удалили неиспользуемый граф старых
-экранов и перенесли авторизацию в auth; pages больше нет. Далее — ручной OAuth
-smoke и аудит оставшихся assets/legacy-зависимостей. Дизайн/темы на паузе;
-промпт Stitch не означает начало реализации P07. P09–P13 ждут ручной приёмки.
+**P07.1 — локализация, без изменения дизайна**:
+[семь языков и стандартный ARB](work/P07.1-languages.md) реализованы,
+ожидают ручной проверки. [P16](work/P16-legacy-cleanup.md) удалил старый граф
+экранов и перенёс авторизацию в auth; pages больше нет. По решению пользователя
+аудит legacy-assets делаем совместно с дизайном после Stitch, не сейчас.
+P09–P13 и OAuth ждут ручной приёмки. Темы/UI kit пока не реализуем.
 
 Уже реализованная основа вынесена в [IMPLEMENTED](IMPLEMENTED.md).
 Архив означает наличие кода, а не автоматически подтверждённое поведение.
@@ -19,17 +20,18 @@ smoke и аудит оставшихся assets/legacy-зависимостей.
 
 | Порядок / ID | Следующий цельный результат | Статус |
 | --- | --- | --- |
+| Сейчас · [P07.1](work/P07.1-languages.md) | en/ru/de/fr/es/ja/zh, стандартный ARB template, language persistence и fallback подключены; ручная языковая проверка | awaiting_manual_check |
 | 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
 | 2 · P10 · [scores](work/P10-scores.md) / [карты](work/P10-beatmaps.md) | Best/recent и восемь категорий карт подключены: scoped Bloc, lazy slivers, refresh/load-more/retry. Ручная проверка; старые неиспользуемые consumers удалены в P16. legacy: false для scores | awaiting_manual_check |
 | 3 · [P12](work/P12-beatmap.md) | Подключены typed navigation из профиля, набор/выбор сложности, публичный top leaderboard, новые Score/mod acronyms и back. Ручная проверка; расширенные фильтры отдельно | awaiting_manual_check |
 | 4 · [P11](work/P11-rankings.md) | PP/score × четыре режима, paging, страны/mania variants, spotlights с картами и переходами подключены. Ручная проверка; старый граф удалён в P16 | awaiting_manual_check |
 | 5 · [P13](work/P13-news.md) | Новости: список с cursor paging, текстовый HTML reader, HTTPS-ссылки, refresh/retry и вход из shell подключены. Ручная проверка | awaiting_manual_check |
-| 6 · [P01.2](DETAILS.md#p01-2) | Аудит assets: происхождение/права, вес, usage, дубли/форматы; основа согласования визуального направления | backlog |
+| 6 · [P01.2](DETAILS.md#p01-2) | Аудит assets: происхождение/права, вес, usage, дубли/форматы — совместно с дизайном после Stitch, по решению пользователя | deferred_until_design |
 | 7 · [P07 — планирование](DETAILS.md#p07) | Согласовать с пользователем аккуратный osu!-стиль, пригодные assets, палитру/шрифты/иконки, состояния и примеры ключевых экранов. Не реализовывать темы до согласования | backlog |
 | 8 · [P07 + P07.1 — реализация](DETAILS.md#p07) | После согласования: tracksu_ui, единые light/dark/ThemeMode, AppBar/кнопки, вынос l10n в пакет. Не блокирует функциональный перенос страниц | backlog |
 | 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade, базовые действия и UI binding, privacy/consent; выбрать Firebase environment | backlog |
 | 10 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |
-| Сейчас · [P16](work/P16-legacy-cleanup.md) | Мёртвый граф и старые прямые зависимости удалены; авторизация перенесена в auth, pages удалена. Ручной OAuth smoke; palette/assets отдельно, без дизайна | in_progress |
+| [P16](work/P16-legacy-cleanup.md) | Мёртвый граф и старые прямые зависимости удалены; авторизация перенесена в auth, pages удалена. Ручной OAuth smoke; palette/assets вместе с будущим дизайном | awaiting_manual_check |
 | До выпуска · [P08](DETAILS.md#p08) | Полный ручной auth/session flow, решение об очистке/миграции старого storage, восстановление после ошибок; новый guest token не пользовательская сессия | backlog |
 | До выпуска · [P02 + P06](DETAILS.md#p02) | Scripts/CI format-analyze-build без тестов; analyze всего lib/packages чистый после P16. Проверить оставшиеся plugins; общий error reporting/lifetime по фактическим consumers | backlog |
 | До выпуска · [P02.1](DETAILS.md#p02-1) | Поддерживать README/CHANGELOG при каждом срезе; дополнить команды CI, package contracts и release-инструкцию по мере реализации | ongoing |
@@ -40,8 +42,10 @@ smoke и аудит оставшихся assets/legacy-зависимостей.
 | [P17](DETAILS.md#p17) | BFF с callback/token exchange, убрать secret из binary, выбрать domain/hosting/stack после client MVP | deferred |
 | [T01](DETAILS.md#t01) | Автотесты — только по отдельному решению; не пишем и не запускаем параллельно | deferred |
 
-Следующие части — **P16/P01.2: аудит оставшихся assets и legacy-зависимостей**,
-параллельно пользователь проверяет P09/P10/P11/P12/P13. Приоритет — восстановление
+Следом — ручная проверка локализации и P09/P10/P11/P12/P13/OAuth; исправления
+по результату. До готовности дизайна доступен технический P02/P06: scripts/CI
+format-analyze-build без тестов. P16/P01.2 assets не начинаем отдельно от дизайна.
+Приоритет — восстановление
 функциональности, а не редизайн. Удаление недостижимого legacy не означает,
 что все его исторические возможности реализованы: расширенная статистика,
 about/medals/audio и прочие отсутствующие сценарии остаются отдельными решениями.
@@ -66,7 +70,8 @@ rankings/spotlights, news и AuthMain. authorization_page удалена, OAuth 
 - DTO parsing в repository, raw payload в source, общие JSON readers.
 - Main → local source/repository/Bloc, shared infrastructure в DepsContainer.
 - Guest-first, OAuth — дополнительное действие; текущий HTTPS callback на Pages.
-- en/ru сейчас, системный язык и сохранённый выбор; ARB/context.t для нового UI.
+- en/ru/de/fr/es/ja/zh, системный язык и сохранённый выбор; ARB/context.t для UI.
+  Формат ARB — [Flutter policy](../standards/LOCALIZATION.md), не примеры TSD.
 - Client secret пока envied из ignored .env; обфускация не защита секрета; BFF позже.
 - Устройство/UX проверяет пользователь. Автотесты отложены.
 

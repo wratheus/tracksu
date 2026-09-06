@@ -5,8 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
+import 'app_localizations_fr.dart';
+import 'app_localizations_ja.dart';
 import 'app_localizations_ru.dart';
+import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -95,992 +100,1027 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
+    Locale('de'),
+    Locale('es'),
+    Locale('fr'),
+    Locale('ja'),
     Locale('ru'),
+    Locale('zh'),
   ];
 
-  /// No description provided for @newsTitle.
+  /// Title and navigation label for osu! news.
   ///
   /// In en, this message translates to:
   /// **'News'**
   String get newsTitle;
 
-  /// No description provided for @newsRefresh.
+  /// Button or tooltip to reload news.
   ///
   /// In en, this message translates to:
   /// **'Refresh news'**
   String get newsRefresh;
 
-  /// No description provided for @newsEmpty.
+  /// Empty state when no news posts are available.
   ///
   /// In en, this message translates to:
   /// **'No news available.'**
   String get newsEmpty;
 
-  /// No description provided for @newsLoadMore.
+  /// Button to fetch the next page of news.
   ///
   /// In en, this message translates to:
   /// **'Load more news'**
   String get newsLoadMore;
 
-  /// No description provided for @newsLoading.
+  /// Progress message while fetching news.
   ///
   /// In en, this message translates to:
   /// **'Loading news…'**
   String get newsLoading;
 
-  /// No description provided for @newsKeepingContent.
+  /// Notice that cached news remains visible after a failed refresh.
   ///
   /// In en, this message translates to:
   /// **'Previously loaded content is still shown.'**
   String get newsKeepingContent;
 
-  /// No description provided for @newsNotFound.
+  /// Error when a requested article does not exist or is unavailable.
   ///
   /// In en, this message translates to:
   /// **'This news post is unavailable.'**
   String get newsNotFound;
 
-  /// No description provided for @newsCancelled.
+  /// Error after cancelling a news request.
   ///
   /// In en, this message translates to:
   /// **'News loading was cancelled.'**
   String get newsCancelled;
 
-  /// No description provided for @newsAccessDenied.
+  /// Error when access to news is denied.
   ///
   /// In en, this message translates to:
   /// **'Unable to access news.'**
   String get newsAccessDenied;
 
-  /// No description provided for @newsInvalidResponse.
+  /// Error for an unreadable news API response.
   ///
   /// In en, this message translates to:
   /// **'The news response could not be read.'**
   String get newsInvalidResponse;
 
-  /// No description provided for @newsUnavailable.
+  /// Temporary news loading failure.
   ///
   /// In en, this message translates to:
   /// **'News is temporarily unavailable.'**
   String get newsUnavailable;
 
-  /// No description provided for @newsLinkFailed.
+  /// Error when an external article link cannot be opened.
   ///
   /// In en, this message translates to:
   /// **'Unable to open this link.'**
   String get newsLinkFailed;
 
-  /// No description provided for @newsOriginal.
+  /// Button to open the original article in a browser.
   ///
   /// In en, this message translates to:
   /// **'Open original'**
   String get newsOriginal;
 
-  /// No description provided for @newsReaderNotice.
+  /// Explains limitations of the in-app text-only news reader.
   ///
   /// In en, this message translates to:
   /// **'Text reading mode. Images, media and original formatting are available on the osu! website.'**
   String get newsReaderNotice;
 
-  /// No description provided for @spotlightsTitle.
+  /// Title for osu! Spotlight collections; preserve the recognizable product term.
   ///
   /// In en, this message translates to:
   /// **'Spotlights'**
   String get spotlightsTitle;
 
-  /// No description provided for @spotlightsChoose.
+  /// Label for the Spotlight selector.
   ///
   /// In en, this message translates to:
   /// **'Choose a spotlight'**
   String get spotlightsChoose;
 
-  /// No description provided for @spotlightsShowRanking.
+  /// Button to load the selected Spotlight ranking.
   ///
   /// In en, this message translates to:
   /// **'Show selected spotlight'**
   String get spotlightsShowRanking;
 
-  /// No description provided for @spotlightsEmpty.
+  /// Empty Spotlight catalog.
   ///
   /// In en, this message translates to:
   /// **'No spotlights available.'**
   String get spotlightsEmpty;
 
-  /// No description provided for @spotlightsMaps.
+  /// Heading for beatmap sets in a Spotlight.
   ///
   /// In en, this message translates to:
   /// **'Beatmapsets'**
   String get spotlightsMaps;
 
-  /// No description provided for @spotlightsNoMaps.
+  /// No maps for the selected Spotlight and game mode.
   ///
   /// In en, this message translates to:
   /// **'No beatmapsets for this spotlight and ruleset.'**
   String get spotlightsNoMaps;
 
-  /// No description provided for @spotlightsRankingLimit.
+  /// Explains that the Spotlight ranking shows at most 40 players, not the full ranking.
   ///
   /// In en, this message translates to:
   /// **'Spotlight ranking · up to 40 players'**
   String get spotlightsRankingLimit;
 
-  /// No description provided for @spotlightsNotFound.
+  /// Selected Spotlight or game mode is unavailable.
   ///
   /// In en, this message translates to:
   /// **'This spotlight or ruleset is unavailable.'**
   String get spotlightsNotFound;
 
-  /// No description provided for @appTitle.
+  /// Application brand name. Do not translate Tracksu.
   ///
   /// In en, this message translates to:
   /// **'Tracksu'**
   String get appTitle;
 
-  /// No description provided for @guestModeTitle.
+  /// Title for unauthenticated browsing.
   ///
   /// In en, this message translates to:
   /// **'Guest mode'**
   String get guestModeTitle;
 
-  /// No description provided for @guestSignedOutDescription.
+  /// Explains that guests can browse public data and sign-in is optional.
   ///
   /// In en, this message translates to:
   /// **'Browse public osu! data as a guest. Signing in will add account features.'**
   String get guestSignedOutDescription;
 
-  /// No description provided for @guestSignedInDescription.
+  /// Explains that public browsing does not require an account even when signed in.
   ///
   /// In en, this message translates to:
   /// **'You are signed in. Public browsing stays available without an account.'**
   String get guestSignedInDescription;
 
-  /// No description provided for @signInWithOsu.
+  /// Account menu action to sign in through osu!.
   ///
   /// In en, this message translates to:
   /// **'Sign in with osu!'**
   String get signInWithOsu;
 
-  /// No description provided for @signInWithAnotherAccount.
+  /// Account menu action to switch osu! accounts.
   ///
   /// In en, this message translates to:
   /// **'Sign in with another account'**
   String get signInWithAnotherAccount;
 
-  /// No description provided for @signOut.
+  /// Account menu action to end the app session.
   ///
   /// In en, this message translates to:
   /// **'Sign out'**
   String get signOut;
 
-  /// No description provided for @signingOut.
+  /// Progress label during sign-out.
   ///
   /// In en, this message translates to:
   /// **'Signing out...'**
   String get signingOut;
 
-  /// No description provided for @signOutFailed.
+  /// Sign-out failure with retry guidance.
   ///
   /// In en, this message translates to:
   /// **'Unable to sign out. Try again.'**
   String get signOutFailed;
 
-  /// No description provided for @systemLanguage.
+  /// Language selector option that follows device preferences.
   ///
   /// In en, this message translates to:
   /// **'System language'**
   String get systemLanguage;
 
-  /// No description provided for @englishLanguage.
+  /// Language selector label for English.
   ///
   /// In en, this message translates to:
   /// **'English'**
   String get englishLanguage;
 
-  /// No description provided for @russianLanguage.
+  /// Language selector label for Russian.
   ///
   /// In en, this message translates to:
   /// **'Russian'**
   String get russianLanguage;
 
-  /// No description provided for @loginToOsu.
+  /// Authorization screen title.
   ///
   /// In en, this message translates to:
   /// **'Login to osu!'**
   String get loginToOsu;
 
-  /// No description provided for @signingIn.
+  /// Progress label during authorization code exchange.
   ///
   /// In en, this message translates to:
   /// **'Signing in...'**
   String get signingIn;
 
-  /// No description provided for @openingOsu.
+  /// Progress label while launching osu! in an external browser.
   ///
   /// In en, this message translates to:
   /// **'Opening osu!...'**
   String get openingOsu;
 
-  /// No description provided for @continueWithOsu.
+  /// Button to launch or retry browser authorization.
   ///
   /// In en, this message translates to:
   /// **'Continue with osu!'**
   String get continueWithOsu;
 
-  /// No description provided for @authorizationExpired.
+  /// Pending OAuth transaction has expired; ask the user to retry.
   ///
   /// In en, this message translates to:
   /// **'This authorization request has expired. Try again.'**
   String get authorizationExpired;
 
-  /// No description provided for @authorizationResponseUnavailable.
+  /// The app could not receive the OAuth callback.
   ///
   /// In en, this message translates to:
   /// **'Unable to receive the authorization response.'**
   String get authorizationResponseUnavailable;
 
-  /// No description provided for @authorizationResponseMismatch.
+  /// OAuth state did not match the pending login transaction.
   ///
   /// In en, this message translates to:
   /// **'The authorization response did not match this login attempt.'**
   String get authorizationResponseMismatch;
 
-  /// No description provided for @authorizationCancelled.
+  /// User cancelled or denied authorization.
   ///
   /// In en, this message translates to:
   /// **'Authorization was cancelled or refused.'**
   String get authorizationCancelled;
 
-  /// No description provided for @authorizationResponseInvalid.
+  /// OAuth callback has an invalid format.
   ///
   /// In en, this message translates to:
   /// **'The authorization response is invalid.'**
   String get authorizationResponseInvalid;
 
-  /// No description provided for @authorizationPreparationFailed.
+  /// Unable to create or store the pending authorization request.
   ///
   /// In en, this message translates to:
   /// **'Unable to prepare osu! authorization.'**
   String get authorizationPreparationFailed;
 
-  /// No description provided for @authorizationLaunchFailed.
+  /// Unable to launch the external authorization page.
   ///
   /// In en, this message translates to:
   /// **'Unable to open osu! authorization.'**
   String get authorizationLaunchFailed;
 
-  /// No description provided for @authorizationCompletionFailed.
+  /// Token exchange or session completion failed.
   ///
   /// In en, this message translates to:
   /// **'Unable to finish authorization.'**
   String get authorizationCompletionFailed;
 
-  /// No description provided for @authorizationIncomplete.
+  /// Returned from the browser without completing sign-in.
   ///
   /// In en, this message translates to:
   /// **'Authorization was not completed. Try again.'**
   String get authorizationIncomplete;
 
-  /// No description provided for @viewMyProfile.
+  /// Account menu action to load the signed-in player's profile.
   ///
   /// In en, this message translates to:
   /// **'View my profile'**
   String get viewMyProfile;
 
-  /// No description provided for @profileTitle.
+  /// Player profile screen title.
   ///
   /// In en, this message translates to:
   /// **'Profile'**
   String get profileTitle;
 
-  /// No description provided for @profileSearchHint.
+  /// Search field hint accepting a username or numeric player ID.
   ///
   /// In en, this message translates to:
   /// **'Username or ID'**
   String get profileSearchHint;
 
-  /// No description provided for @profileSearchInvalid.
+  /// Validation message for an invalid player query.
   ///
   /// In en, this message translates to:
   /// **'Enter a valid username or positive ID.'**
   String get profileSearchInvalid;
 
-  /// No description provided for @rulesetOsu.
+  /// Official game mode name; do not translate.
   ///
   /// In en, this message translates to:
   /// **'osu!'**
   String get rulesetOsu;
 
-  /// No description provided for @rulesetTaiko.
+  /// Official game mode name; do not translate.
   ///
   /// In en, this message translates to:
   /// **'taiko'**
   String get rulesetTaiko;
 
-  /// No description provided for @rulesetFruits.
+  /// Official catch game mode name; do not translate.
   ///
   /// In en, this message translates to:
   /// **'catch'**
   String get rulesetFruits;
 
-  /// No description provided for @rulesetMania.
+  /// Official game mode name; do not translate.
   ///
   /// In en, this message translates to:
   /// **'mania'**
   String get rulesetMania;
 
-  /// No description provided for @profileLoading.
+  /// Progress message while fetching a player profile.
   ///
   /// In en, this message translates to:
   /// **'Loading profile...'**
   String get profileLoading;
 
-  /// No description provided for @profileUnavailable.
+  /// Generic player profile loading error.
   ///
   /// In en, this message translates to:
   /// **'Profile is unavailable. Try again.'**
   String get profileUnavailable;
 
-  /// No description provided for @retry.
+  /// Button to repeat a failed operation.
   ///
   /// In en, this message translates to:
   /// **'Retry'**
   String get retry;
 
-  /// No description provided for @profileId.
+  /// Player's numeric osu! ID; do not add digit grouping.
   ///
   /// In en, this message translates to:
   /// **'ID: {id}'**
   String profileId(int id);
 
-  /// No description provided for @profilePerformance.
+  /// Player or score performance points (PP), formatted with two decimal places.
   ///
   /// In en, this message translates to:
   /// **'Performance: {pp}'**
   String profilePerformance(double pp);
 
-  /// No description provided for @profileCountry.
+  /// Player's country; the parameter is supplied by the API.
   ///
   /// In en, this message translates to:
   /// **'Country: {country}'**
   String profileCountry(String country);
 
-  /// No description provided for @profileAccuracy.
+  /// Accuracy as a percentage on a 0–100 scale, not a 0–1 fraction.
   ///
   /// In en, this message translates to:
   /// **'Accuracy: {accuracy}%'**
   String profileAccuracy(double accuracy);
 
-  /// No description provided for @profilePlayCount.
+  /// Total number of plays for the selected game mode.
   ///
   /// In en, this message translates to:
   /// **'Play count: {count}'**
   String profilePlayCount(int count);
 
-  /// No description provided for @profileSearchIntroduction.
+  /// Guest-first introduction to public player search.
   ///
   /// In en, this message translates to:
   /// **'Find an osu! player to view their profile and statistics. No sign-in required.'**
   String get profileSearchIntroduction;
 
-  /// No description provided for @profileSearchHelp.
+  /// Prefix a numeric username with the literal @ character to distinguish it from an ID.
   ///
   /// In en, this message translates to:
   /// **'Use @ before a numeric username.'**
   String get profileSearchHelp;
 
-  /// No description provided for @profileSearch.
+  /// Button to submit player search.
   ///
   /// In en, this message translates to:
   /// **'Find player'**
   String get profileSearch;
 
-  /// No description provided for @profileRefreshing.
+  /// Progress label for refreshing an already visible profile.
   ///
   /// In en, this message translates to:
   /// **'Updating profile'**
   String get profileRefreshing;
 
-  /// No description provided for @profileRefresh.
+  /// Button to refresh the player profile.
   ///
   /// In en, this message translates to:
   /// **'Refresh'**
   String get profileRefresh;
 
-  /// No description provided for @profileShowingPreviousData.
+  /// Refresh failed but previously loaded profile data remains visible.
   ///
   /// In en, this message translates to:
   /// **'Update failed. Previously loaded data is shown.'**
   String get profileShowingPreviousData;
 
-  /// No description provided for @profileNotFound.
+  /// No matching player; suggest checking the query.
   ///
   /// In en, this message translates to:
   /// **'Player not found. Check the name or ID.'**
   String get profileNotFound;
 
-  /// No description provided for @profileAccessDenied.
+  /// Profile access denied, with sign-in guidance for the user's own profile.
   ///
   /// In en, this message translates to:
   /// **'Access denied by osu!. For your own profile, try signing in again.'**
   String get profileAccessDenied;
 
-  /// No description provided for @profileRateLimited.
+  /// API rate limit error; ask the user to wait.
   ///
   /// In en, this message translates to:
   /// **'Too many requests. Wait before trying again.'**
   String get profileRateLimited;
 
-  /// No description provided for @profileConnectionFailed.
+  /// Network connection failure.
   ///
   /// In en, this message translates to:
   /// **'Cannot connect. Check your connection and try again.'**
   String get profileConnectionFailed;
 
-  /// No description provided for @profileInvalidResponse.
+  /// Profile response does not match the supported API contract.
   ///
   /// In en, this message translates to:
   /// **'The server returned an unsupported profile response.'**
   String get profileInvalidResponse;
 
-  /// No description provided for @profileOnline.
+  /// Player is currently online.
   ///
   /// In en, this message translates to:
   /// **'Online'**
   String get profileOnline;
 
-  /// No description provided for @profileOffline.
+  /// Player is currently offline.
   ///
   /// In en, this message translates to:
   /// **'Offline'**
   String get profileOffline;
 
-  /// No description provided for @profileSupporter.
+  /// Official osu!supporter label; do not translate.
   ///
   /// In en, this message translates to:
   /// **'osu!supporter'**
   String get profileSupporter;
 
-  /// No description provided for @profileNoStatistics.
+  /// No player statistics for the selected game mode.
   ///
   /// In en, this message translates to:
   /// **'No statistics for this ruleset yet.'**
   String get profileNoStatistics;
 
-  /// No description provided for @profileUnranked.
+  /// Player has no global ranking.
   ///
   /// In en, this message translates to:
   /// **'No global rank'**
   String get profileUnranked;
 
-  /// No description provided for @profileGlobalRank.
+  /// Player's position in the global ranking.
   ///
   /// In en, this message translates to:
   /// **'Global rank: #{rank}'**
   String profileGlobalRank(int rank);
 
-  /// No description provided for @profileCountryRank.
+  /// Player's position within their country.
   ///
   /// In en, this message translates to:
   /// **'Country rank: #{rank}'**
   String profileCountryRank(int rank);
 
-  /// No description provided for @profilePlayTime.
+  /// Total hours played; use a short unit label.
   ///
   /// In en, this message translates to:
   /// **'Time played: {hours} h'**
   String profilePlayTime(int hours);
 
-  /// No description provided for @profileMaximumCombo.
+  /// Player's highest combo count.
   ///
   /// In en, this message translates to:
   /// **'Maximum combo: {combo}'**
   String profileMaximumCombo(int combo);
 
-  /// No description provided for @languageChangeFailed.
+  /// Language preference could not be saved.
   ///
   /// In en, this message translates to:
   /// **'Unable to save the language.'**
   String get languageChangeFailed;
 
-  /// No description provided for @languageSelection.
+  /// Tooltip for the app language selector.
   ///
   /// In en, this message translates to:
   /// **'Language'**
   String get languageSelection;
 
-  /// No description provided for @account.
+  /// Tooltip for the account menu.
   ///
   /// In en, this message translates to:
   /// **'Account'**
   String get account;
 
-  /// No description provided for @scoresTitle.
+  /// Heading for player scores.
   ///
   /// In en, this message translates to:
   /// **'Scores'**
   String get scoresTitle;
 
-  /// No description provided for @scoresBest.
+  /// Tab for a player's best scores.
   ///
   /// In en, this message translates to:
   /// **'Best'**
   String get scoresBest;
 
-  /// No description provided for @scoresRecent.
+  /// Tab for a player's recent scores.
   ///
   /// In en, this message translates to:
   /// **'Recent'**
   String get scoresRecent;
 
-  /// No description provided for @scoresRefresh.
+  /// Button or tooltip to refresh scores.
   ///
   /// In en, this message translates to:
   /// **'Refresh scores'**
   String get scoresRefresh;
 
-  /// No description provided for @scoresLoading.
+  /// Progress message while fetching scores.
   ///
   /// In en, this message translates to:
   /// **'Loading scores…'**
   String get scoresLoading;
 
-  /// No description provided for @scoresEmpty.
+  /// No scores for this player and game mode.
   ///
   /// In en, this message translates to:
   /// **'No scores found for this player and ruleset.'**
   String get scoresEmpty;
 
-  /// No description provided for @scoresLoadMore.
+  /// Button to fetch the next page of scores.
   ///
   /// In en, this message translates to:
   /// **'Load more'**
   String get scoresLoadMore;
 
-  /// No description provided for @scoresKeepingContent.
+  /// Old scores remain visible after a failed refresh.
   ///
   /// In en, this message translates to:
   /// **'Previously loaded scores are still shown.'**
   String get scoresKeepingContent;
 
-  /// No description provided for @scoresCancelled.
+  /// Score loading request was cancelled.
   ///
   /// In en, this message translates to:
   /// **'Loading was cancelled.'**
   String get scoresCancelled;
 
-  /// No description provided for @scoresNotFound.
+  /// Requested scores were not found.
   ///
   /// In en, this message translates to:
   /// **'Scores could not be found.'**
   String get scoresNotFound;
 
-  /// No description provided for @scoresAccessDenied.
+  /// Score API access was denied.
   ///
   /// In en, this message translates to:
   /// **'osu! denied access to scores.'**
   String get scoresAccessDenied;
 
-  /// No description provided for @scoresInvalidResponse.
+  /// Score response does not match the supported API contract.
   ///
   /// In en, this message translates to:
   /// **'The server returned an unsupported score response.'**
   String get scoresInvalidResponse;
 
-  /// No description provided for @scoresUnavailable.
+  /// Temporary score loading failure.
   ///
   /// In en, this message translates to:
   /// **'Scores are temporarily unavailable.'**
   String get scoresUnavailable;
 
-  /// No description provided for @scoresNoMods.
+  /// Score was played without gameplay modifiers.
   ///
   /// In en, this message translates to:
   /// **'No mods'**
   String get scoresNoMods;
 
-  /// No description provided for @scoresNoPp.
+  /// Performance points are unavailable, not zero.
   ///
   /// In en, this message translates to:
   /// **'PP unavailable'**
   String get scoresNoPp;
 
-  /// No description provided for @scoresFailedPlay.
+  /// The player did not pass the beatmap.
   ///
   /// In en, this message translates to:
   /// **'Failed play'**
   String get scoresFailedPlay;
 
-  /// No description provided for @scoresBeatmap.
+  /// Fallback title for a beatmap whose name is missing; ID is not grouped.
   ///
   /// In en, this message translates to:
   /// **'Beatmap #{id}'**
   String scoresBeatmap(int id);
 
-  /// No description provided for @scoresGrade.
+  /// Score grade such as SS, S, A or B; do not translate the parameter.
   ///
   /// In en, this message translates to:
   /// **'Grade: {grade}'**
   String scoresGrade(String grade);
 
-  /// No description provided for @scoresCombo.
+  /// Maximum combo achieved in this score.
   ///
   /// In en, this message translates to:
   /// **'Combo: {combo}'**
   String scoresCombo(int combo);
 
-  /// No description provided for @scoresTotal.
+  /// Numeric total score.
   ///
   /// In en, this message translates to:
   /// **'Score: {total}'**
   String scoresTotal(int total);
 
-  /// No description provided for @scoresMods.
+  /// Gameplay modifier acronyms, already joined for display.
   ///
   /// In en, this message translates to:
   /// **'Mods: {mods}'**
   String scoresMods(String mods);
 
-  /// No description provided for @scoresPlayedAt.
+  /// When the score was played; parameter already contains a locale-formatted local date and time.
   ///
   /// In en, this message translates to:
   /// **'Played: {date}'**
   String scoresPlayedAt(String date);
 
-  /// No description provided for @beatmapsTitle.
+  /// Heading for a player's beatmaps.
   ///
   /// In en, this message translates to:
   /// **'Beatmaps'**
   String get beatmapsTitle;
 
-  /// No description provided for @beatmapsMostPlayed.
+  /// Category of maps most played by the player.
   ///
   /// In en, this message translates to:
   /// **'Most played'**
   String get beatmapsMostPlayed;
 
-  /// No description provided for @beatmapsFavourite.
+  /// Category of maps favourited by the player.
   ///
   /// In en, this message translates to:
   /// **'Favourites'**
   String get beatmapsFavourite;
 
-  /// No description provided for @beatmapsRanked.
+  /// Category with the official Ranked status.
   ///
   /// In en, this message translates to:
   /// **'Ranked'**
   String get beatmapsRanked;
 
-  /// No description provided for @beatmapsPending.
+  /// Category with the official Pending status.
   ///
   /// In en, this message translates to:
   /// **'Pending'**
   String get beatmapsPending;
 
-  /// No description provided for @beatmapsGraveyard.
+  /// Category with the official Graveyard status.
   ///
   /// In en, this message translates to:
   /// **'Graveyard'**
   String get beatmapsGraveyard;
 
-  /// No description provided for @beatmapsLoved.
+  /// Category with the official Loved status.
   ///
   /// In en, this message translates to:
   /// **'Loved'**
   String get beatmapsLoved;
 
-  /// No description provided for @beatmapsGuest.
+  /// Category of guest difficulties authored for other mappers; not guest browsing.
   ///
   /// In en, this message translates to:
   /// **'Guest difficulties'**
   String get beatmapsGuest;
 
-  /// No description provided for @beatmapsNominated.
+  /// Category of beatmaps nominated by the player.
   ///
   /// In en, this message translates to:
   /// **'Nominated'**
   String get beatmapsNominated;
 
-  /// No description provided for @beatmapsRefresh.
+  /// Button or tooltip to refresh the beatmap list.
   ///
   /// In en, this message translates to:
   /// **'Refresh beatmaps'**
   String get beatmapsRefresh;
 
-  /// No description provided for @beatmapsEmpty.
+  /// No maps in the selected category.
   ///
   /// In en, this message translates to:
   /// **'No beatmaps in this category.'**
   String get beatmapsEmpty;
 
-  /// No description provided for @beatmapsLoadMore.
+  /// Button to fetch another page of maps.
   ///
   /// In en, this message translates to:
   /// **'Load more beatmaps'**
   String get beatmapsLoadMore;
 
-  /// No description provided for @beatmapsLoading.
+  /// Progress message while loading maps.
   ///
   /// In en, this message translates to:
   /// **'Loading beatmaps…'**
   String get beatmapsLoading;
 
-  /// No description provided for @beatmapsKeepingContent.
+  /// Map refresh failed but old content remains visible.
   ///
   /// In en, this message translates to:
   /// **'Could not update. Previously loaded beatmaps are still shown.'**
   String get beatmapsKeepingContent;
 
-  /// No description provided for @beatmapsCancelled.
+  /// Map loading was cancelled.
   ///
   /// In en, this message translates to:
   /// **'Loading was cancelled.'**
   String get beatmapsCancelled;
 
-  /// No description provided for @beatmapsNotFound.
+  /// The player's maps could not be found.
   ///
   /// In en, this message translates to:
   /// **'This player\'s beatmaps could not be found.'**
   String get beatmapsNotFound;
 
-  /// No description provided for @beatmapsAccessDenied.
+  /// Access to the map list is currently denied.
   ///
   /// In en, this message translates to:
   /// **'Beatmaps are not accessible right now.'**
   String get beatmapsAccessDenied;
 
-  /// No description provided for @beatmapsInvalidResponse.
+  /// Map list response does not match the supported contract.
   ///
   /// In en, this message translates to:
   /// **'The server returned an unexpected beatmap response.'**
   String get beatmapsInvalidResponse;
 
-  /// No description provided for @beatmapsUnavailable.
+  /// Generic map list loading failure.
   ///
   /// In en, this message translates to:
   /// **'Could not load beatmaps. Please try again.'**
   String get beatmapsUnavailable;
 
-  /// No description provided for @beatmapsSetFallback.
+  /// Fallback beatmap set title; numeric identifier is not grouped.
   ///
   /// In en, this message translates to:
   /// **'Beatmapset #{id}'**
   String beatmapsSetFallback(int id);
 
-  /// No description provided for @beatmapsMapFallback.
+  /// Fallback beatmap title; numeric identifier is not grouped.
   ///
   /// In en, this message translates to:
   /// **'Beatmap #{id}'**
   String beatmapsMapFallback(int id);
 
-  /// No description provided for @beatmapsPlayCount.
+  /// Number of plays of a beatmap.
   ///
   /// In en, this message translates to:
   /// **'Plays: {count}'**
   String beatmapsPlayCount(int count);
 
-  /// No description provided for @beatmapTitle.
+  /// Single beatmap details screen title.
   ///
   /// In en, this message translates to:
   /// **'Beatmap'**
   String get beatmapTitle;
 
-  /// No description provided for @beatmapNotFound.
+  /// Requested beatmap does not exist.
   ///
   /// In en, this message translates to:
   /// **'Beatmap not found.'**
   String get beatmapNotFound;
 
-  /// No description provided for @beatmapAccessDenied.
+  /// Access to a beatmap or its leaderboard is denied.
   ///
   /// In en, this message translates to:
   /// **'This beatmap or leaderboard is not accessible.'**
   String get beatmapAccessDenied;
 
-  /// No description provided for @beatmapInvalidResponse.
+  /// Beatmap detail response does not match the supported contract.
   ///
   /// In en, this message translates to:
   /// **'Unexpected beatmap response.'**
   String get beatmapInvalidResponse;
 
-  /// No description provided for @beatmapUnavailable.
+  /// Beatmap details could not be loaded.
   ///
   /// In en, this message translates to:
   /// **'Could not load beatmap data.'**
   String get beatmapUnavailable;
 
-  /// No description provided for @beatmapLeaderboard.
+  /// Heading for the public top-score leaderboard.
   ///
   /// In en, this message translates to:
   /// **'Top scores'**
   String get beatmapLeaderboard;
 
-  /// No description provided for @beatmapRefreshLeaderboard.
+  /// Button to reload the beatmap's leaderboard.
   ///
   /// In en, this message translates to:
   /// **'Refresh scores'**
   String get beatmapRefreshLeaderboard;
 
-  /// No description provided for @beatmapNoScores.
+  /// Empty beatmap leaderboard.
   ///
   /// In en, this message translates to:
   /// **'No scores available.'**
   String get beatmapNoScores;
 
-  /// No description provided for @beatmapLeaderboardPlayer.
+  /// Leaderboard position followed by the player's display name; preserve the name.
   ///
   /// In en, this message translates to:
   /// **'#{position} · {name}'**
   String beatmapLeaderboardPlayer(int position, String name);
 
-  /// No description provided for @beatmapPlayerId.
+  /// Fallback player label with numeric ID; do not group the identifier.
   ///
   /// In en, this message translates to:
   /// **'Player #{id}'**
   String beatmapPlayerId(int id);
 
-  /// No description provided for @beatmapCreator.
+  /// Credits the beatmap creator; preserve the name.
   ///
   /// In en, this message translates to:
   /// **'Mapped by {name}'**
   String beatmapCreator(String name);
 
-  /// No description provided for @beatmapRefresh.
+  /// Button to reload beatmap details.
   ///
   /// In en, this message translates to:
   /// **'Refresh beatmap'**
   String get beatmapRefresh;
 
-  /// No description provided for @beatmapDifficulties.
+  /// Heading for selectable difficulties in a beatmap set.
   ///
   /// In en, this message translates to:
   /// **'Difficulties'**
   String get beatmapDifficulties;
 
-  /// No description provided for @beatmapNoDifficulties.
+  /// No available difficulties in this set.
   ///
   /// In en, this message translates to:
   /// **'No difficulties available.'**
   String get beatmapNoDifficulties;
 
-  /// No description provided for @beatmapDifficultyInfo.
+  /// Compact game mode, star difficulty and length in seconds; stars is a difficulty rating.
   ///
   /// In en, this message translates to:
   /// **'{mode} · {stars} ★ · {seconds} s'**
   String beatmapDifficultyInfo(String mode, double stars, int seconds);
 
-  /// No description provided for @rankingsTitle.
+  /// Player rankings screen title.
   ///
   /// In en, this message translates to:
   /// **'Rankings'**
   String get rankingsTitle;
 
-  /// No description provided for @rankingsScore.
+  /// Selector for total ranked score rather than PP ranking.
   ///
   /// In en, this message translates to:
   /// **'Score'**
   String get rankingsScore;
 
-  /// No description provided for @rankingsRefresh.
+  /// Button or tooltip to refresh player rankings.
   ///
   /// In en, this message translates to:
   /// **'Refresh rankings'**
   String get rankingsRefresh;
 
-  /// No description provided for @rankingsEmpty.
+  /// No players match the ranking filters.
   ///
   /// In en, this message translates to:
   /// **'No players found.'**
   String get rankingsEmpty;
 
-  /// No description provided for @rankingsLoadMore.
+  /// Button to fetch another page of players.
   ///
   /// In en, this message translates to:
   /// **'Load more players'**
   String get rankingsLoadMore;
 
-  /// No description provided for @rankingsLoading.
+  /// Progress label while loading rankings.
   ///
   /// In en, this message translates to:
   /// **'Loading rankings…'**
   String get rankingsLoading;
 
-  /// No description provided for @rankingsKeepingContent.
+  /// Refresh failed but previous ranking data remains visible.
   ///
   /// In en, this message translates to:
   /// **'Could not update. Previously loaded rankings are shown.'**
   String get rankingsKeepingContent;
 
-  /// No description provided for @rankingsCancelled.
+  /// Ranking request was cancelled.
   ///
   /// In en, this message translates to:
   /// **'Loading cancelled.'**
   String get rankingsCancelled;
 
-  /// No description provided for @rankingsNotFound.
+  /// Requested ranking does not exist.
   ///
   /// In en, this message translates to:
   /// **'Ranking not found.'**
   String get rankingsNotFound;
 
-  /// No description provided for @rankingsAccessDenied.
+  /// Ranking access was denied.
   ///
   /// In en, this message translates to:
   /// **'Ranking is not accessible.'**
   String get rankingsAccessDenied;
 
-  /// No description provided for @rankingsInvalidResponse.
+  /// Ranking response does not match the supported contract.
   ///
   /// In en, this message translates to:
   /// **'Unexpected ranking response.'**
   String get rankingsInvalidResponse;
 
-  /// No description provided for @rankingsUnavailable.
+  /// Ranking could not be loaded.
   ///
   /// In en, this message translates to:
   /// **'Could not load rankings.'**
   String get rankingsUnavailable;
 
-  /// No description provided for @rankingsRankedScore.
+  /// Player's total ranked score, a number rather than a position.
   ///
   /// In en, this message translates to:
   /// **'Ranked score: {score}'**
   String rankingsRankedScore(int score);
 
-  /// No description provided for @rankingsCountry.
+  /// Label for a two-letter country code filter.
   ///
   /// In en, this message translates to:
   /// **'Country code'**
   String get rankingsCountry;
 
-  /// No description provided for @rankingsCountryHint.
+  /// Country filter help; JP and US are literal examples of codes, empty means all countries.
   ///
   /// In en, this message translates to:
   /// **'Two letters, e.g. JP or US; empty means worldwide.'**
   String get rankingsCountryHint;
 
-  /// No description provided for @rankingsCountryInvalid.
+  /// Validation error for a country code that is not two letters.
   ///
   /// In en, this message translates to:
   /// **'Enter a two-letter country code.'**
   String get rankingsCountryInvalid;
 
-  /// No description provided for @rankingsApply.
+  /// Button to apply the country filter.
   ///
   /// In en, this message translates to:
   /// **'Apply country'**
   String get rankingsApply;
 
-  /// No description provided for @rankingsWorldwide.
+  /// Label for the all-countries ranking.
   ///
   /// In en, this message translates to:
   /// **'Worldwide'**
   String get rankingsWorldwide;
 
-  /// No description provided for @rankingsAllKeys.
+  /// mania filter without restriction to a key count.
   ///
   /// In en, this message translates to:
   /// **'All key counts'**
   String get rankingsAllKeys;
+
+  /// Language selector label for German.
+  ///
+  /// In en, this message translates to:
+  /// **'German'**
+  String get germanLanguage;
+
+  /// Language selector label for French.
+  ///
+  /// In en, this message translates to:
+  /// **'French'**
+  String get frenchLanguage;
+
+  /// Language selector label for Spanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get spanishLanguage;
+
+  /// Language selector label for Japanese.
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese'**
+  String get japaneseLanguage;
+
+  /// Language selector label for Simplified Chinese; Traditional Chinese is not offered.
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese (Simplified)'**
+  String get chineseLanguage;
 }
 
 class _AppLocalizationsDelegate
@@ -1093,8 +1133,15 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'ru'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+    'de',
+    'en',
+    'es',
+    'fr',
+    'ja',
+    'ru',
+    'zh',
+  ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1103,10 +1150,20 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'de':
+      return AppLocalizationsDe();
     case 'en':
       return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
+    case 'fr':
+      return AppLocalizationsFr();
+    case 'ja':
+      return AppLocalizationsJa();
     case 'ru':
       return AppLocalizationsRu();
+    case 'zh':
+      return AppLocalizationsZh();
   }
 
   throw FlutterError(

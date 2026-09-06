@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/auth/main.dart';
 import 'package:tracksu/src/auth/domain/authorization.dart';
-import 'package:tracksu/src/guest/presentation/guest_shell.dart';
+import 'package:tracksu/src/guest/widgets/guest_shell.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/beatmap/main.dart';
 import 'package:tracksu/src/rankings/main.dart';
