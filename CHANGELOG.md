@@ -12,6 +12,12 @@
 
 ### Removed
 
+- 34 unused legacy assets (6,256,733 source bytes): old grade/mod PNGs,
+  MyFlutterApp icon font and unused backgrounds/utility images including
+  triangle.gif. Removed unused Palette; native splash resources, active
+  flags/modes/Exo fonts and catalog artwork remain. Assets now use explicit
+  utils entries; unused countries JSON is not bundled.
+
 - 45 unreachable legacy Dart files: old Home/desktop navigation, drawer/error
   flow, profile/rankings/beatmap/news pages, Cubits, models, requests and helpers.
   Active authorization and palette remain unchanged; assets/storage are untouched.

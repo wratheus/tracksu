@@ -44,13 +44,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/icon_mods/
-    - assets/icon_pack/
     - assets/icon_game_mods/
     - assets/icon_country_flags/
-    - assets/icon_score_types/
-    - assets/utils/
-    - assets/models/
+    - assets/utils/painted_logo.png
+    - assets/utils/1024x500_banner.png
 
   fonts:
     - family: Exo 2
@@ -58,6 +55,3 @@ flutter:
         - asset: assets/fonts/Exo2-VariableFont_wght.ttf
         - asset: assets/fonts/Exo2-Italic-VariableFont_wght.ttf
           style: italic
-    - family:  MyFlutterApp
-      fonts:
-        - asset: assets/icon_pack/MyFlutterApp.ttf
