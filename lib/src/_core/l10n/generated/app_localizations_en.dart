@@ -10,6 +10,59 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get uiCatalogMedia => 'Images and badges';
+
+  @override
+  String get uiCatalogCards => 'Player and content cards';
+
+  @override
+  String get uiCatalogCharts => 'Charts';
+
+  @override
+  String get uiCatalogStates => 'Content states';
+
+  @override
+  String get uiCatalogSampleNotice =>
+      'Preview data only. These are not live player statistics. Existing Tracksu artwork is used to demonstrate image layout.';
+
+  @override
+  String get uiCatalogHistory => 'Rank history';
+
+  @override
+  String get uiCatalogActivity => 'Play activity';
+
+  @override
+  String get uiCatalogSinglePoint => 'One observation';
+
+  @override
+  String get uiCatalogFlatSeries => 'Unchanged values';
+
+  @override
+  String get uiCatalogOffline => 'No connection';
+
+  @override
+  String get uiCatalogNoData => 'No data yet';
+
+  @override
+  String get uiCatalogChartHint =>
+      'Tap or drag to inspect a sample, or use the slider. Smaller rank numbers appear higher.';
+
+  @override
+  String get uiMetricPerformance => 'Performance points';
+
+  @override
+  String get uiMetricAccuracy => 'Accuracy';
+
+  @override
+  String get uiMetricGlobalRank => 'Global rank';
+
+  @override
+  String get uiMetricPlayCount => 'Play count';
+
+  @override
+  String get uiMetricPlayTime => 'Play time';
+
+  @override
   String get uiCatalogTitle => 'UI kit';
 
   @override

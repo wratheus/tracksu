@@ -82,9 +82,9 @@ body/CJK fallback. Исправлен регистр пути существую
 Основное приложение остаётся на старой теме. Последний собранный APK — основной
 entrypoint; каталог запускается указанной командой, без удаления данных.
 
-Оставшаяся работа: предметные primitives (flags/rulesets/grades/images),
-композиции empty/error, theme persistence, P07.2 navigation, затем перенос
-страниц. Общий UI kit не объявляется полностью законченным по одному checkpoint.
+Следующим checkpoint ниже реализованы предметные primitives, states и charts.
+Остаются визуальная приёмка, theme persistence, P07.2 navigation, недостающие
+API projections и перенос страниц. Foundation не равен готовому редизайну.
 Правило именованных constructors сохранено в standards/SKILLS.md.
 
 ### Завершённый checkpoint — композиционный API
@@ -124,3 +124,49 @@ UiTile, UiIconButton и UiModal confirm/destructive/info/selection/sheet/scrolla
 тап не закрывает предыдущую страницу, длинные заголовки/локализации и крупный
 шрифт помещаются, форма доступна с клавиатурой, выбор языка обновляет каталог.
 Техническая сборка не заменяет эту проверку. Перенос production pages не начат.
+
+### Реализован — предметный каталог, 2026-09-07
+
+Пользователь поручил закончить недостающие изображения/аватары, badges,
+карточки игроков/карт/результатов/новостей, состояния и графики одним цельным
+этапом. База: ebd0269, чистое дерево, analyzer и обе debug-сборки проходили.
+Общие media/state/chart primitives — в tracksu_ui; osu-композиции — в app
+shared UI, без зависимостей пакета на domain. Потребитель — ручной каталог.
+Production routes/Bloc/API/storage не меняются; навигация остаётся P07.2.
+История ранга и недостающие media пока не подключены к моделям: графики в
+каталоге используют явно обозначенные примеры, не выдумывают данные профиля.
+Только существующие assets с оговоркой о незавершённом аудите P01.2; без новых
+загрузок, сторонних библиотек и удаления legacy assets.
+Готовность: public APIs и примеры всех семейств/состояний, семь ARB,
+format/analyze/debug builds; устройство проверяет пользователь, тесты T01.
+Возврат — адресный revert локального коммита; миграций данных нет.
+
+Результат: UiImage/UiCover, три размера UiAvatar; UiBadge, UiContentState и
+UiSkeleton; UiMetric/UiMetricGroup; интерактивные UiChart.line/bars с выбором
+точки и доступным slider. В app shared UI — OsuPlayerCard.compact/profile,
+OsuBeatmapCard.compact/featured, OsuPlayCard, OsuNewsCard, country/ruleset/grade/mod
+primitives и selector. Каталог показывает 17 лениво создаваемых секций перед
+базовыми Material-компонентами. API и страницы не менялись.
+
+UiImage ограничивает decode по DPR/размерам, не держит прошлое изображение
+при смене provider и не запускает анимационные таймеры. График валидирует
+конечные значения и порядок x; пустая/одиночная/постоянная серия обработаны,
+у bars нулевая база, у ранга меньший номер выше. Не синтезирует наблюдения.
+Переведены 17 подписей в семи ARB, generated output обновлён штатно.
+
+Проверки 2026-09-07:
+
+- `fvm flutter gen-l10n`: passed, missing translations `{}`.
+- Format всех изменённых Dart-файлов: passed.
+- Analyzer lib + UI/network/storage packages: No issues found.
+- Финальная debug-сборка каталога: passed, 6,9 с.
+- Финальная debug-сборка main: passed, 8,5 с; последний APK — main.
+- `git diff --check`: passed. Старое native-access warning JDK/Gradle сохраняется.
+- Автотесты и установка на устройство не выполнялись, по принятому процессу.
+
+Ручная приёмка: открыть `fvm flutter run -t lib/ui_catalog.dart`; посмотреть
+карточки в обеих темах и на длинных переводах/крупном шрифте, fallback аватара,
+unknown flag/grade/mod, переключение режима, drag/slider графика и повторный
+тап кнопок примеров (только snackbar). Проверить TalkBack и прокрутку.
+Не объявляем визуальный результат проверенным на устройстве до этой оценки.
+Коммит: `feat(ui): add media charts and osu product compositions`.

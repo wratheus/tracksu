@@ -20,6 +20,12 @@
 
 ### Added
 
+- Product UI catalog: bounded images/covers, avatar fallbacks, semantic badges,
+  content states/skeletons, metrics and selectable line/bar charts. Shared osu
+  compositions now include player/profile, beatmap, score and news cards plus
+  flag/ruleset/grade/mod primitives. Seventeen labels translated into all seven
+  ARB catalogs. Preview data only; no production page, API or routing changes.
+
 - Composable UI recipes: surface variants, body/sliver frames with safe footer,
   sections, menu/choice tiles and icon-button variants. Centralized modal APIs
   in UiModal (confirm, destructive, info, typed selection, short/custom-scroll

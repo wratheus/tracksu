@@ -10,6 +10,59 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get uiCatalogMedia => 'Изображения и значки';
+
+  @override
+  String get uiCatalogCards => 'Карточки игроков и контента';
+
+  @override
+  String get uiCatalogCharts => 'Графики';
+
+  @override
+  String get uiCatalogStates => 'Состояния контента';
+
+  @override
+  String get uiCatalogSampleNotice =>
+      'Демонстрационные данные, не реальная статистика игроков. Существующие изображения Tracksu показывают размещение обложек.';
+
+  @override
+  String get uiCatalogHistory => 'История рейтинга';
+
+  @override
+  String get uiCatalogActivity => 'Игровая активность';
+
+  @override
+  String get uiCatalogSinglePoint => 'Одна точка';
+
+  @override
+  String get uiCatalogFlatSeries => 'Без изменений';
+
+  @override
+  String get uiCatalogOffline => 'Нет подключения';
+
+  @override
+  String get uiCatalogNoData => 'Данных пока нет';
+
+  @override
+  String get uiCatalogChartHint =>
+      'Нажми или проведи по графику либо используй ползунок. Меньший номер места расположен выше.';
+
+  @override
+  String get uiMetricPerformance => 'Очки производительности';
+
+  @override
+  String get uiMetricAccuracy => 'Точность';
+
+  @override
+  String get uiMetricGlobalRank => 'Мировой рейтинг';
+
+  @override
+  String get uiMetricPlayCount => 'Количество игр';
+
+  @override
+  String get uiMetricPlayTime => 'Время в игре';
+
+  @override
   String get uiCatalogTitle => 'UI kit';
 
   @override

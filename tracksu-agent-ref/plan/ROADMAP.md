@@ -26,7 +26,7 @@ P09–P13 и OAuth ждут ручной приёмки. UI foundation — от�
 | Порядок / ID | Следующий цельный результат | Статус |
 | --- | --- | --- |
 | Сейчас · [P07.1](work/P07.1-languages.md) | en/ru/de/fr/es/ja/zh, стандартный ARB template, language persistence и fallback подключены; ручная языковая проверка | awaiting_manual_check |
-| Сейчас · [P07 foundation](work/P07-ui-foundation.md) | tracksu_ui: темы, UiText/кнопки, surfaces/frames/tiles, typed UiModal и каталог с recipes реализованы; analyze и обе debug-сборки прошли, требуется просмотр на телефоне до миграции страниц | awaiting_manual_check |
+| Сейчас · [P07 foundation](work/P07-ui-foundation.md) | Темы, базовые компоненты и предметный каталог: media/аватары, flags/grades/mods, карточки игрока/карты/результата/новости, метрики, line/bar charts, content states. Код реализован; ручная оценка каталога перед переносом страниц | awaiting_manual_check |
 | 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
 | 2 · P10 · [scores](work/P10-scores.md) / [карты](work/P10-beatmaps.md) | Best/recent и восемь категорий карт подключены: scoped Bloc, lazy slivers, refresh/load-more/retry. Ручная проверка; старые неиспользуемые consumers удалены в P16. legacy: false для scores | awaiting_manual_check |
 | 3 · [P12](work/P12-beatmap.md) | Подключены typed navigation из профиля, набор/выбор сложности, публичный top leaderboard, новые Score/mod acronyms и back. Ручная проверка; расширенные фильтры отдельно | awaiting_manual_check |
@@ -34,7 +34,7 @@ P09–P13 и OAuth ждут ручной приёмки. UI foundation — от�
 | 5 · [P13](work/P13-news.md) | Новости: список с cursor paging, текстовый HTML reader, HTTPS-ссылки, refresh/retry и вход из shell подключены. Ручная проверка | awaiting_manual_check |
 | 5a · [P07.2 — навигация](../reference/NAVIGATION_SPEC.md) | Bottom bar, независимые стеки вкладок, сохранение состояния, iOS interactive pop / Android predictive Back, OAuth и restoration. Сначала согласовать ADR и Back-at-root; функциональный shell можно сделать до финальной темы | backlog |
 | 6 · [P01.2](DETAILS.md#p01-2) | Аудит assets: происхождение/права, вес, usage, дубли/форматы — совместно с дизайном после Stitch, по решению пользователя | deferred_until_design |
-| 7 · [P07 — визуальная приёмка](work/P07-ui-foundation.md) | Оценить каталог foundation, пригодные assets и предметные primitives. Уточнить палитру/шрифты/иконки перед переносом страниц; корректировки относительно Stitch разрешены | backlog |
+| 7 · [P07 — визуальная приёмка](work/P07-ui-foundation.md) | Оценить уже реализованные предметные карточки/графики в каталоге, состояния и assets. Уточнить палитру/шрифты/иконки перед переносом страниц; корректировки относительно Stitch разрешены | backlog |
 | 8 · [P07 + P07.1 — интеграция](DETAILS.md#p07) | После оценки foundation: перенос страниц на tracksu_ui, theme preference/persistence, вынос l10n в пакет. Не смешивать с API-расширениями | backlog |
 | 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade, базовые действия и UI binding, privacy/consent; выбрать Firebase environment | backlog |
 | 10 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |

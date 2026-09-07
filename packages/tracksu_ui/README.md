@@ -188,6 +188,99 @@ if (!context.mounted || locale == null) return;
    controls are supported building blocks styled by the theme, not a loophole
    for inventing per-page colors, hit targets or transitions.
 
+## Media, statistics and product compositions
+
+The product catalog now starts with actual reusable compositions, not only
+Material controls. All examples use explicit preview values and existing local
+Tracksu artwork; they do not fetch player data or represent real statistics.
+
+| Family | Public API | Ownership |
+| --- | --- | --- |
+| Image | `UiImage`, `UiImage.loading`, `UiCover` | UI package |
+| Avatar | `UiAvatar.small/medium/large` | UI package |
+| Status badge | `UiBadge.neutral/accent/positive/warning/negative` | UI package |
+| States | `UiContentState.empty/error/offline/loading`, `UiSkeleton.line/block` | UI package |
+| Statistics | `UiMetric`, `UiMetricGroup` | UI package |
+| Charts | `UiChart.line/bars`, `UiChartPoint` | UI package |
+| Flags/modes/grades/mods | `OsuCountryFlag`, `OsuRulesetIcon`, `OsuRulesetSelector`, `OsuGradeBadge`, `OsuMods` | App shared UI |
+| Player | `OsuPlayerCard.compact/profile` | App shared UI |
+| Beatmap | `OsuBeatmapCard.compact/featured` | App shared UI |
+| Score/news | `OsuPlayCard`, `OsuNewsCard` | App shared UI |
+
+Import the latter group through
+`package:tracksu/src/_shared/ui/osu_ui.dart`. These are display components, not
+repositories, DTOs or new feature entry points. Existing production widgets
+remain active until the page-migration step; do not mix the new compositions
+into old pages without moving their theme and reviewing the resulting layout.
+
+### Images and assets
+
+Pass an `ImageProvider` (e.g. `AssetImage` or an already validated `NetworkImage`)
+or null. Null and image errors show a themed fallback; pending decoding shows
+a static placeholder. Avatar initials use the first grapheme and empty names
+show a person icon. The owner renders the accessible username; a decorative
+avatar does not repeat it. A standalone image can take `semanticLabel`.
+
+`UiImage` requires finite width/height. `UiCover` requires bounded parent width.
+Decode dimensions follow layout × device pixel ratio with a 2048px ceiling per
+dimension. No global image-cache mutation, disk cache, authenticated headers,
+per-byte progress rebuilds or shimmer loops. Changing the provider does not
+briefly show the previous player's image. Images belong in lazy builder lists.
+
+Flags validate two-letter codes; missing/unknown assets show a flag placeholder.
+Grade assets have a text fallback for new values; mods always display acronyms,
+including unknown ones. Existing asset/font provenance and licensing still need
+P01.2 review; using them in this catalog is not a completed rights audit.
+
+### Charts
+
+```dart
+UiChart.line(
+  title: t.uiCatalogHistory,
+  emptyLabel: t.uiCatalogNoData,
+  lowerIsBetter: true,
+  points: observations.map((item) => UiChartPoint(
+    x: item.timestamp.millisecondsSinceEpoch.toDouble(),
+    value: item.rank.toDouble(),
+    label: formatDate(item.timestamp),
+    valueLabel: formatRank(item.rank),
+  )).toList(growable: false),
+);
+```
+
+This is a construction recipe, not a claim that the current Profile model
+already provides observations. Rank history and missing card media need a
+separate API-to-domain projection when pages are integrated. Never substitute
+the catalog samples for absent player data.
+
+Series are copied to an immutable list. x must be finite and strictly
+increasing; values and ranges must be finite. Bars additionally require
+non-negative values and use a zero baseline. Line charts preserve x spacing,
+connect measured points without smoothing, and reverse y for ranks when
+`lowerIsBetter` is true. Empty, single-point, flat and zero-valued series have
+defined rendering. Missing intervals are not synthesized by this widget.
+
+Tap/drag selects a sample; the displayed date/value and native discrete slider
+provide the same information for keyboard/accessibility navigation. Selection
+is preserved by x when data refreshes. The callback is optional and only fires
+on user selection. Charts own local selection/repaint, not the page Bloc.
+Use a bounded aggregated time window (e.g. days/months), not an unbounded stream
+of raw events. No chart library or network dependency was added.
+
+### Content states and cards
+
+State components are content-sized: place inside `SliverToBoxAdapter` for a
+scrolling screen. A retry action is optional, but its label/callback come as a
+pair. Use `UiNotice` alongside existing content for refresh failures, and
+`UiLoading` at pagination footers; do not replace a loaded list with full-page
+loading. Skeletons are static, and the parent announces loading once.
+
+Card text is on an opaque themed surface rather than over artwork. Main titles
+wrap; news previews alone are capped. Metrics switch to one column with narrow
+width/large text. Optional PP, cover, country/status and details remain absent
+or use caller-provided localized unknown labels — the UI invents no values.
+All cards receive callbacks; they do not navigate or mutate accounts themselves.
+
 ## Manual catalog
 
 From the repository root:
@@ -206,6 +299,6 @@ normal debug app; it is not a second installable product. Run `lib/main.dart`
 again to return to normal app entry. No storage migration/clear is performed.
 
 The primary app has NOT adopted this theme yet. P07.2 stacks/Back, theme preference
-persistence, image/flag/ruleset/grade primitives, empty-state composition,
-final accessibility/visual acceptance and feature-page migration are follow-up
-work. Do not label the complete product redesign or complete UI kit finished.
+persistence, missing API projections, final accessibility/visual acceptance and
+feature-page migration are follow-up work. The component set above is implemented;
+do not equate it with a completed product redesign or device acceptance.

@@ -10,6 +10,57 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get uiCatalogMedia => '图片与徽章';
+
+  @override
+  String get uiCatalogCards => '玩家与内容卡片';
+
+  @override
+  String get uiCatalogCharts => '图表';
+
+  @override
+  String get uiCatalogStates => '内容状态';
+
+  @override
+  String get uiCatalogSampleNotice => '仅为预览数据，并非真实玩家统计。使用现有 Tracksu 图片展示布局。';
+
+  @override
+  String get uiCatalogHistory => '排名历史';
+
+  @override
+  String get uiCatalogActivity => '游戏活动';
+
+  @override
+  String get uiCatalogSinglePoint => '单个数据点';
+
+  @override
+  String get uiCatalogFlatSeries => '数值无变化';
+
+  @override
+  String get uiCatalogOffline => '无网络连接';
+
+  @override
+  String get uiCatalogNoData => '暂无数据';
+
+  @override
+  String get uiCatalogChartHint => '点击、拖动或使用滑块查看数据。排名数字越小，位置越高。';
+
+  @override
+  String get uiMetricPerformance => '表现分';
+
+  @override
+  String get uiMetricAccuracy => '准确率';
+
+  @override
+  String get uiMetricGlobalRank => '全球排名';
+
+  @override
+  String get uiMetricPlayCount => '游玩次数';
+
+  @override
+  String get uiMetricPlayTime => '游玩时间';
+
+  @override
   String get uiCatalogTitle => 'UI kit';
 
   @override

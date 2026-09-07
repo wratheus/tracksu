@@ -10,6 +10,59 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get uiCatalogMedia => '画像とバッジ';
+
+  @override
+  String get uiCatalogCards => 'プレイヤーとコンテンツのカード';
+
+  @override
+  String get uiCatalogCharts => 'グラフ';
+
+  @override
+  String get uiCatalogStates => 'コンテンツの状態';
+
+  @override
+  String get uiCatalogSampleNotice =>
+      'プレビュー用のデータです。実際のプレイヤー統計ではありません。既存のTracksu画像でレイアウトを示しています。';
+
+  @override
+  String get uiCatalogHistory => 'ランキング履歴';
+
+  @override
+  String get uiCatalogActivity => 'プレイ履歴';
+
+  @override
+  String get uiCatalogSinglePoint => 'データが1件';
+
+  @override
+  String get uiCatalogFlatSeries => '変化のない値';
+
+  @override
+  String get uiCatalogOffline => '接続なし';
+
+  @override
+  String get uiCatalogNoData => 'データはまだありません';
+
+  @override
+  String get uiCatalogChartHint =>
+      'タップ、ドラッグ、またはスライダーで値を確認できます。順位の数字が小さいほど上に表示されます。';
+
+  @override
+  String get uiMetricPerformance => 'パフォーマンスポイント';
+
+  @override
+  String get uiMetricAccuracy => '精度';
+
+  @override
+  String get uiMetricGlobalRank => '世界ランキング';
+
+  @override
+  String get uiMetricPlayCount => 'プレイ回数';
+
+  @override
+  String get uiMetricPlayTime => 'プレイ時間';
+
+  @override
   String get uiCatalogTitle => 'UI kit';
 
   @override

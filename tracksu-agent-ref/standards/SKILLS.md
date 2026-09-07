@@ -69,6 +69,12 @@ regression tests, mocks/fakes, golden, coverage и test CI **не выполня
   Для сборки страниц сначала читать recipes в packages/tracksu_ui/README.md.
   Новый общий вариант сопровождается примером каталога; не создавать вторую
   реализацию modal/container в feature и не наращивать универсальный набор flags.
+- Предметный UI уже есть в `lib/src/_shared/ui/osu_ui.dart`: player/profile,
+  beatmap, play и news cards, country/ruleset/grade/mod badges. Сначала
+  переиспользовать их, а не заново собирать карточки внутри каждой feature.
+  Media, content states, metrics и line/bar charts — public API tracksu_ui.
+  Каталожные наблюдения — только примеры; не подставлять их вместо отсутствующих
+  API-данных. Не переносить в UI kit endpoints, Domain/DTO или image asset paths.
 - `Row/Column.spacing` и Padding вместо пустых SizedBox-разделителей;
   SizedBox для constraints/размеров и shrink допустимы. Шкала spacing единая;
   исходная skill-шкала 5/10/15/20/30 — стартовый вариант для design tokens.

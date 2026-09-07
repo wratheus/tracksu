@@ -74,6 +74,12 @@ the new design yet. Inspect the independent, API-free manual catalog with:
 fvm flutter run -t lib/ui_catalog.dart
 ```
 
+The catalog starts with avatars/images, flags/grades/mods, player/beatmap/score/
+news cards, metrics, interactive line/bar charts and loading/empty/error states.
+Samples are explicitly preview-only, using local artwork and no player API.
+Osu-specific compositions live in `lib/src/_shared/ui`; the base package stays
+independent of domain models. See the package README for contracts and recipes.
+
 It uses the same Android app ID as the normal debug app. Run the default
 `lib/main.dart` target again to return to the application.
 

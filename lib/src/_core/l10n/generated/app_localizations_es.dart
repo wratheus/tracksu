@@ -10,6 +10,59 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get uiCatalogMedia => 'Imágenes e insignias';
+
+  @override
+  String get uiCatalogCards => 'Tarjetas de jugadores y contenido';
+
+  @override
+  String get uiCatalogCharts => 'Gráficos';
+
+  @override
+  String get uiCatalogStates => 'Estados del contenido';
+
+  @override
+  String get uiCatalogSampleNotice =>
+      'Datos de ejemplo, no estadísticas reales. Las imágenes existentes de Tracksu muestran la distribución visual.';
+
+  @override
+  String get uiCatalogHistory => 'Historial de clasificación';
+
+  @override
+  String get uiCatalogActivity => 'Actividad de juego';
+
+  @override
+  String get uiCatalogSinglePoint => 'Una observación';
+
+  @override
+  String get uiCatalogFlatSeries => 'Valores constantes';
+
+  @override
+  String get uiCatalogOffline => 'Sin conexión';
+
+  @override
+  String get uiCatalogNoData => 'Aún no hay datos';
+
+  @override
+  String get uiCatalogChartHint =>
+      'Toca, arrastra o usa el control deslizante para ver un valor. Los números de rango menores aparecen más arriba.';
+
+  @override
+  String get uiMetricPerformance => 'Puntos de rendimiento';
+
+  @override
+  String get uiMetricAccuracy => 'Precisión';
+
+  @override
+  String get uiMetricGlobalRank => 'Clasificación mundial';
+
+  @override
+  String get uiMetricPlayCount => 'Partidas jugadas';
+
+  @override
+  String get uiMetricPlayTime => 'Tiempo de juego';
+
+  @override
   String get uiCatalogTitle => 'UI kit';
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/generated/app_localizations.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/ui_catalog/product_catalog.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Manual component workbench. No bootstrap, credentials, repositories or API.
@@ -147,6 +148,7 @@ final class _CatalogScreenState extends State<_CatalogScreen> {
       ),
       body: UiFrame.scroll(
         slivers: <Widget>[
+          const ProductCatalogSliver(),
           SliverList.list(
             children: <Widget>[
               UiSection(

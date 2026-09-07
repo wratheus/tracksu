@@ -108,6 +108,108 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Manual product component catalog: Images and badges
+  ///
+  /// In en, this message translates to:
+  /// **'Images and badges'**
+  String get uiCatalogMedia;
+
+  /// Manual product component catalog: Player and content cards
+  ///
+  /// In en, this message translates to:
+  /// **'Player and content cards'**
+  String get uiCatalogCards;
+
+  /// Manual product component catalog: Charts
+  ///
+  /// In en, this message translates to:
+  /// **'Charts'**
+  String get uiCatalogCharts;
+
+  /// Manual product component catalog: Content states
+  ///
+  /// In en, this message translates to:
+  /// **'Content states'**
+  String get uiCatalogStates;
+
+  /// Manual product component catalog: Preview data only. These are not live player statistics. Existing Tracksu artwork is used to demonstrate image layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview data only. These are not live player statistics. Existing Tracksu artwork is used to demonstrate image layout.'**
+  String get uiCatalogSampleNotice;
+
+  /// Manual product component catalog: Rank history
+  ///
+  /// In en, this message translates to:
+  /// **'Rank history'**
+  String get uiCatalogHistory;
+
+  /// Manual product component catalog: Play activity
+  ///
+  /// In en, this message translates to:
+  /// **'Play activity'**
+  String get uiCatalogActivity;
+
+  /// Manual product component catalog: One observation
+  ///
+  /// In en, this message translates to:
+  /// **'One observation'**
+  String get uiCatalogSinglePoint;
+
+  /// Manual product component catalog: Unchanged values
+  ///
+  /// In en, this message translates to:
+  /// **'Unchanged values'**
+  String get uiCatalogFlatSeries;
+
+  /// Manual product component catalog: No connection
+  ///
+  /// In en, this message translates to:
+  /// **'No connection'**
+  String get uiCatalogOffline;
+
+  /// Manual product component catalog: No data yet
+  ///
+  /// In en, this message translates to:
+  /// **'No data yet'**
+  String get uiCatalogNoData;
+
+  /// Manual product component catalog: Tap or drag to inspect a sample, or use the slider. Smaller rank numbers appear higher.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap or drag to inspect a sample, or use the slider. Smaller rank numbers appear higher.'**
+  String get uiCatalogChartHint;
+
+  /// Short statistic label for reusable metric components.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance points'**
+  String get uiMetricPerformance;
+
+  /// Short statistic label for reusable metric components.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get uiMetricAccuracy;
+
+  /// Short statistic label for reusable metric components.
+  ///
+  /// In en, this message translates to:
+  /// **'Global rank'**
+  String get uiMetricGlobalRank;
+
+  /// Short statistic label for reusable metric components.
+  ///
+  /// In en, this message translates to:
+  /// **'Play count'**
+  String get uiMetricPlayCount;
+
+  /// Short statistic label for reusable metric components.
+  ///
+  /// In en, this message translates to:
+  /// **'Play time'**
+  String get uiMetricPlayTime;
+
   /// Manual UI component catalog: UI kit
   ///
   /// In en, this message translates to:

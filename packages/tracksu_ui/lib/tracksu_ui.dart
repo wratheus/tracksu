@@ -9,3 +9,8 @@ export 'src/widgets/frame.dart';
 export 'src/widgets/icon_button.dart';
 export 'src/widgets/modal.dart';
 export 'src/widgets/tile.dart';
+export 'src/widgets/media.dart';
+export 'src/widgets/badge.dart';
+export 'src/widgets/content_state.dart';
+export 'src/widgets/metric.dart';
+export 'src/widgets/chart.dart';
