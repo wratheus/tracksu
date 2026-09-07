@@ -1,4 +1,7 @@
 {
+  "navigationSearch": "Suche",
+  "navigationUnavailable": "Diese Seite ist nicht verfügbar.",
+  "searchClear": "Suche löschen",
   "@@locale": "de",
   "uiCatalogMedia": "Bilder und Abzeichen",
   "uiCatalogCards": "Spieler- und Inhaltskarten",

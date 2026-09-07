@@ -1,4 +1,10 @@
 {
+  "navigationSearch": "Search",
+  "@navigationSearch": {"description": "Label of the persistent search navigation destination."},
+  "navigationUnavailable": "This page is unavailable.",
+  "@navigationUnavailable": {"description": "Safe fallback for an unknown application route; no URI or error details are exposed."},
+  "searchClear": "Clear search",
+  "@searchClear": {"description": "Accessibility label for clearing the player search input."},
   "@@locale": "en",
   "uiCatalogMedia": "Images and badges",
   "@uiCatalogMedia": {"description": "Manual product component catalog: Images and badges"},

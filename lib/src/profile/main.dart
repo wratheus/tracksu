@@ -9,9 +9,9 @@ import 'package:tracksu/src/profile/domain/profile_params.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 
 final class ProfileMain extends StatelessWidget {
-  const ProfileMain({required this.actions, this.params, super.key});
+  const ProfileMain({required ProfileParams this.params, super.key});
+  const ProfileMain.current({super.key}) : params = null;
 
-  final Widget actions;
   final ProfileParams? params;
 
   @override
@@ -30,10 +30,12 @@ final class ProfileMain extends StatelessWidget {
         );
         if (params case final ProfileParams target) {
           bloc.add(ProfileLookupRequested(target.user));
+        } else {
+          bloc.add(const CurrentProfileLoadRequested());
         }
         return bloc;
       },
-      child: ProfileScreen(actions: actions),
+      child: const ProfileScreen(),
     );
   }
 }

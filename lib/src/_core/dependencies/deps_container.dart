@@ -35,6 +35,8 @@ final class DepsContainer {
   final TokenStore tokenStore;
 
   void close() {
+    appRouter.dispose();
+    sessionController.dispose();
     localeController.dispose();
     restClient.close();
     publicRestClient.close();

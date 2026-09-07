@@ -26,6 +26,20 @@
 
 ### Added
 
+- Stateful Search / Rankings / News navigation with go_router 18: independent
+  lazy branch stacks, persistent themed UiNavigationBar on details, retained
+  tab content and Android Back-to-Search root policy. Separate guest search
+  landing opens typed ID/username profiles; profile pages no longer own search.
+  Route restoration IDs and seven-language navigation/fallback labels included.
+- Root OAuth overlay now returns to its previous context instead of clearing
+  the shell. Session-status notifications update the account menu after cold
+  callback, logout and session invalidation without exposing credentials.
+  Android callback handling stays exclusively in app_links; Flutter's parallel
+  deep-link handler is disabled to keep callback parameters out of router state.
+- Per-page product integration queue and a separate privacy/terms/disclosures
+  release gate, based on actual storage and external data flows. No public
+  legal policy or external publication was created.
+
 - Product UI catalog: bounded images/covers, avatar fallbacks, semantic badges,
   content states/skeletons, metrics and selectable line/bar charts. Shared osu
   compositions now include player/profile, beatmap, score and news cards plus

@@ -215,6 +215,13 @@ into old pages without moving their theme and reviewing the resulting layout.
 
 ### Images and assets
 
+`UiNavigationBar(items: ..., selectedIndex: ..., onSelected: ...)` uses the
+shared Material navigation theme. `UiNavigationItem` carries localized labels
+and normal/selected icons. It owns no router, stacks or reselect policy; those
+belong to the app's stateful shell. The manual catalog includes a selectable
+three-destination sample.
+
+
 Pass an `ImageProvider` (e.g. `AssetImage` or an already validated `NetworkImage`)
 or null. Null and image errors show a themed fallback; pending decoding shows
 a static placeholder. Avatar initials use the first grapheme and empty names

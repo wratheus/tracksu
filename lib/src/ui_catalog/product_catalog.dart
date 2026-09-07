@@ -14,7 +14,7 @@ final class ProductCatalogSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SliverList.builder(
-    itemCount: 17,
+    itemCount: 18,
     itemBuilder: (BuildContext context, int index) =>
         KeyedSubtree(key: ValueKey<int>(index), child: _sample(context, index)),
   );
@@ -427,10 +427,33 @@ final class ProductCatalogSliver extends StatelessWidget {
           ],
         ),
       ),
-      _ => throw RangeError.range(index, 0, 16, 'index'),
+      17 => const _NavigationSample(),
+      _ => throw RangeError.range(index, 0, 17, 'index'),
     };
     return sample;
   }
+}
+
+final class _NavigationSample extends StatefulWidget {
+  const _NavigationSample();
+
+  @override
+  State<_NavigationSample> createState() => _NavigationSampleState();
+}
+
+final class _NavigationSampleState extends State<_NavigationSample> {
+  int _selected = 0;
+
+  @override
+  Widget build(BuildContext context) => UiNavigationBar(
+    selectedIndex: _selected,
+    onSelected: (int value) => setState(() => _selected = value),
+    items: <UiNavigationItem>[
+      UiNavigationItem(label: context.t.navigationSearch, icon: Icons.search),
+      UiNavigationItem(label: context.t.rankingsTitle, icon: Icons.leaderboard),
+      UiNavigationItem(label: context.t.newsTitle, icon: Icons.newspaper),
+    ],
+  );
 }
 
 final class _RulesetSample extends StatefulWidget {

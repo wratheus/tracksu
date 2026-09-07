@@ -144,14 +144,13 @@ legacy user profile/cache мигрируется и очищается отде�
 потребителей. Будущий guest shell использует этот status, а не читает токены
 напрямую.
 
-Root route уже ведёт в отдельный `guest` feature, а не в legacy `LoginPage`.
-OAuth запускается только после нажатия пользователя. До переноса public
-feature на P09–P14 shell намеренно является минимальной точкой входа; успешный
-OAuth login очищает navigation stack и возвращает в guest shell со статусом
-`authenticated`. Legacy `LoginPage` с client-credentials guest-token удалён:
-история git остаётся recovery-механизмом, но не оправдывает сохранение
-неактуального runtime-path. Legacy feature-экраны остаются до подтверждённой
-замены на P09–P13 и не участвуют в новом entry flow.
+Root ведёт в гостевой Search внутри stateful shell (P07.2, 2026-09-07).
+OAuth запускается по действию пользователя поверх root Navigator. Успешный
+вход снимает только OAuth route, не очищает navigation stacks. Холодный
+callback открывается поверх Search; полный URI передаётся только в памяти,
+не в route path/extra/restoration. Статус аккаунта обновляется через stream
+SessionStatus, включая cold callback и очистку сессии после refresh failure;
+токены UI не получает. Legacy LoginPage/pages удалены, восстановление — Git.
 
 В authenticated варианте guest shell есть локальный `Sign out`: кнопка вызывает
 `AuthRepository.logout()`, не открывает browser и после завершения немедленно

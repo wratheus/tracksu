@@ -10,12 +10,14 @@ UI kit и raw migration dfe33f2 реализованы, но не являютс
 настройки. Для каждого среза доводим сценарий и данные, а не только виджеты.
 Stitch остаётся ориентиром. Пользователь согласовал go_router/StatefulShellRoute,
 три вкладки и Android Back из корня вторичной вкладки к сохранённому Поиску.
+Shell/отдельный Search и OAuth overlay реализованы; ближайший следующий срез —
+поиск и профиль (реальные media/метрики/удобная структура), не повторная миграция router.
 
 **P07.1 — локализация, без изменения дизайна**:
 [семь языков и стандартный ARB](work/P07.1-languages.md) реализованы,
 ожидают ручной проверки. [P16](work/P16-legacy-cleanup.md) удалил старый граф
 экранов и перенёс авторизацию в auth; pages больше нет. По решению пользователя
-пользователь разрешил [чистку подтверждённо лишних assets](work/P01.2-assets.md).
+выполнена [чистка подтверждённо лишних assets](work/P01.2-assets.md).
 P09–P13 имеют рабочие API-срезы, но требуют продуктовой доработки.
 [P01.3 privacy/условия](work/P01.3-privacy-and-terms.md) — отдельный этап до релиза/analytics.
 
@@ -37,13 +39,13 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | 3 · [P12](work/P12-beatmap.md) | Подключены typed navigation из профиля, набор/выбор сложности, публичный top leaderboard, новые Score/mod acronyms и back. Ручная проверка; расширенные фильтры отдельно | awaiting_manual_check |
 | 4 · [P11](work/P11-rankings.md) | PP/score × четыре режима, paging, страны/mania variants, spotlights с картами и переходами подключены. Ручная проверка; старый граф удалён в P16 | awaiting_manual_check |
 | 5 · [P13](work/P13-news.md) | Новости: список с cursor paging, текстовый HTML reader, HTTPS-ссылки, refresh/retry и вход из shell подключены. Ручная проверка | awaiting_manual_check |
-| Первый срез · [P07.2 — навигация](../reference/NAVIGATION_SPEC.md) | go_router + stateful branches согласованы; нижняя панель на деталях, OAuth поверх shell, lazy branches и сохранённый Поиск при Android Back | in_progress |
-| 6 · [P01.2](work/P01.2-assets.md) | Чистка 34 неиспользуемых assets/Palette; источники и лицензии оставшихся flags/modes/fonts отдельно | in_progress |
+| Проверить · [P07.2 — навигация](../reference/NAVIGATION_SPEC.md) | go_router/stateful branches, отдельный Search, панель на деталях, OAuth overlay и status stream реализованы. Ручной Back/keyboard/callback/restoration checklist | awaiting_manual_check |
+| 6 · [P01.2](work/P01.2-assets.md) | 34 assets/Palette удалены в 9a70de5. Остались источники, лицензии и атрибуции flags/modes/fonts; native splash/branding отдельно | backlog |
 | 7 · [P07 — визуальная приёмка](work/P07-ui-foundation.md) | Оценить уже реализованные предметные карточки/графики в каталоге, состояния и assets. Уточнить палитру/шрифты/иконки перед переносом страниц; корректировки относительно Stitch разрешены | backlog |
 | 8 · [P07 + P07.1 — интеграция](work/P07-product-integration.md) | Raw migration выполнена; требуется поэкранная доработка вместе с нужными media/data projections. Theme persistence и вынос l10n в пакет отдельно | backlog |
 | 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade, базовые действия и UI binding, privacy/consent; выбрать Firebase environment | backlog |
 | 10 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |
-| [P16](work/P16-legacy-cleanup.md) | Мёртвый граф и старые прямые зависимости удалены; авторизация перенесена в auth, pages удалена. Ручной OAuth smoke; palette/assets вместе с будущим дизайном | awaiting_manual_check |
+| [P16](work/P16-legacy-cleanup.md) | Мёртвый граф/старые dependencies/pages/Palette удалены. Дальше cleanup по фактическим consumers в каждом срезе; ручной OAuth smoke | awaiting_manual_check |
 | До выпуска · [P08](DETAILS.md#p08) | Полный ручной auth/session flow, решение об очистке/миграции старого storage, восстановление после ошибок; новый guest token не пользовательская сессия | backlog |
 | До выпуска · [P02 + P06](DETAILS.md#p02) | Scripts/CI format-analyze-build без тестов; analyze всего lib/packages чистый после P16. Проверить оставшиеся plugins; общий error reporting/lifetime по фактическим consumers | backlog |
 | До выпуска · [P02.1](DETAILS.md#p02-1) | Поддерживать README/CHANGELOG при каждом срезе; дополнить команды CI, package contracts и release-инструкцию по мере реализации | ongoing |

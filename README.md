@@ -33,6 +33,20 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Browse most-played, favourite, ranked, graveyard, and other beatmap categories.
 - Refresh each section independently without discarding already loaded content.
 
+### Navigation
+
+- Start in Search as a guest; login is optional in the account menu.
+- Search / Rankings / News have independent retained stacks. The bottom bar
+  stays visible on profile, beatmap and article details.
+- Switching tabs or tapping the active tab does not reset its content.
+- Android Back pops details first, then returns from a secondary tab's root
+  to the retained Search tab. Only Back at the actual Search root can exit.
+- OAuth opens above the shell and closes back to the original context.
+  Device gesture, cold-callback and restoration acceptance is still pending;
+  see the [navigation checklist](tracksu-agent-ref/reference/NAVIGATION_SPEC.md).
+- Router restoration covers destinations and identifiers, not the entire
+  network cache or search/filter state after process death.
+
 ### Rankings and spotlights
 
 - Browse global performance-point and score rankings for all four rulesets.
@@ -67,8 +81,10 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 ## UI foundation preview
 
 The new [tracksu_ui package](packages/tracksu_ui/README.md) contains dark/light
-Material themes and reusable components. Existing app pages have not adopted
-the new design yet. Inspect the independent, API-free manual catalog with:
+Material themes and reusable components. App pages use the new components,
+but the raw migration is not a finished redesign: per-page media, layout and
+interaction improvements are still in progress. Inspect the independent,
+API-free manual catalog with:
 
 ```sh
 fvm flutter run -t lib/ui_catalog.dart

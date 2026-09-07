@@ -10,6 +10,15 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get navigationSearch => 'Suche';
+
+  @override
+  String get navigationUnavailable => 'Diese Seite ist nicht verfügbar.';
+
+  @override
+  String get searchClear => 'Suche löschen';
+
+  @override
   String get uiCatalogMedia => 'Bilder und Abzeichen';
 
   @override

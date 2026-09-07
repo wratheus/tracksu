@@ -10,6 +10,15 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get navigationSearch => '検索';
+
+  @override
+  String get navigationUnavailable => 'このページは表示できません。';
+
+  @override
+  String get searchClear => '検索をクリア';
+
+  @override
   String get uiCatalogMedia => '画像とバッジ';
 
   @override

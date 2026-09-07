@@ -6,14 +6,12 @@ import 'package:tracksu/src/profile/beatmaps/main.dart';
 import 'package:tracksu/src/profile/domain/profile_failure.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/widgets/profile_summary.dart';
-import 'package:tracksu/src/profile/widgets/search_field.dart';
 import 'package:tracksu/src/profile/scores/main.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({required this.actions, super.key});
-  final Widget actions;
+  const ProfileScreen({super.key});
 
   Future<void> _refresh(BuildContext context) async {
     final ProfileBloc bloc = context.read<ProfileBloc>();
@@ -38,10 +36,7 @@ final class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: UiText.titleLarge(context.t.appTitle),
-        actions: <Widget>[actions],
-      ),
+      appBar: AppBar(title: UiText.titleLarge(context.t.appTitle)),
       body: SafeArea(
         top: false,
         child: RefreshIndicator(
@@ -49,7 +44,6 @@ final class ProfileScreen extends StatelessWidget {
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: <Widget>[
-              const SliverToBoxAdapter(child: ProfileSearchField()),
               SliverToBoxAdapter(
                 child: BlocSelector<ProfileBloc, ProfileState, ProfileRuleset>(
                   selector: (ProfileState state) => state.ruleset,

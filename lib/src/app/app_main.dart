@@ -17,7 +17,8 @@ final class AppMain extends StatelessWidget {
       child: ValueListenableBuilder<Locale?>(
         valueListenable: dependencies.localeController,
         builder: (BuildContext context, Locale? locale, Widget? child) {
-          return MaterialApp(
+          return MaterialApp.router(
+            restorationScopeId: 'tracksu_app',
             debugShowCheckedModeBanner: false,
             onGenerateTitle: (BuildContext context) => context.t.appTitle,
             locale: locale,
@@ -26,8 +27,7 @@ final class AppMain extends StatelessWidget {
             theme: TracksuTheme.light(),
             darkTheme: TracksuTheme.dark(),
             themeMode: ThemeMode.system,
-            initialRoute: dependencies.appRouter.initialRoute,
-            onGenerateRoute: dependencies.appRouter.onGenerateRoute,
+            routerConfig: dependencies.appRouter.config,
           );
         },
       ),

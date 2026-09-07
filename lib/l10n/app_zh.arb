@@ -1,4 +1,7 @@
 {
+  "navigationSearch": "搜索",
+  "navigationUnavailable": "此页面不可用。",
+  "searchClear": "清除搜索",
   "@@locale": "zh",
   "uiCatalogMedia": "图片与徽章",
   "uiCatalogCards": "玩家与内容卡片",

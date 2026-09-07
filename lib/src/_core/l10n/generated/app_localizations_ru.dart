@@ -10,6 +10,15 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get navigationSearch => 'Поиск';
+
+  @override
+  String get navigationUnavailable => 'Эта страница недоступна.';
+
+  @override
+  String get searchClear => 'Очистить поиск';
+
+  @override
   String get uiCatalogMedia => 'Изображения и значки';
 
   @override

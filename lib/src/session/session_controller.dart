@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:tracksu/src/session/session_token_provider.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
 
@@ -11,6 +13,8 @@ final class SessionController implements SessionTokenProvider {
   SessionController._(this._tokenStore);
 
   final TokenStore _tokenStore;
+  final StreamController<SessionStatus> _statusChanges =
+      StreamController<SessionStatus>.broadcast();
   StoredAuthTokens? _tokens;
   Future<void> _pendingWrite = Future<void>.value();
 
@@ -19,21 +23,34 @@ final class SessionController implements SessionTokenProvider {
     _ => SessionStatus.authenticated,
   };
 
+  /// UI observes status only, never credentials. Refresh does not rebuild UI.
+  Stream<SessionStatus> get statusChanges => _statusChanges.stream;
+
+  void _setTokens(StoredAuthTokens? tokens) {
+    final SessionStatus previous = status;
+    _tokens = tokens;
+    if (status != previous && !_statusChanges.isClosed) {
+      _statusChanges.add(status);
+    }
+  }
+
+  void dispose() => unawaited(_statusChanges.close());
+
   Future<void> restore() async {
-    _tokens = await _tokenStore.read();
+    _setTokens(await _tokenStore.read());
   }
 
   Future<void> save(StoredAuthTokens tokens) {
     return _serializeWrite(() async {
       await _tokenStore.write(tokens);
-      _tokens = tokens;
+      _setTokens(tokens);
     });
   }
 
   Future<void> clear() {
     return _serializeWrite(() async {
       await _tokenStore.clear();
-      _tokens = null;
+      _setTokens(null);
     });
   }
 

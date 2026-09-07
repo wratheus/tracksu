@@ -10,6 +10,15 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get navigationSearch => '搜索';
+
+  @override
+  String get navigationUnavailable => '此页面不可用。';
+
+  @override
+  String get searchClear => '清除搜索';
+
+  @override
   String get uiCatalogMedia => '图片与徽章';
 
   @override

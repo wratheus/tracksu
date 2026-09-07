@@ -62,7 +62,20 @@
 возвращает сохранённый Поиск, повторный tap не сбрасывает вкладку.
 Backend и новые продуктовые политики этим решением не меняются.
 
+## Checkpoint P07.2 — реализован, ручная проверка ожидается
+
+Три ленивые stateful ветки, UiNavigationBar на деталях, сохранение стека при
+переключении/reselect, системный Back из корня вторичной ветки к Поиску.
+SearchHome теперь отдельная гостевая страница с ruleset, валидацией, кнопкой
+и submit с клавиатуры; typed profile page не содержит поисковую форму.
+OAuth поверх shell, callback вне route parameters, AccountActions реагирует
+на status stream даже при cold callback. Android использует только app_links.
+Новых partial-search/map-search endpoints в этом checkpoint нет; данные и
+визуальную доработку профиля/результатов не считать выполненными.
+Дальше — пункты 2–3 таблицы: поиск/профиль с настоящими data projections.
+
 ## Assets и правовые задачи
+
 
 - [P01.2 asset cleanup](P01.2-assets.md): удаление только после проверки usages,
   pubspec и native links; лицензии — отдельная проверка, не предположение.

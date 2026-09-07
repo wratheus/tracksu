@@ -1,4 +1,7 @@
 {
+  "navigationSearch": "検索",
+  "navigationUnavailable": "このページは表示できません。",
+  "searchClear": "検索をクリア",
   "@@locale": "ja",
   "uiCatalogMedia": "画像とバッジ",
   "uiCatalogCards": "プレイヤーとコンテンツのカード",

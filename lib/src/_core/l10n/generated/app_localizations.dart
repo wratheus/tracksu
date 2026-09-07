@@ -108,6 +108,24 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Label of the persistent search navigation destination.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get navigationSearch;
+
+  /// Safe fallback for an unknown application route; no URI or error details are exposed.
+  ///
+  /// In en, this message translates to:
+  /// **'This page is unavailable.'**
+  String get navigationUnavailable;
+
+  /// Accessibility label for clearing the player search input.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get searchClear;
+
   /// Manual product component catalog: Images and badges
   ///
   /// In en, this message translates to:

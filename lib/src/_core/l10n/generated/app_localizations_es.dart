@@ -10,6 +10,15 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get navigationSearch => 'Buscar';
+
+  @override
+  String get navigationUnavailable => 'Esta página no está disponible.';
+
+  @override
+  String get searchClear => 'Borrar búsqueda';
+
+  @override
   String get uiCatalogMedia => 'Imágenes e insignias';
 
   @override

@@ -1,4 +1,7 @@
 {
+  "navigationSearch": "Поиск",
+  "navigationUnavailable": "Эта страница недоступна.",
+  "searchClear": "Очистить поиск",
   "@@locale": "ru",
   "uiCatalogMedia": "Изображения и значки",
   "uiCatalogCards": "Карточки игроков и контента",

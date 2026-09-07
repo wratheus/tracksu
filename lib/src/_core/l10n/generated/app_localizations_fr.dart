@@ -10,6 +10,15 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get navigationSearch => 'Recherche';
+
+  @override
+  String get navigationUnavailable => 'Cette page est indisponible.';
+
+  @override
+  String get searchClear => 'Effacer la recherche';
+
+  @override
   String get uiCatalogMedia => 'Images et badges';
 
   @override
