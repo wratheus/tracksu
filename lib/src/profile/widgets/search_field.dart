@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/bloc/bloc.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class ProfileSearchField extends StatefulWidget {
   const ProfileSearchField({super.key});
@@ -40,29 +41,18 @@ final class _ProfileSearchFieldState extends State<ProfileSearchField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: TextField(
+      child: UiSearchField(
         controller: _controller,
-        textInputAction: TextInputAction.search,
-        keyboardType: TextInputType.text,
-        maxLines: 1,
-        autocorrect: false,
         onSubmitted: (_) => _submit(),
         onChanged: (_) {
           if (_invalid) {
             setState(() => _invalid = false);
           }
         },
-        decoration: InputDecoration(
-          labelText: context.t.profileSearchHint,
-          helperText: context.t.profileSearchHelp,
-          errorText: _invalid ? context.t.profileSearchInvalid : null,
-          errorMaxLines: 2,
-          suffixIcon: IconButton(
-            tooltip: context.t.profileSearch,
-            icon: const Icon(Icons.search),
-            onPressed: _submit,
-          ),
-        ),
+        label: context.t.profileSearchHint,
+        helperText: context.t.profileSearchHelp,
+        errorText: _invalid ? context.t.profileSearchInvalid : null,
+        clearLabel: context.t.profileSearch,
       ),
     );
   }

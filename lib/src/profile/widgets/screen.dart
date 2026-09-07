@@ -8,6 +8,8 @@ import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/widgets/profile_summary.dart';
 import 'package:tracksu/src/profile/widgets/search_field.dart';
 import 'package:tracksu/src/profile/scores/main.dart';
+import 'package:tracksu/src/_shared/ui/osu_ui.dart';
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class ProfileScreen extends StatelessWidget {
   const ProfileScreen({required this.actions, super.key});
@@ -37,7 +39,7 @@ final class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.t.appTitle),
+        title: UiText.titleLarge(context.t.appTitle),
         actions: <Widget>[actions],
       ),
       body: SafeArea(
@@ -53,28 +55,14 @@ final class ProfileScreen extends StatelessWidget {
                   selector: (ProfileState state) => state.ruleset,
                   builder: (BuildContext context, ProfileRuleset selected) =>
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Wrap(
-                          spacing: 10,
-                          children: ProfileRuleset.values
-                              .map(
-                                (ProfileRuleset ruleset) => ChoiceChip(
-                                  label: Text(switch (ruleset) {
-                                    ProfileRuleset.osu => context.t.rulesetOsu,
-                                    ProfileRuleset.taiko =>
-                                      context.t.rulesetTaiko,
-                                    ProfileRuleset.fruits =>
-                                      context.t.rulesetFruits,
-                                    ProfileRuleset.mania =>
-                                      context.t.rulesetMania,
-                                  }),
-                                  selected: ruleset == selected,
-                                  onSelected: (_) => context
-                                      .read<ProfileBloc>()
-                                      .add(ProfileRulesetSelected(ruleset)),
-                                ),
-                              )
-                              .toList(growable: false),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: UiSpace.lg,
+                        ),
+                        child: OsuRulesetSelector(
+                          selected: selected,
+                          onChanged: (ProfileRuleset ruleset) => context
+                              .read<ProfileBloc>()
+                              .add(ProfileRulesetSelected(ruleset)),
                         ),
                       ),
                 ),
@@ -85,25 +73,16 @@ final class ProfileScreen extends StatelessWidget {
                       ProfileInitialState() => SliverFillRemaining(
                         hasScrollBody: false,
                         child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(30),
-                            child: Text(
-                              context.t.profileSearchIntroduction,
-                              textAlign: TextAlign.center,
-                            ),
+                          child: UiContentState.empty(
+                            title: context.t.profileSearchIntroduction,
                           ),
                         ),
                       ),
                       ProfileLoadingState() => SliverFillRemaining(
                         hasScrollBody: false,
                         child: Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            spacing: 15,
-                            children: <Widget>[
-                              const CircularProgressIndicator(),
-                              Text(context.t.profileLoading),
-                            ],
+                          child: UiContentState.loading(
+                            title: context.t.profileLoading,
                           ),
                         ),
                       ),
@@ -131,14 +110,14 @@ final class ProfileScreen extends StatelessWidget {
                                   ),
                                 Align(
                                   alignment: AlignmentDirectional.centerEnd,
-                                  child: TextButton.icon(
+                                  child: UiButton.text(
                                     onPressed: state.isRefreshing
                                         ? null
                                         : () => context.read<ProfileBloc>().add(
                                             const ProfileRefreshRequested(),
                                           ),
-                                    icon: const Icon(Icons.refresh),
-                                    label: Text(context.t.profileRefresh),
+                                    icon: Icons.refresh,
+                                    label: context.t.profileRefresh,
                                   ),
                                 ),
                               ],
@@ -180,30 +159,19 @@ final class ProfileErrorMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        spacing: 10,
-        children: <Widget>[
-          if (refreshing) Text(context.t.profileShowingPreviousData),
-          Text(switch (failure) {
-            ProfileFailureKind.notFound => context.t.profileNotFound,
-            ProfileFailureKind.accessDenied => context.t.profileAccessDenied,
-            ProfileFailureKind.rateLimited => context.t.profileRateLimited,
-            ProfileFailureKind.connection => context.t.profileConnectionFailed,
-            ProfileFailureKind.invalidResponse =>
-              context.t.profileInvalidResponse,
-            ProfileFailureKind.unavailable => context.t.profileUnavailable,
-          }, textAlign: TextAlign.center),
-          TextButton(
-            onPressed: () => context.read<ProfileBloc>().add(
-              const ProfileRefreshRequested(),
-            ),
-            child: Text(context.t.retry),
-          ),
-        ],
-      ),
+    return UiContentState.error(
+      title: switch (failure) {
+        ProfileFailureKind.notFound => context.t.profileNotFound,
+        ProfileFailureKind.accessDenied => context.t.profileAccessDenied,
+        ProfileFailureKind.rateLimited => context.t.profileRateLimited,
+        ProfileFailureKind.connection => context.t.profileConnectionFailed,
+        ProfileFailureKind.invalidResponse => context.t.profileInvalidResponse,
+        ProfileFailureKind.unavailable => context.t.profileUnavailable,
+      },
+      message: refreshing ? context.t.profileShowingPreviousData : null,
+      actionLabel: context.t.retry,
+      onAction: () =>
+          context.read<ProfileBloc>().add(const ProfileRefreshRequested()),
     );
   }
 }

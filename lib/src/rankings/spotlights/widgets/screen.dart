@@ -9,12 +9,13 @@ import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/rankings/domain/rankings_repository.dart';
 import 'package:tracksu/src/rankings/spotlights/bloc/bloc.dart';
 import 'package:tracksu/src/rankings/spotlights/domain/spotlight.dart';
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class SpotlightsScreen extends StatelessWidget {
   const SpotlightsScreen({super.key});
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(context.t.spotlightsTitle)),
+    appBar: AppBar(title: UiText.titleLarge(context.t.spotlightsTitle)),
     body: const SafeArea(child: _SpotlightsBody()),
   );
 }
@@ -54,21 +55,16 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
                 spacing: 10,
                 children: <Widget>[
                   if (state.catalog.isNotEmpty)
-                    TextButton(
+                    UiButton.text(
                       onPressed: () => setState(() => _choosing = !_choosing),
-                      child: Text(
-                        _choosing
-                            ? context.t.spotlightsShowRanking
-                            : context.t.spotlightsChoose,
-                      ),
+                      label: _choosing
+                          ? context.t.spotlightsShowRanking
+                          : context.t.spotlightsChoose,
                     ),
                   if (!_choosing) ...<Widget>[
                     for (final Spotlight item in state.catalog)
                       if (item.id == state.selectedId)
-                        Text(
-                          item.name,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
+                        UiText.titleLarge(item.name),
                     if (state.selectedId != null)
                       Wrap(
                         spacing: 10,
@@ -84,14 +80,14 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
                             ),
                         ],
                       ),
-                    TextButton.icon(
+                    UiButton.text(
                       onPressed: state.loading
                           ? null
                           : () => context.read<SpotlightsBloc>().add(
                               const SpotlightsRefreshRequested(),
                             ),
-                      icon: const Icon(Icons.refresh),
-                      label: Text(context.t.rankingsRefresh),
+                      icon: Icons.refresh,
+                      label: context.t.rankingsRefresh,
                     ),
                   ],
                   if (state.catalog.isEmpty) Text(context.t.spotlightsEmpty),
@@ -104,9 +100,9 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
               itemCount: state.catalog.length,
               itemBuilder: (_, int index) {
                 final Spotlight item = state.catalog[index];
-                return ListTile(
+                return UiTile.selection(
                   key: ValueKey<int>(item.id),
-                  title: Text(item.name),
+                  title: item.name,
                   selected: item.id == state.selectedId,
                   onTap: () {
                     context.read<SpotlightsBloc>().add(
@@ -177,23 +173,17 @@ final class _Heading extends StatelessWidget {
   const _Heading(this.text);
   final String text;
   @override
-  Widget build(BuildContext context) =>
-      Padding(padding: const EdgeInsets.all(20), child: Text(text));
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.all(UiSpace.lg),
+    child: UiText.titleMedium(text),
+  );
 }
 
 final class _Progress extends StatelessWidget {
   const _Progress();
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(20),
-    child: Column(
-      spacing: 10,
-      children: <Widget>[
-        const CircularProgressIndicator(),
-        Text(context.t.rankingsLoading),
-      ],
-    ),
-  );
+  Widget build(BuildContext context) =>
+      UiContentState.loading(title: context.t.rankingsLoading);
 }
 
 final class _Failure extends StatelessWidget {
@@ -201,30 +191,20 @@ final class _Failure extends StatelessWidget {
   final RankingsFailureKind failure;
   final bool keepingContent;
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(20),
-    child: Column(
-      spacing: 10,
-      children: <Widget>[
-        if (keepingContent) Text(context.t.rankingsKeepingContent),
-        Text(switch (failure) {
-          RankingsFailureKind.notFound => context.t.spotlightsNotFound,
-          RankingsFailureKind.cancelled => context.t.rankingsCancelled,
-          RankingsFailureKind.accessDenied => context.t.rankingsAccessDenied,
-          RankingsFailureKind.rateLimited => context.t.profileRateLimited,
-          RankingsFailureKind.connection => context.t.profileConnectionFailed,
-          RankingsFailureKind.invalidResponse =>
-            context.t.rankingsInvalidResponse,
-          RankingsFailureKind.unavailable => context.t.rankingsUnavailable,
-        }, textAlign: TextAlign.center),
-        TextButton(
-          onPressed: () => context.read<SpotlightsBloc>().add(
-            const SpotlightsRefreshRequested(),
-          ),
-          child: Text(context.t.retry),
-        ),
-      ],
-    ),
+  Widget build(BuildContext context) => UiContentState.error(
+    title: switch (failure) {
+      RankingsFailureKind.notFound => context.t.spotlightsNotFound,
+      RankingsFailureKind.cancelled => context.t.rankingsCancelled,
+      RankingsFailureKind.accessDenied => context.t.rankingsAccessDenied,
+      RankingsFailureKind.rateLimited => context.t.profileRateLimited,
+      RankingsFailureKind.connection => context.t.profileConnectionFailed,
+      RankingsFailureKind.invalidResponse => context.t.rankingsInvalidResponse,
+      RankingsFailureKind.unavailable => context.t.rankingsUnavailable,
+    },
+    message: keepingContent ? context.t.rankingsKeepingContent : null,
+    actionLabel: context.t.retry,
+    onAction: () =>
+        context.read<SpotlightsBloc>().add(const SpotlightsRefreshRequested()),
   );
 }
 
@@ -255,9 +235,9 @@ final class _NavigationTileState extends State<_NavigationTile> {
   }
 
   @override
-  Widget build(BuildContext context) => ListTile(
-    title: Text(widget.title),
-    subtitle: Text(widget.subtitle),
+  Widget build(BuildContext context) => UiTile.navigation(
+    title: widget.title,
+    subtitle: widget.subtitle,
     onTap: _opening ? null : _open,
   );
 }

@@ -6,6 +6,7 @@ import 'package:tracksu/src/rankings/bloc/bloc.dart';
 import 'package:tracksu/src/rankings/data/rankings_remote_source.dart';
 import 'package:tracksu/src/rankings/data/rankings_repository_impl.dart';
 import 'package:tracksu/src/rankings/widgets/rankings_section.dart';
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Owns this route's repository and Bloc.
 final class RankingsMain extends StatelessWidget {
@@ -21,7 +22,7 @@ final class RankingsMain extends StatelessWidget {
       ),
     )..add(const RankingsStarted()),
     child: Scaffold(
-      appBar: AppBar(title: Text(context.t.rankingsTitle)),
+      appBar: AppBar(title: UiText.titleLarge(context.t.rankingsTitle)),
       body: const SafeArea(
         child: CustomScrollView(slivers: <Widget>[RankingsSection()]),
       ),

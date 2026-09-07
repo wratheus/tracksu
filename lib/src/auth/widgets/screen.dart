@@ -4,7 +4,7 @@ import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/auth/bloc/bloc.dart';
 import 'package:tracksu/src/auth/domain/authorization.dart';
-import 'package:tracksu/src/utils/color_contrasts.dart' as colors;
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class AuthorizationScreen extends StatefulWidget {
   const AuthorizationScreen({required this.params, super.key});
@@ -53,14 +53,10 @@ final class _AuthorizationScreenState extends State<AuthorizationScreen>
         listener: (BuildContext context, _) =>
             DepsScope.of(context).appRouter.finishAuthorization(context),
         child: Scaffold(
-          backgroundColor: colors.Palette.brown.shade200,
-          appBar: AppBar(
-            backgroundColor: colors.Palette.purple,
-            title: Text(context.t.loginToOsu),
-          ),
+          appBar: AppBar(title: UiText.titleLarge(context.t.loginToOsu)),
           body: Center(
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(UiSpace.xl),
               child: BlocBuilder<AuthorizationBloc, AuthorizationState>(
                 builder: (BuildContext context, AuthorizationState state) {
                   final bool busy = switch (state) {
@@ -74,23 +70,17 @@ final class _AuthorizationScreenState extends State<AuthorizationScreen>
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      if (busy) ...<Widget>[
-                        const CircularProgressIndicator(),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16),
-                          child: Text(
-                            state is AuthorizationCompletingState ||
-                                    state is AuthorizationSuccessState
-                                ? context.t.signingIn
-                                : context.t.openingOsu,
-                            textAlign: TextAlign.center,
-                          ),
+                      if (busy)
+                        UiContentState.loading(
+                          title:
+                              state is AuthorizationCompletingState ||
+                                  state is AuthorizationSuccessState
+                              ? context.t.signingIn
+                              : context.t.openingOsu,
                         ),
-                      ],
                       if (state case AuthorizationFailureState(:final failure))
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16),
-                          child: Text(switch (failure) {
+                        UiContentState.error(
+                          title: switch (failure) {
                             AuthorizationFailure.expired =>
                               context.t.authorizationExpired,
                             AuthorizationFailure.responseUnavailable =>
@@ -109,18 +99,15 @@ final class _AuthorizationScreenState extends State<AuthorizationScreen>
                               context.t.authorizationCompletionFailed,
                             AuthorizationFailure.incomplete =>
                               context.t.authorizationIncomplete,
-                          }, textAlign: TextAlign.center),
+                          },
                         ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: ElevatedButton(
-                          onPressed: busy
-                              ? null
-                              : () => context.read<AuthorizationBloc>().add(
-                                  const AuthorizationRequested(),
-                                ),
-                          child: Text(context.t.continueWithOsu),
-                        ),
+                      UiButton.primary(
+                        onPressed: busy
+                            ? null
+                            : () => context.read<AuthorizationBloc>().add(
+                                const AuthorizationRequested(),
+                              ),
+                        label: context.t.continueWithOsu,
                       ),
                     ],
                   );

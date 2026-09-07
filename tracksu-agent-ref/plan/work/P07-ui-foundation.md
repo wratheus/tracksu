@@ -170,3 +170,26 @@ unknown flag/grade/mod, переключение режима, drag/slider гр�
 тап кнопок примеров (только snackbar). Проверить TalkBack и прокрутку.
 Не объявляем визуальный результат проверенным на устройстве до этой оценки.
 Коммит: `feat(ui): add media charts and osu product compositions`.
+
+### Реализован — интеграция production-страниц, 2026-09-07
+
+После ручной оценки каталога основной `MaterialApp` использует `TracksuTheme`
+в системном light/dark режиме. Profile, scores, beatmaps, beatmap leaderboard,
+rankings, spotlights, news и OAuth собраны из публичных компонентов
+`tracksu_ui` и предметных osu-композиций: карточки игроков/карт/результатов/
+новостей, buttons, tiles, search, feedback и content states. Существующие
+Blocs, данные, маршруты и bottom bar не менялись. Графики не добавлены в
+profile: модель пока не получает history из API, поэтому каталог остаётся
+единственным местом с явно демонстрационными точками.
+
+Grade для результатов больше не рендерятся из `icon_score_types` PNG. Их
+заменяет нативный `OsuGradeBadge`: масштабируемая compact-геометрия, иконка и
+semantic color roles из активной темы; неизвестный будущий grade остаётся
+читаемым нейтральным badge. Это не новая API-модель и не зависит от assets.
+
+Проверки: `fvm dart format lib`, `fvm dart analyze lib
+packages/tracksu_ui/lib`, `fvm flutter build apk --debug --no-pub -t
+lib/main.dart` и `git diff --check` прошли. Нужна ручная проверка на устройстве
+в обеих темах, включая загрузку/empty/error/retry/pagination, OAuth и длинные
+переводы. Системное предпочтение темы пока намеренно не сохраняется — это
+следующий самостоятельный пункт P07.

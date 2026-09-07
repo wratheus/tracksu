@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/rankings/domain/entry.dart';
+import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 
 final class RankingEntryCard extends StatefulWidget {
   const RankingEntryCard({
@@ -29,25 +30,12 @@ final class _RankingEntryCardState extends State<RankingEntryCard> {
   }
 
   @override
-  Widget build(BuildContext context) => Card(
-    child: InkWell(
-      onTap: _opening ? null : _open,
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 5,
-          children: <Widget>[
-            Text(
-              widget.entry.username,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(widget.entry.country),
-            Text(context.t.profilePerformance(widget.entry.pp)),
-            Text(context.t.rankingsRankedScore(widget.entry.rankedScore)),
-          ],
-        ),
-      ),
-    ),
+  Widget build(BuildContext context) => OsuPlayerCard.compact(
+    username: widget.entry.username,
+    countryCode: widget.entry.country,
+    countryLabel: widget.entry.country,
+    performanceLabel: context.t.profilePerformance(widget.entry.pp),
+    rankLabel: context.t.rankingsRankedScore(widget.entry.rankedScore),
+    onTap: _opening ? null : _open,
   );
 }

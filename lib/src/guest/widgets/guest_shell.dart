@@ -5,6 +5,7 @@ import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/bloc/bloc.dart';
 import 'package:tracksu/src/profile/main.dart';
 import 'package:tracksu/src/session/session_controller.dart';
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class GuestShell extends StatelessWidget {
   const GuestShell({super.key});
@@ -39,9 +40,7 @@ final class _AccountActionsState extends State<_AccountActions> {
       await DepsScope.of(context).localeController.select(locale);
     } on Object {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(context.t.languageChangeFailed)));
+        UiFeedback.snack(context, message: context.t.languageChangeFailed);
       }
     }
   }
@@ -62,8 +61,7 @@ final class _AccountActionsState extends State<_AccountActions> {
           await DepsScope.of(context).authRepository.logout();
         } on Object {
           if (mounted) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(context.t.signOutFailed)));
+            UiFeedback.snack(context, message: context.t.signOutFailed);
           }
         } finally {
           if (mounted) {
@@ -81,14 +79,14 @@ final class _AccountActionsState extends State<_AccountActions> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        IconButton(
+        UiIconButton.standard(
           tooltip: context.t.newsTitle,
-          icon: const Icon(Icons.newspaper),
+          icon: Icons.newspaper,
           onPressed: () => DepsScope.of(context).appRouter.openNews(context),
         ),
-        IconButton(
+        UiIconButton.standard(
           tooltip: context.t.rankingsTitle,
-          icon: const Icon(Icons.leaderboard),
+          icon: Icons.leaderboard,
           onPressed: () async =>
               DepsScope.of(context).appRouter.openRankings(context),
         ),

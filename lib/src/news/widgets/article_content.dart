@@ -5,6 +5,7 @@ import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/news/domain/news.dart';
 import 'package:tracksu/src/news/domain/news_link.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class NewsPostHeading extends StatelessWidget {
   const NewsPostHeading({required this.post, super.key});
@@ -14,9 +15,10 @@ final class NewsPostHeading extends StatelessWidget {
     crossAxisAlignment: CrossAxisAlignment.start,
     spacing: 10,
     children: <Widget>[
-      Text(post.title, style: Theme.of(context).textTheme.titleLarge),
-      Text(
+      UiText.titleLarge(post.title),
+      UiText.bodyMedium(
         '${post.author} · ${DateFormat.yMMMd(context.t.localeName).format(post.publishedAt.toLocal())}',
+        secondary: true,
       ),
     ],
   );
@@ -50,8 +52,7 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
   }
 
   void _showFailure() =>
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(context.t.newsLinkFailed)));
+      UiFeedback.snack(context, message: context.t.newsLinkFailed);
   @override
   Widget build(BuildContext context) => SliverMainAxisGroup(
     slivers: <Widget>[
@@ -63,13 +64,13 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
             spacing: 10,
             children: <Widget>[
               NewsPostHeading(post: widget.article.post),
-              Text(context.t.newsReaderNotice),
-              TextButton.icon(
+              UiText.bodyMedium(context.t.newsReaderNotice, secondary: true),
+              UiButton.text(
                 onPressed: _opening
                     ? null
                     : () => _open(widget.article.post.uri.toString()),
-                icon: const Icon(Icons.open_in_new),
-                label: Text(context.t.newsOriginal),
+                icon: Icons.open_in_new,
+                label: context.t.newsOriginal,
               ),
             ],
           ),

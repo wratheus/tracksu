@@ -9,6 +9,7 @@ import 'package:tracksu/src/profile/scores/bloc/bloc.dart';
 import 'package:tracksu/src/profile/scores/domain/scores_query.dart';
 import 'package:tracksu/src/profile/scores/domain/scores_repository.dart';
 import 'package:tracksu/src/_shared/scores/widgets/score_card.dart';
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class ProfileScoresSection extends StatelessWidget {
   const ProfileScoresSection({super.key});
@@ -59,14 +60,14 @@ final class ProfileScoresSection extends StatelessWidget {
                     state is ProfileScoresLoadingState ||
                     (state is ProfileScoresLoadedState &&
                         state.operation != null),
-                builder: (BuildContext context, bool busy) => TextButton.icon(
+                builder: (BuildContext context, bool busy) => UiButton.text(
                   onPressed: busy
                       ? null
                       : () => context.read<ProfileScoresBloc>().add(
                           const ProfileScoresRefreshRequested(),
                         ),
-                  icon: const Icon(Icons.refresh),
-                  label: Text(context.t.scoresRefresh),
+                  icon: Icons.refresh,
+                  label: context.t.scoresRefresh,
                 ),
               ),
             ],
@@ -87,10 +88,7 @@ final class ProfileScoresSection extends StatelessWidget {
                     const SliverToBoxAdapter(child: _ScoresProgress()),
                   if (state.items.isEmpty)
                     SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Text(context.t.scoresEmpty),
-                      ),
+                      child: UiContentState.empty(title: context.t.scoresEmpty),
                     ),
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -128,13 +126,13 @@ final class ProfileScoresSection extends StatelessWidget {
                             hasContent: state.items.isNotEmpty,
                           ),
                         _ when state.nextOffset != null => Center(
-                          child: TextButton(
+                          child: UiButton.secondary(
                             onPressed: state.operation != null
                                 ? null
                                 : () => context.read<ProfileScoresBloc>().add(
                                     const ProfileScoresMoreRequested(),
                                   ),
-                            child: Text(context.t.scoresLoadMore),
+                            label: context.t.scoresLoadMore,
                           ),
                         ),
                         _ => const SizedBox.shrink(),
@@ -153,16 +151,8 @@ final class _ScoresProgress extends StatelessWidget {
   const _ScoresProgress();
 
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(20),
-    child: Column(
-      spacing: 10,
-      children: <Widget>[
-        const CircularProgressIndicator(),
-        Text(context.t.scoresLoading),
-      ],
-    ),
-  );
+  Widget build(BuildContext context) =>
+      UiContentState.loading(title: context.t.scoresLoading);
 }
 
 final class _ScoresError extends StatelessWidget {
@@ -176,32 +166,23 @@ final class _ScoresError extends StatelessWidget {
   final bool hasContent;
 
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(20),
-    child: Column(
-      spacing: 10,
-      children: <Widget>[
-        if (hasContent) Text(context.t.scoresKeepingContent),
-        Text(switch (failure) {
-          ProfileScoresFailureKind.cancelled => context.t.scoresCancelled,
-          ProfileScoresFailureKind.notFound => context.t.scoresNotFound,
-          ProfileScoresFailureKind.accessDenied => context.t.scoresAccessDenied,
-          ProfileScoresFailureKind.rateLimited => context.t.profileRateLimited,
-          ProfileScoresFailureKind.connection =>
-            context.t.profileConnectionFailed,
-          ProfileScoresFailureKind.invalidResponse =>
-            context.t.scoresInvalidResponse,
-          ProfileScoresFailureKind.unavailable => context.t.scoresUnavailable,
-        }, textAlign: TextAlign.center),
-        TextButton(
-          onPressed: () => context.read<ProfileScoresBloc>().add(
-            failedOperation == ProfileScoresOperation.loadMore
-                ? const ProfileScoresMoreRequested()
-                : const ProfileScoresRefreshRequested(),
-          ),
-          child: Text(context.t.retry),
-        ),
-      ],
+  Widget build(BuildContext context) => UiContentState.error(
+    title: switch (failure) {
+      ProfileScoresFailureKind.cancelled => context.t.scoresCancelled,
+      ProfileScoresFailureKind.notFound => context.t.scoresNotFound,
+      ProfileScoresFailureKind.accessDenied => context.t.scoresAccessDenied,
+      ProfileScoresFailureKind.rateLimited => context.t.profileRateLimited,
+      ProfileScoresFailureKind.connection => context.t.profileConnectionFailed,
+      ProfileScoresFailureKind.invalidResponse =>
+        context.t.scoresInvalidResponse,
+      ProfileScoresFailureKind.unavailable => context.t.scoresUnavailable,
+    },
+    message: hasContent ? context.t.scoresKeepingContent : null,
+    actionLabel: context.t.retry,
+    onAction: () => context.read<ProfileScoresBloc>().add(
+      failedOperation == ProfileScoresOperation.loadMore
+          ? const ProfileScoresMoreRequested()
+          : const ProfileScoresRefreshRequested(),
     ),
   );
 }

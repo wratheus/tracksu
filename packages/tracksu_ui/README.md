@@ -228,8 +228,9 @@ per-byte progress rebuilds or shimmer loops. Changing the provider does not
 briefly show the previous player's image. Images belong in lazy builder lists.
 
 Flags validate two-letter codes; missing/unknown assets show a flag placeholder.
-Grade assets have a text fallback for new values; mods always display acronyms,
-including unknown ones. Existing asset/font provenance and licensing still need
+Grades are native themed osu-style badges rather than image assets; unknown values
+remain visible with a neutral treatment. Mods always display acronyms, including
+unknown ones. Existing flag/font provenance and licensing still need
 P01.2 review; using them in this catalog is not a completed rights audit.
 
 ### Charts

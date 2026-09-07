@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/beatmaps/domain/beatmap.dart';
+import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 
 final class ProfileBeatmapCard extends StatelessWidget {
   const ProfileBeatmapCard({required this.beatmap, this.onTap, super.key});
@@ -8,30 +9,17 @@ final class ProfileBeatmapCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) => Card(
-    child: InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 5,
-          children: <Widget>[
-            Text(
-              beatmap.title ??
-                  (beatmap.isBeatmapset
-                      ? context.t.beatmapsSetFallback(beatmap.id)
-                      : context.t.beatmapsMapFallback(beatmap.id)),
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            if (beatmap.artist case final String artist) Text(artist),
-            if (beatmap.difficulty case final String difficulty)
-              Text(difficulty),
-            if (beatmap.playCount case final int count)
-              Text(context.t.beatmapsPlayCount(count)),
-          ],
-        ),
-      ),
-    ),
+  Widget build(BuildContext context) => OsuBeatmapCard.compact(
+    title:
+        beatmap.title ??
+        (beatmap.isBeatmapset
+            ? context.t.beatmapsSetFallback(beatmap.id)
+            : context.t.beatmapsMapFallback(beatmap.id)),
+    artist: beatmap.artist,
+    difficulty: beatmap.difficulty,
+    detail: beatmap.playCount == null
+        ? null
+        : context.t.beatmapsPlayCount(beatmap.playCount!),
+    onTap: onTap,
   );
 }

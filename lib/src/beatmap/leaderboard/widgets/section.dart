@@ -4,6 +4,7 @@ import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/scores/widgets/score_card.dart';
 import 'package:tracksu/src/beatmap/leaderboard/bloc/bloc.dart';
 import 'package:tracksu/src/beatmap/widgets/failure.dart';
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class LeaderboardSection extends StatelessWidget {
   const LeaderboardSection({super.key});
@@ -13,10 +14,7 @@ final class LeaderboardSection extends StatelessWidget {
       SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Text(
-            context.t.beatmapLeaderboard,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          child: UiText.titleLarge(context.t.beatmapLeaderboard),
         ),
       ),
       BlocBuilder<LeaderboardBloc, LeaderboardState>(
@@ -36,9 +34,9 @@ final class LeaderboardSection extends StatelessWidget {
                 if (state.refreshing)
                   const SliverToBoxAdapter(child: LinearProgressIndicator()),
                 SliverToBoxAdapter(
-                  child: TextButton(
+                  child: UiButton.text(
                     onPressed: state.refreshing ? null : refresh,
-                    child: Text(context.t.beatmapRefreshLeaderboard),
+                    label: context.t.beatmapRefreshLeaderboard,
                   ),
                 ),
                 if (state.failure case final failure?)
@@ -50,9 +48,8 @@ final class LeaderboardSection extends StatelessWidget {
                   ),
                 if (state.entries.isEmpty)
                   SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Text(context.t.beatmapNoScores),
+                    child: UiContentState.empty(
+                      title: context.t.beatmapNoScores,
                     ),
                   ),
                 SliverList.builder(

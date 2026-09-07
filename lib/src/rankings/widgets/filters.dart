@@ -4,6 +4,7 @@ import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/rankings/bloc/bloc.dart';
 import 'package:tracksu/src/rankings/domain/rankings_query.dart';
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class RankingsFilters extends StatelessWidget {
   const RankingsFilters({super.key});
@@ -88,30 +89,24 @@ final class _CountryFieldState extends State<_CountryField> {
     crossAxisAlignment: CrossAxisAlignment.start,
     spacing: 5,
     children: <Widget>[
-      TextField(
+      UiSearchField(
         controller: _controller,
-        textCapitalization: TextCapitalization.characters,
-        autocorrect: false,
-        enableSuggestions: false,
-        textInputAction: TextInputAction.done,
-        maxLines: 1,
-        decoration: InputDecoration(
-          labelText: context.t.rankingsCountry,
-          helperText: context.t.rankingsCountryHint,
-          errorText: _invalid ? context.t.rankingsCountryInvalid : null,
-        ),
+        label: context.t.rankingsCountry,
+        clearLabel: context.t.rankingsWorldwide,
+        helperText: context.t.rankingsCountryHint,
+        errorText: _invalid ? context.t.rankingsCountryInvalid : null,
         onSubmitted: (_) => _apply(),
       ),
       Wrap(
         spacing: 10,
         children: <Widget>[
-          TextButton(onPressed: _apply, child: Text(context.t.rankingsApply)),
-          TextButton(
+          UiButton.text(label: context.t.rankingsApply, onPressed: _apply),
+          UiButton.text(
             onPressed: () {
               _controller.clear();
               _apply();
             },
-            child: Text(context.t.rankingsWorldwide),
+            label: context.t.rankingsWorldwide,
           ),
         ],
       ),

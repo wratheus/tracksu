@@ -7,6 +7,7 @@ import 'package:tracksu/src/beatmap/leaderboard/domain/repository.dart';
 import 'package:tracksu/src/beatmap/leaderboard/main.dart';
 import 'package:tracksu/src/beatmap/widgets/failure.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class BeatmapScreen extends StatelessWidget {
   const BeatmapScreen({required this.params, super.key});
@@ -14,7 +15,7 @@ final class BeatmapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(context.t.beatmapTitle)),
+    appBar: AppBar(title: UiText.titleLarge(context.t.beatmapTitle)),
     body: SafeArea(
       child: CustomScrollView(
         slivers: <Widget>[
@@ -37,25 +38,28 @@ final class BeatmapScreen extends StatelessWidget {
                       ),
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 10,
-                          children: <Widget>[
-                            Text(
-                              state.details.title,
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
-                            Text(state.details.artist),
-                            Text(
-                              context.t.beatmapCreator(state.details.creator),
-                            ),
-                            TextButton(
-                              onPressed: state.refreshing ? null : refresh,
-                              child: Text(context.t.beatmapRefresh),
-                            ),
-                            Text(context.t.beatmapDifficulties),
-                          ],
+                        padding: const EdgeInsets.all(UiSpace.lg),
+                        child: UiSection(
+                          title: state.details.title,
+                          action: UiButton.text(
+                            label: context.t.beatmapRefresh,
+                            onPressed: state.refreshing ? null : refresh,
+                            icon: Icons.refresh,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: UiSpace.md,
+                            children: <Widget>[
+                              UiText.bodyMedium(
+                                state.details.artist,
+                                secondary: true,
+                              ),
+                              UiText.bodyMedium(
+                                context.t.beatmapCreator(state.details.creator),
+                              ),
+                              UiText.titleMedium(context.t.beatmapDifficulties),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -68,9 +72,8 @@ final class BeatmapScreen extends StatelessWidget {
                       ),
                     if (state.details.difficulties.isEmpty)
                       SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Text(context.t.beatmapNoDifficulties),
+                        child: UiContentState.empty(
+                          title: context.t.beatmapNoDifficulties,
                         ),
                       ),
                     SliverList.builder(
@@ -78,20 +81,15 @@ final class BeatmapScreen extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         final BeatmapDifficulty difficulty =
                             state.details.difficulties[index];
-                        return ListTile(
+                        return UiTile.selection(
                           key: ValueKey<int>(difficulty.id),
                           selected: difficulty.id == state.selectedId,
-                          title: Text(difficulty.name),
-                          subtitle: Text(
-                            context.t.beatmapDifficultyInfo(
-                              difficulty.ruleset.apiValue,
-                              difficulty.stars,
-                              difficulty.lengthSeconds,
-                            ),
+                          title: difficulty.name,
+                          subtitle: context.t.beatmapDifficultyInfo(
+                            difficulty.ruleset.apiValue,
+                            difficulty.stars,
+                            difficulty.lengthSeconds,
                           ),
-                          trailing: difficulty.id == state.selectedId
-                              ? const Icon(Icons.check)
-                              : null,
                           onTap: state.refreshing
                               ? null
                               : () => context.read<BeatmapBloc>().add(

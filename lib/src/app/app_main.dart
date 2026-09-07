@@ -3,7 +3,7 @@ import 'package:tracksu/src/_core/dependencies/deps_container.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/generated/app_localizations.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
-import 'package:tracksu/src/utils/color_contrasts.dart' as colors;
+import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class AppMain extends StatelessWidget {
   const AppMain({required this.dependencies, super.key});
@@ -23,10 +23,9 @@ final class AppMain extends StatelessWidget {
             locale: locale,
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
-            theme: ThemeData(
-              primarySwatch: colors.Palette.pink,
-              scaffoldBackgroundColor: colors.Palette.brown,
-            ),
+            theme: TracksuTheme.light(),
+            darkTheme: TracksuTheme.dark(),
+            themeMode: ThemeMode.system,
             initialRoute: dependencies.appRouter.initialRoute,
             onGenerateRoute: dependencies.appRouter.onGenerateRoute,
           );

@@ -95,30 +95,69 @@ final class OsuGradeBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String value = grade.toUpperCase();
-    final String? asset = switch (value) {
-      'X' || 'SS' => 'x',
-      'XH' || 'SSH' => 'xh',
-      'S' => 's',
-      'SH' => 'sh',
-      'A' => 'a',
-      'B' => 'b',
-      'C' => 'c',
-      'D' => 'd',
-      _ => null,
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final (
+      Color background,
+      Color foreground,
+      IconData? icon,
+    ) = switch (value) {
+      'X' || 'SS' => (colors.primary, colors.onPrimary, Icons.star_rounded),
+      'XH' ||
+      'SSH' => (colors.tertiary, colors.onTertiary, Icons.auto_awesome_rounded),
+      'S' => (colors.secondary, colors.onSecondary, Icons.check_rounded),
+      'SH' => (
+        colors.secondaryContainer,
+        colors.onSecondaryContainer,
+        Icons.verified_rounded,
+      ),
+      'A' => (
+        colors.primaryContainer,
+        colors.onPrimaryContainer,
+        Icons.keyboard_double_arrow_up_rounded,
+      ),
+      'B' => (
+        colors.tertiaryContainer,
+        colors.onTertiaryContainer,
+        Icons.remove_rounded,
+      ),
+      'C' || 'D' => (colors.errorContainer, colors.onErrorContainer, null),
+      _ => (colors.surfaceContainerHighest, colors.onSurfaceVariant, null),
     };
     return Semantics(
       label: label,
       excludeSemantics: true,
-      child: asset == null
-          ? UiBadge.neutral(value)
-          : Image.asset(
-              'assets/icon_score_types/grade_$asset.png',
-              width: 44,
-              height: 24,
-              fit: BoxFit.contain,
-              cacheWidth: (44 * MediaQuery.devicePixelRatioOf(context)).ceil(),
-              errorBuilder: (_, _, _) => UiBadge.neutral(value),
+      child: Transform.rotate(
+        angle: -0.035,
+        child: Material(
+          color: background,
+          borderRadius: BorderRadius.circular(UiShape.control),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minWidth: 48, minHeight: 32),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: UiSpace.sm,
+                vertical: UiSpace.xs,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: UiSpace.xs,
+                children: <Widget>[
+                  if (icon != null) Icon(icon, size: 16, color: foreground),
+                  Text(
+                    value,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: foreground,
+                      fontWeight: FontWeight.w800,
+                      fontStyle: FontStyle.italic,
+                      letterSpacing: 0.8,
+                    ),
+                  ),
+                ],
+              ),
             ),
+          ),
+        ),
+      ),
     );
   }
 }
