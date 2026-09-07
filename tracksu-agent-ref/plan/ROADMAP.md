@@ -26,7 +26,7 @@ P09–P13 и OAuth ждут ручной приёмки. UI foundation — от�
 | Порядок / ID | Следующий цельный результат | Статус |
 | --- | --- | --- |
 | Сейчас · [P07.1](work/P07.1-languages.md) | en/ru/de/fr/es/ja/zh, стандартный ARB template, language persistence и fallback подключены; ручная языковая проверка | awaiting_manual_check |
-| Сейчас · [P07 foundation](work/P07-ui-foundation.md) | tracksu_ui: темы, именованные UiText/UiButton, feedback и отдельный каталог реализованы; analyze и обе debug-сборки прошли, требуется просмотр на телефоне до миграции страниц | awaiting_manual_check |
+| Сейчас · [P07 foundation](work/P07-ui-foundation.md) | tracksu_ui: темы, UiText/кнопки, surfaces/frames/tiles, typed UiModal и каталог с recipes реализованы; analyze и обе debug-сборки прошли, требуется просмотр на телефоне до миграции страниц | awaiting_manual_check |
 | 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
 | 2 · P10 · [scores](work/P10-scores.md) / [карты](work/P10-beatmaps.md) | Best/recent и восемь категорий карт подключены: scoped Bloc, lazy slivers, refresh/load-more/retry. Ручная проверка; старые неиспользуемые consumers удалены в P16. legacy: false для scores | awaiting_manual_check |
 | 3 · [P12](work/P12-beatmap.md) | Подключены typed navigation из профиля, набор/выбор сложности, публичный top leaderboard, новые Score/mod acronyms и back. Ручная проверка; расширенные фильтры отдельно | awaiting_manual_check |

@@ -64,6 +64,11 @@ regression tests, mocks/fakes, golden, coverage и test CI **не выполня
   кастомизация не превращается в копирование TextStyle/цветов по всем страницам.
   Простые native controls используют общую Material theme; обёртка нужна
   для устойчивого поведения/семантики, а не только для префикса Ui.
+- Правило короткого API распространяется на UiSurface.card/outlined/tonal/inset,
+  UiFrame.body/scroll, UiModal.confirm/destructive/info/selection и UiIconButton.
+  Для сборки страниц сначала читать recipes в packages/tracksu_ui/README.md.
+  Новый общий вариант сопровождается примером каталога; не создавать вторую
+  реализацию modal/container в feature и не наращивать универсальный набор flags.
 - `Row/Column.spacing` и Padding вместо пустых SizedBox-разделителей;
   SizedBox для constraints/размеров и shrink допустимы. Шкала spacing единая;
   исходная skill-шкала 5/10/15/20/30 — стартовый вариант для design tokens.

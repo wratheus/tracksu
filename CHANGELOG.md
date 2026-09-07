@@ -20,6 +20,12 @@
 
 ### Added
 
+- Composable UI recipes: surface variants, body/sliver frames with safe footer,
+  sections, menu/choice tiles and icon-button variants. Centralized modal APIs
+  in UiModal (confirm, destructive, info, typed selection, short/custom-scroll
+  sheets), with updated manual catalog and construction examples. Feature pages
+  and production navigation remain unchanged.
+
 - `tracksu_ui` workspace foundation: dark/light Material themes, Exo 2 heading
   typography, all named UiText presets, semantic buttons, surfaces, search,
   notices, loading, typed sheets/confirmation and snackbar helpers. Added a

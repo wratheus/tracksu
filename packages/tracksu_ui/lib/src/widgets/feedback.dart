@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
-import 'package:tracksu_ui/src/widgets/button.dart';
 import 'package:tracksu_ui/src/widgets/text.dart';
 
 enum UiNoticeTone { information, success, warning, error }
@@ -111,72 +110,6 @@ abstract final class UiFeedback {
       ),
     );
   }
-
-  /// Dismiss/back never confirms. Business mutations happen after the result.
-  static Future<bool> confirm(
-    BuildContext context, {
-    required String title,
-    required String message,
-    required String confirmLabel,
-    required String cancelLabel,
-    bool destructive = false,
-    bool useRootNavigator = true,
-  }) async =>
-      await sheet<bool>(
-        context,
-        useRootNavigator: useRootNavigator,
-        builder: (BuildContext sheetContext) => Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          spacing: UiSpace.lg,
-          children: <Widget>[
-            Semantics(header: true, child: UiText.headlineSmall(title)),
-            UiText.bodyLarge(message, secondary: true),
-            UiButton(
-              label: confirmLabel,
-              style: destructive
-                  ? UiButtonStyle.destructive
-                  : UiButtonStyle.primary,
-              onPressed: () => Navigator.of(sheetContext).pop(true),
-            ),
-            UiButton(
-              label: cancelLabel,
-              style: UiButtonStyle.text,
-              onPressed: () => Navigator.of(sheetContext).pop(false),
-            ),
-          ],
-        ),
-      ) ??
-      false;
-
-  /// Short modal content only. Long API lists need their own lazy scrollable.
-  static Future<T?> sheet<T>(
-    BuildContext context, {
-    required WidgetBuilder builder,
-    bool useRootNavigator = true,
-  }) => showModalBottomSheet<T>(
-    context: context,
-    useRootNavigator: useRootNavigator,
-    isScrollControlled: true,
-    useSafeArea: true,
-    builder: (BuildContext sheetContext) => Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.viewInsetsOf(sheetContext).bottom,
-      ),
-      child: SafeArea(
-        top: false,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(
-            UiSpace.lg,
-            0,
-            UiSpace.lg,
-            UiSpace.xl,
-          ),
-          child: builder(sheetContext),
-        ),
-      ),
-    ),
-  );
 }
 
 /// Inline, labelled progress for initial loading or pagination.

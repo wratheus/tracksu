@@ -5,3 +5,7 @@ export 'src/widgets/text.dart';
 export 'src/widgets/surface.dart';
 export 'src/widgets/search_field.dart';
 export 'src/widgets/feedback.dart';
+export 'src/widgets/frame.dart';
+export 'src/widgets/icon_button.dart';
+export 'src/widgets/modal.dart';
+export 'src/widgets/tile.dart';

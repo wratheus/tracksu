@@ -68,21 +68,125 @@ into fixed-height boxes. Platform page transitions are not replaced by this them
 
 ## Surfaces and feedback
 
-- `UiSurface`: quiet card, optional tap, custom padding; no business model.
+- `UiSurface.card/outlined/tonal/inset`: theme-owned surfaces, optional tap,
+  custom padding; no business model. Plain `UiSurface` remains the card default.
 - `UiSearchField`: external controller/focus, label/error/help/clear strings;
   the caller decides query validation and debounce. Clearing emits `onChanged('')`.
 - `UiNotice`: information/success/warning/error, optional localized action.
 - `UiLoading`: labelled inline progress, usable in a page or pagination footer.
 - `UiFeedback.snack`: replaces the currently visible snackbar; call from an
   event/listener, never build. Action text and callback must be supplied together.
-- `UiFeedback.confirm`: scrollable confirmation sheet; true only on explicit
-  confirm, false on cancel/dismiss/Back. Mutations are performed by the caller
-  **after** checking the result and lifecycle (`mounted`/Bloc ownership).
-- `UiFeedback.sheet<T>`: localized caller content and typed result; root navigator
-  choice is explicit. Intended for short content, not eagerly built API lists.
+- `UiModal.confirm/destructive`: confirmation sheet; true only on explicit
+  confirm, false on cancel/dismiss/Back. The destructive variant changes action
+  styling, not business behavior. Check result and `mounted`/Bloc ownership.
+- `UiModal.info`: short informational sheet with a localized close action.
+- `UiModal.selection<T>`: typed single choice from `UiChoice<T>` items, lazy list;
+  selected value is highlighted, disabled items cannot be picked, dismiss is null.
+  Values must be unique; non-null `T` distinguishes cancellation from selection.
+- `UiModal.sheet<T>`: custom short content/form. Owns scrolling and keyboard insets.
+- `UiModal.scrollable<T>`: custom bounded viewport for a lazy list or composed
+  scrollable content. Does not wrap another SingleChildScrollView around it.
+  Both methods own the title/close header and have explicit root navigator choice.
+- `UiFrame.body/scroll`: body composition, common padding/safe areas and optional
+  footer outside the scroll view; does not own Scaffold, routes or data.
+- `UiSection`: title, optional action, content and common section spacing.
+- `UiTile.navigation/action/selection`: menu/settings/choice rows, theme-owned
+  layout. Null onTap disables the row. Selection requires explicit selected state.
+- `UiIconButton.standard/filled/tonal/outlined`: localized tooltip required,
+  standard touch/focus behavior and optional selected/selectedIcon for toggles.
+
+Modal recipes now live in UiModal, not UiFeedback: the only pre-release consumer
+(the catalog) was migrated together; no duplicate compatibility implementation.
 
 Use `Row/Column.spacing` and `Padding` to assemble components. Do not rewrap each
 one with new hardcoded colors or rebuild a second set of Material styles.
+
+## Composition recipes
+
+These fragments assume the caller already has localized `t`, callbacks and
+typed display data. Use them as construction patterns, not new repositories.
+
+### A page with a lazy list and a fixed action
+
+```dart
+Scaffold(
+  appBar: AppBar(title: UiText.titleLarge(t.profileTitle)),
+  body: UiFrame.scroll(
+    controller: scrollController,
+    footer: UiButton.primary(label: t.profileRefresh, onPressed: refresh),
+    slivers: [
+      SliverToBoxAdapter(
+        child: UiSection(
+          title: t.profileTitle,
+          child: UiSurface.tonal(child: UiText.bodyMedium(description)),
+        ),
+      ),
+      SliverList.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) => UiTile.navigation(
+          title: items[index].title,
+          onTap: () => openItem(items[index]),
+        ),
+      ),
+    ],
+  ),
+);
+```
+
+Use `UiFrame.body(child: ..., footer: ...)` when the child already owns its
+layout/scrolling. Both frames need bounded height (normally Scaffold.body).
+Do not put a frame inside a SingleChildScrollView. The owning Scaffold should
+retain keyboard resizing; footer belongs outside the content scroll, not in
+a Stack hiding the last rows. Huge multi-action footers belong in scrollable
+content instead. External controllers are disposed by their creator.
+
+### Confirmation before a mutation
+
+```dart
+final confirmed = await UiModal.destructive(
+  context,
+  title: t.signOut,
+  message: confirmationMessage,
+  confirmLabel: t.signOut,
+  cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
+);
+if (!context.mounted || !confirmed) return;
+// Dispatch to the feature/session owner here, not inside UiModal.
+```
+
+Do not open modals from build, and do not treat dismiss as successful consent.
+If an action can be triggered repeatedly, the initiating feature owns the
+in-flight guard. Built-in modal buttons also guard against popping the previous
+route on a second tap during dismissal. Custom sheet content must follow the
+same lifecycle rules when it closes routes itself.
+
+### A typed selection
+
+```dart
+final locale = await UiModal.selection<Locale>(
+  context,
+  title: t.languageSelection,
+  selected: currentLocale,
+  choices: [
+    UiChoice(value: const Locale('en'), label: t.englishLanguage),
+    UiChoice(value: const Locale('ru'), label: t.russianLanguage),
+  ],
+);
+if (!context.mounted || locale == null) return;
+// Pass the choice to the setting owner. The sample is not the full language list.
+```
+
+### Which customization layer?
+
+1. Choose a named variant before adding flags or copying implementation.
+2. Supply content/callbacks/typed values; business state stays outside the kit.
+3. For product-wide changes edit ThemeData/ColorScheme, UiSpace/UiShape or the
+   component owner. For a deliberate local composition use padding/slots.
+4. If several pages repeat a new pattern, add one named recipe and a catalog
+   example. Do not build a universal container with a growing list of booleans.
+5. Feature-specific content stays outside this package. The existing Material
+   controls are supported building blocks styled by the theme, not a loophole
+   for inventing per-page colors, hit targets or transitions.
 
 ## Manual catalog
 

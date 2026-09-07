@@ -86,3 +86,41 @@ entrypoint; каталог запускается указанной коман�
 композиции empty/error, theme persistence, P07.2 navigation, затем перенос
 страниц. Общий UI kit не объявляется полностью законченным по одному checkpoint.
 Правило именованных constructors сохранено в standards/SKILLS.md.
+
+### Завершённый checkpoint — композиционный API
+
+Поручение пользователя: распространить короткие именованные конструкции на
+модалки, поверхности, frames и разные кнопки, чтобы следующие страницы можно
+было собирать по примерам, не изобретая layout/styling заново.
+
+Scope: UiSurface variants, UiFrame body/scroll с безопасным footer, UiSection,
+UiTile, UiIconButton и UiModal confirm/destructive/info/selection/sheet/scrollable.
+Модальные сценарии переезжают из UiFeedback в одного владельца UiModal;
+каталог/документация обновляются атомарно, временный bridge не нужен.
+Существующие feature pages, navigation и данные не меняются.
+
+Коммит: `feat(ui): add composable surfaces frames and modal recipes`.
+Проверки: format/analyze, debug catalog build, review dismiss/selection/keyboard
+и lazy-list ownership; без автотестов. Ручная приёмка пользователем — после
+просмотра каталога. Возврат кода — revert checkpoint, миграции данных нет.
+
+Реализованы все перечисленные семейства. Выбор языка в каталоге использует
+`UiModal.selection<Locale>`, показаны подтверждение/опасное действие/info,
+форма с клавиатурой, варианты surfaces и icon buttons. Каталог собирается
+через UiFrame.scroll/UiSection. В package README добавлены рецепты lazy-page
+с footer, подтверждения действия и typed selection; правила закреплены
+в standards/SKILLS.md. UiFeedback теперь отвечает только за snackbar.
+
+Проверки 2026-09-07:
+
+- Format: 13 файлов, изменений форматирования нет.
+- Analyzer: lib и все три packages — No issues found.
+- Debug APK каталога: успешно, 27,8 с.
+- Debug APK основного приложения: успешно, 18,0 с; последний APK — main.
+- Автотесты не создавались и не запускались. Старое native-access warning
+  Gradle/JDK остаётся предупреждением, не ошибкой сборки.
+
+Ручная проверка ещё нужна: dismiss/Back возвращают отмену, повторный быстрый
+тап не закрывает предыдущую страницу, длинные заголовки/локализации и крупный
+шрифт помещаются, форма доступна с клавиатурой, выбор языка обновляет каталог.
+Техническая сборка не заменяет эту проверку. Перенос production pages не начат.
