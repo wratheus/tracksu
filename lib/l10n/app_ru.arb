@@ -1,5 +1,13 @@
 {
   "@@locale": "ru",
+  "uiCatalogTitle": "UI kit",
+  "uiCatalogTheme": "Сменить тему",
+  "uiCatalogTypography": "Типографика и поверхности",
+  "uiCatalogButtons": "Кнопки",
+  "uiCatalogInputs": "Ввод и выбор",
+  "uiCatalogFeedback": "Сообщения",
+  "uiCatalogNavigation": "Навигация",
+  "uiCatalogConfirmMessage": "Это подтверждение действия в каталоге. Аккаунт и данные не изменятся.",
   "newsTitle": "Новости",
   "newsRefresh": "Обновить новости",
   "newsEmpty": "Новостей пока нет.",

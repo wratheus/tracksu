@@ -1,5 +1,21 @@
 {
   "@@locale": "en",
+  "uiCatalogTitle": "UI kit",
+  "@uiCatalogTitle": {"description": "Manual UI component catalog: UI kit"},
+  "uiCatalogTheme": "Switch theme",
+  "@uiCatalogTheme": {"description": "Manual UI component catalog: Switch theme"},
+  "uiCatalogTypography": "Typography and surfaces",
+  "@uiCatalogTypography": {"description": "Manual UI component catalog: Typography and surfaces"},
+  "uiCatalogButtons": "Buttons",
+  "@uiCatalogButtons": {"description": "Manual UI component catalog: Buttons"},
+  "uiCatalogInputs": "Input and selection",
+  "@uiCatalogInputs": {"description": "Manual UI component catalog: Input and selection"},
+  "uiCatalogFeedback": "Feedback",
+  "@uiCatalogFeedback": {"description": "Manual UI component catalog: Feedback"},
+  "uiCatalogNavigation": "Navigation",
+  "@uiCatalogNavigation": {"description": "Manual UI component catalog: Navigation"},
+  "uiCatalogConfirmMessage": "This confirms a preview action only. No account or data will be changed.",
+  "@uiCatalogConfirmMessage": {"description": "Manual UI component catalog: This confirms a preview action only. No account or data will be changed."},
   "newsTitle": "News",
   "@newsTitle": {
     "description": "Title and navigation label for osu! news."

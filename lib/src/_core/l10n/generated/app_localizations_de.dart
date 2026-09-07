@@ -10,6 +10,31 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get uiCatalogTitle => 'UI kit';
+
+  @override
+  String get uiCatalogTheme => 'Design wechseln';
+
+  @override
+  String get uiCatalogTypography => 'Typografie und Oberflächen';
+
+  @override
+  String get uiCatalogButtons => 'Schaltflächen';
+
+  @override
+  String get uiCatalogInputs => 'Eingabe und Auswahl';
+
+  @override
+  String get uiCatalogFeedback => 'Rückmeldungen';
+
+  @override
+  String get uiCatalogNavigation => 'Navigation';
+
+  @override
+  String get uiCatalogConfirmMessage =>
+      'Dies bestätigt nur eine Vorschauaktion. Konto und Daten bleiben unverändert.';
+
+  @override
   String get newsTitle => 'Neuigkeiten';
 
   @override

@@ -4,12 +4,17 @@
 
 ## Сейчас
 
+**P07 — UI foundation** разрешён пользователем 2026-09-07: Stitch — ориентир,
+допускается осмысленная визуальная корректировка. Сначала пакет/темы/компоненты
+и [ручной каталог](work/P07-ui-foundation.md), затем перенос страниц.
+Страницы и навигацию не менять автоматически вместе с foundation.
+
 **P07.1 — локализация, без изменения дизайна**:
 [семь языков и стандартный ARB](work/P07.1-languages.md) реализованы,
 ожидают ручной проверки. [P16](work/P16-legacy-cleanup.md) удалил старый граф
 экранов и перенёс авторизацию в auth; pages больше нет. По решению пользователя
 аудит legacy-assets делаем совместно с дизайном после Stitch, не сейчас.
-P09–P13 и OAuth ждут ручной приёмки. Темы/UI kit пока не реализуем.
+P09–P13 и OAuth ждут ручной приёмки. UI foundation — отдельный активный срез.
 
 Уже реализованная основа вынесена в [IMPLEMENTED](IMPLEMENTED.md).
 Архив означает наличие кода, а не автоматически подтверждённое поведение.
@@ -21,6 +26,7 @@ P09–P13 и OAuth ждут ручной приёмки. Темы/UI kit пок�
 | Порядок / ID | Следующий цельный результат | Статус |
 | --- | --- | --- |
 | Сейчас · [P07.1](work/P07.1-languages.md) | en/ru/de/fr/es/ja/zh, стандартный ARB template, language persistence и fallback подключены; ручная языковая проверка | awaiting_manual_check |
+| Сейчас · [P07 foundation](work/P07-ui-foundation.md) | tracksu_ui: темы, именованные UiText/UiButton, feedback и отдельный каталог реализованы; analyze и обе debug-сборки прошли, требуется просмотр на телефоне до миграции страниц | awaiting_manual_check |
 | 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
 | 2 · P10 · [scores](work/P10-scores.md) / [карты](work/P10-beatmaps.md) | Best/recent и восемь категорий карт подключены: scoped Bloc, lazy slivers, refresh/load-more/retry. Ручная проверка; старые неиспользуемые consumers удалены в P16. legacy: false для scores | awaiting_manual_check |
 | 3 · [P12](work/P12-beatmap.md) | Подключены typed navigation из профиля, набор/выбор сложности, публичный top leaderboard, новые Score/mod acronyms и back. Ручная проверка; расширенные фильтры отдельно | awaiting_manual_check |
@@ -28,8 +34,8 @@ P09–P13 и OAuth ждут ручной приёмки. Темы/UI kit пок�
 | 5 · [P13](work/P13-news.md) | Новости: список с cursor paging, текстовый HTML reader, HTTPS-ссылки, refresh/retry и вход из shell подключены. Ручная проверка | awaiting_manual_check |
 | 5a · [P07.2 — навигация](../reference/NAVIGATION_SPEC.md) | Bottom bar, независимые стеки вкладок, сохранение состояния, iOS interactive pop / Android predictive Back, OAuth и restoration. Сначала согласовать ADR и Back-at-root; функциональный shell можно сделать до финальной темы | backlog |
 | 6 · [P01.2](DETAILS.md#p01-2) | Аудит assets: происхождение/права, вес, usage, дубли/форматы — совместно с дизайном после Stitch, по решению пользователя | deferred_until_design |
-| 7 · [P07 — планирование](DETAILS.md#p07) | Согласовать с пользователем аккуратный osu!-стиль, пригодные assets, палитру/шрифты/иконки, состояния и примеры ключевых экранов. Не реализовывать темы до согласования | backlog |
-| 8 · [P07 + P07.1 — реализация](DETAILS.md#p07) | После согласования: tracksu_ui, единые light/dark/ThemeMode, AppBar/кнопки, вынос l10n в пакет. Не блокирует функциональный перенос страниц | backlog |
+| 7 · [P07 — визуальная приёмка](work/P07-ui-foundation.md) | Оценить каталог foundation, пригодные assets и предметные primitives. Уточнить палитру/шрифты/иконки перед переносом страниц; корректировки относительно Stitch разрешены | backlog |
+| 8 · [P07 + P07.1 — интеграция](DETAILS.md#p07) | После оценки foundation: перенос страниц на tracksu_ui, theme preference/persistence, вынос l10n в пакет. Не смешивать с API-расширениями | backlog |
 | 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade, базовые действия и UI binding, privacy/consent; выбрать Firebase environment | backlog |
 | 10 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |
 | [P16](work/P16-legacy-cleanup.md) | Мёртвый граф и старые прямые зависимости удалены; авторизация перенесена в auth, pages удалена. Ручной OAuth smoke; palette/assets вместе с будущим дизайном | awaiting_manual_check |
@@ -58,8 +64,8 @@ rankings/spotlights, news и AuthMain. authorization_page удалена, OAuth 
 изолирован в auth. Активная палитра сохраняется без изменений.
 Подробности и восстановление — в P16/Git.
 
-До P07 используем текущее временное оформление и изолированные widgets,
-не вводим новую палитру/брендинг. Локализация новых экранов продолжает работать
+До переноса страниц используем на них текущее временное оформление,
+новую палитру сначала проверяем в каталоге P07. Локализация новых экранов работает
 через существующие ARB/context.t и не ждёт редизайна. Аудит assets → визуальный
 план/примеры → согласование пользователя → реализация тем и UI kit.
 

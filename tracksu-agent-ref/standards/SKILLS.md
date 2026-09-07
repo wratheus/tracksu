@@ -58,6 +58,12 @@ regression tests, mocks/fakes, golden, coverage и test CI **не выполня
 - UI skill требует shared-компоненты. До P07 мы их ещё создаём; после P07
   используем существующий `tracksu_ui`, не плодим вторую design system.
   Feature cards и app-level shared scenarios не становятся частью базового UI kit.
+- P07: короткие именованные конструкторы — `UiText.bodyMedium/titleLarge/...`
+  для всех Material TextTheme presets, `UiText.metric`, `UiButton.primary/...`.
+  Семантика, tokens и theme — общие владельцы внешнего вида. Локальная
+  кастомизация не превращается в копирование TextStyle/цветов по всем страницам.
+  Простые native controls используют общую Material theme; обёртка нужна
+  для устойчивого поведения/семантики, а не только для префикса Ui.
 - `Row/Column.spacing` и Padding вместо пустых SizedBox-разделителей;
   SizedBox для constraints/размеров и shrink допустимы. Шкала spacing единая;
   исходная skill-шкала 5/10/15/20/30 — стартовый вариант для design tokens.

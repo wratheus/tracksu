@@ -64,6 +64,19 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 > The screenshot above shows the legacy Android interface. A unified visual
 > redesign is planned after the active feature reconstruction is complete.
 
+## UI foundation preview
+
+The new [tracksu_ui package](packages/tracksu_ui/README.md) contains dark/light
+Material themes and reusable components. Existing app pages have not adopted
+the new design yet. Inspect the independent, API-free manual catalog with:
+
+```sh
+fvm flutter run -t lib/ui_catalog.dart
+```
+
+It uses the same Android app ID as the normal debug app. Run the default
+`lib/main.dart` target again to return to the application.
+
 ## Platform status
 
 | Platform | Status |

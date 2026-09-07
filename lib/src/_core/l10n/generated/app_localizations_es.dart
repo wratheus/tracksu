@@ -10,6 +10,31 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get uiCatalogTitle => 'UI kit';
+
+  @override
+  String get uiCatalogTheme => 'Cambiar tema';
+
+  @override
+  String get uiCatalogTypography => 'Tipografía y superficies';
+
+  @override
+  String get uiCatalogButtons => 'Botones';
+
+  @override
+  String get uiCatalogInputs => 'Entrada y selección';
+
+  @override
+  String get uiCatalogFeedback => 'Mensajes';
+
+  @override
+  String get uiCatalogNavigation => 'Navegación';
+
+  @override
+  String get uiCatalogConfirmMessage =>
+      'Esto solo confirma una acción de vista previa. No se modificarán la cuenta ni los datos.';
+
+  @override
   String get newsTitle => 'Noticias';
 
   @override

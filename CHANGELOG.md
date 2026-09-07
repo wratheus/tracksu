@@ -20,6 +20,13 @@
 
 ### Added
 
+- `tracksu_ui` workspace foundation: dark/light Material themes, Exo 2 heading
+  typography, all named UiText presets, semantic buttons, surfaces, search,
+  notices, loading, typed sheets/confirmation and snackbar helpers. Added a
+  separate API-free manual catalog with seven-language labels. Normal app pages
+  remain unchanged; navigation and visual acceptance are still pending.
+  Corrected the case of the existing italic font asset path.
+
 - Full UI catalogs for German, French, Spanish, Japanese and Simplified Chinese,
   alongside English/Russian (169 messages per locale). Language selection persists;
   English remains the unsupported-language fallback. Flutter ARB descriptions and

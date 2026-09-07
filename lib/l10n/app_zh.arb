@@ -1,5 +1,13 @@
 {
   "@@locale": "zh",
+  "uiCatalogTitle": "UI kit",
+  "uiCatalogTheme": "切换主题",
+  "uiCatalogTypography": "字体与背景",
+  "uiCatalogButtons": "按钮",
+  "uiCatalogInputs": "输入与选择",
+  "uiCatalogFeedback": "提示消息",
+  "uiCatalogNavigation": "导航",
+  "uiCatalogConfirmMessage": "这仅确认预览操作，不会更改任何账号或数据。",
   "newsTitle": "新闻",
   "newsRefresh": "刷新新闻",
   "newsEmpty": "暂无新闻。",

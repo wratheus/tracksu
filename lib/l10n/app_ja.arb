@@ -1,5 +1,13 @@
 {
   "@@locale": "ja",
+  "uiCatalogTitle": "UI kit",
+  "uiCatalogTheme": "テーマを切り替え",
+  "uiCatalogTypography": "文字と背景",
+  "uiCatalogButtons": "ボタン",
+  "uiCatalogInputs": "入力と選択",
+  "uiCatalogFeedback": "メッセージ",
+  "uiCatalogNavigation": "ナビゲーション",
+  "uiCatalogConfirmMessage": "これはプレビュー操作の確認です。アカウントやデータは変更されません。",
   "newsTitle": "ニュース",
   "newsRefresh": "ニュースを更新",
   "newsEmpty": "ニュースはありません。",

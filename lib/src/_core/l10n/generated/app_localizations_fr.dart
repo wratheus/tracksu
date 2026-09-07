@@ -10,6 +10,31 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get uiCatalogTitle => 'UI kit';
+
+  @override
+  String get uiCatalogTheme => 'Changer de thème';
+
+  @override
+  String get uiCatalogTypography => 'Typographie et surfaces';
+
+  @override
+  String get uiCatalogButtons => 'Boutons';
+
+  @override
+  String get uiCatalogInputs => 'Saisie et sélection';
+
+  @override
+  String get uiCatalogFeedback => 'Messages';
+
+  @override
+  String get uiCatalogNavigation => 'Navigation';
+
+  @override
+  String get uiCatalogConfirmMessage =>
+      'Cette confirmation concerne uniquement un aperçu. Aucun compte ni aucune donnée ne sera modifié.';
+
+  @override
   String get newsTitle => 'Actualités';
 
   @override

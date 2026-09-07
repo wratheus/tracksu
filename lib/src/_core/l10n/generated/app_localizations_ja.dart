@@ -10,6 +10,30 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get uiCatalogTitle => 'UI kit';
+
+  @override
+  String get uiCatalogTheme => 'テーマを切り替え';
+
+  @override
+  String get uiCatalogTypography => '文字と背景';
+
+  @override
+  String get uiCatalogButtons => 'ボタン';
+
+  @override
+  String get uiCatalogInputs => '入力と選択';
+
+  @override
+  String get uiCatalogFeedback => 'メッセージ';
+
+  @override
+  String get uiCatalogNavigation => 'ナビゲーション';
+
+  @override
+  String get uiCatalogConfirmMessage => 'これはプレビュー操作の確認です。アカウントやデータは変更されません。';
+
+  @override
   String get newsTitle => 'ニュース';
 
   @override

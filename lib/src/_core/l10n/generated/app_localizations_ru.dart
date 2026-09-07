@@ -10,6 +10,31 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get uiCatalogTitle => 'UI kit';
+
+  @override
+  String get uiCatalogTheme => 'Сменить тему';
+
+  @override
+  String get uiCatalogTypography => 'Типографика и поверхности';
+
+  @override
+  String get uiCatalogButtons => 'Кнопки';
+
+  @override
+  String get uiCatalogInputs => 'Ввод и выбор';
+
+  @override
+  String get uiCatalogFeedback => 'Сообщения';
+
+  @override
+  String get uiCatalogNavigation => 'Навигация';
+
+  @override
+  String get uiCatalogConfirmMessage =>
+      'Это подтверждение действия в каталоге. Аккаунт и данные не изменятся.';
+
+  @override
   String get newsTitle => 'Новости';
 
   @override

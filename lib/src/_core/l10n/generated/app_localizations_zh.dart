@@ -10,6 +10,30 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get uiCatalogTitle => 'UI kit';
+
+  @override
+  String get uiCatalogTheme => '切换主题';
+
+  @override
+  String get uiCatalogTypography => '字体与背景';
+
+  @override
+  String get uiCatalogButtons => '按钮';
+
+  @override
+  String get uiCatalogInputs => '输入与选择';
+
+  @override
+  String get uiCatalogFeedback => '提示消息';
+
+  @override
+  String get uiCatalogNavigation => '导航';
+
+  @override
+  String get uiCatalogConfirmMessage => '这仅确认预览操作，不会更改任何账号或数据。';
+
+  @override
   String get newsTitle => '新闻';
 
   @override

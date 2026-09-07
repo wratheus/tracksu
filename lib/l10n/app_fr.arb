@@ -1,5 +1,13 @@
 {
   "@@locale": "fr",
+  "uiCatalogTitle": "UI kit",
+  "uiCatalogTheme": "Changer de thème",
+  "uiCatalogTypography": "Typographie et surfaces",
+  "uiCatalogButtons": "Boutons",
+  "uiCatalogInputs": "Saisie et sélection",
+  "uiCatalogFeedback": "Messages",
+  "uiCatalogNavigation": "Navigation",
+  "uiCatalogConfirmMessage": "Cette confirmation concerne uniquement un aperçu. Aucun compte ni aucune donnée ne sera modifié.",
   "newsTitle": "Actualités",
   "newsRefresh": "Actualiser les actualités",
   "newsEmpty": "Aucune actualité disponible.",

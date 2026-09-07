@@ -108,6 +108,54 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Manual UI component catalog: UI kit
+  ///
+  /// In en, this message translates to:
+  /// **'UI kit'**
+  String get uiCatalogTitle;
+
+  /// Manual UI component catalog: Switch theme
+  ///
+  /// In en, this message translates to:
+  /// **'Switch theme'**
+  String get uiCatalogTheme;
+
+  /// Manual UI component catalog: Typography and surfaces
+  ///
+  /// In en, this message translates to:
+  /// **'Typography and surfaces'**
+  String get uiCatalogTypography;
+
+  /// Manual UI component catalog: Buttons
+  ///
+  /// In en, this message translates to:
+  /// **'Buttons'**
+  String get uiCatalogButtons;
+
+  /// Manual UI component catalog: Input and selection
+  ///
+  /// In en, this message translates to:
+  /// **'Input and selection'**
+  String get uiCatalogInputs;
+
+  /// Manual UI component catalog: Feedback
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get uiCatalogFeedback;
+
+  /// Manual UI component catalog: Navigation
+  ///
+  /// In en, this message translates to:
+  /// **'Navigation'**
+  String get uiCatalogNavigation;
+
+  /// Manual UI component catalog: This confirms a preview action only. No account or data will be changed.
+  ///
+  /// In en, this message translates to:
+  /// **'This confirms a preview action only. No account or data will be changed.'**
+  String get uiCatalogConfirmMessage;
+
   /// Title and navigation label for osu! news.
   ///
   /// In en, this message translates to:
