@@ -26,6 +26,11 @@
 
 ### Added
 
+- Profile replay-view history uses API month/count observations, sorted and
+  validated independently of core profile data, in local windows of 24 samples.
+  Rank charts now have shape-preserving curves, subtle fill, fewer markers and
+  a semantic accent; missing intervals stay disconnected and exact selection remains.
+
 - Beatmap cards show optional covers, mapper/status and set-level plays/favourites;
   player play counts remain explicitly separate. Selected difficulty exposes
   stars, total duration and BPM when available. A lazy difficulty picker replaces

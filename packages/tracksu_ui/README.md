@@ -289,10 +289,14 @@ substitute the catalog samples for absent player data.
 
 Series are copied to an immutable list. x must be finite and strictly
 increasing; values and ranges must be finite. Bars additionally require
-non-negative values and use a zero baseline. Line charts preserve x spacing,
-connect measured points without smoothing, and reverse y for ranks when
+non-negative values and use a zero baseline. Bars are equally spaced categories:
+the caller must disclose omitted months rather than invent zero-valued samples.
+Line charts preserve x spacing, use shape-preserving harmonic-mean tangents
+without extra extrema, a subtle area fill per contiguous segment, and reverse y when
 `lowerIsBetter` is true. Empty, single-point, flat and zero-valued series have
 defined rendering. Missing intervals are not synthesized by this widget.
+`tone: UiChartTone.primary/secondary/tertiary` selects a semantic theme accent.
+Only segment endpoints and the selected sample get markers on a line.
 
 Tap/drag selects a sample; the displayed date/value and native discrete slider
 provide the same information for keyboard/accessibility navigation. Selection

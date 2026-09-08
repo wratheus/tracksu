@@ -111,6 +111,10 @@ news cards, metrics, interactive line/bar charts and loading/empty/error states.
 Samples are explicitly preview-only, using local artwork and no player API.
 The catalog also includes offline rich text, nested spoilers and blocked-media
 states, without fetching third-party images or tracking counters.
+Results now open a shared details sheet; beatmap cards use optional cover/facts
+and a compact difficulty picker. Profile charts include rank observations and
+monthly replay views (24 observations per local page, no extra API requests).
+Rank samples have no inferred dates; missing replay months are not zero-filled.
 Osu-specific compositions live in `lib/src/_shared/ui`; the base package stays
 independent of domain models. See the package README for contracts and recipes.
 

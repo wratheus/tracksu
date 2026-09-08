@@ -205,6 +205,12 @@ final class ProfileSummary extends StatelessWidget {
             padding: const EdgeInsets.only(top: UiSpace.lg),
             child: _RankHistory(profile: profile, ruleset: ruleset),
           ),
+          if (profile.replayHistory case final ProfileReplayHistory history
+              when history.months.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: UiSpace.lg),
+              child: _ReplayHistory(history: history),
+            ),
         ],
       ),
     );
@@ -247,12 +253,98 @@ final class _RankHistory extends StatelessWidget {
             emptyLabel: context.t.profileHistoryEmpty,
             points: points,
             lowerIsBetter: true,
+            tone: UiChartTone.tertiary,
           ),
           if (points.isNotEmpty)
             UiText.bodySmall(
               context.t.profileHistoryExplanation,
               secondary: true,
             ),
+        ],
+      ),
+    );
+  }
+}
+
+final class _ReplayHistory extends StatefulWidget {
+  const _ReplayHistory({required this.history});
+  final ProfileReplayHistory history;
+
+  @override
+  State<_ReplayHistory> createState() => _ReplayHistoryState();
+}
+
+final class _ReplayHistoryState extends State<_ReplayHistory> {
+  static const int _windowSize = 24;
+  DateTime? _endMonth;
+
+  @override
+  Widget build(BuildContext context) {
+    final List<ProfileReplayMonth> months = widget.history.months;
+    final int end = _endMonth == null
+        ? months.length
+        : months.lastIndexWhere(
+                (ProfileReplayMonth month) => !month.month.isAfter(_endMonth!),
+              ) +
+              1;
+    final int safeEnd = end.clamp(1, months.length);
+    final int start = (safeEnd - _windowSize).clamp(0, months.length);
+    final String locale = Localizations.localeOf(context).toLanguageTag();
+    final NumberFormat number = NumberFormat.decimalPattern(locale);
+    return UiSurface.card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: UiSpace.sm,
+        children: <Widget>[
+          UiChart.bars(
+            title: context.t.profileReplayHistoryTitle,
+            emptyLabel: context.t.profileHistoryEmpty,
+            points: months
+                .sublist(start, safeEnd)
+                .map(
+                  (ProfileReplayMonth month) => UiChartPoint(
+                    x: (month.month.year * 12 + month.month.month).toDouble(),
+                    value: month.views.toDouble(),
+                    label: DateFormat.yMMM(locale).format(month.month),
+                    valueLabel: number.format(month.views),
+                  ),
+                )
+                .toList(growable: false),
+          ),
+          if (months.length > _windowSize)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                UiIconButton.standard(
+                  icon: Icons.navigate_before,
+                  tooltip: MaterialLocalizations.of(context)
+                      .previousPageTooltip,
+                  onPressed: start == 0
+                      ? null
+                      : () =>
+                            setState(() => _endMonth = months[start - 1].month),
+                ),
+                UiIconButton.standard(
+                  icon: Icons.navigate_next,
+                  tooltip: MaterialLocalizations.of(context).nextPageTooltip,
+                  onPressed: safeEnd == months.length
+                      ? null
+                      : () => setState(() {
+                          final int nextEnd = (safeEnd + _windowSize).clamp(
+                            0,
+                            months.length,
+                          );
+                          _endMonth = nextEnd == months.length
+                              ? null
+                              : months[nextEnd - 1].month;
+                        }),
+                ),
+              ],
+            ),
+          UiText.bodySmall(
+            context.t.profileReplayHistoryExplanation,
+            secondary: true,
+          ),
         ],
       ),
     );

@@ -307,6 +307,7 @@ final class ProductCatalogSliver extends StatelessWidget {
                 points: rankPoints,
                 emptyLabel: t.uiCatalogNoData,
                 lowerIsBetter: true,
+                tone: UiChartTone.tertiary,
               ),
             ],
           ),

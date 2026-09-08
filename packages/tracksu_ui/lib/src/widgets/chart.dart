@@ -25,7 +25,9 @@ final class UiChartPoint {
 
 enum _ChartStyle { line, bars }
 
-/// One ordered, finite series. No smoothing that invents peaks between samples.
+enum UiChartTone { primary, secondary, tertiary }
+
+/// One ordered, finite series. Shape-preserving curves never invent extrema.
 final class UiChart extends StatefulWidget {
   UiChart.line({
     required this.title,
@@ -33,6 +35,7 @@ final class UiChart extends StatefulWidget {
     required this.emptyLabel,
     this.lowerIsBetter = false,
     this.onPointSelected,
+    this.tone = UiChartTone.primary,
     super.key,
   }) : points = _validate(points, bars: false),
        _style = _ChartStyle.line;
@@ -41,6 +44,7 @@ final class UiChart extends StatefulWidget {
     required List<UiChartPoint> points,
     required this.emptyLabel,
     this.onPointSelected,
+    this.tone = UiChartTone.primary,
     super.key,
   }) : points = _validate(points, bars: true),
        lowerIsBetter = false,
@@ -49,6 +53,7 @@ final class UiChart extends StatefulWidget {
   final List<UiChartPoint> points;
   final String emptyLabel;
   final bool lowerIsBetter;
+  final UiChartTone tone;
   final ValueChanged<UiChartPoint>? onPointSelected;
   final _ChartStyle _style;
 
@@ -144,6 +149,11 @@ final class _UiChartState extends State<UiChart> {
     final List<UiChartPoint> points = widget.points;
     if (points.isEmpty) return UiContentState.empty(title: widget.emptyLabel);
     final ColorScheme colors = Theme.of(context).colorScheme;
+    final Color color = switch (widget.tone) {
+      UiChartTone.primary => colors.primary,
+      UiChartTone.secondary => colors.secondary,
+      UiChartTone.tertiary => colors.tertiary,
+    };
     final UiChartPoint selected = points[_selected];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -158,7 +168,7 @@ final class _UiChartState extends State<UiChart> {
             spacing: UiSpace.md,
             runSpacing: UiSpace.xs,
             children: <Widget>[
-              UiText.titleLarge(selected.valueLabel),
+              UiText.titleLarge(selected.valueLabel, color: color),
               UiText.bodyMedium(selected.label, secondary: true),
             ],
           ),
@@ -181,8 +191,8 @@ final class _UiChartState extends State<UiChart> {
                       selected: _selected,
                       style: widget._style,
                       lowerIsBetter: widget.lowerIsBetter,
-                      color: colors.primary,
-                      gridColor: colors.outlineVariant,
+                      color: color,
+                      gridColor: colors.outlineVariant.withValues(alpha: 0.35),
                     ),
                     child: const SizedBox.expand(),
                   ),
@@ -309,26 +319,43 @@ final class _ChartPainter extends CustomPainter {
         );
       }
     } else {
-      final Path line = Path()..moveTo(positions.first.dx, positions.first.dy);
-      for (int i = 1; i < positions.length; i++) {
-        final Offset point = positions[i];
-        if (points[i].breakBefore) {
-          line.moveTo(point.dx, point.dy);
-        } else {
-          line.lineTo(point.dx, point.dy);
+      int start = 0;
+      for (int end = 1; end <= positions.length; end++) {
+        if (end < positions.length && !points[end].breakBefore) continue;
+        final List<Offset> segment = positions.sublist(start, end);
+        final Path line = _curve(segment);
+        if (segment.length > 1) {
+          final Path fill = Path.from(line)
+            ..lineTo(segment.last.dx, plot.bottom)
+            ..lineTo(segment.first.dx, plot.bottom)
+            ..close();
+          canvas.drawPath(
+            fill,
+            Paint()
+              ..shader = LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  color.withValues(alpha: 0.22),
+                  color.withValues(alpha: 0.01),
+                ],
+              ).createShader(plot),
+          );
+          canvas.drawPath(
+            line,
+            Paint()
+              ..color = color
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 2.5
+              ..strokeCap = StrokeCap.round,
+          );
         }
-      }
-      canvas.drawPath(
-        line,
-        Paint()
-          ..color = color
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2
-          ..strokeJoin = StrokeJoin.round,
-      );
-      // Isolated observations remain visible even when there is no segment.
-      for (final Offset point in positions) {
-        canvas.drawCircle(point, 2, Paint()..color = color);
+        // Endpoints and isolated samples only: no dotted noise over dense series.
+        canvas.drawCircle(segment.first, 2, Paint()..color = color);
+        if (segment.length > 1) {
+          canvas.drawCircle(segment.last, 2, Paint()..color = color);
+        }
+        start = end;
       }
     }
     final Offset focus = positions[selected];
@@ -339,7 +366,41 @@ final class _ChartPainter extends CustomPainter {
         ..color = color.withValues(alpha: 0.3)
         ..strokeWidth = 1,
     );
+    canvas.drawCircle(focus, 8, Paint()..color = color.withValues(alpha: 0.15));
     canvas.drawCircle(focus, 4, Paint()..color = color);
+  }
+
+  /// Harmonic-mean tangents are bounded by twice either adjacent secant.
+  /// Flat sections/extrema have zero slope, so curves stay within sample bounds.
+  static Path _curve(List<Offset> points) {
+    final Path path = Path()..moveTo(points.first.dx, points.first.dy);
+    if (points.length < 2) return path;
+    final List<double> slopes = <double>[
+      for (int i = 1; i < points.length; i++)
+        (points[i].dy - points[i - 1].dy) / (points[i].dx - points[i - 1].dx),
+    ];
+    double tangent(int index) {
+      if (index == 0) return slopes.first;
+      if (index == points.length - 1) return slopes.last;
+      final double a = slopes[index - 1];
+      final double b = slopes[index];
+      return a * b <= 0 ? 0 : 2 * a * b / (a + b);
+    }
+
+    for (int i = 1; i < points.length; i++) {
+      final Offset a = points[i - 1];
+      final Offset b = points[i];
+      final double third = (b.dx - a.dx) / 3;
+      path.cubicTo(
+        a.dx + third,
+        a.dy + tangent(i - 1) * third,
+        b.dx - third,
+        b.dy - tangent(i) * third,
+        b.dx,
+        b.dy,
+      );
+    }
+    return path;
   }
 
   @override

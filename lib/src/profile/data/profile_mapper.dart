@@ -23,6 +23,7 @@ extension ProfileDtoMapper on ProfileDto {
       coverUri: _optionalCoverUri(coverUrl),
       rankHistory: rankHistory?.toDomain(),
       about: page?.toDomain(Uri.https('osu.ppy.sh', '/users/$id')),
+      replayHistory: replayHistory?.toDomain(),
     );
   }
 
@@ -35,6 +36,32 @@ extension ProfileDtoMapper on ProfileDto {
             uri.userInfo.isEmpty
         ? uri
         : null;
+  }
+}
+
+extension ProfileReplayHistoryDtoMapper on ProfileReplayHistoryDto {
+  ProfileReplayHistory? toDomain() {
+    final List<ProfileReplayMonth> result = <ProfileReplayMonth>[];
+    final Set<DateTime> seen = <DateTime>{};
+    for (final (:String date, :int count) in months) {
+      final DateTime? parsed = DateTime.tryParse(date);
+      // DateTime.parse normalises invalid dates; reject those explicitly.
+      if (!RegExp(r'^\d{4}-\d{2}-01$').hasMatch(date) ||
+          parsed == null ||
+          count < 0 ||
+          '${parsed.year.toString().padLeft(4, '0')}-${parsed.month.toString().padLeft(2, '0')}-01' !=
+              date) {
+        return null;
+      }
+      final DateTime month = DateTime.utc(parsed.year, parsed.month);
+      if (!seen.add(month)) return null;
+      result.add(ProfileReplayMonth(month: month, views: count));
+    }
+    result.sort(
+      (ProfileReplayMonth a, ProfileReplayMonth b) =>
+          a.month.compareTo(b.month),
+    );
+    return ProfileReplayHistory(result);
   }
 }
 

@@ -12,6 +12,7 @@ final class ProfileDto {
     required this.coverUrl,
     required this.rankHistory,
     required this.page,
+    this.replayHistory,
   });
 
   factory ProfileDto.fromJson(Map<String, dynamic> json) {
@@ -27,6 +28,9 @@ final class ProfileDto {
         null => null,
         final Map<String, dynamic> value => ProfilePageDto.fromJson(value),
       },
+      replayHistory: ProfileReplayHistoryDto.tryFromJson(
+        json['replays_watched_counts'],
+      ),
       coverUrl: switch (reader.optionalMap('cover')) {
         null => null,
         final Map<String, dynamic> value => JsonMapReader(
@@ -58,6 +62,37 @@ final class ProfileDto {
   final String? coverUrl;
   final ProfileRankHistoryDto? rankHistory;
   final ProfilePageDto? page;
+  final ProfileReplayHistoryDto? replayHistory;
+}
+
+/// Optional graph data must not prevent opening otherwise valid profiles.
+final class ProfileReplayHistoryDto {
+  ProfileReplayHistoryDto._(List<({String date, int count})> months)
+    : months = List<({String date, int count})>.unmodifiable(months);
+  final List<({String date, int count})> months;
+
+  static ProfileReplayHistoryDto? tryFromJson(Object? json) {
+    if (json == null) return null;
+    if (json is! List<dynamic> || json.length > 1200) return null;
+    try {
+      return ProfileReplayHistoryDto._(
+        json
+            .map((dynamic item) {
+              if (item is! Map<String, dynamic>) {
+                throw const FormatException('Invalid monthly observation.');
+              }
+              final JsonMapReader reader = JsonMapReader(item);
+              return (
+                date: reader.requiredString('start_date'),
+                count: reader.requiredInt('count'),
+              );
+            })
+            .toList(growable: false),
+      );
+    } on FormatException {
+      return null;
+    }
+  }
 }
 
 final class ProfilePageDto {
