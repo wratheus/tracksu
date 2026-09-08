@@ -223,8 +223,10 @@ cancel does not call the owner. RTL, disabled state, keyboard activation,
 selected semantics, tooltips and reduced-motion duration are preserved.
 Labels fall back to icons when measured text does not fit, without clamping
 the user's text scale. Use for a small choice set, not a long category list.
-The bevel clips both ink and the highlight. A translucent tonal gradient gives
-a light glass-like highlight; no BackdropFilter, blur or looping animation.
+The standard Material splash/overlay is disabled: a shape-matched local press
+highlight and keyboard focus border are rendered explicitly. One clipped blur
+(sigma 6) plus a translucent tonal gradient gives a restrained glass effect;
+high-contrast mode uses a solid surface. No looping animation or per-cell filters.
 
 Line charts accept `UiChartPoint.breakBefore` to start a new segment after
 missing observations. The caller keeps the original x coordinates and provides
@@ -250,6 +252,13 @@ Decode dimensions follow layout × device pixel ratio with a 2048px ceiling per
 dimension. No global image-cache mutation, disk cache, authenticated headers,
 per-byte progress rebuilds or shimmer loops. Changing the provider does not
 briefly show the previous player's image. Images belong in lazy builder lists.
+
+`UiImageViewer.show(context, image: decodedImage, closeLabel: ..., imageLabel: ...)`
+opens a root dialog with pinch zoom and Close/Back. It clones an already decoded
+`dart:ui.Image`, retains it through the route exit animation, then disposes it.
+It never downloads a higher-resolution original. Untrusted user-page images use
+the app's bounded `ContentMediaLoader`/`ContentFrame.sliver`, not `NetworkImage`:
+the generic UiImage decode resize alone does not limit response bytes or hosts.
 
 Flags validate two-letter codes; missing/unknown assets show a flag placeholder.
 Grades are native themed osu-style badges rather than image assets; unknown values

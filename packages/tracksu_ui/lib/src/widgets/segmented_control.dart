@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
 
@@ -42,6 +44,8 @@ final class UiSegmentedControl<T extends Object> extends StatefulWidget {
 final class _UiSegmentedControlState<T extends Object>
     extends State<UiSegmentedControl<T>> {
   int? _dragIndex;
+  int? _pressedIndex;
+  int? _focusedIndex;
 
   void _preview(double x, double width, TextDirection direction) {
     final int physical = (x / width * widget.segments.length).floor().clamp(
@@ -66,6 +70,7 @@ final class _UiSegmentedControlState<T extends Object>
         oldWidget.selected != widget.selected ||
         oldWidget.segments.length != widget.segments.length) {
       _dragIndex = null;
+      _pressedIndex = null;
     }
   }
 
@@ -128,10 +133,8 @@ final class _UiSegmentedControlState<T extends Object>
                   setState(() => _dragIndex = null);
                   if (index != null) _commit(index);
                 },
-          child: Material(
-            color: colors.surfaceContainerHighest,
+          child: _SegmentGlass(
             shape: shape,
-            clipBehavior: Clip.antiAlias,
             child: Stack(
               children: <Widget>[
                 Positioned.fill(
@@ -147,7 +150,7 @@ final class _UiSegmentedControlState<T extends Object>
                     child: FractionallySizedBox(
                       widthFactor: 1 / widget.segments.length,
                       heightFactor: 1,
-                      child: Ink(
+                      child: DecoratedBox(
                         decoration: ShapeDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topLeft,
@@ -190,8 +193,36 @@ final class _UiSegmentedControlState<T extends Object>
                             excludeFromSemantics: true,
                             child: InkWell(
                               customBorder: shape,
+                              splashFactory: NoSplash.splashFactory,
+                              overlayColor: const WidgetStatePropertyAll<Color>(
+                                Colors.transparent,
+                              ),
+                              onFocusChange: (bool focused) => setState(() {
+                                _focusedIndex = focused ? index : null;
+                              }),
+                              onHighlightChanged: (bool pressed) =>
+                                  setState(() {
+                                    _pressedIndex = pressed ? index : null;
+                                  }),
                               onTap: !enabled ? null : () => _commit(index),
-                              child: ConstrainedBox(
+                              child: AnimatedContainer(
+                                duration:
+                                    MediaQuery.disableAnimationsOf(context)
+                                    ? Duration.zero
+                                    : const Duration(milliseconds: 100),
+                                decoration: ShapeDecoration(
+                                  shape: shape.copyWith(
+                                    side: _focusedIndex == index
+                                        ? BorderSide(
+                                            color: colors.primary,
+                                            width: 2,
+                                          )
+                                        : BorderSide.none,
+                                  ),
+                                  color: _pressedIndex == index
+                                      ? colors.onSurface.withValues(alpha: 0.09)
+                                      : Colors.transparent,
+                                ),
                                 constraints: const BoxConstraints(
                                   minHeight: 48,
                                   minWidth: 48,
@@ -243,6 +274,47 @@ final class _UiSegmentedControlState<T extends Object>
           ),
         );
       },
+    );
+  }
+}
+
+/// One bounded blur, not one filter per segment. Ink never paints the thumb.
+final class _SegmentGlass extends StatelessWidget {
+  const _SegmentGlass({required this.shape, required this.child});
+  final ShapeBorder shape;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final bool solid = MediaQuery.highContrastOf(context);
+    return ClipPath(
+      clipper: ShapeBorderClipper(shape: shape),
+      child: BackdropFilter(
+        enabled: !solid,
+        filter: ui.ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+        child: Material(
+          color: colors.surfaceContainerHighest.withValues(
+            alpha: solid ? 1 : 0.72,
+          ),
+          shape: shape,
+          clipBehavior: Clip.antiAlias,
+          child: DecoratedBox(
+            decoration: ShapeDecoration(
+              shape: shape,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  colors.onSurface.withValues(alpha: 0.08),
+                  colors.onSurface.withValues(alpha: 0.01),
+                ],
+              ),
+            ),
+            child: child,
+          ),
+        ),
+      ),
     );
   }
 }

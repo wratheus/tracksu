@@ -26,6 +26,11 @@
 
 ### Added
 
+- Mode selector: removed the default Material ripple/overlay, added explicit
+  bevel-shaped press/focus feedback and one clipped subtle glass blur (solid in
+  high contrast). Search uses an Open profile action with exact username/ID copy,
+  without promising partial-name suggestions.
+
 - Shared native rich-content reader for profile About and news: bounded HTML
   normalization, themed formatting, lazy blocks and nested disclosures, isolated
   public-HTTPS raster loading, static animation previews and a reusable zoom

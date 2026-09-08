@@ -95,7 +95,7 @@ final class _SearchHomeState extends State<SearchHome> {
                           },
                         ),
                         UiButton.primary(
-                          label: context.t.profileSearch,
+                          label: context.t.profileOpen,
                           icon: Icons.search,
                           onPressed: _opening ? null : _submit,
                         ),
