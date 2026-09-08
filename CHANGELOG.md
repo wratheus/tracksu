@@ -26,6 +26,12 @@
 
 ### Added
 
+- Shared native rich-content reader for profile About and news: bounded HTML
+  normalization, themed formatting, lazy blocks and nested disclosures, isolated
+  public-HTTPS raster loading, static animation previews and a reusable zoom
+  viewer. External-image/IP disclosure in all seven languages; no consent toggle
+  or legal-page publication in this slice. Unsupported embeds open the original.
+  Added offline reader samples; removed the superseded text-only sanitizer.
 - Profile feedback: one-row draggable mode selector with a beveled, lightly
   translucent highlight and shape-matched ink; compact secondary metrics,
   decorative stat icons, theme accents for PP/ranks, and PNG language flags.

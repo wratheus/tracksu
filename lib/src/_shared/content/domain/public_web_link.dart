@@ -1,6 +1,7 @@
 /// Public browser links only; never forwards app API credentials.
 abstract final class PublicWebLink {
   static Uri? resolve(String value, {required Uri base}) {
+    if (value.length > 8192) return null;
     final Uri? reference = Uri.tryParse(value.trim());
     if (reference == null || value.trim().isEmpty) return null;
     final Uri uri = base.resolveUri(reference);

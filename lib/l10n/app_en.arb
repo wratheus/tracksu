@@ -1,8 +1,8 @@
 {
   "profileAbout": "About me",
   "@profileAbout": {"description": "Safe profile About section: About me"},
-  "profileAboutNotice": "Text view of the osu! profile. Images, embeds and advanced formatting are available in the original. If rendered content is missing, BBCode is shown as plain text.",
-  "@profileAboutNotice": {"description": "Safe profile About section: Text view of the osu! profile. Images, embeds and advanced formatting are available in the original. If rendered content is missing, BBCode is shown as plain text."},
+  "profileAboutNotice": "External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.",
+  "@profileAboutNotice": {"description": "Profile reader disclosure of automatic external-image requests and raw BBCode fallback."},
   "profileOriginal": "Open profile on osu!",
   "@profileOriginal": {"description": "Safe profile About section: Open profile on osu!"},
   "profileLinkFailed": "Could not open the link.",
@@ -65,6 +65,22 @@
   "@navigationUnavailable": {"description": "Safe fallback for an unknown application route; no URI or error details are exposed."},
   "searchClear": "Clear search",
   "@searchClear": {"description": "Accessibility label for clearing the player search input."},
+  "contentImage": "Image",
+  "@contentImage": {"description": "Shared rich content reader: Image"},
+  "contentImageLoading": "Loading image…",
+  "@contentImageLoading": {"description": "Shared rich content reader: Loading image…"},
+  "contentImageFailed": "Image unavailable or blocked by safety limits.",
+  "@contentImageFailed": {"description": "Shared rich content reader: Image unavailable or blocked by safety limits."},
+  "contentImageOpen": "Enlarge image",
+  "@contentImageOpen": {"description": "Shared rich content reader: Enlarge image"},
+  "contentDisclosure": "Show hidden content",
+  "@contentDisclosure": {"description": "Shared rich content reader: Show hidden content"},
+  "contentUnsupported": "This embedded content is available on the original page.",
+  "@contentUnsupported": {"description": "Shared rich content reader: This embedded content is available on the original page."},
+  "contentOriginal": "Open original",
+  "@contentOriginal": {"description": "Shared rich content reader: Open original"},
+  "contentUnavailable": "Content is unavailable in the reader. Open the original page.",
+  "@contentUnavailable": {"description": "Shared rich content reader: Content is unavailable in the reader. Open the original page."},
   "@@locale": "en",
   "uiCatalogMedia": "Images and badges",
   "@uiCatalogMedia": {"description": "Manual product component catalog: Images and badges"},
@@ -168,9 +184,9 @@
   "@newsOriginal": {
     "description": "Button to open the original article in a browser."
   },
-  "newsReaderNotice": "Text reading mode. Images, media and original formatting are available on the osu! website.",
+  "newsReaderNotice": "External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page.",
   "@newsReaderNotice": {
-    "description": "Explains limitations of the in-app text-only news reader."
+    "description": "News reader disclosure of automatic external-image requests and unsupported embeds."
   },
   "spotlightsTitle": "Spotlights",
   "@spotlightsTitle": {
@@ -312,7 +328,7 @@
   "@profileTitle": {
     "description": "Player profile screen title."
   },
-  "profileSearchHint": "Username or ID",
+  "profileSearchHint": "Exact username or ID",
   "@profileSearchHint": {
     "description": "Search field hint accepting a username or numeric player ID."
   },
@@ -402,11 +418,13 @@
       }
     }
   },
-  "profileSearchIntroduction": "Find an osu! player to view their profile and statistics. No sign-in required.",
+  "profileSearchIntroduction": "Open a player’s profile by exact username or ID. No sign-in required.",
   "@profileSearchIntroduction": {
     "description": "Guest-first introduction to public player search."
   },
-  "profileSearchHelp": "Use @ before a numeric username.",
+  "profileSearchHelp": "Choose the statistics mode, then enter a full username or ID and submit. No suggestions while typing. For a numeric username, use @.",
+  "profileOpen": "Open profile",
+  "@profileOpen": {"description": "Submit exact player lookup from the search landing screen."},
   "@profileSearchHelp": {
     "description": "Prefix a numeric username with the literal @ character to distinguish it from an ID."
   },

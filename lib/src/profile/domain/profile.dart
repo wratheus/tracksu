@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:tracksu/src/_shared/content/domain/content_document.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 
 @immutable
@@ -30,11 +31,11 @@ final class Profile {
 
 @immutable
 final class ProfileAbout {
-  const ProfileAbout({required this.uri, required this.safeHtml});
+  const ProfileAbout({required this.uri, required this.document});
   final Uri uri;
 
   /// null means the optional content exceeded the safe reader's limits.
-  final String? safeHtml;
+  final ContentDocument? document;
 }
 
 @immutable

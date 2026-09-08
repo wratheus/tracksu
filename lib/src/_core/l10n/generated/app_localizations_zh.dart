@@ -14,7 +14,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get profileAboutNotice =>
-      'osu! 个人资料的文字视图。图片、嵌入内容和复杂格式请查看原网页。若缺少渲染后的内容，将以纯文本显示 BBCode。';
+      '外部图片会自动加载。图片服务器会收到您的 IP 地址，并可能记录请求。嵌入内容仅在原网页打开。 若缺少渲染后的内容，将以纯文本显示 BBCode。';
 
   @override
   String get profileOriginal => '在 osu! 打开个人资料';
@@ -137,6 +137,30 @@ class AppLocalizationsZh extends AppLocalizations {
   String get searchClear => '清除搜索';
 
   @override
+  String get contentImage => '图片';
+
+  @override
+  String get contentImageLoading => '正在加载图片…';
+
+  @override
+  String get contentImageFailed => '图片不可用或已被安全限制拦截。';
+
+  @override
+  String get contentImageOpen => '放大图片';
+
+  @override
+  String get contentDisclosure => '显示隐藏内容';
+
+  @override
+  String get contentUnsupported => '此嵌入内容可在原网页查看。';
+
+  @override
+  String get contentOriginal => '打开原网页';
+
+  @override
+  String get contentUnavailable => '阅读器无法显示此内容。请打开原网页。';
+
+  @override
   String get uiCatalogMedia => '图片与徽章';
 
   @override
@@ -251,7 +275,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get newsOriginal => '打开原文';
 
   @override
-  String get newsReaderNotice => '文本阅读模式。图片、媒体和原始排版可在 osu! 网站上查看。';
+  String get newsReaderNotice =>
+      '外部图片会自动加载。图片服务器会收到您的 IP 地址，并可能记录请求。嵌入内容仅在原网页打开。';
 
   @override
   String get spotlightsTitle => 'Spotlights';
@@ -356,7 +381,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get viewMyProfile => '查看我的资料';
 
   @override
-  String get profileSearchHint => '用户名或 ID';
+  String get profileSearchHint => '完整用户名或 ID';
 
   @override
   String get profileSearchInvalid => '请输入有效的用户名或正整数 ID。';
@@ -426,10 +451,14 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get profileSearchIntroduction => '搜索 osu! 玩家，查看其资料和统计数据，无需登录。';
+  String get profileSearchIntroduction => '通过完整用户名或 ID 打开玩家资料，无需登录。';
 
   @override
-  String get profileSearchHelp => '纯数字用户名请在前面加上 @。';
+  String get profileSearchHelp =>
+      '选择统计模式，输入完整用户名或 ID 后提交。目前不提供输入建议。纯数字用户名请加上 @。';
+
+  @override
+  String get profileOpen => '打开资料';
 
   @override
   String get profileSearch => '搜索玩家';

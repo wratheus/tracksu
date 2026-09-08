@@ -3,7 +3,8 @@ import 'package:tracksu/src/auth/data/oauth_remote_source_exception.dart';
 import 'package:tracksu/src/news/domain/news.dart';
 import 'package:tracksu/src/news/data/remote_source.dart';
 import 'package:tracksu/src/news/data/news_dto.dart';
-import 'package:tracksu/src/_shared/content/data/safe_html.dart';
+import 'package:tracksu/src/_shared/content/data/content_normalizer.dart';
+import 'package:tracksu/src/_shared/content/domain/content_document.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 
 final class NewsRepositoryImpl implements NewsRepository {
@@ -51,10 +52,13 @@ final class NewsRepositoryImpl implements NewsRepository {
       if (content is! String) {
         throw const FormatException('Invalid news content.');
       }
-      return NewsArticle(
-        post: post,
-        safeHtml: SafeHtml.sanitize(content, post.uri),
-      );
+      ContentDocument? document;
+      try {
+        document = ContentNormalizer.html(content, post.uri);
+      } on FormatException {
+        // A malformed/huge optional body still leaves the original article link.
+      }
+      return NewsArticle(post: post, document: document);
     },
   );
 

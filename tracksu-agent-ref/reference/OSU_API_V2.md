@@ -44,13 +44,15 @@ Scoring policy, scopes и API version не менялись.
 ## Profile page / BBCode — 2026-09-08
 
 Get User включает `page` с `html` и `raw` (BBCode). Repository через mapper
-применяет общий SafeHtml text allowlist к серверному HTML; если HTML отсутствует,
+применяет общий ContentNormalizer к серверному HTML; если HTML отсутствует,
 raw экранируется и показывается текстом, не как неограниченный HTML или BBCode parser.
 Большой/глубокий optional page получает fallback-ссылку, не ломает статистику.
-Shared SafeHtml/PublicWebLink извлечены из news, его правила не ослаблялись.
-Виджеты не парсят JSON; CSS/script/iframe/медиа не возвращаются в renderer.
-Включение изображений/расширенного BBCode потребует отдельного media allowlist,
-ограничений размеров/схем и проверки источников. Полный клон osu! page не обещан.
+Профиль/новости используют общий immutable ContentDocument и ContentFrame.
+Виджеты не парсят JSON. Разрешённое форматирование/цвета нормализуются, картинки
+выделяются в native blocks с изолированным bounded loader; script/iframe не
+исполняются. Пользователь разрешил автоматические публичные HTTPS-картинки;
+privacy disclosure обязателен. Limits/compatibility — в
+[P07-rich-content](../plan/work/P07-rich-content.md). Полный клон osu! page не обещан.
 
 ## Inventory legacy запросов
 

@@ -14,7 +14,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get profileAboutNotice =>
-      'osu!プロフィールのテキスト表示です。画像、埋め込み、複雑な書式は元のページで確認できます。変換済みの内容がない場合はBBCodeをそのまま表示します。';
+      '外部画像は自動で読み込まれます。配信先のサーバーにはIPアドレスが送信され、リクエストが記録される場合があります。埋め込みコンテンツは元のページでのみ開きます。 変換済みの内容がない場合はBBCodeをそのまま表示します。';
 
   @override
   String get profileOriginal => 'osu!でプロフィールを開く';
@@ -138,6 +138,30 @@ class AppLocalizationsJa extends AppLocalizations {
   String get searchClear => '検索をクリア';
 
   @override
+  String get contentImage => '画像';
+
+  @override
+  String get contentImageLoading => '画像を読み込み中…';
+
+  @override
+  String get contentImageFailed => '画像を表示できないか、安全上の制限によりブロックされました。';
+
+  @override
+  String get contentImageOpen => '画像を拡大';
+
+  @override
+  String get contentDisclosure => '非表示の内容を表示';
+
+  @override
+  String get contentUnsupported => 'この埋め込みコンテンツは元のページで確認できます。';
+
+  @override
+  String get contentOriginal => '元のページを開く';
+
+  @override
+  String get contentUnavailable => 'リーダーでは表示できません。元のページを開いてください。';
+
+  @override
   String get uiCatalogMedia => '画像とバッジ';
 
   @override
@@ -254,7 +278,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get newsOriginal => '元の記事を開く';
 
   @override
-  String get newsReaderNotice => 'テキスト表示モードです。画像、メディア、元の書式はosu!のウェブサイトで確認できます。';
+  String get newsReaderNotice =>
+      '外部画像は自動で読み込まれます。配信先のサーバーにはIPアドレスが送信され、リクエストが記録される場合があります。埋め込みコンテンツは元のページでのみ開きます。';
 
   @override
   String get spotlightsTitle => 'Spotlights';
@@ -360,7 +385,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get viewMyProfile => '自分のプロフィールを表示';
 
   @override
-  String get profileSearchHint => 'ユーザー名またはID';
+  String get profileSearchHint => '正確なユーザー名またはID';
 
   @override
   String get profileSearchInvalid => '有効なユーザー名または正のIDを入力してください。';
@@ -431,10 +456,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get profileSearchIntroduction =>
-      'osu!プレイヤーを検索してプロフィールや統計を閲覧できます。ログインは不要です。';
+      '正確なユーザー名またはIDでプロフィールを開きます。ログインは不要です。';
 
   @override
-  String get profileSearchHelp => '数字のみのユーザー名には先頭に@を付けてください。';
+  String get profileSearchHelp =>
+      '統計のモードを選び、完全なユーザー名またはIDを入力してボタンを押してください。入力中の候補表示はありません。数字のみの名前には@を付けてください。';
+
+  @override
+  String get profileOpen => 'プロフィールを開く';
 
   @override
   String get profileSearch => 'プレイヤーを検索';

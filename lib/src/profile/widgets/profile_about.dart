@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
 import 'package:tracksu/src/profile/domain/profile.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -61,7 +61,7 @@ final class _ProfileAboutSectionState extends State<ProfileAboutSection> {
               ),
               if (_expanded) ...<Widget>[
                 UiText.bodySmall(
-                  widget.about.safeHtml == null
+                  widget.about.document == null
                       ? context.t.profileAboutUnavailable
                       : context.t.profileAboutNotice,
                   secondary: true,
@@ -77,13 +77,10 @@ final class _ProfileAboutSectionState extends State<ProfileAboutSection> {
             ],
           ),
         ),
-        if (_expanded && widget.about.safeHtml != null)
-          HtmlWidget(
-            widget.about.safeHtml!,
-            baseUrl: widget.about.uri,
-            renderMode: RenderMode.sliverList,
-            onTapUrl: _open,
-            textStyle: Theme.of(context).textTheme.bodyMedium,
+        if (_expanded && widget.about.document != null)
+          ContentFrame.sliver(
+            document: widget.about.document!,
+            onOpenLink: _open,
           ),
       ],
     ),

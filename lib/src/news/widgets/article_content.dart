@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/news/domain/news.dart';
@@ -81,12 +81,14 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
       ),
       SliverPadding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
-        sliver: HtmlWidget(
-          widget.article.safeHtml,
-          renderMode: RenderMode.sliverList,
-          baseUrl: widget.article.post.uri,
-          onTapUrl: _open,
-        ),
+        sliver: widget.article.document == null
+            ? SliverToBoxAdapter(
+                child: UiText.bodyMedium(context.t.contentUnavailable),
+              )
+            : ContentFrame.sliver(
+                document: widget.article.document!,
+                onOpenLink: _open,
+              ),
       ),
     ],
   );

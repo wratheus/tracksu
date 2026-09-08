@@ -14,7 +14,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get profileAboutNotice =>
-      'Vista de texto del perfil de osu!. Las imágenes, el contenido incrustado y el formato avanzado están en el original. Si falta el contenido procesado, se muestra el BBCode como texto.';
+      'Las imágenes externas se cargan automáticamente. Sus servidores reciben tu dirección IP y pueden registrar las solicitudes. El contenido incrustado solo se abre en el original. Si falta el contenido procesado, el BBCode se muestra como texto.';
 
   @override
   String get profileOriginal => 'Abrir perfil en osu!';
@@ -141,6 +141,33 @@ class AppLocalizationsEs extends AppLocalizations {
   String get searchClear => 'Borrar búsqueda';
 
   @override
+  String get contentImage => 'Imagen';
+
+  @override
+  String get contentImageLoading => 'Cargando imagen…';
+
+  @override
+  String get contentImageFailed =>
+      'Imagen no disponible o bloqueada por los límites de seguridad.';
+
+  @override
+  String get contentImageOpen => 'Ampliar imagen';
+
+  @override
+  String get contentDisclosure => 'Mostrar contenido oculto';
+
+  @override
+  String get contentUnsupported =>
+      'Este contenido incrustado está disponible en la página original.';
+
+  @override
+  String get contentOriginal => 'Abrir original';
+
+  @override
+  String get contentUnavailable =>
+      'Contenido no disponible en el lector. Abre el original.';
+
+  @override
   String get uiCatalogMedia => 'Imágenes e insignias';
 
   @override
@@ -261,7 +288,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get newsReaderNotice =>
-      'Modo de lectura de texto. Las imágenes, los medios y el formato original están disponibles en el sitio web de osu!.';
+      'Las imágenes externas se cargan automáticamente. Sus servidores reciben tu dirección IP y pueden registrar las solicitudes. El contenido incrustado solo se abre en el original.';
 
   @override
   String get spotlightsTitle => 'Spotlights';
@@ -380,7 +407,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get viewMyProfile => 'Ver mi perfil';
 
   @override
-  String get profileSearchHint => 'Nombre de usuario o ID';
+  String get profileSearchHint => 'Nombre exacto o ID';
 
   @override
   String get profileSearchInvalid =>
@@ -453,11 +480,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get profileSearchIntroduction =>
-      'Busca a un jugador de osu! para ver su perfil y estadísticas. No necesitas iniciar sesión.';
+      'Abre un perfil con el nombre exacto o ID del jugador. No necesitas iniciar sesión.';
 
   @override
   String get profileSearchHelp =>
-      'Añade @ delante de un nombre de usuario formado solo por números.';
+      'Elige el modo, escribe el nombre completo o ID y confirma. No hay sugerencias al escribir. Para nombres numéricos, usa @.';
+
+  @override
+  String get profileOpen => 'Abrir perfil';
 
   @override
   String get profileSearch => 'Buscar jugador';

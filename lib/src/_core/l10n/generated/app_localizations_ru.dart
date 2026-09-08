@@ -14,7 +14,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileAboutNotice =>
-      'Текстовая версия профиля osu!. Картинки, вставки и сложное оформление доступны в оригинале. Если готового HTML нет, BBCode показан обычным текстом.';
+      'Внешние изображения загружаются автоматически. Их серверы получают ваш IP-адрес и могут записывать запросы. Вставки открываются только в оригинале. Если готового HTML нет, BBCode показан обычным текстом.';
 
   @override
   String get profileOriginal => 'Открыть профиль на osu!';
@@ -141,6 +141,32 @@ class AppLocalizationsRu extends AppLocalizations {
   String get searchClear => 'Очистить поиск';
 
   @override
+  String get contentImage => 'Изображение';
+
+  @override
+  String get contentImageLoading => 'Загрузка изображения…';
+
+  @override
+  String get contentImageFailed =>
+      'Изображение недоступно или заблокировано ограничениями безопасности.';
+
+  @override
+  String get contentImageOpen => 'Увеличить изображение';
+
+  @override
+  String get contentDisclosure => 'Показать скрытое содержимое';
+
+  @override
+  String get contentUnsupported => 'Эта вставка доступна на исходной странице.';
+
+  @override
+  String get contentOriginal => 'Открыть оригинал';
+
+  @override
+  String get contentUnavailable =>
+      'Содержимое недоступно в режиме чтения. Откройте оригинал.';
+
+  @override
   String get uiCatalogMedia => 'Изображения и значки';
 
   @override
@@ -259,7 +285,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get newsReaderNotice =>
-      'Режим чтения текста. Изображения, медиа и исходное оформление доступны на сайте osu!.';
+      'Внешние изображения загружаются автоматически. Их серверы получают ваш IP-адрес и могут записывать запросы. Вставки открываются только в оригинале.';
 
   @override
   String get spotlightsTitle => 'Подборки Spotlights';
@@ -377,7 +403,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get viewMyProfile => 'Мой профиль';
 
   @override
-  String get profileSearchHint => 'Имя пользователя или ID';
+  String get profileSearchHint => 'Точный ник или ID';
 
   @override
   String get profileSearchInvalid =>
@@ -449,11 +475,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileSearchIntroduction =>
-      'Найдите игрока osu!, чтобы посмотреть профиль и статистику. Вход не нужен.';
+      'Откройте профиль игрока по точному нику или ID. Вход не нужен.';
 
   @override
   String get profileSearchHelp =>
-      'Для числового имени добавьте @ перед именем.';
+      'Выберите режим статистики, введите полный ник или ID и нажмите кнопку. Подсказок при вводе пока нет. Для числового ника добавьте @.';
+
+  @override
+  String get profileOpen => 'Открыть профиль';
 
   @override
   String get profileSearch => 'Найти игрока';

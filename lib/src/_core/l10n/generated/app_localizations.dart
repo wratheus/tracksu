@@ -114,10 +114,10 @@ abstract class AppLocalizations {
   /// **'About me'**
   String get profileAbout;
 
-  /// Safe profile About section: Text view of the osu! profile. Images, embeds and advanced formatting are available in the original. If rendered content is missing, BBCode is shown as plain text.
+  /// Profile reader disclosure of automatic external-image requests and raw BBCode fallback.
   ///
   /// In en, this message translates to:
-  /// **'Text view of the osu! profile. Images, embeds and advanced formatting are available in the original. If rendered content is missing, BBCode is shown as plain text.'**
+  /// **'External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.'**
   String get profileAboutNotice;
 
   /// Safe profile About section: Open profile on osu!
@@ -305,6 +305,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Clear search'**
   String get searchClear;
+
+  /// Shared rich content reader: Image
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get contentImage;
+
+  /// Shared rich content reader: Loading image…
+  ///
+  /// In en, this message translates to:
+  /// **'Loading image…'**
+  String get contentImageLoading;
+
+  /// Shared rich content reader: Image unavailable or blocked by safety limits.
+  ///
+  /// In en, this message translates to:
+  /// **'Image unavailable or blocked by safety limits.'**
+  String get contentImageFailed;
+
+  /// Shared rich content reader: Enlarge image
+  ///
+  /// In en, this message translates to:
+  /// **'Enlarge image'**
+  String get contentImageOpen;
+
+  /// Shared rich content reader: Show hidden content
+  ///
+  /// In en, this message translates to:
+  /// **'Show hidden content'**
+  String get contentDisclosure;
+
+  /// Shared rich content reader: This embedded content is available on the original page.
+  ///
+  /// In en, this message translates to:
+  /// **'This embedded content is available on the original page.'**
+  String get contentUnsupported;
+
+  /// Shared rich content reader: Open original
+  ///
+  /// In en, this message translates to:
+  /// **'Open original'**
+  String get contentOriginal;
+
+  /// Shared rich content reader: Content is unavailable in the reader. Open the original page.
+  ///
+  /// In en, this message translates to:
+  /// **'Content is unavailable in the reader. Open the original page.'**
+  String get contentUnavailable;
 
   /// Manual product component catalog: Images and badges
   ///
@@ -534,10 +582,10 @@ abstract class AppLocalizations {
   /// **'Open original'**
   String get newsOriginal;
 
-  /// Explains limitations of the in-app text-only news reader.
+  /// News reader disclosure of automatic external-image requests and unsupported embeds.
   ///
   /// In en, this message translates to:
-  /// **'Text reading mode. Images, media and original formatting are available on the osu! website.'**
+  /// **'External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page.'**
   String get newsReaderNotice;
 
   /// Title for osu! Spotlight collections; preserve the recognizable product term.
@@ -747,7 +795,7 @@ abstract class AppLocalizations {
   /// Search field hint accepting a username or numeric player ID.
   ///
   /// In en, this message translates to:
-  /// **'Username or ID'**
+  /// **'Exact username or ID'**
   String get profileSearchHint;
 
   /// Validation message for an invalid player query.
@@ -831,14 +879,20 @@ abstract class AppLocalizations {
   /// Guest-first introduction to public player search.
   ///
   /// In en, this message translates to:
-  /// **'Find an osu! player to view their profile and statistics. No sign-in required.'**
+  /// **'Open a player’s profile by exact username or ID. No sign-in required.'**
   String get profileSearchIntroduction;
 
   /// Prefix a numeric username with the literal @ character to distinguish it from an ID.
   ///
   /// In en, this message translates to:
-  /// **'Use @ before a numeric username.'**
+  /// **'Choose the statistics mode, then enter a full username or ID and submit. No suggestions while typing. For a numeric username, use @.'**
   String get profileSearchHelp;
+
+  /// Submit exact player lookup from the search landing screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open profile'**
+  String get profileOpen;
 
   /// Button to submit player search.
   ///

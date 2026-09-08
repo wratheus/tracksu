@@ -1,3 +1,5 @@
+import 'package:tracksu/src/_shared/content/domain/content_document.dart';
+
 final class NewsArticleParams {
   NewsArticleParams(this.id) {
     if (id <= 0) throw ArgumentError.value(id, 'id');
@@ -23,9 +25,9 @@ final class NewsPost {
 }
 
 final class NewsArticle {
-  const NewsArticle({required this.post, required this.safeHtml});
+  const NewsArticle({required this.post, required this.document});
   final NewsPost post;
-  final String safeHtml;
+  final ContentDocument? document;
 }
 
 final class NewsPage {

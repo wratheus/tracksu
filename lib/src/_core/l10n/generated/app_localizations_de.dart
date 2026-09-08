@@ -14,7 +14,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profileAboutNotice =>
-      'Textansicht des osu!-Profils. Bilder, Einbettungen und aufwendige Formatierung sind im Original verfügbar. Fehlt gerenderter Inhalt, wird BBCode als Klartext angezeigt.';
+      'Externe Bilder werden automatisch geladen. Ihre Server erhalten deine IP-Adresse und können Anfragen protokollieren. Einbettungen öffnen sich nur im Original. Ohne gerenderten Inhalt wird BBCode als Klartext angezeigt.';
 
   @override
   String get profileOriginal => 'Profil auf osu! öffnen';
@@ -141,6 +141,33 @@ class AppLocalizationsDe extends AppLocalizations {
   String get searchClear => 'Suche löschen';
 
   @override
+  String get contentImage => 'Bild';
+
+  @override
+  String get contentImageLoading => 'Bild wird geladen…';
+
+  @override
+  String get contentImageFailed =>
+      'Bild nicht verfügbar oder aus Sicherheitsgründen blockiert.';
+
+  @override
+  String get contentImageOpen => 'Bild vergrößern';
+
+  @override
+  String get contentDisclosure => 'Verborgenen Inhalt anzeigen';
+
+  @override
+  String get contentUnsupported =>
+      'Dieser eingebettete Inhalt ist auf der Originalseite verfügbar.';
+
+  @override
+  String get contentOriginal => 'Original öffnen';
+
+  @override
+  String get contentUnavailable =>
+      'Inhalt in der Leseansicht nicht verfügbar. Öffne das Original.';
+
+  @override
   String get uiCatalogMedia => 'Bilder und Abzeichen';
 
   @override
@@ -262,7 +289,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get newsReaderNotice =>
-      'Textansicht. Bilder, Medien und die ursprüngliche Formatierung sind auf der osu!-Website verfügbar.';
+      'Externe Bilder werden automatisch geladen. Ihre Server erhalten deine IP-Adresse und können Anfragen protokollieren. Einbettungen öffnen sich nur im Original.';
 
   @override
   String get spotlightsTitle => 'Spotlights';
@@ -381,7 +408,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get viewMyProfile => 'Mein Profil anzeigen';
 
   @override
-  String get profileSearchHint => 'Benutzername oder ID';
+  String get profileSearchHint => 'Exakter Benutzername oder ID';
 
   @override
   String get profileSearchInvalid =>
@@ -454,11 +481,14 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profileSearchIntroduction =>
-      'Suche einen osu!-Spieler, um sein Profil und seine Statistiken anzusehen. Keine Anmeldung erforderlich.';
+      'Öffne ein Spielerprofil mit dem exakten Benutzernamen oder der ID. Keine Anmeldung nötig.';
 
   @override
   String get profileSearchHelp =>
-      'Setze @ vor einen rein numerischen Benutzernamen.';
+      'Wähle den Statistikmodus, gib den vollständigen Namen oder die ID ein und bestätige. Keine Vorschläge beim Tippen. Für numerische Namen: @.';
+
+  @override
+  String get profileOpen => 'Profil öffnen';
 
   @override
   String get profileSearch => 'Spieler suchen';

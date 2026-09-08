@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:tracksu/src/_shared/content/data/safe_html.dart';
+import 'package:tracksu/src/_shared/content/data/content_normalizer.dart';
 import 'package:tracksu/src/profile/data/profile_dto.dart';
 import 'package:tracksu/src/profile/domain/profile.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
@@ -55,10 +55,13 @@ extension ProfilePageDtoMapper on ProfilePageDto {
       final String content = rendered != null && rendered.isNotEmpty
           ? rendered
           : '<p>${const HtmlEscape().convert(plain!).replaceAll('\n', '<br>')}</p>';
-      return ProfileAbout(uri: uri, safeHtml: SafeHtml.sanitize(content, uri));
+      return ProfileAbout(
+        uri: uri,
+        document: ContentNormalizer.html(content, uri),
+      );
     } on FormatException {
       // Optional presentation content must not hide valid profile statistics.
-      return ProfileAbout(uri: uri, safeHtml: null);
+      return ProfileAbout(uri: uri, document: null);
     }
   }
 }

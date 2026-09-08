@@ -14,7 +14,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileAboutNotice =>
-      'Text view of the osu! profile. Images, embeds and advanced formatting are available in the original. If rendered content is missing, BBCode is shown as plain text.';
+      'External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.';
 
   @override
   String get profileOriginal => 'Open profile on osu!';
@@ -141,6 +141,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchClear => 'Clear search';
 
   @override
+  String get contentImage => 'Image';
+
+  @override
+  String get contentImageLoading => 'Loading image…';
+
+  @override
+  String get contentImageFailed =>
+      'Image unavailable or blocked by safety limits.';
+
+  @override
+  String get contentImageOpen => 'Enlarge image';
+
+  @override
+  String get contentDisclosure => 'Show hidden content';
+
+  @override
+  String get contentUnsupported =>
+      'This embedded content is available on the original page.';
+
+  @override
+  String get contentOriginal => 'Open original';
+
+  @override
+  String get contentUnavailable =>
+      'Content is unavailable in the reader. Open the original page.';
+
+  @override
   String get uiCatalogMedia => 'Images and badges';
 
   @override
@@ -259,7 +286,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get newsReaderNotice =>
-      'Text reading mode. Images, media and original formatting are available on the osu! website.';
+      'External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page.';
 
   @override
   String get spotlightsTitle => 'Spotlights';
@@ -374,7 +401,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewMyProfile => 'View my profile';
 
   @override
-  String get profileSearchHint => 'Username or ID';
+  String get profileSearchHint => 'Exact username or ID';
 
   @override
   String get profileSearchInvalid => 'Enter a valid username or positive ID.';
@@ -445,10 +472,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSearchIntroduction =>
-      'Find an osu! player to view their profile and statistics. No sign-in required.';
+      'Open a player’s profile by exact username or ID. No sign-in required.';
 
   @override
-  String get profileSearchHelp => 'Use @ before a numeric username.';
+  String get profileSearchHelp =>
+      'Choose the statistics mode, then enter a full username or ID and submit. No suggestions while typing. For a numeric username, use @.';
+
+  @override
+  String get profileOpen => 'Open profile';
 
   @override
   String get profileSearch => 'Find player';
