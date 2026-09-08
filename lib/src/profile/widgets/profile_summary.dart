@@ -53,14 +53,17 @@ final class ProfileSummary extends StatelessWidget {
                 : <UiMetric>[
                     UiMetric(
                       label: context.t.profilePpLabel,
+                      tone: UiMetricTone.primary,
                       value: decimal.format(statistics.performancePoints),
                     ),
                     UiMetric(
                       label: context.t.profileGlobalRankLabel,
+                      tone: UiMetricTone.tertiary,
                       value: rank(statistics.globalRank),
                     ),
                     UiMetric(
                       label: context.t.profileCountryRankLabel,
+                      tone: UiMetricTone.secondary,
                       value: rank(statistics.countryRank),
                     ),
                   ],
@@ -75,16 +78,19 @@ final class ProfileSummary extends StatelessWidget {
                   title: context.t.profileStatisticsTitle,
                   child: UiMetricGroup(
                     children: <UiMetric>[
-                      UiMetric(
+                      UiMetric.compact(
                         label: context.t.profileAccuracyLabel,
+                        icon: Icons.gps_fixed,
                         value: percent.format(statistics.hitAccuracy / 100),
                       ),
-                      UiMetric(
+                      UiMetric.compact(
                         label: context.t.profilePlayCountLabel,
+                        icon: Icons.play_circle_outline,
                         value: number.format(statistics.playCount),
                       ),
-                      UiMetric(
+                      UiMetric.compact(
                         label: context.t.profilePlayTimeLabel,
+                        icon: Icons.schedule,
                         value: statistics.playTime == null
                             ? context.t.profileValueUnavailable
                             : context.t.profileDuration(
@@ -92,8 +98,9 @@ final class ProfileSummary extends StatelessWidget {
                                 statistics.playTime! % 3600 ~/ 60,
                               ),
                       ),
-                      UiMetric(
+                      UiMetric.compact(
                         label: context.t.profileComboLabel,
+                        icon: Icons.bolt,
                         value: number.format(statistics.maximumCombo),
                       ),
                     ],
@@ -163,26 +170,30 @@ final class ProfileSummary extends StatelessWidget {
                 child: UiSurface.card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: UiSpace.lg,
+                    spacing: UiSpace.md,
                     children: <Widget>[
                       if (statistics.rankedScore case final int value)
-                        UiMetric(
+                        UiMetric.row(
                           label: context.t.profileRankedScoreLabel,
+                          icon: Icons.emoji_events_outlined,
                           value: number.format(value),
                         ),
                       if (statistics.totalScore case final int value)
-                        UiMetric(
+                        UiMetric.row(
                           label: context.t.profileTotalScoreLabel,
+                          icon: Icons.leaderboard_outlined,
                           value: number.format(value),
                         ),
                       if (statistics.totalHits case final int value)
-                        UiMetric(
+                        UiMetric.row(
                           label: context.t.profileTotalHitsLabel,
+                          icon: Icons.touch_app_outlined,
                           value: number.format(value),
                         ),
                       if (statistics.replaysWatched case final int value)
-                        UiMetric(
+                        UiMetric.row(
                           label: context.t.profileReplaysLabel,
+                          icon: Icons.visibility_outlined,
                           value: number.format(value),
                         ),
                     ],

@@ -26,6 +26,19 @@
 
 ### Added
 
+- Profile feedback: one-row draggable mode selector with a beveled, lightly
+  translucent highlight and shape-matched ink; compact secondary metrics,
+  decorative stat icons, theme accents for PP/ranks, and PNG language flags.
+  Active-tab reselect now returns to that branch's root; switching to another
+  tab still restores its stack. Root filters/scroll are not deliberately reset.
+- Expandable About me from API page.html, with escaped raw BBCode fallback.
+  Shared allowlisted HTML/HTTPS-link handling extracted from news without
+  relaxing its policy. Script/style/embedded media are never rendered; links
+  open externally. Oversized/deep optional content offers the original profile
+  rather than hiding valid statistics. Five new messages in all seven locales.
+- Deferred product backlog for social features, push, player comparisons and
+  possible BFF-backed AI recommendations/PP simulations; no scopes or SDKs added.
+
 - Product profile overview with API-backed cover, level progress, grade counts,
   optional score/hit/replay totals and rank history. Metrics use separate labels
   and locale-aware values; nullable ranks/play time no longer become fake zeros.

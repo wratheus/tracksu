@@ -108,6 +108,36 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Safe profile About section: About me
+  ///
+  /// In en, this message translates to:
+  /// **'About me'**
+  String get profileAbout;
+
+  /// Safe profile About section: Text view of the osu! profile. Images, embeds and advanced formatting are available in the original. If rendered content is missing, BBCode is shown as plain text.
+  ///
+  /// In en, this message translates to:
+  /// **'Text view of the osu! profile. Images, embeds and advanced formatting are available in the original. If rendered content is missing, BBCode is shown as plain text.'**
+  String get profileAboutNotice;
+
+  /// Safe profile About section: Open profile on osu!
+  ///
+  /// In en, this message translates to:
+  /// **'Open profile on osu!'**
+  String get profileOriginal;
+
+  /// Safe profile About section: Could not open the link.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the link.'**
+  String get profileLinkFailed;
+
+  /// Safe profile About section: This profile section cannot be displayed safely. You can open the original on osu!.
+  ///
+  /// In en, this message translates to:
+  /// **'This profile section cannot be displayed safely. You can open the original on osu!.'**
+  String get profileAboutUnavailable;
+
   /// Player profile screen title.
   ///
   /// In en, this message translates to:

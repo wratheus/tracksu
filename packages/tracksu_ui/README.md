@@ -215,6 +215,17 @@ into old pages without moving their theme and reviewing the resulting layout.
 
 ### Charts and navigation
 
+`UiSegmentedControl<T>(segments: ..., selected: ..., onChanged: ...)` is a
+controlled, bounded-width single-row selector; each `UiSegment` has value,
+localized label and icon. Unique values and at least two items are required.
+Tap selects immediately; drag previews the thumb and commits once on release,
+cancel does not call the owner. RTL, disabled state, keyboard activation,
+selected semantics, tooltips and reduced-motion duration are preserved.
+Labels fall back to icons when measured text does not fit, without clamping
+the user's text scale. Use for a small choice set, not a long category list.
+The bevel clips both ink and the highlight. A translucent tonal gradient gives
+a light glass-like highlight; no BackdropFilter, blur or looping animation.
+
 Line charts accept `UiChartPoint.breakBefore` to start a new segment after
 missing observations. The caller keeps the original x coordinates and provides
 truthful labels (a rank-history index is not a calendar date). Isolated points
@@ -263,9 +274,9 @@ UiChart.line(
 ```
 
 This is a construction recipe, not a claim that the current Profile model
-already provides observations. Rank history and missing card media need a
-separate API-to-domain projection when pages are integrated. Never substitute
-the catalog samples for absent player data.
+provides dated observations. Profile rank history now provides ordered indices;
+card media need their own API-to-domain projection when integrated. Never
+substitute the catalog samples for absent player data.
 
 Series are copied to an immutable list. x must be finite and strictly
 increasing; values and ranges must be finite. Bars additionally require
@@ -294,6 +305,14 @@ wrap; news previews alone are capped. Metrics switch to one column with narrow
 width/large text. Optional PP, cover, country/status and details remain absent
 or use caller-provided localized unknown labels — the UI invents no values.
 All cards receive callbacks; they do not navigate or mutate accounts themselves.
+
+`UiMetric` keeps prominent figures; `UiMetric.compact` uses titleMedium for
+secondary grid values, and `UiMetric.row` puts a decorative icon beside the
+label/value stack for full-width statistics. All require bounded width.
+Optional `icon` is decorative; `tone: UiMetricTone.primary/secondary/tertiary`
+selects theme text colors, never ad-hoc per-page hex values. Keep labels and
+exact locale-formatted values: colors/icons do not replace meaning. No global
+font-size override or text-scale suppression is needed for compact metrics.
 
 ## Manual catalog
 

@@ -15,3 +15,4 @@ export 'src/widgets/content_state.dart';
 export 'src/widgets/metric.dart';
 export 'src/widgets/chart.dart';
 export 'src/widgets/navigation_bar.dart';
+export 'src/widgets/segmented_control.dart';

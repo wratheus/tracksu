@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:tracksu/src/_shared/content/data/safe_html.dart';
 import 'package:tracksu/src/profile/data/profile_dto.dart';
 import 'package:tracksu/src/profile/domain/profile.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
@@ -19,6 +22,7 @@ extension ProfileDtoMapper on ProfileDto {
       statistics: statistics?.toDomain(),
       coverUri: _optionalCoverUri(coverUrl),
       rankHistory: rankHistory?.toDomain(),
+      about: page?.toDomain(Uri.https('osu.ppy.sh', '/users/$id')),
     );
   }
 
@@ -31,6 +35,31 @@ extension ProfileDtoMapper on ProfileDto {
             uri.userInfo.isEmpty
         ? uri
         : null;
+  }
+}
+
+extension ProfilePageDtoMapper on ProfilePageDto {
+  ProfileAbout? toDomain(Uri uri) {
+    final String? rendered = html?.trim();
+    final String? plain = raw?.trim();
+    if ((rendered == null || rendered.isEmpty) &&
+        (plain == null || plain.isEmpty)) {
+      return null;
+    }
+    try {
+      // Raw BBCode is readable source fallback, never reinterpreted as HTML.
+      // Bound before escaping to avoid doubling a pathological response in memory.
+      if ((rendered?.length ?? 0) > 2000000 || (plain?.length ?? 0) > 2000000) {
+        throw const FormatException('Profile page is too large.');
+      }
+      final String content = rendered != null && rendered.isNotEmpty
+          ? rendered
+          : '<p>${const HtmlEscape().convert(plain!).replaceAll('\n', '<br>')}</p>';
+      return ProfileAbout(uri: uri, safeHtml: SafeHtml.sanitize(content, uri));
+    } on FormatException {
+      // Optional presentation content must not hide valid profile statistics.
+      return ProfileAbout(uri: uri, safeHtml: null);
+    }
   }
 }
 

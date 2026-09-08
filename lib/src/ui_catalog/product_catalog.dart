@@ -170,16 +170,25 @@ final class ProductCatalogSliver extends StatelessWidget {
           countryLabel: t.profileCountry('DE'),
           statusLabel: t.profileOffline,
           metrics: <UiMetric>[
-            UiMetric(label: t.uiMetricPerformance, value: number.format(7837)),
+            UiMetric(
+              label: t.uiMetricPerformance,
+              value: number.format(7837),
+              tone: UiMetricTone.primary,
+            ),
             UiMetric(
               label: t.uiMetricGlobalRank,
               value: '#${number.format(24000)}',
             ),
-            UiMetric(
+            UiMetric.compact(
               label: t.uiMetricAccuracy,
+              icon: Icons.gps_fixed,
               value: '${decimal.format(97.59)}%',
             ),
-            UiMetric(label: t.uiMetricPlayCount, value: number.format(83770)),
+            UiMetric.row(
+              label: t.uiMetricPlayCount,
+              value: number.format(83770),
+              icon: Icons.play_circle_outline,
+            ),
           ],
         ),
       ),

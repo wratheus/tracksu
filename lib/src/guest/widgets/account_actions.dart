@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -82,35 +83,56 @@ final class _AccountActionsState extends State<AccountActions> {
               <PopupMenuEntry<_LocaleSelection>>[
                 PopupMenuItem<_LocaleSelection>(
                   value: _LocaleSelection.system,
-                  child: Text(context.t.systemLanguage),
+                  child: _LanguageLabel(label: context.t.systemLanguage),
                 ),
                 PopupMenuItem<_LocaleSelection>(
                   value: _LocaleSelection.english,
-                  child: Text(context.t.englishLanguage),
+                  child: _LanguageLabel(
+                    label: context.t.englishLanguage,
+                    countryCode: 'GB',
+                  ),
                 ),
                 PopupMenuItem<_LocaleSelection>(
                   value: _LocaleSelection.russian,
-                  child: Text(context.t.russianLanguage),
+                  child: _LanguageLabel(
+                    label: context.t.russianLanguage,
+                    countryCode: 'RU',
+                  ),
                 ),
                 PopupMenuItem<_LocaleSelection>(
                   value: _LocaleSelection.german,
-                  child: Text(context.t.germanLanguage),
+                  child: _LanguageLabel(
+                    label: context.t.germanLanguage,
+                    countryCode: 'DE',
+                  ),
                 ),
                 PopupMenuItem<_LocaleSelection>(
                   value: _LocaleSelection.french,
-                  child: Text(context.t.frenchLanguage),
+                  child: _LanguageLabel(
+                    label: context.t.frenchLanguage,
+                    countryCode: 'FR',
+                  ),
                 ),
                 PopupMenuItem<_LocaleSelection>(
                   value: _LocaleSelection.spanish,
-                  child: Text(context.t.spanishLanguage),
+                  child: _LanguageLabel(
+                    label: context.t.spanishLanguage,
+                    countryCode: 'ES',
+                  ),
                 ),
                 PopupMenuItem<_LocaleSelection>(
                   value: _LocaleSelection.japanese,
-                  child: Text(context.t.japaneseLanguage),
+                  child: _LanguageLabel(
+                    label: context.t.japaneseLanguage,
+                    countryCode: 'JP',
+                  ),
                 ),
                 PopupMenuItem<_LocaleSelection>(
                   value: _LocaleSelection.chinese,
-                  child: Text(context.t.chineseLanguage),
+                  child: _LanguageLabel(
+                    label: context.t.chineseLanguage,
+                    countryCode: 'CN',
+                  ),
                 ),
               ],
         ),
@@ -160,3 +182,23 @@ enum _LocaleSelection {
 }
 
 enum _AccountSelection { signIn, myProfile, signOut }
+
+/// Flags are decorative locale hints, never a substitute for a language name.
+final class _LanguageLabel extends StatelessWidget {
+  const _LanguageLabel({required this.label, this.countryCode});
+  final String label;
+  final String? countryCode;
+
+  @override
+  Widget build(BuildContext context) => Row(
+    spacing: UiSpace.md,
+    children: <Widget>[
+      ExcludeSemantics(
+        child: countryCode == null
+            ? const Icon(Icons.language, size: 24)
+            : OsuCountryFlag(code: countryCode!, label: label),
+      ),
+      Expanded(child: UiText.bodyMedium(label)),
+    ],
+  );
+}

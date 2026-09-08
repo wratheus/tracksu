@@ -41,6 +41,17 @@ UI exact lookup уже подключён; упоминания неподклю
 Это сверка опубликованного контракта, не подтверждение live ответов на устройстве.
 Scoring policy, scopes и API version не менялись.
 
+## Profile page / BBCode — 2026-09-08
+
+Get User включает `page` с `html` и `raw` (BBCode). Repository через mapper
+применяет общий SafeHtml text allowlist к серверному HTML; если HTML отсутствует,
+raw экранируется и показывается текстом, не как неограниченный HTML или BBCode parser.
+Большой/глубокий optional page получает fallback-ссылку, не ломает статистику.
+Shared SafeHtml/PublicWebLink извлечены из news, его правила не ослаблялись.
+Виджеты не парсят JSON; CSS/script/iframe/медиа не возвращаются в renderer.
+Включение изображений/расширенного BBCode потребует отдельного media allowlist,
+ограничений размеров/схем и проверки источников. Полный клон osu! page не обещан.
+
 ## Inventory legacy запросов
 
 | Legacy consumer | Актуальный путь и решение миграции |

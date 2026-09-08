@@ -13,6 +13,7 @@ final class Profile {
     required this.statistics,
     this.coverUri,
     this.rankHistory,
+    this.about,
   });
 
   final int id;
@@ -24,6 +25,16 @@ final class Profile {
   final ProfileStatistics? statistics;
   final Uri? coverUri;
   final ProfileRankHistory? rankHistory;
+  final ProfileAbout? about;
+}
+
+@immutable
+final class ProfileAbout {
+  const ProfileAbout({required this.uri, required this.safeHtml});
+  final Uri uri;
+
+  /// null means the optional content exceeded the safe reader's limits.
+  final String? safeHtml;
 }
 
 @immutable

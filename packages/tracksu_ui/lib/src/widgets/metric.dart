@@ -7,26 +7,111 @@ final class UiMetric extends StatelessWidget {
     required this.label,
     required this.value,
     this.detail,
+    this.icon,
+    this.tone = UiMetricTone.neutral,
     super.key,
-  });
+  }) : _layout = _MetricLayout.featured;
+  const UiMetric.compact({
+    required this.label,
+    required this.value,
+    this.detail,
+    this.icon,
+    this.tone = UiMetricTone.neutral,
+    super.key,
+  }) : _layout = _MetricLayout.compact;
+  const UiMetric.row({
+    required this.label,
+    required this.value,
+    this.detail,
+    this.icon,
+    this.tone = UiMetricTone.neutral,
+    super.key,
+  }) : _layout = _MetricLayout.row;
   final String label;
   final String value;
   final String? detail;
+  final IconData? icon;
+  final UiMetricTone tone;
+  final _MetricLayout _layout;
 
   @override
-  Widget build(BuildContext context) => MergeSemantics(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final Color valueColor = switch (tone) {
+      UiMetricTone.neutral => colors.onSurface,
+      UiMetricTone.primary => colors.primary,
+      UiMetricTone.secondary => colors.secondary,
+      UiMetricTone.tertiary => colors.tertiary,
+    };
+    final Widget heading = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: UiSpace.xs,
+      spacing: UiSpace.sm,
       children: <Widget>[
-        UiText.bodySmall(label, secondary: true),
-        UiText.metric(value),
-        if (detail != null) UiText.bodySmall(detail!, secondary: true),
+        if (icon != null)
+          ExcludeSemantics(
+            child: Icon(
+              icon,
+              size: 18,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+        Expanded(child: UiText.bodySmall(label, secondary: true)),
       ],
-    ),
-  );
+    );
+    if (_layout == _MetricLayout.row) {
+      return MergeSemantics(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: UiSpace.md,
+          children: <Widget>[
+            if (icon != null)
+              ExcludeSemantics(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: UiSpace.xs),
+                  child: Icon(
+                    icon,
+                    size: 20,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: UiSpace.xs,
+                children: <Widget>[
+                  UiText.bodySmall(label, secondary: true),
+                  UiText.titleMedium(value, color: valueColor),
+                  if (detail != null)
+                    UiText.bodySmall(detail!, secondary: true),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    return MergeSemantics(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: UiSpace.xs,
+        children: <Widget>[
+          heading,
+          if (_layout == _MetricLayout.featured)
+            UiText.metric(value, color: valueColor)
+          else
+            UiText.titleMedium(value, color: valueColor),
+          if (detail != null) UiText.bodySmall(detail!, secondary: true),
+        ],
+      ),
+    );
+  }
 }
+
+enum _MetricLayout { featured, compact, row }
+
+enum UiMetricTone { neutral, primary, secondary, tertiary }
 
 /// A short group of statistics, not an API-backed grid/list.
 final class UiMetricGroup extends StatelessWidget {

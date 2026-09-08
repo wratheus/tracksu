@@ -66,21 +66,15 @@ final class OsuRulesetSelector extends StatelessWidget {
       };
 
   @override
-  Widget build(BuildContext context) => Wrap(
-    spacing: UiSpace.sm,
-    runSpacing: UiSpace.sm,
-    children: ProfileRuleset.values
+  Widget build(BuildContext context) => UiSegmentedControl<ProfileRuleset>(
+    selected: selected,
+    onChanged: onChanged,
+    segments: ProfileRuleset.values
         .map(
-          (ProfileRuleset ruleset) => ChoiceChip(
-            avatar: ExcludeSemantics(child: OsuRulesetIcon(ruleset: ruleset)),
-            label: Text(label(context, ruleset)),
-            selected: selected == ruleset,
-            showCheckmark: false,
-            onSelected: onChanged == null
-                ? null
-                : (bool value) {
-                    if (value) onChanged!(ruleset);
-                  },
+          (ProfileRuleset ruleset) => UiSegment<ProfileRuleset>(
+            value: ruleset,
+            icon: OsuRulesetIcon(ruleset: ruleset),
+            label: label(context, ruleset),
           ),
         )
         .toList(growable: false),

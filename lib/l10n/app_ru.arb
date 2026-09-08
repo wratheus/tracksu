@@ -1,4 +1,9 @@
 {
+  "profileAbout": "О себе",
+  "profileAboutNotice": "Текстовая версия профиля osu!. Картинки, вставки и сложное оформление доступны в оригинале. Если готового HTML нет, BBCode показан обычным текстом.",
+  "profileOriginal": "Открыть профиль на osu!",
+  "profileLinkFailed": "Не удалось открыть ссылку.",
+  "profileAboutUnavailable": "Этот блок нельзя безопасно отобразить. Можно открыть оригинал на osu!.",
   "profileTitle": "Профиль игрока",
   "profileOverview": "Обзор",
   "profilePpLabel": "Очки производительности (PP)",

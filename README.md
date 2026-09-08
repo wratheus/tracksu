@@ -35,6 +35,11 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   content and scroll. Changing ruleset keeps the previous profile visible while
   loading, resets the mode-specific scores, and preserves the maps section.
 - Switch between `osu!`, `osu!taiko`, `osu!catch`, and `osu!mania`.
+- A single-row tap/drag selector replaces wrapping mode chips. Secondary
+  statistics use compact icon-labelled metrics; PP and ranks have theme accents.
+- Expand About me for a safe text rendering of the server's BBCode-derived
+  HTML. Images/embeds/advanced styles remain available through the original
+  profile link; missing rendered content falls back to escaped raw text.
 - Browse best and recent passed scores with pagination.
 - Browse most-played, favourite, ranked, graveyard, and other beatmap categories.
 - Refresh each section independently without discarding already loaded content.
@@ -44,7 +49,8 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Start in Search as a guest; login is optional in the account menu.
 - Search / Rankings / News have independent retained stacks. The bottom bar
   stays visible on profile, beatmap and article details.
-- Switching tabs or tapping the active tab does not reset its content.
+- Switching tabs preserves the destination's stack. Tapping the active tab
+  returns to its root; the root's filters and scroll are not reset.
 - Android Back pops details first, then returns from a secondary tab's root
   to the retained Search tab. Only Back at the actual Search root can exit.
 - OAuth opens above the shell and closes back to the original context.

@@ -1,5 +1,5 @@
 /// Public browser links only; never forwards app API credentials.
-abstract final class NewsLink {
+abstract final class PublicWebLink {
   static Uri? resolve(String value, {required Uri base}) {
     final Uri? reference = Uri.tryParse(value.trim());
     if (reference == null || value.trim().isEmpty) return null;

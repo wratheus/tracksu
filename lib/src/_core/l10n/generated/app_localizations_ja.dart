@@ -10,6 +10,22 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get profileAbout => '自己紹介';
+
+  @override
+  String get profileAboutNotice =>
+      'osu!プロフィールのテキスト表示です。画像、埋め込み、複雑な書式は元のページで確認できます。変換済みの内容がない場合はBBCodeをそのまま表示します。';
+
+  @override
+  String get profileOriginal => 'osu!でプロフィールを開く';
+
+  @override
+  String get profileLinkFailed => 'リンクを開けませんでした。';
+
+  @override
+  String get profileAboutUnavailable => 'この部分は安全に表示できません。osu!で元のページを開いてください。';
+
+  @override
   String get profileTitle => 'プロフィール';
 
   @override

@@ -10,9 +10,11 @@ final class GuestShell extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
   void _select(int index) {
-    if (index == navigationShell.currentIndex) return;
     FocusManager.instance.primaryFocus?.unfocus();
-    navigationShell.goBranch(index);
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
   }
 
   @override

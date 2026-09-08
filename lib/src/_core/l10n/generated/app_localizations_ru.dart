@@ -10,6 +10,23 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get profileAbout => 'О себе';
+
+  @override
+  String get profileAboutNotice =>
+      'Текстовая версия профиля osu!. Картинки, вставки и сложное оформление доступны в оригинале. Если готового HTML нет, BBCode показан обычным текстом.';
+
+  @override
+  String get profileOriginal => 'Открыть профиль на osu!';
+
+  @override
+  String get profileLinkFailed => 'Не удалось открыть ссылку.';
+
+  @override
+  String get profileAboutUnavailable =>
+      'Этот блок нельзя безопасно отобразить. Можно открыть оригинал на osu!.';
+
+  @override
   String get profileTitle => 'Профиль';
 
   @override

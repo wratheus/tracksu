@@ -1,4 +1,9 @@
 {
+  "profileAbout": "自己紹介",
+  "profileAboutNotice": "osu!プロフィールのテキスト表示です。画像、埋め込み、複雑な書式は元のページで確認できます。変換済みの内容がない場合はBBCodeをそのまま表示します。",
+  "profileOriginal": "osu!でプロフィールを開く",
+  "profileLinkFailed": "リンクを開けませんでした。",
+  "profileAboutUnavailable": "この部分は安全に表示できません。osu!で元のページを開いてください。",
   "profileTitle": "プレイヤープロフィール",
   "profileOverview": "概要",
   "profilePpLabel": "パフォーマンス (PP)",

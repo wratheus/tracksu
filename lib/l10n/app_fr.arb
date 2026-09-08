@@ -1,4 +1,9 @@
 {
+  "profileAbout": "À propos de moi",
+  "profileAboutNotice": "Version texte du profil osu!. Les images, contenus intégrés et mises en forme avancées sont disponibles dans l’original. Sans contenu rendu, le BBCode est affiché en texte brut.",
+  "profileOriginal": "Ouvrir le profil sur osu!",
+  "profileLinkFailed": "Impossible d’ouvrir le lien.",
+  "profileAboutUnavailable": "Cette section ne peut pas être affichée de façon sûre. Consultez l’original sur osu!.",
   "profileTitle": "Profil du joueur",
   "profileOverview": "Aperçu",
   "profilePpLabel": "Performance (PP)",

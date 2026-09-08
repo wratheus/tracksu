@@ -11,6 +11,7 @@ final class ProfileDto {
     required this.statistics,
     required this.coverUrl,
     required this.rankHistory,
+    required this.page,
   });
 
   factory ProfileDto.fromJson(Map<String, dynamic> json) {
@@ -22,6 +23,10 @@ final class ProfileDto {
       countryCode: reader.requiredString('country_code'),
       isOnline: reader.requiredBool('is_online'),
       isSupporter: reader.requiredBool('is_supporter'),
+      page: switch (reader.optionalMap('page')) {
+        null => null,
+        final Map<String, dynamic> value => ProfilePageDto.fromJson(value),
+      },
       coverUrl: switch (reader.optionalMap('cover')) {
         null => null,
         final Map<String, dynamic> value => JsonMapReader(
@@ -52,6 +57,20 @@ final class ProfileDto {
   final ProfileStatisticsDto? statistics;
   final String? coverUrl;
   final ProfileRankHistoryDto? rankHistory;
+  final ProfilePageDto? page;
+}
+
+final class ProfilePageDto {
+  const ProfilePageDto({required this.html, required this.raw});
+  factory ProfilePageDto.fromJson(Map<String, dynamic> json) {
+    final JsonMapReader reader = JsonMapReader(json);
+    return ProfilePageDto(
+      html: reader.optionalString('html'),
+      raw: reader.optionalString('raw'),
+    );
+  }
+  final String? html;
+  final String? raw;
 }
 
 final class ProfileStatisticsDto {

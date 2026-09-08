@@ -10,6 +10,23 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get profileAbout => 'About me';
+
+  @override
+  String get profileAboutNotice =>
+      'Text view of the osu! profile. Images, embeds and advanced formatting are available in the original. If rendered content is missing, BBCode is shown as plain text.';
+
+  @override
+  String get profileOriginal => 'Open profile on osu!';
+
+  @override
+  String get profileLinkFailed => 'Could not open the link.';
+
+  @override
+  String get profileAboutUnavailable =>
+      'This profile section cannot be displayed safely. You can open the original on osu!.';
+
+  @override
   String get profileTitle => 'Profile';
 
   @override

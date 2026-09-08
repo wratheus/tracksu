@@ -10,6 +10,23 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get profileAbout => 'À propos de moi';
+
+  @override
+  String get profileAboutNotice =>
+      'Version texte du profil osu!. Les images, contenus intégrés et mises en forme avancées sont disponibles dans l’original. Sans contenu rendu, le BBCode est affiché en texte brut.';
+
+  @override
+  String get profileOriginal => 'Ouvrir le profil sur osu!';
+
+  @override
+  String get profileLinkFailed => 'Impossible d’ouvrir le lien.';
+
+  @override
+  String get profileAboutUnavailable =>
+      'Cette section ne peut pas être affichée de façon sûre. Consultez l’original sur osu!.';
+
+  @override
   String get profileTitle => 'Profil';
 
   @override

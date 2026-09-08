@@ -1,9 +1,9 @@
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' as html;
-import 'package:tracksu/src/news/domain/news_link.dart';
+import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
 
 /// Rebuild a text-only allowlisted tree. Never pass server attributes to Flutter.
-abstract final class NewsHtml {
+abstract final class SafeHtml {
   static const Set<String> _allowed = <String>{
     'p',
     'div',
@@ -62,7 +62,7 @@ abstract final class NewsHtml {
     final DocumentFragment output = DocumentFragment();
     void copy(Node node, Node parent, int depth) {
       if (depth > 100) {
-        throw const FormatException('News HTML is too deeply nested.');
+        throw const FormatException('HTML is too deeply nested.');
       }
       if (node is Text) {
         parent.nodes.add(Text(node.data));
@@ -80,7 +80,7 @@ abstract final class NewsHtml {
       if (_allowed.contains(tag)) {
         final Element element = Element.tag(tag);
         if (tag == 'a') {
-          final Uri? uri = NewsLink.resolve(
+          final Uri? uri = PublicWebLink.resolve(
             node.attributes['href'] ?? '',
             base: base,
           );
@@ -97,7 +97,7 @@ abstract final class NewsHtml {
     }
 
     if (source.length > 2000000) {
-      throw const FormatException('News HTML is too large.');
+      throw const FormatException('HTML is too large.');
     }
     for (final Node node in html.parseFragment(source).nodes) {
       copy(node, output, 0);

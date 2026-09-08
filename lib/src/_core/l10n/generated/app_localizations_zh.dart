@@ -10,6 +10,22 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get profileAbout => '关于我';
+
+  @override
+  String get profileAboutNotice =>
+      'osu! 个人资料的文字视图。图片、嵌入内容和复杂格式请查看原网页。若缺少渲染后的内容，将以纯文本显示 BBCode。';
+
+  @override
+  String get profileOriginal => '在 osu! 打开个人资料';
+
+  @override
+  String get profileLinkFailed => '无法打开链接。';
+
+  @override
+  String get profileAboutUnavailable => '无法安全显示此部分。你可以在 osu! 打开原网页。';
+
+  @override
   String get profileTitle => '个人资料';
 
   @override

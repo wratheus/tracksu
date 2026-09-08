@@ -3,7 +3,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/news/domain/news.dart';
-import 'package:tracksu/src/news/domain/news_link.dart';
+import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -35,7 +35,10 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
   bool _opening = false;
   Future<bool> _open(String value) async {
     if (_opening) return true;
-    final Uri? uri = NewsLink.resolve(value, base: widget.article.post.uri);
+    final Uri? uri = PublicWebLink.resolve(
+      value,
+      base: widget.article.post.uri,
+    );
     setState(() => _opening = true);
     try {
       if (uri == null ||

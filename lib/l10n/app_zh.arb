@@ -1,4 +1,9 @@
 {
+  "profileAbout": "关于我",
+  "profileAboutNotice": "osu! 个人资料的文字视图。图片、嵌入内容和复杂格式请查看原网页。若缺少渲染后的内容，将以纯文本显示 BBCode。",
+  "profileOriginal": "在 osu! 打开个人资料",
+  "profileLinkFailed": "无法打开链接。",
+  "profileAboutUnavailable": "无法安全显示此部分。你可以在 osu! 打开原网页。",
   "profileTitle": "玩家资料",
   "profileOverview": "概览",
   "profilePpLabel": "表现分 (PP)",
