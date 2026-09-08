@@ -32,6 +32,12 @@ final class JsonMapReader {
     };
   }
 
+  String? optionalString(String key) => switch (_json[key]) {
+    null => null,
+    final String value => value,
+    _ => throw FormatException('$key must be a string or null.'),
+  };
+
   int requiredInt(String key, {bool positive = false}) {
     return switch (_json[key]) {
       final int value when !positive || value > 0 => value,

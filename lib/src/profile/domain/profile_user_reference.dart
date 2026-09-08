@@ -1,6 +1,19 @@
 sealed class ProfileUserReference {
   const ProfileUserReference();
 
+  factory ProfileUserReference.fromInput(String input) {
+    final String value = input.trim();
+    if (value.startsWith('@')) return ProfileUsername(value);
+    if (RegExp(r'^[+-]?[0-9]+$').hasMatch(value)) {
+      final int? id = int.tryParse(value);
+      if (id == null) {
+        throw ArgumentError.value(input, 'input', 'User ID is too large.');
+      }
+      return ProfileUserId(id);
+    }
+    return ProfileUsername(value);
+  }
+
   String get apiValue;
 }
 

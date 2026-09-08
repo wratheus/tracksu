@@ -10,6 +10,108 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get profileTitle => '个人资料';
+
+  @override
+  String get profileOverview => '概览';
+
+  @override
+  String get profilePpLabel => '表现分 (PP)';
+
+  @override
+  String get profileGlobalRankLabel => '全球排名';
+
+  @override
+  String get profileCountryRankLabel => '地区排名';
+
+  @override
+  String get profileStatisticsTitle => '统计';
+
+  @override
+  String get profileAccuracyLabel => '准确率';
+
+  @override
+  String get profilePlayCountLabel => '游玩次数';
+
+  @override
+  String get profilePlayTimeLabel => '游玩时间';
+
+  @override
+  String get profileComboLabel => '最高连击';
+
+  @override
+  String get profileValueUnavailable => '暂无数据';
+
+  @override
+  String get profileGradesTitle => '成绩等级';
+
+  @override
+  String get profileRankedScoreLabel => '排名总分';
+
+  @override
+  String get profileTotalScoreLabel => '总分';
+
+  @override
+  String get profileTotalHitsLabel => '总击中数';
+
+  @override
+  String get profileReplaysLabel => '他人观看回放次数';
+
+  @override
+  String get profileHistoryTitle => '排名历史';
+
+  @override
+  String get profileHistoryEmpty => '此模式暂无排名历史。';
+
+  @override
+  String get profileHistoryExplanation => '按 API 记录顺序显示，并非日历日期。断线表示排名数据缺失。';
+
+  @override
+  String get profileSwitchingMode => '正在加载所选模式，当前仍显示上一模式的数据。';
+
+  @override
+  String get profileUpdateFailed => '更新失败，已保留原有数据和模式。';
+
+  @override
+  String profileDuration(int hours, int minutes) {
+    final intl.NumberFormat hoursNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String hoursString = hoursNumberFormat.format(hours);
+    final intl.NumberFormat minutesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String minutesString = minutesNumberFormat.format(minutes);
+
+    return '$hoursString小时$minutesString分钟';
+  }
+
+  @override
+  String profileLevel(int level) {
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return '等级 $levelString';
+  }
+
+  @override
+  String profileLevelProgress(int progress) {
+    final intl.NumberFormat progressNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String progressString = progressNumberFormat.format(progress);
+
+    return '距离下一等级的进度：$progressString%';
+  }
+
+  @override
+  String profileHistorySample(int index) {
+    final intl.NumberFormat indexNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String indexString = indexNumberFormat.format(index);
+
+    return '记录 $indexString';
+  }
+
+  @override
   String get navigationSearch => '搜索';
 
   @override
@@ -236,9 +338,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get viewMyProfile => '查看我的资料';
-
-  @override
-  String get profileTitle => '个人资料';
 
   @override
   String get profileSearchHint => '用户名或 ID';

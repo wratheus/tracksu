@@ -10,6 +10,109 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get profileTitle => 'プロフィール';
+
+  @override
+  String get profileOverview => '概要';
+
+  @override
+  String get profilePpLabel => 'パフォーマンス (PP)';
+
+  @override
+  String get profileGlobalRankLabel => '世界ランキング';
+
+  @override
+  String get profileCountryRankLabel => '国内ランキング';
+
+  @override
+  String get profileStatisticsTitle => '統計';
+
+  @override
+  String get profileAccuracyLabel => '精度';
+
+  @override
+  String get profilePlayCountLabel => 'プレイ回数';
+
+  @override
+  String get profilePlayTimeLabel => 'プレイ時間';
+
+  @override
+  String get profileComboLabel => '最大コンボ';
+
+  @override
+  String get profileValueUnavailable => 'データなし';
+
+  @override
+  String get profileGradesTitle => '成績ランク';
+
+  @override
+  String get profileRankedScoreLabel => 'ランクスコア';
+
+  @override
+  String get profileTotalScoreLabel => '合計スコア';
+
+  @override
+  String get profileTotalHitsLabel => '総ヒット数';
+
+  @override
+  String get profileReplaysLabel => '他の人によるリプレイ視聴数';
+
+  @override
+  String get profileHistoryTitle => 'ランキング履歴';
+
+  @override
+  String get profileHistoryEmpty => 'このモードのランキング履歴はありません。';
+
+  @override
+  String get profileHistoryExplanation =>
+      'APIの記録順です。日付ではありません。途切れた部分は順位データがありません。';
+
+  @override
+  String get profileSwitchingMode => '選択したモードを読み込み中です。前のモードのデータを表示しています。';
+
+  @override
+  String get profileUpdateFailed => '更新できませんでした。前のデータとモードを保持しています。';
+
+  @override
+  String profileDuration(int hours, int minutes) {
+    final intl.NumberFormat hoursNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String hoursString = hoursNumberFormat.format(hours);
+    final intl.NumberFormat minutesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String minutesString = minutesNumberFormat.format(minutes);
+
+    return '$hoursString時間$minutesString分';
+  }
+
+  @override
+  String profileLevel(int level) {
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return 'レベル $levelString';
+  }
+
+  @override
+  String profileLevelProgress(int progress) {
+    final intl.NumberFormat progressNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String progressString = progressNumberFormat.format(progress);
+
+    return '次のレベルまでの進捗 $progressString%';
+  }
+
+  @override
+  String profileHistorySample(int index) {
+    final intl.NumberFormat indexNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String indexString = indexNumberFormat.format(index);
+
+    return '記録 $indexString';
+  }
+
+  @override
   String get navigationSearch => '検索';
 
   @override
@@ -239,9 +342,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get viewMyProfile => '自分のプロフィールを表示';
-
-  @override
-  String get profileTitle => 'プロフィール';
 
   @override
   String get profileSearchHint => 'ユーザー名またはID';

@@ -26,6 +26,15 @@
 
 ### Added
 
+- Product profile overview with API-backed cover, level progress, grade counts,
+  optional score/hit/replay totals and rank history. Metrics use separate labels
+  and locale-aware values; nullable ranks/play time no longer become fake zeros.
+  Overview / Scores / Maps retain visited sections, scroll and local Blocs.
+  Ruleset switching preserves previous data, handles latest-wins responses and
+  retries the failed mode; only the score section resets on a successful switch.
+  Rank charts support explicit gaps and isolated observations without invented
+  dates. Added 25 messages in all seven locales and tightened numeric ID input.
+
 - Stateful Search / Rankings / News navigation with go_router 18: independent
   lazy branch stacks, persistent themed UiNavigationBar on details, retained
   tab content and Android Back-to-Search root policy. Separate guest search

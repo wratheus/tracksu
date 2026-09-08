@@ -22,7 +22,3 @@ final class ProfileRulesetSelected extends ProfileEvent {
 final class ProfileRefreshRequested extends ProfileEvent {
   const ProfileRefreshRequested();
 }
-
-final class ProfileCleared extends ProfileEvent {
-  const ProfileCleared();
-}

@@ -10,6 +10,111 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profileOverview => 'Overview';
+
+  @override
+  String get profilePpLabel => 'Performance (PP)';
+
+  @override
+  String get profileGlobalRankLabel => 'Global rank';
+
+  @override
+  String get profileCountryRankLabel => 'Country rank';
+
+  @override
+  String get profileStatisticsTitle => 'Statistics';
+
+  @override
+  String get profileAccuracyLabel => 'Accuracy';
+
+  @override
+  String get profilePlayCountLabel => 'Play count';
+
+  @override
+  String get profilePlayTimeLabel => 'Play time';
+
+  @override
+  String get profileComboLabel => 'Maximum combo';
+
+  @override
+  String get profileValueUnavailable => 'Unavailable';
+
+  @override
+  String get profileGradesTitle => 'Score grades';
+
+  @override
+  String get profileRankedScoreLabel => 'Ranked score';
+
+  @override
+  String get profileTotalScoreLabel => 'Total score';
+
+  @override
+  String get profileTotalHitsLabel => 'Total hits';
+
+  @override
+  String get profileReplaysLabel => 'Replays watched by others';
+
+  @override
+  String get profileHistoryTitle => 'Rank history';
+
+  @override
+  String get profileHistoryEmpty => 'No rank history for this mode.';
+
+  @override
+  String get profileHistoryExplanation =>
+      'API observations in order, not calendar dates. Gaps mean unavailable ranks.';
+
+  @override
+  String get profileSwitchingMode =>
+      'Loading the selected mode. Previous mode data is still shown.';
+
+  @override
+  String get profileUpdateFailed =>
+      'Update failed. Previous data and mode are kept.';
+
+  @override
+  String profileDuration(int hours, int minutes) {
+    final intl.NumberFormat hoursNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String hoursString = hoursNumberFormat.format(hours);
+    final intl.NumberFormat minutesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String minutesString = minutesNumberFormat.format(minutes);
+
+    return '$hoursString h $minutesString min';
+  }
+
+  @override
+  String profileLevel(int level) {
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return 'Level $levelString';
+  }
+
+  @override
+  String profileLevelProgress(int progress) {
+    final intl.NumberFormat progressNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String progressString = progressNumberFormat.format(progress);
+
+    return 'Level progress: $progressString%';
+  }
+
+  @override
+  String profileHistorySample(int index) {
+    final intl.NumberFormat indexNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String indexString = indexNumberFormat.format(index);
+
+    return 'Observation $indexString';
+  }
+
+  @override
   String get navigationSearch => 'Search';
 
   @override
@@ -250,9 +355,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewMyProfile => 'View my profile';
-
-  @override
-  String get profileTitle => 'Profile';
 
   @override
   String get profileSearchHint => 'Username or ID';

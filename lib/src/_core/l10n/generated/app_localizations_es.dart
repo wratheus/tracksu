@@ -10,6 +10,111 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get profileTitle => 'Perfil';
+
+  @override
+  String get profileOverview => 'Resumen';
+
+  @override
+  String get profilePpLabel => 'Rendimiento (PP)';
+
+  @override
+  String get profileGlobalRankLabel => 'Clasificación mundial';
+
+  @override
+  String get profileCountryRankLabel => 'Clasificación nacional';
+
+  @override
+  String get profileStatisticsTitle => 'Estadísticas';
+
+  @override
+  String get profileAccuracyLabel => 'Precisión';
+
+  @override
+  String get profilePlayCountLabel => 'Partidas jugadas';
+
+  @override
+  String get profilePlayTimeLabel => 'Tiempo de juego';
+
+  @override
+  String get profileComboLabel => 'Combo máximo';
+
+  @override
+  String get profileValueUnavailable => 'No disponible';
+
+  @override
+  String get profileGradesTitle => 'Calificaciones';
+
+  @override
+  String get profileRankedScoreLabel => 'Puntuación clasificada';
+
+  @override
+  String get profileTotalScoreLabel => 'Puntuación total';
+
+  @override
+  String get profileTotalHitsLabel => 'Total de aciertos';
+
+  @override
+  String get profileReplaysLabel => 'Repeticiones vistas por otros';
+
+  @override
+  String get profileHistoryTitle => 'Historial de clasificación';
+
+  @override
+  String get profileHistoryEmpty => 'No hay historial para este modo.';
+
+  @override
+  String get profileHistoryExplanation =>
+      'Observaciones de la API en orden, no fechas. Los huecos indican rangos no disponibles.';
+
+  @override
+  String get profileSwitchingMode =>
+      'Cargando el modo seleccionado. Se muestran los datos del modo anterior.';
+
+  @override
+  String get profileUpdateFailed =>
+      'No se pudo actualizar. Se conservan los datos y el modo anteriores.';
+
+  @override
+  String profileDuration(int hours, int minutes) {
+    final intl.NumberFormat hoursNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String hoursString = hoursNumberFormat.format(hours);
+    final intl.NumberFormat minutesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String minutesString = minutesNumberFormat.format(minutes);
+
+    return '$hoursString h $minutesString min';
+  }
+
+  @override
+  String profileLevel(int level) {
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return 'Nivel $levelString';
+  }
+
+  @override
+  String profileLevelProgress(int progress) {
+    final intl.NumberFormat progressNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String progressString = progressNumberFormat.format(progress);
+
+    return '$progressString% hacia el siguiente nivel';
+  }
+
+  @override
+  String profileHistorySample(int index) {
+    final intl.NumberFormat indexNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String indexString = indexNumberFormat.format(index);
+
+    return 'Observación $indexString';
+  }
+
+  @override
   String get navigationSearch => 'Buscar';
 
   @override
@@ -256,9 +361,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get viewMyProfile => 'Ver mi perfil';
-
-  @override
-  String get profileTitle => 'Perfil';
 
   @override
   String get profileSearchHint => 'Nombre de usuario o ID';

@@ -45,7 +45,12 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         _hasTarget = true;
         ruleset = state.ruleset;
       case ProfileRulesetSelected(:final value):
-        if (value == state.ruleset) {
+        final ProfileRuleset selected = switch (state) {
+          ProfileLoadedState(:final requestedRuleset) =>
+            requestedRuleset ?? state.ruleset,
+          _ => state.ruleset,
+        };
+        if (value == selected) {
           return;
         }
         ruleset = value;
@@ -53,24 +58,18 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           emit(ProfileInitialState(ruleset: ruleset));
           return;
         }
+        if (state case final ProfileLoadedState loaded) previous = loaded;
       case ProfileRefreshRequested():
         if (!_hasTarget || state is ProfileLoadingState) {
           return;
         }
         if (state case final ProfileLoadedState loaded) {
-          if (loaded.isRefreshing) {
+          if (loaded.isBusy) {
             return;
           }
           previous = loaded;
         }
         ruleset = state.ruleset;
-      case ProfileCleared():
-        _generation++;
-        _repository.cancelPending();
-        _hasTarget = false;
-        _user = null;
-        emit(ProfileInitialState(ruleset: state.ruleset));
-        return;
     }
     final int generation = ++_generation;
     final ProfileUserReference? user = _user;
@@ -78,9 +77,10 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       previous == null
           ? ProfileLoadingState(ruleset: ruleset)
           : ProfileLoadedState(
-              ruleset: ruleset,
+              ruleset: previous.ruleset,
               profile: previous.profile,
-              isRefreshing: true,
+              isRefreshing: ruleset == previous.ruleset,
+              requestedRuleset: ruleset == previous.ruleset ? null : ruleset,
             ),
     );
     try {
@@ -108,9 +108,10 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         previous == null
             ? ProfileFailureState(ruleset: ruleset, failure: kind)
             : ProfileLoadedState(
-                ruleset: ruleset,
+                ruleset: previous.ruleset,
                 profile: previous.profile,
                 refreshFailure: kind,
+                failedRuleset: ruleset == previous.ruleset ? null : ruleset,
               ),
       );
     }

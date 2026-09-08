@@ -20,10 +20,17 @@ final class ProfileLoadedState extends ProfileState {
     required this.profile,
     this.isRefreshing = false,
     this.refreshFailure,
+    this.requestedRuleset,
+    this.failedRuleset,
   });
   final Profile profile;
   final bool isRefreshing;
   final ProfileFailureKind? refreshFailure;
+
+  /// ruleset still describes the visible data until the requested mode loads.
+  final ProfileRuleset? requestedRuleset;
+  final ProfileRuleset? failedRuleset;
+  bool get isBusy => isRefreshing || requestedRuleset != null;
 }
 
 final class ProfileFailureState extends ProfileState {

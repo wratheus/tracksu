@@ -10,6 +10,111 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get profileTitle => 'Профиль';
+
+  @override
+  String get profileOverview => 'Обзор';
+
+  @override
+  String get profilePpLabel => 'Очки производительности (PP)';
+
+  @override
+  String get profileGlobalRankLabel => 'Мировой рейтинг';
+
+  @override
+  String get profileCountryRankLabel => 'Рейтинг страны';
+
+  @override
+  String get profileStatisticsTitle => 'Статистика';
+
+  @override
+  String get profileAccuracyLabel => 'Точность';
+
+  @override
+  String get profilePlayCountLabel => 'Количество игр';
+
+  @override
+  String get profilePlayTimeLabel => 'Время игры';
+
+  @override
+  String get profileComboLabel => 'Максимальное комбо';
+
+  @override
+  String get profileValueUnavailable => 'Нет данных';
+
+  @override
+  String get profileGradesTitle => 'Оценки результатов';
+
+  @override
+  String get profileRankedScoreLabel => 'Рейтинговые очки';
+
+  @override
+  String get profileTotalScoreLabel => 'Всего очков';
+
+  @override
+  String get profileTotalHitsLabel => 'Всего попаданий';
+
+  @override
+  String get profileReplaysLabel => 'Просмотры повторов другими';
+
+  @override
+  String get profileHistoryTitle => 'История рейтинга';
+
+  @override
+  String get profileHistoryEmpty => 'Для этого режима нет истории рейтинга.';
+
+  @override
+  String get profileHistoryExplanation =>
+      'Наблюдения API по порядку, не календарные даты. Разрывы — отсутствующие значения рейтинга.';
+
+  @override
+  String get profileSwitchingMode =>
+      'Загружаем выбранный режим. Пока показаны данные предыдущего.';
+
+  @override
+  String get profileUpdateFailed =>
+      'Обновление не удалось. Сохранены прежние данные и режим.';
+
+  @override
+  String profileDuration(int hours, int minutes) {
+    final intl.NumberFormat hoursNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String hoursString = hoursNumberFormat.format(hours);
+    final intl.NumberFormat minutesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String minutesString = minutesNumberFormat.format(minutes);
+
+    return '$hoursString ч $minutesString мин';
+  }
+
+  @override
+  String profileLevel(int level) {
+    final intl.NumberFormat levelNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String levelString = levelNumberFormat.format(level);
+
+    return 'Уровень $levelString';
+  }
+
+  @override
+  String profileLevelProgress(int progress) {
+    final intl.NumberFormat progressNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String progressString = progressNumberFormat.format(progress);
+
+    return 'Прогресс уровня: $progressString%';
+  }
+
+  @override
+  String profileHistorySample(int index) {
+    final intl.NumberFormat indexNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String indexString = indexNumberFormat.format(index);
+
+    return 'Наблюдение $indexString';
+  }
+
+  @override
   String get navigationSearch => 'Поиск';
 
   @override
@@ -253,9 +358,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get viewMyProfile => 'Мой профиль';
-
-  @override
-  String get profileTitle => 'Профиль';
 
   @override
   String get profileSearchHint => 'Имя пользователя или ID';

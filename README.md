@@ -28,6 +28,12 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   is treated as a user ID.
 - View global and country rank, performance points, accuracy, play count, play
   time, maximum combo, and other available statistics.
+- Real profile covers, level progress, grade counts and additional score/hit
+  totals are displayed when available. Missing ranks are not shown as rank zero.
+- Rank history uses API observations with visible gaps, not invented dates.
+- Overview / Scores / Maps are separate lazy sections that retain visited
+  content and scroll. Changing ruleset keeps the previous profile visible while
+  loading, resets the mode-specific scores, and preserves the maps section.
 - Switch between `osu!`, `osu!taiko`, `osu!catch`, and `osu!mania`.
 - Browse best and recent passed scores with pagination.
 - Browse most-played, favourite, ranked, graveyard, and other beatmap categories.

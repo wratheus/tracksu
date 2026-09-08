@@ -20,6 +20,27 @@
 - `Accept-Language` не фиксируем до P07.1: источник locale должен быть один,
   а не случайный заголовок каждого endpoint.
 
+## Profile P09 product projection — 2026-09-08
+
+Сверено с [UserExtended](https://osu.ppy.sh/docs/index.html#userextended) и
+[UserStatistics](https://osu.ppy.sh/docs/index.html#userstatistics): source
+возвращает raw map прежнего endpoint, repository создаёт DTO/domain.
+UI exact lookup уже подключён; упоминания неподключённого UI в foundation ниже — история.
+
+- `cover.url` вместо deprecated `cover_url`; отсутствующий/невалидный HTTPS
+  URL даёт media fallback, без нового запроса и без срыва всего профиля.
+- `play_time` допускает null. `level.current/progress`, `grade_counts`
+  (`ss/ssh/s/sh/a`), `ranked_score/total_score/total_hits/replays_watched_by_others`
+  преобразуются в отдельную domain-проекцию; отсутствующие optional поля не
+  подменяются нулями. Неверный тип присутствующего поля — invalidResponse.
+- `rank_history.mode/data` содержит последовательность без временных меток
+  отдельных точек. UI показывает порядковые наблюдения только текущего режима;
+  null/0 — разрыв, не rank 0. Не приписываем календарные даты и не соединяем
+  пропуски. Неизвестный режим пропускается, неверный тип данных отклоняется.
+
+Это сверка опубликованного контракта, не подтверждение live ответов на устройстве.
+Scoring policy, scopes и API version не менялись.
+
 ## Inventory legacy запросов
 
 | Legacy consumer | Актуальный путь и решение миграции |

@@ -27,8 +27,7 @@ final class _SearchHomeState extends State<SearchHome> {
     final String value = _query.text.trim();
     final ProfileUserReference user;
     try {
-      final int? id = int.tryParse(value);
-      user = id == null ? ProfileUsername(value) : ProfileUserId(id);
+      user = ProfileUserReference.fromInput(value);
     } on ArgumentError {
       setState(() => _invalid = true);
       return;

@@ -34,6 +34,7 @@ final class ProductCatalogSliver extends StatelessWidget {
       for (int i = 0; i < 9; i++)
         UiChartPoint(
           x: i.toDouble(),
+          breakBefore: i == 4,
           value: <double>[
             26000,
             25740,

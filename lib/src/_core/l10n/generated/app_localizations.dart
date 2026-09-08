@@ -108,6 +108,156 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Player profile screen title.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// Player profile UI: Overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get profileOverview;
+
+  /// Metric heading only, without a duplicated numeric value.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance (PP)'**
+  String get profilePpLabel;
+
+  /// Player profile UI: Global rank.
+  ///
+  /// In en, this message translates to:
+  /// **'Global rank'**
+  String get profileGlobalRankLabel;
+
+  /// Player profile UI: Country rank.
+  ///
+  /// In en, this message translates to:
+  /// **'Country rank'**
+  String get profileCountryRankLabel;
+
+  /// Player profile UI: Statistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get profileStatisticsTitle;
+
+  /// Player profile UI: Accuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get profileAccuracyLabel;
+
+  /// Player profile UI: Play count.
+  ///
+  /// In en, this message translates to:
+  /// **'Play count'**
+  String get profilePlayCountLabel;
+
+  /// Player profile UI: Play time.
+  ///
+  /// In en, this message translates to:
+  /// **'Play time'**
+  String get profilePlayTimeLabel;
+
+  /// Player profile UI: Maximum combo.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum combo'**
+  String get profileComboLabel;
+
+  /// Player profile UI: Unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unavailable'**
+  String get profileValueUnavailable;
+
+  /// Player profile UI: Score grades.
+  ///
+  /// In en, this message translates to:
+  /// **'Score grades'**
+  String get profileGradesTitle;
+
+  /// Player profile UI: Ranked score.
+  ///
+  /// In en, this message translates to:
+  /// **'Ranked score'**
+  String get profileRankedScoreLabel;
+
+  /// Player profile UI: Total score.
+  ///
+  /// In en, this message translates to:
+  /// **'Total score'**
+  String get profileTotalScoreLabel;
+
+  /// Player profile UI: Total hits.
+  ///
+  /// In en, this message translates to:
+  /// **'Total hits'**
+  String get profileTotalHitsLabel;
+
+  /// Player profile UI: Replays watched by others.
+  ///
+  /// In en, this message translates to:
+  /// **'Replays watched by others'**
+  String get profileReplaysLabel;
+
+  /// Player profile UI: Rank history.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank history'**
+  String get profileHistoryTitle;
+
+  /// Player profile UI: No rank history for this mode..
+  ///
+  /// In en, this message translates to:
+  /// **'No rank history for this mode.'**
+  String get profileHistoryEmpty;
+
+  /// Rank history has no per-observation timestamps. Missing ranks are not interpolated.
+  ///
+  /// In en, this message translates to:
+  /// **'API observations in order, not calendar dates. Gaps mean unavailable ranks.'**
+  String get profileHistoryExplanation;
+
+  /// Player profile UI: Loading the selected mode. Previous mode data is still shown..
+  ///
+  /// In en, this message translates to:
+  /// **'Loading the selected mode. Previous mode data is still shown.'**
+  String get profileSwitchingMode;
+
+  /// Player profile UI: Update failed. Previous data and mode are kept..
+  ///
+  /// In en, this message translates to:
+  /// **'Update failed. Previous data and mode are kept.'**
+  String get profileUpdateFailed;
+
+  /// Play duration in whole hours and remaining minutes, not rounded days.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h {minutes} min'**
+  String profileDuration(int hours, int minutes);
+
+  /// Player profile UI: Level {level}.
+  ///
+  /// In en, this message translates to:
+  /// **'Level {level}'**
+  String profileLevel(int level);
+
+  /// Progress within the current level on a 0-100 scale; not remaining percent.
+  ///
+  /// In en, this message translates to:
+  /// **'Level progress: {progress}%'**
+  String profileLevelProgress(int progress);
+
+  /// Index in the server rank history array, not an inferred day/date.
+  ///
+  /// In en, this message translates to:
+  /// **'Observation {index}'**
+  String profileHistorySample(int index);
+
   /// Label of the persistent search navigation destination.
   ///
   /// In en, this message translates to:
@@ -563,12 +713,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View my profile'**
   String get viewMyProfile;
-
-  /// Player profile screen title.
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get profileTitle;
 
   /// Search field hint accepting a username or numeric player ID.
   ///

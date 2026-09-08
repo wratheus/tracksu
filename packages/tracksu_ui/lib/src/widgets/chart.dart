@@ -10,6 +10,7 @@ final class UiChartPoint {
     required this.value,
     required this.label,
     required this.valueLabel,
+    this.breakBefore = false,
   });
   final double x;
   final double value;
@@ -17,6 +18,9 @@ final class UiChartPoint {
   /// Caller formats dates, units and numbers in its locale.
   final String label;
   final String valueLabel;
+
+  /// Start a new line segment after missing observations; never interpolate gaps.
+  final bool breakBefore;
 }
 
 enum _ChartStyle { line, bars }
@@ -306,8 +310,13 @@ final class _ChartPainter extends CustomPainter {
       }
     } else {
       final Path line = Path()..moveTo(positions.first.dx, positions.first.dy);
-      for (final Offset point in positions.skip(1)) {
-        line.lineTo(point.dx, point.dy);
+      for (int i = 1; i < positions.length; i++) {
+        final Offset point = positions[i];
+        if (points[i].breakBefore) {
+          line.moveTo(point.dx, point.dy);
+        } else {
+          line.lineTo(point.dx, point.dy);
+        }
       }
       canvas.drawPath(
         line,
@@ -317,6 +326,10 @@ final class _ChartPainter extends CustomPainter {
           ..strokeWidth = 2
           ..strokeJoin = StrokeJoin.round,
       );
+      // Isolated observations remain visible even when there is no segment.
+      for (final Offset point in positions) {
+        canvas.drawCircle(point, 2, Paint()..color = color);
+      }
     }
     final Offset focus = positions[selected];
     canvas.drawLine(

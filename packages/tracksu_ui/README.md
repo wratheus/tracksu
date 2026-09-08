@@ -213,14 +213,20 @@ repositories, DTOs or new feature entry points. Existing production widgets
 remain active until the page-migration step; do not mix the new compositions
 into old pages without moving their theme and reviewing the resulting layout.
 
-### Images and assets
+### Charts and navigation
+
+Line charts accept `UiChartPoint.breakBefore` to start a new segment after
+missing observations. The caller keeps the original x coordinates and provides
+truthful labels (a rank-history index is not a calendar date). Isolated points
+remain visible. The manual rank-chart sample includes a break; chart selection
+is local state and does not rebuild the profile page or fetch data.
 
 `UiNavigationBar(items: ..., selectedIndex: ..., onSelected: ...)` uses the
 shared Material navigation theme. `UiNavigationItem` carries localized labels
 and normal/selected icons. It owns no router, stacks or reselect policy; those
 belong to the app's stateful shell. The manual catalog includes a selectable
 three-destination sample.
-
+### Images and assets
 
 Pass an `ImageProvider` (e.g. `AssetImage` or an already validated `NetworkImage`)
 or null. Null and image errors show a themed fallback; pending decoding shows

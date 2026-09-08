@@ -1,6 +1,6 @@
 # Очередь переработки Tracksu
 
-2026-09-07 · единственная активная очередь. Сверена с кодом и историей Git.
+2026-09-08 · единственная активная очередь. Сверена с кодом и историей Git.
 
 ## Сейчас
 
@@ -10,8 +10,10 @@ UI kit и raw migration dfe33f2 реализованы, но не являютс
 настройки. Для каждого среза доводим сценарий и данные, а не только виджеты.
 Stitch остаётся ориентиром. Пользователь согласовал go_router/StatefulShellRoute,
 три вкладки и Android Back из корня вторичной вкладки к сохранённому Поиску.
-Shell/отдельный Search и OAuth overlay реализованы; ближайший следующий срез —
-поиск и профиль (реальные media/метрики/удобная структура), не повторная миграция router.
+Shell/отдельный Search, OAuth overlay и [продуктовый обзор профиля](work/P09-profile-product.md)
+реализованы. Ближайший следующий срез — P10 результаты: читаемые карточки,
+подробности результата и переход к карте; затем covers/детали карт P10/P12.
+Partial-name/map search остаются отдельным scope после проверки API, не обещанной функцией.
 
 **P07.1 — локализация, без изменения дизайна**:
 [семь языков и стандартный ARB](work/P07.1-languages.md) реализованы,
@@ -34,7 +36,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | До analytics/release · [P01.3](work/P01.3-privacy-and-terms.md) | Data inventory, privacy notice/policy, условия, About/атрибуции, ссылки из guest/OAuth/settings и store disclosures | backlog |
 | Сейчас · [P07.1](work/P07.1-languages.md) | en/ru/de/fr/es/ja/zh, стандартный ARB template, language persistence и fallback подключены; ручная языковая проверка | awaiting_manual_check |
 | Сейчас · [P07 foundation](work/P07-ui-foundation.md) | Темы, базовые компоненты и предметный каталог: media/аватары, flags/grades/mods, карточки игрока/карты/результата/новости, метрики, line/bar charts, content states. Код реализован; ручная оценка каталога перед переносом страниц | awaiting_manual_check |
-| 1 · [P09](work/P09-profile-explorer.md) | Ручная проверка гостевого поиска, четырёх ruleset, ошибок/refresh и optional /me; исправления по результату | awaiting_manual_check |
+| 1 · [P09 профиль](work/P09-profile-product.md) | Cover, уровень/грейды/метрики/история, Обзор/Результаты/Карты и сохранение данных при смене ruleset реализованы. Ручная проверка вместе с exact lookup и optional /me | awaiting_manual_check |
 | 2 · P10 · [scores](work/P10-scores.md) / [карты](work/P10-beatmaps.md) | Best/recent и восемь категорий карт подключены: scoped Bloc, lazy slivers, refresh/load-more/retry. Ручная проверка; старые неиспользуемые consumers удалены в P16. legacy: false для scores | awaiting_manual_check |
 | 3 · [P12](work/P12-beatmap.md) | Подключены typed navigation из профиля, набор/выбор сложности, публичный top leaderboard, новые Score/mod acronyms и back. Ручная проверка; расширенные фильтры отдельно | awaiting_manual_check |
 | 4 · [P11](work/P11-rankings.md) | PP/score × четыре режима, paging, страны/mania variants, spotlights с картами и переходами подключены. Ручная проверка; старый граф удалён в P16 | awaiting_manual_check |
