@@ -204,7 +204,7 @@
   "beatmapsUnavailable": "Beatmaps konnten nicht geladen werden. Versuche es erneut.",
   "beatmapsSetFallback": "Beatmap-Set #{id}",
   "beatmapsMapFallback": "Beatmap #{id}",
-  "beatmapsPlayCount": "Gespielt: {count}",
+  "beatmapsPlayCount": "Spiele dieses Spielers: {count}",
   "beatmapTitle": "Beatmap",
   "beatmapNotFound": "Beatmap nicht gefunden.",
   "beatmapAccessDenied": "Diese Beatmap oder Rangliste ist nicht zugänglich.",

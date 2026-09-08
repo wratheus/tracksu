@@ -1,4 +1,5 @@
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
+import 'package:tracksu/src/_shared/beatmaps/domain/beatmap_metadata.dart';
 
 sealed class BeatmapParams {
   BeatmapParams(this.id) {
@@ -23,12 +24,14 @@ final class BeatmapDifficulty {
     required this.ruleset,
     required this.stars,
     required this.lengthSeconds,
+    this.bpm,
   });
   final int id;
   final String name;
   final ProfileRuleset ruleset;
   final double stars;
   final int lengthSeconds;
+  final double? bpm;
 }
 
 final class BeatmapDetails {
@@ -38,10 +41,12 @@ final class BeatmapDetails {
     required this.artist,
     required this.creator,
     required List<BeatmapDifficulty> difficulties,
+    this.metadata,
   }) : difficulties = List<BeatmapDifficulty>.unmodifiable(difficulties);
   final int id;
   final String title;
   final String artist;
   final String creator;
   final List<BeatmapDifficulty> difficulties;
+  final BeatmapMetadata? metadata;
 }

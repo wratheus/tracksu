@@ -11,6 +11,7 @@ final class OsuBeatmapCard extends StatelessWidget {
     this.badges = const <Widget>[],
     this.detail,
     this.onTap,
+    this.facts,
     super.key,
   }) : _featured = false;
   const OsuBeatmapCard.featured({
@@ -21,6 +22,7 @@ final class OsuBeatmapCard extends StatelessWidget {
     this.badges = const <Widget>[],
     this.detail,
     this.onTap,
+    this.facts,
     super.key,
   }) : _featured = true;
   final String title;
@@ -30,6 +32,9 @@ final class OsuBeatmapCard extends StatelessWidget {
   final List<Widget> badges;
   final String? detail;
   final VoidCallback? onTap;
+
+  /// Full-width metadata, not squeezed next to the optional thumbnail.
+  final Widget? facts;
   final bool _featured;
 
   @override
@@ -39,7 +44,7 @@ final class OsuBeatmapCard extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        if (_featured) UiCover(image: cover),
+        if (_featured && cover != null) UiCover(image: cover),
         Padding(
           padding: const EdgeInsets.all(UiSpace.lg),
           child: Row(
@@ -78,6 +83,16 @@ final class OsuBeatmapCard extends StatelessWidget {
             ],
           ),
         ),
+        if (facts != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              UiSpace.lg,
+              0,
+              UiSpace.lg,
+              UiSpace.lg,
+            ),
+            child: facts,
+          ),
       ],
     ),
   );

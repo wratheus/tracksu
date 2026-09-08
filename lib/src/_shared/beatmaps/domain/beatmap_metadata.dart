@@ -1,0 +1,15 @@
+/// Set-level information. Never confuse these counts with a player's plays.
+final class BeatmapMetadata {
+  const BeatmapMetadata({
+    this.coverUri,
+    this.creator,
+    this.status,
+    this.plays,
+    this.favourites,
+  });
+  final Uri? coverUri;
+  final String? creator;
+  final String? status;
+  final int? plays;
+  final int? favourites;
+}

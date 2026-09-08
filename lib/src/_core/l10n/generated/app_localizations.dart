@@ -1329,7 +1329,7 @@ abstract class AppLocalizations {
   /// Number of plays of a beatmap.
   ///
   /// In en, this message translates to:
-  /// **'Plays: {count}'**
+  /// **'Player’s plays: {count}'**
   String beatmapsPlayCount(int count);
 
   /// Single beatmap details screen title.

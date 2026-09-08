@@ -762,7 +762,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String beatmapsPlayCount(int count) {
-    return 'Игр: $count';
+    return 'Игр у игрока: $count';
   }
 
   @override

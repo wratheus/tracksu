@@ -204,7 +204,7 @@
   "beatmapsUnavailable": "Не удалось загрузить карты. Попробуйте ещё раз.",
   "beatmapsSetFallback": "Набор карт №{id}",
   "beatmapsMapFallback": "Карта №{id}",
-  "beatmapsPlayCount": "Игр: {count}",
+  "beatmapsPlayCount": "Игр у игрока: {count}",
   "beatmapTitle": "Карта",
   "beatmapNotFound": "Карта не найдена.",
   "beatmapAccessDenied": "Нет доступа к карте или таблице результатов.",

@@ -1,3 +1,5 @@
+import 'package:tracksu/src/_shared/beatmaps/domain/beatmap_metadata.dart';
+
 /// A list entry, not the full beatmap detail model.
 final class ProfileBeatmap {
   const ProfileBeatmap({
@@ -7,6 +9,9 @@ final class ProfileBeatmap {
     this.artist,
     this.difficulty,
     this.playCount,
+    this.metadata,
+    this.stars,
+    this.lengthSeconds,
   });
 
   /// Beatmap ID for most-played; beatmapset ID for the other categories.
@@ -16,6 +21,9 @@ final class ProfileBeatmap {
   final String? artist;
   final String? difficulty;
   final int? playCount;
+  final BeatmapMetadata? metadata;
+  final double? stars;
+  final int? lengthSeconds;
 }
 
 final class ProfileBeatmapsPage {

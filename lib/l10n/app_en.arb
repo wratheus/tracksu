@@ -766,7 +766,7 @@
       }
     }
   },
-  "beatmapsPlayCount": "Plays: {count}",
+  "beatmapsPlayCount": "Player’s plays: {count}",
   "@beatmapsPlayCount": {
     "description": "Number of plays of a beatmap.",
     "placeholders": {

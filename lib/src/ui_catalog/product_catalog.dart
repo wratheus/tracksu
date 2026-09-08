@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/generated/app_localizations.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
+import 'package:tracksu/src/_shared/beatmaps/domain/beatmap_metadata.dart';
+import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_facts.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -205,6 +207,12 @@ final class ProductCatalogSliver extends StatelessWidget {
             const OsuRulesetIcon(ruleset: ProfileRuleset.osu),
           ],
           detail: t.beatmapCreator('Preview Mapper'),
+          facts: const BeatmapFacts(
+            stars: 5.54,
+            bpm: 180,
+            lengthSeconds: 95,
+            metadata: BeatmapMetadata(plays: 843120, favourites: 1912),
+          ),
           onTap: preview,
         ),
       ),
@@ -219,6 +227,7 @@ final class ProductCatalogSliver extends StatelessWidget {
               difficulty: "Rean’s Insane",
               cover: _art,
               detail: t.beatmapsPlayCount(143),
+              facts: const BeatmapFacts(stars: 4.9, lengthSeconds: 252),
               onTap: preview,
             ),
             OsuBeatmapCard.compact(

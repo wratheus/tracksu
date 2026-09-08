@@ -204,7 +204,7 @@
   "beatmapsUnavailable": "无法加载谱面，请重试。",
   "beatmapsSetFallback": "谱面集 #{id}",
   "beatmapsMapFallback": "谱面 #{id}",
-  "beatmapsPlayCount": "游玩次数：{count}",
+  "beatmapsPlayCount": "该玩家的游玩次数：{count}",
   "beatmapTitle": "谱面",
   "beatmapNotFound": "未找到谱面。",
   "beatmapAccessDenied": "无法访问此谱面或排行榜。",

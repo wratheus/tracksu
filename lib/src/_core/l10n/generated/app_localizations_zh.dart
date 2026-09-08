@@ -728,7 +728,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String beatmapsPlayCount(int count) {
-    return '游玩次数：$count';
+    return '该玩家的游玩次数：$count';
   }
 
   @override

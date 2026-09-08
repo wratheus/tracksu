@@ -204,7 +204,7 @@
   "beatmapsUnavailable": "ビートマップを読み込めませんでした。もう一度お試しください。",
   "beatmapsSetFallback": "ビートマップセット #{id}",
   "beatmapsMapFallback": "ビートマップ #{id}",
-  "beatmapsPlayCount": "プレイ回数: {count}",
+  "beatmapsPlayCount": "このプレイヤーのプレイ回数: {count}",
   "beatmapTitle": "ビートマップ",
   "beatmapNotFound": "ビートマップが見つかりません。",
   "beatmapAccessDenied": "このビートマップまたはランキングにアクセスできません。",

@@ -1,4 +1,5 @@
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
+import 'package:tracksu/src/_shared/beatmaps/data/beatmap_metadata_dto.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 
@@ -19,6 +20,7 @@ final class BeatmapDetailsDto {
       final int mapId = map.requiredInt('id', positive: true);
       final double stars = map.requiredDouble('difficulty_rating');
       final int length = map.requiredInt('total_length');
+      final double? bpm = map.optionalDouble('bpm');
       if (!ids.add(mapId) ||
           map.requiredInt('beatmapset_id') != id ||
           !stars.isFinite ||
@@ -39,6 +41,7 @@ final class BeatmapDetailsDto {
           },
           stars: stars,
           lengthSeconds: length,
+          bpm: bpm != null && bpm.isFinite && bpm > 0 ? bpm : null,
         ),
       );
     }
@@ -49,6 +52,7 @@ final class BeatmapDetailsDto {
         artist: reader.requiredString('artist'),
         creator: reader.requiredString('creator'),
         difficulties: difficulties,
+        metadata: BeatmapMetadataDto.fromJson(json).toDomain(),
       ),
     );
   }

@@ -204,7 +204,7 @@
   "beatmapsUnavailable": "No se pudieron cargar los beatmaps. Inténtalo de nuevo.",
   "beatmapsSetFallback": "Conjunto de beatmaps n.º {id}",
   "beatmapsMapFallback": "Beatmap n.º {id}",
-  "beatmapsPlayCount": "Partidas: {count}",
+  "beatmapsPlayCount": "Partidas del jugador: {count}",
   "beatmapTitle": "Beatmap",
   "beatmapNotFound": "No se encontró el beatmap.",
   "beatmapAccessDenied": "No se puede acceder a este beatmap o a su clasificación.",

@@ -1,4 +1,5 @@
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
+import 'package:tracksu/src/_shared/beatmaps/data/beatmap_metadata_dto.dart';
 import 'package:tracksu/src/profile/beatmaps/domain/beatmap.dart';
 import 'package:tracksu/src/profile/beatmaps/domain/beatmaps_query.dart';
 
@@ -11,6 +12,9 @@ final class ProfileBeatmapDto {
     this.artist,
     this.difficulty,
     this.playCount,
+    this.metadata,
+    this.stars,
+    this.lengthSeconds,
   });
 
   factory ProfileBeatmapDto.fromJson(
@@ -24,6 +28,7 @@ final class ProfileBeatmapDto {
         isBeatmapset: true,
         title: reader.requiredString('title'),
         artist: reader.requiredString('artist'),
+        metadata: BeatmapMetadataDto.fromJson(json),
       );
     }
 
@@ -55,6 +60,9 @@ final class ProfileBeatmapDto {
       artist: setReader?.requiredString('artist'),
       difficulty: mapReader?.requiredString('version'),
       playCount: count,
+      metadata: set == null ? null : BeatmapMetadataDto.fromJson(set),
+      stars: mapReader?.optionalDouble('difficulty_rating'),
+      lengthSeconds: mapReader?.optionalInt('total_length'),
     );
   }
 
@@ -64,6 +72,9 @@ final class ProfileBeatmapDto {
   final String? artist;
   final String? difficulty;
   final int? playCount;
+  final BeatmapMetadataDto? metadata;
+  final double? stars;
+  final int? lengthSeconds;
 
   ProfileBeatmap toDomain() => ProfileBeatmap(
     id: id,
@@ -72,5 +83,10 @@ final class ProfileBeatmapDto {
     artist: artist,
     difficulty: difficulty,
     playCount: playCount,
+    metadata: metadata?.toDomain(),
+    stars: stars != null && stars!.isFinite && stars! >= 0 ? stars : null,
+    lengthSeconds: lengthSeconds != null && lengthSeconds! >= 0
+        ? lengthSeconds
+        : null,
   );
 }

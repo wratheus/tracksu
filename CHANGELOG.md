@@ -26,6 +26,11 @@
 
 ### Added
 
+- Beatmap cards show optional covers, mapper/status and set-level plays/favourites;
+  player play counts remain explicitly separate. Selected difficulty exposes
+  stars, total duration and BPM when available. A lazy difficulty picker replaces
+  the long inline list above the leaderboard; missing covers need no hero placeholder.
+
 - Compact score cards now open a shared result sheet with PP, accuracy, combo,
   standardised total and exact local timestamp. Profile results retain a map
   action with the played ruleset; leaderboard results can also be inspected.

@@ -760,7 +760,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String beatmapsPlayCount(int count) {
-    return 'Plays: $count';
+    return 'Player’s plays: $count';
   }
 
   @override
