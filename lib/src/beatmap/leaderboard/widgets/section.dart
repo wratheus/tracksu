@@ -56,21 +56,21 @@ final class LeaderboardSection extends StatelessWidget {
                   itemCount: state.entries.length,
                   itemBuilder: (BuildContext context, int index) => Padding(
                     key: ValueKey<int>(state.entries[index].score.id),
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          context.t.beatmapLeaderboardPlayer(
-                            index + 1,
-                            state.entries[index].username ??
-                                context.t.beatmapPlayerId(
-                                  state.entries[index].score.userId,
-                                ),
-                          ),
-                        ),
-                        OsuScoreCard(score: state.entries[index].score),
-                      ],
+                    padding: const EdgeInsets.fromLTRB(
+                      UiSpace.lg,
+                      UiSpace.sm,
+                      UiSpace.lg,
+                      0,
+                    ),
+                    child: OsuScoreCard(
+                      score: state.entries[index].score,
+                      playerLabel: context.t.beatmapLeaderboardPlayer(
+                        index + 1,
+                        state.entries[index].username ??
+                            context.t.beatmapPlayerId(
+                              state.entries[index].score.userId,
+                            ),
+                      ),
                     ),
                   ),
                 ),

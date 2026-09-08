@@ -10,6 +10,31 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get scoreDetailsTitle => 'スコアの詳細';
+
+  @override
+  String get scoreOpenBeatmap => 'ビートマップを開く';
+
+  @override
+  String get scoreStandardisedTotal => '標準化スコア';
+
+  @override
+  String get mapSetPlays => 'セットのプレイ数';
+
+  @override
+  String get mapFavourites => 'お気に入り';
+
+  @override
+  String get mapBpm => 'BPM';
+
+  @override
+  String get profileReplayHistoryTitle => '月別リプレイ視聴数';
+
+  @override
+  String get profileReplayHistoryExplanation =>
+      'データのない月は省略されています。データがないことはゼロを意味しません。';
+
+  @override
   String get profileAbout => '自己紹介';
 
   @override

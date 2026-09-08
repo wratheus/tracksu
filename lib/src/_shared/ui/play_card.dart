@@ -42,7 +42,7 @@ final class OsuPlayCard extends StatelessWidget {
     onTap: onTap,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: UiSpace.md,
+      spacing: UiSpace.sm,
       children: <Widget>[
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,14 +58,29 @@ final class OsuPlayCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: UiSpace.xs,
                 children: <Widget>[
-                  UiText.titleMedium(title),
+                  UiText.titleMedium(
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   if (artist != null)
-                    UiText.bodySmall(artist!, secondary: true),
+                    UiText.bodySmall(
+                      artist!,
+                      secondary: true,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   if (difficulty != null)
-                    UiText.bodySmall(difficulty!, secondary: true),
+                    UiText.bodySmall(
+                      difficulty!,
+                      color: Theme.of(context).colorScheme.tertiary,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                 ],
               ),
             ),
+            if (onTap != null) const Icon(Icons.chevron_right, size: 20),
           ],
         ),
         Wrap(

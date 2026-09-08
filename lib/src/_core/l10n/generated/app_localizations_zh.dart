@@ -10,6 +10,30 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get scoreDetailsTitle => '成绩详情';
+
+  @override
+  String get scoreOpenBeatmap => '打开谱面';
+
+  @override
+  String get scoreStandardisedTotal => '标准化分数';
+
+  @override
+  String get mapSetPlays => '谱面集游玩次数';
+
+  @override
+  String get mapFavourites => '收藏数';
+
+  @override
+  String get mapBpm => 'BPM';
+
+  @override
+  String get profileReplayHistoryTitle => '每月回放观看次数';
+
+  @override
+  String get profileReplayHistoryExplanation => '不显示没有记录的月份；缺少数据不代表零。';
+
+  @override
   String get profileAbout => '关于我';
 
   @override

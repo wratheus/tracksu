@@ -1,4 +1,12 @@
 {
+  "scoreDetailsTitle": "Détails du résultat",
+  "scoreOpenBeatmap": "Ouvrir la beatmap",
+  "scoreStandardisedTotal": "Score standardisé",
+  "mapSetPlays": "Parties du set",
+  "mapFavourites": "Favoris",
+  "mapBpm": "BPM",
+  "profileReplayHistoryTitle": "Vues des replays par mois",
+  "profileReplayHistoryExplanation": "Les mois sans observations sont omis ; une donnée absente ne vaut pas zéro.",
   "profileAbout": "À propos de moi",
   "profileAboutNotice": "Les images externes se chargent automatiquement. Leurs serveurs reçoivent votre adresse IP et peuvent enregistrer les requêtes. Les contenus intégrés s’ouvrent uniquement dans l’original. Sans contenu rendu, le BBCode est affiché en texte brut.",
   "profileOriginal": "Ouvrir le profil sur osu!",

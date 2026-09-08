@@ -1,4 +1,12 @@
 {
+  "scoreDetailsTitle": "Подробности результата",
+  "scoreOpenBeatmap": "Открыть карту",
+  "scoreStandardisedTotal": "Стандартизированные очки",
+  "mapSetPlays": "Игры набора",
+  "mapFavourites": "В избранном",
+  "mapBpm": "BPM",
+  "profileReplayHistoryTitle": "Просмотры реплеев по месяцам",
+  "profileReplayHistoryExplanation": "Месяцы без наблюдений пропущены; отсутствие данных не означает ноль.",
   "profileAbout": "О себе",
   "profileAboutNotice": "Внешние изображения загружаются автоматически. Их серверы получают ваш IP-адрес и могут записывать запросы. Вставки открываются только в оригинале. Если готового HTML нет, BBCode показан обычным текстом.",
   "profileOriginal": "Открыть профиль на osu!",

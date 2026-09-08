@@ -1,4 +1,12 @@
 {
+  "scoreDetailsTitle": "Ergebnisdetails",
+  "scoreOpenBeatmap": "Beatmap öffnen",
+  "scoreStandardisedTotal": "Standardisierte Punktzahl",
+  "mapSetPlays": "Set-Spielanzahl",
+  "mapFavourites": "Favoriten",
+  "mapBpm": "BPM",
+  "profileReplayHistoryTitle": "Replay-Aufrufe pro Monat",
+  "profileReplayHistoryExplanation": "Monate ohne Beobachtungen fehlen; fehlende Daten bedeuten nicht null.",
   "profileAbout": "Über mich",
   "profileAboutNotice": "Externe Bilder werden automatisch geladen. Ihre Server erhalten deine IP-Adresse und können Anfragen protokollieren. Einbettungen öffnen sich nur im Original. Ohne gerenderten Inhalt wird BBCode als Klartext angezeigt.",
   "profileOriginal": "Profil auf osu! öffnen",

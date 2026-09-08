@@ -26,6 +26,11 @@
 
 ### Added
 
+- Compact score cards now open a shared result sheet with PP, accuracy, combo,
+  standardised total and exact local timestamp. Profile results retain a map
+  action with the played ruleset; leaderboard results can also be inspected.
+  No extra network request or replay playback is introduced.
+
 - Mode selector: removed the default Material ripple/overlay, added explicit
   bevel-shaped press/focus feedback and one clipped subtle glass blur (solid in
   high contrast). Search uses an Open profile action with exact username/ID copy,

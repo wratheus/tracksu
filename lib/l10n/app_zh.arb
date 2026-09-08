@@ -1,4 +1,12 @@
 {
+  "scoreDetailsTitle": "成绩详情",
+  "scoreOpenBeatmap": "打开谱面",
+  "scoreStandardisedTotal": "标准化分数",
+  "mapSetPlays": "谱面集游玩次数",
+  "mapFavourites": "收藏数",
+  "mapBpm": "BPM",
+  "profileReplayHistoryTitle": "每月回放观看次数",
+  "profileReplayHistoryExplanation": "不显示没有记录的月份；缺少数据不代表零。",
   "profileAbout": "关于我",
   "profileAboutNotice": "外部图片会自动加载。图片服务器会收到您的 IP 地址，并可能记录请求。嵌入内容仅在原网页打开。 若缺少渲染后的内容，将以纯文本显示 BBCode。",
   "profileOriginal": "在 osu! 打开个人资料",

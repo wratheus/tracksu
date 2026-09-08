@@ -10,6 +10,31 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get scoreDetailsTitle => 'Ergebnisdetails';
+
+  @override
+  String get scoreOpenBeatmap => 'Beatmap öffnen';
+
+  @override
+  String get scoreStandardisedTotal => 'Standardisierte Punktzahl';
+
+  @override
+  String get mapSetPlays => 'Set-Spielanzahl';
+
+  @override
+  String get mapFavourites => 'Favoriten';
+
+  @override
+  String get mapBpm => 'BPM';
+
+  @override
+  String get profileReplayHistoryTitle => 'Replay-Aufrufe pro Monat';
+
+  @override
+  String get profileReplayHistoryExplanation =>
+      'Monate ohne Beobachtungen fehlen; fehlende Daten bedeuten nicht null.';
+
+  @override
   String get profileAbout => 'Über mich';
 
   @override

@@ -10,6 +10,31 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get scoreDetailsTitle => 'Подробности результата';
+
+  @override
+  String get scoreOpenBeatmap => 'Открыть карту';
+
+  @override
+  String get scoreStandardisedTotal => 'Стандартизированные очки';
+
+  @override
+  String get mapSetPlays => 'Игры набора';
+
+  @override
+  String get mapFavourites => 'В избранном';
+
+  @override
+  String get mapBpm => 'BPM';
+
+  @override
+  String get profileReplayHistoryTitle => 'Просмотры реплеев по месяцам';
+
+  @override
+  String get profileReplayHistoryExplanation =>
+      'Месяцы без наблюдений пропущены; отсутствие данных не означает ноль.';
+
+  @override
   String get profileAbout => 'О себе';
 
   @override

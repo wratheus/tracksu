@@ -108,6 +108,54 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Cards and charts: scoreDetailsTitle; no inferred or client-calculated data.
+  ///
+  /// In en, this message translates to:
+  /// **'Result details'**
+  String get scoreDetailsTitle;
+
+  /// Cards and charts: scoreOpenBeatmap; no inferred or client-calculated data.
+  ///
+  /// In en, this message translates to:
+  /// **'Open beatmap'**
+  String get scoreOpenBeatmap;
+
+  /// Cards and charts: scoreStandardisedTotal; no inferred or client-calculated data.
+  ///
+  /// In en, this message translates to:
+  /// **'Standardised score'**
+  String get scoreStandardisedTotal;
+
+  /// Cards and charts: mapSetPlays; no inferred or client-calculated data.
+  ///
+  /// In en, this message translates to:
+  /// **'Set plays'**
+  String get mapSetPlays;
+
+  /// Cards and charts: mapFavourites; no inferred or client-calculated data.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourites'**
+  String get mapFavourites;
+
+  /// Cards and charts: mapBpm; no inferred or client-calculated data.
+  ///
+  /// In en, this message translates to:
+  /// **'BPM'**
+  String get mapBpm;
+
+  /// Cards and charts: profileReplayHistoryTitle; no inferred or client-calculated data.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay views by month'**
+  String get profileReplayHistoryTitle;
+
+  /// Cards and charts: profileReplayHistoryExplanation; no inferred or client-calculated data.
+  ///
+  /// In en, this message translates to:
+  /// **'Months without observations are omitted; missing data is not zero.'**
+  String get profileReplayHistoryExplanation;
+
   /// Safe profile About section: About me
   ///
   /// In en, this message translates to:

@@ -10,6 +10,31 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get scoreDetailsTitle => 'Detalles del resultado';
+
+  @override
+  String get scoreOpenBeatmap => 'Abrir beatmap';
+
+  @override
+  String get scoreStandardisedTotal => 'Puntuación estandarizada';
+
+  @override
+  String get mapSetPlays => 'Partidas del conjunto';
+
+  @override
+  String get mapFavourites => 'Favoritos';
+
+  @override
+  String get mapBpm => 'BPM';
+
+  @override
+  String get profileReplayHistoryTitle => 'Visualizaciones de replays por mes';
+
+  @override
+  String get profileReplayHistoryExplanation =>
+      'Se omiten los meses sin observaciones; la falta de datos no significa cero.';
+
+  @override
   String get profileAbout => 'Sobre mí';
 
   @override
