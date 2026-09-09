@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/rankings/domain/entry.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
+import 'package:tracksu/src/rankings/domain/rankings_query.dart';
 
 final class RankingEntryCard extends StatefulWidget {
   const RankingEntryCard({
     required this.entry,
     required this.onOpen,
+    required this.type,
     super.key,
   });
   final RankingEntry entry;
+  final RankingsType type;
   final Future<void> Function() onOpen;
 
   @override
@@ -34,8 +37,13 @@ final class _RankingEntryCardState extends State<RankingEntryCard> {
     username: widget.entry.username,
     countryCode: widget.entry.country,
     countryLabel: widget.entry.country,
-    performanceLabel: context.t.profilePerformance(widget.entry.pp),
-    rankLabel: context.t.rankingsRankedScore(widget.entry.rankedScore),
+    avatar: widget.entry.avatarUri == null
+        ? null
+        : NetworkImage(widget.entry.avatarUri.toString()),
+    performanceLabel: widget.type.sort == 'performance'
+        ? context.t.profilePerformance(widget.entry.pp)
+        : context.t.rankingsRankedScore(widget.entry.rankedScore),
+    rankLabel: context.t.rankingsPosition(widget.entry.position),
     onTap: _opening ? null : _open,
   );
 }

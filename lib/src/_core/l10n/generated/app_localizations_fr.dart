@@ -10,6 +10,39 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String rankingsPosition(int position) {
+    final intl.NumberFormat positionNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String positionString = positionNumberFormat.format(position);
+
+    return 'Position nº $positionString';
+  }
+
+  @override
+  String get rankingsPositionNotice =>
+      'Les positions concernent ce classement filtré, pas le rang mondial en PP. Le classement peut changer entre les pages ; actualisez pour le mettre à jour.';
+
+  @override
+  String get rankingsCountrySelection => 'Pays ou région';
+
+  @override
+  String get rankingsCountrySearch => 'Nom du pays ou code';
+
+  @override
+  String get rankingsCountryCatalogHint =>
+      'Recherchez un nom anglais ou un code à deux lettres. Certaines entrées affichent uniquement le code. La disponibilité du classement dépend d’osu!.';
+
+  @override
+  String get rankingsCountryCatalogFailed =>
+      'Impossible de charger la liste des pays.';
+
+  @override
+  String get rankingsCountryNoMatch => 'Aucun pays correspondant.';
+
+  @override
+  String get rankingsEnd => 'Fin du classement disponible.';
+
+  @override
   String get scoreHitsTitle => 'Résultats des frappes';
 
   @override
@@ -899,22 +932,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String rankingsRankedScore(int score) {
-    return 'Score classé : $score';
+    final intl.NumberFormat scoreNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String scoreString = scoreNumberFormat.format(score);
+
+    return 'Score classé : $scoreString';
   }
 
   @override
   String get rankingsCountry => 'Code du pays';
 
   @override
-  String get rankingsCountryHint =>
-      'Deux lettres, par ex. JP ou US ; laissez vide pour le classement mondial.';
-
-  @override
   String get rankingsCountryInvalid =>
       'Saisissez un code de pays à deux lettres.';
-
-  @override
-  String get rankingsApply => 'Appliquer le pays';
 
   @override
   String get rankingsWorldwide => 'Monde entier';

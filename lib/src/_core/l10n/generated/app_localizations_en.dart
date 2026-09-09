@@ -10,6 +10,38 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String rankingsPosition(int position) {
+    final intl.NumberFormat positionNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String positionString = positionNumberFormat.format(position);
+
+    return 'Position #$positionString';
+  }
+
+  @override
+  String get rankingsPositionNotice =>
+      'Positions belong to this filtered table, not global PP ranks. Live rankings can move between page loads; refresh to update.';
+
+  @override
+  String get rankingsCountrySelection => 'Country or region';
+
+  @override
+  String get rankingsCountrySearch => 'Country name or code';
+
+  @override
+  String get rankingsCountryCatalogHint =>
+      'Search English names or two-letter codes. Some entries show only a code. Ranking availability depends on osu!.';
+
+  @override
+  String get rankingsCountryCatalogFailed => 'Could not load the country list.';
+
+  @override
+  String get rankingsCountryNoMatch => 'No matching countries.';
+
+  @override
+  String get rankingsEnd => 'End of available rankings.';
+
+  @override
   String get scoreHitsTitle => 'Hit results';
 
   @override
@@ -888,21 +920,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String rankingsRankedScore(int score) {
-    return 'Ranked score: $score';
+    final intl.NumberFormat scoreNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String scoreString = scoreNumberFormat.format(score);
+
+    return 'Ranked score: $scoreString';
   }
 
   @override
   String get rankingsCountry => 'Country code';
 
   @override
-  String get rankingsCountryHint =>
-      'Two letters, e.g. JP or US; empty means worldwide.';
-
-  @override
   String get rankingsCountryInvalid => 'Enter a two-letter country code.';
-
-  @override
-  String get rankingsApply => 'Apply country';
 
   @override
   String get rankingsWorldwide => 'Worldwide';

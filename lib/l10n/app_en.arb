@@ -1,4 +1,20 @@
 {
+  "rankingsPosition": "Position #{position}",
+  "@rankingsPosition": {"description":"Position in this filtered server ranking page, not global PP rank.","placeholders":{"position":{"type":"int","format":"decimalPattern"}}},
+  "rankingsPositionNotice": "Positions belong to this filtered table, not global PP ranks. Live rankings can move between page loads; refresh to update.",
+  "@rankingsPositionNotice": {"description":"Ranking page: Positions belong to this filtered table, not global PP ranks. Live rankings can move between page loads; refresh to update."},
+  "rankingsCountrySelection": "Country or region",
+  "@rankingsCountrySelection": {"description":"Ranking page: Country or region"},
+  "rankingsCountrySearch": "Country name or code",
+  "@rankingsCountrySearch": {"description":"Ranking page: Country name or code"},
+  "rankingsCountryCatalogHint": "Search English names or two-letter codes. Some entries show only a code. Ranking availability depends on osu!.",
+  "@rankingsCountryCatalogHint": {"description":"Ranking page: Search English names or two-letter codes. Some entries show only a code. Ranking availability depends on osu!."},
+  "rankingsCountryCatalogFailed": "Could not load the country list.",
+  "@rankingsCountryCatalogFailed": {"description":"Ranking page: Could not load the country list."},
+  "rankingsCountryNoMatch": "No matching countries.",
+  "@rankingsCountryNoMatch": {"description":"Ranking page: No matching countries."},
+  "rankingsEnd": "End of available rankings.",
+  "@rankingsEnd": {"description":"Ranking page: End of available rankings."},
   "scoreHitsTitle": "Hit results",
   "@scoreHitsTitle": {"description": "Result details and shared content reader: scoreHitsTitle."},
   "scoreHitsExplanation": "API hit-result names are shown as provided. Missing counts are not zero; maximum counts describe a perfect play, not a per-row target.",
@@ -937,7 +953,8 @@
     "description": "Player's total ranked score, a number rather than a position.",
     "placeholders": {
       "score": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -945,17 +962,9 @@
   "@rankingsCountry": {
     "description": "Label for a two-letter country code filter."
   },
-  "rankingsCountryHint": "Two letters, e.g. JP or US; empty means worldwide.",
-  "@rankingsCountryHint": {
-    "description": "Country filter help; JP and US are literal examples of codes, empty means all countries."
-  },
   "rankingsCountryInvalid": "Enter a two-letter country code.",
   "@rankingsCountryInvalid": {
     "description": "Validation error for a country code that is not two letters."
-  },
-  "rankingsApply": "Apply country",
-  "@rankingsApply": {
-    "description": "Button to apply the country filter."
   },
   "rankingsWorldwide": "Worldwide",
   "@rankingsWorldwide": {

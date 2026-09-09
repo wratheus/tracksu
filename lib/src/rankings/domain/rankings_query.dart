@@ -14,6 +14,13 @@ enum RankingsType {
   final String mode;
   final String sort;
 
+  static RankingsType select(ProfileRuleset ruleset, bool performance) =>
+      values.firstWhere(
+        (RankingsType type) =>
+            type.ruleset == ruleset &&
+            (type.sort == 'performance') == performance,
+      );
+
   ProfileRuleset get ruleset => switch (this) {
     osuPerformance || osuScore => ProfileRuleset.osu,
     taikoPerformance || taikoScore => ProfileRuleset.taiko,

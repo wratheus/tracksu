@@ -10,6 +10,38 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String rankingsPosition(int position) {
+    final intl.NumberFormat positionNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String positionString = positionNumberFormat.format(position);
+
+    return '順位 #$positionString';
+  }
+
+  @override
+  String get rankingsPositionNotice =>
+      'この順位は絞り込み後の表での位置であり、世界PPランキングではありません。ページの読み込み中に順位が変わる場合があります。更新して確認してください。';
+
+  @override
+  String get rankingsCountrySelection => '国・地域';
+
+  @override
+  String get rankingsCountrySearch => '国名またはコード';
+
+  @override
+  String get rankingsCountryCatalogHint =>
+      '英語名または2文字のコードで検索できます。一部はコードのみ表示されます。ランキングの提供状況はosu!によって異なります。';
+
+  @override
+  String get rankingsCountryCatalogFailed => '国一覧を読み込めませんでした。';
+
+  @override
+  String get rankingsCountryNoMatch => '一致する国がありません。';
+
+  @override
+  String get rankingsEnd => '表示可能なランキングはここまでです。';
+
+  @override
   String get scoreHitsTitle => '判定結果';
 
   @override
@@ -861,20 +893,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String rankingsRankedScore(int score) {
-    return 'ランクスコア: $score';
+    final intl.NumberFormat scoreNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String scoreString = scoreNumberFormat.format(score);
+
+    return 'ランクスコア: $scoreString';
   }
 
   @override
   String get rankingsCountry => '国コード';
 
   @override
-  String get rankingsCountryHint => 'JPやUSなどの2文字を入力。空欄の場合は全世界が対象です。';
-
-  @override
   String get rankingsCountryInvalid => '2文字の国コードを入力してください。';
-
-  @override
-  String get rankingsApply => '国を適用';
 
   @override
   String get rankingsWorldwide => '全世界';

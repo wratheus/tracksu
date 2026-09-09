@@ -45,6 +45,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/models/countries.json
     - assets/icon_game_mods/
     - assets/icon_country_flags/
     - assets/utils/painted_logo.png

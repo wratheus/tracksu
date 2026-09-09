@@ -10,6 +10,39 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String rankingsPosition(int position) {
+    final intl.NumberFormat positionNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String positionString = positionNumberFormat.format(position);
+
+    return 'Platz #$positionString';
+  }
+
+  @override
+  String get rankingsPositionNotice =>
+      'Die Plätze gelten für diese gefilterte Tabelle, nicht für den globalen PP-Rang. Zwischen Seitenabrufen kann sich die Rangliste ändern; aktualisiere sie.';
+
+  @override
+  String get rankingsCountrySelection => 'Land oder Region';
+
+  @override
+  String get rankingsCountrySearch => 'Ländername oder Code';
+
+  @override
+  String get rankingsCountryCatalogHint =>
+      'Suche nach englischem Namen oder zweistelligem Code. Einige Einträge zeigen nur den Code. Die Verfügbarkeit der Rangliste hängt von osu! ab.';
+
+  @override
+  String get rankingsCountryCatalogFailed =>
+      'Die Länderliste konnte nicht geladen werden.';
+
+  @override
+  String get rankingsCountryNoMatch => 'Keine passenden Länder.';
+
+  @override
+  String get rankingsEnd => 'Ende der verfügbaren Rangliste.';
+
+  @override
   String get scoreHitsTitle => 'Treffergebnisse';
 
   @override
@@ -906,22 +939,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String rankingsRankedScore(int score) {
-    return 'Ranked-Punktzahl: $score';
+    final intl.NumberFormat scoreNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String scoreString = scoreNumberFormat.format(score);
+
+    return 'Ranked-Punktzahl: $scoreString';
   }
 
   @override
   String get rankingsCountry => 'Ländercode';
 
   @override
-  String get rankingsCountryHint =>
-      'Zwei Buchstaben, z. B. JP oder US; leer bedeutet weltweit.';
-
-  @override
   String get rankingsCountryInvalid =>
       'Gib einen Ländercode aus zwei Buchstaben ein.';
-
-  @override
-  String get rankingsApply => 'Land anwenden';
 
   @override
   String get rankingsWorldwide => 'Weltweit';

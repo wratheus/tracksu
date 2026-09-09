@@ -100,8 +100,12 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
       final Map<int, RankingEntry> unique = <int, RankingEntry>{
         if (operation == RankingsOperation.loadMore && previous != null)
           for (final RankingEntry entry in previous.items) entry.id: entry,
-        for (final RankingEntry entry in page.items) entry.id: entry,
       };
+      for (final RankingEntry entry in page.items) {
+        // A live ranking can move between reads. Keep earlier page snapshots
+        // in place rather than replacing them with a later page's position.
+        unique.putIfAbsent(entry.id, () => entry);
+      }
       emit(
         RankingsLoadedState(
           type: type,

@@ -108,6 +108,54 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Position in this filtered server ranking page, not global PP rank.
+  ///
+  /// In en, this message translates to:
+  /// **'Position #{position}'**
+  String rankingsPosition(int position);
+
+  /// Ranking page: Positions belong to this filtered table, not global PP ranks. Live rankings can move between page loads; refresh to update.
+  ///
+  /// In en, this message translates to:
+  /// **'Positions belong to this filtered table, not global PP ranks. Live rankings can move between page loads; refresh to update.'**
+  String get rankingsPositionNotice;
+
+  /// Ranking page: Country or region
+  ///
+  /// In en, this message translates to:
+  /// **'Country or region'**
+  String get rankingsCountrySelection;
+
+  /// Ranking page: Country name or code
+  ///
+  /// In en, this message translates to:
+  /// **'Country name or code'**
+  String get rankingsCountrySearch;
+
+  /// Ranking page: Search English names or two-letter codes. Some entries show only a code. Ranking availability depends on osu!.
+  ///
+  /// In en, this message translates to:
+  /// **'Search English names or two-letter codes. Some entries show only a code. Ranking availability depends on osu!.'**
+  String get rankingsCountryCatalogHint;
+
+  /// Ranking page: Could not load the country list.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the country list.'**
+  String get rankingsCountryCatalogFailed;
+
+  /// Ranking page: No matching countries.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching countries.'**
+  String get rankingsCountryNoMatch;
+
+  /// Ranking page: End of available rankings.
+  ///
+  /// In en, this message translates to:
+  /// **'End of available rankings.'**
+  String get rankingsEnd;
+
   /// Result details and shared content reader: scoreHitsTitle.
   ///
   /// In en, this message translates to:
@@ -1566,23 +1614,11 @@ abstract class AppLocalizations {
   /// **'Country code'**
   String get rankingsCountry;
 
-  /// Country filter help; JP and US are literal examples of codes, empty means all countries.
-  ///
-  /// In en, this message translates to:
-  /// **'Two letters, e.g. JP or US; empty means worldwide.'**
-  String get rankingsCountryHint;
-
   /// Validation error for a country code that is not two letters.
   ///
   /// In en, this message translates to:
   /// **'Enter a two-letter country code.'**
   String get rankingsCountryInvalid;
-
-  /// Button to apply the country filter.
-  ///
-  /// In en, this message translates to:
-  /// **'Apply country'**
-  String get rankingsApply;
 
   /// Label for the all-countries ranking.
   ///

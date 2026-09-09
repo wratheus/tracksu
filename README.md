@@ -68,7 +68,14 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 ### Rankings and spotlights
 
 - Browse global performance-point and score rankings for all four rulesets.
-- Filter rankings by two-letter country code.
+- Choose a country/region in a searchable, lazy picker with bundled flags.
+  Search uses the existing English names or two-letter codes; countries absent
+  from the name catalog appear by code. Availability is determined by osu!.
+- Ruleset and PP/score sorting are independent controls. Player rows show avatars,
+  the selected metric and position in that filtered table, not global PP rank.
+  Page snapshots can have position gaps when live rankings move; refresh updates them.
+- Switching filters starts at the top. Refresh/load-more and returning from a
+  player preserve scroll and existing content; refresh failures appear above it.
 - Switch osu!mania rankings between 4K and 7K variants.
 - Open any ranked player directly in the selected ruleset.
 - Browse osu! Spotlights, their beatmaps, and server-provided player charts.

@@ -46,12 +46,34 @@ final class RankingsRepositoryImpl implements RankingsRepository {
         throw const FormatException('Non-advancing cursor.');
       }
       final List<RankingEntry> rankings = <RankingEntry>[];
+      // osu-web RankingController.PAGE_SIZE = Model.PER_PAGE = 50.
+      const int pageSize = 50;
+      final int total = reader.requiredInt('total');
+      if (total < 0 || (total == 0 && payload.isNotEmpty)) {
+        throw const FormatException('Invalid ranking total.');
+      }
+      final int lastPage = total == 0 ? 1 : (total + pageSize - 1) ~/ pageSize;
+      // The server clamps a page beyond its current total. Do not label a
+      // repeated final page as new positions when the ranking shrinks.
+      if (query.page > lastPage) {
+        throw const FormatException('Ranking pages changed; refresh required.');
+      }
+      if (payload.length > pageSize) {
+        throw const FormatException('Unexpected ranking page size.');
+      }
       for (final Object? item in payload) {
         if (item is! Map<String, dynamic>) {
           throw const FormatException('Expected a entry object.');
         }
-        final RankingEntry entry = RankingEntryDto.fromJson(item).toDomain();
+        final RankingEntry entry = RankingEntryDto.fromJson(
+          item,
+          position: (query.page - 1) * pageSize + rankings.length + 1,
+        ).toDomain();
         rankings.add(entry);
+      }
+      if (rankings.map((RankingEntry entry) => entry.id).toSet().length !=
+          rankings.length) {
+        throw const FormatException('Duplicate ranking row.');
       }
       return RankingsPage(items: rankings, nextPage: next);
     } on RankingsRemoteException catch (error, stackTrace) {

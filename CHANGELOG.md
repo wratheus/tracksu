@@ -26,6 +26,13 @@
 
 ### Added
 
+- Rankings now separate ruleset and PP/score selection, show player avatars and
+  positions in the filtered table, and offer a local searchable country picker
+  with existing flag assets. Only the selected ranking metric is emphasized.
+  New filters reset scroll, while refresh/append and profile Back preserve it.
+  Cross-page duplicate players retain earlier snapshots instead of jumping
+  positions; refresh failures remain visible above the retained table.
+
 - Beatmap descriptions now reuse the profile's native rich-content reader, with
   a shared typed page model, collapsible slivers, external-image disclosure and
   original-page fallback. Removed duplicate profile-only DTO/domain/widgets and

@@ -5,12 +5,18 @@ final class RankingEntry {
     required this.country,
     required this.pp,
     required this.rankedScore,
+    required this.position,
+    this.avatarUri,
   });
   final int id;
   final String username;
   final String country;
   final double pp;
   final int rankedScore;
+
+  /// Position in the requested server page, not the user's global PP rank.
+  final int position;
+  final Uri? avatarUri;
 }
 
 final class RankingsPage {

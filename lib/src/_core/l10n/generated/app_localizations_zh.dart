@@ -10,6 +10,38 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String rankingsPosition(int position) {
+    final intl.NumberFormat positionNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String positionString = positionNumberFormat.format(position);
+
+    return '第 $positionString 名';
+  }
+
+  @override
+  String get rankingsPositionNotice =>
+      '此名次属于当前筛选后的榜单，并非全球 PP 排名。加载不同页面时排名可能变化，请刷新以更新。';
+
+  @override
+  String get rankingsCountrySelection => '国家或地区';
+
+  @override
+  String get rankingsCountrySearch => '国家名称或代码';
+
+  @override
+  String get rankingsCountryCatalogHint =>
+      '按英文名称或两字母代码搜索。部分条目仅显示代码。是否提供排名取决于 osu!。';
+
+  @override
+  String get rankingsCountryCatalogFailed => '无法加载国家列表。';
+
+  @override
+  String get rankingsCountryNoMatch => '没有匹配的国家。';
+
+  @override
+  String get rankingsEnd => '已到可用排名末尾。';
+
+  @override
   String get scoreHitsTitle => '判定结果';
 
   @override
@@ -852,20 +884,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String rankingsRankedScore(int score) {
-    return '排名分数：$score';
+    final intl.NumberFormat scoreNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String scoreString = scoreNumberFormat.format(score);
+
+    return '排名分数：$scoreString';
   }
 
   @override
   String get rankingsCountry => '国家代码';
 
   @override
-  String get rankingsCountryHint => '输入两个字母，例如 JP 或 US；留空表示全球。';
-
-  @override
   String get rankingsCountryInvalid => '请输入两个字母的国家代码。';
-
-  @override
-  String get rankingsApply => '应用国家筛选';
 
   @override
   String get rankingsWorldwide => '全球';

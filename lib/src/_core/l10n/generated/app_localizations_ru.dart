@@ -10,6 +10,39 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String rankingsPosition(int position) {
+    final intl.NumberFormat positionNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String positionString = positionNumberFormat.format(position);
+
+    return 'Место №$positionString';
+  }
+
+  @override
+  String get rankingsPositionNotice =>
+      'Места относятся к выбранной таблице, а не к мировому PP-рейтингу. Рейтинг может измениться между загрузками страниц; обновите список.';
+
+  @override
+  String get rankingsCountrySelection => 'Страна или регион';
+
+  @override
+  String get rankingsCountrySearch => 'Название страны или код';
+
+  @override
+  String get rankingsCountryCatalogHint =>
+      'Поиск по английскому названию или коду из двух букв. Часть стран указана только кодом. Доступность рейтинга зависит от osu!.';
+
+  @override
+  String get rankingsCountryCatalogFailed =>
+      'Не удалось загрузить список стран.';
+
+  @override
+  String get rankingsCountryNoMatch => 'Страны не найдены.';
+
+  @override
+  String get rankingsEnd => 'Конец доступного рейтинга.';
+
+  @override
   String get scoreHitsTitle => 'Попадания';
 
   @override
@@ -890,22 +923,19 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String rankingsRankedScore(int score) {
-    return 'Рейтинговые очки: $score';
+    final intl.NumberFormat scoreNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String scoreString = scoreNumberFormat.format(score);
+
+    return 'Рейтинговые очки: $scoreString';
   }
 
   @override
   String get rankingsCountry => 'Код страны';
 
   @override
-  String get rankingsCountryHint =>
-      'Две буквы, например JP или US; пустое поле — весь мир.';
-
-  @override
   String get rankingsCountryInvalid =>
       'Введите код страны из двух латинских букв.';
-
-  @override
-  String get rankingsApply => 'Применить страну';
 
   @override
   String get rankingsWorldwide => 'Весь мир';

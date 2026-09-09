@@ -5,7 +5,6 @@ import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/rankings/bloc/bloc.dart';
-import 'package:tracksu/src/rankings/domain/rankings_query.dart';
 import 'package:tracksu/src/rankings/domain/rankings_repository.dart';
 import 'package:tracksu/src/rankings/widgets/entry_card.dart';
 import 'package:tracksu/src/rankings/widgets/filters.dart';
@@ -19,30 +18,11 @@ final class RankingsSection extends StatelessWidget {
     slivers: <Widget>[
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(UiSpace.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 10,
+            spacing: UiSpace.md,
             children: <Widget>[
-              UiText.titleLarge(context.t.rankingsTitle),
-              BlocSelector<RankingsBloc, RankingsState, RankingsType>(
-                selector: (RankingsState state) => state.type,
-                builder: (BuildContext context, RankingsType selected) => Wrap(
-                  spacing: 10,
-                  children: <Widget>[
-                    for (final RankingsType type in RankingsType.values)
-                      ChoiceChip(
-                        selected: type == selected,
-                        label: Text(
-                          '${type.mode} · ${type.sort == "performance" ? "PP" : context.t.rankingsScore}',
-                        ),
-                        onSelected: (_) => context.read<RankingsBloc>().add(
-                          RankingsTypeSelected(type),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
               const RankingsFilters(),
               UiButton.text(
                 onPressed: () =>
@@ -64,6 +44,10 @@ final class RankingsSection extends StatelessWidget {
                   label: context.t.rankingsRefresh,
                 ),
               ),
+              UiText.bodySmall(
+                context.t.rankingsPositionNotice,
+                secondary: true,
+              ),
             ],
           ),
         ),
@@ -79,17 +63,27 @@ final class RankingsSection extends StatelessWidget {
             slivers: <Widget>[
               if (state.operation == RankingsOperation.refresh)
                 const SliverToBoxAdapter(child: _RankingsProgress()),
+              if (state.failedOperation == RankingsOperation.refresh &&
+                  state.failure != null)
+                SliverToBoxAdapter(
+                  child: _RankingsError(
+                    failure: state.failure!,
+                    failedOperation: state.failedOperation,
+                    hasContent: state.items.isNotEmpty,
+                  ),
+                ),
               if (state.items.isEmpty)
                 SliverToBoxAdapter(
                   child: UiContentState.empty(title: context.t.rankingsEmpty),
                 ),
               SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
                 sliver: SliverList.builder(
                   itemCount: state.items.length,
                   itemBuilder: (_, int index) => RankingEntryCard(
                     key: ValueKey<int>(state.items[index].id),
                     entry: state.items[index],
+                    type: state.type,
                     onOpen: () => DepsScope.of(context).appRouter.openProfile(
                       context,
                       ProfileParams(
@@ -102,7 +96,7 @@ final class RankingsSection extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
+                  padding: const EdgeInsets.only(bottom: UiSpace.xl),
                   child: switch (state) {
                     RankingsLoadedState(
                       operation: RankingsOperation.loadMore,
@@ -110,12 +104,15 @@ final class RankingsSection extends StatelessWidget {
                       const _RankingsProgress(),
                     RankingsLoadedState(
                       failure: final RankingsFailureKind failure,
+                      failedOperation: RankingsOperation.loadMore,
                     ) =>
                       _RankingsError(
                         failure: failure,
                         failedOperation: state.failedOperation,
                         hasContent: state.items.isNotEmpty,
                       ),
+                    _ when state.failedOperation == RankingsOperation.refresh =>
+                      const SizedBox.shrink(),
                     _ when state.nextPage != null => Center(
                       child: UiButton.secondary(
                         onPressed: state.operation != null
@@ -126,6 +123,13 @@ final class RankingsSection extends StatelessWidget {
                         label: context.t.rankingsLoadMore,
                       ),
                     ),
+                    _ when state.nextPage == null && state.items.isNotEmpty =>
+                      Center(
+                        child: UiText.bodySmall(
+                          context.t.rankingsEnd,
+                          secondary: true,
+                        ),
+                      ),
                     _ => const SizedBox.shrink(),
                   },
                 ),
@@ -142,8 +146,10 @@ final class _RankingsProgress extends StatelessWidget {
   const _RankingsProgress();
 
   @override
-  Widget build(BuildContext context) =>
-      UiContentState.loading(title: context.t.rankingsLoading);
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.all(UiSpace.lg),
+    child: UiLoading(label: context.t.rankingsLoading),
+  );
 }
 
 final class _RankingsError extends StatelessWidget {
