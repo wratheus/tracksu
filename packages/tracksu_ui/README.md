@@ -87,8 +87,12 @@ into fixed-height boxes. Platform page transitions are not replaced by this them
   selected value is highlighted, disabled items cannot be picked, dismiss is null.
   Values must be unique; non-null `T` distinguishes cancellation from selection.
 - `UiModal.sheet<T>`: custom short content/form. Owns scrolling and keyboard insets.
-- `UiModal.scrollable<T>`: custom bounded viewport for a lazy list or composed
-  scrollable content. Does not wrap another SingleChildScrollView around it.
+- `UiModal.scrollable<T>`: content-fit draggable viewport for a lazy list or
+  composed slivers. Return a scrollable with `primary: true` and no private
+  controller/`shrinkWrap`. Its inherited controller expands the sheet before
+  scrolling. Initial fitting uses sliver extent estimates (18–90% bounds);
+  dragging takes ownership of size (18–95%). No eager measurement of all rows.
+  Does not wrap another SingleChildScrollView around the lazy content.
   Both methods own the title/close header and have explicit root navigator choice.
 - `UiFrame.body/scroll`: body composition, common padding/safe areas and optional
   footer outside the scroll view; does not own Scaffold, routes or data.
@@ -256,7 +260,8 @@ a static placeholder. Avatar initials use the first grapheme and empty names
 show a person icon. The owner renders the accessible username; a decorative
 avatar does not repeat it. A standalone image can take `semanticLabel`.
 
-`UiImage` requires finite width/height. `UiCover` requires bounded parent width.
+`UiImage` requires finite width/height; `fit: BoxFit.contain` supports uncropped
+flags/medals, while covers keep the default crop. `UiCover` requires bounded width.
 Decode dimensions follow layout × device pixel ratio with a 2048px ceiling per
 dimension. No global image-cache mutation, disk cache, authenticated headers,
 per-byte progress rebuilds or shimmer loops. Changing the provider does not

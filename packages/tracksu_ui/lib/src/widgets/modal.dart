@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
 import 'package:tracksu_ui/src/widgets/button.dart';
 import 'package:tracksu_ui/src/widgets/icon_button.dart';
@@ -134,6 +135,7 @@ abstract final class UiModal {
       title: title,
       useRootNavigator: useRootNavigator,
       builder: (BuildContext modalContext) => ListView.builder(
+        primary: true,
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           final UiChoice<T> item = items[index];
@@ -166,7 +168,8 @@ abstract final class UiModal {
     useRootNavigator: useRootNavigator,
   );
 
-  /// Bounded viewport; builder must return its own lazy scrollable, not Expanded.
+  /// Content-fit draggable viewport. Builder returns a lazy scrollable with
+  /// `primary: true` (no private controller), never Expanded or shrinkWrap.
   static Future<T?> scrollable<T>(
     BuildContext context, {
     required String title,
@@ -203,15 +206,7 @@ abstract final class UiModal {
         child: SafeArea(
           top: false,
           child: scrollable
-              ? FractionallySizedBox(
-                  heightFactor: 0.85,
-                  child: Column(
-                    children: <Widget>[
-                      header,
-                      Expanded(child: builder(modalContext)),
-                    ],
-                  ),
-                )
+              ? _AdaptiveScrollSheet(header: header, builder: builder)
               : SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -240,6 +235,115 @@ abstract final class UiModal {
     if (ModalRoute.of(context)?.isCurrent != true) return;
     Navigator.of(context).pop<T>(result);
   }
+}
+
+/// Fits short content after layout without shrink-wrapping an API-backed list.
+/// Consumers use the inherited primary controller so dragging expands the sheet
+/// before scrolling its contents. Once dragged, the user's chosen size wins.
+final class _AdaptiveScrollSheet extends StatefulWidget {
+  const _AdaptiveScrollSheet({required this.header, required this.builder});
+  final Widget header;
+  final WidgetBuilder builder;
+  @override
+  State<_AdaptiveScrollSheet> createState() => _AdaptiveScrollSheetState();
+}
+
+final class _AdaptiveScrollSheetState extends State<_AdaptiveScrollSheet> {
+  final DraggableScrollableController _extent = DraggableScrollableController();
+  final GlobalKey _header = GlobalKey();
+  final GlobalKey _body = GlobalKey();
+  bool _dragged = false;
+  bool _scheduled = false;
+  double? _target;
+
+  @override
+  void dispose() {
+    _extent.dispose();
+    super.dispose();
+  }
+
+  bool _fit(ScrollMetricsNotification notification, double available) {
+    if (_dragged || notification.depth != 0 || available <= 0) return false;
+    final RenderObject? render = _header.currentContext?.findRenderObject();
+    if (render is! RenderBox || !render.hasSize) return false;
+    final double? content = _contentExtent();
+    if (content == null) return false;
+    _target = ((content + render.size.height + UiSpace.lg) / available).clamp(
+      0.18,
+      0.9,
+    );
+    if (!_scheduled) {
+      _scheduled = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scheduled = false;
+        if (!mounted || _dragged || !_extent.isAttached) return;
+        final double? target = _target;
+        if (target != null && (_extent.size - target).abs() > 0.005) {
+          _extent.jumpTo(target);
+        }
+      });
+    }
+    return false;
+  }
+
+  double? _contentExtent() {
+    double? result;
+    void visit(RenderObject object) {
+      if (result != null) return;
+      if (object is RenderViewport) {
+        double extent = 0;
+        object.visitChildren((RenderObject child) {
+          if (child is RenderSliver) {
+            extent += child.geometry?.scrollExtent ?? 0;
+          }
+        });
+        result = extent;
+      } else {
+        object.visitChildren(visit);
+      }
+    }
+
+    final RenderObject? body = _body.currentContext?.findRenderObject();
+    if (body != null) visit(body);
+    return result;
+  }
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (BuildContext context, BoxConstraints constraints) =>
+        DraggableScrollableSheet(
+          controller: _extent,
+          expand: false,
+          initialChildSize: 0.5,
+          minChildSize: 0.18,
+          maxChildSize: 0.95,
+          builder: (BuildContext context, ScrollController controller) =>
+              PrimaryScrollController(
+                controller: controller,
+                child: NotificationListener<ScrollStartNotification>(
+                  onNotification: (ScrollStartNotification notification) {
+                    if (notification.dragDetails != null) _dragged = true;
+                    return false;
+                  },
+                  child: NotificationListener<ScrollMetricsNotification>(
+                    onNotification: (ScrollMetricsNotification notification) =>
+                        _fit(notification, constraints.maxHeight),
+                    child: Column(
+                      children: <Widget>[
+                        KeyedSubtree(key: _header, child: widget.header),
+                        Expanded(
+                          child: KeyedSubtree(
+                            key: _body,
+                            child: widget.builder(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+        ),
+  );
 }
 
 final class _ModalHeader extends StatelessWidget {

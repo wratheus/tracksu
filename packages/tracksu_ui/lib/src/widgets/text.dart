@@ -226,6 +226,7 @@ final class UiText extends StatelessWidget {
       _TextPreset.labelMedium => theme.textTheme.labelMedium,
       _TextPreset.labelSmall => theme.textTheme.labelSmall,
       _TextPreset.metric => theme.textTheme.headlineLarge?.copyWith(
+        fontWeight: FontWeight.w800,
         fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
       ),
     };

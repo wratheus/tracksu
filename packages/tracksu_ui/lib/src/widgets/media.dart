@@ -10,6 +10,7 @@ final class UiImage extends StatelessWidget {
     this.fallbackIcon = Icons.image_outlined,
     this.semanticLabel,
     this.fallback,
+    this.fit = BoxFit.cover,
     super.key,
   }) : assert(width > 0 && width < double.infinity),
        assert(height > 0 && height < double.infinity),
@@ -23,6 +24,7 @@ final class UiImage extends StatelessWidget {
   }) : assert(width > 0 && width < double.infinity),
        assert(height > 0 && height < double.infinity),
        image = null,
+       fit = BoxFit.cover,
        fallback = null,
        fallbackIcon = Icons.image_outlined,
        _loading = true;
@@ -33,6 +35,7 @@ final class UiImage extends StatelessWidget {
   final IconData fallbackIcon;
   final String? semanticLabel;
   final Widget? fallback;
+  final BoxFit fit;
   final bool _loading;
 
   @override
@@ -66,7 +69,7 @@ final class UiImage extends StatelessWidget {
                 ),
                 width: width,
                 height: height,
-                fit: BoxFit.cover,
+                fit: fit,
                 excludeFromSemantics: true,
                 gaplessPlayback: false,
                 errorBuilder: (_, _, _) => placeholder,

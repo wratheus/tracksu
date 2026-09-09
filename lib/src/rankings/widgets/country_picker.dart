@@ -60,6 +60,7 @@ final class _RankingCountryPickerState extends State<RankingCountryPicker> {
                   )
                   .toList(growable: false);
           return CustomScrollView(
+            primary: true,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             slivers: <Widget>[
               SliverToBoxAdapter(

@@ -27,6 +27,17 @@ enum _ChartStyle { line, bars }
 
 enum UiChartTone { primary, secondary, tertiary }
 
+/// Bars occupy one smallest observed x interval, preserving calendar gaps.
+double _barStep(List<UiChartPoint> points) {
+  if (points.length < 2) return 1;
+  double step = points[1].x - points[0].x;
+  for (int i = 2; i < points.length; i++) {
+    final double gap = points[i].x - points[i - 1].x;
+    if (gap < step) step = gap;
+  }
+  return step;
+}
+
 /// One ordered, finite series. Shape-preserving curves never invent extrema.
 final class UiChart extends StatefulWidget {
   UiChart.line({
@@ -129,12 +140,13 @@ final class _UiChartState extends State<UiChart> {
       0,
       1,
     );
-    if (widget._style == _ChartStyle.bars) {
-      _select((position * points.length).floor().clamp(0, points.length - 1));
-      return;
-    }
+    final double padding = widget._style == _ChartStyle.bars
+        ? _barStep(points) / 2
+        : 0;
     final double value =
-        points.first.x + position * (points.last.x - points.first.x);
+        points.first.x -
+        padding +
+        position * (points.last.x - points.first.x + padding * 2);
     int closest = 0;
     for (int i = 1; i < points.length; i++) {
       if ((points[i].x - value).abs() < (points[closest].x - value).abs()) {
@@ -284,12 +296,14 @@ final class _ChartPainter extends CustomPainter {
       canvas.drawLine(Offset(plot.left, y), Offset(plot.right, y), grid);
     }
     final List<Offset> positions = <Offset>[];
+    final double barStep = _barStep(points);
+    final double barRange = points.last.x - points.first.x + barStep;
     for (int i = 0; i < points.length; i++) {
       final double fraction = range == 0
           ? (style == _ChartStyle.bars ? 0 : 0.5)
           : (points[i].value - minimum) / range;
       final double x = style == _ChartStyle.bars
-          ? (i + 0.5) / points.length
+          ? (points[i].x - points.first.x + barStep / 2) / barRange
           : points.length == 1
           ? 0.5
           : (points[i].x - points.first.x) / (points.last.x - points.first.x);
@@ -301,7 +315,10 @@ final class _ChartPainter extends CustomPainter {
       );
     }
     if (style == _ChartStyle.bars) {
-      final double width = (plot.width / points.length * 0.65).clamp(1, 32);
+      final double width = (plot.width * barStep / barRange * 0.65).clamp(
+        1,
+        32,
+      );
       for (int i = 0; i < positions.length; i++) {
         final Offset point = positions[i];
         canvas.drawRRect(

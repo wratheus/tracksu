@@ -189,6 +189,7 @@ abstract final class TracksuTheme {
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       ),
       chipTheme: ChipThemeData(
+        showCheckmark: false,
         backgroundColor: colors.surfaceContainerLow,
         selectedColor: colors.secondaryContainer,
         side: BorderSide(color: colors.outlineVariant),

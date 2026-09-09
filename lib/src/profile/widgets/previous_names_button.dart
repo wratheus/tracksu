@@ -20,6 +20,7 @@ final class _PreviousNamesButtonState extends State<PreviousNamesButton> {
         context,
         title: context.t.profilePreviousNames,
         builder: (_) => ListView.builder(
+          primary: true,
           itemCount: names.length,
           itemBuilder: (BuildContext context, int index) => ListTile(
             leading: const Icon(Icons.history),

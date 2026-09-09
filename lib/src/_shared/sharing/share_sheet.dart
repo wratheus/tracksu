@@ -17,6 +17,7 @@ final class ShareSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomScrollView(
+    primary: true,
     slivers: <Widget>[
       SliverPadding(
         padding: const EdgeInsets.fromLTRB(
