@@ -1,4 +1,18 @@
 {
+  "contentMediaSettings": "External images",
+  "@contentMediaSettings": {"description": "External image preference: contentMediaSettings."},
+  "contentMediaConsent": "Images embedded in profiles, beatmap descriptions and news are downloaded from external servers. Those servers receive your IP address and can log requests. This choice applies to all such images on this device; you can change it in the account menu. Avatars and map covers from osu! load separately.",
+  "@contentMediaConsent": {"description": "One-time external rich-content image permission; IP and request logging disclosure; separate from trusted osu covers."},
+  "contentMediaAllow": "Allow images",
+  "@contentMediaAllow": {"description": "External image preference: contentMediaAllow."},
+  "contentMediaDecline": "Not now",
+  "@contentMediaDecline": {"description": "External image preference: contentMediaDecline."},
+  "contentMediaDisabled": "External images are off. You can enable them in the account menu.",
+  "@contentMediaDisabled": {"description": "External image preference: contentMediaDisabled."},
+  "contentMediaSaveFailed": "Could not save this preference. It may revert after restarting the app.",
+  "@contentMediaSaveFailed": {"description": "External image preference: contentMediaSaveFailed."},
+  "contentImageUnsupported": "This image address is not supported. Open the original page to view it.",
+  "@contentImageUnsupported": {"description": "External image preference: contentImageUnsupported."},
   "profilePlayHistoryTitle": "Plays by month",
   "@profilePlayHistoryTitle": {"description": "Monthly play count from API monthly_playcounts, not replay views."},
   "rankingsPosition": "Position #{position}",
@@ -59,8 +73,8 @@
   "@profileReplayHistoryExplanation": {"description": "Cards and charts: profileReplayHistoryExplanation; no inferred or client-calculated data."},
   "profileAbout": "About me",
   "@profileAbout": {"description": "Safe profile About section: About me"},
-  "contentPageNotice": "External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.",
-  "@contentPageNotice": {"description": "Shared rich-content reader disclosure of automatic external-image requests and raw BBCode fallback."},
+  "contentPageNotice": "External images follow your saved preference. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.",
+  "@contentPageNotice": {"description": "Rich-content reader; images obey saved permission and technical compatibility limits."},
   "contentLinkFailed": "Could not open the link.",
   "@contentLinkFailed": {"description": "Shared rich-content reader link launch failure."},
   "profileTitle": "Player profile",
@@ -123,8 +137,8 @@
   "@contentImage": {"description": "Shared rich content reader: Image"},
   "contentImageLoading": "Loading image…",
   "@contentImageLoading": {"description": "Shared rich content reader: Loading image…"},
-  "contentImageFailed": "Image unavailable or blocked by safety limits.",
-  "@contentImageFailed": {"description": "Shared rich content reader: Image unavailable or blocked by safety limits."},
+  "contentImageFailed": "Could not load the image. It may be unavailable or exceed supported size or format.",
+  "@contentImageFailed": {"description": "Rich-content reader; images obey saved permission and technical compatibility limits."},
   "contentImageOpen": "Enlarge image",
   "@contentImageOpen": {"description": "Shared rich content reader: Enlarge image"},
   "contentDisclosure": "Show hidden content",
@@ -238,10 +252,8 @@
   "@newsOriginal": {
     "description": "Button to open the original article in a browser."
   },
-  "newsReaderNotice": "External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page.",
-  "@newsReaderNotice": {
-    "description": "News reader disclosure of automatic external-image requests and unsupported embeds."
-  },
+  "newsReaderNotice": "External images follow your saved preference. Embeds open only on the original page.",
+  "@newsReaderNotice": {"description": "Rich-content reader; images obey saved permission and technical compatibility limits."},
   "spotlightsTitle": "Spotlights",
   "@spotlightsTitle": {
     "description": "Title for osu! Spotlight collections; preserve the recognizable product term."

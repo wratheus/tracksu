@@ -10,6 +10,31 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get contentMediaSettings => 'Imágenes externas';
+
+  @override
+  String get contentMediaConsent =>
+      'Las imágenes de perfiles, descripciones de mapas y noticias se descargan de servidores externos. Estos reciben tu dirección IP y pueden registrar solicitudes. La elección se aplica a todas estas imágenes en este dispositivo y puede cambiarse en el menú de cuenta. Los avatares y portadas de osu! se cargan por separado.';
+
+  @override
+  String get contentMediaAllow => 'Permitir imágenes';
+
+  @override
+  String get contentMediaDecline => 'Ahora no';
+
+  @override
+  String get contentMediaDisabled =>
+      'Las imágenes externas están desactivadas. Puedes activarlas en el menú de cuenta.';
+
+  @override
+  String get contentMediaSaveFailed =>
+      'No se pudo guardar la preferencia. Puede restablecerse al reiniciar la aplicación.';
+
+  @override
+  String get contentImageUnsupported =>
+      'Esta dirección de imagen no es compatible. Abre la página original.';
+
+  @override
   String get profilePlayHistoryTitle => 'Partidas por mes';
 
   @override
@@ -114,7 +139,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get contentPageNotice =>
-      'Las imágenes externas se cargan automáticamente. Sus servidores reciben tu dirección IP y pueden registrar las solicitudes. El contenido incrustado solo se abre en el original. Si falta el contenido procesado, el BBCode se muestra como texto.';
+      'Las imágenes externas siguen tu preferencia guardada. El contenido incrustado se abre en la página original. Sin contenido con formato, el BBCode se muestra como texto plano.';
 
   @override
   String get contentLinkFailed => 'No se pudo abrir el enlace.';
@@ -241,7 +266,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get contentImageFailed =>
-      'Imagen no disponible o bloqueada por los límites de seguridad.';
+      'No se pudo cargar la imagen. Puede no estar disponible o superar el tamaño o formato admitidos.';
 
   @override
   String get contentImageOpen => 'Ampliar imagen';
@@ -381,7 +406,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get newsReaderNotice =>
-      'Las imágenes externas se cargan automáticamente. Sus servidores reciben tu dirección IP y pueden registrar las solicitudes. El contenido incrustado solo se abre en el original.';
+      'Las imágenes externas siguen tu preferencia guardada. El contenido incrustado se abre en la página original.';
 
   @override
   String get spotlightsTitle => 'Spotlights';

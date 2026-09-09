@@ -4,6 +4,7 @@ import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_media_settings.dart';
 
 final class AccountActions extends StatefulWidget {
   const AccountActions({super.key});
@@ -40,6 +41,22 @@ final class _AccountActionsState extends State<AccountActions> {
       return;
     }
     switch (selection) {
+      case _AccountSelection.mediaSettings:
+        final controller = DepsScope.of(context).contentMediaController;
+        await UiModal.scrollable<void>(
+          context,
+          title: context.t.contentMediaSettings,
+          builder: (BuildContext context) => CustomScrollView(
+            slivers: <Widget>[
+              SliverPadding(
+                padding: const EdgeInsets.all(UiSpace.lg),
+                sliver: SliverToBoxAdapter(
+                  child: ContentMediaSettings(controller: controller),
+                ),
+              ),
+            ],
+          ),
+        );
       case _AccountSelection.signIn:
         await DepsScope.of(context).appRouter.openLogin(context);
       case _AccountSelection.myProfile:
@@ -145,6 +162,10 @@ final class _AccountActionsState extends State<AccountActions> {
           onSelected: _selectAccount,
           itemBuilder: (BuildContext context) =>
               <PopupMenuEntry<_AccountSelection>>[
+                PopupMenuItem<_AccountSelection>(
+                  value: _AccountSelection.mediaSettings,
+                  child: UiText.bodyMedium(context.t.contentMediaSettings),
+                ),
                 if (authenticated)
                   PopupMenuItem<_AccountSelection>(
                     value: _AccountSelection.myProfile,
@@ -181,7 +202,7 @@ enum _LocaleSelection {
   chinese,
 }
 
-enum _AccountSelection { signIn, myProfile, signOut }
+enum _AccountSelection { signIn, myProfile, signOut, mediaSettings }
 
 /// Flags are decorative locale hints, never a substitute for a language name.
 final class _LanguageLabel extends StatelessWidget {

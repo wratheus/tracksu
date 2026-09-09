@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
@@ -90,6 +91,7 @@ final class _ContentPageSectionState extends State<ContentPageSection> {
         ),
         if (_expanded && widget.page.document != null)
           ContentFrame.sliver(
+            mediaPermission: DepsScope.of(context).contentMediaController,
             document: widget.page.document!,
             onOpenLink: _open,
           ),

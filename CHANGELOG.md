@@ -4,6 +4,11 @@
 
 ### September feedback
 
+- External rich-content images now require a persisted allow/decline choice;
+  Account → External images exposes the same control for guests and signed-in users.
+  Revocation cancels active requests. Failure/unsupported-address text is separate
+  from disabled-by-preference text; avatars and map covers are outside this setting.
+
 - Full-width beatmap banners, shared lazy card-list spacing, category icons,
   integer PP and localized compact profile/ranking counters (long-press for exact values).
 - Monthly play-count history from `monthly_playcounts`, separate from replay views;

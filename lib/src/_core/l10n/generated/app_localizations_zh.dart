@@ -10,6 +10,28 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get contentMediaSettings => '外部图片';
+
+  @override
+  String get contentMediaConsent =>
+      '个人资料、谱面描述和新闻中的图片从外部服务器下载。这些服务器会收到您的 IP 地址，并可能记录请求。此选择适用于本设备上的所有此类图片，可在账户菜单中更改。osu! 头像和谱面封面单独加载。';
+
+  @override
+  String get contentMediaAllow => '允许图片';
+
+  @override
+  String get contentMediaDecline => '暂不加载';
+
+  @override
+  String get contentMediaDisabled => '外部图片已关闭。您可以在账户菜单中开启。';
+
+  @override
+  String get contentMediaSaveFailed => '无法保存此设置。重启应用后可能恢复原设置。';
+
+  @override
+  String get contentImageUnsupported => '不支持此图片地址。请打开原页面查看。';
+
+  @override
   String get profilePlayHistoryTitle => '每月游玩次数';
 
   @override
@@ -109,7 +131,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get contentPageNotice =>
-      '外部图片会自动加载。图片服务器会收到您的 IP 地址，并可能记录请求。嵌入内容仅在原网页打开。 若缺少渲染后的内容，将以纯文本显示 BBCode。';
+      '外部图片按您保存的设置加载。嵌入内容仅在原页面打开。如无已排版的内容，BBCode 将以纯文本显示。';
 
   @override
   String get contentLinkFailed => '无法打开链接。';
@@ -232,7 +254,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contentImageLoading => '正在加载图片…';
 
   @override
-  String get contentImageFailed => '图片不可用或已被安全限制拦截。';
+  String get contentImageFailed => '无法加载图片。图片可能不可用，或大小、格式不受支持。';
 
   @override
   String get contentImageOpen => '放大图片';
@@ -364,8 +386,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get newsOriginal => '打开原文';
 
   @override
-  String get newsReaderNotice =>
-      '外部图片会自动加载。图片服务器会收到您的 IP 地址，并可能记录请求。嵌入内容仅在原网页打开。';
+  String get newsReaderNotice => '外部图片按您保存的设置加载。嵌入内容仅在原页面打开。';
 
   @override
   String get spotlightsTitle => 'Spotlights';

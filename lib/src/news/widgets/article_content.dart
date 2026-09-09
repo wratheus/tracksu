@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
@@ -86,6 +87,7 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
                 child: UiText.bodyMedium(context.t.contentUnavailable),
               )
             : ContentFrame.sliver(
+                mediaPermission: DepsScope.of(context).contentMediaController,
                 document: widget.article.document!,
                 onOpenLink: _open,
               ),

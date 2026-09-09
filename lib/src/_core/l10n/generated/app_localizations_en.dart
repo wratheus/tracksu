@@ -10,6 +10,31 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get contentMediaSettings => 'External images';
+
+  @override
+  String get contentMediaConsent =>
+      'Images embedded in profiles, beatmap descriptions and news are downloaded from external servers. Those servers receive your IP address and can log requests. This choice applies to all such images on this device; you can change it in the account menu. Avatars and map covers from osu! load separately.';
+
+  @override
+  String get contentMediaAllow => 'Allow images';
+
+  @override
+  String get contentMediaDecline => 'Not now';
+
+  @override
+  String get contentMediaDisabled =>
+      'External images are off. You can enable them in the account menu.';
+
+  @override
+  String get contentMediaSaveFailed =>
+      'Could not save this preference. It may revert after restarting the app.';
+
+  @override
+  String get contentImageUnsupported =>
+      'This image address is not supported. Open the original page to view it.';
+
+  @override
   String get profilePlayHistoryTitle => 'Plays by month';
 
   @override
@@ -113,7 +138,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contentPageNotice =>
-      'External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.';
+      'External images follow your saved preference. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.';
 
   @override
   String get contentLinkFailed => 'Could not open the link.';
@@ -240,7 +265,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contentImageFailed =>
-      'Image unavailable or blocked by safety limits.';
+      'Could not load the image. It may be unavailable or exceed supported size or format.';
 
   @override
   String get contentImageOpen => 'Enlarge image';
@@ -378,7 +403,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get newsReaderNotice =>
-      'External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page.';
+      'External images follow your saved preference. Embeds open only on the original page.';
 
   @override
   String get spotlightsTitle => 'Spotlights';

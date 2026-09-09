@@ -17,6 +17,7 @@ import 'package:tracksu/src/_core/router/app_router.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
+import 'package:tracksu/src/_shared/content/content_media_controller.dart';
 
 Future<DepsContainer> registerDependencies() async {
   const FlutterSecureStorage storage = FlutterSecureStorage();
@@ -25,6 +26,10 @@ Future<DepsContainer> registerDependencies() async {
     localeStore: FlutterSecureLocaleStore(storage: storage),
   );
   await localeController.restore();
+  final ContentMediaController contentMediaController = ContentMediaController(
+    store: FlutterSecureContentMediaStore(storage: storage),
+  );
+  await contentMediaController.restore();
   final OAuthTransactionStore oauthTransactionStore =
       FlutterSecureOAuthTransactionStore(storage: storage);
   final OAuthCallbackLinkSource oauthCallbackLinkSource =
@@ -83,6 +88,7 @@ Future<DepsContainer> registerDependencies() async {
       initialOAuthCallbackUri: initialOAuthCallbackUri,
     ),
     localeController: localeController,
+    contentMediaController: contentMediaController,
     authRepository: authRepository,
     oauthClientCredentials: oauthClientCredentials,
     oauthCallbackLinkSource: oauthCallbackLinkSource,

@@ -10,6 +10,28 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get contentMediaSettings => '外部画像';
+
+  @override
+  String get contentMediaConsent =>
+      'プロフィール、ビートマップの説明、ニュース内の画像は外部サーバーから取得します。サーバーにはIPアドレスが伝わり、リクエストが記録される場合があります。この選択はこの端末のすべての外部画像に適用され、アカウントメニューから変更できます。osu!のアバターやマップのカバーは別に読み込まれます。';
+
+  @override
+  String get contentMediaAllow => '画像を許可';
+
+  @override
+  String get contentMediaDecline => '今は読み込まない';
+
+  @override
+  String get contentMediaDisabled => '外部画像は無効です。アカウントメニューから有効にできます。';
+
+  @override
+  String get contentMediaSaveFailed => '設定を保存できませんでした。再起動後に元に戻る場合があります。';
+
+  @override
+  String get contentImageUnsupported => 'この画像アドレスには対応していません。元のページを開いてください。';
+
+  @override
   String get profilePlayHistoryTitle => '月ごとのプレイ回数';
 
   @override
@@ -112,7 +134,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get contentPageNotice =>
-      '外部画像は自動で読み込まれます。配信先のサーバーにはIPアドレスが送信され、リクエストが記録される場合があります。埋め込みコンテンツは元のページでのみ開きます。 変換済みの内容がない場合はBBCodeをそのまま表示します。';
+      '外部画像は保存された設定に従って読み込まれます。埋め込みコンテンツは元のページで開きます。整形済みコンテンツがない場合、BBCodeはプレーンテキストで表示されます。';
 
   @override
   String get contentLinkFailed => 'リンクを開けませんでした。';
@@ -236,7 +258,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contentImageLoading => '画像を読み込み中…';
 
   @override
-  String get contentImageFailed => '画像を表示できないか、安全上の制限によりブロックされました。';
+  String get contentImageFailed => '画像を読み込めませんでした。画像が利用できないか、サイズまたは形式が対応範囲外です。';
 
   @override
   String get contentImageOpen => '画像を拡大';
@@ -371,7 +393,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get newsReaderNotice =>
-      '外部画像は自動で読み込まれます。配信先のサーバーにはIPアドレスが送信され、リクエストが記録される場合があります。埋め込みコンテンツは元のページでのみ開きます。';
+      '外部画像は保存された設定に従って読み込まれます。埋め込みコンテンツは元のページで開きます。';
 
   @override
   String get spotlightsTitle => 'Spotlights';

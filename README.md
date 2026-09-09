@@ -91,8 +91,10 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Read the latest news from the osu! website in a lightweight in-app reader.
 - Read formatted profile About pages and news through a shared native reader:
   expandable spoilers, bounded raster images and an image zoom viewer.
-- External images load automatically; third-party hosts receive your IP address
-  and may record requests. Video/unsupported embeds and full original styling
+- External rich-content images load only after a one-time permission choice.
+  Allow/decline is saved on this device; change it in Account → External images.
+  Third-party hosts receive your IP address and may record requests. This setting
+  does not cover osu! avatars/map covers. Video/unsupported embeds and full original styling
   remain available through the original-page action. Raw BBCode is a plain-text fallback.
 - Optionally sign in through osu! OAuth, open your own profile, and sign out locally.
 - Use the interface in English, Russian, German, French, Spanish, Japanese, or

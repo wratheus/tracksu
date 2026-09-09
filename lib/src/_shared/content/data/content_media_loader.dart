@@ -123,6 +123,7 @@ final class ContentMediaRequest {
       if (_cancelled) throw const ContentMediaFailure();
       final HttpClientRequest request = await client.getUrl(uri);
       request.followRedirects = false;
+      request.headers.set(HttpHeaders.acceptEncodingHeader, 'identity');
       request.headers.set(
         HttpHeaders.acceptHeader,
         'image/png,image/jpeg,image/webp,image/gif',

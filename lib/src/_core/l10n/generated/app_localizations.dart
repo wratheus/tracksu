@@ -108,6 +108,48 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// External image preference: contentMediaSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'External images'**
+  String get contentMediaSettings;
+
+  /// One-time external rich-content image permission; IP and request logging disclosure; separate from trusted osu covers.
+  ///
+  /// In en, this message translates to:
+  /// **'Images embedded in profiles, beatmap descriptions and news are downloaded from external servers. Those servers receive your IP address and can log requests. This choice applies to all such images on this device; you can change it in the account menu. Avatars and map covers from osu! load separately.'**
+  String get contentMediaConsent;
+
+  /// External image preference: contentMediaAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow images'**
+  String get contentMediaAllow;
+
+  /// External image preference: contentMediaDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get contentMediaDecline;
+
+  /// External image preference: contentMediaDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'External images are off. You can enable them in the account menu.'**
+  String get contentMediaDisabled;
+
+  /// External image preference: contentMediaSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save this preference. It may revert after restarting the app.'**
+  String get contentMediaSaveFailed;
+
+  /// External image preference: contentImageUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'This image address is not supported. Open the original page to view it.'**
+  String get contentImageUnsupported;
+
   /// Monthly play count from API monthly_playcounts, not replay views.
   ///
   /// In en, this message translates to:
@@ -288,10 +330,10 @@ abstract class AppLocalizations {
   /// **'About me'**
   String get profileAbout;
 
-  /// Shared rich-content reader disclosure of automatic external-image requests and raw BBCode fallback.
+  /// Rich-content reader; images obey saved permission and technical compatibility limits.
   ///
   /// In en, this message translates to:
-  /// **'External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.'**
+  /// **'External images follow your saved preference. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.'**
   String get contentPageNotice;
 
   /// Shared rich-content reader link launch failure.
@@ -480,10 +522,10 @@ abstract class AppLocalizations {
   /// **'Loading image…'**
   String get contentImageLoading;
 
-  /// Shared rich content reader: Image unavailable or blocked by safety limits.
+  /// Rich-content reader; images obey saved permission and technical compatibility limits.
   ///
   /// In en, this message translates to:
-  /// **'Image unavailable or blocked by safety limits.'**
+  /// **'Could not load the image. It may be unavailable or exceed supported size or format.'**
   String get contentImageFailed;
 
   /// Shared rich content reader: Enlarge image
@@ -744,10 +786,10 @@ abstract class AppLocalizations {
   /// **'Open original'**
   String get newsOriginal;
 
-  /// News reader disclosure of automatic external-image requests and unsupported embeds.
+  /// Rich-content reader; images obey saved permission and technical compatibility limits.
   ///
   /// In en, this message translates to:
-  /// **'External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page.'**
+  /// **'External images follow your saved preference. Embeds open only on the original page.'**
   String get newsReaderNotice;
 
   /// Title for osu! Spotlight collections; preserve the recognizable product term.

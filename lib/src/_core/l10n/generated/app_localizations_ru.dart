@@ -10,6 +10,31 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get contentMediaSettings => 'Внешние изображения';
+
+  @override
+  String get contentMediaConsent =>
+      'Картинки внутри профилей, описаний карт и новостей скачиваются с внешних серверов. Эти серверы получают ваш IP-адрес и могут записывать запросы. Выбор действует для всех таких картинок на этом устройстве; изменить его можно в меню аккаунта. Аватары и обложки карт с osu! загружаются отдельно.';
+
+  @override
+  String get contentMediaAllow => 'Разрешить картинки';
+
+  @override
+  String get contentMediaDecline => 'Пока не загружать';
+
+  @override
+  String get contentMediaDisabled =>
+      'Внешние картинки отключены. Включить их можно в меню аккаунта.';
+
+  @override
+  String get contentMediaSaveFailed =>
+      'Не удалось сохранить выбор. После перезапуска он может сброситься.';
+
+  @override
+  String get contentImageUnsupported =>
+      'Адрес этой картинки не поддерживается. Посмотреть её можно на странице оригинала.';
+
+  @override
   String get profilePlayHistoryTitle => 'Игры по месяцам';
 
   @override
@@ -114,7 +139,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get contentPageNotice =>
-      'Внешние изображения загружаются автоматически. Их серверы получают ваш IP-адрес и могут записывать запросы. Вставки открываются только в оригинале. Если готового HTML нет, BBCode показан обычным текстом.';
+      'Внешние картинки загружаются согласно вашему выбору. Вставки доступны в оригинале. Если готового HTML нет, BBCode показан обычным текстом.';
 
   @override
   String get contentLinkFailed => 'Не удалось открыть ссылку.';
@@ -241,7 +266,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get contentImageFailed =>
-      'Изображение недоступно или заблокировано ограничениями безопасности.';
+      'Не удалось загрузить картинку. Возможно, она недоступна либо её размер или формат не поддерживается.';
 
   @override
   String get contentImageOpen => 'Увеличить изображение';
@@ -378,7 +403,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get newsReaderNotice =>
-      'Внешние изображения загружаются автоматически. Их серверы получают ваш IP-адрес и могут записывать запросы. Вставки открываются только в оригинале.';
+      'Внешние картинки загружаются согласно вашему выбору. Вставки доступны в оригинале.';
 
   @override
   String get spotlightsTitle => 'Подборки Spotlights';

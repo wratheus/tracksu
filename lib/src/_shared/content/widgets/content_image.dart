@@ -148,7 +148,9 @@ final class _ContentImageViewState extends State<ContentImageView> {
           ),
           UiText.bodySmall(
             _failed
-                ? context.t.contentImageFailed
+                ? widget.image.uri == null
+                      ? context.t.contentImageUnsupported
+                      : context.t.contentImageFailed
                 : _image == null
                 ? context.t.contentImageLoading
                 : label,

@@ -5,16 +5,21 @@ import 'package:tracksu/src/_shared/content/data/content_media_loader.dart';
 import 'package:tracksu/src/_shared/content/domain/content_document.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_image.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
+import 'package:tracksu/src/_shared/content/content_media_controller.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_media_settings.dart';
 
 /// Feature-agnostic lazy document. Parent supplies navigation and the document.
 final class ContentFrame extends StatefulWidget {
   const ContentFrame.sliver({
     required this.document,
     required this.onOpenLink,
+    this.mediaPermission,
     super.key,
   });
   final ContentDocument document;
   final Future<bool> Function(String url) onOpenLink;
+  // No controller (e.g. offline catalog) never permits network images.
+  final ContentMediaController? mediaPermission;
   @override
   State<ContentFrame> createState() => _ContentFrameState();
 }
@@ -31,6 +36,7 @@ final class _ContentFrameState extends State<ContentFrame>
   @override
   void initState() {
     super.initState();
+    widget.mediaPermission?.addListener(_permissionChanged);
     WidgetsBinding.instance.addObserver(this);
     _foreground =
         WidgetsBinding.instance.lifecycleState == null ||
@@ -54,7 +60,10 @@ final class _ContentFrameState extends State<ContentFrame>
   }
 
   void _syncMedia() {
-    final bool fetching = _foreground && _visibleBranch;
+    final bool fetching =
+        _foreground &&
+        _visibleBranch &&
+        widget.mediaPermission?.allowed == true;
     if (_fetching == fetching) return;
     _fetching = fetching;
     if (fetching) {
@@ -67,6 +76,11 @@ final class _ContentFrameState extends State<ContentFrame>
   @override
   void didUpdateWidget(ContentFrame oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.mediaPermission != widget.mediaPermission) {
+      oldWidget.mediaPermission?.removeListener(_permissionChanged);
+      widget.mediaPermission?.addListener(_permissionChanged);
+      _syncMedia();
+    }
     if (!identical(oldWidget.document, widget.document)) {
       _media.close();
       _media = ContentMediaLoader();
@@ -92,13 +106,35 @@ final class _ContentFrameState extends State<ContentFrame>
 
   @override
   void dispose() {
+    widget.mediaPermission?.removeListener(_permissionChanged);
     WidgetsBinding.instance.removeObserver(this);
     _media.close();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => SliverList.builder(
+  Widget build(BuildContext context) => SliverMainAxisGroup(
+    slivers: <Widget>[
+      if (widget.mediaPermission case final ContentMediaController permission
+          when permission.choice == null && _hasImages(widget.document.blocks))
+        SliverToBoxAdapter(
+          child: UiSurface.inset(
+            child: ContentMediaSettings(controller: permission),
+          ),
+        ),
+      _content(context),
+    ],
+  );
+
+  void _permissionChanged() => setState(_syncMedia);
+
+  bool _hasImages(List<ContentBlock> blocks) => blocks.any(
+    (ContentBlock block) =>
+        block is ContentImage && block.uri != null ||
+        block is ContentDisclosure && _hasImages(block.children),
+  );
+
+  Widget _content(BuildContext context) => SliverList.builder(
     key: ObjectKey(widget.document),
     itemCount: _visible.length,
     findChildIndexCallback: (Key key) {
@@ -118,7 +154,22 @@ final class _ContentFrameState extends State<ContentFrame>
         ),
         child: switch (block) {
           ContentText() => _text(context, block),
-          ContentImage() => ContentImageView(image: block, loader: _media),
+          ContentImage() =>
+            widget.mediaPermission?.allowed == true
+                ? ContentImageView(image: block, loader: _media)
+                : UiSurface.inset(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      spacing: UiSpace.sm,
+                      children: <Widget>[
+                        if (block.alt.isNotEmpty) UiText.bodySmall(block.alt),
+                        UiText.bodySmall(
+                          context.t.contentMediaDisabled,
+                          secondary: true,
+                        ),
+                      ],
+                    ),
+                  ),
           ContentDisclosure() => Semantics(
             expanded: _expanded.contains(block.id),
             child: UiSurface.outlined(
