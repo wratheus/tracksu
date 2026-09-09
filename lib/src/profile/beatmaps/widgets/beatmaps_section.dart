@@ -41,6 +41,22 @@ final class ProfileBeatmapsSection extends StatelessWidget {
                         for (final ProfileBeatmapsType type
                             in ProfileBeatmapsType.values)
                           ChoiceChip(
+                            avatar: Icon(switch (type) {
+                              ProfileBeatmapsType.mostPlayed =>
+                                Icons.play_circle_outline,
+                              ProfileBeatmapsType.favourite =>
+                                Icons.favorite_outline,
+                              ProfileBeatmapsType.ranked =>
+                                Icons.verified_outlined,
+                              ProfileBeatmapsType.pending =>
+                                Icons.hourglass_empty,
+                              ProfileBeatmapsType.graveyard =>
+                                Icons.archive_outlined,
+                              ProfileBeatmapsType.loved => Icons.favorite,
+                              ProfileBeatmapsType.guest => Icons.group_outlined,
+                              ProfileBeatmapsType.nominated =>
+                                Icons.workspace_premium_outlined,
+                            }),
                             selected: type == selected,
                             label: Text(switch (type) {
                               ProfileBeatmapsType.mostPlayed =>
@@ -106,8 +122,8 @@ final class ProfileBeatmapsSection extends StatelessWidget {
                       ),
                     ),
                   SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    sliver: SliverList.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
+                    sliver: UiSliverCardList(
                       itemCount: state.items.length,
                       itemBuilder: (_, int index) => ProfileBeatmapCard(
                         key: ValueKey<int>(state.items[index].id),

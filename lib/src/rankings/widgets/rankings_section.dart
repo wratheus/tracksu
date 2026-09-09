@@ -78,7 +78,7 @@ final class RankingsSection extends StatelessWidget {
                 ),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
-                sliver: SliverList.builder(
+                sliver: UiSliverCardList(
                   itemCount: state.items.length,
                   itemBuilder: (_, int index) => RankingEntryCard(
                     key: ValueKey<int>(state.items[index].id),

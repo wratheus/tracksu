@@ -1,5 +1,8 @@
 # tracksu_ui
 
+`UiSliverCardList` — lazy card list with the shared `UiSpace.md` (12 px) gap.
+The screen owns outer padding; surfaces do not impose hidden margins.
+
 Presentation foundation for Tracksu. Public import:
 
 ```dart

@@ -11,6 +11,7 @@ final class OsuScoreCard extends StatefulWidget {
   const OsuScoreCard({
     required this.score,
     this.onTap,
+    this.onOpenPlayer,
     this.playerLabel,
     super.key,
   });
@@ -21,6 +22,7 @@ final class OsuScoreCard extends StatefulWidget {
 
   /// Optional navigation to the map, offered after inspecting the result.
   final VoidCallback? onTap;
+  final VoidCallback? onOpenPlayer;
 
   @override
   State<OsuScoreCard> createState() => _OsuScoreCardState();
@@ -37,17 +39,28 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
     try {
       final OsuScore selectedScore = score;
       final VoidCallback? openBeatmap = onTap;
+      final VoidCallback? openPlayer = widget.onOpenPlayer;
       final String? playerLabel = widget.playerLabel;
-      final bool? openMap = await UiModal.scrollable<bool>(
-        context,
-        title: context.t.scoreDetailsTitle,
-        builder: (BuildContext context) => ScoreDetailsSheet(
-          score: selectedScore,
-          canOpenMap: openBeatmap != null,
-          playerLabel: playerLabel,
-        ),
-      );
-      if (openMap == true && context.mounted) openBeatmap?.call();
+      final ScoreDetailsAction? action =
+          await UiModal.scrollable<ScoreDetailsAction>(
+            context,
+            title: context.t.scoreDetailsTitle,
+            builder: (BuildContext context) => ScoreDetailsSheet(
+              score: selectedScore,
+              canOpenMap: openBeatmap != null,
+              canOpenPlayer: openPlayer != null,
+              playerLabel: playerLabel,
+            ),
+          );
+      if (!context.mounted) return;
+      switch (action) {
+        case ScoreDetailsAction.beatmap:
+          openBeatmap?.call();
+        case ScoreDetailsAction.player:
+          openPlayer?.call();
+        case null:
+          break;
+      }
     } finally {
       _detailsOpen = false;
     }
@@ -76,7 +89,7 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
           '${NumberFormat.decimalPattern(locale).format(score.maximumCombo)}×',
       performanceLabel: score.performancePoints == null
           ? context.t.scoresNoPp
-          : '${NumberFormat.decimalPatternDigits(locale: locale, decimalDigits: 2).format(score.performancePoints)} pp',
+          : '${NumberFormat.decimalPatternDigits(locale: locale, decimalDigits: 0).format(score.performancePoints)} pp',
       failureLabel: score.passed ? null : context.t.scoresFailedPlay,
       mods: score.mods
           .map((ScoreMod mod) => mod.acronym)

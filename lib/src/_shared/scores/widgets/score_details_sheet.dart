@@ -6,16 +6,20 @@ import 'package:tracksu/src/_shared/scores/domain/score_details.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
-/// Read-only snapshot; caller owns map navigation after this sheet returns.
+enum ScoreDetailsAction { beatmap, player }
+
+/// Read-only snapshot; caller owns navigation after this sheet returns.
 final class ScoreDetailsSheet extends StatelessWidget {
   const ScoreDetailsSheet({
     required this.score,
     required this.canOpenMap,
+    this.canOpenPlayer = false,
     this.playerLabel,
     super.key,
   });
   final OsuScore score;
   final bool canOpenMap;
+  final bool canOpenPlayer;
   final String? playerLabel;
 
   @override
@@ -26,7 +30,7 @@ final class ScoreDetailsSheet extends StatelessWidget {
       ..maximumFractionDigits = 16;
     final NumberFormat decimal = NumberFormat.decimalPatternDigits(
       locale: locale,
-      decimalDigits: 2,
+      decimalDigits: 0,
     );
     final List<({String mod, ScoreModSetting setting})> settings =
         <({String mod, ScoreModSetting setting})>[
@@ -111,13 +115,25 @@ final class ScoreDetailsSheet extends StatelessWidget {
                       ),
                       secondary: true,
                     ),
+                    if (canOpenPlayer)
+                      UiButton.secondary(
+                        label: context.t.profileOpen,
+                        icon: Icons.person_outline,
+                        onPressed: () {
+                          if (ModalRoute.of(context)?.isCurrent == true) {
+                            Navigator.of(context)
+                                .pop(ScoreDetailsAction.player);
+                          }
+                        },
+                      ),
                     if (canOpenMap)
                       UiButton.primary(
                         label: context.t.scoreOpenBeatmap,
                         icon: Icons.arrow_forward,
                         onPressed: () {
                           if (ModalRoute.of(context)?.isCurrent == true) {
-                            Navigator.of(context).pop(true);
+                            Navigator.of(context)
+                                .pop(ScoreDetailsAction.beatmap);
                           }
                         },
                       ),

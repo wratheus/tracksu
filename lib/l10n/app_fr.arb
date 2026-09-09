@@ -1,4 +1,5 @@
 {
+  "profilePlayHistoryTitle": "Parties par mois",
   "rankingsPosition": "Position nº {position}",
   "rankingsPositionNotice": "Les positions concernent ce classement filtré, pas le rang mondial en PP. Le classement peut changer entre les pages ; actualisez pour le mettre à jour.",
   "rankingsCountrySelection": "Pays ou région",

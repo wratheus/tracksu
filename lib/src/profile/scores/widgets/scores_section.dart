@@ -41,6 +41,11 @@ final class ProfileScoresSection extends StatelessWidget {
                         for (final ProfileScoresType type
                             in ProfileScoresType.values)
                           ChoiceChip(
+                            avatar: Icon(switch (type) {
+                              ProfileScoresType.best =>
+                                Icons.emoji_events_outlined,
+                              ProfileScoresType.recent => Icons.history,
+                            }),
                             selected: type == selected,
                             label: Text(switch (type) {
                               ProfileScoresType.best => context.t.scoresBest,
@@ -91,8 +96,8 @@ final class ProfileScoresSection extends StatelessWidget {
                       child: UiContentState.empty(title: context.t.scoresEmpty),
                     ),
                   SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    sliver: SliverList.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
+                    sliver: UiSliverCardList(
                       itemCount: state.items.length,
                       itemBuilder: (_, int index) => OsuScoreCard(
                         key: ValueKey<int>(state.items[index].id),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/l10n/localized_count.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/rankings/domain/entry.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
@@ -33,17 +34,29 @@ final class _RankingEntryCardState extends State<RankingEntryCard> {
   }
 
   @override
-  Widget build(BuildContext context) => OsuPlayerCard.compact(
-    username: widget.entry.username,
-    countryCode: widget.entry.country,
-    countryLabel: widget.entry.country,
-    avatar: widget.entry.avatarUri == null
-        ? null
-        : NetworkImage(widget.entry.avatarUri.toString()),
-    performanceLabel: widget.type.sort == 'performance'
-        ? context.t.profilePerformance(widget.entry.pp)
-        : context.t.rankingsRankedScore(widget.entry.rankedScore),
-    rankLabel: context.t.rankingsPosition(widget.entry.position),
-    onTap: _opening ? null : _open,
-  );
+  Widget build(BuildContext context) {
+    final LocalizedCount score = LocalizedCount(
+      widget.entry.rankedScore,
+      locale: Localizations.localeOf(context).toLanguageTag(),
+    );
+    final Widget card = OsuPlayerCard.compact(
+      username: widget.entry.username,
+      countryCode: widget.entry.country,
+      countryLabel: widget.entry.country,
+      avatar: widget.entry.avatarUri == null
+          ? null
+          : NetworkImage(widget.entry.avatarUri.toString()),
+      performanceLabel: widget.type.sort == 'performance'
+          ? context.t.profilePerformance(widget.entry.pp)
+          : '${context.t.profileRankedScoreLabel}: ${score.compact}',
+      rankLabel: context.t.rankingsPosition(widget.entry.position),
+      onTap: _opening ? null : _open,
+    );
+    return widget.type.sort == 'performance'
+        ? card
+        : Tooltip(
+            message: '${context.t.profileRankedScoreLabel}: ${score.exact}',
+            child: card,
+          );
+  }
 }

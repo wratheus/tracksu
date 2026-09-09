@@ -14,6 +14,7 @@ final class ProfileDto {
     required this.rankHistory,
     required this.page,
     this.replayHistory,
+    this.playHistory,
   });
 
   factory ProfileDto.fromJson(Map<String, dynamic> json) {
@@ -30,8 +31,11 @@ final class ProfileDto {
         final Map<String, dynamic> value => ContentPageDto.profile(value),
         _ => const ContentPageDto.unavailable(),
       },
-      replayHistory: ProfileReplayHistoryDto.tryFromJson(
+      replayHistory: ProfileMonthlyHistoryDto.tryFromJson(
         json['replays_watched_counts'],
+      ),
+      playHistory: ProfileMonthlyHistoryDto.tryFromJson(
+        json['monthly_playcounts'],
       ),
       coverUrl: switch (reader.optionalMap('cover')) {
         null => null,
@@ -64,20 +68,21 @@ final class ProfileDto {
   final String? coverUrl;
   final ProfileRankHistoryDto? rankHistory;
   final ContentPageDto? page;
-  final ProfileReplayHistoryDto? replayHistory;
+  final ProfileMonthlyHistoryDto? replayHistory;
+  final ProfileMonthlyHistoryDto? playHistory;
 }
 
 /// Optional graph data must not prevent opening otherwise valid profiles.
-final class ProfileReplayHistoryDto {
-  ProfileReplayHistoryDto._(List<({String date, int count})> months)
+final class ProfileMonthlyHistoryDto {
+  ProfileMonthlyHistoryDto._(List<({String date, int count})> months)
     : months = List<({String date, int count})>.unmodifiable(months);
   final List<({String date, int count})> months;
 
-  static ProfileReplayHistoryDto? tryFromJson(Object? json) {
+  static ProfileMonthlyHistoryDto? tryFromJson(Object? json) {
     if (json == null) return null;
     if (json is! List<dynamic> || json.length > 1200) return null;
     try {
-      return ProfileReplayHistoryDto._(
+      return ProfileMonthlyHistoryDto._(
         json
             .map((dynamic item) {
               if (item is! Map<String, dynamic>) {

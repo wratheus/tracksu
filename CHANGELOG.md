@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### September feedback
+
+- Full-width beatmap banners, shared lazy card-list spacing, category icons,
+  integer PP and localized compact profile/ranking counters (long-press for exact values).
+- Monthly play-count history from `monthly_playcounts`, separate from replay views;
+  shared full-history calendar chart, gaps retained instead of invented zeros.
+- Player navigation from beatmap leaderboard result details.
+
 ### Refactored
 
 - Moved live authorization from pages into auth: local composition, typed Bloc

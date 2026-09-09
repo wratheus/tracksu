@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
+import 'package:tracksu/src/profile/domain/profile_params.dart';
+import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/scores/widgets/score_card.dart';
@@ -52,18 +55,28 @@ final class LeaderboardSection extends StatelessWidget {
                       title: context.t.beatmapNoScores,
                     ),
                   ),
-                SliverList.builder(
+                UiSliverCardList(
                   itemCount: state.entries.length,
                   itemBuilder: (BuildContext context, int index) => Padding(
                     key: ValueKey<int>(state.entries[index].score.id),
                     padding: const EdgeInsets.fromLTRB(
                       UiSpace.lg,
-                      UiSpace.sm,
+                      0,
                       UiSpace.lg,
                       0,
                     ),
                     child: OsuScoreCard(
                       score: state.entries[index].score,
+                      onOpenPlayer: () =>
+                          DepsScope.of(context).appRouter.openProfile(
+                            context,
+                            ProfileParams(
+                              user: ProfileUserId(
+                                state.entries[index].score.userId,
+                              ),
+                              ruleset: state.entries[index].score.ruleset,
+                            ),
+                          ),
                       playerLabel: context.t.beatmapLeaderboardPlayer(
                         index + 1,
                         state.entries[index].username ??

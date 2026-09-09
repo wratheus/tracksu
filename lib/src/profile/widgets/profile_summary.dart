@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracksu/src/profile/widgets/monthly_history.dart';
+import 'package:tracksu/src/_shared/ui/compact_count_metric.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/domain/profile.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
@@ -22,7 +24,7 @@ final class ProfileSummary extends StatelessWidget {
     final NumberFormat number = NumberFormat.decimalPattern(locale);
     final NumberFormat decimal = NumberFormat.decimalPatternDigits(
       locale: locale,
-      decimalDigits: 2,
+      decimalDigits: 0,
     );
     final NumberFormat percent = NumberFormat.decimalPercentPattern(
       locale: locale,
@@ -173,28 +175,28 @@ final class ProfileSummary extends StatelessWidget {
                     spacing: UiSpace.md,
                     children: <Widget>[
                       if (statistics.rankedScore case final int value)
-                        UiMetric.row(
+                        CompactCountMetric(
                           label: context.t.profileRankedScoreLabel,
                           icon: Icons.emoji_events_outlined,
-                          value: number.format(value),
+                          value: value,
                         ),
                       if (statistics.totalScore case final int value)
-                        UiMetric.row(
+                        CompactCountMetric(
                           label: context.t.profileTotalScoreLabel,
                           icon: Icons.leaderboard_outlined,
-                          value: number.format(value),
+                          value: value,
                         ),
                       if (statistics.totalHits case final int value)
-                        UiMetric.row(
+                        CompactCountMetric(
                           label: context.t.profileTotalHitsLabel,
                           icon: Icons.touch_app_outlined,
-                          value: number.format(value),
+                          value: value,
                         ),
                       if (statistics.replaysWatched case final int value)
-                        UiMetric.row(
+                        CompactCountMetric(
                           label: context.t.profileReplaysLabel,
                           icon: Icons.visibility_outlined,
-                          value: number.format(value),
+                          value: value,
                         ),
                     ],
                   ),
@@ -205,11 +207,23 @@ final class ProfileSummary extends StatelessWidget {
             padding: const EdgeInsets.only(top: UiSpace.lg),
             child: _RankHistory(profile: profile, ruleset: ruleset),
           ),
-          if (profile.replayHistory case final ProfileReplayHistory history
+          if (profile.playHistory case final ProfileMonthlyHistory history
               when history.months.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: UiSpace.lg),
-              child: _ReplayHistory(history: history),
+              child: ProfileMonthlyChart(
+                history: history,
+                title: context.t.profilePlayHistoryTitle,
+              ),
+            ),
+          if (profile.replayHistory case final ProfileMonthlyHistory history
+              when history.months.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: UiSpace.lg),
+              child: ProfileMonthlyChart(
+                history: history,
+                title: context.t.profileReplayHistoryTitle,
+              ),
             ),
         ],
       ),
@@ -260,91 +274,6 @@ final class _RankHistory extends StatelessWidget {
               context.t.profileHistoryExplanation,
               secondary: true,
             ),
-        ],
-      ),
-    );
-  }
-}
-
-final class _ReplayHistory extends StatefulWidget {
-  const _ReplayHistory({required this.history});
-  final ProfileReplayHistory history;
-
-  @override
-  State<_ReplayHistory> createState() => _ReplayHistoryState();
-}
-
-final class _ReplayHistoryState extends State<_ReplayHistory> {
-  static const int _windowSize = 24;
-  DateTime? _endMonth;
-
-  @override
-  Widget build(BuildContext context) {
-    final List<ProfileReplayMonth> months = widget.history.months;
-    final int end = _endMonth == null
-        ? months.length
-        : months.lastIndexWhere(
-                (ProfileReplayMonth month) => !month.month.isAfter(_endMonth!),
-              ) +
-              1;
-    final int safeEnd = end.clamp(1, months.length);
-    final int start = (safeEnd - _windowSize).clamp(0, months.length);
-    final String locale = Localizations.localeOf(context).toLanguageTag();
-    final NumberFormat number = NumberFormat.decimalPattern(locale);
-    return UiSurface.card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        spacing: UiSpace.sm,
-        children: <Widget>[
-          UiChart.bars(
-            title: context.t.profileReplayHistoryTitle,
-            emptyLabel: context.t.profileHistoryEmpty,
-            points: months
-                .sublist(start, safeEnd)
-                .map(
-                  (ProfileReplayMonth month) => UiChartPoint(
-                    x: (month.month.year * 12 + month.month.month).toDouble(),
-                    value: month.views.toDouble(),
-                    label: DateFormat.yMMM(locale).format(month.month),
-                    valueLabel: number.format(month.views),
-                  ),
-                )
-                .toList(growable: false),
-          ),
-          if (months.length > _windowSize)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                UiIconButton.standard(
-                  icon: Icons.navigate_before,
-                  tooltip: MaterialLocalizations.of(context)
-                      .previousPageTooltip,
-                  onPressed: start == 0
-                      ? null
-                      : () =>
-                            setState(() => _endMonth = months[start - 1].month),
-                ),
-                UiIconButton.standard(
-                  icon: Icons.navigate_next,
-                  tooltip: MaterialLocalizations.of(context).nextPageTooltip,
-                  onPressed: safeEnd == months.length
-                      ? null
-                      : () => setState(() {
-                          final int nextEnd = (safeEnd + _windowSize).clamp(
-                            0,
-                            months.length,
-                          );
-                          _endMonth = nextEnd == months.length
-                              ? null
-                              : months[nextEnd - 1].month;
-                        }),
-                ),
-              ],
-            ),
-          UiText.bodySmall(
-            context.t.profileReplayHistoryExplanation,
-            secondary: true,
-          ),
         ],
       ),
     );

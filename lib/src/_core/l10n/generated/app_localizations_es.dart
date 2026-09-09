@@ -10,6 +10,9 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get profilePlayHistoryTitle => 'Partidas por mes';
+
+  @override
   String rankingsPosition(int position) {
     final intl.NumberFormat positionNumberFormat =
         intl.NumberFormat.decimalPattern(localeName);
@@ -535,7 +538,7 @@ class AppLocalizationsEs extends AppLocalizations {
     final intl.NumberFormat ppNumberFormat =
         intl.NumberFormat.decimalPatternDigits(
           locale: localeName,
-          decimalDigits: 2,
+          decimalDigits: 0,
         );
     final String ppString = ppNumberFormat.format(pp);
 

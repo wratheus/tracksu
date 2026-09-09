@@ -1,4 +1,5 @@
 {
+  "profilePlayHistoryTitle": "Игры по месяцам",
   "rankingsPosition": "Место №{position}",
   "rankingsPositionNotice": "Места относятся к выбранной таблице, а не к мировому PP-рейтингу. Рейтинг может измениться между загрузками страниц; обновите список.",
   "rankingsCountrySelection": "Страна или регион",

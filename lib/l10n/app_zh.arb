@@ -1,4 +1,5 @@
 {
+  "profilePlayHistoryTitle": "每月游玩次数",
   "rankingsPosition": "第 {position} 名",
   "rankingsPositionNotice": "此名次属于当前筛选后的榜单，并非全球 PP 排名。加载不同页面时排名可能变化，请刷新以更新。",
   "rankingsCountrySelection": "国家或地区",

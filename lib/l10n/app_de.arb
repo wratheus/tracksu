@@ -1,4 +1,5 @@
 {
+  "profilePlayHistoryTitle": "Spiele pro Monat",
   "rankingsPosition": "Platz #{position}",
   "rankingsPositionNotice": "Die Plätze gelten für diese gefilterte Tabelle, nicht für den globalen PP-Rang. Zwischen Seitenabrufen kann sich die Rangliste ändern; aktualisiere sie.",
   "rankingsCountrySelection": "Land oder Region",

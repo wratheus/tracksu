@@ -16,6 +16,7 @@ final class Profile {
     this.rankHistory,
     this.about,
     this.replayHistory,
+    this.playHistory,
   });
 
   final int id;
@@ -28,21 +29,22 @@ final class Profile {
   final Uri? coverUri;
   final ProfileRankHistory? rankHistory;
   final ContentPage? about;
-  final ProfileReplayHistory? replayHistory;
+  final ProfileMonthlyHistory? replayHistory;
+  final ProfileMonthlyHistory? playHistory;
 }
 
 @immutable
-final class ProfileReplayHistory {
-  ProfileReplayHistory(List<ProfileReplayMonth> months)
-    : months = List<ProfileReplayMonth>.unmodifiable(months);
-  final List<ProfileReplayMonth> months;
+final class ProfileMonthlyHistory {
+  ProfileMonthlyHistory(List<ProfileMonthlyCount> months)
+    : months = List<ProfileMonthlyCount>.unmodifiable(months);
+  final List<ProfileMonthlyCount> months;
 }
 
 @immutable
-final class ProfileReplayMonth {
-  const ProfileReplayMonth({required this.month, required this.views});
+final class ProfileMonthlyCount {
+  const ProfileMonthlyCount({required this.month, required this.count});
   final DateTime month;
-  final int views;
+  final int count;
 }
 
 @immutable

@@ -108,6 +108,12 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Monthly play count from API monthly_playcounts, not replay views.
+  ///
+  /// In en, this message translates to:
+  /// **'Plays by month'**
+  String get profilePlayHistoryTitle;
+
   /// Position in this filtered server ranking page, not global PP rank.
   ///
   /// In en, this message translates to:
@@ -1008,7 +1014,7 @@ abstract class AppLocalizations {
   /// **'ID: {id}'**
   String profileId(int id);
 
-  /// Player or score performance points (PP), formatted with two decimal places.
+  /// Player or score performance points (PP), displayed as an integer.
   ///
   /// In en, this message translates to:
   /// **'Performance: {pp}'**

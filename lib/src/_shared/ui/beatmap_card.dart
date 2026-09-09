@@ -33,7 +33,7 @@ final class OsuBeatmapCard extends StatelessWidget {
   final String? detail;
   final VoidCallback? onTap;
 
-  /// Full-width metadata, not squeezed next to the optional thumbnail.
+  /// Full-width metadata below the banner and title.
   final Widget? facts;
   final bool _featured;
 
@@ -44,18 +44,14 @@ final class OsuBeatmapCard extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        if (_featured && cover != null) UiCover(image: cover),
+        if (cover != null)
+          UiCover(image: cover, aspectRatio: _featured ? 16 / 9 : 3),
         Padding(
           padding: const EdgeInsets.all(UiSpace.lg),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: UiSpace.md,
             children: <Widget>[
-              if (!_featured && cover != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(UiShape.control),
-                  child: UiImage(image: cover, width: 64, height: 64),
-                ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

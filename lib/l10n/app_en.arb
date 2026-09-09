@@ -1,4 +1,6 @@
 {
+  "profilePlayHistoryTitle": "Plays by month",
+  "@profilePlayHistoryTitle": {"description": "Monthly play count from API monthly_playcounts, not replay views."},
   "rankingsPosition": "Position #{position}",
   "@rankingsPosition": {"description":"Position in this filtered server ranking page, not global PP rank.","placeholders":{"position":{"type":"int","format":"decimalPattern"}}},
   "rankingsPositionNotice": "Positions belong to this filtered table, not global PP ranks. Live rankings can move between page loads; refresh to update.",
@@ -427,13 +429,13 @@
   },
   "profilePerformance": "Performance: {pp}",
   "@profilePerformance": {
-    "description": "Player or score performance points (PP), formatted with two decimal places.",
+    "description": "Player or score performance points (PP), displayed as an integer.",
     "placeholders": {
       "pp": {
         "type": "double",
         "format": "decimalPatternDigits",
         "optionalParameters": {
-          "decimalDigits": 2
+          "decimalDigits": 0
         }
       }
     }
