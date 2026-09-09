@@ -19,8 +19,8 @@
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# is intentionally enabled for this project: launch configurations are local.
+/.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
