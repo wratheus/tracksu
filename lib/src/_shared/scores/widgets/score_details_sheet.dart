@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/sharing/share_button.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/scores/domain/score.dart';
@@ -114,6 +116,25 @@ final class ScoreDetailsSheet extends StatelessWidget {
                             .format(score.endedAt.toLocal()),
                       ),
                       secondary: true,
+                    ),
+                    Wrap(
+                      spacing: UiSpace.sm,
+                      runSpacing: UiSpace.sm,
+                      children: <Widget>[
+                        ShareButton.labelled(
+                          target: ShareTarget.score(
+                            score.id,
+                            context.t.scoreDetailsTitle,
+                          ),
+                        ),
+                        ShareButton.labelled(
+                          label: context.t.shareBeatmapAction,
+                          target: ShareTarget.beatmap(
+                            score.beatmapId,
+                            score.beatmapTitle ?? context.t.beatmapTitle,
+                          ),
+                        ),
+                      ],
                     ),
                     if (canOpenPlayer)
                       UiButton.secondary(

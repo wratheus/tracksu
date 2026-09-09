@@ -45,4 +45,33 @@ Format/analyze/diff-check; ручная оценка на устройстве �
 сохранения показывается сообщение о возможном сбросе после перезапуска.
 Источники недоступных картинок требуют ручной проверки: соглашение не отменяет
 HTTPS/формат/размер limits и не гарантирует доступность стороннего сервера.
-Share/расширенные поля/шрифт ещё не выполнены.
+Share реализован: общий app-level ShareTarget/ShareService и ShareButton поверх
+UI kit; одна панель Telegram/WhatsApp/Facebook/X, copy и системный chooser.
+Подключены поиск, рейтинг с фильтрами, Spotlights, список/страница новости,
+профиль, карта, результат, модалка выбора сложности и Share карты в результате.
+Это публичные ссылки osu!, не новые Tracksu deep links; поиск не выдаёт draft.
+Аккаунт/OAuth/settings/catalog не являются публичными share targets.
+Технические источники: [share_plus](https://pub.dev/packages/share_plus),
+[Telegram](https://core.telegram.org/widgets/share),
+[WhatsApp](https://faq.whatsapp.com/5913398998672934/?locale=pt_BR),
+[X Web Intents](https://docs.x.com/x-for-websites/web-intents/overview),
+[Facebook sharer](https://www.facebook.com/sharer/sharer.php), osu-web routes/web.php.
+Facebook docs ограничены 429; web sharer ведёт в login/composer, поведение после
+входа требует ручной проверки. Соцсети могут открыть браузер вместо приложения;
+если launch возвращает false, предлагается системный chooser. Никаких SDK/login
+соцсетей, записи recipients/raw result/аналитики, автопостинга или preview fetch.
+
+Следующий срез: прежние имена, команды/группы, медали, ranked play/daily challenge.
+Шрифт цифр и индикаторы сложностей также ещё не выполнены.
+
+## Ручная проверка
+
+- RU/DE/JA и увеличенный текст: карточки, целые PP, длинные счётчики/tooltip.
+- Профиль с `monthly_playcounts`: отдельный график игр, реальные месяцы/пропуски.
+- Картинки: первый выбор, отказ/перезапуск, allow/перезапуск, выключение в guest,
+  background/другая вкладка; технически недоступная картинка не зависает.
+- Share: оба типа кнопки, все перечисленные страницы и вложенная модалка;
+  copy, dismiss/Back/двойной тап, получатель установлен/не установлен, ошибки
+  браузера, Telegram/WA/Facebook/X после входа. Native plugin требует полного
+  перезапуска приложения пользователем; hot reload недостаточен.
+- Проверки агента только format/analyze/diff; APK и тесты не запускались.

@@ -10,6 +10,28 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get shareSystem => 'その他のアプリ…';
+
+  @override
+  String get shareCopy => 'リンクをコピー';
+
+  @override
+  String get shareCopied => 'リンクをコピーしました';
+
+  @override
+  String get shareDestinationNotice =>
+      '開いたアプリまたはブラウザーで送信先を選んでください。自動で投稿されることはありません。リンク先はosu!の公開ページです。プレビューは送信先アプリによって異なります。';
+
+  @override
+  String get shareAction => '共有';
+
+  @override
+  String get shareBeatmapAction => 'ビートマップを共有';
+
+  @override
+  String get shareFailed => '共有メニューを開けませんでした。もう一度お試しください。';
+
+  @override
   String get contentMediaSettings => '外部画像';
 
   @override

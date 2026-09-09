@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/sharing/share_button.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
@@ -15,7 +17,26 @@ final class SpotlightsScreen extends StatelessWidget {
   const SpotlightsScreen({super.key});
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: UiText.titleLarge(context.t.spotlightsTitle)),
+    appBar: AppBar(
+      title: UiText.titleLarge(context.t.spotlightsTitle),
+      actions: <Widget>[
+        BlocBuilder<SpotlightsBloc, SpotlightsState>(
+          builder: (BuildContext context, SpotlightsState state) =>
+              ShareButton.icon(
+                target: ShareTarget.spotlight(
+                  state is SpotlightsLoadedState
+                      ? state.ruleset
+                      : ProfileRuleset.osu,
+                  state is SpotlightsLoadedState ? state.selectedId : null,
+                  state is SpotlightsLoadedState
+                      ? state.details?.spotlight.name ??
+                            context.t.spotlightsTitle
+                      : context.t.spotlightsTitle,
+                ),
+              ),
+        ),
+      ],
+    ),
     body: const SafeArea(child: _SpotlightsBody()),
   );
 }

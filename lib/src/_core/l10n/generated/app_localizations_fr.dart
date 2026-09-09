@@ -10,6 +10,29 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get shareSystem => 'Autres applications…';
+
+  @override
+  String get shareCopy => 'Copier le lien';
+
+  @override
+  String get shareCopied => 'Lien copié';
+
+  @override
+  String get shareDestinationNotice =>
+      'Choisissez le destinataire dans l’application ou le navigateur qui s’ouvre. Rien n’est publié automatiquement. Le lien mène à la page publique osu! ; l’aperçu dépend de l’application destinataire.';
+
+  @override
+  String get shareAction => 'Partager';
+
+  @override
+  String get shareBeatmapAction => 'Partager la beatmap';
+
+  @override
+  String get shareFailed =>
+      'Impossible d’ouvrir le menu de partage. Réessayez.';
+
+  @override
   String get contentMediaSettings => 'Images externes';
 
   @override

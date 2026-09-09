@@ -10,6 +10,29 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get shareSystem => 'Другие приложения…';
+
+  @override
+  String get shareCopy => 'Копировать ссылку';
+
+  @override
+  String get shareCopied => 'Ссылка скопирована';
+
+  @override
+  String get shareDestinationNotice =>
+      'Выберите получателя в открывшемся приложении или браузере. Ничего не публикуется автоматически. Ссылка ведёт на публичную страницу osu!; превью зависит от приложения получателя.';
+
+  @override
+  String get shareAction => 'Поделиться';
+
+  @override
+  String get shareBeatmapAction => 'Поделиться картой';
+
+  @override
+  String get shareFailed =>
+      'Не удалось открыть меню «Поделиться». Попробуйте ещё раз.';
+
+  @override
   String get contentMediaSettings => 'Внешние изображения';
 
   @override

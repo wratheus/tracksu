@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/sharing/share_button.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
@@ -15,6 +17,19 @@ final class NewsScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.newsTitle),
       actions: <Widget>[
+        BlocBuilder<NewsBloc, NewsState>(
+          builder: (BuildContext context, NewsState state) =>
+              state is NewsArticleState
+              ? ShareButton.icon(
+                  target: ShareTarget.news(
+                    state.article.post.uri,
+                    state.article.post.title,
+                  ),
+                )
+              : ShareButton.icon(
+                  target: ShareTarget.newsList(context.t.newsTitle),
+                ),
+        ),
         BlocSelector<NewsBloc, NewsState, bool>(
           selector: (NewsState state) =>
               state is NewsInitialState ||

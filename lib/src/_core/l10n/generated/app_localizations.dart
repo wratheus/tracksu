@@ -108,6 +108,48 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Shared sheet controls and public-link disclosure: shareSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Other apps…'**
+  String get shareSystem;
+
+  /// Shared sheet controls and public-link disclosure: shareCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get shareCopy;
+
+  /// Shared sheet controls and public-link disclosure: shareCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied'**
+  String get shareCopied;
+
+  /// Shared sheet controls and public-link disclosure: shareDestinationNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a recipient in the app or browser that opens. Nothing is posted automatically. The link leads to the public osu! page; previews depend on the receiving app.'**
+  String get shareDestinationNotice;
+
+  /// Native system share action: shareAction. No automatic sending or delivery tracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get shareAction;
+
+  /// Native system share action: shareBeatmapAction. No automatic sending or delivery tracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Share beatmap'**
+  String get shareBeatmapAction;
+
+  /// Native system share action: shareFailed. No automatic sending or delivery tracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the share sheet. Please try again.'**
+  String get shareFailed;
+
   /// External image preference: contentMediaSettings.
   ///
   /// In en, this message translates to:

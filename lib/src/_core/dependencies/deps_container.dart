@@ -6,6 +6,7 @@ import 'package:tracksu/src/_core/l10n/locale_controller.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
+import 'package:tracksu/src/_shared/sharing/share_service.dart';
 import 'package:tracksu/src/_shared/content/content_media_controller.dart';
 
 final class DepsContainer {
@@ -13,6 +14,7 @@ final class DepsContainer {
     required this.appRouter,
     required this.localeController,
     required this.contentMediaController,
+    required this.shareService,
     required this.authRepository,
     required this.oauthClientCredentials,
     required this.oauthCallbackLinkSource,
@@ -27,6 +29,7 @@ final class DepsContainer {
   final TracksuAppRouter appRouter;
   final LocaleController localeController;
   final ContentMediaController contentMediaController;
+  final ShareService shareService;
   final AuthRepository authRepository;
   final OAuthClientCredentials oauthClientCredentials;
   final OAuthCallbackLinkSource oauthCallbackLinkSource;

@@ -10,6 +10,28 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get shareSystem => 'Other apps…';
+
+  @override
+  String get shareCopy => 'Copy link';
+
+  @override
+  String get shareCopied => 'Link copied';
+
+  @override
+  String get shareDestinationNotice =>
+      'Choose a recipient in the app or browser that opens. Nothing is posted automatically. The link leads to the public osu! page; previews depend on the receiving app.';
+
+  @override
+  String get shareAction => 'Share';
+
+  @override
+  String get shareBeatmapAction => 'Share beatmap';
+
+  @override
+  String get shareFailed => 'Could not open the share sheet. Please try again.';
+
+  @override
   String get contentMediaSettings => 'External images';
 
   @override

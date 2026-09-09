@@ -10,6 +10,29 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get shareSystem => 'Otras aplicaciones…';
+
+  @override
+  String get shareCopy => 'Copiar enlace';
+
+  @override
+  String get shareCopied => 'Enlace copiado';
+
+  @override
+  String get shareDestinationNotice =>
+      'Elige un destinatario en la aplicación o el navegador que se abra. Nada se publica automáticamente. El enlace lleva a la página pública de osu!; la vista previa depende de la aplicación receptora.';
+
+  @override
+  String get shareAction => 'Compartir';
+
+  @override
+  String get shareBeatmapAction => 'Compartir mapa';
+
+  @override
+  String get shareFailed =>
+      'No se pudo abrir el menú para compartir. Inténtalo de nuevo.';
+
+  @override
   String get contentMediaSettings => 'Imágenes externas';
 
   @override

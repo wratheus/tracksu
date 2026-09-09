@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/sharing/share_button.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
@@ -24,6 +26,18 @@ final class ProfileScreen extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
+        BlocBuilder<ProfileBloc, ProfileState>(
+          builder: (BuildContext context, ProfileState state) =>
+              state is ProfileLoadedState
+              ? ShareButton.icon(
+                  target: ShareTarget.profile(
+                    state.profile.id,
+                    state.ruleset,
+                    state.profile.username,
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
         BlocSelector<ProfileBloc, ProfileState, bool>(
           selector: (ProfileState state) =>
               state is ProfileInitialState ||

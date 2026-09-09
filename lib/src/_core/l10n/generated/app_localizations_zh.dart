@@ -10,6 +10,28 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get shareSystem => '其他应用…';
+
+  @override
+  String get shareCopy => '复制链接';
+
+  @override
+  String get shareCopied => '链接已复制';
+
+  @override
+  String get shareDestinationNotice =>
+      '在打开的应用或浏览器中选择接收者。不会自动发布任何内容。链接指向 osu! 的公开页面，预览取决于接收应用。';
+
+  @override
+  String get shareAction => '分享';
+
+  @override
+  String get shareBeatmapAction => '分享谱面';
+
+  @override
+  String get shareFailed => '无法打开分享菜单，请重试。';
+
+  @override
   String get contentMediaSettings => '外部图片';
 
   @override

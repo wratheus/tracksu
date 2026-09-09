@@ -1,4 +1,11 @@
 {
+  "shareSystem": "Otras aplicaciones…",
+  "shareCopy": "Copiar enlace",
+  "shareCopied": "Enlace copiado",
+  "shareDestinationNotice": "Elige un destinatario en la aplicación o el navegador que se abra. Nada se publica automáticamente. El enlace lleva a la página pública de osu!; la vista previa depende de la aplicación receptora.",
+  "shareAction": "Compartir",
+  "shareBeatmapAction": "Compartir mapa",
+  "shareFailed": "No se pudo abrir el menú para compartir. Inténtalo de nuevo.",
   "contentMediaSettings": "Imágenes externas",
   "contentMediaConsent": "Las imágenes de perfiles, descripciones de mapas y noticias se descargan de servidores externos. Estos reciben tu dirección IP y pueden registrar solicitudes. La elección se aplica a todas estas imágenes en este dispositivo y puede cambiarse en el menú de cuenta. Los avatares y portadas de osu! se cargan por separado.",
   "contentMediaAllow": "Permitir imágenes",

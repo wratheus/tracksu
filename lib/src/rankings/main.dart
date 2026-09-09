@@ -1,5 +1,8 @@
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/sharing/share_button.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
+import 'package:tracksu/src/rankings/domain/rankings_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/rankings/bloc/bloc.dart';
@@ -30,7 +33,24 @@ final class RankingsMain extends StatelessWidget {
             ),
           )..add(const RankingsStarted()),
           child: Scaffold(
-            appBar: AppBar(title: UiText.titleLarge(context.t.rankingsTitle)),
+            appBar: AppBar(
+              title: UiText.titleLarge(context.t.rankingsTitle),
+              actions: <Widget>[
+                BlocBuilder<RankingsBloc, RankingsState>(
+                  builder: (BuildContext context, RankingsState state) =>
+                      ShareButton.icon(
+                        target: ShareTarget.rankings(
+                          RankingsQuery(
+                            type: state.type,
+                            country: state.country,
+                            variant: state.variant,
+                          ),
+                          context.t.rankingsTitle,
+                        ),
+                      ),
+                ),
+              ],
+            ),
             body: const SafeArea(child: _RankingsBody()),
           ),
         ),

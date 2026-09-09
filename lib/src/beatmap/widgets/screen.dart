@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/sharing/share_button.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/beatmap_card.dart';
@@ -19,7 +21,27 @@ final class BeatmapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: UiText.titleLarge(context.t.beatmapTitle)),
+    appBar: AppBar(
+      title: UiText.titleLarge(context.t.beatmapTitle),
+      actions: <Widget>[
+        BlocBuilder<BeatmapBloc, BeatmapState>(
+          builder: (BuildContext context, BeatmapState state) =>
+              state is BeatmapLoadedState
+              ? ShareButton.icon(
+                  target: state.selectedId == null
+                      ? ShareTarget.beatmapset(
+                          state.details.id,
+                          state.details.title,
+                        )
+                      : ShareTarget.beatmap(
+                          state.selectedId!,
+                          state.details.title,
+                        ),
+                )
+              : const SizedBox.shrink(),
+        ),
+      ],
+    ),
     body: SafeArea(
       child: CustomScrollView(
         slivers: <Widget>[
@@ -112,23 +134,56 @@ final class _DifficultyPicker extends StatelessWidget {
 
   Future<void> _choose(BuildContext context) async {
     final BeatmapBloc bloc = context.read<BeatmapBloc>();
-    final int? id = await UiModal.selection<int>(
+    final int? id = await UiModal.scrollable<int>(
       context,
       title: context.t.beatmapDifficulties,
-      selected: state.selectedId,
-      choices: state.details.difficulties
-          .map(
-            (BeatmapDifficulty difficulty) => UiChoice<int>(
-              value: difficulty.id,
-              label: difficulty.name,
-              subtitle: context.t.beatmapDifficultyInfo(
-                difficulty.ruleset.apiValue,
-                difficulty.stars,
-                difficulty.lengthSeconds,
+      builder: (BuildContext modalContext) => CustomScrollView(
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(UiSpace.lg),
+              child: ShareButton.labelled(
+                label: context.t.shareBeatmapAction,
+                target: ShareTarget.beatmapset(
+                  state.details.id,
+                  state.details.title,
+                ),
               ),
             ),
-          )
-          .toList(growable: false),
+          ),
+          SliverList.builder(
+            itemCount: state.details.difficulties.length,
+            itemBuilder: (BuildContext context, int index) {
+              final BeatmapDifficulty difficulty =
+                  state.details.difficulties[index];
+              return Row(
+                children: <Widget>[
+                  Expanded(
+                    child: UiTile.selection(
+                      title: difficulty.name,
+                      subtitle: context.t.beatmapDifficultyInfo(
+                        difficulty.ruleset.apiValue,
+                        difficulty.stars,
+                        difficulty.lengthSeconds,
+                      ),
+                      selected: state.selectedId == difficulty.id,
+                      onTap: () {
+                        if (ModalRoute.of(modalContext)?.isCurrent == true) {
+                          Navigator.of(modalContext).pop(difficulty.id);
+                        }
+                      },
+                    ),
+                  ),
+                  ShareButton.icon(
+                    label: context.t.shareBeatmapAction,
+                    target: ShareTarget.beatmap(difficulty.id, difficulty.name),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
     );
     if (context.mounted && !bloc.isClosed && id != null) {
       bloc.add(BeatmapSelected(id));

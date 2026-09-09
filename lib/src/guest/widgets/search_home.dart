@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/sharing/share_button.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
@@ -55,7 +57,10 @@ final class _SearchHomeState extends State<SearchHome> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: UiText.titleLarge(context.t.appTitle),
-      actions: const <Widget>[AccountActions()],
+      actions: <Widget>[
+        ShareButton.icon(target: ShareTarget.search(context.t.profileSearch)),
+        const AccountActions(),
+      ],
     ),
     body: SafeArea(
       top: false,

@@ -4,6 +4,11 @@
 
 ### September feedback
 
+- Shared Tracksu share sheet: Telegram, WhatsApp, Facebook, X/Twitter composers,
+  native system chooser (`share_plus`) and copy link. Available on search,
+  rankings/Spotlights, news, profile, beatmap and result details, including
+  difficulty-selection modals. Public osu! URLs only; no automatic posting.
+
 - External rich-content images now require a persisted allow/decline choice;
   Account → External images exposes the same control for guests and signed-in users.
   Revocation cancels active requests. Failure/unsupported-address text is separate

@@ -25,6 +25,7 @@ dependencies:
   http: ^1.6.0
   html: ^0.15.1
   url_launcher: ^6.3.2
+  share_plus: ^13.3.0
   bloc: ^9.2.1
   flutter_bloc: ^9.1.1
   flutter_secure_storage: ^11.0.0

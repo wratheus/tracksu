@@ -1,4 +1,11 @@
 {
+  "shareSystem": "Autres applications…",
+  "shareCopy": "Copier le lien",
+  "shareCopied": "Lien copié",
+  "shareDestinationNotice": "Choisissez le destinataire dans l’application ou le navigateur qui s’ouvre. Rien n’est publié automatiquement. Le lien mène à la page publique osu! ; l’aperçu dépend de l’application destinataire.",
+  "shareAction": "Partager",
+  "shareBeatmapAction": "Partager la beatmap",
+  "shareFailed": "Impossible d’ouvrir le menu de partage. Réessayez.",
   "contentMediaSettings": "Images externes",
   "contentMediaConsent": "Les images des profils, descriptions de beatmaps et actualités sont téléchargées depuis des serveurs externes. Ceux-ci reçoivent votre adresse IP et peuvent enregistrer les requêtes. Ce choix concerne toutes ces images sur cet appareil et peut être modifié dans le menu du compte. Les avatars et couvertures osu! sont chargés séparément.",
   "contentMediaAllow": "Autoriser les images",

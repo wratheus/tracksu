@@ -17,6 +17,7 @@ import 'package:tracksu/src/_core/router/app_router.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
+import 'package:tracksu/src/_shared/sharing/share_service.dart';
 import 'package:tracksu/src/_shared/content/content_media_controller.dart';
 
 Future<DepsContainer> registerDependencies() async {
@@ -89,6 +90,7 @@ Future<DepsContainer> registerDependencies() async {
     ),
     localeController: localeController,
     contentMediaController: contentMediaController,
+    shareService: ShareService(),
     authRepository: authRepository,
     oauthClientCredentials: oauthClientCredentials,
     oauthCallbackLinkSource: oauthCallbackLinkSource,

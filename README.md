@@ -88,6 +88,12 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 ### News, account, and experience
 
+- Share public osu! pages through a reusable Tracksu sheet: Telegram, WhatsApp,
+  Facebook, X/Twitter, the system app chooser, or copy link. Search shares the
+  public osu! search page (not your draft); rankings retain mode/country/variant.
+  No recipient selection or posting happens automatically; app/browser behaviour
+  and previews depend on the destination. Private settings and OAuth are excluded.
+
 - Read the latest news from the osu! website in a lightweight in-app reader.
 - Read formatted profile About pages and news through a shared native reader:
   expandable spoilers, bounded raster images and an image zoom viewer.

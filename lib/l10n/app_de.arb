@@ -1,4 +1,11 @@
 {
+  "shareSystem": "Weitere Apps…",
+  "shareCopy": "Link kopieren",
+  "shareCopied": "Link kopiert",
+  "shareDestinationNotice": "Wähle den Empfänger in der geöffneten App oder im Browser. Nichts wird automatisch veröffentlicht. Der Link führt zur öffentlichen osu!-Seite; Vorschauen hängen von der Ziel-App ab.",
+  "shareAction": "Teilen",
+  "shareBeatmapAction": "Beatmap teilen",
+  "shareFailed": "Das Teilen-Menü konnte nicht geöffnet werden. Versuche es erneut.",
   "contentMediaSettings": "Externe Bilder",
   "contentMediaConsent": "Bilder in Profilen, Beatmap-Beschreibungen und Nachrichten werden von externen Servern geladen. Diese erhalten deine IP-Adresse und können Anfragen protokollieren. Die Auswahl gilt auf diesem Gerät für alle solchen Bilder und lässt sich im Kontomenü ändern. Avatare und Beatmap-Cover von osu! werden separat geladen.",
   "contentMediaAllow": "Bilder erlauben",
