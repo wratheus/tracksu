@@ -3,6 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/generated/app_localizations.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
+import 'package:tracksu/src/_shared/scores/domain/score.dart';
+import 'package:tracksu/src/_shared/scores/domain/score_details.dart';
+import 'package:tracksu/src/_shared/scores/widgets/score_card.dart';
 import 'package:tracksu/src/_shared/beatmaps/domain/beatmap_metadata.dart';
 import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_facts.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
@@ -240,20 +243,48 @@ final class ProductCatalogSliver extends StatelessWidget {
       ),
       6 => UiSection(
         title: t.scoresBest,
-        child: OsuPlayCard(
-          title: 'Natsuzora Yell (TV Size)',
-          artist: 'Konohara Mikuru',
-          difficulty: "Taeyang’s Expert",
-          cover: _art,
-          grade: 'S',
-          gradeLabel: t.scoresGrade('S'),
-          accuracyLabel: t.profileAccuracy(99.47),
-          comboLabel: t.scoresCombo(1024),
-          performanceLabel: t.profilePerformance(401),
-          dateLabel: t.scoresPlayedAt(date),
-          mods: const <String>['HD', 'HR'],
-          noModsLabel: t.scoresNoMods,
-          totalLabel: t.scoresTotal(987654),
+        child: OsuScoreCard(
+          score: OsuScore(
+            id: 1,
+            beatmapId: 123456,
+            userId: 1,
+            ruleset: ProfileRuleset.osu,
+            accuracy: 0.9947,
+            totalScore: 987654,
+            maximumCombo: 1024,
+            rank: 'S',
+            passed: true,
+            performancePoints: 401,
+            endedAt: DateTime.utc(2026, 9, 7),
+            beatmapTitle: 'Natsuzora Yell (TV Size)',
+            artist: 'Konohara Mikuru',
+            difficulty: "Taeyang’s Expert",
+            hitCounts: const <ScoreHitCount>[
+              ScoreHitCount(kind: 'great', achieved: 1024, maximum: 1027),
+              ScoreHitCount(kind: 'ok', achieved: 3),
+              ScoreHitCount(kind: 'miss', achieved: 0),
+              ScoreHitCount(kind: 'slider_tail_hit', maximum: 24),
+            ],
+            mods: <ScoreMod>[
+              ScoreMod(
+                acronym: 'DT',
+                settings: const <ScoreModSetting>[
+                  ScoreModSetting(
+                    name: 'speed_change',
+                    value: ScoreModNumber(1.25),
+                  ),
+                  ScoreModSetting(
+                    name: 'adjust_pitch',
+                    value: ScoreModBool(false),
+                  ),
+                  ScoreModSetting(
+                    name: 'future_setting',
+                    value: ScoreModUnsupported(),
+                  ),
+                ],
+              ),
+            ],
+          ),
           onTap: preview,
         ),
       ),

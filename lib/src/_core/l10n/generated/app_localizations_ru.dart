@@ -10,6 +10,45 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get scoreHitsTitle => 'Попадания';
+
+  @override
+  String get scoreHitsExplanation =>
+      'Типы попаданий указаны как в API. Пропуск — не ноль; максимальные количества относятся к идеальному прохождению, а не к цели в каждой строке.';
+
+  @override
+  String get scoreHitsAchieved => 'Получено';
+
+  @override
+  String get scoreHitsMaximum => 'При идеальном прохождении';
+
+  @override
+  String get scoreModSettingsTitle => 'Настройки модов';
+
+  @override
+  String get scoreModSettingsExplanation =>
+      'Названия параметров сохранены из API. Показаны только переданные настройки — значения по умолчанию не подставляются.';
+
+  @override
+  String get scoreNoModSettings => 'Явные настройки не переданы.';
+
+  @override
+  String get scoreDetailsUnavailable => 'Недоступно';
+
+  @override
+  String get scoreSettingEnabled => 'Включено';
+
+  @override
+  String get scoreSettingDisabled => 'Выключено';
+
+  @override
+  String get beatmapDescription => 'Описание карты';
+
+  @override
+  String get contentPageUnavailable =>
+      'Этот контент не удалось отобразить здесь. Можно открыть оригинал.';
+
+  @override
   String get scoreDetailsTitle => 'Подробности результата';
 
   @override

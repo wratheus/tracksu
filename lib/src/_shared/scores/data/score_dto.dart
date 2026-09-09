@@ -1,6 +1,7 @@
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/_shared/scores/domain/score.dart';
+import 'package:tracksu/src/_shared/scores/data/score_details_dto.dart';
 
 final class OsuScoreDto {
   const OsuScoreDto({
@@ -16,6 +17,8 @@ final class OsuScoreDto {
     required this.pp,
     required this.endedAt,
     required this.mods,
+    this.statistics,
+    this.maximumStatistics,
     this.beatmapTitle,
     this.artist,
     this.difficulty,
@@ -32,15 +35,16 @@ final class OsuScoreDto {
         'Nested beatmap does not match score beatmap.',
       );
     }
-    final List<String> mods = <String>[];
+    final List<ScoreModDto> mods = <ScoreModDto>[];
     for (final Object? item in reader.requiredList('mods')) {
       if (item is! Map<String, dynamic>) {
         throw const FormatException(
           'Expected a mod object, not a legacy acronym.',
         );
       }
-      mods.add(JsonMapReader(item).requiredString('acronym'));
+      mods.add(ScoreModDto.fromJson(item));
     }
+    if (mods.length > 64) throw const FormatException('Too many score mods.');
     return OsuScoreDto(
       id: reader.requiredInt('id', positive: true),
       beatmapId: beatmapId,
@@ -53,7 +57,15 @@ final class OsuScoreDto {
       passed: reader.requiredBool('passed'),
       pp: reader.optionalDouble('pp'),
       endedAt: reader.requiredString('ended_at'),
-      mods: List<String>.unmodifiable(mods),
+      mods: List<ScoreModDto>.unmodifiable(mods),
+      statistics: switch (reader.optionalMap('statistics')) {
+        null => null,
+        final Map<String, dynamic> value => ScoreStatisticsDto.fromJson(value),
+      },
+      maximumStatistics: switch (reader.optionalMap('maximum_statistics')) {
+        null => null,
+        final Map<String, dynamic> value => ScoreStatisticsDto.fromJson(value),
+      },
       beatmapTitle: beatmapset == null
           ? null
           : JsonMapReader(beatmapset).requiredString('title'),
@@ -77,7 +89,9 @@ final class OsuScoreDto {
   final bool passed;
   final double? pp;
   final String endedAt;
-  final List<String> mods;
+  final List<ScoreModDto> mods;
+  final ScoreStatisticsDto? statistics;
+  final ScoreStatisticsDto? maximumStatistics;
   final String? beatmapTitle;
   final String? artist;
   final String? difficulty;
@@ -113,7 +127,10 @@ final class OsuScoreDto {
       passed: passed,
       performancePoints: pp,
       endedAt: DateTime.parse(endedAt).toUtc(),
-      mods: mods,
+      mods: mods
+          .map((ScoreModDto mod) => mod.toDomain())
+          .toList(growable: false),
+      hitCounts: ScoreStatisticsDto.toDomain(statistics, maximumStatistics),
       beatmapTitle: beatmapTitle,
       artist: artist,
       difficulty: difficulty,

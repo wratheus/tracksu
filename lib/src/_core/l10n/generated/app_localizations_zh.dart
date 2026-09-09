@@ -10,6 +10,42 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get scoreHitsTitle => '判定结果';
+
+  @override
+  String get scoreHitsExplanation => '判定名称沿用API。缺失不等于零；最大数量指完美游玩的判定数量，而非每行的目标。';
+
+  @override
+  String get scoreHitsAchieved => '实际数量';
+
+  @override
+  String get scoreHitsMaximum => '完美游玩数量';
+
+  @override
+  String get scoreModSettingsTitle => '模组设置';
+
+  @override
+  String get scoreModSettingsExplanation => '保留API参数名称。仅显示已提供的设置，不推测默认值。';
+
+  @override
+  String get scoreNoModSettings => '未提供明确设置。';
+
+  @override
+  String get scoreDetailsUnavailable => '不可用';
+
+  @override
+  String get scoreSettingEnabled => '已启用';
+
+  @override
+  String get scoreSettingDisabled => '已禁用';
+
+  @override
+  String get beatmapDescription => '谱面说明';
+
+  @override
+  String get contentPageUnavailable => '无法在此显示内容。你可以打开原文。';
+
+  @override
   String get scoreDetailsTitle => '成绩详情';
 
   @override

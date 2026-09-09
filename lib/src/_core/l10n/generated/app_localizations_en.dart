@@ -10,6 +10,45 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get scoreHitsTitle => 'Hit results';
+
+  @override
+  String get scoreHitsExplanation =>
+      'API hit-result names are shown as provided. Missing counts are not zero; maximum counts describe a perfect play, not a per-row target.';
+
+  @override
+  String get scoreHitsAchieved => 'Achieved';
+
+  @override
+  String get scoreHitsMaximum => 'Perfect-play count';
+
+  @override
+  String get scoreModSettingsTitle => 'Mod settings';
+
+  @override
+  String get scoreModSettingsExplanation =>
+      'API setting names are retained. Only explicitly supplied settings are shown; no default values are assumed.';
+
+  @override
+  String get scoreNoModSettings => 'No explicit settings supplied.';
+
+  @override
+  String get scoreDetailsUnavailable => 'Not available';
+
+  @override
+  String get scoreSettingEnabled => 'Enabled';
+
+  @override
+  String get scoreSettingDisabled => 'Disabled';
+
+  @override
+  String get beatmapDescription => 'Map description';
+
+  @override
+  String get contentPageUnavailable =>
+      'This content cannot be displayed here. You can open the original.';
+
+  @override
   String get scoreDetailsTitle => 'Result details';
 
   @override

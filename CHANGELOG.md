@@ -26,6 +26,11 @@
 
 ### Added
 
+- Result details retain sparse hit-result counts and perfect-play counts, plus
+  typed mod settings. Missing values are not zero-filled, and unknown setting
+  types are explicitly unavailable. The shared bounded sheet builds rows lazily
+  and keeps a score snapshot while refreshes occur. Manual catalog sample included.
+
 - Profile replay-view history uses API month/count observations, sorted and
   validated independently of core profile data, in local windows of 24 samples.
   Rank charts now have shape-preserving curves, subtle fill, fewer markers and

@@ -10,6 +10,45 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get scoreHitsTitle => 'Résultats des frappes';
+
+  @override
+  String get scoreHitsExplanation =>
+      'Les noms correspondent à l’API. Une valeur absente n’est pas zéro ; les maxima décrivent une partie parfaite, pas un objectif par ligne.';
+
+  @override
+  String get scoreHitsAchieved => 'Obtenus';
+
+  @override
+  String get scoreHitsMaximum => 'Lors d’une partie parfaite';
+
+  @override
+  String get scoreModSettingsTitle => 'Paramètres des mods';
+
+  @override
+  String get scoreModSettingsExplanation =>
+      'Les noms de l’API sont conservés. Seuls les paramètres fournis sont affichés, sans supposer de valeurs par défaut.';
+
+  @override
+  String get scoreNoModSettings => 'Aucun paramètre explicite fourni.';
+
+  @override
+  String get scoreDetailsUnavailable => 'Indisponible';
+
+  @override
+  String get scoreSettingEnabled => 'Activé';
+
+  @override
+  String get scoreSettingDisabled => 'Désactivé';
+
+  @override
+  String get beatmapDescription => 'Description de la beatmap';
+
+  @override
+  String get contentPageUnavailable =>
+      'Ce contenu ne peut pas être affiché ici. Vous pouvez ouvrir l’original.';
+
+  @override
   String get scoreDetailsTitle => 'Détails du résultat';
 
   @override

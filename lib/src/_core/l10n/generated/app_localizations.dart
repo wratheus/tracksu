@@ -108,6 +108,78 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Result details and shared content reader: scoreHitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hit results'**
+  String get scoreHitsTitle;
+
+  /// Result details and shared content reader: scoreHitsExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'API hit-result names are shown as provided. Missing counts are not zero; maximum counts describe a perfect play, not a per-row target.'**
+  String get scoreHitsExplanation;
+
+  /// Result details and shared content reader: scoreHitsAchieved.
+  ///
+  /// In en, this message translates to:
+  /// **'Achieved'**
+  String get scoreHitsAchieved;
+
+  /// Result details and shared content reader: scoreHitsMaximum.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect-play count'**
+  String get scoreHitsMaximum;
+
+  /// Result details and shared content reader: scoreModSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mod settings'**
+  String get scoreModSettingsTitle;
+
+  /// Result details and shared content reader: scoreModSettingsExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'API setting names are retained. Only explicitly supplied settings are shown; no default values are assumed.'**
+  String get scoreModSettingsExplanation;
+
+  /// Result details and shared content reader: scoreNoModSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'No explicit settings supplied.'**
+  String get scoreNoModSettings;
+
+  /// Result details and shared content reader: scoreDetailsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available'**
+  String get scoreDetailsUnavailable;
+
+  /// Result details and shared content reader: scoreSettingEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled'**
+  String get scoreSettingEnabled;
+
+  /// Result details and shared content reader: scoreSettingDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get scoreSettingDisabled;
+
+  /// Result details and shared content reader: beatmapDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Map description'**
+  String get beatmapDescription;
+
+  /// Result details and shared content reader: contentPageUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This content cannot be displayed here. You can open the original.'**
+  String get contentPageUnavailable;
+
   /// Cards and charts: scoreDetailsTitle; no inferred or client-calculated data.
   ///
   /// In en, this message translates to:

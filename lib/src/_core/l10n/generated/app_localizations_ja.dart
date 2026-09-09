@@ -10,6 +10,44 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get scoreHitsTitle => '判定結果';
+
+  @override
+  String get scoreHitsExplanation =>
+      '判定名はAPIの表記です。欠損値はゼロではありません。最大数は完全なプレイの判定数であり、各行の目標ではありません。';
+
+  @override
+  String get scoreHitsAchieved => '取得数';
+
+  @override
+  String get scoreHitsMaximum => '完全なプレイの判定数';
+
+  @override
+  String get scoreModSettingsTitle => 'Modの設定';
+
+  @override
+  String get scoreModSettingsExplanation =>
+      'APIの設定名を使用しています。送信された設定のみを表示し、既定値は推測しません。';
+
+  @override
+  String get scoreNoModSettings => '明示的な設定はありません。';
+
+  @override
+  String get scoreDetailsUnavailable => '利用できません';
+
+  @override
+  String get scoreSettingEnabled => '有効';
+
+  @override
+  String get scoreSettingDisabled => '無効';
+
+  @override
+  String get beatmapDescription => 'ビートマップの説明';
+
+  @override
+  String get contentPageUnavailable => 'この内容はここでは表示できません。元のページを開けます。';
+
+  @override
   String get scoreDetailsTitle => 'スコアの詳細';
 
   @override

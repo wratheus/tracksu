@@ -1,4 +1,5 @@
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
+import 'package:tracksu/src/_shared/scores/domain/score_details.dart';
 
 /// Summary projection of API response version 20220705+, not the legacy Score.
 final class OsuScore {
@@ -14,11 +15,13 @@ final class OsuScore {
     required this.passed,
     required this.performancePoints,
     required this.endedAt,
-    required List<String> mods,
+    required List<ScoreMod> mods,
+    List<ScoreHitCount> hitCounts = const <ScoreHitCount>[],
     this.beatmapTitle,
     this.artist,
     this.difficulty,
-  }) : mods = List<String>.unmodifiable(mods);
+  }) : mods = List<ScoreMod>.unmodifiable(mods),
+       hitCounts = List<ScoreHitCount>.unmodifiable(hitCounts);
 
   final int id;
   final int beatmapId;
@@ -34,8 +37,8 @@ final class OsuScore {
   final double? performancePoints;
   final DateTime endedAt;
 
-  /// Display acronyms, not a complete mod-settings model.
-  final List<String> mods;
+  final List<ScoreMod> mods;
+  final List<ScoreHitCount> hitCounts;
   final String? beatmapTitle;
   final String? artist;
   final String? difficulty;
