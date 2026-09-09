@@ -10,6 +10,89 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get profilePreviousNames => '曾用名';
+
+  @override
+  String get profileGroups => '用户组';
+
+  @override
+  String profileTeamTag(String tag) {
+    return '战队 · $tag';
+  }
+
+  @override
+  String get profileMedals => '奖章';
+
+  @override
+  String get profileMedalsView => '查看已获得的奖章';
+
+  @override
+  String get profileMedalMetadataNotice =>
+      '个人资料API仅提供奖章ID和获得日期，不包含名称和图片。可在osu!查看带图片的奖章收藏。';
+
+  @override
+  String profileMedalId(int id) {
+    return '奖章 #$id';
+  }
+
+  @override
+  String get profileRankedPlay => '排位对战';
+
+  @override
+  String get profileRankedPlayEmpty => '此模式暂无排位对战统计。';
+
+  @override
+  String profileRankedPool(int id) {
+    return '对战池 #$id';
+  }
+
+  @override
+  String get profileProvisionalRating => '暂定评级';
+
+  @override
+  String get profileRating => '评级';
+
+  @override
+  String get profileFirstPlaces => '第一名次数';
+
+  @override
+  String get profileRankedPoints => '对战积分';
+
+  @override
+  String get profileDailyChallenge => '每日挑战';
+
+  @override
+  String get profileDailyPlays => '参与挑战次数';
+
+  @override
+  String get profileDailyCurrent => '当前连续天数';
+
+  @override
+  String get profileDailyBest => '最长连续天数';
+
+  @override
+  String get profileWeeklyCurrent => '当前连续周数';
+
+  @override
+  String get profileWeeklyBest => '最长连续周数';
+
+  @override
+  String get profileTop10 => '前10%次数';
+
+  @override
+  String get profileTop50 => '前50%次数';
+
+  @override
+  String profileDailyUpdated(String date) {
+    return '最近参与：$date';
+  }
+
+  @override
+  String profileWeeklyUpdated(String date) {
+    return '最近周连续记录：$date';
+  }
+
+  @override
   String get shareSystem => '其他应用…';
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/profile/widgets/profile_details_sections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/bloc/bloc.dart';
@@ -94,6 +95,11 @@ final class ProfileContent extends StatelessWidget {
                             profile: state.profile,
                             ruleset: state.ruleset,
                           ),
+                          if (state.profile.details case final details?)
+                            ProfileDetailsSections(
+                              details: details,
+                              userId: state.profile.id,
+                            ),
                           if (state.profile.about case final about?)
                             ContentPageSection(
                               page: about,

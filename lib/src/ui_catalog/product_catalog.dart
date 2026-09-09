@@ -19,7 +19,7 @@ final class ProductCatalogSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SliverList.builder(
-    itemCount: 18,
+    itemCount: 19,
     itemBuilder: (BuildContext context, int index) =>
         KeyedSubtree(key: ValueKey<int>(index), child: _sample(context, index)),
   );
@@ -479,7 +479,17 @@ final class ProductCatalogSliver extends StatelessWidget {
         ),
       ),
       17 => const _NavigationSample(),
-      _ => throw RangeError.range(index, 0, 17, 'index'),
+      18 => UiSection(
+        title: t.profileGroups,
+        child: OsuAffiliationTile(
+          name: 'Tracksu Preview',
+          subtitle: t.profileTeamTag('PREVIEW'),
+          icon: Icons.groups_outlined,
+          image: _avatar,
+          onTap: preview,
+        ),
+      ),
+      _ => throw RangeError.range(index, 0, 18, 'index'),
     };
     return sample;
   }

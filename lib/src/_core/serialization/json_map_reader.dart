@@ -32,6 +32,18 @@ final class JsonMapReader {
     };
   }
 
+  List<dynamic>? optionalList(String key) => switch (_json[key]) {
+    null => null,
+    final List<dynamic> value => value,
+    _ => throw FormatException('$key must be an array or null.'),
+  };
+
+  /// A nested list element has no key; keep shape checks at the JSON boundary.
+  static Map<String, dynamic> asMap(Object? value) => switch (value) {
+    final Map<String, dynamic> map => map,
+    _ => throw const FormatException('Expected a JSON object.'),
+  };
+
   String? optionalString(String key) => switch (_json[key]) {
     null => null,
     final String value => value,

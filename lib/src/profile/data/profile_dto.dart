@@ -1,5 +1,6 @@
 import 'package:tracksu/src/_shared/content/data/content_page_dto.dart';
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
+import 'package:tracksu/src/profile/data/profile_details_dto.dart';
 
 final class ProfileDto {
   const ProfileDto({
@@ -15,11 +16,13 @@ final class ProfileDto {
     required this.page,
     this.replayHistory,
     this.playHistory,
+    this.details,
   });
 
   factory ProfileDto.fromJson(Map<String, dynamic> json) {
     final JsonMapReader reader = JsonMapReader(json);
     return ProfileDto(
+      details: ProfileDetailsDto.fromJson(json),
       id: reader.requiredInt('id', positive: true),
       username: reader.requiredString('username'),
       avatarUrl: reader.requiredString('avatar_url'),
@@ -70,6 +73,7 @@ final class ProfileDto {
   final ContentPageDto? page;
   final ProfileMonthlyHistoryDto? replayHistory;
   final ProfileMonthlyHistoryDto? playHistory;
+  final ProfileDetailsDto? details;
 }
 
 /// Optional graph data must not prevent opening otherwise valid profiles.

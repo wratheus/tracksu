@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/profile/widgets/previous_names_button.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/profile/widgets/monthly_history.dart';
 import 'package:tracksu/src/_shared/ui/compact_count_metric.dart';
@@ -39,6 +40,9 @@ final class ProfileSummary extends StatelessWidget {
       sliver: SliverList.list(
         children: <Widget>[
           OsuPlayerCard.profile(
+            nameAction: profile.details?.previousNames?.isNotEmpty == true
+                ? PreviousNamesButton(names: profile.details!.previousNames!)
+                : null,
             username: profile.username,
             countryCode: profile.countryCode,
             countryLabel: context.t.profileCountry(profile.countryCode),

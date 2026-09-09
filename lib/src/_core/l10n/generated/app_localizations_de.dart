@@ -10,6 +10,90 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get profilePreviousNames => 'Frühere Namen';
+
+  @override
+  String get profileGroups => 'Gruppen';
+
+  @override
+  String profileTeamTag(String tag) {
+    return 'Team · $tag';
+  }
+
+  @override
+  String get profileMedals => 'Medaillen';
+
+  @override
+  String get profileMedalsView => 'Erhaltene Medaillen';
+
+  @override
+  String get profileMedalMetadataNotice =>
+      'Die Profil-API liefert Medaillen-IDs und Vergabedaten, aber keine Namen oder Bilder. Die bebilderte Sammlung ist auf osu! verfügbar.';
+
+  @override
+  String profileMedalId(int id) {
+    return 'Medaille #$id';
+  }
+
+  @override
+  String get profileRankedPlay => 'Ranglistenspiel';
+
+  @override
+  String get profileRankedPlayEmpty =>
+      'Keine Ranglistenspiel-Statistik für diesen Modus.';
+
+  @override
+  String profileRankedPool(int id) {
+    return 'Pool #$id';
+  }
+
+  @override
+  String get profileProvisionalRating => 'Vorläufige Wertung';
+
+  @override
+  String get profileRating => 'Wertung';
+
+  @override
+  String get profileFirstPlaces => 'Erste Plätze';
+
+  @override
+  String get profileRankedPoints => 'Matchpunkte';
+
+  @override
+  String get profileDailyChallenge => 'Tägliche Herausforderung';
+
+  @override
+  String get profileDailyPlays => 'Gespielte Herausforderungen';
+
+  @override
+  String get profileDailyCurrent => 'Aktuelle Tages-Serie';
+
+  @override
+  String get profileDailyBest => 'Beste Tages-Serie';
+
+  @override
+  String get profileWeeklyCurrent => 'Aktuelle Wochen-Serie';
+
+  @override
+  String get profileWeeklyBest => 'Beste Wochen-Serie';
+
+  @override
+  String get profileTop10 => 'Top-10%-Platzierungen';
+
+  @override
+  String get profileTop50 => 'Top-50%-Platzierungen';
+
+  @override
+  String profileDailyUpdated(String date) {
+    return 'Letzte Teilnahme: $date';
+  }
+
+  @override
+  String profileWeeklyUpdated(String date) {
+    return 'Letzte Wochen-Serie: $date';
+  }
+
+  @override
   String get shareSystem => 'Weitere Apps…';
 
   @override

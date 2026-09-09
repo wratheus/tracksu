@@ -4,6 +4,16 @@
 
 ### September feedback
 
+- Profile details: previous-name sheet next to the username, team flag/name
+  and group accents with official web links, ranked play per pool (rating,
+  provisional status, rank, plays, first places and points), daily challenge
+  streaks/placements and last participation dates. Missing sections stay absent.
+- Earned medals have a count and lazy dated list. The profile API only supplies
+  achievement IDs/dates; names/artwork await a verified metadata source. The
+  sheet explains this and opens the official illustrated profile collection.
+- Reusable affiliation tile and player-card name-action slot; all new labels
+  generated from seven ARB locales. No additional requests for profile fields.
+
 - Shared Tracksu share sheet: Telegram, WhatsApp, Facebook, X/Twitter composers,
   native system chooser (`share_plus`) and copy link. Available on search,
   rankings/Spotlights, news, profile, beatmap and result details, including

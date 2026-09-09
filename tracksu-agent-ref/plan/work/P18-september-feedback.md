@@ -61,10 +61,41 @@ Facebook docs ограничены 429; web sharer ведёт в login/composer,
 если launch возвращает false, предлагается системный chooser. Никаких SDK/login
 соцсетей, записи recipients/raw result/аналитики, автопостинга или preview fetch.
 
-Следующий срез: прежние имена, команды/группы, медали, ranked play/daily challenge.
-Шрифт цифр и индикаторы сложностей также ещё не выполнены.
+Профиль: прежние имена в lazy sheet возле ника, группы и команда с флагом,
+официальные ссылки, matchmaking stats по пулам (отдельно от PP), daily challenge
+с текущими/лучшими дневными и недельными сериями, placements и датами подключены.
+ProfileDetailsDto → mapper → immutable domain; source по-прежнему raw JSON.
+Отсутствующие списки отличаются от пустых; неверный обязательный тип в
+присутствующем разделе идёт через существующий invalidResponse, а не в нули.
+Даты локализованы, rating округляется только для показа. Нет новых API запросов.
+
+Медали **частично**: count, список ID/дата (сначала новые), переход к коллекции
+на osu!. `user_achievements` не содержит названия/изображения. В публичных routes
+не найден GET каталога медалей; HTML-профиль сайта получает отдельный `achievements`.
+Не добавлены scraping, сторонний сервис или захардкоженные ID→asset догадки.
+Нужен отдельный проверенный справочник/источник метаданных, прежде чем считать
+иллюстрированную коллекцию законченной. Это не смешивается с profile `badges`.
+
+Контракты сверены 2026-09-09 по официальным исходникам:
+- [UsersController::showUserIncludes](https://github.com/ppy/osu-web/blob/master/app/Http/Controllers/UsersController.php)
+- [UserCompactTransformer](https://github.com/ppy/osu-web/blob/master/app/Transformers/UserCompactTransformer.php)
+- [GroupTransformer](https://github.com/ppy/osu-web/blob/master/app/Transformers/GroupTransformer.php) / [TeamTransformer](https://github.com/ppy/osu-web/blob/master/app/Transformers/TeamTransformer.php)
+- [MatchmakingUserStatsTransformer](https://github.com/ppy/osu-web/blob/master/app/Transformers/MatchmakingUserStatsTransformer.php) / [MatchmakingPoolTransformer](https://github.com/ppy/osu-web/blob/master/app/Transformers/MatchmakingPoolTransformer.php)
+- [DailyChallengeUserStatsTransformer](https://github.com/ppy/osu-web/blob/master/app/Transformers/DailyChallengeUserStatsTransformer.php)
+- [UserAchievementTransformer](https://github.com/ppy/osu-web/blob/master/app/Transformers/UserAchievementTransformer.php)
+
+Далее: индикаторы сложностей, детализация результата по референсу, шрифт цифр
+с лицензией, иллюстрированный каталог медалей. Daily challenge здесь — статистика
+участия пользователя, не отдельный экран сегодняшнего beatmap/room.
 
 ## Ручная проверка
+
+- Имена: длинные никнеймы, раскрытие/Back/двойной тап; группы с `has_listing=false`,
+  команда с отсутствующим флагом; ссылки только в официальный сайт.
+- Профиль без optional sections; пустые медали/пулы; provisional rating, смена
+  ruleset без смешивания статистики, даты медалей/серий и длинные переводы.
+- Нативный/визуальный результат нового блока ещё не проверен: только чистый
+  analyze, format, diff-check; APK/catalog и тесты не запускались.
 
 - RU/DE/JA и увеличенный текст: карточки, целые PP, длинные счётчики/tooltip.
 - Профиль с `monthly_playcounts`: отдельный график игр, реальные месяцы/пропуски.

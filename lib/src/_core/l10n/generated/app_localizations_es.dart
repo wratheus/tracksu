@@ -10,6 +10,90 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get profilePreviousNames => 'Nombres anteriores';
+
+  @override
+  String get profileGroups => 'Grupos';
+
+  @override
+  String profileTeamTag(String tag) {
+    return 'Equipo · $tag';
+  }
+
+  @override
+  String get profileMedals => 'Medallas';
+
+  @override
+  String get profileMedalsView => 'Ver medallas obtenidas';
+
+  @override
+  String get profileMedalMetadataNotice =>
+      'La API del perfil proporciona los ID y las fechas de obtención, pero no los nombres ni las imágenes. Consulta la colección ilustrada en osu!.';
+
+  @override
+  String profileMedalId(int id) {
+    return 'Medalla n.º $id';
+  }
+
+  @override
+  String get profileRankedPlay => 'Juego clasificatorio';
+
+  @override
+  String get profileRankedPlayEmpty =>
+      'No hay estadísticas clasificatorias para este modo.';
+
+  @override
+  String profileRankedPool(int id) {
+    return 'Grupo n.º $id';
+  }
+
+  @override
+  String get profileProvisionalRating => 'Clasificación provisional';
+
+  @override
+  String get profileRating => 'Puntuación';
+
+  @override
+  String get profileFirstPlaces => 'Primeros puestos';
+
+  @override
+  String get profileRankedPoints => 'Puntos de partida';
+
+  @override
+  String get profileDailyChallenge => 'Desafío diario';
+
+  @override
+  String get profileDailyPlays => 'Desafíos jugados';
+
+  @override
+  String get profileDailyCurrent => 'Racha diaria actual';
+
+  @override
+  String get profileDailyBest => 'Mejor racha diaria';
+
+  @override
+  String get profileWeeklyCurrent => 'Racha semanal actual';
+
+  @override
+  String get profileWeeklyBest => 'Mejor racha semanal';
+
+  @override
+  String get profileTop10 => 'Resultados en el 10 % superior';
+
+  @override
+  String get profileTop50 => 'Resultados en el 50 % superior';
+
+  @override
+  String profileDailyUpdated(String date) {
+    return 'Última participación: $date';
+  }
+
+  @override
+  String profileWeeklyUpdated(String date) {
+    return 'Última racha semanal: $date';
+  }
+
+  @override
   String get shareSystem => 'Otras aplicaciones…';
 
   @override

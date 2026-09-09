@@ -10,6 +10,89 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get profilePreviousNames => '以前のユーザー名';
+
+  @override
+  String get profileGroups => 'グループ';
+
+  @override
+  String profileTeamTag(String tag) {
+    return 'チーム · $tag';
+  }
+
+  @override
+  String get profileMedals => 'メダル';
+
+  @override
+  String get profileMedalsView => '獲得したメダルを見る';
+
+  @override
+  String get profileMedalMetadataNotice =>
+      'プロフィールAPIはメダルのIDと獲得日時を返しますが、名前や画像は含みません。画像付きのコレクションはosu!で確認できます。';
+
+  @override
+  String profileMedalId(int id) {
+    return 'メダル #$id';
+  }
+
+  @override
+  String get profileRankedPlay => 'ランク対戦';
+
+  @override
+  String get profileRankedPlayEmpty => 'このモードのランク対戦データはありません。';
+
+  @override
+  String profileRankedPool(int id) {
+    return 'プール #$id';
+  }
+
+  @override
+  String get profileProvisionalRating => '暫定レーティング';
+
+  @override
+  String get profileRating => 'レーティング';
+
+  @override
+  String get profileFirstPlaces => '1位の回数';
+
+  @override
+  String get profileRankedPoints => '対戦ポイント';
+
+  @override
+  String get profileDailyChallenge => 'デイリーチャレンジ';
+
+  @override
+  String get profileDailyPlays => '挑戦した回数';
+
+  @override
+  String get profileDailyCurrent => '現在の連続日数';
+
+  @override
+  String get profileDailyBest => '最長連続日数';
+
+  @override
+  String get profileWeeklyCurrent => '現在の連続週数';
+
+  @override
+  String get profileWeeklyBest => '最長連続週数';
+
+  @override
+  String get profileTop10 => '上位10%に入った回数';
+
+  @override
+  String get profileTop50 => '上位50%に入った回数';
+
+  @override
+  String profileDailyUpdated(String date) {
+    return '最終参加日：$date';
+  }
+
+  @override
+  String profileWeeklyUpdated(String date) {
+    return '最後の週間連続記録：$date';
+  }
+
+  @override
   String get shareSystem => 'その他のアプリ…';
 
   @override

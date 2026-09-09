@@ -31,6 +31,12 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Real profile covers, level progress, grade counts and additional score/hit
   totals are displayed when available. Missing ranks are not shown as rank zero.
 - Rank history uses API observations with visible gaps, not invented dates.
+- Previous usernames open from the icon next to the name. Teams and groups,
+  ranked-play pools and daily-challenge statistics appear when supplied by osu!.
+  Team/group links open their official web pages. Ranked-play rating is not PP.
+- Earned medals show their count and dates in a lazy list; medal names and
+  artwork are not included in the profile API response, so the illustrated
+  collection currently opens on osu! rather than displaying guessed metadata.
 - Overview / Scores / Maps are separate lazy sections that retain visited
   content and scroll. Changing ruleset keeps the previous profile visible while
   loading, resets the mode-specific scores, and preserves the maps section.

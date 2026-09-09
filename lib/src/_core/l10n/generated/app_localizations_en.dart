@@ -10,6 +10,90 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get profilePreviousNames => 'Previously known as';
+
+  @override
+  String get profileGroups => 'Groups';
+
+  @override
+  String profileTeamTag(String tag) {
+    return 'Team · $tag';
+  }
+
+  @override
+  String get profileMedals => 'Medals';
+
+  @override
+  String get profileMedalsView => 'View earned medals';
+
+  @override
+  String get profileMedalMetadataNotice =>
+      'The profile API provides medal IDs and award dates, but not their names or images. Open osu! to see the illustrated collection.';
+
+  @override
+  String profileMedalId(int id) {
+    return 'Medal #$id';
+  }
+
+  @override
+  String get profileRankedPlay => 'Ranked play';
+
+  @override
+  String get profileRankedPlayEmpty =>
+      'No ranked play statistics for this mode.';
+
+  @override
+  String profileRankedPool(int id) {
+    return 'Pool #$id';
+  }
+
+  @override
+  String get profileProvisionalRating => 'Provisional rating';
+
+  @override
+  String get profileRating => 'Rating';
+
+  @override
+  String get profileFirstPlaces => 'First places';
+
+  @override
+  String get profileRankedPoints => 'Match points';
+
+  @override
+  String get profileDailyChallenge => 'Daily challenge';
+
+  @override
+  String get profileDailyPlays => 'Challenges played';
+
+  @override
+  String get profileDailyCurrent => 'Current daily streak';
+
+  @override
+  String get profileDailyBest => 'Best daily streak';
+
+  @override
+  String get profileWeeklyCurrent => 'Current weekly streak';
+
+  @override
+  String get profileWeeklyBest => 'Best weekly streak';
+
+  @override
+  String get profileTop10 => 'Top 10% finishes';
+
+  @override
+  String get profileTop50 => 'Top 50% finishes';
+
+  @override
+  String profileDailyUpdated(String date) {
+    return 'Last participation: $date';
+  }
+
+  @override
+  String profileWeeklyUpdated(String date) {
+    return 'Last weekly streak: $date';
+  }
+
+  @override
   String get shareSystem => 'Other apps…';
 
   @override

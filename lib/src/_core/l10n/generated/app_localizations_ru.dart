@@ -10,6 +10,90 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get profilePreviousNames => 'Прежние имена';
+
+  @override
+  String get profileGroups => 'Группы';
+
+  @override
+  String profileTeamTag(String tag) {
+    return 'Команда · $tag';
+  }
+
+  @override
+  String get profileMedals => 'Медали';
+
+  @override
+  String get profileMedalsView => 'Полученные медали';
+
+  @override
+  String get profileMedalMetadataNotice =>
+      'API профиля отдаёт ID медалей и даты получения, но не их названия и картинки. Коллекцию с изображениями можно посмотреть на osu!.';
+
+  @override
+  String profileMedalId(int id) {
+    return 'Медаль №$id';
+  }
+
+  @override
+  String get profileRankedPlay => 'Рейтинговая игра';
+
+  @override
+  String get profileRankedPlayEmpty =>
+      'Нет статистики рейтинговой игры в этом режиме.';
+
+  @override
+  String profileRankedPool(int id) {
+    return 'Пул №$id';
+  }
+
+  @override
+  String get profileProvisionalRating => 'Предварительный рейтинг';
+
+  @override
+  String get profileRating => 'Рейтинг';
+
+  @override
+  String get profileFirstPlaces => 'Первые места';
+
+  @override
+  String get profileRankedPoints => 'Очки матчей';
+
+  @override
+  String get profileDailyChallenge => 'Карта дня';
+
+  @override
+  String get profileDailyPlays => 'Сыграно испытаний';
+
+  @override
+  String get profileDailyCurrent => 'Текущая серия дней';
+
+  @override
+  String get profileDailyBest => 'Лучшая серия дней';
+
+  @override
+  String get profileWeeklyCurrent => 'Текущая серия недель';
+
+  @override
+  String get profileWeeklyBest => 'Лучшая серия недель';
+
+  @override
+  String get profileTop10 => 'Попадания в топ 10%';
+
+  @override
+  String get profileTop50 => 'Попадания в топ 50%';
+
+  @override
+  String profileDailyUpdated(String date) {
+    return 'Последнее участие: $date';
+  }
+
+  @override
+  String profileWeeklyUpdated(String date) {
+    return 'Последняя недельная серия: $date';
+  }
+
+  @override
   String get shareSystem => 'Другие приложения…';
 
   @override

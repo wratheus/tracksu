@@ -1,4 +1,5 @@
 import 'package:tracksu/src/profile/data/profile_dto.dart';
+import 'package:tracksu/src/profile/data/profile_details_mapper.dart';
 import 'package:tracksu/src/profile/domain/profile.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 
@@ -10,6 +11,7 @@ extension ProfileDtoMapper on ProfileDto {
     }
 
     return Profile(
+      details: details?.toDomain(),
       id: id,
       username: username,
       avatarUri: avatarUri,

@@ -207,6 +207,7 @@ Tracksu artwork; they do not fetch player data or represent real statistics.
 | Charts | `UiChart.line/bars`, `UiChartPoint` | UI package |
 | Flags/modes/grades/mods | `OsuCountryFlag`, `OsuRulesetIcon`, `OsuRulesetSelector`, `OsuGradeBadge`, `OsuMods` | App shared UI |
 | Player | `OsuPlayerCard.compact/profile` | App shared UI |
+| Affiliation | `OsuAffiliationTile` (group/team identity) | App shared UI |
 | Beatmap | `OsuBeatmapCard.compact/featured` | App shared UI |
 | Score/news | `OsuPlayCard`, `OsuNewsCard` | App shared UI |
 
@@ -215,6 +216,11 @@ Import the latter group through
 repositories, DTOs or new feature entry points. Existing production widgets
 remain active until the page-migration step; do not mix the new compositions
 into old pages without moving their theme and reviewing the resulting layout.
+
+`OsuPlayerCard.profile(nameAction: ...)` places an accessible action beside the
+name without teaching the card about history or repositories. `OsuAffiliationTile`
+accepts text, image, optional accent and callback; server colours never become
+body-text colours. The product catalog includes an offline affiliation example.
 
 ### Charts and navigation
 

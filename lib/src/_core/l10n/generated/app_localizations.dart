@@ -108,6 +108,150 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Profile detail: Previously known as
+  ///
+  /// In en, this message translates to:
+  /// **'Previously known as'**
+  String get profilePreviousNames;
+
+  /// Profile detail: Groups
+  ///
+  /// In en, this message translates to:
+  /// **'Groups'**
+  String get profileGroups;
+
+  /// Profile detail: Team · {tag}
+  ///
+  /// In en, this message translates to:
+  /// **'Team · {tag}'**
+  String profileTeamTag(String tag);
+
+  /// Profile detail: Medals
+  ///
+  /// In en, this message translates to:
+  /// **'Medals'**
+  String get profileMedals;
+
+  /// Profile detail: View earned medals
+  ///
+  /// In en, this message translates to:
+  /// **'View earned medals'**
+  String get profileMedalsView;
+
+  /// Profile detail: The profile API provides medal IDs and award dates, but not their names or images. Open osu! to see the illustrated collection.
+  ///
+  /// In en, this message translates to:
+  /// **'The profile API provides medal IDs and award dates, but not their names or images. Open osu! to see the illustrated collection.'**
+  String get profileMedalMetadataNotice;
+
+  /// Profile detail: Medal #{id}
+  ///
+  /// In en, this message translates to:
+  /// **'Medal #{id}'**
+  String profileMedalId(int id);
+
+  /// Profile detail: Ranked play
+  ///
+  /// In en, this message translates to:
+  /// **'Ranked play'**
+  String get profileRankedPlay;
+
+  /// Profile detail: No ranked play statistics for this mode.
+  ///
+  /// In en, this message translates to:
+  /// **'No ranked play statistics for this mode.'**
+  String get profileRankedPlayEmpty;
+
+  /// Profile detail: Pool #{id}
+  ///
+  /// In en, this message translates to:
+  /// **'Pool #{id}'**
+  String profileRankedPool(int id);
+
+  /// Profile detail: Provisional rating
+  ///
+  /// In en, this message translates to:
+  /// **'Provisional rating'**
+  String get profileProvisionalRating;
+
+  /// Profile detail: Rating
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get profileRating;
+
+  /// Profile detail: First places
+  ///
+  /// In en, this message translates to:
+  /// **'First places'**
+  String get profileFirstPlaces;
+
+  /// Profile detail: Match points
+  ///
+  /// In en, this message translates to:
+  /// **'Match points'**
+  String get profileRankedPoints;
+
+  /// Profile detail: Daily challenge
+  ///
+  /// In en, this message translates to:
+  /// **'Daily challenge'**
+  String get profileDailyChallenge;
+
+  /// Profile detail: Challenges played
+  ///
+  /// In en, this message translates to:
+  /// **'Challenges played'**
+  String get profileDailyPlays;
+
+  /// Profile detail: Current daily streak
+  ///
+  /// In en, this message translates to:
+  /// **'Current daily streak'**
+  String get profileDailyCurrent;
+
+  /// Profile detail: Best daily streak
+  ///
+  /// In en, this message translates to:
+  /// **'Best daily streak'**
+  String get profileDailyBest;
+
+  /// Profile detail: Current weekly streak
+  ///
+  /// In en, this message translates to:
+  /// **'Current weekly streak'**
+  String get profileWeeklyCurrent;
+
+  /// Profile detail: Best weekly streak
+  ///
+  /// In en, this message translates to:
+  /// **'Best weekly streak'**
+  String get profileWeeklyBest;
+
+  /// Profile detail: Top 10% finishes
+  ///
+  /// In en, this message translates to:
+  /// **'Top 10% finishes'**
+  String get profileTop10;
+
+  /// Profile detail: Top 50% finishes
+  ///
+  /// In en, this message translates to:
+  /// **'Top 50% finishes'**
+  String get profileTop50;
+
+  /// Profile detail: Last participation: {date}
+  ///
+  /// In en, this message translates to:
+  /// **'Last participation: {date}'**
+  String profileDailyUpdated(String date);
+
+  /// Profile detail: Last weekly streak: {date}
+  ///
+  /// In en, this message translates to:
+  /// **'Last weekly streak: {date}'**
+  String profileWeeklyUpdated(String date);
+
   /// Shared sheet controls and public-link disclosure: shareSystem.
   ///
   /// In en, this message translates to:

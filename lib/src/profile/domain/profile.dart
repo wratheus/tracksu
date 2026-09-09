@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu/src/_shared/content/domain/content_page.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 
@@ -17,6 +18,7 @@ final class Profile {
     this.about,
     this.replayHistory,
     this.playHistory,
+    this.details,
   });
 
   final int id;
@@ -31,6 +33,7 @@ final class Profile {
   final ContentPage? about;
   final ProfileMonthlyHistory? replayHistory;
   final ProfileMonthlyHistory? playHistory;
+  final ProfileDetails? details;
 }
 
 @immutable
