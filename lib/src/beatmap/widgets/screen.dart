@@ -4,6 +4,7 @@ import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/beatmap_card.dart';
 import 'package:tracksu/src/_shared/ui/osu_badges.dart';
 import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_facts.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_page_section.dart';
 import 'package:tracksu/src/beatmap/bloc/bloc.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/beatmap/leaderboard/domain/repository.dart';
@@ -76,6 +77,12 @@ final class BeatmapScreen extends StatelessWidget {
                         child: UiContentState.empty(
                           title: context.t.beatmapNoDifficulties,
                         ),
+                      ),
+                    if (state.details.description case final description?)
+                      ContentPageSection(
+                        key: ValueKey<int>(state.details.id),
+                        page: description,
+                        title: context.t.beatmapDescription,
                       ),
                     if (state.selectedId != null)
                       SliverToBoxAdapter(

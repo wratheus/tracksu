@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:tracksu/src/_shared/content/data/content_normalizer.dart';
 import 'package:tracksu/src/profile/data/profile_dto.dart';
 import 'package:tracksu/src/profile/domain/profile.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
@@ -62,34 +59,6 @@ extension ProfileReplayHistoryDtoMapper on ProfileReplayHistoryDto {
           a.month.compareTo(b.month),
     );
     return ProfileReplayHistory(result);
-  }
-}
-
-extension ProfilePageDtoMapper on ProfilePageDto {
-  ProfileAbout? toDomain(Uri uri) {
-    final String? rendered = html?.trim();
-    final String? plain = raw?.trim();
-    if ((rendered == null || rendered.isEmpty) &&
-        (plain == null || plain.isEmpty)) {
-      return null;
-    }
-    try {
-      // Raw BBCode is readable source fallback, never reinterpreted as HTML.
-      // Bound before escaping to avoid doubling a pathological response in memory.
-      if ((rendered?.length ?? 0) > 2000000 || (plain?.length ?? 0) > 2000000) {
-        throw const FormatException('Profile page is too large.');
-      }
-      final String content = rendered != null && rendered.isNotEmpty
-          ? rendered
-          : '<p>${const HtmlEscape().convert(plain!).replaceAll('\n', '<br>')}</p>';
-      return ProfileAbout(
-        uri: uri,
-        document: ContentNormalizer.html(content, uri),
-      );
-    } on FormatException {
-      // Optional presentation content must not hide valid profile statistics.
-      return ProfileAbout(uri: uri, document: null);
-    }
   }
 }
 

@@ -76,17 +76,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profileAbout => '自己紹介';
 
   @override
-  String get profileAboutNotice =>
+  String get contentPageNotice =>
       '外部画像は自動で読み込まれます。配信先のサーバーにはIPアドレスが送信され、リクエストが記録される場合があります。埋め込みコンテンツは元のページでのみ開きます。 変換済みの内容がない場合はBBCodeをそのまま表示します。';
 
   @override
-  String get profileOriginal => 'osu!でプロフィールを開く';
-
-  @override
-  String get profileLinkFailed => 'リンクを開けませんでした。';
-
-  @override
-  String get profileAboutUnavailable => 'この部分は安全に表示できません。osu!で元のページを開いてください。';
+  String get contentLinkFailed => 'リンクを開けませんでした。';
 
   @override
   String get profileTitle => 'プロフィール';

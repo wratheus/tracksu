@@ -26,6 +26,11 @@
 
 ### Added
 
+- Beatmap descriptions now reuse the profile's native rich-content reader, with
+  a shared typed page model, collapsible slivers, external-image disclosure and
+  original-page fallback. Removed duplicate profile-only DTO/domain/widgets and
+  unused localization keys. No additional API calls or WebView introduced.
+
 - Result details retain sparse hit-result counts and perfect-play counts, plus
   typed mod settings. Missing values are not zero-filled, and unknown setting
   types are explicitly unavailable. The shared bounded sheet builds rows lazily

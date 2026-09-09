@@ -6,7 +6,7 @@ import 'package:tracksu/src/profile/beatmaps/main.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/scores/main.dart';
 import 'package:tracksu/src/profile/widgets/profile_summary.dart';
-import 'package:tracksu/src/profile/widgets/profile_about.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_page_section.dart';
 import 'package:tracksu/src/profile/widgets/profile_error_message.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -95,7 +95,10 @@ final class ProfileContent extends StatelessWidget {
                             ruleset: state.ruleset,
                           ),
                           if (state.profile.about case final about?)
-                            ProfileAboutSection(about: about),
+                            ContentPageSection(
+                              page: about,
+                              title: context.t.profileAbout,
+                            ),
                         ],
                       ),
                       _ProfileSection(

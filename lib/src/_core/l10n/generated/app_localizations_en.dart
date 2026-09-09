@@ -77,18 +77,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileAbout => 'About me';
 
   @override
-  String get profileAboutNotice =>
+  String get contentPageNotice =>
       'External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.';
 
   @override
-  String get profileOriginal => 'Open profile on osu!';
-
-  @override
-  String get profileLinkFailed => 'Could not open the link.';
-
-  @override
-  String get profileAboutUnavailable =>
-      'This profile section cannot be displayed safely. You can open the original on osu!.';
+  String get contentLinkFailed => 'Could not open the link.';
 
   @override
   String get profileTitle => 'Profile';

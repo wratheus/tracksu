@@ -234,29 +234,17 @@ abstract class AppLocalizations {
   /// **'About me'**
   String get profileAbout;
 
-  /// Profile reader disclosure of automatic external-image requests and raw BBCode fallback.
+  /// Shared rich-content reader disclosure of automatic external-image requests and raw BBCode fallback.
   ///
   /// In en, this message translates to:
   /// **'External images load automatically. Their servers receive your IP address and may record the request. Embeds open only on the original page. If rendered content is missing, BBCode is shown as plain text.'**
-  String get profileAboutNotice;
+  String get contentPageNotice;
 
-  /// Safe profile About section: Open profile on osu!
-  ///
-  /// In en, this message translates to:
-  /// **'Open profile on osu!'**
-  String get profileOriginal;
-
-  /// Safe profile About section: Could not open the link.
+  /// Shared rich-content reader link launch failure.
   ///
   /// In en, this message translates to:
   /// **'Could not open the link.'**
-  String get profileLinkFailed;
-
-  /// Safe profile About section: This profile section cannot be displayed safely. You can open the original on osu!.
-  ///
-  /// In en, this message translates to:
-  /// **'This profile section cannot be displayed safely. You can open the original on osu!.'**
-  String get profileAboutUnavailable;
+  String get contentLinkFailed;
 
   /// Player profile screen title.
   ///

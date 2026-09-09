@@ -77,18 +77,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileAbout => 'À propos de moi';
 
   @override
-  String get profileAboutNotice =>
+  String get contentPageNotice =>
       'Les images externes se chargent automatiquement. Leurs serveurs reçoivent votre adresse IP et peuvent enregistrer les requêtes. Les contenus intégrés s’ouvrent uniquement dans l’original. Sans contenu rendu, le BBCode est affiché en texte brut.';
 
   @override
-  String get profileOriginal => 'Ouvrir le profil sur osu!';
-
-  @override
-  String get profileLinkFailed => 'Impossible d’ouvrir le lien.';
-
-  @override
-  String get profileAboutUnavailable =>
-      'Cette section ne peut pas être affichée de façon sûre. Consultez l’original sur osu!.';
+  String get contentLinkFailed => 'Impossible d’ouvrir le lien.';
 
   @override
   String get profileTitle => 'Profil';

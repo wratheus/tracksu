@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/content/data/content_page_dto.dart';
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
 
 final class ProfileDto {
@@ -24,9 +25,10 @@ final class ProfileDto {
       countryCode: reader.requiredString('country_code'),
       isOnline: reader.requiredBool('is_online'),
       isSupporter: reader.requiredBool('is_supporter'),
-      page: switch (reader.optionalMap('page')) {
+      page: switch (json['page']) {
         null => null,
-        final Map<String, dynamic> value => ProfilePageDto.fromJson(value),
+        final Map<String, dynamic> value => ContentPageDto.profile(value),
+        _ => const ContentPageDto.unavailable(),
       },
       replayHistory: ProfileReplayHistoryDto.tryFromJson(
         json['replays_watched_counts'],
@@ -61,7 +63,7 @@ final class ProfileDto {
   final ProfileStatisticsDto? statistics;
   final String? coverUrl;
   final ProfileRankHistoryDto? rankHistory;
-  final ProfilePageDto? page;
+  final ContentPageDto? page;
   final ProfileReplayHistoryDto? replayHistory;
 }
 
@@ -93,19 +95,6 @@ final class ProfileReplayHistoryDto {
       return null;
     }
   }
-}
-
-final class ProfilePageDto {
-  const ProfilePageDto({required this.html, required this.raw});
-  factory ProfilePageDto.fromJson(Map<String, dynamic> json) {
-    final JsonMapReader reader = JsonMapReader(json);
-    return ProfilePageDto(
-      html: reader.optionalString('html'),
-      raw: reader.optionalString('raw'),
-    );
-  }
-  final String? html;
-  final String? raw;
 }
 
 final class ProfileStatisticsDto {

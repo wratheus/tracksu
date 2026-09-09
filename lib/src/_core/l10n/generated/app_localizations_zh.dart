@@ -73,17 +73,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profileAbout => '关于我';
 
   @override
-  String get profileAboutNotice =>
+  String get contentPageNotice =>
       '外部图片会自动加载。图片服务器会收到您的 IP 地址，并可能记录请求。嵌入内容仅在原网页打开。 若缺少渲染后的内容，将以纯文本显示 BBCode。';
 
   @override
-  String get profileOriginal => '在 osu! 打开个人资料';
-
-  @override
-  String get profileLinkFailed => '无法打开链接。';
-
-  @override
-  String get profileAboutUnavailable => '无法安全显示此部分。你可以在 osu! 打开原网页。';
+  String get contentLinkFailed => '无法打开链接。';
 
   @override
   String get profileTitle => '个人资料';

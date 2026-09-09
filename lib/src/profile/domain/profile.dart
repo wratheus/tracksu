@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:tracksu/src/_shared/content/domain/content_document.dart';
+import 'package:tracksu/src/_shared/content/domain/content_page.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 
 @immutable
@@ -27,7 +27,7 @@ final class Profile {
   final ProfileStatistics? statistics;
   final Uri? coverUri;
   final ProfileRankHistory? rankHistory;
-  final ProfileAbout? about;
+  final ContentPage? about;
   final ProfileReplayHistory? replayHistory;
 }
 
@@ -43,15 +43,6 @@ final class ProfileReplayMonth {
   const ProfileReplayMonth({required this.month, required this.views});
   final DateTime month;
   final int views;
-}
-
-@immutable
-final class ProfileAbout {
-  const ProfileAbout({required this.uri, required this.document});
-  final Uri uri;
-
-  /// null means the optional content exceeded the safe reader's limits.
-  final ContentDocument? document;
 }
 
 @immutable

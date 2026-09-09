@@ -1,5 +1,6 @@
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
 import 'package:tracksu/src/_shared/beatmaps/data/beatmap_metadata_dto.dart';
+import 'package:tracksu/src/_shared/content/data/content_page_dto.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 
@@ -53,6 +54,15 @@ final class BeatmapDetailsDto {
         creator: reader.requiredString('creator'),
         difficulties: difficulties,
         metadata: BeatmapMetadataDto.fromJson(json).toDomain(),
+        description: switch (json['description']) {
+          null => null,
+          final Map<String, dynamic> value => ContentPageDto.beatmap(
+            value,
+          ).toDomain(Uri.https('osu.ppy.sh', '/beatmapsets/$id')),
+          _ => const ContentPageDto.unavailable().toDomain(
+            Uri.https('osu.ppy.sh', '/beatmapsets/$id'),
+          ),
+        },
       ),
     );
   }

@@ -77,18 +77,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileAbout => 'О себе';
 
   @override
-  String get profileAboutNotice =>
+  String get contentPageNotice =>
       'Внешние изображения загружаются автоматически. Их серверы получают ваш IP-адрес и могут записывать запросы. Вставки открываются только в оригинале. Если готового HTML нет, BBCode показан обычным текстом.';
 
   @override
-  String get profileOriginal => 'Открыть профиль на osu!';
-
-  @override
-  String get profileLinkFailed => 'Не удалось открыть ссылку.';
-
-  @override
-  String get profileAboutUnavailable =>
-      'Этот блок нельзя безопасно отобразить. Можно открыть оригинал на osu!.';
+  String get contentLinkFailed => 'Не удалось открыть ссылку.';
 
   @override
   String get profileTitle => 'Профиль';

@@ -37,10 +37,16 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Switch between `osu!`, `osu!taiko`, `osu!catch`, and `osu!mania`.
 - A single-row tap/drag selector replaces wrapping mode chips. Secondary
   statistics use compact icon-labelled metrics; PP and ranks have theme accents.
-- Expand About me for a safe text rendering of the server's BBCode-derived
-  HTML. Images/embeds/advanced styles remain available through the original
-  profile link; missing rendered content falls back to escaped raw text.
+- Expand About me using the shared native rich-content reader for the server's
+  BBCode-derived HTML. Supported formatting, HTTPS images and collapsible blocks
+  render in-app; embeds and unsupported content remain on the original page.
+  External image servers receive your IP address, as disclosed in the reader.
+  Missing rendered profile content falls back to escaped raw text.
+- Beatmap descriptions reuse the same reader and link handling without an extra
+  API request. Invalid optional content does not hide the profile or leaderboard.
 - Browse best and recent passed scores with pagination.
+- Inspect results in a shared detail sheet, including supplied hit counts,
+  perfect-play counts and mod settings; missing values are never invented.
 - Browse most-played, favourite, ranked, graveyard, and other beatmap categories.
 - Refresh each section independently without discarding already loaded content.
 
