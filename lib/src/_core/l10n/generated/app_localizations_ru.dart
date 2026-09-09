@@ -10,6 +10,43 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get spotlightsParticipants => 'Участники';
+
+  @override
+  String get spotlightsSearch => 'Название, год или ID';
+
+  @override
+  String get spotlightsNoMatch => 'Подходящие подборки не найдены.';
+
+  @override
+  String spotlightsPeriod(String start, String end) {
+    return '$start — $end';
+  }
+
+  @override
+  String spotlightsStarts(String date) {
+    return 'С $date';
+  }
+
+  @override
+  String spotlightsEnds(String date) {
+    return 'До $date';
+  }
+
+  @override
+  String spotlightsDifficultyCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# сложности в наборе',
+      many: '# сложностей в наборе',
+      few: '# сложности в наборе',
+      one: '# сложность в наборе',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get settingsTitle => 'Настройки';
 
   @override
@@ -549,9 +586,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get spotlightsChoose => 'Выбрать подборку';
-
-  @override
-  String get spotlightsShowRanking => 'Показать выбранную подборку';
 
   @override
   String get spotlightsEmpty => 'Нет доступных подборок.';

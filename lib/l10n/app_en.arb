@@ -1,4 +1,18 @@
 {
+  "spotlightsParticipants": "Participants",
+  "@spotlightsParticipants": {"description":"Total participants supplied for the selected Spotlight ruleset, not the length of the top-40 list."},
+  "spotlightsSearch": "Name, year or ID",
+  "@spotlightsSearch": {"description":"Local Spotlight catalogue search field."},
+  "spotlightsNoMatch": "No matching spotlights.",
+  "@spotlightsNoMatch": {"description":"Empty local catalogue search result."},
+  "spotlightsPeriod": "{start} – {end}",
+  "@spotlightsPeriod": {"description":"Published UTC calendar period; dates already localized.","placeholders":{"start":{"type":"String"},"end":{"type":"String"}}},
+  "spotlightsStarts": "From {date}",
+  "@spotlightsStarts": {"description":"Spotlight period with only its start available.","placeholders":{"date":{"type":"String"}}},
+  "spotlightsEnds": "Until {date}",
+  "@spotlightsEnds": {"description":"Spotlight period with only its end available.","placeholders":{"date":{"type":"String"}}},
+  "spotlightsDifficultyCount": "{count, plural, one{# difficulty in set} other{# difficulties in set}}",
+  "@spotlightsDifficultyCount": {"description":"Number of difficulties returned in the whole beatmap set, not the curated Spotlight playlist.","placeholders":{"count":{"type":"int"}}},
   "settingsTitle": "Settings",
   "@settingsTitle": {"description":"Profile/score/settings UI: Settings"},
   "settingsSignOutConfirm": "Sign out on this device? Your public osu! profile will remain available.",
@@ -343,10 +357,6 @@
   "spotlightsChoose": "Choose a spotlight",
   "@spotlightsChoose": {
     "description": "Label for the Spotlight selector."
-  },
-  "spotlightsShowRanking": "Show selected spotlight",
-  "@spotlightsShowRanking": {
-    "description": "Button to load the selected Spotlight ranking."
   },
   "spotlightsEmpty": "No spotlights available.",
   "@spotlightsEmpty": {

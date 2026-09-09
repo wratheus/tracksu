@@ -10,6 +10,35 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get spotlightsParticipants => '参与人数';
+
+  @override
+  String get spotlightsSearch => '名称、年份或ID';
+
+  @override
+  String get spotlightsNoMatch => '没有匹配的Spotlight。';
+
+  @override
+  String spotlightsPeriod(String start, String end) {
+    return '$start 至 $end';
+  }
+
+  @override
+  String spotlightsStarts(String date) {
+    return '从$date起';
+  }
+
+  @override
+  String spotlightsEnds(String date) {
+    return '至$date';
+  }
+
+  @override
+  String spotlightsDifficultyCount(int count) {
+    return '图集包含$count个难度';
+  }
+
+  @override
   String get settingsTitle => '设置';
 
   @override
@@ -528,9 +557,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get spotlightsChoose => '选择 Spotlight';
-
-  @override
-  String get spotlightsShowRanking => '显示所选 Spotlight';
 
   @override
   String get spotlightsEmpty => '暂无可用的 Spotlight。';

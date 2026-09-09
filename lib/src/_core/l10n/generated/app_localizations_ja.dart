@@ -10,6 +10,35 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get spotlightsParticipants => '参加者';
+
+  @override
+  String get spotlightsSearch => '名前、年、ID';
+
+  @override
+  String get spotlightsNoMatch => '一致するSpotlightはありません。';
+
+  @override
+  String spotlightsPeriod(String start, String end) {
+    return '$start ～ $end';
+  }
+
+  @override
+  String spotlightsStarts(String date) {
+    return '$dateから';
+  }
+
+  @override
+  String spotlightsEnds(String date) {
+    return '$dateまで';
+  }
+
+  @override
+  String spotlightsDifficultyCount(int count) {
+    return 'セット内の難易度：$count';
+  }
+
+  @override
   String get settingsTitle => '設定';
 
   @override
@@ -536,9 +565,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get spotlightsChoose => 'Spotlightを選択';
-
-  @override
-  String get spotlightsShowRanking => '選択したSpotlightを表示';
 
   @override
   String get spotlightsEmpty => '利用可能なSpotlightはありません。';

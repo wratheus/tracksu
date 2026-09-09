@@ -96,6 +96,10 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Switch osu!mania rankings between 4K and 7K variants.
 - Open any ranked player directly in the selected ruleset.
 - Browse osu! Spotlights, their beatmaps, and server-provided player charts.
+- Spotlight collections show localized dates and participant totals when
+  supplied, map banners/facts and player avatars/flags. Rankings remain the
+  server's top-40, not all participants. Search the catalogue by name/year/ID
+  in a lazy sheet; dismissing it keeps the underlying page's scroll position.
 
 ### Beatmaps and scores
 

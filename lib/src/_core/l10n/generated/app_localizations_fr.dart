@@ -10,6 +10,41 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get spotlightsParticipants => 'Participants';
+
+  @override
+  String get spotlightsSearch => 'Nom, année ou ID';
+
+  @override
+  String get spotlightsNoMatch => 'Aucun Spotlight correspondant.';
+
+  @override
+  String spotlightsPeriod(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String spotlightsStarts(String date) {
+    return 'À partir du $date';
+  }
+
+  @override
+  String spotlightsEnds(String date) {
+    return 'Jusqu’au $date';
+  }
+
+  @override
+  String spotlightsDifficultyCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# difficultés dans le set',
+      one: '# difficulté dans le set',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get settingsTitle => 'Paramètres';
 
   @override
@@ -552,9 +587,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get spotlightsChoose => 'Choisir un Spotlight';
-
-  @override
-  String get spotlightsShowRanking => 'Afficher le Spotlight sélectionné';
 
   @override
   String get spotlightsEmpty => 'Aucun Spotlight disponible.';

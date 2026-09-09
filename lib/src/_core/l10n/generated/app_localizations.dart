@@ -108,6 +108,48 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Total participants supplied for the selected Spotlight ruleset, not the length of the top-40 list.
+  ///
+  /// In en, this message translates to:
+  /// **'Participants'**
+  String get spotlightsParticipants;
+
+  /// Local Spotlight catalogue search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, year or ID'**
+  String get spotlightsSearch;
+
+  /// Empty local catalogue search result.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching spotlights.'**
+  String get spotlightsNoMatch;
+
+  /// Published UTC calendar period; dates already localized.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} – {end}'**
+  String spotlightsPeriod(String start, String end);
+
+  /// Spotlight period with only its start available.
+  ///
+  /// In en, this message translates to:
+  /// **'From {date}'**
+  String spotlightsStarts(String date);
+
+  /// Spotlight period with only its end available.
+  ///
+  /// In en, this message translates to:
+  /// **'Until {date}'**
+  String spotlightsEnds(String date);
+
+  /// Number of difficulties returned in the whole beatmap set, not the curated Spotlight playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{# difficulty in set} other{# difficulties in set}}'**
+  String spotlightsDifficultyCount(int count);
+
   /// Profile/score/settings UI: Settings
   ///
   /// In en, this message translates to:
@@ -1049,12 +1091,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose a spotlight'**
   String get spotlightsChoose;
-
-  /// Button to load the selected Spotlight ranking.
-  ///
-  /// In en, this message translates to:
-  /// **'Show selected spotlight'**
-  String get spotlightsShowRanking;
 
   /// Empty Spotlight catalog.
   ///

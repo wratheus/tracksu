@@ -1,9 +1,20 @@
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
+import 'package:tracksu/src/profile/domain/profile_details.dart';
+import 'package:tracksu/src/_shared/beatmaps/domain/beatmap_metadata.dart';
 
 final class Spotlight {
-  const Spotlight({required this.id, required this.name});
+  const Spotlight({
+    required this.id,
+    required this.name,
+    this.startsAt,
+    this.endsAt,
+    this.participantCount,
+  });
   final int id;
   final String name;
+  final DateTime? startsAt;
+  final DateTime? endsAt;
+  final int? participantCount;
 }
 
 final class SpotlightQuery {
@@ -20,11 +31,15 @@ final class SpotlightPlayer {
     required this.name,
     required this.country,
     required this.score,
+    this.avatarUri,
+    this.team,
   });
   final int id;
   final String name;
   final String country;
   final int score;
+  final Uri? avatarUri;
+  final ProfileTeam? team;
 }
 
 final class SpotlightMap {
@@ -32,10 +47,14 @@ final class SpotlightMap {
     required this.id,
     required this.title,
     required this.artist,
+    this.metadata,
+    this.difficultyCount,
   });
   final int id;
   final String title;
   final String artist;
+  final BeatmapMetadata? metadata;
+  final int? difficultyCount;
 }
 
 final class SpotlightDetails {

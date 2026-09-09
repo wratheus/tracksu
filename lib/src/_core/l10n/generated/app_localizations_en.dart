@@ -10,6 +10,41 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get spotlightsParticipants => 'Participants';
+
+  @override
+  String get spotlightsSearch => 'Name, year or ID';
+
+  @override
+  String get spotlightsNoMatch => 'No matching spotlights.';
+
+  @override
+  String spotlightsPeriod(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String spotlightsStarts(String date) {
+    return 'From $date';
+  }
+
+  @override
+  String spotlightsEnds(String date) {
+    return 'Until $date';
+  }
+
+  @override
+  String spotlightsDifficultyCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# difficulties in set',
+      one: '# difficulty in set',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get settingsTitle => 'Settings';
 
   @override
@@ -548,9 +583,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get spotlightsChoose => 'Choose a spotlight';
-
-  @override
-  String get spotlightsShowRanking => 'Show selected spotlight';
 
   @override
   String get spotlightsEmpty => 'No spotlights available.';

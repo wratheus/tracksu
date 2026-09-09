@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### Spotlights
+
+- Replaced text-only maps/players with shared banner/player cards, flags, team
+  badges when supplied, table positions and compact scores with exact tooltips.
+- Spotlight period and participant count come from the existing API responses;
+  the participant total is separate from the server's top-40 ranking.
+- Searchable lazy catalogue sheet by name/year/ID preserves the underlying
+  page on dismissal. Shared single-row ruleset selector replaces wrapping chips.
+  Seven locales; no new endpoint, dependency, auth scope or persisted data.
+
 ### September feedback
 
 - Follow-up UI pass: content-fit draggable list sheets, selection chips without
