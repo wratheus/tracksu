@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu/src/session/session_controller.dart';
+import 'package:tracksu/src/profile/data/osu_profile_remote_source.dart';
+import 'package:tracksu/src/profile/data/profile_repository_impl.dart';
+import 'package:tracksu/src/profile/domain/profile_repository.dart';
+import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
-import 'package:tracksu/src/_shared/content/widgets/content_media_settings.dart';
 
 final class AccountActions extends StatefulWidget {
   const AccountActions({super.key});
@@ -15,6 +20,52 @@ final class AccountActions extends StatefulWidget {
 
 final class _AccountActionsState extends State<AccountActions> {
   bool _isLoggingOut = false;
+  ProfileRepository? _profileRepository;
+  StreamSubscription<SessionStatus>? _sessionSubscription;
+  Uri? _avatar;
+  int _avatarEpoch = 0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_profileRepository != null) return;
+    final deps = DepsScope.of(context);
+    _profileRepository = ProfileRepositoryImpl(
+      remoteSource: OsuProfileRemoteSource(
+        restClient: deps.restClient,
+        publicRestClient: deps.publicRestClient,
+      ),
+    );
+    _sessionSubscription = deps.sessionController.statusChanges.listen(
+      (SessionStatus status) => unawaited(_loadAvatar(status)),
+    );
+    unawaited(_loadAvatar(deps.sessionController.status));
+  }
+
+  Future<void> _loadAvatar(SessionStatus status) async {
+    final int epoch = ++_avatarEpoch;
+    _profileRepository?.cancelPending();
+    if (_avatar != null && mounted) setState(() => _avatar = null);
+    if (status != SessionStatus.authenticated) return;
+    try {
+      final profile = await _profileRepository!.getCurrentProfile(
+        ruleset: ProfileRuleset.osu,
+      );
+      if (mounted && epoch == _avatarEpoch) {
+        setState(() => _avatar = profile.avatarUri);
+      }
+    } on Object {
+      // Identity decoration must not block the account menu on API failure.
+    }
+  }
+
+  @override
+  void dispose() {
+    _avatarEpoch++;
+    _profileRepository?.cancelPending();
+    unawaited(_sessionSubscription?.cancel());
+    super.dispose();
+  }
 
   Future<void> _selectLocale(_LocaleSelection selection) async {
     final Locale? locale = switch (selection) {
@@ -42,21 +93,7 @@ final class _AccountActionsState extends State<AccountActions> {
     }
     switch (selection) {
       case _AccountSelection.mediaSettings:
-        final controller = DepsScope.of(context).contentMediaController;
-        await UiModal.scrollable<void>(
-          context,
-          title: context.t.contentMediaSettings,
-          builder: (BuildContext context) => CustomScrollView(
-            slivers: <Widget>[
-              SliverPadding(
-                padding: const EdgeInsets.all(UiSpace.lg),
-                sliver: SliverToBoxAdapter(
-                  child: ContentMediaSettings(controller: controller),
-                ),
-              ),
-            ],
-          ),
-        );
+        await DepsScope.of(context).appRouter.openSettings(context);
       case _AccountSelection.signIn:
         await DepsScope.of(context).appRouter.openLogin(context);
       case _AccountSelection.myProfile:
@@ -92,6 +129,12 @@ final class _AccountActionsState extends State<AccountActions> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
+        UiIconButton.standard(
+          tooltip: context.t.settingsTitle,
+          icon: Icons.settings_outlined,
+          onPressed: () =>
+              DepsScope.of(context).appRouter.openSettings(context),
+        ),
         PopupMenuButton<_LocaleSelection>(
           tooltip: context.t.languageSelection,
           icon: const Icon(Icons.language),
@@ -156,15 +199,20 @@ final class _AccountActionsState extends State<AccountActions> {
         PopupMenuButton<_AccountSelection>(
           enabled: !_isLoggingOut,
           tooltip: _isLoggingOut ? context.t.signingOut : context.t.account,
-          icon: Icon(
-            authenticated ? Icons.account_circle : Icons.person_outline,
-          ),
+          icon: authenticated && _avatar != null
+              ? UiAvatar.small(
+                  name: context.t.account,
+                  image: NetworkImage(_avatar.toString()),
+                )
+              : Icon(
+                  authenticated ? Icons.account_circle : Icons.person_outline,
+                ),
           onSelected: _selectAccount,
           itemBuilder: (BuildContext context) =>
               <PopupMenuEntry<_AccountSelection>>[
                 PopupMenuItem<_AccountSelection>(
                   value: _AccountSelection.mediaSettings,
-                  child: UiText.bodyMedium(context.t.contentMediaSettings),
+                  child: UiText.bodyMedium(context.t.settingsTitle),
                 ),
                 if (authenticated)
                   PopupMenuItem<_AccountSelection>(

@@ -1,4 +1,6 @@
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
+import 'package:tracksu/src/_shared/beatmaps/data/beatmap_metadata_dto.dart';
+import 'package:tracksu/src/_shared/beatmaps/domain/beatmap_metadata.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/_shared/scores/domain/score.dart';
 import 'package:tracksu/src/_shared/scores/data/score_details_dto.dart';
@@ -22,6 +24,7 @@ final class OsuScoreDto {
     this.beatmapTitle,
     this.artist,
     this.difficulty,
+    this.metadata,
   });
 
   factory OsuScoreDto.fromJson(Map<String, dynamic> json) {
@@ -46,6 +49,9 @@ final class OsuScoreDto {
     }
     if (mods.length > 64) throw const FormatException('Too many score mods.');
     return OsuScoreDto(
+      metadata: beatmapset == null
+          ? null
+          : BeatmapMetadataDto.fromJson(beatmapset),
       id: reader.requiredInt('id', positive: true),
       beatmapId: beatmapId,
       userId: reader.requiredInt('user_id', positive: true),
@@ -95,6 +101,7 @@ final class OsuScoreDto {
   final String? beatmapTitle;
   final String? artist;
   final String? difficulty;
+  final BeatmapMetadataDto? metadata;
 
   OsuScore toDomain() {
     if (!accuracy.isFinite ||
@@ -109,7 +116,9 @@ final class OsuScoreDto {
     if (pp case final double value when !value.isFinite || value < 0) {
       throw const FormatException('Invalid performance points.');
     }
+    final BeatmapMetadata? map = metadata?.toDomain();
     return OsuScore(
+      coverUri: map?.bannerUri ?? map?.coverUri,
       id: id,
       beatmapId: beatmapId,
       userId: userId,

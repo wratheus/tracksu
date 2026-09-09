@@ -45,7 +45,7 @@ final class OsuBeatmapCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         if (cover != null)
-          UiCover(image: cover, aspectRatio: _featured ? 16 / 9 : 3),
+          UiCover(image: cover, aspectRatio: _featured ? 3.2 : 3),
         Padding(
           padding: const EdgeInsets.all(UiSpace.lg),
           child: Row(

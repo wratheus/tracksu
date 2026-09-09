@@ -8,8 +8,9 @@ import 'package:tracksu/src/beatmap/leaderboard/domain/repository.dart';
 import 'package:tracksu/src/beatmap/leaderboard/widgets/section.dart';
 
 final class LeaderboardMain extends StatelessWidget {
-  const LeaderboardMain({required this.query, super.key});
+  const LeaderboardMain({required this.query, this.coverUri, super.key});
   final LeaderboardQuery query;
+  final Uri? coverUri;
   @override
   Widget build(BuildContext context) => BlocProvider<LeaderboardBloc>(
     create: (_) => LeaderboardBloc(
@@ -20,6 +21,6 @@ final class LeaderboardMain extends StatelessWidget {
       ),
       query: query,
     )..add(const LeaderboardLoadRequested()),
-    child: const LeaderboardSection(),
+    child: LeaderboardSection(coverUri: coverUri),
   );
 }

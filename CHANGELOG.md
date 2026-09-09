@@ -4,13 +4,23 @@
 
 ### September feedback
 
+- Follow-up UI pass: content-fit draggable list sheets, selection chips without
+  redundant checkmarks, stronger Exo 2 metric weight and prominent world rank.
+- Pink monthly-play bars retain calendar gaps. Daily challenge, team and ranked
+  play move above general statistics; team flags appear beside player avatars.
+- Beatmap details use high-resolution wide covers and a horizontal difficulty
+  strip with a full-list sheet. Score details show banners, player avatars,
+  ruleset-specific judgments and recorded-hit proportions instead of raw keys.
+- Dedicated settings route for image permission/account actions, account-avatar
+  menu, and account-change notification without notifying on token refresh.
 - Profile details: previous-name sheet next to the username, team flag/name
   and group accents with official web links, ranked play per pool (rating,
   provisional status, rank, plays, first places and points), daily challenge
   streaks/placements and last participation dates. Missing sections stay absent.
-- Earned medals have a count and lazy dated list. The profile API only supplies
-  achievement IDs/dates; names/artwork await a verified metadata source. The
-  sheet explains this and opens the official illustrated profile collection.
+- Earned medals open a dedicated illustrated collection with names/descriptions
+  and award dates. An isolated public web client reads the official osu! profile
+  bootstrap (not a stable REST endpoint), without cookies or auth tokens. Typed
+  repository/BLoC, cancellation, retry and stale-data preservation isolate failures.
 - Reusable affiliation tile and player-card name-action slot; all new labels
   generated from seven ARB locales. No additional requests for profile fields.
 
@@ -20,7 +30,7 @@
   difficulty-selection modals. Public osu! URLs only; no automatic posting.
 
 - External rich-content images now require a persisted allow/decline choice;
-  Account → External images exposes the same control for guests and signed-in users.
+  Settings → External images exposes the same control for guests and signed-in users.
   Revocation cancels active requests. Failure/unsupported-address text is separate
   from disabled-by-preference text; avatars and map covers are outside this setting.
 

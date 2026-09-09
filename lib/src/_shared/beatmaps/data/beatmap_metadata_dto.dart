@@ -4,6 +4,7 @@ import 'package:tracksu/src/_shared/beatmaps/domain/beatmap_metadata.dart';
 final class BeatmapMetadataDto {
   const BeatmapMetadataDto._({
     this.coverUrl,
+    this.bannerUrl,
     this.creator,
     this.status,
     this.plays,
@@ -20,6 +21,10 @@ final class BeatmapMetadataDto {
       throw const FormatException('Negative beatmapset counts.');
     }
     return BeatmapMetadataDto._(
+      bannerUrl: covers == null
+          ? null
+          : (JsonMapReader(covers).optionalString('cover@2x') ??
+                JsonMapReader(covers).optionalString('cover')),
       coverUrl: covers == null
           ? null
           : JsonMapReader(covers).optionalString('card'),
@@ -30,6 +35,7 @@ final class BeatmapMetadataDto {
     );
   }
   final String? coverUrl;
+  final String? bannerUrl;
   final String? creator;
   final String? status;
   final int? plays;
@@ -38,6 +44,7 @@ final class BeatmapMetadataDto {
   BeatmapMetadata toDomain() {
     final Uri? uri = coverUrl == null ? null : Uri.tryParse(coverUrl!);
     return BeatmapMetadata(
+      bannerUri: _mediaUri(bannerUrl),
       coverUri:
           uri != null &&
               uri.isScheme('https') &&
@@ -50,5 +57,15 @@ final class BeatmapMetadataDto {
       plays: plays,
       favourites: favourites,
     );
+  }
+
+  static Uri? _mediaUri(String? value) {
+    final Uri? uri = value == null ? null : Uri.tryParse(value);
+    return uri != null &&
+            uri.scheme == 'https' &&
+            uri.host.isNotEmpty &&
+            uri.userInfo.isEmpty
+        ? uri
+        : null;
   }
 }

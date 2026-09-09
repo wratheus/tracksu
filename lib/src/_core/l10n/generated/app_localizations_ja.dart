@@ -10,6 +10,41 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get settingsTitle => '設定';
+
+  @override
+  String get settingsSignOutConfirm =>
+      'この端末からログアウトしますか？公開osu!プロフィールは引き続き閲覧できます。';
+
+  @override
+  String get medalsLoading => 'メダルを読み込み中…';
+
+  @override
+  String get medalsFailed => 'osu!からメダルの詳細を読み込めませんでした。再試行してください。';
+
+  @override
+  String get medalsEmpty => 'まだメダルを獲得していません。';
+
+  @override
+  String get scoreMiss => 'MISS';
+
+  @override
+  String get scoreFruit => 'フルーツ';
+
+  @override
+  String get scoreDroplet => 'ドロップ';
+
+  @override
+  String get scoreTinyDroplet => '小ドロップ';
+
+  @override
+  String get scoreTinyMiss => '小ドロップのミス';
+
+  @override
+  String get scoreJudgementPercentNotice =>
+      '割合は表示された判定の内訳であり、マップの進行率や最大コンボではありません。スライダーのティックと内部用の旧式カウンターは含みません。';
+
+  @override
   String get profilePreviousNames => '以前のユーザー名';
 
   @override
@@ -25,10 +60,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get profileMedalsView => '獲得したメダルを見る';
-
-  @override
-  String get profileMedalMetadataNotice =>
-      'プロフィールAPIはメダルのIDと獲得日時を返しますが、名前や画像は含みません。画像付きのコレクションはosu!で確認できます。';
 
   @override
   String profileMedalId(int id) {

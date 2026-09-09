@@ -1,5 +1,7 @@
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
 import 'package:tracksu/src/rankings/domain/entry.dart';
+import 'package:tracksu/src/profile/data/profile_details_dto.dart';
+import 'package:tracksu/src/profile/data/profile_details_mapper.dart';
 
 final class RankingEntryDto {
   const RankingEntryDto._(this.entry);
@@ -21,6 +23,9 @@ final class RankingEntryDto {
     }
     return RankingEntryDto._(
       RankingEntry(
+        team: ProfileDetailsDto.fromJson(<String, dynamic>{
+          'team': user['team'],
+        }).toDomain().team,
         id: person.requiredInt('id', positive: true),
         username: person.requiredString('username'),
         country: person.requiredString('country_code'),

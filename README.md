@@ -34,9 +34,14 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Previous usernames open from the icon next to the name. Teams and groups,
   ranked-play pools and daily-challenge statistics appear when supplied by osu!.
   Team/group links open their official web pages. Ranked-play rating is not PP.
-- Earned medals show their count and dates in a lazy list; medal names and
-  artwork are not included in the profile API response, so the illustrated
-  collection currently opens on osu! rather than displaying guessed metadata.
+- Earned medals open a dedicated lazy collection with names, descriptions,
+  artwork and localized award dates. Metadata comes from the official public
+  profile's web bootstrap, not a stable REST catalogue: site-format changes
+  show a retry state rather than breaking the profile. No cookies or OAuth
+  tokens are sent by this separate web client.
+- Monthly plays use pink bars with real calendar gaps; replay views remain a
+  separate line chart. Daily challenge, team and ranked-play details precede
+  general statistics. Team flags also appear beside ranking-row avatars.
 - Overview / Scores / Maps are separate lazy sections that retain visited
   content and scroll. Changing ruleset keeps the previous profile visible while
   loading, resets the mode-specific scores, and preserves the maps section.
@@ -51,14 +56,20 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Beatmap descriptions reuse the same reader and link handling without an extra
   API request. Invalid optional content does not hide the profile or leaderboard.
 - Browse best and recent passed scores with pagination.
-- Inspect results in a shared detail sheet, including supplied hit counts,
-  perfect-play counts and mod settings; missing values are never invented.
+- Inspect results with map banners, author avatars where supplied, and
+  ruleset-specific judgments (300/100/50/MISS for osu!). Counts and percentages
+  describe recorded judgments, not maximum combo or map completion.
 - Browse most-played, favourite, ranked, graveyard, and other beatmap categories.
 - Refresh each section independently without discarding already loaded content.
 
 ### Navigation
 
 - Start in Search as a guest; login is optional in the account menu.
+- Settings is a separate page for external-image permission and account actions.
+  The top account menu shows your avatar after authentication and supports
+  opening your profile, switching accounts and signing out.
+- List/detail sheets fit content initially and can expand by dragging, without
+  eagerly laying out full API-backed lists.
 - Search / Rankings / News have independent retained stacks. The bottom bar
   stays visible on profile, beatmap and article details.
 - Switching tabs preserves the destination's stack. Tapping the active tab

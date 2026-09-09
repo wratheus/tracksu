@@ -40,6 +40,7 @@ final class _RankingEntryCardState extends State<RankingEntryCard> {
       locale: Localizations.localeOf(context).toLanguageTag(),
     );
     final Widget card = OsuPlayerCard.compact(
+      team: widget.entry.team,
       username: widget.entry.username,
       countryCode: widget.entry.country,
       countryLabel: widget.entry.country,

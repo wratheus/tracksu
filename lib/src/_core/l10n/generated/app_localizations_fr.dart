@@ -10,6 +10,42 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get settingsTitle => 'Paramètres';
+
+  @override
+  String get settingsSignOutConfirm =>
+      'Se déconnecter sur cet appareil ? Votre profil osu! public restera accessible.';
+
+  @override
+  String get medalsLoading => 'Chargement des médailles…';
+
+  @override
+  String get medalsFailed =>
+      'Impossible de charger les détails des médailles depuis osu!. Réessayez.';
+
+  @override
+  String get medalsEmpty => 'Aucune médaille obtenue.';
+
+  @override
+  String get scoreMiss => 'Raté';
+
+  @override
+  String get scoreFruit => 'Fruits';
+
+  @override
+  String get scoreDroplet => 'Gouttes';
+
+  @override
+  String get scoreTinyDroplet => 'Petites gouttes';
+
+  @override
+  String get scoreTinyMiss => 'Petites gouttes manquées';
+
+  @override
+  String get scoreJudgementPercentNotice =>
+      'Les pourcentages portent sur les jugements affichés, pas sur la progression de la map ni le combo maximal. Les ticks de sliders et compteurs techniques legacy sont exclus.';
+
+  @override
   String get profilePreviousNames => 'Anciens pseudos';
 
   @override
@@ -25,10 +61,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get profileMedalsView => 'Voir les médailles obtenues';
-
-  @override
-  String get profileMedalMetadataNotice =>
-      'L’API du profil fournit les identifiants et dates d’obtention, mais pas les noms ni les images des médailles. Consultez la collection illustrée sur osu!.';
 
   @override
   String profileMedalId(int id) {

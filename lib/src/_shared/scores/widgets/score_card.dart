@@ -13,12 +13,16 @@ final class OsuScoreCard extends StatefulWidget {
     this.onTap,
     this.onOpenPlayer,
     this.playerLabel,
+    this.playerAvatar,
+    this.coverUri,
     super.key,
   });
   final OsuScore score;
 
   /// A leaderboard already establishes map context, so lead with the player.
   final String? playerLabel;
+  final Uri? playerAvatar;
+  final Uri? coverUri;
 
   /// Optional navigation to the map, offered after inspecting the result.
   final VoidCallback? onTap;
@@ -50,6 +54,8 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
               canOpenMap: openBeatmap != null,
               canOpenPlayer: openPlayer != null,
               playerLabel: playerLabel,
+              playerAvatar: widget.playerAvatar,
+              coverUri: widget.coverUri,
             ),
           );
       if (!context.mounted) return;
@@ -73,6 +79,14 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
     ).add_Hm().format(score.endedAt.toLocal());
     final String locale = Localizations.localeOf(context).toLanguageTag();
     return OsuPlayCard(
+      leading: widget.playerLabel == null
+          ? null
+          : UiAvatar.medium(
+              name: widget.playerLabel!,
+              image: widget.playerAvatar == null
+                  ? null
+                  : NetworkImage(widget.playerAvatar.toString()),
+            ),
       title:
           widget.playerLabel ??
           score.beatmapTitle ??

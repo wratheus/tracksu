@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/scores/widgets/score_judgements.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:intl/intl.dart';
@@ -17,12 +18,16 @@ final class ScoreDetailsSheet extends StatelessWidget {
     required this.canOpenMap,
     this.canOpenPlayer = false,
     this.playerLabel,
+    this.playerAvatar,
+    this.coverUri,
     super.key,
   });
   final OsuScore score;
   final bool canOpenMap;
   final bool canOpenPlayer;
   final String? playerLabel;
+  final Uri? playerAvatar;
+  final Uri? coverUri;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +46,7 @@ final class ScoreDetailsSheet extends StatelessWidget {
               (mod: mod.acronym, setting: setting),
         ];
     return CustomScrollView(
+      primary: true,
       slivers: <Widget>[
         SliverPadding(
           padding: const EdgeInsets.fromLTRB(
@@ -56,9 +62,26 @@ final class ScoreDetailsSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   spacing: UiSpace.md,
                   children: <Widget>[
+                    if ((coverUri ?? score.coverUri) case final Uri image)
+                      UiCover(
+                        image: NetworkImage(image.toString()),
+                        aspectRatio: 3,
+                      ),
+                    if (playerLabel case final String name)
+                      Row(
+                        spacing: UiSpace.md,
+                        children: <Widget>[
+                          UiAvatar.medium(
+                            name: name,
+                            image: playerAvatar == null
+                                ? null
+                                : NetworkImage(playerAvatar.toString()),
+                          ),
+                          Expanded(child: UiText.titleMedium(name)),
+                        ],
+                      ),
                     UiText.titleLarge(
-                      playerLabel ??
-                          score.beatmapTitle ??
+                      score.beatmapTitle ??
                           context.t.scoresBeatmap(score.beatmapId),
                     ),
                     if (score.artist case final String artist)
@@ -81,27 +104,31 @@ final class ScoreDetailsSheet extends StatelessWidget {
                           UiBadge.negative(context.t.scoresFailedPlay),
                       ],
                     ),
-                    UiMetric.row(
-                      label: context.t.profilePpLabel,
-                      value: score.performancePoints == null
-                          ? context.t.scoresNoPp
-                          : decimal.format(score.performancePoints),
-                      tone: UiMetricTone.primary,
-                    ),
-                    UiMetric.row(
-                      label: context.t.profileAccuracyLabel,
-                      value: NumberFormat.decimalPercentPattern(
-                        locale: locale,
-                        decimalDigits: 2,
-                      ).format(score.accuracy),
-                    ),
-                    UiMetric.row(
-                      label: context.t.profileComboLabel,
-                      value: '${number.format(score.maximumCombo)}×',
-                    ),
-                    UiMetric.row(
-                      label: context.t.scoreStandardisedTotal,
-                      value: number.format(score.totalScore),
+                    UiMetricGroup(
+                      children: <UiMetric>[
+                        UiMetric.compact(
+                          label: context.t.profilePpLabel,
+                          value: score.performancePoints == null
+                              ? context.t.scoresNoPp
+                              : decimal.format(score.performancePoints),
+                          tone: UiMetricTone.primary,
+                        ),
+                        UiMetric.compact(
+                          label: context.t.profileAccuracyLabel,
+                          value: NumberFormat.decimalPercentPattern(
+                            locale: locale,
+                            decimalDigits: 2,
+                          ).format(score.accuracy),
+                        ),
+                        UiMetric.compact(
+                          label: context.t.profileComboLabel,
+                          value: '${number.format(score.maximumCombo)}×',
+                        ),
+                        UiMetric.compact(
+                          label: context.t.scoreStandardisedTotal,
+                          value: number.format(score.totalScore),
+                        ),
+                      ],
                     ),
                     OsuMods(
                       mods: score.mods
@@ -158,48 +185,10 @@ final class ScoreDetailsSheet extends StatelessWidget {
                           }
                         },
                       ),
-                    UiText.titleMedium(context.t.scoreHitsTitle),
-                    UiText.bodySmall(
-                      context.t.scoreHitsExplanation,
-                      secondary: true,
-                    ),
-                    if (score.hitCounts.isEmpty)
-                      UiText.bodySmall(
-                        context.t.scoreDetailsUnavailable,
-                        secondary: true,
-                      ),
                   ],
                 ),
               ),
-              SliverList.builder(
-                itemCount: score.hitCounts.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final ScoreHitCount hit = score.hitCounts[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(top: UiSpace.sm),
-                    child: UiSurface.inset(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        spacing: UiSpace.xs,
-                        children: <Widget>[
-                          UiText.labelLarge(hit.kind),
-                          UiMetric.row(
-                            label: context.t.scoreHitsAchieved,
-                            value: hit.achieved == null
-                                ? context.t.profileValueUnavailable
-                                : number.format(hit.achieved),
-                          ),
-                          if (hit.maximum case final int maximum)
-                            UiMetric.row(
-                              label: context.t.scoreHitsMaximum,
-                              value: number.format(maximum),
-                            ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+              SliverToBoxAdapter(child: ScoreJudgements(score: score)),
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.only(top: UiSpace.lg),

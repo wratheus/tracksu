@@ -108,6 +108,72 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Profile/score/settings UI: Settings
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// Profile/score/settings UI: Sign out on this device? Your public osu! profile will remain available.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out on this device? Your public osu! profile will remain available.'**
+  String get settingsSignOutConfirm;
+
+  /// Profile/score/settings UI: Loading medals…
+  ///
+  /// In en, this message translates to:
+  /// **'Loading medals…'**
+  String get medalsLoading;
+
+  /// Profile/score/settings UI: Could not load medal details from osu!. Please try again.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load medal details from osu!. Please try again.'**
+  String get medalsFailed;
+
+  /// Profile/score/settings UI: No medals earned yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No medals earned yet.'**
+  String get medalsEmpty;
+
+  /// Profile/score/settings UI: MISS
+  ///
+  /// In en, this message translates to:
+  /// **'MISS'**
+  String get scoreMiss;
+
+  /// Profile/score/settings UI: Fruit
+  ///
+  /// In en, this message translates to:
+  /// **'Fruit'**
+  String get scoreFruit;
+
+  /// Profile/score/settings UI: Droplets
+  ///
+  /// In en, this message translates to:
+  /// **'Droplets'**
+  String get scoreDroplet;
+
+  /// Profile/score/settings UI: Tiny droplets
+  ///
+  /// In en, this message translates to:
+  /// **'Tiny droplets'**
+  String get scoreTinyDroplet;
+
+  /// Profile/score/settings UI: Missed tiny droplets
+  ///
+  /// In en, this message translates to:
+  /// **'Missed tiny droplets'**
+  String get scoreTinyMiss;
+
+  /// Profile/score/settings UI: Percentages are shares of the recorded judgments shown here, not map completion or maximum combo. Slider ticks and technical legacy counters are excluded.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentages are shares of the recorded judgments shown here, not map completion or maximum combo. Slider ticks and technical legacy counters are excluded.'**
+  String get scoreJudgementPercentNotice;
+
   /// Profile detail: Previously known as
   ///
   /// In en, this message translates to:
@@ -137,12 +203,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View earned medals'**
   String get profileMedalsView;
-
-  /// Profile detail: The profile API provides medal IDs and award dates, but not their names or images. Open osu! to see the illustrated collection.
-  ///
-  /// In en, this message translates to:
-  /// **'The profile API provides medal IDs and award dates, but not their names or images. Open osu! to see the illustrated collection.'**
-  String get profileMedalMetadataNotice;
 
   /// Profile detail: Medal #{id}
   ///

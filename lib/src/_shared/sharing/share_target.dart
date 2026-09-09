@@ -47,6 +47,14 @@ final class ShareTarget {
   factory ShareTarget.beatmap(int id, String title) =>
       ShareTarget._(Uri.https('osu.ppy.sh', '/beatmaps/${_id(id)}'), title);
 
+  factory ShareTarget.medals(int userId, String title) => ShareTarget._(
+    Uri.https(
+      'osu.ppy.sh',
+      '/users/${_id(userId)}',
+    ).replace(fragment: 'medals'),
+    title,
+  );
+
   factory ShareTarget.beatmapset(int id, String title) =>
       ShareTarget._(Uri.https('osu.ppy.sh', '/beatmapsets/${_id(id)}'), title);
 

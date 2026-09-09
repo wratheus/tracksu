@@ -13,9 +13,14 @@ final class LeaderboardQuery {
 }
 
 final class LeaderboardEntry {
-  const LeaderboardEntry({required this.score, required this.username});
+  const LeaderboardEntry({
+    required this.score,
+    required this.username,
+    this.avatarUri,
+  });
   final OsuScore score;
   final String? username;
+  final Uri? avatarUri;
 }
 
 abstract interface class LeaderboardRepository {

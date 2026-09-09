@@ -1,3 +1,5 @@
+import 'package:tracksu/src/profile/domain/profile_details.dart';
+
 final class RankingEntry {
   const RankingEntry({
     required this.id,
@@ -7,6 +9,7 @@ final class RankingEntry {
     required this.rankedScore,
     required this.position,
     this.avatarUri,
+    this.team,
   });
   final int id;
   final String username;
@@ -17,6 +20,7 @@ final class RankingEntry {
   /// Position in the requested server page, not the user's global PP rank.
   final int position;
   final Uri? avatarUri;
+  final ProfileTeam? team;
 }
 
 final class RankingsPage {

@@ -10,6 +10,42 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get settingsTitle => 'Настройки';
+
+  @override
+  String get settingsSignOutConfirm =>
+      'Выйти на этом устройстве? Публичный профиль osu! останется доступен.';
+
+  @override
+  String get medalsLoading => 'Загрузка медалей…';
+
+  @override
+  String get medalsFailed =>
+      'Не удалось загрузить описание медалей с osu!. Попробуйте снова.';
+
+  @override
+  String get medalsEmpty => 'Пока нет полученных медалей.';
+
+  @override
+  String get scoreMiss => 'Промах';
+
+  @override
+  String get scoreFruit => 'Фрукты';
+
+  @override
+  String get scoreDroplet => 'Капли';
+
+  @override
+  String get scoreTinyDroplet => 'Маленькие капли';
+
+  @override
+  String get scoreTinyMiss => 'Пропущенные малые капли';
+
+  @override
+  String get scoreJudgementPercentNotice =>
+      'Проценты — доли показанных оценок попаданий, а не прохождение карты или максимальное комбо. Тики слайдеров и технические legacy-счётчики исключены.';
+
+  @override
   String get profilePreviousNames => 'Прежние имена';
 
   @override
@@ -25,10 +61,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileMedalsView => 'Полученные медали';
-
-  @override
-  String get profileMedalMetadataNotice =>
-      'API профиля отдаёт ID медалей и даты получения, но не их названия и картинки. Коллекцию с изображениями можно посмотреть на osu!.';
 
   @override
   String profileMedalId(int id) {

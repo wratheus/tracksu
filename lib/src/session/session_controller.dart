@@ -23,13 +23,13 @@ final class SessionController implements SessionTokenProvider {
     _ => SessionStatus.authenticated,
   };
 
-  /// UI observes status only, never credentials. Refresh does not rebuild UI.
+  /// UI observes status/account changes, never credentials. Refresh is silent.
   Stream<SessionStatus> get statusChanges => _statusChanges.stream;
 
-  void _setTokens(StoredAuthTokens? tokens) {
+  void _setTokens(StoredAuthTokens? tokens, {bool newAuthorization = false}) {
     final SessionStatus previous = status;
     _tokens = tokens;
-    if (status != previous && !_statusChanges.isClosed) {
+    if ((status != previous || newAuthorization) && !_statusChanges.isClosed) {
       _statusChanges.add(status);
     }
   }
@@ -40,10 +40,10 @@ final class SessionController implements SessionTokenProvider {
     _setTokens(await _tokenStore.read());
   }
 
-  Future<void> save(StoredAuthTokens tokens) {
+  Future<void> save(StoredAuthTokens tokens, {bool newAuthorization = false}) {
     return _serializeWrite(() async {
       await _tokenStore.write(tokens);
-      _setTokens(tokens);
+      _setTokens(tokens, newAuthorization: newAuthorization);
     });
   }
 

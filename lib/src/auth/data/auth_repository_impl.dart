@@ -40,6 +40,7 @@ final class AuthRepositoryImpl implements AuthRepository {
             Duration(seconds: tokens.expiresInSeconds),
           ),
         ),
+        newAuthorization: true,
       );
     } finally {
       if (_exchangeGeneration == generation) {

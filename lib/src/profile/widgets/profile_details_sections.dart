@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
@@ -40,67 +41,11 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
 
   Future<void> _medals() async {
     if (_opening) return;
-    final List<ProfileMedal> medals =
-        widget.details.medals ?? const <ProfileMedal>[];
-    final int userId = widget.userId;
     setState(() => _opening = true);
-    bool? original;
     try {
-      original = await UiModal.scrollable<bool>(
-        context,
-        title: context.t.profileMedals,
-        builder: (BuildContext context) => CustomScrollView(
-          slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(UiSpace.lg),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  spacing: UiSpace.md,
-                  children: <Widget>[
-                    UiText.bodySmall(
-                      context.t.profileMedalMetadataNotice,
-                      secondary: true,
-                    ),
-                    UiButton.secondary(
-                      label: context.t.contentOriginal,
-                      icon: Icons.open_in_new,
-                      onPressed: () {
-                        if (ModalRoute.of(context)?.isCurrent == true) {
-                          Navigator.of(context).pop(true);
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SliverList.builder(
-              itemCount: medals.length,
-              itemBuilder: (BuildContext context, int index) {
-                final ProfileMedal medal = medals[index];
-                return ListTile(
-                  leading: const Icon(Icons.workspace_premium_outlined),
-                  title: UiText.titleSmall(context.t.profileMedalId(medal.id)),
-                  subtitle: UiText.bodySmall(
-                    DateFormat.yMMMd(
-                      Localizations.localeOf(context).toLanguageTag(),
-                    ).format(medal.achievedAt.toLocal()),
-                    secondary: true,
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      );
+      await DepsScope.of(context).appRouter.openMedals(context, widget.userId);
     } finally {
       if (mounted) setState(() => _opening = false);
-    }
-    if (mounted && original == true) {
-      await _open(
-        Uri.https('osu.ppy.sh', '/users/$userId').replace(fragment: 'medals'),
-      );
     }
   }
 
@@ -117,10 +62,15 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
       padding: const EdgeInsets.fromLTRB(UiSpace.lg, 0, UiSpace.lg, UiSpace.lg),
       sliver: SliverMainAxisGroup(
         slivers: <Widget>[
+          if (details.dailyChallenge
+              case final ProfileDailyChallenge daily) ...<Widget>[
+            _heading(context.t.profileDailyChallenge),
+            SliverToBoxAdapter(child: _DailyChallengeCard(stats: daily)),
+          ],
           if (details.team case final ProfileTeam team)
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.only(bottom: UiSpace.md),
+                padding: const EdgeInsets.symmetric(vertical: UiSpace.md),
                 child: OsuAffiliationTile(
                   name: team.name,
                   subtitle: context.t.profileTeamTag(team.shortName),
@@ -197,11 +147,6 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
               itemBuilder: (BuildContext context, int index) =>
                   _RankedPlayCard(stats: ranked[index]),
             ),
-          ],
-          if (details.dailyChallenge
-              case final ProfileDailyChallenge daily) ...<Widget>[
-            _heading(context.t.profileDailyChallenge),
-            SliverToBoxAdapter(child: _DailyChallengeCard(stats: daily)),
           ],
         ],
       ),

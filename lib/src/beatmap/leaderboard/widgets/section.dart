@@ -10,7 +10,8 @@ import 'package:tracksu/src/beatmap/widgets/failure.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class LeaderboardSection extends StatelessWidget {
-  const LeaderboardSection({super.key});
+  const LeaderboardSection({this.coverUri, super.key});
+  final Uri? coverUri;
   @override
   Widget build(BuildContext context) => SliverMainAxisGroup(
     slivers: <Widget>[
@@ -66,6 +67,8 @@ final class LeaderboardSection extends StatelessWidget {
                       0,
                     ),
                     child: OsuScoreCard(
+                      coverUri: coverUri,
+                      playerAvatar: state.entries[index].avatarUri,
                       score: state.entries[index].score,
                       onOpenPlayer: () =>
                           DepsScope.of(context).appRouter.openProfile(

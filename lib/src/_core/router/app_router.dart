@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/settings/main.dart';
+import 'package:tracksu/src/profile/medals/main.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/auth/domain/authorization.dart';
@@ -93,6 +95,14 @@ final class TracksuAppRouter {
   late final GoRouter config;
 
   List<RouteBase> _detailRoutes() => <RouteBase>[
+    GoRoute(path: 'settings', builder: (_, _) => const SettingsMain()),
+    GoRoute(
+      path: 'medals/:user',
+      redirect: (_, GoRouterState state) =>
+          _positiveId(state.pathParameters['user']) == null ? '/search' : null,
+      builder: (_, GoRouterState state) =>
+          MedalsMain(userId: _positiveId(state.pathParameters['user'])!),
+    ),
     GoRoute(
       path: 'profile/:kind/:user/:ruleset',
       redirect: (_, GoRouterState state) =>
@@ -134,6 +144,14 @@ final class TracksuAppRouter {
 
   Future<void> openCurrentProfile(BuildContext context) async =>
       config.push<void>('$_branchPath/me');
+
+  Future<void> openSettings(BuildContext context) async =>
+      config.push<void>('$_branchPath/settings');
+
+  Future<void> openMedals(BuildContext context, int userId) async {
+    if (userId <= 0) throw ArgumentError.value(userId, 'userId');
+    await config.push<void>('$_branchPath/medals/$userId');
+  }
 
   Future<void> openNewsArticle(
     BuildContext context,

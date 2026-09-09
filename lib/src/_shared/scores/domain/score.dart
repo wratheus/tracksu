@@ -20,6 +20,7 @@ final class OsuScore {
     this.beatmapTitle,
     this.artist,
     this.difficulty,
+    this.coverUri,
   }) : mods = List<ScoreMod>.unmodifiable(mods),
        hitCounts = List<ScoreHitCount>.unmodifiable(hitCounts);
 
@@ -42,4 +43,5 @@ final class OsuScore {
   final String? beatmapTitle;
   final String? artist;
   final String? difficulty;
+  final Uri? coverUri;
 }

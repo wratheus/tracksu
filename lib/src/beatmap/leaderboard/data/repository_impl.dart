@@ -49,6 +49,7 @@ final class LeaderboardRepositoryImpl implements LeaderboardRepository {
         }
         entries.add(
           LeaderboardEntry(
+            avatarUri: _avatar(reader?.optionalString('avatar_url')),
             score: score,
             username: reader?.requiredString('username'),
           ),
@@ -60,5 +61,15 @@ final class LeaderboardRepositoryImpl implements LeaderboardRepository {
     } finally {
       if (identical(_pending, token)) _pending = null;
     }
+  }
+
+  static Uri? _avatar(String? value) {
+    final Uri? uri = value == null ? null : Uri.tryParse(value);
+    return uri != null &&
+            uri.scheme == 'https' &&
+            uri.host.isNotEmpty &&
+            uri.userInfo.isEmpty
+        ? uri
+        : null;
   }
 }

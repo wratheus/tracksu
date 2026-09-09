@@ -10,6 +10,42 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsSignOutConfirm =>
+      'Sign out on this device? Your public osu! profile will remain available.';
+
+  @override
+  String get medalsLoading => 'Loading medals…';
+
+  @override
+  String get medalsFailed =>
+      'Could not load medal details from osu!. Please try again.';
+
+  @override
+  String get medalsEmpty => 'No medals earned yet.';
+
+  @override
+  String get scoreMiss => 'MISS';
+
+  @override
+  String get scoreFruit => 'Fruit';
+
+  @override
+  String get scoreDroplet => 'Droplets';
+
+  @override
+  String get scoreTinyDroplet => 'Tiny droplets';
+
+  @override
+  String get scoreTinyMiss => 'Missed tiny droplets';
+
+  @override
+  String get scoreJudgementPercentNotice =>
+      'Percentages are shares of the recorded judgments shown here, not map completion or maximum combo. Slider ticks and technical legacy counters are excluded.';
+
+  @override
   String get profilePreviousNames => 'Previously known as';
 
   @override
@@ -25,10 +61,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileMedalsView => 'View earned medals';
-
-  @override
-  String get profileMedalMetadataNotice =>
-      'The profile API provides medal IDs and award dates, but not their names or images. Open osu! to see the illustrated collection.';
 
   @override
   String profileMedalId(int id) {

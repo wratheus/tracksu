@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,18 @@ final class BeatmapScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.beatmapTitle),
       actions: <Widget>[
+        BlocBuilder<BeatmapBloc, BeatmapState>(
+          builder: (BuildContext context, BeatmapState state) =>
+              UiIconButton.standard(
+                tooltip: context.t.beatmapRefresh,
+                icon: Icons.refresh,
+                onPressed: state is BeatmapLoadedState && !state.refreshing
+                    ? () => context.read<BeatmapBloc>().add(
+                        const BeatmapLoadRequested(),
+                      )
+                    : null,
+              ),
+        ),
         BlocBuilder<BeatmapBloc, BeatmapState>(
           builder: (BuildContext context, BeatmapState state) =>
               state is BeatmapLoadedState
@@ -65,25 +78,20 @@ final class BeatmapScreen extends StatelessWidget {
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: const EdgeInsets.all(UiSpace.lg),
-                        child: UiSection(
-                          title: context.t.beatmapTitle,
-                          action: UiButton.text(
-                            label: context.t.beatmapRefresh,
-                            onPressed: state.refreshing ? null : refresh,
-                            icon: Icons.refresh,
-                          ),
-                          child: OsuBeatmapCard.featured(
-                            title: state.details.title,
-                            artist: state.details.artist,
-                            cover: state.details.metadata?.coverUri == null
-                                ? null
-                                : NetworkImage(
-                                    state.details.metadata!.coverUri.toString(),
-                                  ),
-                            facts: BeatmapFacts(
-                              metadata: state.details.metadata,
-                            ),
-                          ),
+                        child: OsuBeatmapCard.featured(
+                          title: state.details.title,
+                          artist: state.details.artist,
+                          cover:
+                              (state.details.metadata?.bannerUri ??
+                                      state.details.metadata?.coverUri) ==
+                                  null
+                              ? null
+                              : NetworkImage(
+                                  (state.details.metadata?.bannerUri ??
+                                          state.details.metadata?.coverUri)
+                                      .toString(),
+                                ),
+                          facts: BeatmapFacts(metadata: state.details.metadata),
                         ),
                       ),
                     ),
@@ -138,6 +146,7 @@ final class _DifficultyPicker extends StatelessWidget {
       context,
       title: context.t.beatmapDifficulties,
       builder: (BuildContext modalContext) => CustomScrollView(
+        primary: true,
         slivers: <Widget>[
           SliverToBoxAdapter(
             child: Padding(
@@ -206,10 +215,57 @@ final class _DifficultyPicker extends StatelessWidget {
               OsuRulesetSelector.label(context, difficulty.ruleset),
               secondary: true,
             ),
-            UiButton.secondary(
-              label: difficulty.name,
-              icon: Icons.unfold_more,
-              onPressed: state.refreshing ? null : () => _choose(context),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: UiText.titleMedium(context.t.beatmapDifficulties),
+                ),
+                UiIconButton.standard(
+                  tooltip: context.t.beatmapDifficulties,
+                  icon: Icons.view_list_outlined,
+                  onPressed: state.refreshing ? null : () => _choose(context),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 80 * MediaQuery.textScalerOf(context).scale(14) / 14,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: state.details.difficulties.length,
+                separatorBuilder: (_, _) =>
+                    const Padding(padding: EdgeInsets.only(left: UiSpace.sm)),
+                itemBuilder: (BuildContext context, int index) {
+                  final BeatmapDifficulty item =
+                      state.details.difficulties[index];
+                  return ChoiceChip(
+                    showCheckmark: false,
+                    selected: item.id == state.selectedId,
+                    avatar: OsuRulesetIcon(ruleset: item.ruleset),
+                    label: SizedBox(
+                      width: 130,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          UiText.titleSmall(
+                            '★ ${NumberFormat.decimalPatternDigits(locale: Localizations.localeOf(context).toLanguageTag(), decimalDigits: 2).format(item.stars)}',
+                          ),
+                          UiText.bodySmall(
+                            item.name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                    onSelected: state.refreshing
+                        ? null
+                        : (_) => context.read<BeatmapBloc>().add(
+                            BeatmapSelected(item.id),
+                          ),
+                  );
+                },
+              ),
             ),
             BeatmapFacts(
               stars: difficulty.stars,
@@ -244,6 +300,8 @@ final class _LeaderboardForSelection extends StatelessWidget {
       _ => difficulty.ruleset,
     };
     return LeaderboardMain(
+      coverUri:
+          state.details.metadata?.bannerUri ?? state.details.metadata?.coverUri,
       key: ValueKey<(int, ProfileRuleset)>((id, ruleset)),
       query: LeaderboardQuery(beatmapId: id, ruleset: ruleset),
     );

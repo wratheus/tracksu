@@ -10,6 +10,40 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get settingsTitle => '设置';
+
+  @override
+  String get settingsSignOutConfirm => '要在此设备上退出登录吗？仍可查看你的公开osu!资料。';
+
+  @override
+  String get medalsLoading => '正在加载奖章…';
+
+  @override
+  String get medalsFailed => '无法从osu!加载奖章详情。请重试。';
+
+  @override
+  String get medalsEmpty => '尚未获得奖章。';
+
+  @override
+  String get scoreMiss => '未命中';
+
+  @override
+  String get scoreFruit => '水果';
+
+  @override
+  String get scoreDroplet => '水滴';
+
+  @override
+  String get scoreTinyDroplet => '小水滴';
+
+  @override
+  String get scoreTinyMiss => '漏接小水滴';
+
+  @override
+  String get scoreJudgementPercentNotice =>
+      '百分比表示此处所列判定的占比，并非谱面完成度或最大连击。滑条刻度及内部旧版计数不包含在内。';
+
+  @override
   String get profilePreviousNames => '曾用名';
 
   @override
@@ -25,10 +59,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get profileMedalsView => '查看已获得的奖章';
-
-  @override
-  String get profileMedalMetadataNotice =>
-      '个人资料API仅提供奖章ID和获得日期，不包含名称和图片。可在osu!查看带图片的奖章收藏。';
 
   @override
   String profileMedalId(int id) {

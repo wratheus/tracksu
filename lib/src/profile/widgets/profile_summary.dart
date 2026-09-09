@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/profile/widgets/profile_details_sections.dart';
 import 'package:tracksu/src/profile/widgets/previous_names_button.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/profile/widgets/monthly_history.dart';
@@ -35,202 +36,221 @@ final class ProfileSummary extends StatelessWidget {
         ? context.t.profileUnranked
         : '#${number.format(value)}';
 
-    return SliverPadding(
-      padding: const EdgeInsets.all(UiSpace.lg),
-      sliver: SliverList.list(
-        children: <Widget>[
-          OsuPlayerCard.profile(
-            nameAction: profile.details?.previousNames?.isNotEmpty == true
-                ? PreviousNamesButton(names: profile.details!.previousNames!)
-                : null,
-            username: profile.username,
-            countryCode: profile.countryCode,
-            countryLabel: context.t.profileCountry(profile.countryCode),
-            avatar: NetworkImage(profile.avatarUri.toString()),
-            cover: profile.coverUri == null
-                ? null
-                : NetworkImage(profile.coverUri.toString()),
-            statusLabel: profile.isOnline
-                ? context.t.profileOnline
-                : context.t.profileOffline,
-            rankLabel: context.t.profileId(profile.id),
-            metrics: statistics == null
-                ? const <UiMetric>[]
-                : <UiMetric>[
-                    UiMetric(
-                      label: context.t.profilePpLabel,
-                      tone: UiMetricTone.primary,
-                      value: decimal.format(statistics.performancePoints),
-                    ),
-                    UiMetric(
-                      label: context.t.profileGlobalRankLabel,
-                      tone: UiMetricTone.tertiary,
-                      value: rank(statistics.globalRank),
-                    ),
-                    UiMetric(
-                      label: context.t.profileCountryRankLabel,
-                      tone: UiMetricTone.secondary,
-                      value: rank(statistics.countryRank),
-                    ),
-                  ],
-          ),
-          if (statistics == null)
-            UiContentState.empty(title: context.t.profileNoStatistics)
-          else ...<Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: UiSpace.lg),
-              child: UiSurface.card(
-                child: UiSection(
-                  title: context.t.profileStatisticsTitle,
-                  child: UiMetricGroup(
-                    children: <UiMetric>[
-                      UiMetric.compact(
-                        label: context.t.profileAccuracyLabel,
-                        icon: Icons.gps_fixed,
-                        value: percent.format(statistics.hitAccuracy / 100),
-                      ),
-                      UiMetric.compact(
-                        label: context.t.profilePlayCountLabel,
-                        icon: Icons.play_circle_outline,
-                        value: number.format(statistics.playCount),
-                      ),
-                      UiMetric.compact(
-                        label: context.t.profilePlayTimeLabel,
-                        icon: Icons.schedule,
-                        value: statistics.playTime == null
-                            ? context.t.profileValueUnavailable
-                            : context.t.profileDuration(
-                                statistics.playTime! ~/ 3600,
-                                statistics.playTime! % 3600 ~/ 60,
-                              ),
-                      ),
-                      UiMetric.compact(
-                        label: context.t.profileComboLabel,
-                        icon: Icons.bolt,
-                        value: number.format(statistics.maximumCombo),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+    final Widget header = OsuPlayerCard.profile(
+      username: profile.username,
+      countryCode: profile.countryCode,
+      countryLabel: context.t.profileCountry(profile.countryCode),
+      avatar: NetworkImage(profile.avatarUri.toString()),
+      cover: profile.coverUri == null
+          ? null
+          : NetworkImage(profile.coverUri.toString()),
+      team: profile.details?.team,
+      nameAction: profile.details?.previousNames?.isNotEmpty == true
+          ? PreviousNamesButton(names: profile.details!.previousNames!)
+          : null,
+      statusLabel: profile.isOnline
+          ? context.t.profileOnline
+          : context.t.profileOffline,
+      rankLabel: context.t.profileId(profile.id),
+      featuredMetric: statistics == null
+          ? null
+          : UiMetric(
+              label: context.t.profileGlobalRankLabel,
+              value: rank(statistics.globalRank),
+              tone: UiMetricTone.tertiary,
             ),
-            if (statistics.level case final ProfileLevel level)
-              Padding(
-                padding: const EdgeInsets.only(top: UiSpace.lg),
-                child: UiSurface.card(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: UiSpace.md,
-                    children: <Widget>[
-                      UiText.titleMedium(context.t.profileLevel(level.current)),
-                      LinearProgressIndicator(
-                        value: level.progress / 100,
-                        semanticsLabel: context.t.profileLevel(level.current),
-                        semanticsValue: NumberFormat.percentPattern(locale)
-                            .format(level.progress / 100),
-                      ),
-                      UiText.bodySmall(
-                        context.t.profileLevelProgress(level.progress),
-                        secondary: true,
-                      ),
-                    ],
-                  ),
-                ),
+      metrics: statistics == null
+          ? const <UiMetric>[]
+          : <UiMetric>[
+              UiMetric.compact(
+                label: context.t.profilePpLabel,
+                value: decimal.format(statistics.performancePoints),
+                tone: UiMetricTone.primary,
               ),
-            if (statistics.gradeCounts case final ProfileGradeCounts grades)
-              Padding(
-                padding: const EdgeInsets.only(top: UiSpace.lg),
-                child: UiSurface.card(
-                  child: UiSection(
-                    title: context.t.profileGradesTitle,
-                    child: Wrap(
-                      spacing: UiSpace.lg,
-                      runSpacing: UiSpace.md,
-                      children: <Widget>[
-                        for (final (String grade, int count) in <(String, int)>[
-                          ('SSH', grades.ssh),
-                          ('SS', grades.ss),
-                          ('SH', grades.sh),
-                          ('S', grades.s),
-                          ('A', grades.a),
-                        ])
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            spacing: UiSpace.sm,
-                            children: <Widget>[
-                              OsuGradeBadge(grade: grade, label: grade),
-                              UiText.titleMedium(number.format(count)),
-                            ],
+              UiMetric.compact(
+                label: context.t.profileCountryRankLabel,
+                value: rank(statistics.countryRank),
+                tone: UiMetricTone.secondary,
+              ),
+            ],
+    );
+    return SliverMainAxisGroup(
+      slivers: <Widget>[
+        SliverPadding(
+          padding: const EdgeInsets.all(UiSpace.lg),
+          sliver: SliverToBoxAdapter(child: header),
+        ),
+        if (profile.details case final details?)
+          ProfileDetailsSections(details: details, userId: profile.id),
+        SliverPadding(
+          padding: const EdgeInsets.all(UiSpace.lg),
+          sliver: SliverList.list(
+            children: <Widget>[
+              if (statistics == null)
+                UiContentState.empty(title: context.t.profileNoStatistics)
+              else ...<Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: UiSpace.lg),
+                  child: UiSurface.card(
+                    child: UiSection(
+                      title: context.t.profileStatisticsTitle,
+                      child: UiMetricGroup(
+                        children: <UiMetric>[
+                          UiMetric.compact(
+                            label: context.t.profileAccuracyLabel,
+                            icon: Icons.gps_fixed,
+                            value: percent.format(statistics.hitAccuracy / 100),
                           ),
-                      ],
+                          UiMetric.compact(
+                            label: context.t.profilePlayCountLabel,
+                            icon: Icons.play_circle_outline,
+                            value: number.format(statistics.playCount),
+                          ),
+                          UiMetric.compact(
+                            label: context.t.profilePlayTimeLabel,
+                            icon: Icons.schedule,
+                            value: statistics.playTime == null
+                                ? context.t.profileValueUnavailable
+                                : context.t.profileDuration(
+                                    statistics.playTime! ~/ 3600,
+                                    statistics.playTime! % 3600 ~/ 60,
+                                  ),
+                          ),
+                          UiMetric.compact(
+                            label: context.t.profileComboLabel,
+                            icon: Icons.bolt,
+                            value: number.format(statistics.maximumCombo),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            if (statistics.rankedScore != null ||
-                statistics.totalScore != null ||
-                statistics.totalHits != null ||
-                statistics.replaysWatched != null)
+                if (statistics.level case final ProfileLevel level)
+                  Padding(
+                    padding: const EdgeInsets.only(top: UiSpace.lg),
+                    child: UiSurface.card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: UiSpace.md,
+                        children: <Widget>[
+                          UiText.titleMedium(
+                            context.t.profileLevel(level.current),
+                          ),
+                          LinearProgressIndicator(
+                            value: level.progress / 100,
+                            semanticsLabel: context.t.profileLevel(
+                              level.current,
+                            ),
+                            semanticsValue: NumberFormat.percentPattern(locale)
+                                .format(level.progress / 100),
+                          ),
+                          UiText.bodySmall(
+                            context.t.profileLevelProgress(level.progress),
+                            secondary: true,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                if (statistics.gradeCounts case final ProfileGradeCounts grades)
+                  Padding(
+                    padding: const EdgeInsets.only(top: UiSpace.lg),
+                    child: UiSurface.card(
+                      child: UiSection(
+                        title: context.t.profileGradesTitle,
+                        child: Wrap(
+                          spacing: UiSpace.lg,
+                          runSpacing: UiSpace.md,
+                          children: <Widget>[
+                            for (final (String grade, int count)
+                                in <(String, int)>[
+                                  ('SSH', grades.ssh),
+                                  ('SS', grades.ss),
+                                  ('SH', grades.sh),
+                                  ('S', grades.s),
+                                  ('A', grades.a),
+                                ])
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                spacing: UiSpace.sm,
+                                children: <Widget>[
+                                  OsuGradeBadge(grade: grade, label: grade),
+                                  UiText.titleMedium(number.format(count)),
+                                ],
+                              ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                if (statistics.rankedScore != null ||
+                    statistics.totalScore != null ||
+                    statistics.totalHits != null ||
+                    statistics.replaysWatched != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: UiSpace.lg),
+                    child: UiSurface.card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: UiSpace.md,
+                        children: <Widget>[
+                          if (statistics.rankedScore case final int value)
+                            CompactCountMetric(
+                              label: context.t.profileRankedScoreLabel,
+                              icon: Icons.emoji_events_outlined,
+                              value: value,
+                            ),
+                          if (statistics.totalScore case final int value)
+                            CompactCountMetric(
+                              label: context.t.profileTotalScoreLabel,
+                              icon: Icons.leaderboard_outlined,
+                              value: value,
+                            ),
+                          if (statistics.totalHits case final int value)
+                            CompactCountMetric(
+                              label: context.t.profileTotalHitsLabel,
+                              icon: Icons.touch_app_outlined,
+                              value: value,
+                            ),
+                          if (statistics.replaysWatched case final int value)
+                            CompactCountMetric(
+                              label: context.t.profileReplaysLabel,
+                              icon: Icons.visibility_outlined,
+                              value: value,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
               Padding(
                 padding: const EdgeInsets.only(top: UiSpace.lg),
-                child: UiSurface.card(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: UiSpace.md,
-                    children: <Widget>[
-                      if (statistics.rankedScore case final int value)
-                        CompactCountMetric(
-                          label: context.t.profileRankedScoreLabel,
-                          icon: Icons.emoji_events_outlined,
-                          value: value,
-                        ),
-                      if (statistics.totalScore case final int value)
-                        CompactCountMetric(
-                          label: context.t.profileTotalScoreLabel,
-                          icon: Icons.leaderboard_outlined,
-                          value: value,
-                        ),
-                      if (statistics.totalHits case final int value)
-                        CompactCountMetric(
-                          label: context.t.profileTotalHitsLabel,
-                          icon: Icons.touch_app_outlined,
-                          value: value,
-                        ),
-                      if (statistics.replaysWatched case final int value)
-                        CompactCountMetric(
-                          label: context.t.profileReplaysLabel,
-                          icon: Icons.visibility_outlined,
-                          value: value,
-                        ),
-                    ],
+                child: _RankHistory(profile: profile, ruleset: ruleset),
+              ),
+              if (profile.playHistory case final ProfileMonthlyHistory history
+                  when history.months.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: UiSpace.lg),
+                  child: ProfileMonthlyChart(
+                    history: history,
+                    title: context.t.profilePlayHistoryTitle,
+                    bars: true,
                   ),
                 ),
-              ),
-          ],
-          Padding(
-            padding: const EdgeInsets.only(top: UiSpace.lg),
-            child: _RankHistory(profile: profile, ruleset: ruleset),
+              if (profile.replayHistory case final ProfileMonthlyHistory history
+                  when history.months.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: UiSpace.lg),
+                  child: ProfileMonthlyChart(
+                    history: history,
+                    title: context.t.profileReplayHistoryTitle,
+                  ),
+                ),
+            ],
           ),
-          if (profile.playHistory case final ProfileMonthlyHistory history
-              when history.months.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: UiSpace.lg),
-              child: ProfileMonthlyChart(
-                history: history,
-                title: context.t.profilePlayHistoryTitle,
-              ),
-            ),
-          if (profile.replayHistory case final ProfileMonthlyHistory history
-              when history.months.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: UiSpace.lg),
-              child: ProfileMonthlyChart(
-                history: history,
-                title: context.t.profileReplayHistoryTitle,
-              ),
-            ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

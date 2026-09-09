@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu/src/_shared/ui/osu_badges.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -13,9 +14,11 @@ final class OsuPlayerCard extends StatelessWidget {
     this.performanceLabel,
     this.statusLabel,
     this.onTap,
+    this.team,
     super.key,
   }) : _profile = false,
        nameAction = null,
+       featuredMetric = null,
        cover = null,
        metrics = const <UiMetric>[];
   const OsuPlayerCard.profile({
@@ -29,6 +32,8 @@ final class OsuPlayerCard extends StatelessWidget {
     this.statusLabel,
     this.metrics = const <UiMetric>[],
     this.nameAction,
+    this.team,
+    this.featuredMetric,
     this.onTap,
     super.key,
   }) : _profile = true;
@@ -42,6 +47,8 @@ final class OsuPlayerCard extends StatelessWidget {
   final String? statusLabel;
   final List<UiMetric> metrics;
   final Widget? nameAction;
+  final ProfileTeam? team;
+  final UiMetric? featuredMetric;
   final VoidCallback? onTap;
   final bool _profile;
 
@@ -63,10 +70,33 @@ final class OsuPlayerCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: UiSpace.md,
                 children: <Widget>[
-                  if (_profile)
-                    UiAvatar.large(name: username, image: avatar)
-                  else
-                    UiAvatar.medium(name: username, image: avatar),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: UiSpace.xs,
+                    children: <Widget>[
+                      if (_profile)
+                        UiAvatar.large(name: username, image: avatar)
+                      else
+                        UiAvatar.medium(name: username, image: avatar),
+                      if (team case final ProfileTeam affiliation)
+                        Tooltip(
+                          message: affiliation.name,
+                          child: Semantics(
+                            label: affiliation.name,
+                            child: affiliation.flagUri == null
+                                ? const Icon(Icons.groups_outlined, size: 24)
+                                : UiImage(
+                                    image: NetworkImage(
+                                      affiliation.flagUri.toString(),
+                                    ),
+                                    width: 32,
+                                    height: 22,
+                                    fit: BoxFit.contain,
+                                  ),
+                          ),
+                        ),
+                    ],
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,8 +133,9 @@ final class OsuPlayerCard extends StatelessWidget {
                   ),
                 ],
               ),
-              if (metrics.isNotEmpty) ...<Widget>[
+              if (metrics.isNotEmpty || featuredMetric != null) ...<Widget>[
                 const Divider(height: 1),
+                if (featuredMetric case final UiMetric metric) metric,
                 UiMetricGroup(children: metrics),
               ],
             ],
