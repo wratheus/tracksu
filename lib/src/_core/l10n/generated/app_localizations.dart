@@ -108,6 +108,42 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Section heading for language and appearance preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearance;
+
+  /// Title of the application theme preference.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// Theme choice that follows the operating system brightness.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow system'**
+  String get settingsThemeSystem;
+
+  /// Light application theme choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeLight;
+
+  /// Dark application theme choice.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeDark;
+
+  /// Shown when persisting the theme fails; the previous choice remains active.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to save the theme.'**
+  String get settingsThemeSaveFailed;
+
   /// Total participants supplied for the selected Spotlight ruleset, not the length of the top-40 list.
   ///
   /// In en, this message translates to:

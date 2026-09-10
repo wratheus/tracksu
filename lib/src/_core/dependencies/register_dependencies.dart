@@ -13,6 +13,7 @@ import 'package:tracksu/src/_core/dependencies/deps_container.dart';
 import 'package:tracksu/src/_core/network/osu_authorization_interceptor.dart';
 import 'package:tracksu/src/_core/network/osu_api_headers_interceptor.dart';
 import 'package:tracksu/src/_core/l10n/locale_controller.dart';
+import 'package:tracksu/src/_core/theme/theme_controller.dart';
 import 'package:tracksu/src/_core/router/app_router.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu_network/tracksu_network.dart';
@@ -27,6 +28,10 @@ Future<DepsContainer> registerDependencies() async {
     localeStore: FlutterSecureLocaleStore(storage: storage),
   );
   await localeController.restore();
+  final ThemeController themeController = ThemeController(
+    store: FlutterSecureThemeStore(storage: storage),
+  );
+  await themeController.restore();
   final ContentMediaController contentMediaController = ContentMediaController(
     store: FlutterSecureContentMediaStore(storage: storage),
   );
@@ -89,6 +94,7 @@ Future<DepsContainer> registerDependencies() async {
       initialOAuthCallbackUri: initialOAuthCallbackUri,
     ),
     localeController: localeController,
+    themeController: themeController,
     contentMediaController: contentMediaController,
     shareService: ShareService(),
     authRepository: authRepository,

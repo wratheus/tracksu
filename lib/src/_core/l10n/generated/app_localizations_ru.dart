@@ -10,6 +10,24 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get settingsAppearance => 'Оформление';
+
+  @override
+  String get settingsTheme => 'Тема';
+
+  @override
+  String get settingsThemeSystem => 'Как в системе';
+
+  @override
+  String get settingsThemeLight => 'Светлая';
+
+  @override
+  String get settingsThemeDark => 'Тёмная';
+
+  @override
+  String get settingsThemeSaveFailed => 'Не удалось сохранить тему.';
+
+  @override
   String get spotlightsParticipants => 'Участники';
 
   @override

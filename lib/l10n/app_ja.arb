@@ -1,4 +1,10 @@
 {
+  "settingsAppearance": "外観",
+  "settingsTheme": "テーマ",
+  "settingsThemeSystem": "システム設定に合わせる",
+  "settingsThemeLight": "ライト",
+  "settingsThemeDark": "ダーク",
+  "settingsThemeSaveFailed": "テーマを保存できませんでした。",
   "spotlightsParticipants": "参加者",
   "spotlightsSearch": "名前、年、ID",
   "spotlightsNoMatch": "一致するSpotlightはありません。",

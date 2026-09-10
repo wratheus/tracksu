@@ -1,4 +1,10 @@
 {
+  "settingsAppearance": "Darstellung",
+  "settingsTheme": "Design",
+  "settingsThemeSystem": "Systemeinstellung",
+  "settingsThemeLight": "Hell",
+  "settingsThemeDark": "Dunkel",
+  "settingsThemeSaveFailed": "Das Design konnte nicht gespeichert werden.",
   "spotlightsParticipants": "Teilnehmende",
   "spotlightsSearch": "Name, Jahr oder ID",
   "spotlightsNoMatch": "Keine passenden Spotlights.",

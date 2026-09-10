@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Settings
+
+- Grouped account, appearance and external-image controls on a dedicated
+  settings screen, with a guest/signed-in summary and separate sign-out action.
+- Persisted system/light/dark theme preference using the existing storage
+  dependency. Applying a choice retains the router and branch stacks; an
+  unreadable preference falls back to system, a failed save retains the old mode.
+- Shared language sheet with PNG flags and current selection in both settings
+  and the toolbar. Account-menu entries now include icons and share the same
+  cancellable sign-out confirmation as settings. Repeated actions are guarded.
+- Six new settings labels translated in all seven ARB locales. No new network
+  endpoints, dependencies, analytics or unfinished legal links.
+
 ### News
 
 - News cards now use API high-resolution previews, localized dates and shared

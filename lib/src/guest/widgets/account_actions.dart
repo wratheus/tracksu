@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
-import 'package:tracksu/src/_shared/ui/osu_ui.dart';
+import 'package:tracksu/src/_shared/preferences/language_picker.dart';
+import 'package:tracksu/src/_shared/preferences/sign_out_action.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu/src/profile/data/osu_profile_remote_source.dart';
 import 'package:tracksu/src/profile/data/profile_repository_impl.dart';
@@ -19,7 +20,7 @@ final class AccountActions extends StatefulWidget {
 }
 
 final class _AccountActionsState extends State<AccountActions> {
-  bool _isLoggingOut = false;
+  bool _busy = false;
   ProfileRepository? _profileRepository;
   StreamSubscription<SessionStatus>? _sessionSubscription;
   Uri? _avatar;
@@ -67,52 +68,29 @@ final class _AccountActionsState extends State<AccountActions> {
     super.dispose();
   }
 
-  Future<void> _selectLocale(_LocaleSelection selection) async {
-    final Locale? locale = switch (selection) {
-      _LocaleSelection.system => null,
-      _LocaleSelection.english => const Locale('en'),
-      _LocaleSelection.russian => const Locale('ru'),
-      _LocaleSelection.german => const Locale('de'),
-      _LocaleSelection.french => const Locale('fr'),
-      _LocaleSelection.spanish => const Locale('es'),
-      _LocaleSelection.japanese => const Locale('ja'),
-      _LocaleSelection.chinese => const Locale('zh'),
-    };
+  Future<void> _run(Future<void> Function() action) async {
+    if (_busy) return;
+    setState(() => _busy = true);
     try {
-      await DepsScope.of(context).localeController.select(locale);
-    } on Object {
-      if (mounted) {
-        UiFeedback.snack(context, message: context.t.languageChangeFailed);
-      }
+      await action();
+    } finally {
+      if (mounted) setState(() => _busy = false);
     }
   }
 
-  Future<void> _selectAccount(_AccountSelection selection) async {
-    if (_isLoggingOut) {
-      return;
-    }
+  Future<void> _selectAccount(_AccountSelection selection) => _run(() async {
+    final deps = DepsScope.of(context);
     switch (selection) {
-      case _AccountSelection.mediaSettings:
-        await DepsScope.of(context).appRouter.openSettings(context);
+      case _AccountSelection.settings:
+        await deps.appRouter.openSettings(context);
       case _AccountSelection.signIn:
-        await DepsScope.of(context).appRouter.openLogin(context);
+        await deps.appRouter.openLogin(context);
       case _AccountSelection.myProfile:
-        await DepsScope.of(context).appRouter.openCurrentProfile(context);
+        await deps.appRouter.openCurrentProfile(context);
       case _AccountSelection.signOut:
-        setState(() => _isLoggingOut = true);
-        try {
-          await DepsScope.of(context).authRepository.logout();
-        } on Object {
-          if (mounted) {
-            UiFeedback.snack(context, message: context.t.signOutFailed);
-          }
-        } finally {
-          if (mounted) {
-            setState(() => _isLoggingOut = false);
-          }
-        }
+        await SignOutAction.show(context);
     }
-  }
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -132,73 +110,22 @@ final class _AccountActionsState extends State<AccountActions> {
         UiIconButton.standard(
           tooltip: context.t.settingsTitle,
           icon: Icons.settings_outlined,
-          onPressed: () =>
-              DepsScope.of(context).appRouter.openSettings(context),
+          onPressed: _busy
+              ? null
+              : () => _run(
+                  () => DepsScope.of(context).appRouter.openSettings(context),
+                ),
         ),
-        PopupMenuButton<_LocaleSelection>(
+        UiIconButton.standard(
           tooltip: context.t.languageSelection,
-          icon: const Icon(Icons.language),
-          onSelected: _selectLocale,
-          itemBuilder: (BuildContext context) =>
-              <PopupMenuEntry<_LocaleSelection>>[
-                PopupMenuItem<_LocaleSelection>(
-                  value: _LocaleSelection.system,
-                  child: _LanguageLabel(label: context.t.systemLanguage),
-                ),
-                PopupMenuItem<_LocaleSelection>(
-                  value: _LocaleSelection.english,
-                  child: _LanguageLabel(
-                    label: context.t.englishLanguage,
-                    countryCode: 'GB',
-                  ),
-                ),
-                PopupMenuItem<_LocaleSelection>(
-                  value: _LocaleSelection.russian,
-                  child: _LanguageLabel(
-                    label: context.t.russianLanguage,
-                    countryCode: 'RU',
-                  ),
-                ),
-                PopupMenuItem<_LocaleSelection>(
-                  value: _LocaleSelection.german,
-                  child: _LanguageLabel(
-                    label: context.t.germanLanguage,
-                    countryCode: 'DE',
-                  ),
-                ),
-                PopupMenuItem<_LocaleSelection>(
-                  value: _LocaleSelection.french,
-                  child: _LanguageLabel(
-                    label: context.t.frenchLanguage,
-                    countryCode: 'FR',
-                  ),
-                ),
-                PopupMenuItem<_LocaleSelection>(
-                  value: _LocaleSelection.spanish,
-                  child: _LanguageLabel(
-                    label: context.t.spanishLanguage,
-                    countryCode: 'ES',
-                  ),
-                ),
-                PopupMenuItem<_LocaleSelection>(
-                  value: _LocaleSelection.japanese,
-                  child: _LanguageLabel(
-                    label: context.t.japaneseLanguage,
-                    countryCode: 'JP',
-                  ),
-                ),
-                PopupMenuItem<_LocaleSelection>(
-                  value: _LocaleSelection.chinese,
-                  child: _LanguageLabel(
-                    label: context.t.chineseLanguage,
-                    countryCode: 'CN',
-                  ),
-                ),
-              ],
+          icon: Icons.language,
+          onPressed: _busy
+              ? null
+              : () => _run(() => LanguagePicker.show(context)),
         ),
         PopupMenuButton<_AccountSelection>(
-          enabled: !_isLoggingOut,
-          tooltip: _isLoggingOut ? context.t.signingOut : context.t.account,
+          enabled: !_busy,
+          tooltip: context.t.account,
           icon: authenticated && _avatar != null
               ? UiAvatar.small(
                   name: context.t.account,
@@ -211,18 +138,25 @@ final class _AccountActionsState extends State<AccountActions> {
           itemBuilder: (BuildContext context) =>
               <PopupMenuEntry<_AccountSelection>>[
                 PopupMenuItem<_AccountSelection>(
-                  value: _AccountSelection.mediaSettings,
-                  child: UiText.bodyMedium(context.t.settingsTitle),
+                  value: _AccountSelection.settings,
+                  child: _AccountMenuLabel(
+                    label: context.t.settingsTitle,
+                    icon: Icons.settings_outlined,
+                  ),
                 ),
                 if (authenticated)
                   PopupMenuItem<_AccountSelection>(
                     value: _AccountSelection.myProfile,
-                    child: Text(context.t.viewMyProfile),
+                    child: _AccountMenuLabel(
+                      label: context.t.viewMyProfile,
+                      icon: Icons.person_outline,
+                    ),
                   ),
                 PopupMenuItem<_AccountSelection>(
                   value: _AccountSelection.signIn,
-                  child: Text(
-                    authenticated
+                  child: _AccountMenuLabel(
+                    icon: Icons.login,
+                    label: authenticated
                         ? context.t.signInWithAnotherAccount
                         : context.t.signInWithOsu,
                   ),
@@ -230,7 +164,10 @@ final class _AccountActionsState extends State<AccountActions> {
                 if (authenticated)
                   PopupMenuItem<_AccountSelection>(
                     value: _AccountSelection.signOut,
-                    child: Text(context.t.signOut),
+                    child: _AccountMenuLabel(
+                      label: context.t.signOut,
+                      icon: Icons.logout,
+                    ),
                   ),
               ],
         ),
@@ -239,34 +176,18 @@ final class _AccountActionsState extends State<AccountActions> {
   }
 }
 
-enum _LocaleSelection {
-  system,
-  english,
-  russian,
-  german,
-  french,
-  spanish,
-  japanese,
-  chinese,
-}
+enum _AccountSelection { signIn, myProfile, signOut, settings }
 
-enum _AccountSelection { signIn, myProfile, signOut, mediaSettings }
-
-/// Flags are decorative locale hints, never a substitute for a language name.
-final class _LanguageLabel extends StatelessWidget {
-  const _LanguageLabel({required this.label, this.countryCode});
+final class _AccountMenuLabel extends StatelessWidget {
+  const _AccountMenuLabel({required this.label, required this.icon});
   final String label;
-  final String? countryCode;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) => Row(
     spacing: UiSpace.md,
     children: <Widget>[
-      ExcludeSemantics(
-        child: countryCode == null
-            ? const Icon(Icons.language, size: 24)
-            : OsuCountryFlag(code: countryCode!, label: label),
-      ),
+      Icon(icon),
       Expanded(child: UiText.bodyMedium(label)),
     ],
   );

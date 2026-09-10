@@ -42,8 +42,11 @@ mode/sort, аватары, позиции таблицы, метрика по с
 игроков, даты/участников, общий ruleset selector и sheet-поиск каталога; ожидает
 ручной проверки. [Новости P20](work/P20-news-product.md): обложки через общее
 разрешение на media, локализованные даты, интервалы, шапка статьи и компактный
-progress подключены; ручная проверка ожидается. Далее — настройки и оставшиеся
-UX-сценарии по поэкранному контракту, без автоматического расширения scope.
+progress подключены; ручная проверка ожидается.
+[Настройки P21](work/P21-settings-product.md): группы аккаунта/оформления/media,
+общий language sheet с флагами, сохраняемая system/light/dark тема и единое
+подтверждение выхода реализованы, ожидают ручной проверки. Остаются About/legal
+после P01.3 и визуальная приёмка страниц, не фиктивные ссылки на соглашения.
 [Долгосрочные идеи](work/PRODUCT-FUTURE.md) — друзья/чаты/push/сравнения и развитие
 BFF с AI/PP what-if — deferred, не входят в текущую доработку клиента.
 
@@ -76,7 +79,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Проверить · [P07.2 — навигация](../reference/NAVIGATION_SPEC.md) | go_router/stateful branches, отдельный Search, панель на деталях, OAuth overlay и status stream реализованы. Ручной Back/keyboard/callback/restoration checklist | awaiting_manual_check |
 | 6 · [P01.2](work/P01.2-assets.md) | 34 assets/Palette удалены в 9a70de5. Остались источники, лицензии и атрибуции flags/modes/fonts; native splash/branding отдельно | backlog |
 | 7 · [P07 — визуальная приёмка](work/P07-ui-foundation.md) | Оценить уже реализованные предметные карточки/графики в каталоге, состояния и assets. Уточнить палитру/шрифты/иконки перед переносом страниц; корректировки относительно Stitch разрешены | backlog |
-| 8 · [P07 + P07.1 — интеграция](work/P07-product-integration.md) | Raw migration выполнена; требуется поэкранная доработка вместе с нужными media/data projections. Theme persistence и вынос l10n в пакет отдельно | backlog |
+| 8 · [P21 — настройки](work/P21-settings-product.md) | Аккаунт/media, язык с флагами, theme persistence и общий sign-out реализованы. Ручная приёмка; About/legal после P01.3, вынос l10n в пакет отдельно | awaiting_manual_check |
 | 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade, базовые действия и UI binding, privacy/consent; выбрать Firebase environment | backlog |
 | 10 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |
 | [P16](work/P16-legacy-cleanup.md) | Мёртвый граф/старые dependencies/pages/Palette удалены. Дальше cleanup по фактическим consumers в каждом срезе; ручной OAuth smoke | awaiting_manual_check |

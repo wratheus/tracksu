@@ -10,6 +10,25 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get settingsAppearance => 'Darstellung';
+
+  @override
+  String get settingsTheme => 'Design';
+
+  @override
+  String get settingsThemeSystem => 'Systemeinstellung';
+
+  @override
+  String get settingsThemeLight => 'Hell';
+
+  @override
+  String get settingsThemeDark => 'Dunkel';
+
+  @override
+  String get settingsThemeSaveFailed =>
+      'Das Design konnte nicht gespeichert werden.';
+
+  @override
   String get spotlightsParticipants => 'Teilnehmende';
 
   @override

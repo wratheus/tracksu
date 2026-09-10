@@ -1,4 +1,10 @@
 {
+  "settingsAppearance": "Apparence",
+  "settingsTheme": "Thème",
+  "settingsThemeSystem": "Suivre le système",
+  "settingsThemeLight": "Clair",
+  "settingsThemeDark": "Sombre",
+  "settingsThemeSaveFailed": "Impossible d’enregistrer le thème.",
   "spotlightsParticipants": "Participants",
   "spotlightsSearch": "Nom, année ou ID",
   "spotlightsNoMatch": "Aucun Spotlight correspondant.",

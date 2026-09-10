@@ -1,4 +1,10 @@
 {
+  "settingsAppearance": "Оформление",
+  "settingsTheme": "Тема",
+  "settingsThemeSystem": "Как в системе",
+  "settingsThemeLight": "Светлая",
+  "settingsThemeDark": "Тёмная",
+  "settingsThemeSaveFailed": "Не удалось сохранить тему.",
   "spotlightsParticipants": "Участники",
   "spotlightsSearch": "Название, год или ID",
   "spotlightsNoMatch": "Подходящие подборки не найдены.",

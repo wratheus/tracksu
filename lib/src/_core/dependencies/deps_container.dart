@@ -3,6 +3,7 @@ import 'package:tracksu/src/auth/domain/auth_repository.dart';
 import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
 import 'package:tracksu/src/_core/router/app_router.dart';
 import 'package:tracksu/src/_core/l10n/locale_controller.dart';
+import 'package:tracksu/src/_core/theme/theme_controller.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
@@ -13,6 +14,7 @@ final class DepsContainer {
   const DepsContainer({
     required this.appRouter,
     required this.localeController,
+    required this.themeController,
     required this.contentMediaController,
     required this.shareService,
     required this.authRepository,
@@ -28,6 +30,7 @@ final class DepsContainer {
 
   final TracksuAppRouter appRouter;
   final LocaleController localeController;
+  final ThemeController themeController;
   final ContentMediaController contentMediaController;
   final ShareService shareService;
   final AuthRepository authRepository;
@@ -44,6 +47,7 @@ final class DepsContainer {
     appRouter.dispose();
     sessionController.dispose();
     localeController.dispose();
+    themeController.dispose();
     contentMediaController.dispose();
     restClient.close();
     publicRestClient.close();

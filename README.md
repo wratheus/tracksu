@@ -129,6 +129,10 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Optionally sign in through osu! OAuth, open your own profile, and sign out locally.
 - Use the interface in English, Russian, German, French, Spanish, Japanese, or
   Simplified Chinese; the selected language is remembered between launches.
+- Settings groups account, language, appearance and external images. Choose
+  system/light/dark theme without resetting navigation; the preference is saved
+  on this device independently of sign-in. Sign-out asks for confirmation from
+  both settings and the account menu.
 - Keep browsing through section-specific loading, empty, error, retry, refresh,
   and pagination states.
 

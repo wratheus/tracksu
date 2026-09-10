@@ -17,17 +17,22 @@ final class AppMain extends StatelessWidget {
       child: ValueListenableBuilder<Locale?>(
         valueListenable: dependencies.localeController,
         builder: (BuildContext context, Locale? locale, Widget? child) {
-          return MaterialApp.router(
-            restorationScopeId: 'tracksu_app',
-            debugShowCheckedModeBanner: false,
-            onGenerateTitle: (BuildContext context) => context.t.appTitle,
-            locale: locale,
-            supportedLocales: AppLocalizations.supportedLocales,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            theme: TracksuTheme.light(),
-            darkTheme: TracksuTheme.dark(),
-            themeMode: ThemeMode.system,
-            routerConfig: dependencies.appRouter.config,
+          return ValueListenableBuilder<ThemeMode>(
+            valueListenable: dependencies.themeController,
+            builder: (BuildContext context, ThemeMode mode, Widget? child) =>
+                MaterialApp.router(
+                  restorationScopeId: 'tracksu_app',
+                  debugShowCheckedModeBanner: false,
+                  onGenerateTitle: (BuildContext context) => context.t.appTitle,
+                  locale: locale,
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
+                  theme: TracksuTheme.light(),
+                  darkTheme: TracksuTheme.dark(),
+                  themeMode: mode,
+                  routerConfig: dependencies.appRouter.config,
+                ),
           );
         },
       ),

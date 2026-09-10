@@ -1,4 +1,10 @@
 {
+  "settingsAppearance": "外观",
+  "settingsTheme": "主题",
+  "settingsThemeSystem": "跟随系统",
+  "settingsThemeLight": "浅色",
+  "settingsThemeDark": "深色",
+  "settingsThemeSaveFailed": "无法保存主题。",
   "spotlightsParticipants": "参与人数",
   "spotlightsSearch": "名称、年份或ID",
   "spotlightsNoMatch": "没有匹配的Spotlight。",
