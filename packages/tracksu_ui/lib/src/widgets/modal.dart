@@ -174,12 +174,14 @@ abstract final class UiModal {
     BuildContext context, {
     required String title,
     required WidgetBuilder builder,
+    Widget? cover,
     bool useRootNavigator = true,
   }) => _show<T>(
     context,
     title: title,
     builder: builder,
     scrollable: true,
+    cover: cover,
     useRootNavigator: useRootNavigator,
   );
 
@@ -189,16 +191,22 @@ abstract final class UiModal {
     required WidgetBuilder builder,
     required bool scrollable,
     required bool useRootNavigator,
+    Widget? cover,
   }) => showModalBottomSheet<T>(
     context: context,
     useRootNavigator: useRootNavigator,
     isScrollControlled: true,
     useSafeArea: true,
+    showDragHandle: cover == null ? null : false,
+    clipBehavior: Clip.antiAlias,
     builder: (BuildContext modalContext) {
-      final Widget header = _ModalHeader(
+      final Widget titleHeader = _ModalHeader(
         title: title,
         onClose: () => _finish<T>(modalContext, null),
       );
+      final Widget header = cover == null
+          ? titleHeader
+          : _ModalCoverHeader(cover: cover, title: titleHeader);
       return Padding(
         padding: EdgeInsets.only(
           bottom: MediaQuery.viewInsetsOf(modalContext).bottom,
@@ -237,6 +245,69 @@ abstract final class UiModal {
   }
 }
 
+/// Full-bleed artwork is clipped by the sheet shape, not a second inset card.
+/// An opaque surface behind text preserves contrast in both app themes.
+final class _ModalCoverHeader extends StatelessWidget {
+  const _ModalCoverHeader({required this.cover, required this.title});
+  final Widget cover;
+  final Widget title;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    return Stack(
+      children: <Widget>[
+        Positioned.fill(child: ExcludeSemantics(child: cover)),
+        Positioned.fill(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const <double>[0, 0.35, 0.65, 1],
+                colors: <Color>[
+                  colors.surface.withValues(alpha: 0.2),
+                  colors.surface.withValues(alpha: 0.1),
+                  colors.surface.withValues(alpha: 0.95),
+                  colors.surface,
+                ],
+              ),
+            ),
+          ),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: UiSpace.md, bottom: 96),
+              child: Center(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.surface,
+                    borderRadius: BorderRadius.circular(UiShape.control),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(UiSpace.xs),
+                    child: Container(
+                      width: UiSpace.xxl,
+                      height: UiSpace.xs,
+                      decoration: BoxDecoration(
+                        color: colors.onSurfaceVariant,
+                        borderRadius: BorderRadius.circular(UiShape.control),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            title,
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 /// Fits short content after layout without shrink-wrapping an API-backed list.
 /// Consumers use the inherited primary controller so dragging expands the sheet
 /// before scrolling its contents. Once dragged, the user's chosen size wins.
@@ -255,6 +326,7 @@ final class _AdaptiveScrollSheetState extends State<_AdaptiveScrollSheet> {
   bool _dragged = false;
   bool _scheduled = false;
   double? _target;
+  double _minimum = 0.18;
 
   @override
   void dispose() {
@@ -268,8 +340,10 @@ final class _AdaptiveScrollSheetState extends State<_AdaptiveScrollSheet> {
     if (render is! RenderBox || !render.hasSize) return false;
     final double? content = _contentExtent();
     if (content == null) return false;
+    final double minimum =
+        ((render.size.height + UiShape.minTarget) / available).clamp(0.18, 0.9);
     _target = ((content + render.size.height + UiSpace.lg) / available).clamp(
-      0.18,
+      minimum,
       0.9,
     );
     if (!_scheduled) {
@@ -277,6 +351,9 @@ final class _AdaptiveScrollSheetState extends State<_AdaptiveScrollSheet> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _scheduled = false;
         if (!mounted || _dragged || !_extent.isAttached) return;
+        if ((_minimum - minimum).abs() > 0.005) {
+          setState(() => _minimum = minimum);
+        }
         final double? target = _target;
         if (target != null && (_extent.size - target).abs() > 0.005) {
           _extent.jumpTo(target);
@@ -314,8 +391,9 @@ final class _AdaptiveScrollSheetState extends State<_AdaptiveScrollSheet> {
         DraggableScrollableSheet(
           controller: _extent,
           expand: false,
-          initialChildSize: 0.5,
-          minChildSize: 0.18,
+          initialChildSize: (widget.header is _ModalCoverHeader ? 0.9 : 0.5)
+              .clamp(_minimum, 0.95),
+          minChildSize: _minimum,
           maxChildSize: 0.95,
           builder: (BuildContext context, ScrollController controller) =>
               PrimaryScrollController(

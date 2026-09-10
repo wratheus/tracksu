@@ -162,6 +162,14 @@ if (!context.mounted || !confirmed) return;
 ```
 
 Do not open modals from build, and do not treat dismiss as successful consent.
+
+`UiModal.scrollable(cover: UiCover(...), ...)` places artwork flush with the
+rounded sheet top, behind a contrast-protected title/close header. Do not repeat
+that cover inside the padded body. The adaptive minimum extent reserves room
+for the measured header and content. A manual cover example is in the catalog.
+`UiGradeGauge` is an accuracy/reference gauge, not a pie chart; the feature must
+supply grade rules and a truthful accessible description. Narrow layouts and
+large text move grade labels into a legend. The catalog includes a sample.
 If an action can be triggered repeatedly, the initiating feature owns the
 in-flight guard. Built-in modal buttons also guard against popping the previous
 route on a second tap during dismissal. Custom sheet content must follow the
@@ -209,6 +217,8 @@ Tracksu artwork; they do not fetch player data or represent real statistics.
 | States | `UiContentState.empty/error/offline/loading`, `UiSkeleton.line/block` | UI package |
 | Statistics | `UiMetric`, `UiMetricGroup` | UI package |
 | Charts | `UiChart.line/bars`, `UiChartPoint` | UI package |
+| Grade gauge | `UiGradeGauge`, `UiGaugeBand` | UI package; app supplies reference thresholds and authoritative grade |
+| Initial page loading | `UiPageSkeleton.profile/list` | UI package; use only without usable cached content |
 | Flags/modes/grades/mods | `OsuCountryFlag`, `OsuRulesetIcon`, `OsuRulesetSelector`, `OsuGradeBadge`, `OsuMods` | App shared UI |
 | Player | `OsuPlayerCard.compact/profile` | App shared UI |
 | Affiliation | `OsuAffiliationTile` (group/team identity) | App shared UI |

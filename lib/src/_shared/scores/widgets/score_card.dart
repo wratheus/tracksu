@@ -49,13 +49,20 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
           await UiModal.scrollable<ScoreDetailsAction>(
             context,
             title: context.t.scoreDetailsTitle,
+            cover: (widget.coverUri ?? selectedScore.coverUri) == null
+                ? null
+                : UiCover(
+                    image: NetworkImage(
+                      (widget.coverUri ?? selectedScore.coverUri).toString(),
+                    ),
+                    aspectRatio: 3,
+                  ),
             builder: (BuildContext context) => ScoreDetailsSheet(
               score: selectedScore,
               canOpenMap: openBeatmap != null,
               canOpenPlayer: openPlayer != null,
               playerLabel: playerLabel,
               playerAvatar: widget.playerAvatar,
-              coverUri: widget.coverUri,
             ),
           );
       if (!context.mounted) return;

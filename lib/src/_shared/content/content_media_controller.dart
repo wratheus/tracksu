@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:tracksu/src/_shared/content/data/content_media_cache.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
 
 /// Device preference, independent of OAuth identity. Unknown means no requests.
@@ -7,6 +8,7 @@ final class ContentMediaController extends ChangeNotifier {
       ContentMediaController._(store);
   ContentMediaController._(this._store);
   final ContentMediaStore _store;
+  final ContentMediaCache cache = ContentMediaCache();
   bool? _choice;
   bool _saving = false;
   bool _disposed = false;
@@ -26,7 +28,10 @@ final class ContentMediaController extends ChangeNotifier {
     if (_saving || _disposed) return;
     _saving = true;
     // Revocation cancels requests immediately, even if persistence fails.
-    if (!allowed) _choice = false;
+    if (!allowed) {
+      _choice = false;
+      cache.clear();
+    }
     notifyListeners();
     try {
       await _store.writePermission(allowed);
@@ -40,6 +45,7 @@ final class ContentMediaController extends ChangeNotifier {
   @override
   void dispose() {
     _disposed = true;
+    cache.clear();
     super.dispose();
   }
 }

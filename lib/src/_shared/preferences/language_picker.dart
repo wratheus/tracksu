@@ -51,14 +51,7 @@ abstract final class LanguagePicker {
           return UiTile.selection(
             title: language.label(context.t),
             selected: language == selected,
-            leading: ExcludeSemantics(
-              child: language.country == null
-                  ? const Icon(Icons.language)
-                  : OsuCountryFlag(
-                      code: language.country!,
-                      label: language.label(context.t),
-                    ),
-            ),
+            leading: AppLanguageIcon(language: language),
             onTap: () => Navigator.of(sheetContext).pop(language),
           );
         },
@@ -75,4 +68,20 @@ abstract final class LanguagePicker {
       }
     }
   }
+}
+
+/// Same flag in the choice list and the persisted settings selection.
+final class AppLanguageIcon extends StatelessWidget {
+  const AppLanguageIcon({required this.language, super.key});
+  final AppLanguage language;
+
+  @override
+  Widget build(BuildContext context) => ExcludeSemantics(
+    child: language.country == null
+        ? const Icon(Icons.language)
+        : OsuCountryFlag(
+            code: language.country!,
+            label: language.label(context.t),
+          ),
+  );
 }

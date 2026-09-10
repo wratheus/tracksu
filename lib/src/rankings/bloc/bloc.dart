@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/rankings/domain/entry.dart';
 import 'package:tracksu/src/rankings/domain/rankings_query.dart';
@@ -8,16 +9,20 @@ part 'event.dart';
 part 'state.dart';
 
 final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
-  factory RankingsBloc({required RankingsRepository repository}) =>
-      RankingsBloc._(repository);
+  factory RankingsBloc({
+    required RankingsRepository repository,
+    required PageCache cache,
+  }) => RankingsBloc._(repository, cache);
 
-  RankingsBloc._(this._repository) : super(const RankingsInitialState()) {
+  RankingsBloc._(this._repository, this._cache)
+    : super(const RankingsInitialState()) {
     // Concurrent bucket: type changes supersede in-flight reads.
     // Paging/refresh are guarded while busy; stale completions never emit.
     on<RankingsEvent>(_onEvent);
   }
 
   final RankingsRepository _repository;
+  final PageCache _cache;
   int _generation = 0;
 
   Future<void> _onEvent(
@@ -73,6 +78,18 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
     }
 
     final int generation = ++_generation;
+    final Object cacheKey = ('rankings', type, country?.value, variant);
+    final int cacheRevision = _cache.revision;
+    final RankingsPage? cached = _cache.read<RankingsPage>(cacheKey);
+    if (previous == null && cached != null) {
+      previous = RankingsLoadedState(
+        type: type,
+        country: country,
+        variant: variant,
+        items: cached.items,
+        nextPage: cached.nextPage,
+      );
+    }
     emit(
       previous == null
           ? RankingsLoadingState(type: type, country: country, variant: variant)
@@ -101,6 +118,10 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
         if (operation == RankingsOperation.loadMore && previous != null)
           for (final RankingEntry entry in previous.items) entry.id: entry,
       };
+      // Only successful first pages become the revalidation snapshot.
+      if (operation == RankingsOperation.refresh) {
+        _cache.write(cacheKey, page, revision: cacheRevision);
+      }
       for (final RankingEntry entry in page.items) {
         // A live ranking can move between reads. Keep earlier page snapshots
         // in place rather than replacing them with a later page's position.

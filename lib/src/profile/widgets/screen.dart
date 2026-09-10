@@ -79,10 +79,15 @@ final class ProfileScreen extends StatelessWidget {
             child: BlocBuilder<ProfileBloc, ProfileState>(
               builder: (BuildContext context, ProfileState state) =>
                   switch (state) {
-                    ProfileInitialState() || ProfileLoadingState() => Center(
-                      child: UiContentState.loading(
-                        title: context.t.profileLoading,
-                      ),
+                    ProfileInitialState() ||
+                    ProfileLoadingState() => CustomScrollView(
+                      slivers: <Widget>[
+                        SliverToBoxAdapter(
+                          child: UiPageSkeleton.profile(
+                            label: context.t.profileLoading,
+                          ),
+                        ),
+                      ],
                     ),
                     ProfileFailureState(:final failure) => Center(
                       child: ProfileErrorMessage(failure: failure),

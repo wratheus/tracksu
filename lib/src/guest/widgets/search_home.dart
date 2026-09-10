@@ -58,7 +58,7 @@ final class _SearchHomeState extends State<SearchHome> {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.appTitle),
       actions: <Widget>[
-        ShareButton.icon(target: ShareTarget.search(context.t.profileSearch)),
+        ShareButton.icon(target: ShareTarget.search(context.t.appTitle)),
         const AccountActions(),
       ],
     ),

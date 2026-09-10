@@ -34,7 +34,7 @@ final class MedalsScreen extends StatelessWidget {
       child: BlocBuilder<MedalsBloc, MedalsState>(
         builder: (BuildContext context, MedalsState state) {
           if (state is MedalsLoading) {
-            return UiLoading(label: context.t.medalsLoading);
+            return Center(child: UiLoading(label: context.t.medalsLoading));
           }
           if (state is MedalsError) {
             return UiContentState.error(

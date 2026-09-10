@@ -227,6 +227,25 @@ final class _DailyChallengeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final String locale = Localizations.localeOf(context).toLanguageTag();
     final NumberFormat number = NumberFormat.decimalPattern(locale);
+    if (stats.plays == 0) {
+      return UiSurface.card(
+        child: Row(
+          spacing: UiSpace.md,
+          children: <Widget>[
+            Icon(
+              Icons.event_available,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            Expanded(
+              child: UiText.bodyMedium(
+                context.t.profileDailyEmpty,
+                secondary: true,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
     return UiSurface.card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -280,7 +299,8 @@ final class _DailyChallengeCard extends StatelessWidget {
               ),
               secondary: true,
             ),
-          if (stats.lastWeeklyStreak case final DateTime date)
+          if (stats.lastWeeklyStreak case final DateTime date
+              when stats.weeklyBest > 0)
             UiText.bodySmall(
               context.t.profileWeeklyUpdated(
                 DateFormat.yMMMd(locale).format(date.toLocal()),

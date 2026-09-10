@@ -1,4 +1,16 @@
 {
+  "scoreGaugeReference": "osu!lazer accuracy reference scale; SS requires 100% (its visible band is enlarged). The grade comes from the result: misses, mods and legacy scoring can also affect it.",
+  "@scoreGaugeReference": {"description": "Tooltip and accessibility note for the lazer reference grade gauge. API rank is authoritative; virtual SS band is not a 99% threshold."},
+  "settingsCache": "Cache",
+  "@settingsCache": {"description": "Settings group for bounded memory cache."},
+  "settingsClearCache": "Clear cache",
+  "@settingsClearCache": {"description": "Action and confirmation title to clear page and image cache."},
+  "settingsCacheDescription": "Cached pages and images are kept in memory during this session. Clearing them keeps your account, settings and currently open pages.",
+  "@settingsCacheDescription": {"description": "Explains memory-only cache and that clearing retains account/settings/current view."},
+  "settingsCacheCleared": "Cache cleared",
+  "@settingsCacheCleared": {"description": "Confirmation that the session cache was cleared."},
+  "profileDailyEmpty": "This player has not taken part in the daily challenge yet.",
+  "@profileDailyEmpty": {"description": "Empty daily challenge summary; do not display zero statistics or sentinel dates."},
   "aboutTitle": "About Tracksu",
   "@aboutTitle": {"description":"About screen title and settings navigation label."},
   "aboutDescription": "Explore osu! players, scores, beatmaps and news.",
@@ -526,9 +538,9 @@
   "@profileSearchInvalid": {
     "description": "Validation message for an invalid player query."
   },
-  "rulesetOsu": "osu!",
+  "rulesetOsu": "ctd",
   "@rulesetOsu": {
-    "description": "Official game mode name; do not translate."
+    "description": "User-selected compact label for classic osu! mode; keep ctd in every locale. API mode remains osu."
   },
   "rulesetTaiko": "taiko",
   "@rulesetTaiko": {

@@ -21,6 +21,21 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 ## Features
 
+### Loading and preferences
+
+- Profiles, beatmap details, news feed/articles and ranking queries reuse bounded
+  in-memory snapshots while fresh data loads; refresh failures retain usable data.
+  Initial loads without cached data show static skeletons. This cache lasts only
+  for the running session (30-minute freshness limit), not across app restarts.
+- Settings can clear page snapshots and image caches without signing out or
+  resetting preferences. Already open content remains visible. Account changes
+  invalidate page snapshots; external-image permission remains a separate choice.
+- Rich-content images share a consent-aware, bounded memory cache. Other avatars
+  and covers use Flutter's decoded image cache. No offline download feature yet.
+- Language lives in settings and shows the selected flag; system/light/dark theme
+  changes use a short eased transition, disabled when the system requests it.
+- The home Share action links to this Tracksu repository, not osu! search.
+
 ### Player profiles
 
 - Search for a player by username or user ID without signing in.
@@ -46,6 +61,7 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   content and scroll. Changing ruleset keeps the previous profile visible while
   loading, resets the mode-specific scores, and preserves the maps section.
 - Switch between `osu!`, `osu!taiko`, `osu!catch`, and `osu!mania`.
+  The compact selector labels classic osu! as `ctd`.
 - A single-row tap/drag selector replaces wrapping mode chips. Secondary
   statistics use compact icon-labelled metrics; PP and ranks have theme accents.
 - Expand About me using the shared native rich-content reader for the server's

@@ -108,6 +108,42 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Tooltip and accessibility note for the lazer reference grade gauge. API rank is authoritative; virtual SS band is not a 99% threshold.
+  ///
+  /// In en, this message translates to:
+  /// **'osu!lazer accuracy reference scale; SS requires 100% (its visible band is enlarged). The grade comes from the result: misses, mods and legacy scoring can also affect it.'**
+  String get scoreGaugeReference;
+
+  /// Settings group for bounded memory cache.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache'**
+  String get settingsCache;
+
+  /// Action and confirmation title to clear page and image cache.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear cache'**
+  String get settingsClearCache;
+
+  /// Explains memory-only cache and that clearing retains account/settings/current view.
+  ///
+  /// In en, this message translates to:
+  /// **'Cached pages and images are kept in memory during this session. Clearing them keeps your account, settings and currently open pages.'**
+  String get settingsCacheDescription;
+
+  /// Confirmation that the session cache was cleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache cleared'**
+  String get settingsCacheCleared;
+
+  /// Empty daily challenge summary; do not display zero statistics or sentinel dates.
+  ///
+  /// In en, this message translates to:
+  /// **'This player has not taken part in the daily challenge yet.'**
+  String get profileDailyEmpty;
+
   /// About screen title and settings navigation label.
   ///
   /// In en, this message translates to:
@@ -1386,10 +1422,10 @@ abstract class AppLocalizations {
   /// **'Enter a valid username or positive ID.'**
   String get profileSearchInvalid;
 
-  /// Official game mode name; do not translate.
+  /// User-selected compact label for classic osu! mode; keep ctd in every locale. API mode remains osu.
   ///
   /// In en, this message translates to:
-  /// **'osu!'**
+  /// **'ctd'**
   String get rulesetOsu;
 
   /// Official game mode name; do not translate.

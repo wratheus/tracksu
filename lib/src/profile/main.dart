@@ -20,6 +20,7 @@ final class ProfileMain extends StatelessWidget {
     return BlocProvider<ProfileBloc>(
       create: (_) {
         final ProfileBloc bloc = ProfileBloc(
+          cache: DepsScope.of(context).pageCache,
           initialRuleset: params?.ruleset ?? ProfileRuleset.osu,
           repository: ProfileRepositoryImpl(
             remoteSource: OsuProfileRemoteSource(

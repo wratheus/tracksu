@@ -31,6 +31,15 @@ final class AppMain extends StatelessWidget {
                   theme: TracksuTheme.light(),
                   darkTheme: TracksuTheme.dark(),
                   themeMode: mode,
+                  themeAnimationDuration:
+                      WidgetsBinding
+                          .instance
+                          .platformDispatcher
+                          .accessibilityFeatures
+                          .disableAnimations
+                      ? Duration.zero
+                      : const Duration(milliseconds: 280),
+                  themeAnimationCurve: Curves.easeInOutCubic,
                   routerConfig: dependencies.appRouter.config,
                 ),
           );

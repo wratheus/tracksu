@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/localized_count.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
-/// CLDR compact notation, including 万/億 in locales that use them.
-/// Long-press reveals the exact, locale-formatted integer; readers hear it too.
+/// Full-width, compact typography keeps exact grouped counts readable.
+/// Avoid hiding precision behind ambiguous large-unit abbreviations.
 final class CompactCountMetric extends StatelessWidget {
   const CompactCountMetric({
     required this.label,
@@ -25,7 +25,7 @@ final class CompactCountMetric extends StatelessWidget {
       excludeSemantics: true,
       child: Tooltip(
         message: '$label: ${count.exact}',
-        child: UiMetric.row(label: label, value: count.compact, icon: icon),
+        child: UiMetric.row(label: label, value: count.exact, icon: icon),
       ),
     );
   }

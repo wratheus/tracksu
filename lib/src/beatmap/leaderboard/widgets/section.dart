@@ -17,7 +17,12 @@ final class LeaderboardSection extends StatelessWidget {
     slivers: <Widget>[
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(
+            UiSpace.lg,
+            UiSpace.xl,
+            UiSpace.lg,
+            UiSpace.sm,
+          ),
           child: UiText.titleLarge(context.t.beatmapLeaderboard),
         ),
       ),

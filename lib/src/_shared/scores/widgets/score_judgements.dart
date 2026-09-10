@@ -56,39 +56,79 @@ final class ScoreJudgements extends StatelessWidget {
       locale: locale,
       decimalDigits: 1,
     );
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    Color color(String kind) => switch (kind) {
+      'miss' || 'small_tick_miss' => colors.error,
+      'perfect' => colors.primary,
+      'great' => colors.secondary,
+      'good' || 'large_tick_hit' => colors.tertiary,
+      'ok' || 'small_tick_hit' => Theme.of(
+        context,
+      ).extension<UiStatusColors>()!.success,
+      _ => Theme.of(context).extension<UiStatusColors>()!.warning,
+    };
+    // AccuracyCircle uses these lazer reference cutoffs. Never recalculate
+    // the API grade from accuracy: misses, mods and legacy scoring also matter.
+    final List<double> cutoffs = score.ruleset == ProfileRuleset.fruits
+        ? <double>[0, 0.85, 0.9, 0.94, 0.98, 0.99, 1]
+        : <double>[0, 0.7, 0.8, 0.9, 0.95, 0.99, 1];
+    final List<String> grades = <String>['D', 'C', 'B', 'A', 'S', 'SS'];
+    final List<Color> gradeColors = <Color>[
+      colors.error,
+      color('meh'),
+      colors.tertiary,
+      color('ok'),
+      colors.secondary,
+      colors.primary,
+    ];
+    final String accuracy = NumberFormat.decimalPercentPattern(
+      locale: locale,
+      decimalDigits: 2,
+    ).format(score.accuracy);
     return UiSurface.inset(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         spacing: UiSpace.md,
         children: <Widget>[
-          UiChart.bars(
-            title: context.t.scoreHitsTitle,
-            emptyLabel: context.t.scoreDetailsUnavailable,
-            points: <UiChartPoint>[
-              for (int i = 0; i < hits.length; i++)
-                UiChartPoint(
-                  x: i.toDouble(),
-                  value: hits[i].achieved!.toDouble(),
-                  label: labels[hits[i].kind]!,
-                  valueLabel: number.format(hits[i].achieved),
-                ),
-            ],
+          UiText.titleMedium(context.t.scoreHitsTitle),
+          Tooltip(
+            message: context.t.scoreGaugeReference,
+            child: UiGradeGauge(
+              accuracy: score.accuracy,
+              accuracyLabel: accuracy,
+              grade: score.rank,
+              semanticLabel:
+                  '${context.t.scoresGrade(score.rank)}, ${context.t.profileAccuracyLabel}: $accuracy. ${context.t.scoreGaugeReference}',
+              bands: <UiGaugeBand>[
+                for (int i = 0; i < grades.length; i++)
+                  UiGaugeBand(
+                    start: cutoffs[i],
+                    end: cutoffs[i + 1],
+                    label: grades[i],
+                    color: gradeColors[i],
+                  ),
+              ],
+            ),
           ),
-          UiMetricGroup(
-            children: <UiMetric>[
-              for (final ScoreHitCount hit in hits)
-                UiMetric.compact(
-                  label: labels[hit.kind]!,
-                  value: '${number.format(hit.achieved)}×',
-                  detail: total == 0
-                      ? null
-                      : percent.format(hit.achieved! / total),
-                  tone: hit.kind.contains('miss')
-                      ? UiMetricTone.neutral
-                      : UiMetricTone.primary,
+          for (final ScoreHitCount hit in hits)
+            Row(
+              spacing: UiSpace.md,
+              children: <Widget>[
+                ExcludeSemantics(
+                  child: Icon(Icons.circle, size: 10, color: color(hit.kind)),
                 ),
-            ],
-          ),
+                Expanded(child: UiText.labelLarge(labels[hit.kind]!)),
+                UiText.titleMedium(
+                  '${number.format(hit.achieved)}×',
+                  color: color(hit.kind),
+                ),
+                if (total > 0)
+                  UiText.bodySmall(
+                    percent.format(hit.achieved! / total),
+                    secondary: true,
+                  ),
+              ],
+            ),
           UiText.bodySmall(
             context.t.scoreJudgementPercentNotice,
             secondary: true,

@@ -13,6 +13,7 @@ final class BeatmapMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider<BeatmapBloc>(
     create: (_) => BeatmapBloc(
+      cache: DepsScope.of(context).pageCache,
       repository: BeatmapRepositoryImpl(
         source: BeatmapRemoteSource(
           restClient: DepsScope.of(context).publicRestClient,

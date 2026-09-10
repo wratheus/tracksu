@@ -19,7 +19,6 @@ final class ScoreDetailsSheet extends StatelessWidget {
     this.canOpenPlayer = false,
     this.playerLabel,
     this.playerAvatar,
-    this.coverUri,
     super.key,
   });
   final OsuScore score;
@@ -27,7 +26,6 @@ final class ScoreDetailsSheet extends StatelessWidget {
   final bool canOpenPlayer;
   final String? playerLabel;
   final Uri? playerAvatar;
-  final Uri? coverUri;
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +60,6 @@ final class ScoreDetailsSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   spacing: UiSpace.md,
                   children: <Widget>[
-                    if ((coverUri ?? score.coverUri) case final Uri image)
-                      UiCover(
-                        image: NetworkImage(image.toString()),
-                        aspectRatio: 3,
-                      ),
                     if (playerLabel case final String name)
                       Row(
                         spacing: UiSpace.md,
@@ -188,7 +181,12 @@ final class ScoreDetailsSheet extends StatelessWidget {
                   ],
                 ),
               ),
-              SliverToBoxAdapter(child: ScoreJudgements(score: score)),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: UiSpace.lg),
+                  child: ScoreJudgements(score: score),
+                ),
+              ),
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.only(top: UiSpace.lg),

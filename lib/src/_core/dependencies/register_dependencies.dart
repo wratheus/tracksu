@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:http/http.dart' as http;
 import 'package:tracksu/src/auth/data/app_links_oauth_callback_link_source.dart';
 import 'package:tracksu/src/auth/data/auth_repository_impl.dart';
@@ -90,6 +91,9 @@ Future<DepsContainer> registerDependencies() async {
   );
 
   return DepsContainer(
+    pageCache: PageCache(
+      identityRevision: () => sessionController.identityRevision,
+    ),
     appRouter: TracksuAppRouter(
       initialOAuthCallbackUri: initialOAuthCallbackUri,
     ),

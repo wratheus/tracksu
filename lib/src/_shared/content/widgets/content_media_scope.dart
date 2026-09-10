@@ -57,7 +57,7 @@ final class _ContentMediaScopeState extends State<ContentMediaScope>
   void _sync() {
     final bool active = _foreground && _visible && widget.permission.allowed;
     if (active && !_active) {
-      _loader = ContentMediaLoader();
+      _loader = ContentMediaLoader(cache: widget.permission.cache);
     } else if (!active) {
       _loader?.close();
       // Retain decoded previews while a route is covered. On resume a new

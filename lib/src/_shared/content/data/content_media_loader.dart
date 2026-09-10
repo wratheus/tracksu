@@ -3,8 +3,12 @@ import 'dart:collection';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:tracksu/src/_shared/content/data/content_media_cache.dart';
+
 /// Owned by one visible ContentFrame. No API client, cookies or disk cache.
 final class ContentMediaLoader {
+  ContentMediaLoader({this.cache});
+  final ContentMediaCache? cache;
   final Queue<ContentMediaRequest> _queue = Queue<ContentMediaRequest>();
   final Set<ContentMediaRequest> _active = <ContentMediaRequest>{};
   bool _closed = false;
@@ -42,13 +46,20 @@ final class ContentMediaLoader {
 
   Future<void> _run(ContentMediaRequest request) async {
     try {
-      final Uint8List bytes = await request._download().timeout(
-        const Duration(seconds: 15),
-        onTimeout: () {
-          request._stop();
-          throw const ContentMediaFailure();
-        },
-      );
+      final int revision = cache?.revision ?? 0;
+      final Uint8List? cached = cache?.read(request._uri);
+      final Uint8List bytes =
+          cached ??
+          await request._download().timeout(
+            const Duration(seconds: 15),
+            onTimeout: () {
+              request._stop();
+              throw const ContentMediaFailure();
+            },
+          );
+      if (cached == null && !request._cancelled) {
+        cache?.write(request._uri, bytes, revision: revision);
+      }
       if (!request._result.isCompleted) request._result.complete(bytes);
     } on Object {
       if (!request._result.isCompleted) {
@@ -69,6 +80,7 @@ final class ContentMediaRequest {
   final Completer<Uint8List> _result = Completer<Uint8List>();
   HttpClient? _client;
   ConnectionTask<Socket>? _socket;
+  Socket? _transport;
   bool _cancelled = false;
   Future<Uint8List> get bytes => _result.future;
 
@@ -80,8 +92,10 @@ final class ContentMediaRequest {
   }
 
   void _stop() {
+    if (_cancelled) return;
     _cancelled = true;
     _socket?.cancel();
+    _transport?.destroy();
     _client?.close(force: true);
   }
 
@@ -91,32 +105,27 @@ final class ContentMediaRequest {
       ..connectionTimeout = const Duration(seconds: 5)
       ..findProxy = (_) => 'DIRECT';
     _client = client;
-    client.connectionFactory =
-        (Uri uri, String? proxyHost, int? proxyPort) async {
-          _checkUri(uri);
-          if (_cancelled || proxyHost != null) {
-            throw const ContentMediaFailure();
-          }
-          final List<InternetAddress> addresses = await InternetAddress.lookup(
-            uri.host,
-          );
-          // Validate the whole answer, then connect to the IP, not another DNS lookup.
-          if (_cancelled ||
-              addresses.isEmpty ||
-              addresses.any((InternetAddress a) => !_publicAddress(a))) {
-            throw const ContentMediaFailure();
-          }
-          final ConnectionTask<Socket> socket = await Socket.startConnect(
-            addresses.first,
-            443,
-          );
-          _socket = socket;
-          if (_cancelled) {
-            socket.cancel();
-            throw const ContentMediaFailure();
-          }
-          return socket; // HttpClient retains TLS/SNI/certificate checks for uri.host.
-        };
+    client.connectionFactory = (Uri uri, String? proxyHost, int? proxyPort) async {
+      _checkUri(uri);
+      if (_cancelled || proxyHost != null) {
+        throw const ContentMediaFailure();
+      }
+      final List<InternetAddress> addresses = await InternetAddress.lookup(
+        uri.host,
+      );
+      // Validate the whole answer, then connect to the IP, not another DNS lookup.
+      if (_cancelled ||
+          addresses.isEmpty ||
+          addresses.any((InternetAddress a) => !_publicAddress(a))) {
+        throw const ContentMediaFailure();
+      }
+      // A custom factory replaces HttpClient's TLS setup, not just DNS.
+      // Pin the checked IP, but validate the certificate and SNI by hostname.
+      return ConnectionTask.fromSocket(_connect(uri, addresses), () {
+        _socket?.cancel();
+        _transport?.destroy();
+      });
+    };
     Uri uri = _uri;
     for (int redirect = 0; redirect <= 3; redirect++) {
       _checkUri(uri);
@@ -143,9 +152,12 @@ final class ContentMediaRequest {
       }
       const int maxBytes = 8 * 1024 * 1024;
       final String? mime = response.headers.contentType?.mimeType;
+      final String? encoding = response.headers.value(
+        HttpHeaders.contentEncodingHeader,
+      );
       if (response.statusCode != 200 ||
           response.contentLength > maxBytes ||
-          response.headers.value(HttpHeaders.contentEncodingHeader) != null ||
+          encoding != null && encoding.toLowerCase() != 'identity' ||
           !const <String>{
             'image/png',
             'image/jpeg',
@@ -164,6 +176,50 @@ final class ContentMediaRequest {
       final Uint8List bytes = builder.takeBytes();
       if (!_matchesFormat(bytes, mime!)) throw const ContentMediaFailure();
       return bytes;
+    }
+    throw const ContentMediaFailure();
+  }
+
+  Future<Socket> _connect(Uri uri, List<InternetAddress> addresses) async {
+    for (final InternetAddress address in addresses) {
+      if (_cancelled) throw const ContentMediaFailure();
+      final Socket raw;
+      try {
+        final ConnectionTask<Socket> task = await Socket.startConnect(
+          address,
+          443,
+        );
+        _socket = task;
+        if (_cancelled) task.cancel();
+        raw = await task.socket.timeout(
+          const Duration(seconds: 2),
+          onTimeout: () {
+            task.cancel();
+            throw const SocketException('Media connection timed out.');
+          },
+        );
+      } on SocketException {
+        // An unreachable IPv6 answer must not prevent using a checked IPv4 IP.
+        continue;
+      }
+      _transport = raw;
+      if (_cancelled) {
+        raw.destroy();
+        throw const ContentMediaFailure();
+      }
+      final SecureSocket secure;
+      try {
+        secure = await SecureSocket.secure(raw, host: uri.host);
+      } on Object {
+        raw.destroy();
+        rethrow;
+      }
+      _transport = secure;
+      if (_cancelled) {
+        secure.destroy();
+        throw const ContentMediaFailure();
+      }
+      return secure;
     }
     throw const ContentMediaFailure();
   }

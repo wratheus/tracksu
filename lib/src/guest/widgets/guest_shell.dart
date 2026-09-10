@@ -29,26 +29,28 @@ final class GuestShell extends StatelessWidget {
       // The inner feature Scaffold handles keyboard insets once.
       resizeToAvoidBottomInset: false,
       body: navigationShell,
-      bottomNavigationBar: UiNavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onSelected: _select,
-        items: <UiNavigationItem>[
-          UiNavigationItem(
-            label: context.t.navigationSearch,
-            icon: Icons.search,
-          ),
-          UiNavigationItem(
-            label: context.t.rankingsTitle,
-            icon: Icons.leaderboard_outlined,
-            selectedIcon: Icons.leaderboard,
-          ),
-          UiNavigationItem(
-            label: context.t.newsTitle,
-            icon: Icons.newspaper_outlined,
-            selectedIcon: Icons.newspaper,
-          ),
-        ],
-      ),
+      bottomNavigationBar: MediaQuery.viewInsetsOf(context).bottom > 0
+          ? null
+          : UiNavigationBar(
+              selectedIndex: navigationShell.currentIndex,
+              onSelected: _select,
+              items: <UiNavigationItem>[
+                UiNavigationItem(
+                  label: context.t.navigationSearch,
+                  icon: Icons.search,
+                ),
+                UiNavigationItem(
+                  label: context.t.rankingsTitle,
+                  icon: Icons.leaderboard_outlined,
+                  selectedIcon: Icons.leaderboard,
+                ),
+                UiNavigationItem(
+                  label: context.t.newsTitle,
+                  icon: Icons.newspaper_outlined,
+                  selectedIcon: Icons.newspaper,
+                ),
+              ],
+            ),
     ),
   );
 }

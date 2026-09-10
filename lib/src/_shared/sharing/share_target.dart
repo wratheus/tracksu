@@ -6,7 +6,7 @@ final class ShareTarget {
   const ShareTarget._(this.uri, this.title);
 
   factory ShareTarget.search(String title) =>
-      ShareTarget._(Uri.https('osu.ppy.sh', '/home/search'), title);
+      ShareTarget._(Uri.https('github.com', '/wratheus/tracksu'), title);
   factory ShareTarget.newsList(String title) =>
       ShareTarget._(Uri.https('osu.ppy.sh', '/home/news'), title);
   factory ShareTarget.rankings(RankingsQuery query, String title) =>

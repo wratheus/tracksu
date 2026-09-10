@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:meta/meta.dart';
 import 'package:tracksu/src/profile/domain/profile.dart';
 import 'package:tracksu/src/profile/domain/profile_failure.dart';
@@ -12,10 +13,11 @@ part 'state.dart';
 final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   factory ProfileBloc({
     required ProfileRepository repository,
+    required PageCache cache,
     ProfileRuleset initialRuleset = ProfileRuleset.osu,
-  }) => ProfileBloc._(repository, initialRuleset);
+  }) => ProfileBloc._(repository, cache, initialRuleset);
 
-  ProfileBloc._(this._repository, ProfileRuleset initialRuleset)
+  ProfileBloc._(this._repository, this._cache, ProfileRuleset initialRuleset)
     : super(ProfileInitialState(ruleset: initialRuleset)) {
     // One concurrent event bucket, latest-wins across search AND ruleset.
     // A generation guard covers completions; the repository aborts old IO.
@@ -23,6 +25,7 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   final ProfileRepository _repository;
+  final PageCache _cache;
   ProfileUserReference? _user;
   bool _hasTarget = false;
   int _generation = 0;
@@ -73,6 +76,17 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
     final int generation = ++_generation;
     final ProfileUserReference? user = _user;
+    final Object cacheKey = (
+      'profile',
+      user.runtimeType,
+      user?.apiValue,
+      ruleset,
+    );
+    final int cacheRevision = _cache.revision;
+    final Profile? cached = _cache.read<Profile>(cacheKey);
+    if (cached != null && (previous == null || previous.ruleset != ruleset)) {
+      previous = ProfileLoadedState(ruleset: ruleset, profile: cached);
+    }
     emit(
       previous == null
           ? ProfileLoadingState(ruleset: ruleset)
@@ -91,6 +105,14 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         return;
       }
       // Follow this player's stable ID after resolving a name.
+      _cache.write(cacheKey, profile, revision: cacheRevision);
+      if (user != null) {
+        _cache.write(
+          ('profile', ProfileUserId, profile.id.toString(), ruleset),
+          profile,
+          revision: cacheRevision,
+        );
+      }
       if (user != null) {
         _user = ProfileUserId(profile.id);
       }

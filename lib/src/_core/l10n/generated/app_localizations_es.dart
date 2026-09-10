@@ -10,6 +10,27 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get scoreGaugeReference =>
+      'Escala de referencia de precisión de osu!lazer; SS requiere 100 % (su zona se amplía para hacerla visible). El grado procede del resultado: los fallos, mods y reglas antiguas también pueden influir.';
+
+  @override
+  String get settingsCache => 'Caché';
+
+  @override
+  String get settingsClearCache => 'Borrar caché';
+
+  @override
+  String get settingsCacheDescription =>
+      'Las páginas e imágenes se guardan en memoria durante esta sesión. Al borrar la caché se conservan tu cuenta, ajustes y páginas abiertas.';
+
+  @override
+  String get settingsCacheCleared => 'Caché borrada';
+
+  @override
+  String get profileDailyEmpty =>
+      'Este jugador aún no ha participado en el desafío diario.';
+
+  @override
   String get aboutTitle => 'Acerca de Tracksu';
 
   @override
@@ -757,7 +778,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Introduce un nombre de usuario válido o un ID positivo.';
 
   @override
-  String get rulesetOsu => 'osu!';
+  String get rulesetOsu => 'ctd';
 
   @override
   String get rulesetTaiko => 'taiko';

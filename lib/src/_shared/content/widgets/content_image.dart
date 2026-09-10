@@ -101,7 +101,13 @@ final class _ContentImageViewState extends State<ContentImageView> {
       }
       setState(() => _image = frame.image);
     } on Object {
-      if (mounted && _request == request) setState(() => _failed = true);
+      if (mounted && _request == request) {
+        // A bad raster must not make Retry decode the same cached bytes forever.
+        if (widget.image.uri case final Uri uri) {
+          widget.loader.cache?.remove(uri);
+        }
+        setState(() => _failed = true);
+      }
     } finally {
       codec?.dispose();
       descriptor?.dispose();

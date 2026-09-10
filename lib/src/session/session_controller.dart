@@ -16,6 +16,8 @@ final class SessionController implements SessionTokenProvider {
   final StreamController<SessionStatus> _statusChanges =
       StreamController<SessionStatus>.broadcast();
   StoredAuthTokens? _tokens;
+  int _identityRevision = 0;
+  int get identityRevision => _identityRevision;
   Future<void> _pendingWrite = Future<void>.value();
 
   SessionStatus get status => switch (_tokens) {
@@ -30,6 +32,7 @@ final class SessionController implements SessionTokenProvider {
     final SessionStatus previous = status;
     _tokens = tokens;
     if ((status != previous || newAuthorization) && !_statusChanges.isClosed) {
+      _identityRevision++;
       _statusChanges.add(status);
     }
   }

@@ -26,7 +26,7 @@ final class ContentFrame extends StatefulWidget {
 
 final class _ContentFrameState extends State<ContentFrame>
     with WidgetsBindingObserver {
-  ContentMediaLoader _media = ContentMediaLoader();
+  late ContentMediaLoader _media;
   bool _foreground = true;
   bool _visibleBranch = true;
   bool _fetching = true;
@@ -36,6 +36,7 @@ final class _ContentFrameState extends State<ContentFrame>
   @override
   void initState() {
     super.initState();
+    _media = ContentMediaLoader(cache: widget.mediaPermission?.cache);
     widget.mediaPermission?.addListener(_permissionChanged);
     WidgetsBinding.instance.addObserver(this);
     _foreground =
@@ -47,7 +48,9 @@ final class _ContentFrameState extends State<ContentFrame>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _visibleBranch = TickerMode.valuesOf(context).enabled;
+    _visibleBranch =
+        TickerMode.valuesOf(context).enabled &&
+        (ModalRoute.isCurrentOf(context) ?? true);
     _syncMedia();
   }
 
@@ -67,7 +70,7 @@ final class _ContentFrameState extends State<ContentFrame>
     if (_fetching == fetching) return;
     _fetching = fetching;
     if (fetching) {
-      _media = ContentMediaLoader();
+      _media = ContentMediaLoader(cache: widget.mediaPermission?.cache);
     } else {
       _media.close();
     }
@@ -83,7 +86,7 @@ final class _ContentFrameState extends State<ContentFrame>
     }
     if (!identical(oldWidget.document, widget.document)) {
       _media.close();
-      _media = ContentMediaLoader();
+      _media = ContentMediaLoader(cache: widget.mediaPermission?.cache);
       if (!_fetching) _media.close();
       _expanded.clear();
       _flatten();

@@ -127,6 +127,20 @@ final class _CatalogScreenState extends State<_CatalogScreen> {
     ),
   );
 
+  Future<void> _coverSheet() => UiModal.scrollable<void>(
+    context,
+    title: context.t.scoreDetailsTitle,
+    cover: const UiCover(image: AssetImage('assets/utils/1024x500_banner.png')),
+    builder: (BuildContext context) => ListView(
+      primary: true,
+      padding: const EdgeInsets.all(UiSpace.lg),
+      children: <Widget>[
+        UiText.bodyMedium(context.t.uiCatalogChartHint),
+        UiPageSkeleton.list(label: context.t.scoresLoading),
+      ],
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     final AppLocalizations t = context.t;
@@ -389,6 +403,10 @@ final class _CatalogScreenState extends State<_CatalogScreen> {
                     UiButton.text(
                       label: t.profileSearch,
                       onPressed: _formSheet,
+                    ),
+                    UiButton.secondary(
+                      label: t.scoreDetailsTitle,
+                      onPressed: _coverSheet,
                     ),
                     UiButton.destructive(label: t.signOut, onPressed: _confirm),
                   ],

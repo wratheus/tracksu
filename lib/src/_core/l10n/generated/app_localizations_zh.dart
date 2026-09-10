@@ -10,6 +10,26 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get scoreGaugeReference =>
+      'osu!lazer 准确率参考刻度；SS 要求 100%（为便于观察，其区域已放大）。等级取自实际成绩，失误、模组和旧版计分规则也可能影响等级。';
+
+  @override
+  String get settingsCache => '缓存';
+
+  @override
+  String get settingsClearCache => '清除缓存';
+
+  @override
+  String get settingsCacheDescription =>
+      '页面数据和图片在本次运行期间保存在内存中。清除缓存不会影响账号、设置和已打开的页面。';
+
+  @override
+  String get settingsCacheCleared => '缓存已清除';
+
+  @override
+  String get profileDailyEmpty => '这位玩家尚未参与每日挑战。';
+
+  @override
   String get aboutTitle => '关于 Tracksu';
 
   @override
@@ -708,7 +728,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profileSearchInvalid => '请输入有效的用户名或正整数 ID。';
 
   @override
-  String get rulesetOsu => 'osu!';
+  String get rulesetOsu => 'ctd';
 
   @override
   String get rulesetTaiko => 'taiko';

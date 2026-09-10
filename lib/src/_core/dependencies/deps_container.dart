@@ -1,4 +1,5 @@
 import 'package:tracksu/src/auth/data/oauth_client_credentials.dart';
+import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/auth/domain/auth_repository.dart';
 import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
 import 'package:tracksu/src/_core/router/app_router.dart';
@@ -13,6 +14,7 @@ import 'package:tracksu/src/_shared/content/content_media_controller.dart';
 final class DepsContainer {
   const DepsContainer({
     required this.appRouter,
+    required this.pageCache,
     required this.localeController,
     required this.themeController,
     required this.contentMediaController,
@@ -29,6 +31,7 @@ final class DepsContainer {
   });
 
   final TracksuAppRouter appRouter;
+  final PageCache pageCache;
   final LocaleController localeController;
   final ThemeController themeController;
   final ContentMediaController contentMediaController;
@@ -44,6 +47,7 @@ final class DepsContainer {
   final TokenStore tokenStore;
 
   void close() {
+    pageCache.clear();
     appRouter.dispose();
     sessionController.dispose();
     localeController.dispose();

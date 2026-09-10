@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
-import 'package:tracksu/src/_shared/preferences/language_picker.dart';
 import 'package:tracksu/src/_shared/preferences/sign_out_action.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu/src/profile/data/osu_profile_remote_source.dart';
@@ -115,13 +114,6 @@ final class _AccountActionsState extends State<AccountActions> {
               : () => _run(
                   () => DepsScope.of(context).appRouter.openSettings(context),
                 ),
-        ),
-        UiIconButton.standard(
-          tooltip: context.t.languageSelection,
-          icon: Icons.language,
-          onPressed: _busy
-              ? null
-              : () => _run(() => LanguagePicker.show(context)),
         ),
         PopupMenuButton<_AccountSelection>(
           enabled: !_busy,

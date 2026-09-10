@@ -10,6 +10,26 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get scoreGaugeReference =>
+      'Ориентир точности osu!lazer; SS требует 100% (его сектор увеличен для видимости). Грейд взят из результата: промахи, моды и старые правила подсчёта тоже могут влиять на него.';
+
+  @override
+  String get settingsCache => 'Кэш';
+
+  @override
+  String get settingsClearCache => 'Очистить кэш';
+
+  @override
+  String get settingsCacheDescription =>
+      'Данные страниц и картинки хранятся в памяти на время работы приложения. Очистка сохранит аккаунт, настройки и уже открытые страницы.';
+
+  @override
+  String get settingsCacheCleared => 'Кэш очищен';
+
+  @override
+  String get profileDailyEmpty => 'Игрок ещё не участвовал в карте дня.';
+
+  @override
   String get aboutTitle => 'О приложении';
 
   @override
@@ -754,7 +774,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Введите корректное имя пользователя или положительный ID.';
 
   @override
-  String get rulesetOsu => 'osu!';
+  String get rulesetOsu => 'ctd';
 
   @override
   String get rulesetTaiko => 'taiko';

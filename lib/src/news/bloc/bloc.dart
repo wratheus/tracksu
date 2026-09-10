@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/news/domain/news.dart';
 part 'event.dart';
 part 'state.dart';
@@ -7,13 +8,16 @@ part 'state.dart';
 final class NewsBloc extends Bloc<NewsEvent, NewsState> {
   factory NewsBloc({
     required NewsRepository repository,
+    required PageCache cache,
     NewsArticleParams? params,
-  }) => NewsBloc._(repository, params);
-  NewsBloc._(this._repository, this._params) : super(const NewsInitialState()) {
+  }) => NewsBloc._(repository, cache, params);
+  NewsBloc._(this._repository, this._cache, this._params)
+    : super(const NewsInitialState()) {
     // A synchronous busy-state emission guards all events before the first await.
     on<NewsEvent>(_onEvent);
   }
   final NewsRepository _repository;
+  final PageCache _cache;
   final NewsArticleParams? _params;
   final Set<String> _usedCursors = <String>{};
 
@@ -41,15 +45,35 @@ final class NewsBloc extends Bloc<NewsEvent, NewsState> {
         cursor = current.cursor;
         operation = NewsOperation.loadMore;
     }
+    final Object cacheKey = ('news', _params?.id);
+    final int cacheRevision = _cache.revision;
+    if (previous == null) {
+      if (_params != null) {
+        final NewsArticle? cached = _cache.read<NewsArticle>(cacheKey);
+        if (cached != null) previous = NewsArticleState(cached);
+      } else {
+        final NewsPage? cached = _cache.read<NewsPage>(cacheKey);
+        if (cached != null) {
+          previous = NewsListState(items: cached.items, cursor: cached.cursor);
+        }
+      }
+    }
     emit(
       previous?.withActivity(operation: operation) ?? const NewsLoadingState(),
     );
     try {
       final NewsContentState result;
       if (_params case final NewsArticleParams params) {
-        result = NewsArticleState(await _repository.article(params));
+        final NewsArticle article = await _repository.article(params);
+        if (isClosed || emit.isDone) return;
+        _cache.write(cacheKey, article, revision: cacheRevision);
+        result = NewsArticleState(article);
       } else {
         final NewsPage page = await _repository.list(cursor: cursor);
+        if (isClosed || emit.isDone) return;
+        if (operation == NewsOperation.refresh) {
+          _cache.write(cacheKey, page, revision: cacheRevision);
+        }
         if (operation == NewsOperation.loadMore &&
             page.cursor != null &&
             _usedCursors.contains(page.cursor)) {

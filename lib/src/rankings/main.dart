@@ -26,6 +26,7 @@ final class RankingsMain extends StatelessWidget {
         ),
         child: BlocProvider<RankingsBloc>(
           create: (_) => RankingsBloc(
+            cache: DepsScope.of(context).pageCache,
             repository: RankingsRepositoryImpl(
               remoteSource: OsuRankingsRemoteSource(
                 restClient: DepsScope.of(context).publicRestClient,

@@ -2,6 +2,31 @@
 
 ## Unreleased
 
+### September feedback: media, loading and results
+
+- Fixed the rich-image HTTPS connection factory: explicit TLS and hostname
+  validation after checked DNS/IP connection, with TCP address fallback.
+  Consent, redirect/address/type/size limits and cancellation remain in place.
+- Added bounded session-memory snapshots for profiles, beatmap details, news
+  feed/articles and ranking queries. Cached content stays visible while refreshing
+  and on refresh errors; first loads use shared static skeletons. Snapshot keys
+  distinguish modes/queries and are invalidated on account changes.
+- Shared rich-image memory LRU and settings cache clearing (also clears Flutter's
+  decoded image cache). This is not cross-launch disk/offline storage.
+- Score sheets now have a full-bleed, rounded cover header and a grade/accuracy
+  gauge inspired by lazer, not a hit-count pie chart. API grades remain authoritative;
+  hit counts/ratios have their own legend. Monthly profile charts are unchanged.
+- Replaced the difficulty strip with bounded wrapping chips and a full lazy picker.
+  Reduced leaderboard spacing, centered initial medal loading, removed empty daily
+  challenge statistics and unearned weekly dates. Large counts now show grouped
+  exact integers in compact rows rather than ambiguous large-unit abbreviations.
+- Home sharing targets Tracksu on GitHub; classic selector label is `ctd`.
+  Language selection is settings-only, with its selected PNG flag. Keyboard no
+  longer reserves hidden bottom-bar space; theme transitions use eased timing
+  and respect disabled animations.
+- Audio playback and wider page-cache coverage remain planned. Liquid Glass and
+  Dynamic Island/Live Activities are deferred. No tests/APK/device launch.
+
 ### About and licenses
 
 - Added About from settings, with installed version/build/package metadata,

@@ -54,8 +54,10 @@ final class RankingsSection extends StatelessWidget {
       ),
       BlocBuilder<RankingsBloc, RankingsState>(
         builder: (BuildContext context, RankingsState state) => switch (state) {
-          RankingsInitialState() || RankingsLoadingState() =>
-            const SliverToBoxAdapter(child: _RankingsProgress()),
+          RankingsInitialState() ||
+          RankingsLoadingState() => SliverToBoxAdapter(
+            child: UiPageSkeleton.list(label: context.t.rankingsTitle),
+          ),
           RankingsFailureState(:final failure) => SliverToBoxAdapter(
             child: _RankingsError(failure: failure),
           ),

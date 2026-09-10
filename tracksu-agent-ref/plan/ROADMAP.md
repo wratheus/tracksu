@@ -4,6 +4,13 @@
 
 ## Сейчас
 
+**Приоритет — [P23, обратная связь 10 сентября](work/P23-september-ui-feedback.md).**
+Исправления media TLS/keyboard/chips/grade gauge/cover sheet/пустых данных,
+memory cache для четырёх основных разделов, очистка в настройках и скелетоны
+реализуются единым срезом; ручная приёмка открыта. После него — общий audio
+preview для карт и новостей, расширение cache/skeleton coverage на остальные
+коллекции. Liquid Glass и Dynamic Island — только future, не текущая работа.
+
 **P07 — поэкранная доработка**, [активный контракт](work/P07-product-integration.md).
 UI kit и raw migration dfe33f2 реализованы, но не являются готовностью страниц.
 Приоритет: shell/главная → поиск/профиль → scores/карты → рейтинги → новости →

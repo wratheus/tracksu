@@ -333,6 +333,57 @@ final class ProductCatalogSliver extends StatelessWidget {
             spacing: UiSpace.md,
             children: <Widget>[
               UiText.bodySmall(t.uiCatalogChartHint, secondary: true),
+              UiGradeGauge(
+                accuracy: 0.9645,
+                accuracyLabel: NumberFormat.decimalPercentPattern(
+                  locale: locale,
+                  decimalDigits: 2,
+                ).format(0.9645),
+                grade: 'S',
+                semanticLabel: t.uiCatalogChartHint,
+                bands: <UiGaugeBand>[
+                  UiGaugeBand(
+                    start: 0,
+                    end: 0.7,
+                    label: 'D',
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                  UiGaugeBand(
+                    start: 0.7,
+                    end: 0.8,
+                    label: 'C',
+                    color: Theme.of(context)
+                        .extension<UiStatusColors>()!
+                        .warning,
+                  ),
+                  UiGaugeBand(
+                    start: 0.8,
+                    end: 0.9,
+                    label: 'B',
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                  UiGaugeBand(
+                    start: 0.9,
+                    end: 0.95,
+                    label: 'A',
+                    color: Theme.of(context)
+                        .extension<UiStatusColors>()!
+                        .success,
+                  ),
+                  UiGaugeBand(
+                    start: 0.95,
+                    end: 0.99,
+                    label: 'S',
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  UiGaugeBand(
+                    start: 0.99,
+                    end: 1,
+                    label: 'SS',
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ],
+              ),
               UiChart.line(
                 title: t.uiCatalogHistory,
                 points: rankPoints,

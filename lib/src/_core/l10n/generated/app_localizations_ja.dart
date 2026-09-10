@@ -10,6 +10,26 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get scoreGaugeReference =>
+      'osu!lazerの精度の参考目盛りです。SSには100%が必要です（表示領域は見やすく拡大しています）。グレードは結果の値を使い、ミス、MOD、旧スコア方式の影響も受けます。';
+
+  @override
+  String get settingsCache => 'キャッシュ';
+
+  @override
+  String get settingsClearCache => 'キャッシュを削除';
+
+  @override
+  String get settingsCacheDescription =>
+      'ページと画像はアプリの実行中にメモリに保存されます。削除してもアカウント、設定、開いているページは保持されます。';
+
+  @override
+  String get settingsCacheCleared => 'キャッシュを削除しました';
+
+  @override
+  String get profileDailyEmpty => 'このプレイヤーはまだデイリーチャレンジに参加していません。';
+
+  @override
   String get aboutTitle => 'Tracksuについて';
 
   @override
@@ -718,7 +738,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profileSearchInvalid => '有効なユーザー名または正のIDを入力してください。';
 
   @override
-  String get rulesetOsu => 'osu!';
+  String get rulesetOsu => 'ctd';
 
   @override
   String get rulesetTaiko => 'taiko';

@@ -13,6 +13,7 @@ final class NewsMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider<NewsBloc>(
     create: (_) => NewsBloc(
+      cache: DepsScope.of(context).pageCache,
       params: params,
       repository: NewsRepositoryImpl(
         remoteSource: OsuNewsRemoteSource(

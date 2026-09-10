@@ -58,8 +58,9 @@ final class NewsScreen extends StatelessWidget {
         slivers: <Widget>[
           BlocBuilder<NewsBloc, NewsState>(
             builder: (BuildContext context, NewsState state) => switch (state) {
-              NewsInitialState() || NewsLoadingState() =>
-                const SliverToBoxAdapter(child: _NewsProgress()),
+              NewsInitialState() || NewsLoadingState() => SliverToBoxAdapter(
+                child: UiPageSkeleton.list(label: context.t.newsLoading),
+              ),
               NewsFailureState(:final failure) => SliverToBoxAdapter(
                 child: _NewsError(failure),
               ),
@@ -142,13 +143,6 @@ final class NewsScreen extends StatelessWidget {
       ),
     ),
   );
-}
-
-final class _NewsProgress extends StatelessWidget {
-  const _NewsProgress();
-  @override
-  Widget build(BuildContext context) =>
-      UiContentState.loading(title: context.t.newsLoading);
 }
 
 final class _NewsError extends StatelessWidget {

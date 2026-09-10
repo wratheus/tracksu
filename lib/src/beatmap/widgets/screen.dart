@@ -63,8 +63,8 @@ final class BeatmapScreen extends StatelessWidget {
               void refresh() =>
                   context.read<BeatmapBloc>().add(const BeatmapLoadRequested());
               return switch (state) {
-                BeatmapLoadingState() => const SliverToBoxAdapter(
-                  child: LinearProgressIndicator(),
+                BeatmapLoadingState() => SliverToBoxAdapter(
+                  child: UiPageSkeleton.profile(label: context.t.beatmapTitle),
                 ),
                 BeatmapErrorState(:final failure) => SliverToBoxAdapter(
                   child: BeatmapFailureView(failure: failure, onRetry: refresh),
@@ -204,6 +204,17 @@ final class _DifficultyPicker extends StatelessWidget {
     final BeatmapDifficulty difficulty = state.details.difficulties.firstWhere(
       (BeatmapDifficulty value) => value.id == state.selectedId,
     );
+    // Bound eager chips even for very large mapsets; the complete list is lazy.
+    final List<BeatmapDifficulty> preview = state.details.difficulties
+        .take(12)
+        .toList();
+    if (!preview.any((BeatmapDifficulty item) => item.id == difficulty.id)) {
+      preview[preview.length - 1] = difficulty;
+    }
+    final NumberFormat stars = NumberFormat.decimalPatternDigits(
+      locale: Localizations.localeOf(context).toLanguageTag(),
+      decimalDigits: 2,
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
       child: UiSurface.card(
@@ -211,10 +222,6 @@ final class _DifficultyPicker extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: UiSpace.md,
           children: <Widget>[
-            UiText.bodySmall(
-              OsuRulesetSelector.label(context, difficulty.ruleset),
-              secondary: true,
-            ),
             Row(
               children: <Widget>[
                 Expanded(
@@ -227,35 +234,21 @@ final class _DifficultyPicker extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              height: 80 * MediaQuery.textScalerOf(context).scale(14) / 14,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: state.details.difficulties.length,
-                separatorBuilder: (_, _) =>
-                    const Padding(padding: EdgeInsets.only(left: UiSpace.sm)),
-                itemBuilder: (BuildContext context, int index) {
-                  final BeatmapDifficulty item =
-                      state.details.difficulties[index];
-                  return ChoiceChip(
+            Wrap(
+              spacing: UiSpace.sm,
+              runSpacing: UiSpace.sm,
+              children: <Widget>[
+                for (final BeatmapDifficulty item in preview)
+                  ChoiceChip(
                     showCheckmark: false,
                     selected: item.id == state.selectedId,
                     avatar: OsuRulesetIcon(ruleset: item.ruleset),
-                    label: SizedBox(
-                      width: 130,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          UiText.titleSmall(
-                            '★ ${NumberFormat.decimalPatternDigits(locale: Localizations.localeOf(context).toLanguageTag(), decimalDigits: 2).format(item.stars)}',
-                          ),
-                          UiText.bodySmall(
-                            item.name,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+                    label: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 200),
+                      child: UiText.bodySmall(
+                        '${stars.format(item.stars)} ★ · ${item.name}',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     onSelected: state.refreshing
@@ -263,9 +256,16 @@ final class _DifficultyPicker extends StatelessWidget {
                         : (_) => context.read<BeatmapBloc>().add(
                             BeatmapSelected(item.id),
                           ),
-                  );
-                },
-              ),
+                  ),
+                if (state.details.difficulties.length > preview.length)
+                  ActionChip(
+                    avatar: const Icon(Icons.more_horiz),
+                    label: UiText.labelLarge(
+                      '+${state.details.difficulties.length - preview.length}',
+                    ),
+                    onPressed: state.refreshing ? null : () => _choose(context),
+                  ),
+              ],
             ),
             BeatmapFacts(
               stars: difficulty.stars,

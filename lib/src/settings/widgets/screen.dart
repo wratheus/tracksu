@@ -16,6 +16,23 @@ final class SettingsScreen extends StatefulWidget {
 final class _SettingsScreenState extends State<SettingsScreen> {
   bool _busy = false;
 
+  Future<void> _clearCache() async {
+    final bool clear = await UiModal.confirm(
+      context,
+      title: context.t.settingsClearCache,
+      message: context.t.settingsCacheDescription,
+      confirmLabel: context.t.settingsClearCache,
+      cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
+    );
+    if (!mounted || !clear) return;
+    final deps = DepsScope.of(context);
+    deps.pageCache.clear();
+    deps.contentMediaController.cache.clear();
+    PaintingBinding.instance.imageCache.clear();
+    PaintingBinding.instance.imageCache.clearLiveImages();
+    UiFeedback.snack(context, message: context.t.settingsCacheCleared);
+  }
+
   Future<void> _run(Future<void> Function() action) async {
     if (_busy) return;
     setState(() => _busy = true);
@@ -140,20 +157,23 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                             ValueListenableBuilder<Locale?>(
                               valueListenable: deps.localeController,
                               builder:
-                                  (BuildContext context, Locale? locale, _) =>
-                                      UiTile.navigation(
-                                        title: context.t.languageSelection,
-                                        subtitle: AppLanguage.fromLocale(locale)
-                                            .label(context.t),
-                                        leading: const Icon(Icons.translate),
-                                        onTap: _busy
-                                            ? null
-                                            : () => _run(
-                                                () => LanguagePicker.show(
-                                                  context,
-                                                ),
-                                              ),
-                                      ),
+                                  (
+                                    BuildContext context,
+                                    Locale? locale,
+                                    _,
+                                  ) => UiTile.navigation(
+                                    title: context.t.languageSelection,
+                                    subtitle: AppLanguage.fromLocale(locale)
+                                        .label(context.t),
+                                    leading: AppLanguageIcon(
+                                      language: AppLanguage.fromLocale(locale),
+                                    ),
+                                    onTap: _busy
+                                        ? null
+                                        : () => _run(
+                                            () => LanguagePicker.show(context),
+                                          ),
+                                  ),
                             ),
                             const Divider(
                               height: 1,
@@ -190,6 +210,20 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                                 ? null
                                 : () => _run(() => SignOutAction.show(context)),
                           ),
+                        UiSection(
+                          title: context.t.settingsCache,
+                          child: UiSurface.card(
+                            padding: EdgeInsets.zero,
+                            child: UiTile.navigation(
+                              title: context.t.settingsClearCache,
+                              subtitle: context.t.settingsCacheDescription,
+                              leading: const Icon(
+                                Icons.cleaning_services_outlined,
+                              ),
+                              onTap: _busy ? null : () => _run(_clearCache),
+                            ),
+                          ),
+                        ),
                         UiSurface.card(
                           padding: EdgeInsets.zero,
                           child: UiTile.navigation(
