@@ -10,6 +10,41 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get aboutTitle => 'О приложении';
+
+  @override
+  String get aboutDescription =>
+      'Профили игроков, результаты, карты и новости osu!';
+
+  @override
+  String get aboutUnofficial =>
+      'Независимый неофициальный клиент. Не связан с ppy Pty Ltd и не одобрен этой компанией.';
+
+  @override
+  String get aboutBuild => 'Установленная версия';
+
+  @override
+  String get aboutBuildUnavailable =>
+      'Не удалось прочитать версию установленного приложения.';
+
+  @override
+  String aboutVersion(String version, String build) {
+    return 'Версия $version · Сборка $build';
+  }
+
+  @override
+  String get aboutProject => 'Проект на GitHub';
+
+  @override
+  String get aboutOsu => 'Сайт osu!';
+
+  @override
+  String get aboutLicensesDescription => 'Открытые зависимости и шрифт Exo 2';
+
+  @override
+  String get aboutLinkFailed => 'Не удалось открыть ссылку.';
+
+  @override
   String get settingsAppearance => 'Оформление';
 
   @override

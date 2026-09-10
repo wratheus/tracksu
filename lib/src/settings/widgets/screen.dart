@@ -190,6 +190,18 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                                 ? null
                                 : () => _run(() => SignOutAction.show(context)),
                           ),
+                        UiSurface.card(
+                          padding: EdgeInsets.zero,
+                          child: UiTile.navigation(
+                            title: context.t.aboutTitle,
+                            leading: const Icon(Icons.info_outline),
+                            onTap: _busy
+                                ? null
+                                : () => _run(
+                                    () => deps.appRouter.openAbout(context),
+                                  ),
+                          ),
+                        ),
                       ],
                     );
                   },

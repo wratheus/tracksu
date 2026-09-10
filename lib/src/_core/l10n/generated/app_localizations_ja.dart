@@ -10,6 +10,39 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get aboutTitle => 'Tracksuについて';
+
+  @override
+  String get aboutDescription => 'osu!のプレイヤー、スコア、ビートマップ、ニュースをチェック。';
+
+  @override
+  String get aboutUnofficial =>
+      '独立した非公式クライアントです。ppy Pty Ltdとの提携関係はなく、同社の承認も受けていません。';
+
+  @override
+  String get aboutBuild => 'インストール済みのバージョン';
+
+  @override
+  String get aboutBuildUnavailable => 'インストール済みアプリのバージョンを取得できませんでした。';
+
+  @override
+  String aboutVersion(String version, String build) {
+    return 'バージョン $version · ビルド $build';
+  }
+
+  @override
+  String get aboutProject => 'GitHubのプロジェクト';
+
+  @override
+  String get aboutOsu => 'osu!公式サイト';
+
+  @override
+  String get aboutLicensesDescription => 'オープンソースの依存ライブラリとExo 2フォント';
+
+  @override
+  String get aboutLinkFailed => 'リンクを開けませんでした。';
+
+  @override
   String get settingsAppearance => '外観';
 
   @override

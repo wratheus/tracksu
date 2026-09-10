@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/about/main.dart';
 import 'package:tracksu/src/settings/main.dart';
 import 'package:tracksu/src/profile/medals/main.dart';
 import 'package:go_router/go_router.dart';
@@ -96,6 +97,12 @@ final class TracksuAppRouter {
 
   List<RouteBase> _detailRoutes() => <RouteBase>[
     GoRoute(path: 'settings', builder: (_, _) => const SettingsMain()),
+    GoRoute(path: 'about', builder: (_, _) => const AboutMain()),
+    GoRoute(
+      path: 'licenses',
+      builder: (BuildContext context, _) =>
+          LicensePage(applicationName: context.t.appTitle),
+    ),
     GoRoute(
       path: 'medals/:user',
       redirect: (_, GoRouterState state) =>
@@ -147,6 +154,12 @@ final class TracksuAppRouter {
 
   Future<void> openSettings(BuildContext context) async =>
       config.push<void>('$_branchPath/settings');
+
+  Future<void> openAbout(BuildContext context) async =>
+      config.push<void>('$_branchPath/about');
+
+  Future<void> openLicenses(BuildContext context) async =>
+      config.push<void>('$_branchPath/licenses');
 
   Future<void> openMedals(BuildContext context, int userId) async {
     if (userId <= 0) throw ArgumentError.value(userId, 'userId');

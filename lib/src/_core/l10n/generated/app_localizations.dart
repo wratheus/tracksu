@@ -108,6 +108,66 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// About screen title and settings navigation label.
+  ///
+  /// In en, this message translates to:
+  /// **'About Tracksu'**
+  String get aboutTitle;
+
+  /// Short factual description of Tracksu's browsing features.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore osu! players, scores, beatmaps and news.'**
+  String get aboutDescription;
+
+  /// Clarifies that Tracksu is not an official ppy client.
+  ///
+  /// In en, this message translates to:
+  /// **'An independent, unofficial client. Not affiliated with or endorsed by ppy Pty Ltd.'**
+  String get aboutUnofficial;
+
+  /// Heading for version metadata read from the installed app.
+  ///
+  /// In en, this message translates to:
+  /// **'Installed version'**
+  String get aboutBuild;
+
+  /// Fallback when platform package metadata is missing or unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read the installed app version.'**
+  String get aboutBuildUnavailable;
+
+  /// Installed version and build number; identifiers are not localized numbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version} · Build {build}'**
+  String aboutVersion(String version, String build);
+
+  /// Action opening the public GitHub project in an external app.
+  ///
+  /// In en, this message translates to:
+  /// **'Project on GitHub'**
+  String get aboutProject;
+
+  /// Action opening the public osu! website.
+  ///
+  /// In en, this message translates to:
+  /// **'osu! website'**
+  String get aboutOsu;
+
+  /// Description of bundled dependency notices and the Exo 2 font notice.
+  ///
+  /// In en, this message translates to:
+  /// **'Open-source dependencies and Exo 2 font'**
+  String get aboutLicensesDescription;
+
+  /// External browser/app link launch failure.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the link.'**
+  String get aboutLinkFailed;
+
   /// Section heading for language and appearance preferences.
   ///
   /// In en, this message translates to:

@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### About and licenses
+
+- Added About from settings, with installed version/build/package metadata,
+  retry on metadata failure, project/osu! links and a clear unofficial-client note.
+- Bundled dependency licenses open inside the retained navigation branch.
+  Exo 2's OFL 1.1 copyright/license notice is bundled and registered separately;
+  existing font binaries and typography are unchanged.
+- package_info_plus 10.2.1 is now a direct dependency at its existing locked
+  version. All new About labels support seven locales. No analytics, policy
+  placeholders, external publishing or automatic browser navigation.
+
 ### Settings
 
 - Grouped account, appearance and external-image controls on a dedicated

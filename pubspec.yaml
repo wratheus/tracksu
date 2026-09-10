@@ -26,6 +26,7 @@ dependencies:
   html: ^0.15.1
   url_launcher: ^6.3.2
   share_plus: ^13.3.0
+  package_info_plus: ^10.2.1
   bloc: ^9.2.1
   flutter_bloc: ^9.1.1
   flutter_secure_storage: ^11.0.0
@@ -47,6 +48,7 @@ flutter:
 
   assets:
     - assets/models/countries.json
+    - assets/licenses/exo2.txt
     - assets/icon_game_mods/
     - assets/icon_country_flags/
     - assets/utils/painted_logo.png

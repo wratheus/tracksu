@@ -10,6 +10,38 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get aboutTitle => '关于 Tracksu';
+
+  @override
+  String get aboutDescription => '浏览 osu! 玩家、成绩、谱面和新闻。';
+
+  @override
+  String get aboutUnofficial => '独立的非官方客户端，与 ppy Pty Ltd 无关联，也未获得其认可。';
+
+  @override
+  String get aboutBuild => '已安装版本';
+
+  @override
+  String get aboutBuildUnavailable => '无法读取已安装应用的版本。';
+
+  @override
+  String aboutVersion(String version, String build) {
+    return '版本 $version · 构建 $build';
+  }
+
+  @override
+  String get aboutProject => 'GitHub 项目';
+
+  @override
+  String get aboutOsu => 'osu! 网站';
+
+  @override
+  String get aboutLicensesDescription => '开源依赖和 Exo 2 字体';
+
+  @override
+  String get aboutLinkFailed => '无法打开链接。';
+
+  @override
   String get settingsAppearance => '外观';
 
   @override

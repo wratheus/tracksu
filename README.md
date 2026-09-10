@@ -133,6 +133,9 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   system/light/dark theme without resetting navigation; the preference is saved
   on this device independently of sign-in. Sign-out asks for confirmation from
   both settings and the account menu.
+- Settings → About shows the installed version/build, project links and bundled
+  open-source notices, including Exo 2. License text is available offline;
+  external project links open only when selected.
 - Keep browsing through section-specific loading, empty, error, retry, refresh,
   and pagination states.
 

@@ -1,6 +1,6 @@
 # Очередь переработки Tracksu
 
-2026-09-09 · единственная активная очередь. Сверена с кодом и историей Git.
+2026-09-10 · единственная активная очередь. Сверена с кодом и историей Git.
 
 ## Сейчас
 
@@ -45,8 +45,11 @@ mode/sort, аватары, позиции таблицы, метрика по с
 progress подключены; ручная проверка ожидается.
 [Настройки P21](work/P21-settings-product.md): группы аккаунта/оформления/media,
 общий language sheet с флагами, сохраняемая system/light/dark тема и единое
-подтверждение выхода реализованы, ожидают ручной проверки. Остаются About/legal
-после P01.3 и визуальная приёмка страниц, не фиктивные ссылки на соглашения.
+подтверждение выхода реализованы, ожидают ручной проверки.
+[О приложении P22](work/P22-about-and-licenses.md): installed version/build,
+официальные ссылки проекта/osu! и LicensePage с Exo 2 notice подключены.
+Остаются privacy/terms после согласования P01.3, происхождение остальных assets
+и визуальная приёмка страниц; наличие LicensePage не закрывает правовой аудит.
 [Долгосрочные идеи](work/PRODUCT-FUTURE.md) — друзья/чаты/push/сравнения и развитие
 BFF с AI/PP what-if — deferred, не входят в текущую доработку клиента.
 
@@ -77,9 +80,9 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | 4 · [P11](work/P11-product.md) | Основной рейтинг и [Spotlights P19](work/P19-spotlights-product.md): карточки/аватары/баннеры, mode selector, даты/участники и поиск каталога подключены. Ручная приёмка | awaiting_manual_check |
 | 5 · [P20](work/P20-news-product.md) | Новости: карточки с обложками/датами/интервалами, общий rich reader и разрешение внешних картинок, cursor paging, refresh/retry. Ручная проверка | awaiting_manual_check |
 | Проверить · [P07.2 — навигация](../reference/NAVIGATION_SPEC.md) | go_router/stateful branches, отдельный Search, панель на деталях, OAuth overlay и status stream реализованы. Ручной Back/keyboard/callback/restoration checklist | awaiting_manual_check |
-| 6 · [P01.2](work/P01.2-assets.md) | 34 assets/Palette удалены в 9a70de5. Остались источники, лицензии и атрибуции flags/modes/fonts; native splash/branding отдельно | backlog |
+| 6 · [P01.2](work/P01.2-assets.md) | 34 assets/Palette удалены в 9a70de5; Exo 2 notice подключён в P22. Остались точный provenance, flags/modes/branding и нужный osu!-шрифт; native splash отдельно | backlog |
 | 7 · [P07 — визуальная приёмка](work/P07-ui-foundation.md) | Оценить уже реализованные предметные карточки/графики в каталоге, состояния и assets. Уточнить палитру/шрифты/иконки перед переносом страниц; корректировки относительно Stitch разрешены | backlog |
-| 8 · [P21 — настройки](work/P21-settings-product.md) | Аккаунт/media, язык с флагами, theme persistence и общий sign-out реализованы. Ручная приёмка; About/legal после P01.3, вынос l10n в пакет отдельно | awaiting_manual_check |
+| 8 · [P21 — настройки](work/P21-settings-product.md) / [P22 — About](work/P22-about-and-licenses.md) | Аккаунт/media, язык/тема, sign-out, About/build info/лицензии реализованы. Ручная приёмка; privacy/terms после P01.3, вынос l10n отдельно | awaiting_manual_check |
 | 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade/UI binding; отдельное согласие до сбора, сохранение выбора и отзыв в настройках по P01.3; выбрать Firebase environment | backlog |
 | 10 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |
 | [P16](work/P16-legacy-cleanup.md) | Мёртвый граф/старые dependencies/pages/Palette удалены. Дальше cleanup по фактическим consumers в каждом срезе; ручной OAuth smoke | awaiting_manual_check |
@@ -102,7 +105,8 @@ about/medals/audio и прочие отсутствующие сценарии �
 last_news_page, Home/desktop/drawer/error и зависимые модели/Cubit удалены
 как недостижимый из main.dart граф. Новый shell открывает profile, beatmap,
 rankings/spotlights, news и AuthMain. authorization_page удалена, OAuth теперь
-изолирован в auth. После dfe33f2 активны TracksuTheme.light/dark и ThemeMode.system.
+изолирован в auth. Активны TracksuTheme.light/dark, после P21 выбор темы сохраняется
+в ThemeController; без выбора используется ThemeMode.system.
 Подробности и восстановление — в P16/Git.
 
 UI kit и каталог уже существуют. Следующие страницы доводим до завершённого

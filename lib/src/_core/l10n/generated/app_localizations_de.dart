@@ -10,6 +10,42 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get aboutTitle => 'Über Tracksu';
+
+  @override
+  String get aboutDescription =>
+      'Entdecke osu!-Spieler, Ergebnisse, Beatmaps und Neuigkeiten.';
+
+  @override
+  String get aboutUnofficial =>
+      'Ein unabhängiger, inoffizieller Client. Nicht mit ppy Pty Ltd verbunden oder von ihr unterstützt.';
+
+  @override
+  String get aboutBuild => 'Installierte Version';
+
+  @override
+  String get aboutBuildUnavailable =>
+      'Die installierte App-Version konnte nicht gelesen werden.';
+
+  @override
+  String aboutVersion(String version, String build) {
+    return 'Version $version · Build $build';
+  }
+
+  @override
+  String get aboutProject => 'Projekt auf GitHub';
+
+  @override
+  String get aboutOsu => 'osu!-Website';
+
+  @override
+  String get aboutLicensesDescription =>
+      'Open-Source-Abhängigkeiten und Schrift Exo 2';
+
+  @override
+  String get aboutLinkFailed => 'Der Link konnte nicht geöffnet werden.';
+
+  @override
   String get settingsAppearance => 'Darstellung';
 
   @override
