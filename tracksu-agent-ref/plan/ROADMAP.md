@@ -80,7 +80,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | 6 · [P01.2](work/P01.2-assets.md) | 34 assets/Palette удалены в 9a70de5. Остались источники, лицензии и атрибуции flags/modes/fonts; native splash/branding отдельно | backlog |
 | 7 · [P07 — визуальная приёмка](work/P07-ui-foundation.md) | Оценить уже реализованные предметные карточки/графики в каталоге, состояния и assets. Уточнить палитру/шрифты/иконки перед переносом страниц; корректировки относительно Stitch разрешены | backlog |
 | 8 · [P21 — настройки](work/P21-settings-product.md) | Аккаунт/media, язык с флагами, theme persistence и общий sign-out реализованы. Ручная приёмка; About/legal после P01.3, вынос l10n в пакет отдельно | awaiting_manual_check |
-| 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade, базовые действия и UI binding, privacy/consent; выбрать Firebase environment | backlog |
+| 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade/UI binding; отдельное согласие до сбора, сохранение выбора и отзыв в настройках по P01.3; выбрать Firebase environment | backlog |
 | 10 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |
 | [P16](work/P16-legacy-cleanup.md) | Мёртвый граф/старые dependencies/pages/Palette удалены. Дальше cleanup по фактическим consumers в каждом срезе; ручной OAuth smoke | awaiting_manual_check |
 | До выпуска · [P08](DETAILS.md#p08) | Полный ручной auth/session flow, решение об очистке/миграции старого storage, восстановление после ошибок; новый guest token не пользовательская сессия | backlog |
