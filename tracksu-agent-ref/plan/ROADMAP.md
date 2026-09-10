@@ -40,7 +40,10 @@ mode/sort, аватары, позиции таблицы, метрика по с
 Далее — ручная оценка этого среза, точный лицензированный шрифт цифр,
 [Spotlights P19](work/P19-spotlights-product.md) теперь содержит карточки карт и
 игроков, даты/участников, общий ruleset selector и sheet-поиск каталога; ожидает
-ручной проверки. Следующий кодовый срез — новости.
+ручной проверки. [Новости P20](work/P20-news-product.md): обложки через общее
+разрешение на media, локализованные даты, интервалы, шапка статьи и компактный
+progress подключены; ручная проверка ожидается. Далее — настройки и оставшиеся
+UX-сценарии по поэкранному контракту, без автоматического расширения scope.
 [Долгосрочные идеи](work/PRODUCT-FUTURE.md) — друзья/чаты/push/сравнения и развитие
 BFF с AI/PP what-if — deferred, не входят в текущую доработку клиента.
 
@@ -69,7 +72,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | 2 · P10 · [scores](work/P10-scores.md) / [карты](work/P10-beatmaps.md) | Best/recent и восемь категорий карт подключены: scoped Bloc, lazy slivers, refresh/load-more/retry. Ручная проверка; старые неиспользуемые consumers удалены в P16. legacy: false для scores | awaiting_manual_check |
 | 3 · [P12](work/P12-beatmap.md) | Подключены typed navigation из профиля, набор/выбор сложности, публичный top leaderboard, новые Score/mod acronyms и back. Ручная проверка; расширенные фильтры отдельно | awaiting_manual_check |
 | 4 · [P11](work/P11-product.md) | Основной рейтинг и [Spotlights P19](work/P19-spotlights-product.md): карточки/аватары/баннеры, mode selector, даты/участники и поиск каталога подключены. Ручная приёмка | awaiting_manual_check |
-| 5 · [P13](work/P13-news.md) | Новости: список с cursor paging, текстовый HTML reader, HTTPS-ссылки, refresh/retry и вход из shell подключены. Ручная проверка | awaiting_manual_check |
+| 5 · [P20](work/P20-news-product.md) | Новости: карточки с обложками/датами/интервалами, общий rich reader и разрешение внешних картинок, cursor paging, refresh/retry. Ручная проверка | awaiting_manual_check |
 | Проверить · [P07.2 — навигация](../reference/NAVIGATION_SPEC.md) | go_router/stateful branches, отдельный Search, панель на деталях, OAuth overlay и status stream реализованы. Ручной Back/keyboard/callback/restoration checklist | awaiting_manual_check |
 | 6 · [P01.2](work/P01.2-assets.md) | 34 assets/Palette удалены в 9a70de5. Остались источники, лицензии и атрибуции flags/modes/fonts; native splash/branding отдельно | backlog |
 | 7 · [P07 — визуальная приёмка](work/P07-ui-foundation.md) | Оценить уже реализованные предметные карточки/графики в каталоге, состояния и assets. Уточнить палитру/шрифты/иконки перед переносом страниц; корректировки относительно Stitch разрешены | backlog |

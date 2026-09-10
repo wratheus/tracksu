@@ -8,14 +8,18 @@ final class OsuNewsCard extends StatelessWidget {
     required this.dateLabel,
     this.preview,
     this.cover,
+    this.coverContent,
     this.onTap,
     super.key,
-  });
+  }) : assert(cover == null || coverContent == null);
   final String title;
   final String authorLabel;
   final String dateLabel;
   final String? preview;
   final ImageProvider? cover;
+
+  /// A policy-controlled image slot, e.g. an external-content preview.
+  final Widget? coverContent;
   final VoidCallback? onTap;
 
   @override
@@ -26,6 +30,7 @@ final class OsuNewsCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         if (cover != null) UiCover(image: cover),
+        ?coverContent,
         Padding(
           padding: const EdgeInsets.all(UiSpace.lg),
           child: Column(

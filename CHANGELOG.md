@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### News
+
+- News cards now use API high-resolution previews, localized dates and shared
+  list spacing. Article headers use consistent typography and gutters; refresh
+  and append progress stay compact while existing content remains visible.
+- Preview images follow the existing device-level external-media choice, with
+  one prompt in the feed. A shared bounded queue cancels requests on hidden
+  routes/branches, backgrounding and permission revocation; decoded previews
+  survive a covered route. No API credentials, cookies or new dependency.
+- The native article reader remains responsible for inline images, avoiding a
+  duplicate first-image banner. Original-page and sharing actions are retained.
+
 ### Spotlights
 
 - Replaced text-only maps/players with shared banner/player cards, flags, team

@@ -116,6 +116,9 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   and previews depend on the destination. Private settings and OAuth are excluded.
 
 - Read the latest news from the osu! website in a lightweight in-app reader.
+- Browse banner news cards with localized publication dates and lazy paging.
+  News previews use the same external-image permission and bounded loader as
+  rich content; disabling it keeps the text feed usable without image requests.
 - Read formatted profile About pages and news through a shared native reader:
   expandable spoilers, bounded raster images and an image zoom viewer.
 - External rich-content images load only after a one-time permission choice.

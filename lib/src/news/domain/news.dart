@@ -15,6 +15,7 @@ final class NewsPost {
     required this.publishedAt,
     required this.uri,
     this.preview,
+    this.coverUri,
   });
   final int id;
   final String title;
@@ -22,6 +23,7 @@ final class NewsPost {
   final DateTime publishedAt;
   final Uri uri;
   final String? preview;
+  final Uri? coverUri;
 }
 
 final class NewsArticle {

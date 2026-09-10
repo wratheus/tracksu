@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:tracksu/src/_shared/content/data/content_media_loader.dart';
+import 'package:tracksu/src/_shared/content/domain/content_document.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_image.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_media_scope.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_media_settings.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +66,11 @@ final class NewsScreen extends StatelessWidget {
               NewsContentState() => SliverMainAxisGroup(
                 slivers: <Widget>[
                   if (state.operation == NewsOperation.refresh)
-                    const SliverToBoxAdapter(child: _NewsProgress()),
+                    SliverToBoxAdapter(
+                      child: LinearProgressIndicator(
+                        semanticsLabel: context.t.newsLoading,
+                      ),
+                    ),
                   if (state.failure case final NewsFailureKind failure
                       when state.failedOperation == NewsOperation.refresh)
                     SliverToBoxAdapter(
@@ -81,17 +91,22 @@ final class NewsScreen extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: UiContentState.empty(title: context.t.newsEmpty),
                       ),
-                    SliverList.builder(
-                      key: const ValueKey<String>('news-list'),
-                      itemCount: state.items.length,
-                      itemBuilder: (_, int index) => _NewsPostTile(
-                        key: ValueKey<int>(state.items[index].id),
-                        post: state.items[index],
-                      ),
+                    _NewsList(
+                      key: const ValueKey<String>('news-media-list'),
+                      items: state.items,
                     ),
                   ],
                   if (state.operation == NewsOperation.loadMore)
-                    const SliverToBoxAdapter(child: _NewsProgress())
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.all(UiSpace.lg),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            semanticsLabel: context.t.newsLoading,
+                          ),
+                        ),
+                      ),
+                    )
                   else if (state.failure case final NewsFailureKind failure
                       when state.failedOperation == NewsOperation.loadMore)
                     SliverToBoxAdapter(
@@ -106,7 +121,7 @@ final class NewsScreen extends StatelessWidget {
                       state.failure == null)
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(UiSpace.lg),
                         child: Center(
                           child: UiButton.secondary(
                             onPressed: state.operation == null
@@ -163,8 +178,9 @@ final class _NewsError extends StatelessWidget {
 }
 
 final class _NewsPostTile extends StatefulWidget {
-  const _NewsPostTile({required this.post, super.key});
+  const _NewsPostTile({required this.post, this.loader});
   final NewsPost post;
+  final ContentMediaLoader? loader;
   @override
   State<_NewsPostTile> createState() => _NewsPostTileState();
 }
@@ -186,8 +202,78 @@ final class _NewsPostTileState extends State<_NewsPostTile> {
   Widget build(BuildContext context) => OsuNewsCard(
     title: widget.post.title,
     authorLabel: widget.post.author,
-    dateLabel: widget.post.publishedAt.toLocal().toString(),
+    dateLabel: DateFormat.yMMMd(context.t.localeName)
+        .format(widget.post.publishedAt.toLocal()),
+    coverContent:
+        widget.post.coverUri != null &&
+            DepsScope.of(context).contentMediaController.allowed
+        ? widget.loader == null
+              ? AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: ColoredBox(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .surfaceContainerHighest,
+                  ),
+                )
+              : ContentImageView.preview(
+                  image: ContentImage(
+                    widget.post.id,
+                    uri: widget.post.coverUri,
+                    alt: widget.post.title,
+                  ),
+                  loader: widget.loader!,
+                )
+        : null,
     preview: widget.post.preview?.isEmpty ?? true ? null : widget.post.preview,
     onTap: _opening ? null : _open,
+  );
+}
+
+final class _NewsList extends StatelessWidget {
+  const _NewsList({required this.items, super.key});
+  final List<NewsPost> items;
+
+  @override
+  Widget build(BuildContext context) => ContentMediaScope(
+    permission: DepsScope.of(context).contentMediaController,
+    builder: (BuildContext context, ContentMediaLoader? loader) =>
+        SliverPadding(
+          padding: const EdgeInsets.all(UiSpace.lg),
+          sliver: SliverMainAxisGroup(
+            slivers: <Widget>[
+              if (DepsScope.of(context).contentMediaController.choice == null &&
+                  items.any((NewsPost post) => post.coverUri != null))
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: UiSpace.md),
+                    child: UiSurface.inset(
+                      child: ContentMediaSettings(
+                        controller: DepsScope.of(context)
+                            .contentMediaController,
+                      ),
+                    ),
+                  ),
+                ),
+              SliverList.builder(
+                key: const ValueKey<String>('news-list'),
+                itemCount: items.length,
+                findChildIndexCallback: (Key key) {
+                  final int index = items.indexWhere(
+                    (NewsPost post) => ValueKey<int>(post.id) == key,
+                  );
+                  return index < 0 ? null : index;
+                },
+                itemBuilder: (BuildContext context, int index) => Padding(
+                  key: ValueKey<int>(items[index].id),
+                  padding: EdgeInsets.only(
+                    bottom: index == items.length - 1 ? 0 : UiSpace.md,
+                  ),
+                  child: _NewsPostTile(post: items[index], loader: loader),
+                ),
+              ),
+            ],
+          ),
+        ),
   );
 }

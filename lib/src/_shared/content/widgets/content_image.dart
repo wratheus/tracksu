@@ -11,13 +11,16 @@ import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Mounted lazily by ContentFrame. Owns decoding, not transport policy.
 final class ContentImageView extends StatefulWidget {
-  const ContentImageView({
+  const ContentImageView({required this.image, required this.loader, super.key})
+    : _preview = false;
+  const ContentImageView.preview({
     required this.image,
     required this.loader,
     super.key,
-  });
+  }) : _preview = true;
   final ContentImage image;
   final ContentMediaLoader loader;
+  final bool _preview;
   @override
   State<ContentImageView> createState() => _ContentImageViewState();
 }
@@ -37,6 +40,14 @@ final class _ContentImageViewState extends State<ContentImageView> {
   @override
   void didUpdateWidget(ContentImageView oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.image.uri != widget.image.uri) {
+      _request?.cancel();
+      _image?.dispose();
+      _image = null;
+      _failed = false;
+      _load();
+      return;
+    }
     if (!identical(oldWidget.loader, widget.loader) && _image == null) {
       _request?.cancel();
       _failed = false;
@@ -74,7 +85,10 @@ final class _ContentImageViewState extends State<ContentImageView> {
         throw const ContentMediaFailure();
       }
       if (!mounted || _request != request) return;
-      final double ratio = math.min(1, 2048 / math.max(width, height));
+      final double ratio = math.min(
+        1,
+        (widget._preview ? 1024 : 2048) / math.max(width, height),
+      );
       codec = await descriptor.instantiateCodec(
         targetWidth: math.max(1, (width * ratio).round()),
         targetHeight: math.max(1, (height * ratio).round()),
@@ -124,6 +138,34 @@ final class _ContentImageViewState extends State<ContentImageView> {
     final String label = widget.image.alt.isEmpty
         ? context.t.contentImage
         : widget.image.alt;
+    if (widget._preview) {
+      return AspectRatio(
+        aspectRatio: 16 / 9,
+        child: ColoredBox(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          child: _image != null
+              ? Semantics(
+                  image: true,
+                  label: label,
+                  child: RawImage(image: _image, fit: BoxFit.cover),
+                )
+              : Center(
+                  child: _failed
+                      ? UiIconButton.standard(
+                          tooltip: context.t.retry,
+                          icon: Icons.refresh,
+                          onPressed: () {
+                            setState(() => _failed = false);
+                            _load();
+                          },
+                        )
+                      : CircularProgressIndicator(
+                          semanticsLabel: context.t.contentImageLoading,
+                        ),
+                ),
+        ),
+      );
+    }
     return UiSurface.inset(
       onTap: _image == null ? null : _open,
       padding: const EdgeInsets.all(UiSpace.sm),

@@ -14,12 +14,23 @@ final class NewsPostHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    spacing: 10,
+    spacing: UiSpace.md,
     children: <Widget>[
-      UiText.titleLarge(post.title),
-      UiText.bodyMedium(
-        '${post.author} · ${DateFormat.yMMMd(context.t.localeName).format(post.publishedAt.toLocal())}',
-        secondary: true,
+      UiText.headlineSmall(post.title),
+      Wrap(
+        spacing: UiSpace.lg,
+        runSpacing: UiSpace.sm,
+        children: <Widget>[
+          UiText.labelLarge(
+            post.author,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          UiText.bodySmall(
+            DateFormat.yMMMd(context.t.localeName)
+                .format(post.publishedAt.toLocal()),
+            secondary: true,
+          ),
+        ],
       ),
     ],
   );
@@ -62,13 +73,13 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
     slivers: <Widget>[
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(UiSpace.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 10,
+            spacing: UiSpace.md,
             children: <Widget>[
               NewsPostHeading(post: widget.article.post),
-              UiText.bodyMedium(context.t.newsReaderNotice, secondary: true),
+              UiText.bodySmall(context.t.newsReaderNotice, secondary: true),
               UiButton.text(
                 onPressed: _opening
                     ? null
@@ -81,7 +92,12 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
         ),
       ),
       SliverPadding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+        padding: const EdgeInsets.fromLTRB(
+          UiSpace.lg,
+          0,
+          UiSpace.lg,
+          UiSpace.xl,
+        ),
         sliver: widget.article.document == null
             ? SliverToBoxAdapter(
                 child: UiText.bodyMedium(context.t.contentUnavailable),
