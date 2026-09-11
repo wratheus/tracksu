@@ -19,10 +19,10 @@ final class ProfileBeatmapsSection extends StatelessWidget {
     slivers: <Widget>[
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(UiSpace.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 10,
+            spacing: UiSpace.md,
             children: <Widget>[
               Text(
                 context.t.beatmapsTitle,
@@ -36,7 +36,8 @@ final class ProfileBeatmapsSection extends StatelessWidget {
                 selector: (ProfileBeatmapsState state) => state.type,
                 builder: (BuildContext context, ProfileBeatmapsType selected) =>
                     Wrap(
-                      spacing: 10,
+                      spacing: UiSpace.md,
+                      runSpacing: UiSpace.sm,
                       children: <Widget>[
                         for (final ProfileBeatmapsType type
                             in ProfileBeatmapsType.values)
@@ -106,8 +107,10 @@ final class ProfileBeatmapsSection extends StatelessWidget {
       BlocBuilder<ProfileBeatmapsBloc, ProfileBeatmapsState>(
         builder: (BuildContext context, ProfileBeatmapsState state) =>
             switch (state) {
-              ProfileBeatmapsInitialState() || ProfileBeatmapsLoadingState() =>
-                const SliverToBoxAdapter(child: _BeatmapsProgress()),
+              ProfileBeatmapsInitialState() ||
+              ProfileBeatmapsLoadingState() => SliverToBoxAdapter(
+                child: UiPageSkeleton.list(label: context.t.beatmapsLoading),
+              ),
               ProfileBeatmapsFailureState(:final failure) => SliverToBoxAdapter(
                 child: _BeatmapsError(failure: failure),
               ),
@@ -141,9 +144,19 @@ final class ProfileBeatmapsSection extends StatelessWidget {
                       ),
                     ),
                   ),
+                  if (state.nextOffset != null &&
+                      state.operation == null &&
+                      state.failure == null)
+                    UiSliverAutoLoad(
+                      pageKey: (state.type, state.nextOffset),
+                      label: context.t.beatmapsLoading,
+                      onLoad: () => context.read<ProfileBeatmapsBloc>().add(
+                        const ProfileBeatmapsMoreRequested(),
+                      ),
+                    ),
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
+                      padding: const EdgeInsets.only(bottom: UiSpace.xl),
                       child: switch (state) {
                         ProfileBeatmapsLoadedState(
                           operation: ProfileBeatmapsOperation.loadMore,
@@ -157,16 +170,6 @@ final class ProfileBeatmapsSection extends StatelessWidget {
                             failedOperation: state.failedOperation,
                             hasContent: state.items.isNotEmpty,
                           ),
-                        _ when state.nextOffset != null => Center(
-                          child: UiButton.secondary(
-                            onPressed: state.operation != null
-                                ? null
-                                : () => context.read<ProfileBeatmapsBloc>().add(
-                                    const ProfileBeatmapsMoreRequested(),
-                                  ),
-                            label: context.t.beatmapsLoadMore,
-                          ),
-                        ),
                         _ => const SizedBox.shrink(),
                       },
                     ),

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/news/domain/news.dart';
 part 'event.dart';
@@ -14,7 +15,7 @@ final class NewsBloc extends Bloc<NewsEvent, NewsState> {
   NewsBloc._(this._repository, this._cache, this._params)
     : super(const NewsInitialState()) {
     // A synchronous busy-state emission guards all events before the first await.
-    on<NewsEvent>(_onEvent);
+    on<NewsEvent>(_onEvent, transformer: droppable());
   }
   final NewsRepository _repository;
   final PageCache _cache;
@@ -76,7 +77,7 @@ final class NewsBloc extends Bloc<NewsEvent, NewsState> {
         }
         if (operation == NewsOperation.loadMore &&
             page.cursor != null &&
-            _usedCursors.contains(page.cursor)) {
+            (page.cursor == cursor || _usedCursors.contains(page.cursor))) {
           throw const NewsFailure(NewsFailureKind.invalidResponse);
         }
         final Map<int, NewsPost> unique = <int, NewsPost>{
@@ -84,6 +85,12 @@ final class NewsBloc extends Bloc<NewsEvent, NewsState> {
             for (final NewsPost item in previous.items) item.id: item,
           for (final NewsPost item in page.items) item.id: item,
         };
+        if (operation == NewsOperation.loadMore &&
+            previous is NewsListState &&
+            page.cursor != null &&
+            unique.length == previous.items.length) {
+          throw const NewsFailure(NewsFailureKind.invalidResponse);
+        }
         result = NewsListState(
           items: unique.values.toList(growable: false),
           cursor: page.cursor,

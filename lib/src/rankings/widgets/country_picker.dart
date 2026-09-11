@@ -85,8 +85,11 @@ final class _RankingCountryPickerState extends State<RankingCountryPicker> {
                 ),
               ),
               if (snapshot.connectionState != ConnectionState.done)
-                SliverToBoxAdapter(
-                  child: UiLoading(label: context.t.rankingsLoading),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(
+                    child: UiLoading(label: context.t.rankingsLoading),
+                  ),
                 )
               else if (snapshot.hasError)
                 SliverToBoxAdapter(

@@ -76,7 +76,8 @@ into fixed-height boxes. Platform page transitions are not replaced by this them
 - `UiSearchField`: external controller/focus, label/error/help/clear strings;
   the caller decides query validation and debounce. Clearing emits `onChanged('')`.
 - `UiNotice`: information/success/warning/error, optional localized action.
-- `UiLoading`: labelled inline progress, usable in a page or pagination footer.
+- `UiLoading`: content-sized centred column, rounded progress ring and label below;
+  place in `Center` for a bounded page or sheet body. Reduced motion uses a static ring.
 - `UiFeedback.snack`: replaces the currently visible snackbar; call from an
   event/listener, never build. Action text and callback must be supplied together.
 - `UiModal.confirm/destructive`: confirmation sheet; true only on explicit
@@ -336,6 +337,26 @@ scrolling screen. A retry action is optional, but its label/callback come as a
 pair. Use `UiNotice` alongside existing content for refresh failures, and
 `UiLoading` at pagination footers; do not replace a loaded list with full-page
 loading. Skeletons are static, and the parent announces loading once.
+
+### Automatic pagination
+
+Append `UiSliverAutoLoad(pageKey: nextCursor, label: localizedLoading,
+onLoad: requestNextPage)` after the lazy list only while a next page exists,
+with no request or failure in progress. Include query identity in `pageKey`
+when reusing a list across filters. Replace with `UiLoading` during the request,
+an explicit Retry on error, or the end state. Never auto-retry errors.
+
+The sliver observes layout's remaining cache extent rather than estimating item
+heights or owning the page's ScrollController. Its lifecycle-owned 200 ms debounce
+dispatches once per page outside build/layout; viewport underfill also works.
+Hidden routes, disabled TickerMode and background apps cancel pending dispatch.
+The host BLoC must still guard busy work, obsolete queries and repeated cursors.
+The product catalog's content-state sheet includes a local, network-free recipe.
+
+For vertically centred sheet loading use `SliverFillRemaining(hasScrollBody: false,
+child: Center(child: UiLoading(label: label)))` directly in the primary scroll view.
+Adaptive sheets retain their current extent for this viewport-filling state,
+then fit real content after loading. Do not put an Expanded in an unbounded list.
 
 Card text is on an opaque themed surface rather than over artwork. Main titles
 wrap; news previews alone are capped. Metrics switch to one column with narrow

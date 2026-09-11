@@ -339,7 +339,10 @@ final class _AdaptiveScrollSheetState extends State<_AdaptiveScrollSheet> {
     final RenderObject? render = _header.currentContext?.findRenderObject();
     if (render is! RenderBox || !render.hasSize) return false;
     final double? content = _contentExtent();
-    if (content == null) return false;
+    if (content == null) {
+      _target = null;
+      return false;
+    }
     final double minimum =
         ((render.size.height + UiShape.minTarget) / available).clamp(0.18, 0.9);
     _target = ((content + render.size.height + UiSpace.lg) / available).clamp(
@@ -369,12 +372,16 @@ final class _AdaptiveScrollSheetState extends State<_AdaptiveScrollSheet> {
       if (result != null) return;
       if (object is RenderViewport) {
         double extent = 0;
+        bool fillsViewport = false;
         object.visitChildren((RenderObject child) {
+          if (child is RenderSliverFillRemaining) fillsViewport = true;
           if (child is RenderSliver) {
             extent += child.geometry?.scrollExtent ?? 0;
           }
         });
-        result = extent;
+        // A centred loading/empty state fills the current sheet, it has no
+        // intrinsic content extent. Fitting it would grow the sheet each frame.
+        result = fillsViewport ? null : extent;
       } else {
         object.visitChildren(visit);
       }

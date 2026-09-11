@@ -37,7 +37,8 @@
 
 ## Следующие связанные этапы, не объявлять реализованными
 
-- [ ] Расширить page snapshots/skeletons на scores/коллекции карт/медали/spotlights
+- [x] Расширить page snapshots/skeletons на scores/коллекции карт (11 сентября).
+- [ ] Расширить page snapshots/skeletons на медали/spotlights
   и таблицу результатов карты. Их текущие route states сохраняются пока route жив.
 - [ ] Disk cache/офлайн после перезапуска и измерение размера — отдельно; сейчас
   прямо раскрываем в настройках memory-only политику, не обещаем offline.
@@ -67,6 +68,43 @@ SecureSocket.secure(host: uri.host): TLS/SNI/системная проверка
 - https://github.com/ppy/osu/blob/master/osu.Game.Rulesets.Catch/Scoring/CatchScoreProcessor.cs
 
 ## Ручная приёмка — открыта
+
+### Дополнения 11 сентября — реализованы, ожидают ручной проверки
+
+- UiSliverAutoLoad вместо load-more кнопок: scores/maps профиля, rankings, news.
+  200ms debounce при попадании footer в cache extent; один dispatch на page key,
+  продолжение при недостаточной высоте страницы, pause на скрытом route/TickerMode
+  и app background. Timer отменяется при удалении/уходе от конца списка.
+- `bloc_concurrency`: News — droppable; сменяемые queries scores/maps/rankings —
+  concurrent + synchronous busy guard + generation/latest-wins. Не делаем sequential
+  очередь устаревших фильтров. Повторный cursor/offset/page или отсутствие новых
+  элементов при объявленном продолжении — invalid response с ручным Retry.
+  Refresh failure не запускает paging. Данные не исчезают при ошибке догрузки.
+- Cache scores/maps: key user/ruleset (scores)/type, первый успешный page snapshot,
+  та же bounded LRU/TTL/session revision и clear protection. Не смешиваем новую
+  первую страницу со старой догрузкой. При cold load общий статический skeleton.
+- UiLoading — compact Column, кольцо 36px, скруглённые края, подпись снизу.
+  Medals/spotlights центрируют весь блок; country sheet — SliverFillRemaining.
+  Adaptive sheet не пытается подогнать высоту по растянутому loading viewport.
+- OsuPlayerFlags объединяет country + team: 28×20, radius 4, gap 4, tooltip.
+  Profile/rankings/spotlights используют общий player card; map leaderboard
+  переносит country/team из user payload в карточку и sheet результата.
+  Нет N+1 запросов или выдуманных команд; подробная affiliation в профиле остаётся.
+- `pubspec_generator` 5.0.2 в build_runner, deterministic timestamp:false.
+  Версия/build в About берутся из Pubspec.version; platform только package ID.
+  Generated pubspec metadata коммитится, Envied-конфиг остаётся ignored.
+  После изменения pubspec выполнять генерацию, native overrides не источник версии.
+
+Проверить вручную: быстрый scroll/смена типа во время догрузки, подгрузка короткого
+списка, ошибка/offline и Retry без цикла; вкладка под другим route/background;
+повторный вход в scores/maps и clear cache; размер/скругление обоих флагов;
+loading медалей и country sheet с большим шрифтом; About после смены версии.
+
+Документация зависимостей: [pubspec_generator](https://pub.dev/packages/pubspec_generator),
+[bloc_concurrency](https://pub.dev/packages/bloc_concurrency).
+
+Текущий gate: format, build_runner generation, analyze lib/packages, diff review.
+Тесты/APK/catalog/device не запускались. Audio и оставшееся cache coverage не закрыты.
 
 Телефон: keyboard open/close и прокрутка к submit; новости covers/inline после
 allow, revoke/retry; повторный профиль/режим offline и после cache clear;

@@ -21,6 +21,7 @@ final class ProfileScoresMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider<ProfileScoresBloc>(
     create: (_) => ProfileScoresBloc(
+      cache: DepsScope.of(context).pageCache,
       repository: ProfileScoresRepositoryImpl(
         remoteSource: OsuProfileScoresRemoteSource(
           restClient: DepsScope.of(context).publicRestClient,

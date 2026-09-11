@@ -15,6 +15,7 @@ final class ProfileBeatmapsMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider<ProfileBeatmapsBloc>(
     create: (_) => ProfileBeatmapsBloc(
+      cache: DepsScope.of(context).pageCache,
       repository: ProfileBeatmapsRepositoryImpl(
         remoteSource: OsuProfileBeatmapsRemoteSource(
           restClient: DepsScope.of(context).publicRestClient,

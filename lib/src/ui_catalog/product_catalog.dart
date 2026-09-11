@@ -9,7 +9,42 @@ import 'package:tracksu/src/_shared/scores/widgets/score_card.dart';
 import 'package:tracksu/src/_shared/beatmaps/domain/beatmap_metadata.dart';
 import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_facts.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
+import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
+
+/// Manual pagination recipe. No network or fabricated product data.
+final class _AutoPaginationSample extends StatefulWidget {
+  const _AutoPaginationSample();
+  @override
+  State<_AutoPaginationSample> createState() => _AutoPaginationSampleState();
+}
+
+final class _AutoPaginationSampleState extends State<_AutoPaginationSample> {
+  int _count = 3;
+
+  @override
+  Widget build(BuildContext context) => CustomScrollView(
+    primary: true,
+    slivers: <Widget>[
+      UiSliverCardList(
+        itemCount: _count,
+        itemBuilder: (_, int index) => UiSurface.card(
+          child: UiText.titleMedium('Tracksu Preview ${index + 1}'),
+        ),
+      ),
+      if (_count < 12)
+        UiSliverAutoLoad(
+          pageKey: _count,
+          label: context.t.scoresLoading,
+          onLoad: () => setState(() => _count += 3),
+        )
+      else
+        SliverToBoxAdapter(
+          child: UiContentState.empty(title: context.t.rankingsEnd),
+        ),
+    ],
+  );
+}
 
 /// Manual samples, not domain fixtures or an API-connected product screen.
 final class ProductCatalogSliver extends StatelessWidget {
@@ -155,6 +190,11 @@ final class ProductCatalogSliver extends StatelessWidget {
       2 => UiSection(
         title: t.rankingsTitle,
         child: OsuPlayerCard.compact(
+          team: const ProfileTeam(
+            id: 1,
+            name: 'Tracksu Preview',
+            shortName: 'PREVIEW',
+          ),
           username: 'Tracksu Preview',
           avatar: _avatar,
           countryCode: 'JP',
@@ -513,7 +553,7 @@ final class ProductCatalogSliver extends StatelessWidget {
         ),
       ),
       16 => UiSection(
-        title: t.scoresLoadMore,
+        title: t.uiCatalogStates,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: UiSpace.md,
@@ -525,7 +565,14 @@ final class ProductCatalogSliver extends StatelessWidget {
               onAction: preview,
             ),
             UiLoading(label: t.scoresLoading),
-            UiButton.outlined(label: t.scoresLoadMore, onPressed: preview),
+            UiButton.outlined(
+              label: t.uiCatalogStates,
+              onPressed: () => UiModal.scrollable<void>(
+                context,
+                title: t.scoresTitle,
+                builder: (_) => const _AutoPaginationSample(),
+              ),
+            ),
           ],
         ),
       ),

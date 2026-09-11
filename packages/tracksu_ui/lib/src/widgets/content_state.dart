@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
 import 'package:tracksu_ui/src/widgets/button.dart';
+import 'package:tracksu_ui/src/widgets/feedback.dart';
 import 'package:tracksu_ui/src/widgets/text.dart';
 
 enum _ContentState { empty, error, offline, loading }
@@ -42,46 +43,56 @@ final class UiContentState extends StatelessWidget {
   final _ContentState _state;
 
   @override
-  Widget build(BuildContext context) => Semantics(
-    liveRegion:
-        _state == _ContentState.error || _state == _ContentState.loading,
-    child: Padding(
-      padding: const EdgeInsets.all(UiSpace.xl),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        spacing: UiSpace.md,
-        children: <Widget>[
-          if (_state == _ContentState.loading)
-            const SizedBox.square(
-              dimension: 32,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          else
-            Icon(
-              switch (_state) {
-                _ContentState.empty => Icons.search_off,
-                _ContentState.error => Icons.error_outline,
-                _ContentState.offline => Icons.wifi_off_outlined,
-                _ContentState.loading => Icons.hourglass_empty,
-              },
-              size: 32,
-              color: _state == _ContentState.error
-                  ? Theme.of(context).colorScheme.error
-                  : Theme.of(context).colorScheme.onSurfaceVariant,
+  Widget build(BuildContext context) => _state == _ContentState.loading
+      ? Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            UiLoading(label: title),
+            if (message case final String detail)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: UiSpace.xl),
+                child: UiText.bodyMedium(
+                  detail,
+                  secondary: true,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+          ],
+        )
+      : Semantics(
+          liveRegion:
+              _state == _ContentState.error || _state == _ContentState.loading,
+          child: Padding(
+            padding: const EdgeInsets.all(UiSpace.xl),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: UiSpace.md,
+              children: <Widget>[
+                Icon(
+                  switch (_state) {
+                    _ContentState.empty => Icons.search_off,
+                    _ContentState.error => Icons.error_outline,
+                    _ContentState.offline => Icons.wifi_off_outlined,
+                    _ContentState.loading => Icons.hourglass_empty,
+                  },
+                  size: 32,
+                  color: _state == _ContentState.error
+                      ? Theme.of(context).colorScheme.error
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                UiText.titleMedium(title, textAlign: TextAlign.center),
+                if (message != null)
+                  UiText.bodyMedium(
+                    message!,
+                    secondary: true,
+                    textAlign: TextAlign.center,
+                  ),
+                if (actionLabel != null)
+                  UiButton.secondary(label: actionLabel!, onPressed: onAction),
+              ],
             ),
-          UiText.titleMedium(title, textAlign: TextAlign.center),
-          if (message != null)
-            UiText.bodyMedium(
-              message!,
-              secondary: true,
-              textAlign: TextAlign.center,
-            ),
-          if (actionLabel != null)
-            UiButton.secondary(label: actionLabel!, onPressed: onAction),
-        ],
-      ),
-    ),
-  );
+          ),
+        );
 }
 
 /// Static skeleton: reduced-motion friendly; its parent announces loading once.

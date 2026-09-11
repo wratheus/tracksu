@@ -3,4 +3,10 @@ targets:
     sources:
       - $package$
       - lib/**
+      - pubspec.yaml
       - .env*
+    builders:
+      pubspec_generator:
+        options:
+          output: lib/src/_core/config/pubspec.yaml.g.dart
+          timestamp: false

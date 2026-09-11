@@ -5,6 +5,7 @@ import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/scores/widgets/score_card.dart';
+import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu/src/beatmap/leaderboard/bloc/bloc.dart';
 import 'package:tracksu/src/beatmap/widgets/failure.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
@@ -74,6 +75,14 @@ final class LeaderboardSection extends StatelessWidget {
                     child: OsuScoreCard(
                       coverUri: coverUri,
                       playerAvatar: state.entries[index].avatarUri,
+                      playerFlags:
+                          state.entries[index].countryCode == null &&
+                              state.entries[index].team == null
+                          ? null
+                          : OsuPlayerFlags(
+                              countryCode: state.entries[index].countryCode,
+                              team: state.entries[index].team,
+                            ),
                       score: state.entries[index].score,
                       onOpenPlayer: () =>
                           DepsScope.of(context).appRouter.openProfile(

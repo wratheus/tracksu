@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/profile/beatmaps/domain/beatmap.dart';
 import 'package:tracksu/src/profile/beatmaps/domain/beatmaps_query.dart';
@@ -11,17 +13,19 @@ final class ProfileBeatmapsBloc
     extends Bloc<ProfileBeatmapsEvent, ProfileBeatmapsState> {
   factory ProfileBeatmapsBloc({
     required ProfileBeatmapsRepository repository,
+    required PageCache cache,
     required ProfileUserId user,
-  }) => ProfileBeatmapsBloc._(repository, user);
+  }) => ProfileBeatmapsBloc._(repository, cache, user);
 
-  ProfileBeatmapsBloc._(this._repository, this._user)
+  ProfileBeatmapsBloc._(this._repository, this._cache, this._user)
     : super(const ProfileBeatmapsInitialState()) {
     // Concurrent bucket: type changes supersede in-flight reads.
     // Paging/refresh are guarded while busy; stale completions never emit.
-    on<ProfileBeatmapsEvent>(_onEvent);
+    on<ProfileBeatmapsEvent>(_onEvent, transformer: concurrent());
   }
 
   final ProfileBeatmapsRepository _repository;
+  final PageCache _cache;
   final ProfileUserId _user;
   int _generation = 0;
 
@@ -69,6 +73,20 @@ final class ProfileBeatmapsBloc
     }
 
     final int generation = ++_generation;
+    final Object cacheKey = ('profile-beatmaps', _user.apiValue, type);
+    final int cacheRevision = _cache.revision;
+    if (previous == null) {
+      final ProfileBeatmapsPage? cached = _cache.read<ProfileBeatmapsPage>(
+        cacheKey,
+      );
+      if (cached != null) {
+        previous = ProfileBeatmapsLoadedState(
+          type: type,
+          items: cached.items,
+          nextOffset: cached.nextOffset,
+        );
+      }
+    }
     emit(
       previous == null
           ? ProfileBeatmapsLoadingState(type: type)
@@ -86,12 +104,24 @@ final class ProfileBeatmapsBloc
       if (generation != _generation || emit.isDone || isClosed) {
         return;
       }
+      if (operation == ProfileBeatmapsOperation.refresh) {
+        _cache.write(cacheKey, page, revision: cacheRevision);
+      }
       final Map<int, ProfileBeatmap> unique = <int, ProfileBeatmap>{
         if (operation == ProfileBeatmapsOperation.loadMore && previous != null)
           for (final ProfileBeatmap beatmap in previous.items)
             beatmap.id: beatmap,
         for (final ProfileBeatmap beatmap in page.items) beatmap.id: beatmap,
       };
+      if (operation == ProfileBeatmapsOperation.loadMore &&
+          previous != null &&
+          page.nextOffset != null &&
+          (page.nextOffset! <= offset ||
+              unique.length == previous.items.length)) {
+        throw const ProfileBeatmapsFailure(
+          ProfileBeatmapsFailureKind.invalidResponse,
+        );
+      }
       emit(
         ProfileBeatmapsLoadedState(
           type: type,

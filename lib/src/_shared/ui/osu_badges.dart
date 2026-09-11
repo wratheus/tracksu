@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
+import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Asset paths stay in the host. Unknown/missing codes have a visible fallback.
@@ -12,19 +13,80 @@ final class OsuCountryFlag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String normalized = code.trim().toUpperCase();
-    return ClipRRect(
+    return _OsuFlag(
+      image: RegExp(r'^[A-Z]{2}$').hasMatch(normalized)
+          ? AssetImage('assets/icon_country_flags/$normalized.png')
+          : null,
+      label: label,
+      icon: Icons.outlined_flag,
+    );
+  }
+}
+
+/// Country and team flags share geometry; absent team data adds no placeholder.
+final class OsuPlayerFlags extends StatelessWidget {
+  const OsuPlayerFlags({
+    this.countryCode,
+    this.countryLabel,
+    this.team,
+    super.key,
+  });
+  final String? countryCode;
+  final String? countryLabel;
+  final ProfileTeam? team;
+
+  @override
+  Widget build(BuildContext context) => Row(
+    mainAxisSize: MainAxisSize.min,
+    spacing: UiSpace.xs,
+    children: <Widget>[
+      if (countryCode case final String code)
+        OsuCountryFlag(
+          code: code,
+          label: countryLabel ?? context.t.profileCountry(code),
+        ),
+      if (team case final ProfileTeam affiliation)
+        OsuTeamFlag(team: affiliation),
+    ],
+  );
+}
+
+final class OsuTeamFlag extends StatelessWidget {
+  const OsuTeamFlag({required this.team, super.key});
+  final ProfileTeam team;
+
+  @override
+  Widget build(BuildContext context) => _OsuFlag(
+    image: team.flagUri == null ? null : NetworkImage(team.flagUri.toString()),
+    label: team.name,
+    icon: Icons.groups_outlined,
+  );
+}
+
+final class _OsuFlag extends StatelessWidget {
+  const _OsuFlag({
+    required this.image,
+    required this.label,
+    required this.icon,
+  });
+  final ImageProvider? image;
+  final String label;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) => Tooltip(
+    message: label,
+    child: ClipRRect(
       borderRadius: BorderRadius.circular(UiSpace.xs),
       child: UiImage(
-        image: RegExp(r'^[A-Z]{2}$').hasMatch(normalized)
-            ? AssetImage('assets/icon_country_flags/$normalized.png')
-            : null,
+        image: image,
         width: 28,
         height: 20,
         semanticLabel: label,
-        fallbackIcon: Icons.outlined_flag,
+        fallback: Icon(icon, size: 16),
       ),
-    );
-  }
+    ),
+  );
 }
 
 final class OsuRulesetIcon extends StatelessWidget {

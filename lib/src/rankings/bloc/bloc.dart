@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/rankings/domain/entry.dart';
@@ -18,7 +19,7 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
     : super(const RankingsInitialState()) {
     // Concurrent bucket: type changes supersede in-flight reads.
     // Paging/refresh are guarded while busy; stale completions never emit.
-    on<RankingsEvent>(_onEvent);
+    on<RankingsEvent>(_onEvent, transformer: concurrent());
   }
 
   final RankingsRepository _repository;
@@ -126,6 +127,13 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
         // A live ranking can move between reads. Keep earlier page snapshots
         // in place rather than replacing them with a later page's position.
         unique.putIfAbsent(entry.id, () => entry);
+      }
+      if (operation == RankingsOperation.loadMore &&
+          previous != null &&
+          page.nextPage != null &&
+          (page.nextPage! <= requestedPage ||
+              unique.length == previous.items.length)) {
+        throw const RankingsFailure(RankingsFailureKind.invalidResponse);
       }
       emit(
         RankingsLoadedState(

@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/_shared/scores/domain/score.dart';
@@ -13,18 +15,20 @@ final class ProfileScoresBloc
     extends Bloc<ProfileScoresEvent, ProfileScoresState> {
   factory ProfileScoresBloc({
     required ProfileScoresRepository repository,
+    required PageCache cache,
     required ProfileUserId user,
     required ProfileRuleset ruleset,
-  }) => ProfileScoresBloc._(repository, user, ruleset);
+  }) => ProfileScoresBloc._(repository, cache, user, ruleset);
 
-  ProfileScoresBloc._(this._repository, this._user, this._ruleset)
+  ProfileScoresBloc._(this._repository, this._cache, this._user, this._ruleset)
     : super(const ProfileScoresInitialState()) {
     // Concurrent bucket: type changes supersede in-flight reads.
     // Paging/refresh are guarded while busy; stale completions never emit.
-    on<ProfileScoresEvent>(_onEvent);
+    on<ProfileScoresEvent>(_onEvent, transformer: concurrent());
   }
 
   final ProfileScoresRepository _repository;
+  final PageCache _cache;
   final ProfileUserId _user;
   final ProfileRuleset _ruleset;
   int _generation = 0;
@@ -73,6 +77,20 @@ final class ProfileScoresBloc
     }
 
     final int generation = ++_generation;
+    final Object cacheKey = ('profile-scores', _user.apiValue, _ruleset, type);
+    final int cacheRevision = _cache.revision;
+    if (previous == null) {
+      final ProfileScoresPage? cached = _cache.read<ProfileScoresPage>(
+        cacheKey,
+      );
+      if (cached != null) {
+        previous = ProfileScoresLoadedState(
+          type: type,
+          items: cached.items,
+          nextOffset: cached.nextOffset,
+        );
+      }
+    }
     emit(
       previous == null
           ? ProfileScoresLoadingState(type: type)
@@ -95,11 +113,23 @@ final class ProfileScoresBloc
       if (generation != _generation || emit.isDone || isClosed) {
         return;
       }
+      if (operation == ProfileScoresOperation.refresh) {
+        _cache.write(cacheKey, page, revision: cacheRevision);
+      }
       final Map<int, OsuScore> unique = <int, OsuScore>{
         if (operation == ProfileScoresOperation.loadMore && previous != null)
           for (final OsuScore score in previous.items) score.id: score,
         for (final OsuScore score in page.items) score.id: score,
       };
+      if (operation == ProfileScoresOperation.loadMore &&
+          previous != null &&
+          page.nextOffset != null &&
+          (page.nextOffset! <= offset ||
+              unique.length == previous.items.length)) {
+        throw const ProfileScoresFailure(
+          ProfileScoresFailureKind.invalidResponse,
+        );
+      }
       emit(
         ProfileScoresLoadedState(
           type: type,

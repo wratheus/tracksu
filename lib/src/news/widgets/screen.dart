@@ -99,13 +99,8 @@ final class NewsScreen extends StatelessWidget {
                   ],
                   if (state.operation == NewsOperation.loadMore)
                     SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.all(UiSpace.lg),
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            semanticsLabel: context.t.newsLoading,
-                          ),
-                        ),
+                      child: Center(
+                        child: UiLoading(label: context.t.newsLoading),
                       ),
                     )
                   else if (state.failure case final NewsFailureKind failure
@@ -119,20 +114,13 @@ final class NewsScreen extends StatelessWidget {
                     )
                   else if (state is NewsListState &&
                       state.cursor != null &&
+                      state.operation == null &&
                       state.failure == null)
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.all(UiSpace.lg),
-                        child: Center(
-                          child: UiButton.secondary(
-                            onPressed: state.operation == null
-                                ? () => context.read<NewsBloc>().add(
-                                    const NewsMoreRequested(),
-                                  )
-                                : null,
-                            label: context.t.newsLoadMore,
-                          ),
-                        ),
+                    UiSliverAutoLoad(
+                      pageKey: state.cursor!,
+                      label: context.t.newsLoading,
+                      onLoad: () => context.read<NewsBloc>().add(
+                        const NewsMoreRequested(),
                       ),
                     ),
                 ],

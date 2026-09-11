@@ -105,8 +105,9 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
       ),
       slivers: <Widget>[
         if (state is SpotlightsInitialState || state is SpotlightsLoadingState)
-          SliverToBoxAdapter(
-            child: UiLoading(label: context.t.rankingsLoading),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(child: UiLoading(label: context.t.rankingsLoading)),
           ),
         if (state case SpotlightsFailureState(:final failure))
           SliverToBoxAdapter(child: _Failure(failure)),

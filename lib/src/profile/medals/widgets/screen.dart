@@ -37,16 +37,20 @@ final class MedalsScreen extends StatelessWidget {
             return Center(child: UiLoading(label: context.t.medalsLoading));
           }
           if (state is MedalsError) {
-            return UiContentState.error(
-              title: context.t.medalsFailed,
-              actionLabel: context.t.retry,
-              onAction: () => _refresh(context),
+            return Center(
+              child: UiContentState.error(
+                title: context.t.medalsFailed,
+                actionLabel: context.t.retry,
+                onAction: () => _refresh(context),
+              ),
             );
           }
           final MedalsLoaded loaded = state as MedalsLoaded;
           final List<EarnedMedal> medals = loaded.medals;
           if (medals.isEmpty && !loaded.refreshing && !loaded.refreshFailed) {
-            return UiContentState.empty(title: context.t.medalsEmpty);
+            return Center(
+              child: UiContentState.empty(title: context.t.medalsEmpty),
+            );
           }
           return CustomScrollView(
             slivers: <Widget>[

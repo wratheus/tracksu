@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+### Seamless collections and shared presentation
+
+- Removed manual load-more buttons from news, rankings, profile scores and maps.
+  Shared sliver trigger debounces near-end visibility, pauses off-route/inactive,
+  and handles short viewports without a scroll gesture. Explicit BLoC concurrency,
+  busy guards and generation checks prevent duplicate/stale work; repeated pages
+  stop with Retry instead of an automatic request loop.
+- Extended first-page memory snapshots and cold-load skeletons to profile scores
+  and map collections. Successful refresh replaces data; failed refresh retains it.
+- Shared loaders now use a centred compact column with rounded progress and the
+  label below it. Medal/spotlight loading and country-picker sheets centre in their
+  available viewport; content-fitting sheets do not grow from fill-remaining states.
+- Team flags sit beside country flags at matching 28×20 size and corner radius,
+  including profile/rankings/spotlights and map result cards/sheets when supplied
+  by the API. No extra per-player requests; detailed profile affiliation stays.
+- Added `pubspec_generator`: version/build come from `pubspec.yaml`, while the
+  installed package ID still comes from the platform. No hardcoded version copy.
+
 ### September feedback: media, loading and results
 
 - Fixed the rich-image HTTPS connection factory: explicit TLS and hostname

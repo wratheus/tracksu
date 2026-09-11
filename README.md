@@ -149,7 +149,7 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   system/light/dark theme without resetting navigation; the preference is saved
   on this device independently of sign-in. Sign-out asks for confirmation from
   both settings and the account menu.
-- Settings → About shows the installed version/build, project links and bundled
+- Settings → About shows the version/build generated from `pubspec.yaml`, project links and bundled
   open-source notices, including Exo 2. License text is available offline;
   external project links open only when selected.
 - Keep browsing through section-specific loading, empty, error, retry, refresh,
@@ -247,8 +247,20 @@ minimum Android SDK of `26`.
    fvm flutter run
    ```
 
-Run the code generator again whenever `.env` changes. Generated environment
-files are ignored by Git and should not be edited manually.
+Run the code generator again whenever `.env` or `pubspec.yaml` changes. Generated
+environment files are ignored by Git and should not be edited manually.
+`pubspec_generator` also generates `lib/src/_core/config/pubspec.yaml.g.dart`;
+this non-secret metadata file is committed, has no generation timestamp and must
+not be edited manually. App version/build have one source: `pubspec.yaml`.
+About uses the platform only for the installed package ID. Release overrides
+such as `--build-number` do not change the generated version: update `version:`
+and regenerate instead so native and displayed versions agree.
+
+News, rankings, profile scores and beatmap collections load subsequent pages
+automatically near the viewport end (200 ms debounce). Errors pause pagination
+until Retry; refresh keeps visible content. Scores and beatmap collections also
+reuse bounded session-memory first-page snapshots while fetching fresh data,
+with skeletons only when no snapshot exists. This is not persistent offline storage.
 
 > [!WARNING]
 > Obfuscating a client secret does not make it private inside a distributed

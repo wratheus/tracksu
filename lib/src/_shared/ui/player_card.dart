@@ -70,33 +70,10 @@ final class OsuPlayerCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: UiSpace.md,
                 children: <Widget>[
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    spacing: UiSpace.xs,
-                    children: <Widget>[
-                      if (_profile)
-                        UiAvatar.large(name: username, image: avatar)
-                      else
-                        UiAvatar.medium(name: username, image: avatar),
-                      if (team case final ProfileTeam affiliation)
-                        Tooltip(
-                          message: affiliation.name,
-                          child: Semantics(
-                            label: affiliation.name,
-                            child: affiliation.flagUri == null
-                                ? const Icon(Icons.groups_outlined, size: 24)
-                                : UiImage(
-                                    image: NetworkImage(
-                                      affiliation.flagUri.toString(),
-                                    ),
-                                    width: 32,
-                                    height: 22,
-                                    fit: BoxFit.contain,
-                                  ),
-                          ),
-                        ),
-                    ],
-                  ),
+                  if (_profile)
+                    UiAvatar.large(name: username, image: avatar)
+                  else
+                    UiAvatar.medium(name: username, image: avatar),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,9 +91,10 @@ final class OsuPlayerCard extends StatelessWidget {
                           spacing: UiSpace.sm,
                           runSpacing: UiSpace.xs,
                           children: <Widget>[
-                            OsuCountryFlag(
-                              code: countryCode,
-                              label: countryLabel,
+                            OsuPlayerFlags(
+                              countryCode: countryCode,
+                              countryLabel: countryLabel,
+                              team: team,
                             ),
                             if (statusLabel != null)
                               UiText.bodySmall(statusLabel!, secondary: true),

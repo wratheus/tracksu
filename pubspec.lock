@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.2.1"
+  bloc_concurrency:
+    dependency: "direct main"
+    description:
+      name: bloc_concurrency
+      sha256: "86b7b17a0a78f77fca0d7c030632b59b593b22acea2d96972588f40d4ef53a94"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -893,6 +901,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  pubspec_generator:
+    dependency: "direct dev"
+    description:
+      name: pubspec_generator
+      sha256: "937cc8713f6a7f9d2878bc5a623375a2ea53ecded699867ee6d658ace3027eeb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.2"
   pubspec_parse:
     dependency: transitive
     description:

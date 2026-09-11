@@ -14,6 +14,7 @@ final class OsuScoreCard extends StatefulWidget {
     this.onOpenPlayer,
     this.playerLabel,
     this.playerAvatar,
+    this.playerFlags,
     this.coverUri,
     super.key,
   });
@@ -22,6 +23,7 @@ final class OsuScoreCard extends StatefulWidget {
   /// A leaderboard already establishes map context, so lead with the player.
   final String? playerLabel;
   final Uri? playerAvatar;
+  final Widget? playerFlags;
   final Uri? coverUri;
 
   /// Optional navigation to the map, offered after inspecting the result.
@@ -63,6 +65,7 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
               canOpenPlayer: openPlayer != null,
               playerLabel: playerLabel,
               playerAvatar: widget.playerAvatar,
+              playerFlags: widget.playerFlags,
             ),
           );
       if (!context.mounted) return;
@@ -86,6 +89,7 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
     ).add_Hm().format(score.endedAt.toLocal());
     final String locale = Localizations.localeOf(context).toLanguageTag();
     return OsuPlayCard(
+      identity: widget.playerFlags,
       leading: widget.playerLabel == null
           ? null
           : UiAvatar.medium(

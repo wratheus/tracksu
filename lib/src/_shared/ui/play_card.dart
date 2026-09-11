@@ -19,6 +19,7 @@ final class OsuPlayCard extends StatelessWidget {
     this.failureLabel,
     this.cover,
     this.leading,
+    this.identity,
     this.onTap,
     super.key,
   });
@@ -37,6 +38,7 @@ final class OsuPlayCard extends StatelessWidget {
   final String noModsLabel;
   final ImageProvider? cover;
   final Widget? leading;
+  final Widget? identity;
   final VoidCallback? onTap;
 
   @override
@@ -73,6 +75,7 @@ final class OsuPlayCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
+                  if (identity case final Widget flags) flags,
                   if (difficulty != null)
                     UiText.bodySmall(
                       difficulty!,

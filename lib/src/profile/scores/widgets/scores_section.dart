@@ -19,10 +19,10 @@ final class ProfileScoresSection extends StatelessWidget {
     slivers: <Widget>[
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(UiSpace.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 10,
+            spacing: UiSpace.md,
             children: <Widget>[
               Text(
                 context.t.scoresTitle,
@@ -36,7 +36,8 @@ final class ProfileScoresSection extends StatelessWidget {
                 selector: (ProfileScoresState state) => state.type,
                 builder: (BuildContext context, ProfileScoresType selected) =>
                     Wrap(
-                      spacing: 10,
+                      spacing: UiSpace.md,
+                      runSpacing: UiSpace.sm,
                       children: <Widget>[
                         for (final ProfileScoresType type
                             in ProfileScoresType.values)
@@ -82,8 +83,10 @@ final class ProfileScoresSection extends StatelessWidget {
       BlocBuilder<ProfileScoresBloc, ProfileScoresState>(
         builder: (BuildContext context, ProfileScoresState state) =>
             switch (state) {
-              ProfileScoresInitialState() || ProfileScoresLoadingState() =>
-                const SliverToBoxAdapter(child: _ScoresProgress()),
+              ProfileScoresInitialState() ||
+              ProfileScoresLoadingState() => SliverToBoxAdapter(
+                child: UiPageSkeleton.list(label: context.t.scoresLoading),
+              ),
               ProfileScoresFailureState(:final failure) => SliverToBoxAdapter(
                 child: _ScoresError(failure: failure),
               ),
@@ -114,9 +117,19 @@ final class ProfileScoresSection extends StatelessWidget {
                       ),
                     ),
                   ),
+                  if (state.nextOffset != null &&
+                      state.operation == null &&
+                      state.failure == null)
+                    UiSliverAutoLoad(
+                      pageKey: (state.type, state.nextOffset),
+                      label: context.t.scoresLoading,
+                      onLoad: () => context.read<ProfileScoresBloc>().add(
+                        const ProfileScoresMoreRequested(),
+                      ),
+                    ),
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
+                      padding: const EdgeInsets.only(bottom: UiSpace.xl),
                       child: switch (state) {
                         ProfileScoresLoadedState(
                           operation: ProfileScoresOperation.loadMore,
@@ -130,16 +143,6 @@ final class ProfileScoresSection extends StatelessWidget {
                             failedOperation: state.failedOperation,
                             hasContent: state.items.isNotEmpty,
                           ),
-                        _ when state.nextOffset != null => Center(
-                          child: UiButton.secondary(
-                            onPressed: state.operation != null
-                                ? null
-                                : () => context.read<ProfileScoresBloc>().add(
-                                    const ProfileScoresMoreRequested(),
-                                  ),
-                            label: context.t.scoresLoadMore,
-                          ),
-                        ),
                         _ => const SizedBox.shrink(),
                       },
                     ),

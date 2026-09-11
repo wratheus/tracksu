@@ -19,6 +19,7 @@ final class ScoreDetailsSheet extends StatelessWidget {
     this.canOpenPlayer = false,
     this.playerLabel,
     this.playerAvatar,
+    this.playerFlags,
     super.key,
   });
   final OsuScore score;
@@ -26,6 +27,7 @@ final class ScoreDetailsSheet extends StatelessWidget {
   final bool canOpenPlayer;
   final String? playerLabel;
   final Uri? playerAvatar;
+  final Widget? playerFlags;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,16 @@ final class ScoreDetailsSheet extends StatelessWidget {
                                 ? null
                                 : NetworkImage(playerAvatar.toString()),
                           ),
-                          Expanded(child: UiText.titleMedium(name)),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              spacing: UiSpace.sm,
+                              children: <Widget>[
+                                UiText.titleMedium(name),
+                                if (playerFlags case final Widget flags) flags,
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     UiText.titleLarge(

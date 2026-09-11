@@ -112,7 +112,7 @@ abstract final class UiFeedback {
   }
 }
 
-/// Inline, labelled progress for initial loading or pagination.
+/// Content-sized progress; a bounded host may Center it on both axes.
 final class UiLoading extends StatelessWidget {
   const UiLoading({required this.label, super.key});
   final String label;
@@ -120,16 +120,30 @@ final class UiLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
     liveRegion: true,
+    label: label,
+    excludeSemantics: true,
     child: Padding(
       padding: const EdgeInsets.all(UiSpace.lg),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         spacing: UiSpace.md,
         children: <Widget>[
-          const SizedBox.square(
-            dimension: 24,
-            child: CircularProgressIndicator(strokeWidth: 2),
+          SizedBox.square(
+            dimension: 36,
+            child: CircularProgressIndicator(
+              value: MediaQuery.disableAnimationsOf(context) ? 0.7 : null,
+              strokeWidth: 3,
+              strokeCap: StrokeCap.round,
+              backgroundColor: Theme.of(context)
+                  .colorScheme
+                  .surfaceContainerHighest,
+            ),
           ),
-          Expanded(child: UiText.bodyMedium(label, secondary: true)),
+          UiText.bodyMedium(
+            label,
+            secondary: true,
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     ),

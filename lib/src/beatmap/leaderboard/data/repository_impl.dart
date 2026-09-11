@@ -1,4 +1,6 @@
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
+import 'package:tracksu/src/profile/data/profile_details_dto.dart';
+import 'package:tracksu/src/profile/data/profile_details_mapper.dart';
 import 'package:tracksu/src/_shared/scores/data/score_dto.dart';
 import 'package:tracksu/src/_shared/scores/domain/score.dart';
 import 'package:tracksu/src/beatmap/data/failure_mapper.dart';
@@ -50,6 +52,10 @@ final class LeaderboardRepositoryImpl implements LeaderboardRepository {
         entries.add(
           LeaderboardEntry(
             avatarUri: _avatar(reader?.optionalString('avatar_url')),
+            countryCode: reader?.optionalString('country_code'),
+            team: ProfileDetailsDto.fromJson(<String, dynamic>{
+              'team': user?['team'],
+            }).toDomain().team,
             score: score,
             username: reader?.requiredString('username'),
           ),

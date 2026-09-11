@@ -20,3 +20,4 @@ export 'src/widgets/grade_gauge.dart';
 export 'src/widgets/navigation_bar.dart';
 export 'src/widgets/segmented_control.dart';
 export 'src/widgets/sliver_card_list.dart';
+export 'src/widgets/sliver_auto_load.dart';

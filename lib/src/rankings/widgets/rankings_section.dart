@@ -96,6 +96,21 @@ final class RankingsSection extends StatelessWidget {
                   ),
                 ),
               ),
+              if (state.nextPage != null &&
+                  state.operation == null &&
+                  state.failure == null)
+                UiSliverAutoLoad(
+                  pageKey: (
+                    state.type,
+                    state.country?.value,
+                    state.variant,
+                    state.nextPage,
+                  ),
+                  label: context.t.rankingsLoading,
+                  onLoad: () => context.read<RankingsBloc>().add(
+                    const RankingsMoreRequested(),
+                  ),
+                ),
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: UiSpace.xl),
@@ -115,16 +130,7 @@ final class RankingsSection extends StatelessWidget {
                       ),
                     _ when state.failedOperation == RankingsOperation.refresh =>
                       const SizedBox.shrink(),
-                    _ when state.nextPage != null => Center(
-                      child: UiButton.secondary(
-                        onPressed: state.operation != null
-                            ? null
-                            : () => context.read<RankingsBloc>().add(
-                                const RankingsMoreRequested(),
-                              ),
-                        label: context.t.rankingsLoadMore,
-                      ),
-                    ),
+                    _ when state.nextPage != null => const SizedBox.shrink(),
                     _ when state.nextPage == null && state.items.isNotEmpty =>
                       Center(
                         child: UiText.bodySmall(
