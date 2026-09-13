@@ -10,6 +10,7 @@ final class OsuAffiliationTile extends StatelessWidget {
     this.colour,
     this.image,
     this.onTap,
+    this.trailingIcon = Icons.open_in_new,
     super.key,
   });
   final String name;
@@ -18,6 +19,7 @@ final class OsuAffiliationTile extends StatelessWidget {
   final Color? colour;
   final ImageProvider? image;
   final VoidCallback? onTap;
+  final IconData trailingIcon;
   @override
   Widget build(BuildContext context) => UiSurface.outlined(
     onTap: onTap,
@@ -38,7 +40,7 @@ final class OsuAffiliationTile extends StatelessWidget {
             ],
           ),
         ),
-        if (onTap != null) const Icon(Icons.open_in_new, size: 20),
+        if (onTap != null) Icon(trailingIcon, size: 20),
       ],
     ),
   );

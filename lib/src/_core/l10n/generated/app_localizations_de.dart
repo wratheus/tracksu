@@ -10,6 +10,72 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get teamTitle => 'Team';
+
+  @override
+  String get teamLoading => 'Team wird geladen…';
+
+  @override
+  String get teamNotFound => 'Team nicht gefunden';
+
+  @override
+  String get teamAccessDenied => 'Dieses Team kann nicht angezeigt werden.';
+
+  @override
+  String get teamFailed =>
+      'Team konnte nicht geladen werden. Versuche es erneut.';
+
+  @override
+  String get teamOpen => 'Rekrutierung offen';
+
+  @override
+  String get teamClosed => 'Rekrutierung geschlossen';
+
+  @override
+  String teamSlots(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count freie Plätze',
+      one: '1 freier Platz',
+      zero: 'Keine freien Plätze',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String teamMembers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Mitglieder',
+      one: '1 Mitglied',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String teamCreated(String date) {
+    return 'Gegründet am $date';
+  }
+
+  @override
+  String teamDefaultMode(String mode) {
+    return 'Standardmodus: $mode';
+  }
+
+  @override
+  String get teamDescription => 'Über das Team';
+
+  @override
+  String get teamLeader => 'Teamleitung';
+
+  @override
+  String teamLastVisit(String date) {
+    return 'Zuletzt online: $date';
+  }
+
+  @override
   String get scoreGaugeReference =>
       'Referenzskala für osu!lazer-Genauigkeit; SS erfordert 100 % (der Bereich ist zur besseren Sichtbarkeit vergrößert). Der Rang stammt aus dem Ergebnis; Fehler, Mods und alte Wertungsregeln können ihn beeinflussen.';
 

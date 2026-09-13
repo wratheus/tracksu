@@ -15,6 +15,7 @@ final class OsuPlayerCard extends StatelessWidget {
     this.statusLabel,
     this.onTap,
     this.team,
+    this.onTeamTap,
     super.key,
   }) : _profile = false,
        nameAction = null,
@@ -33,6 +34,7 @@ final class OsuPlayerCard extends StatelessWidget {
     this.metrics = const <UiMetric>[],
     this.nameAction,
     this.team,
+    this.onTeamTap,
     this.featuredMetric,
     this.onTap,
     super.key,
@@ -48,6 +50,7 @@ final class OsuPlayerCard extends StatelessWidget {
   final List<UiMetric> metrics;
   final Widget? nameAction;
   final ProfileTeam? team;
+  final VoidCallback? onTeamTap;
   final UiMetric? featuredMetric;
   final VoidCallback? onTap;
   final bool _profile;
@@ -95,6 +98,7 @@ final class OsuPlayerCard extends StatelessWidget {
                               countryCode: countryCode,
                               countryLabel: countryLabel,
                               team: team,
+                              onTeamTap: onTeamTap,
                             ),
                             if (statusLabel != null)
                               UiText.bodySmall(statusLabel!, secondary: true),

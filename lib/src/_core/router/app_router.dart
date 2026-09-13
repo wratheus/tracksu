@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/about/main.dart';
 import 'package:tracksu/src/settings/main.dart';
+import 'package:tracksu/src/team/main.dart';
+import 'package:tracksu/src/team/domain/team.dart';
 import 'package:tracksu/src/profile/medals/main.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
@@ -96,6 +98,14 @@ final class TracksuAppRouter {
   late final GoRouter config;
 
   List<RouteBase> _detailRoutes() => <RouteBase>[
+    GoRoute(
+      path: 'team/:id',
+      redirect: (_, GoRouterState state) =>
+          _positiveId(state.pathParameters['id']) == null ? '/search' : null,
+      builder: (_, GoRouterState state) => TeamMain(
+        params: TeamParams(_positiveId(state.pathParameters['id'])!),
+      ),
+    ),
     GoRoute(path: 'settings', builder: (_, _) => const SettingsMain()),
     GoRoute(path: 'about', builder: (_, _) => const AboutMain()),
     GoRoute(
@@ -154,6 +164,11 @@ final class TracksuAppRouter {
 
   Future<void> openSettings(BuildContext context) async =>
       config.push<void>('$_branchPath/settings');
+
+  Future<void> openTeam(BuildContext context, int id) async {
+    if (id <= 0) throw ArgumentError.value(id, 'id');
+    await config.push<void>('$_branchPath/team/$id');
+  }
 
   Future<void> openAbout(BuildContext context) async =>
       config.push<void>('$_branchPath/about');

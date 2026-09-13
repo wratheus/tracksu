@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/navigation/team_navigation.dart';
+import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
@@ -27,6 +29,7 @@ final class SpotlightsScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.spotlightsTitle),
       actions: <Widget>[
+        const SettingsButton(),
         BlocBuilder<SpotlightsBloc, SpotlightsState>(
           builder: (BuildContext context, SpotlightsState state) => Row(
             mainAxisSize: MainAxisSize.min,
@@ -223,18 +226,22 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
                     ),
                     builder: (VoidCallback? open) => Tooltip(
                       message: context.t.rankingsRankedScore(player.score),
-                      child: OsuPlayerCard.compact(
-                        username: player.name,
-                        countryCode: player.country,
-                        countryLabel: player.country,
-                        avatar: player.avatarUri == null
-                            ? null
-                            : NetworkImage(player.avatarUri.toString()),
-                        team: player.team,
-                        rankLabel: context.t.rankingsPosition(index + 1),
-                        performanceLabel:
-                            '${context.t.profileRankedScoreLabel}: ${score.compact}',
-                        onTap: open,
+                      child: TeamNavigation(
+                        teamId: player.team?.id,
+                        builder: (VoidCallback? openTeam) => OsuRankingRow(
+                          username: player.name,
+                          country: player.country,
+                          avatar: player.avatarUri == null
+                              ? null
+                              : NetworkImage(player.avatarUri.toString()),
+                          team: player.team,
+                          onTeamTap: openTeam,
+                          position:
+                              '#${NumberFormat.decimalPattern(context.t.localeName).format(index + 1)}',
+                          value: score.compact,
+                          valueLabel: context.t.profileRankedScoreLabel,
+                          onTap: open,
+                        ),
                       ),
                     ),
                   );

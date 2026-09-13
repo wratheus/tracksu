@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/navigation/team_navigation.dart';
 import 'package:tracksu/src/profile/widgets/profile_details_sections.dart';
 import 'package:tracksu/src/profile/widgets/previous_names_button.dart';
 import 'package:intl/intl.dart';
@@ -36,43 +37,47 @@ final class ProfileSummary extends StatelessWidget {
         ? context.t.profileUnranked
         : '#${number.format(value)}';
 
-    final Widget header = OsuPlayerCard.profile(
-      username: profile.username,
-      countryCode: profile.countryCode,
-      countryLabel: context.t.profileCountry(profile.countryCode),
-      avatar: NetworkImage(profile.avatarUri.toString()),
-      cover: profile.coverUri == null
-          ? null
-          : NetworkImage(profile.coverUri.toString()),
-      team: profile.details?.team,
-      nameAction: profile.details?.previousNames?.isNotEmpty == true
-          ? PreviousNamesButton(names: profile.details!.previousNames!)
-          : null,
-      statusLabel: profile.isOnline
-          ? context.t.profileOnline
-          : context.t.profileOffline,
-      rankLabel: context.t.profileId(profile.id),
-      featuredMetric: statistics == null
-          ? null
-          : UiMetric(
-              label: context.t.profileGlobalRankLabel,
-              value: rank(statistics.globalRank),
-              tone: UiMetricTone.tertiary,
-            ),
-      metrics: statistics == null
-          ? const <UiMetric>[]
-          : <UiMetric>[
-              UiMetric.compact(
-                label: context.t.profilePpLabel,
-                value: decimal.format(statistics.performancePoints),
-                tone: UiMetricTone.primary,
+    final Widget header = TeamNavigation(
+      teamId: profile.details?.team?.id,
+      builder: (VoidCallback? openTeam) => OsuPlayerCard.profile(
+        username: profile.username,
+        countryCode: profile.countryCode,
+        countryLabel: context.t.profileCountry(profile.countryCode),
+        avatar: NetworkImage(profile.avatarUri.toString()),
+        cover: profile.coverUri == null
+            ? null
+            : NetworkImage(profile.coverUri.toString()),
+        team: profile.details?.team,
+        onTeamTap: openTeam,
+        nameAction: profile.details?.previousNames?.isNotEmpty == true
+            ? PreviousNamesButton(names: profile.details!.previousNames!)
+            : null,
+        statusLabel: profile.isOnline
+            ? context.t.profileOnline
+            : context.t.profileOffline,
+        rankLabel: context.t.profileId(profile.id),
+        featuredMetric: statistics == null
+            ? null
+            : UiMetric(
+                label: context.t.profileGlobalRankLabel,
+                value: rank(statistics.globalRank),
+                tone: UiMetricTone.tertiary,
               ),
-              UiMetric.compact(
-                label: context.t.profileCountryRankLabel,
-                value: rank(statistics.countryRank),
-                tone: UiMetricTone.secondary,
-              ),
-            ],
+        metrics: statistics == null
+            ? const <UiMetric>[]
+            : <UiMetric>[
+                UiMetric.compact(
+                  label: context.t.profilePpLabel,
+                  value: decimal.format(statistics.performancePoints),
+                  tone: UiMetricTone.primary,
+                ),
+                UiMetric.compact(
+                  label: context.t.profileCountryRankLabel,
+                  value: rank(statistics.countryRank),
+                  tone: UiMetricTone.secondary,
+                ),
+              ],
+      ),
     );
     return SliverMainAxisGroup(
       slivers: <Widget>[

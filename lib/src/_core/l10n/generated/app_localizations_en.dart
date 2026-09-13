@@ -10,6 +10,71 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get teamTitle => 'Team';
+
+  @override
+  String get teamLoading => 'Loading team…';
+
+  @override
+  String get teamNotFound => 'Team not found';
+
+  @override
+  String get teamAccessDenied => 'This team is not available to view.';
+
+  @override
+  String get teamFailed => 'Could not load the team. Try again.';
+
+  @override
+  String get teamOpen => 'Recruiting';
+
+  @override
+  String get teamClosed => 'Recruitment closed';
+
+  @override
+  String teamSlots(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count free slots',
+      one: '1 free slot',
+      zero: 'No free slots',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String teamMembers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String teamCreated(String date) {
+    return 'Created $date';
+  }
+
+  @override
+  String teamDefaultMode(String mode) {
+    return 'Default mode: $mode';
+  }
+
+  @override
+  String get teamDescription => 'About the team';
+
+  @override
+  String get teamLeader => 'Team leader';
+
+  @override
+  String teamLastVisit(String date) {
+    return 'Last seen: $date';
+  }
+
+  @override
   String get scoreGaugeReference =>
       'osu!lazer accuracy reference scale; SS requires 100% (its visible band is enlarged). The grade comes from the result: misses, mods and legacy scoring can also affect it.';
 

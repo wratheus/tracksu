@@ -21,6 +21,17 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 ## Features
 
+### Teams and rankings
+
+- Compact ranking rows show the position, avatar/country/team and a separate
+  right-aligned PP or ranked-score value. Team flags open a native team page.
+- Team pages show the public API's identity/cover, recruitment, description,
+  leader/members and per-mode statistics, with member-profile navigation.
+  BBCode uses the shared restricted rich-content reader and image permission.
+  Team management, chats and website-only extra statistics are not included.
+- Settings can be opened from the main browsing pages without signing in,
+  including while their data is loading. Team snapshots share the session cache.
+
 ### Loading and preferences
 
 - Profiles, beatmap details, news feed/articles and ranking queries reuse bounded

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_shared/content/data/content_media_loader.dart';
 import 'package:tracksu/src/_shared/content/domain/content_document.dart';
@@ -23,6 +24,7 @@ final class NewsScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.newsTitle),
       actions: <Widget>[
+        const SettingsButton(),
         BlocBuilder<NewsBloc, NewsState>(
           builder: (BuildContext context, NewsState state) =>
               state is NewsArticleState

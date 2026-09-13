@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
@@ -20,6 +21,7 @@ final class MedalsScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.profileMedals),
       actions: <Widget>[
+        const SettingsButton(),
         UiIconButton.standard(
           tooltip: context.t.profileRefresh,
           icon: Icons.refresh,

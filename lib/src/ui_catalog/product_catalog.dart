@@ -54,7 +54,7 @@ final class ProductCatalogSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SliverList.builder(
-    itemCount: 19,
+    itemCount: 20,
     itemBuilder: (BuildContext context, int index) =>
         KeyedSubtree(key: ValueKey<int>(index), child: _sample(context, index)),
   );
@@ -587,7 +587,38 @@ final class ProductCatalogSliver extends StatelessWidget {
           onTap: preview,
         ),
       ),
-      _ => throw RangeError.range(index, 0, 18, 'index'),
+      19 => UiSection(
+        title: t.rankingsTitle,
+        child: Column(
+          spacing: UiSpace.sm,
+          children: <Widget>[
+            OsuRankingRow(
+              username: 'Tracksu Preview',
+              position: '#1',
+              value: number.format(32190),
+              valueLabel: 'PP',
+              country: 'JP',
+              avatar: _avatar,
+              team: const ProfileTeam(
+                id: 1,
+                name: 'Preview team',
+                shortName: 'PREVIEW',
+              ),
+              onTeamTap: preview,
+              onTap: preview,
+            ),
+            OsuRankingRow(
+              username: 'Long player name · 長いユーザー名',
+              position: '#123 456',
+              value: number.format(1234),
+              valueLabel: 'PP',
+              country: 'DE',
+              onTap: preview,
+            ),
+          ],
+        ),
+      ),
+      _ => throw RangeError.range(index, 0, 19, 'index'),
     };
     return sample;
   }

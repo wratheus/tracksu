@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/content/data/bbcode_content.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/content/data/content_normalizer.dart';
 import 'package:tracksu/src/_shared/content/domain/content_document.dart';
@@ -29,6 +30,19 @@ final class ContentCatalogSliver extends StatelessWidget {
         SliverToBoxAdapter(child: UiText.titleLarge(context.t.profileAbout)),
         ContentFrame.sliver(
           document: _document,
+          onOpenLink: (_) async {
+            UiFeedback.snack(context, message: context.t.uiCatalogSampleNotice);
+            return true;
+          },
+        ),
+        SliverToBoxAdapter(child: UiText.titleLarge(context.t.teamDescription)),
+        ContentFrame.sliver(
+          document: BbcodeContent.parse(
+            '[center][b]Tracksu Preview[/b][/center]\n[color=#ff66aa]Team / チーム[/color]\n'
+            '[box=Community][url=https://osu.ppy.sh/]osu![/url]\n[list][*]First[*]Second[/list][/box]\n'
+            '[code]<script>shown as text</script>[/code]',
+            Uri.https('osu.ppy.sh', '/teams/1'),
+          ),
           onOpenLink: (_) async {
             UiFeedback.snack(context, message: context.t.uiCatalogSampleNotice);
             return true;

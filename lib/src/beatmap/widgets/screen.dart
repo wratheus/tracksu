@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
@@ -25,6 +26,7 @@ final class BeatmapScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.beatmapTitle),
       actions: <Widget>[
+        const SettingsButton(),
         BlocBuilder<BeatmapBloc, BeatmapState>(
           builder: (BuildContext context, BeatmapState state) =>
               UiIconButton.standard(

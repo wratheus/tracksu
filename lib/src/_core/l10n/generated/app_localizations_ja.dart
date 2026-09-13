@@ -10,6 +10,69 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get teamTitle => 'チーム';
+
+  @override
+  String get teamLoading => 'チームを読み込み中…';
+
+  @override
+  String get teamNotFound => 'チームが見つかりません';
+
+  @override
+  String get teamAccessDenied => 'このチームは表示できません。';
+
+  @override
+  String get teamFailed => 'チームを読み込めませんでした。もう一度お試しください。';
+
+  @override
+  String get teamOpen => 'メンバー募集中';
+
+  @override
+  String get teamClosed => '募集停止中';
+
+  @override
+  String teamSlots(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '空き枠：$count',
+      zero: '空き枠なし',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String teamMembers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'メンバー：$count人',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String teamCreated(String date) {
+    return '設立日：$date';
+  }
+
+  @override
+  String teamDefaultMode(String mode) {
+    return 'メインモード：$mode';
+  }
+
+  @override
+  String get teamDescription => 'チームについて';
+
+  @override
+  String get teamLeader => 'チームリーダー';
+
+  @override
+  String teamLastVisit(String date) {
+    return '最終ログイン：$date';
+  }
+
+  @override
   String get scoreGaugeReference =>
       'osu!lazerの精度の参考目盛りです。SSには100%が必要です（表示領域は見やすく拡大しています）。グレードは結果の値を使い、ミス、MOD、旧スコア方式の影響も受けます。';
 

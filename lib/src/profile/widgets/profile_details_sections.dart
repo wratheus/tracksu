@@ -49,6 +49,16 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
     }
   }
 
+  Future<void> _team(int id) async {
+    if (_opening) return;
+    setState(() => _opening = true);
+    try {
+      await DepsScope.of(context).appRouter.openTeam(context, id);
+    } finally {
+      if (mounted) setState(() => _opening = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ProfileDetails details = widget.details;
@@ -73,15 +83,13 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
                 padding: const EdgeInsets.symmetric(vertical: UiSpace.md),
                 child: OsuAffiliationTile(
                   name: team.name,
+                  trailingIcon: Icons.chevron_right,
                   subtitle: context.t.profileTeamTag(team.shortName),
                   icon: Icons.groups_outlined,
                   image: team.flagUri == null
                       ? null
                       : NetworkImage(team.flagUri.toString()),
-                  onTap: _opening
-                      ? null
-                      : () =>
-                            _open(Uri.https('osu.ppy.sh', '/teams/${team.id}')),
+                  onTap: _opening ? null : () => _team(team.id),
                 ),
               ),
             ),

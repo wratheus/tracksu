@@ -29,11 +29,13 @@ final class OsuPlayerFlags extends StatelessWidget {
     this.countryCode,
     this.countryLabel,
     this.team,
+    this.onTeamTap,
     super.key,
   });
   final String? countryCode;
   final String? countryLabel;
   final ProfileTeam? team;
+  final VoidCallback? onTeamTap;
 
   @override
   Widget build(BuildContext context) => Row(
@@ -46,21 +48,43 @@ final class OsuPlayerFlags extends StatelessWidget {
           label: countryLabel ?? context.t.profileCountry(code),
         ),
       if (team case final ProfileTeam affiliation)
-        OsuTeamFlag(team: affiliation),
+        OsuTeamFlag(team: affiliation, onTap: onTeamTap),
     ],
   );
 }
 
 final class OsuTeamFlag extends StatelessWidget {
-  const OsuTeamFlag({required this.team, super.key});
+  const OsuTeamFlag({required this.team, this.onTap, super.key});
   final ProfileTeam team;
+  final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) => _OsuFlag(
-    image: team.flagUri == null ? null : NetworkImage(team.flagUri.toString()),
-    label: team.name,
-    icon: Icons.groups_outlined,
-  );
+  Widget build(BuildContext context) {
+    final Widget flag = _OsuFlag(
+      image: team.flagUri == null
+          ? null
+          : NetworkImage(team.flagUri.toString()),
+      label: team.name,
+      icon: Icons.groups_outlined,
+    );
+    if (onTap == null) return flag;
+    return Semantics(
+      button: true,
+      label: team.name,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(UiSpace.xs),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
+          child: Center(
+            widthFactor: 1,
+            heightFactor: 1,
+            child: ExcludeSemantics(child: flag),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 final class _OsuFlag extends StatelessWidget {

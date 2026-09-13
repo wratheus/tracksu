@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/navigation/team_navigation.dart';
+import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localized_count.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/rankings/domain/entry.dart';
@@ -39,19 +41,29 @@ final class _RankingEntryCardState extends State<RankingEntryCard> {
       widget.entry.rankedScore,
       locale: Localizations.localeOf(context).toLanguageTag(),
     );
-    final Widget card = OsuPlayerCard.compact(
-      team: widget.entry.team,
-      username: widget.entry.username,
-      countryCode: widget.entry.country,
-      countryLabel: widget.entry.country,
-      avatar: widget.entry.avatarUri == null
-          ? null
-          : NetworkImage(widget.entry.avatarUri.toString()),
-      performanceLabel: widget.type.sort == 'performance'
-          ? context.t.profilePerformance(widget.entry.pp)
-          : '${context.t.profileRankedScoreLabel}: ${score.compact}',
-      rankLabel: context.t.rankingsPosition(widget.entry.position),
-      onTap: _opening ? null : _open,
+    final Widget card = TeamNavigation(
+      teamId: widget.entry.team?.id,
+      builder: (VoidCallback? openTeam) => OsuRankingRow(
+        team: widget.entry.team,
+        onTeamTap: openTeam,
+        username: widget.entry.username,
+        country: widget.entry.country,
+        avatar: widget.entry.avatarUri == null
+            ? null
+            : NetworkImage(widget.entry.avatarUri.toString()),
+        value: widget.type.sort == 'performance'
+            ? NumberFormat.decimalPatternDigits(
+                locale: context.t.localeName,
+                decimalDigits: 0,
+              ).format(widget.entry.pp)
+            : score.compact,
+        valueLabel: widget.type.sort == 'performance'
+            ? 'PP'
+            : context.t.profileRankedScoreLabel,
+        position:
+            '#${NumberFormat.decimalPattern(context.t.localeName).format(widget.entry.position)}',
+        onTap: _opening ? null : _open,
+      ),
     );
     return widget.type.sort == 'performance'
         ? card

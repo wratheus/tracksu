@@ -108,6 +108,90 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Native osu! team page: teamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Team'**
+  String get teamTitle;
+
+  /// Native osu! team page: teamLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading team…'**
+  String get teamLoading;
+
+  /// Native osu! team page: teamNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Team not found'**
+  String get teamNotFound;
+
+  /// Native osu! team page: teamAccessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'This team is not available to view.'**
+  String get teamAccessDenied;
+
+  /// Native osu! team page: teamFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the team. Try again.'**
+  String get teamFailed;
+
+  /// Native osu! team page: teamOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Recruiting'**
+  String get teamOpen;
+
+  /// Native osu! team page: teamClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Recruitment closed'**
+  String get teamClosed;
+
+  /// Native osu! team page: teamSlots.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No free slots} one{1 free slot} other{{count} free slots}}'**
+  String teamSlots(int count);
+
+  /// Native osu! team page: teamMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 member} other{{count} members}}'**
+  String teamMembers(int count);
+
+  /// Native osu! team page: teamCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created {date}'**
+  String teamCreated(String date);
+
+  /// Native osu! team page: teamDefaultMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Default mode: {mode}'**
+  String teamDefaultMode(String mode);
+
+  /// Native osu! team page: teamDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'About the team'**
+  String get teamDescription;
+
+  /// Native osu! team page: teamLeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Team leader'**
+  String get teamLeader;
+
+  /// Native osu! team page: teamLastVisit.
+  ///
+  /// In en, this message translates to:
+  /// **'Last seen: {date}'**
+  String teamLastVisit(String date);
+
   /// Tooltip and accessibility note for the lazer reference grade gauge. API rank is authoritative; virtual SS band is not a 99% threshold.
   ///
   /// In en, this message translates to:

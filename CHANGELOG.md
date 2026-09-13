@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+### Teams and compact rankings
+
+- Added a native public team page: cover/flag/tag, description, recruitment and
+  free slots, leader/roster with profile navigation, and per-mode API statistics.
+  Team flags in profiles, rankings and spotlights open it inside the retained
+  navigation branch. Website-only management and extra statistics are not faked.
+- Team BBCode uses a bounded adapter and the shared consent-aware content reader.
+  Team data uses session-memory snapshots, cold skeletons and latest-wins refresh;
+  failures retain usable data. Sharing and seven-language labels are included.
+- Rankings and spotlight rows now show a yellow position and a right-aligned
+  performance/score column, with smaller avatars and preserved country/team flags.
+- Settings access no longer depends on the account action's busy state; a shared
+  button is available on the main browsing pages, including loading/error states.
+- Static analysis only; device/layout/navigation verification remains manual.
+
 ### Seamless collections and shared presentation
 
 - Removed manual load-more buttons from news, rankings, profile scores and maps.

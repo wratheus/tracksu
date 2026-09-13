@@ -47,6 +47,15 @@ final class ShareTarget {
   factory ShareTarget.beatmap(int id, String title) =>
       ShareTarget._(Uri.https('osu.ppy.sh', '/beatmaps/${_id(id)}'), title);
 
+  factory ShareTarget.team(int id, ProfileRuleset? mode, String title) =>
+      ShareTarget._(
+        Uri.https(
+          'osu.ppy.sh',
+          '/teams/${_id(id)}${mode == null ? '' : '/${mode.apiValue}'}',
+        ),
+        title,
+      );
+
   factory ShareTarget.medals(int userId, String title) => ShareTarget._(
     Uri.https(
       'osu.ppy.sh',

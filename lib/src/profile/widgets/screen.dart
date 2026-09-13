@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ final class ProfileScreen extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
+        const SettingsButton(),
         BlocBuilder<ProfileBloc, ProfileState>(
           builder: (BuildContext context, ProfileState state) =>
               state is ProfileLoadedState

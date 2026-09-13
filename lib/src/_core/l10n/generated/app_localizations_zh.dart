@@ -10,6 +10,69 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get teamTitle => '战队';
+
+  @override
+  String get teamLoading => '正在加载战队…';
+
+  @override
+  String get teamNotFound => '未找到战队';
+
+  @override
+  String get teamAccessDenied => '无法查看此战队。';
+
+  @override
+  String get teamFailed => '无法加载战队，请重试。';
+
+  @override
+  String get teamOpen => '开放招募';
+
+  @override
+  String get teamClosed => '招募已关闭';
+
+  @override
+  String teamSlots(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '剩余 $count 个名额',
+      zero: '暂无空位',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String teamMembers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 名成员',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String teamCreated(String date) {
+    return '创建于 $date';
+  }
+
+  @override
+  String teamDefaultMode(String mode) {
+    return '主要模式：$mode';
+  }
+
+  @override
+  String get teamDescription => '关于战队';
+
+  @override
+  String get teamLeader => '队长';
+
+  @override
+  String teamLastVisit(String date) {
+    return '上次在线：$date';
+  }
+
+  @override
   String get scoreGaugeReference =>
       'osu!lazer 准确率参考刻度；SS 要求 100%（为便于观察，其区域已放大）。等级取自实际成绩，失误、模组和旧版计分规则也可能影响等级。';
 

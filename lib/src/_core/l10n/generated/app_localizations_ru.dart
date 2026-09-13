@@ -10,6 +10,75 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get teamTitle => 'Команда';
+
+  @override
+  String get teamLoading => 'Загрузка команды…';
+
+  @override
+  String get teamNotFound => 'Команда не найдена';
+
+  @override
+  String get teamAccessDenied => 'Просмотр этой команды недоступен.';
+
+  @override
+  String get teamFailed => 'Не удалось загрузить команду. Попробуйте ещё раз.';
+
+  @override
+  String get teamOpen => 'Набор открыт';
+
+  @override
+  String get teamClosed => 'Набор закрыт';
+
+  @override
+  String teamSlots(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count свободного места',
+      many: '$count свободных мест',
+      few: '$count свободных места',
+      one: '$count свободное место',
+      zero: 'Нет свободных мест',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String teamMembers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count участника',
+      many: '$count участников',
+      few: '$count участника',
+      one: '$count участник',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String teamCreated(String date) {
+    return 'Создана $date';
+  }
+
+  @override
+  String teamDefaultMode(String mode) {
+    return 'Основной режим: $mode';
+  }
+
+  @override
+  String get teamDescription => 'О команде';
+
+  @override
+  String get teamLeader => 'Лидер команды';
+
+  @override
+  String teamLastVisit(String date) {
+    return 'Был в сети: $date';
+  }
+
+  @override
   String get scoreGaugeReference =>
       'Ориентир точности osu!lazer; SS требует 100% (его сектор увеличен для видимости). Грейд взят из результата: промахи, моды и старые правила подсчёта тоже могут влиять на него.';
 

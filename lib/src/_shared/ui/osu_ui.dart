@@ -1,5 +1,6 @@
 export 'osu_badges.dart';
 export 'player_card.dart';
+export 'ranking_row.dart';
 export 'affiliation_tile.dart';
 export 'beatmap_card.dart';
 export 'play_card.dart';

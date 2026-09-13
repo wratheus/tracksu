@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/preferences/sign_out_action.dart';
+import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu/src/profile/data/osu_profile_remote_source.dart';
 import 'package:tracksu/src/profile/data/profile_repository_impl.dart';
@@ -106,15 +107,7 @@ final class _AccountActionsState extends State<AccountActions> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        UiIconButton.standard(
-          tooltip: context.t.settingsTitle,
-          icon: Icons.settings_outlined,
-          onPressed: _busy
-              ? null
-              : () => _run(
-                  () => DepsScope.of(context).appRouter.openSettings(context),
-                ),
-        ),
+        const SettingsButton(),
         PopupMenuButton<_AccountSelection>(
           enabled: !_busy,
           tooltip: context.t.account,

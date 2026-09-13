@@ -1,5 +1,6 @@
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/rankings/domain/rankings_query.dart';
@@ -37,6 +38,7 @@ final class RankingsMain extends StatelessWidget {
             appBar: AppBar(
               title: UiText.titleLarge(context.t.rankingsTitle),
               actions: <Widget>[
+                const SettingsButton(),
                 BlocBuilder<RankingsBloc, RankingsState>(
                   builder: (BuildContext context, RankingsState state) =>
                       ShareButton.icon(
