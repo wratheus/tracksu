@@ -162,10 +162,7 @@ final class _ContentFrameState extends State<ContentFrame>
         ),
         child: switch (block) {
           ContentAudio(:final track) when widget.audioController != null =>
-            AudioTrackPlayer(
-              track: track,
-              controller: widget.audioController!,
-            ),
+            AudioTrackPlayer(track: track, controller: widget.audioController!),
           ContentText() => _text(context, block),
           ContentImage() =>
             widget.mediaPermission?.allowed == true

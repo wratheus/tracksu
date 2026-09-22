@@ -1,6 +1,6 @@
 # P23 — обратная связь 10 сентября
 
-2026-09-10 · in_progress · baseline `2722b7a`, чистый worktree на старте.
+2026-09-10 · awaiting_manual_check (обновлено 2026-09-22) · baseline `2722b7a`.
 
 ## Текущий срез
 
@@ -43,9 +43,11 @@
   Реализовано; ручная приёмка открыта. Cache остаётся session-memory.
 - [ ] Disk cache/офлайн после перезапуска и измерение размера — отдельно; сейчас
   прямо раскрываем в настройках memory-only политику, не обещаем offline.
-- [ ] Общий аудиоплеер: preview карты и поддерживаемые audio sources новостей;
+- [x] Общий аудиоплеер: preview карты и поддерживаемые audio sources новостей;
   только явный Play, один поток, lifecycle/audio focus, loading/error/retry,
-  проверка URL/форматов и внешнего media consent. Никаких произвольных iframe/JS.
+  проверка URL/форматов и notice перед явным Play. Никаких произвольных iframe/JS.
+  [P26](P26-shared-audio.md): first-party MP3, не расширяет image permission.
+  Реализовано; ручная приёмка звука/вёрстки открыта.
 - [ ] Liquid Glass — только позже по отдельному визуальному решению.
 - [ ] Dynamic Island / Live Activities — future plan, без реализации в этом срезе.
 
@@ -120,6 +122,6 @@ Scoped `fvm dart format`, `fvm flutter gen-l10n` (семь локалей, untra
 Review: cache keys/identity revision, только success writes, refresh failure,
 clear during IO, отмена DNS/TCP/TLS/decode, bounds/cache eviction, sheet extent,
 mounted/ownership. Анализатор — без замечаний. Тесты/APK/catalog не запускались.
-Результат реализации — awaiting_manual_check; вся P23 остаётся in_progress
-из-за отдельного audio этапа. Collection-cache coverage закрыто реализацией P25;
+Результат реализации — awaiting_manual_check. Audio реализован в P26,
+collection-cache coverage — в P25; текущий согласованный scope P23 закрыт кодом.
 disk/offline, Liquid Glass и Dynamic Island по-прежнему отдельный future scope.

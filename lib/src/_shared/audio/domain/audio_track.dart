@@ -18,13 +18,16 @@ final class AudioTrack {
       return null;
     }
     final List<String> parts = uri.pathSegments;
-    if (parts.any((String part) =>
-        part == '..' || part == '.' || part.contains('\\'))) {
+    if (parts.any(
+      (String part) => part == '..' || part == '.' || part.contains('\\'),
+    )) {
       return null;
     }
-    final bool preview = uri.host == 'b.ppy.sh' &&
+    final bool preview =
+        uri.host == 'b.ppy.sh' &&
         RegExp(r'^/preview/[1-9][0-9]*\.mp3$').hasMatch(uri.path);
-    final bool artist = uri.host == 'assets.ppy.sh' &&
+    final bool artist =
+        uri.host == 'assets.ppy.sh' &&
         parts.length >= 3 &&
         parts.first == 'artists' &&
         RegExp(r'^[1-9][0-9]*$').hasMatch(parts[1]) &&

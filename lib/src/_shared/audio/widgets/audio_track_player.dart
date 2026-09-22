@@ -31,7 +31,8 @@ final class _AudioTrackPlayerState extends State<AudioTrackPlayer>
   bool get wantKeepAlive => _keepAlive;
 
   void _playbackChanged() {
-    final bool keepAlive = widget.controller.owns(_owner) &&
+    final bool keepAlive =
+        widget.controller.owns(_owner) &&
         (widget.controller.phase == AudioPlaybackPhase.playing ||
             widget.controller.phase == AudioPlaybackPhase.loading ||
             widget.controller.phase == AudioPlaybackPhase.paused);
@@ -46,14 +47,16 @@ final class _AudioTrackPlayerState extends State<AudioTrackPlayer>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     widget.controller.addListener(_playbackChanged);
-    _foreground = WidgetsBinding.instance.lifecycleState == null ||
+    _foreground =
+        WidgetsBinding.instance.lifecycleState == null ||
         WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _visible = TickerMode.valuesOf(context).enabled &&
+    _visible =
+        TickerMode.valuesOf(context).enabled &&
         (ModalRoute.isCurrentOf(context) ?? true);
     if (!_visible) widget.controller.release(_owner);
   }
@@ -95,69 +98,81 @@ final class _AudioTrackPlayerState extends State<AudioTrackPlayer>
   Widget build(BuildContext context) {
     super.build(context);
     return ListenableBuilder(
-    listenable: widget.controller,
-    builder: (BuildContext context, _) {
-      final controller = widget.controller;
-      final bool owned = controller.owns(_owner);
-      final AudioPlaybackPhase phase = owned
-          ? controller.phase
-          : AudioPlaybackPhase.idle;
-      final Duration position = owned ? controller.position : Duration.zero;
-      final Duration? duration = owned ? controller.duration : null;
-      final bool canPause = phase == AudioPlaybackPhase.playing ||
-          phase == AudioPlaybackPhase.loading;
-      final bool canSeek = duration != null && duration > Duration.zero &&
-          (phase == AudioPlaybackPhase.playing ||
-              phase == AudioPlaybackPhase.paused);
-      final String action = switch (phase) {
-        AudioPlaybackPhase.loading => context.t.audioCancel,
-        AudioPlaybackPhase.playing => context.t.audioPause,
-        AudioPlaybackPhase.completed => context.t.audioReplay,
-        AudioPlaybackPhase.failed => context.t.retry,
-        _ => context.t.audioPlay,
-      };
-      return UiAudioPlayer(
-        title: widget.track.title.isEmpty
-            ? context.t.audioPreview
-            : widget.track.title,
-        status: switch (phase) {
-          AudioPlaybackPhase.loading => context.t.audioLoading,
-          AudioPlaybackPhase.playing => context.t.audioPlaying,
-          AudioPlaybackPhase.paused => context.t.audioPaused,
-          AudioPlaybackPhase.completed => context.t.audioCompleted,
-          AudioPlaybackPhase.failed => context.t.audioFailed,
-          AudioPlaybackPhase.idle => context.t.audioConnectionNotice,
-        },
-        actionLabel: action,
-        actionIcon: switch (phase) {
-          AudioPlaybackPhase.loading => Icons.close,
-          AudioPlaybackPhase.playing => Icons.pause_rounded,
-          AudioPlaybackPhase.completed => Icons.replay_rounded,
-          AudioPlaybackPhase.failed => Icons.refresh_rounded,
-          _ => Icons.play_arrow_rounded,
-        },
-        positionLabel: _time(position),
-        durationLabel: duration == null ? '—:—' : _time(duration),
-        seekLabel: context.t.audioSeek,
-        progress: duration != null && duration > Duration.zero
-            ? position.inMilliseconds / duration.inMilliseconds
-            : 0,
-        loading: phase == AudioPlaybackPhase.loading,
-        failed: phase == AudioPlaybackPhase.failed,
-        onAction: !_visible || !_foreground ? null : () {
-          if (canPause) {
-            controller.pause(_owner);
-          } else {
-            unawaited(controller.play(_owner, widget.track));
-          }
-        },
-        onSeek: !canSeek || !_visible || !_foreground ? null : (double value) {
-          unawaited(controller.seek(_owner, Duration(
-            milliseconds: (duration.inMilliseconds * value).round(),
-          )));
-        },
-      );
-    },
-  );
+      listenable: widget.controller,
+      builder: (BuildContext context, _) {
+        final controller = widget.controller;
+        final bool owned = controller.owns(_owner);
+        final AudioPlaybackPhase phase = owned
+            ? controller.phase
+            : AudioPlaybackPhase.idle;
+        final Duration position = owned ? controller.position : Duration.zero;
+        final Duration? duration = owned ? controller.duration : null;
+        final bool canPause =
+            phase == AudioPlaybackPhase.playing ||
+            phase == AudioPlaybackPhase.loading;
+        final bool canSeek =
+            duration != null &&
+            duration > Duration.zero &&
+            (phase == AudioPlaybackPhase.playing ||
+                phase == AudioPlaybackPhase.paused);
+        final String action = switch (phase) {
+          AudioPlaybackPhase.loading => context.t.audioCancel,
+          AudioPlaybackPhase.playing => context.t.audioPause,
+          AudioPlaybackPhase.completed => context.t.audioReplay,
+          AudioPlaybackPhase.failed => context.t.retry,
+          _ => context.t.audioPlay,
+        };
+        return UiAudioPlayer(
+          title: widget.track.title.isEmpty
+              ? context.t.audioPreview
+              : widget.track.title,
+          status: switch (phase) {
+            AudioPlaybackPhase.loading => context.t.audioLoading,
+            AudioPlaybackPhase.playing => context.t.audioPlaying,
+            AudioPlaybackPhase.paused => context.t.audioPaused,
+            AudioPlaybackPhase.completed => context.t.audioCompleted,
+            AudioPlaybackPhase.failed => context.t.audioFailed,
+            AudioPlaybackPhase.idle => context.t.audioConnectionNotice,
+          },
+          actionLabel: action,
+          actionIcon: switch (phase) {
+            AudioPlaybackPhase.loading => Icons.close,
+            AudioPlaybackPhase.playing => Icons.pause_rounded,
+            AudioPlaybackPhase.completed => Icons.replay_rounded,
+            AudioPlaybackPhase.failed => Icons.refresh_rounded,
+            _ => Icons.play_arrow_rounded,
+          },
+          positionLabel: _time(position),
+          durationLabel: duration == null ? '—:—' : _time(duration),
+          seekLabel: context.t.audioSeek,
+          progress: duration != null && duration > Duration.zero
+              ? position.inMilliseconds / duration.inMilliseconds
+              : 0,
+          loading: phase == AudioPlaybackPhase.loading,
+          failed: phase == AudioPlaybackPhase.failed,
+          onAction: !_visible || !_foreground
+              ? null
+              : () {
+                  if (canPause) {
+                    controller.pause(_owner);
+                  } else {
+                    unawaited(controller.play(_owner, widget.track));
+                  }
+                },
+          onSeek: !canSeek || !_visible || !_foreground
+              ? null
+              : (double value) {
+                  unawaited(
+                    controller.seek(
+                      _owner,
+                      Duration(
+                        milliseconds: (duration.inMilliseconds * value).round(),
+                      ),
+                    ),
+                  );
+                },
+        );
+      },
+    );
   }
 }

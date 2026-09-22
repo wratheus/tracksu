@@ -21,6 +21,16 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 ## Features
 
+### Audio previews
+
+- Beatmap pages use the API's preview URL; supported osu!-hosted MP3 audio blocks
+  in news use the same inline player with pause, seek, replay and retry.
+- Only explicit Play connects to audio servers, with an IP/data-use notice.
+  One track plays at a time; route changes stop it, interruptions/background pause
+  it without automatic resume. Scrolling a news article keeps its active player.
+- No arbitrary embedded players, autoplay, audio downloads or background service.
+  Image permission remains separate. Device audio verification is still pending.
+
 ### Teams and rankings
 
 - Compact ranking rows show the position, avatar/country/team and a separate

@@ -103,12 +103,16 @@ final class BeatmapScreen extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(
-                            UiSpace.lg, 0, UiSpace.lg, UiSpace.lg,
+                            UiSpace.lg,
+                            0,
+                            UiSpace.lg,
+                            UiSpace.lg,
                           ),
                           child: AudioTrackPlayer(
                             key: ValueKey<Uri>(preview.uri),
                             track: preview,
-                            controller: DepsScope.of(context).audioPlaybackController,
+                            controller: DepsScope.of(context)
+                                .audioPlaybackController,
                           ),
                         ),
                       ),

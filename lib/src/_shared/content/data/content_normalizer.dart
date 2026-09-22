@@ -167,7 +167,9 @@ final class ContentNormalizer {
         );
       } else if (node.localName == 'audio') {
         flush();
-        if (++_audio > 32) throw const FormatException('Too many audio sources.');
+        if (++_audio > 32) {
+          throw const FormatException('Too many audio sources.');
+        }
         AudioTrack? track;
         for (final String source in <String>[
           if (node.attributes['src'] case final String src) src,
@@ -176,13 +178,17 @@ final class ContentNormalizer {
               child.attributes['src']!,
         ]) {
           track = AudioTrack.resolve(
-            source, base: _base, title: node.attributes['title'] ?? '',
+            source,
+            base: _base,
+            title: node.attributes['title'] ?? '',
           );
           if (track != null) break;
         }
-        result.add(track == null
-            ? ContentUnsupported(++_id)
-            : ContentAudio(++_id, track));
+        result.add(
+          track == null
+              ? ContentUnsupported(++_id)
+              : ContentAudio(++_id, track),
+        );
       } else if (_embeds.contains(node.localName)) {
         flush();
         result.add(ContentUnsupported(++_id));

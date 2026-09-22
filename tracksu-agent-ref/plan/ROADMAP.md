@@ -10,15 +10,19 @@
 [P25: cache оставшихся коллекций](work/P25-collection-cache-coverage.md) реализован:
 медали, каталог/детали spotlights, результаты карты; ошибка refresh сохраняет
 данные, cold load использует общий skeleton. Также исправлен sliver cold-load
-команды. Следующий срез P23 — аудио, оно ещё не реализовано.
+команды. [P26: общий аудиоплеер](work/P26-shared-audio.md) реализован:
+preview карты и поддержанные MP3-вставки новостей, explicit Play, single owner,
+pause/seek/retry, lifecycle/focus и UI kit. Ожидает ручной проверки звука/вёрстки.
 
 **Приоритет — [P23, обратная связь 10 сентября](work/P23-september-ui-feedback.md).**
 Исправления media TLS/keyboard/chips/grade gauge/cover sheet/пустых данных,
 memory cache для основных разделов и коллекций scores/maps, очистка в настройках
 и скелетоны реализованы; ручная приёмка открыта. Дополнения 11 сентября:
 автопагинация четырёх списков, общий центрированный loader, парные флаги
-страны/команды и pubspec_generator реализованы. После этого — общий audio
-preview для карт и новостей. Collection cache/skeleton coverage завершено в P25.
+страны/команды и pubspec_generator реализованы. Общий audio preview реализован
+в P26; collection cache/skeleton coverage — в P25. Следом — ручная обратная связь
+по готовым срезам и release-инвентаризация ассетов/лицензий P01.2; не расширять
+это автоматически до disk cache, фонового плеера или новых backend-фич.
 Liquid Glass и Dynamic Island — только future, не текущая работа.
 
 **P07 — поэкранная доработка**, [активный контракт](work/P07-product-integration.md).
@@ -101,7 +105,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | 7 · [P07 — визуальная приёмка](work/P07-ui-foundation.md) | Оценить уже реализованные предметные карточки/графики в каталоге, состояния и assets. Уточнить палитру/шрифты/иконки перед переносом страниц; корректировки относительно Stitch разрешены | backlog |
 | 8 · [P21 — настройки](work/P21-settings-product.md) / [P22 — About](work/P22-about-and-licenses.md) | Аккаунт/media, язык/тема, sign-out, About/build info/лицензии реализованы. Ручная приёмка; privacy/terms после P01.3, вынос l10n отдельно | awaiting_manual_check |
 | 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade/UI binding; отдельное согласие до сбора, сохранение выбора и отзыв в настройках по P01.3; выбрать Firebase environment | backlog |
-| 10 · [P14](DETAILS.md#features) | Audio preview после проверки прав: один player и lifecycle/audio focus либо явно отложить | backlog |
+| 10 · [P14 / P26](work/P26-shared-audio.md) | Общий foreground MP3 preview карт/новостей, single owner, focus/lifecycle и explicit Play реализованы. Ручная проверка звука; права/условия распространения — release gate | awaiting_manual_check |
 | [P16](work/P16-legacy-cleanup.md) | Мёртвый граф/старые dependencies/pages/Palette удалены. Дальше cleanup по фактическим consumers в каждом срезе; ручной OAuth smoke | awaiting_manual_check |
 | До выпуска · [P08](DETAILS.md#p08) | Полный ручной auth/session flow, решение об очистке/миграции старого storage, восстановление после ошибок; новый guest token не пользовательская сессия | backlog |
 | До выпуска · [P02 + P06](DETAILS.md#p02) | Scripts/CI format-analyze-build без тестов; analyze всего lib/packages чистый после P16. Проверить оставшиеся plugins; общий error reporting/lifetime по фактическим consumers | backlog |
@@ -115,8 +119,8 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 
 Следом — поэкранные срезы из активного контракта с ручной оценкой пользователя.
 Cleanup выполняется для доказанно мёртвого кода/assets. Удаление legacy не означает,
-что все его исторические возможности реализованы: расширенная статистика,
-about/medals/audio и прочие отсутствующие сценарии остаются отдельными решениями.
+что все его исторические возможности реализованы. About/medals/audio уже
+подключены отдельными срезами; оставшиеся пробелы сверяются с API и ручной приёмкой.
 
 Старые user_page/user_tab_page, beatmap_page, rankings_page/rankings_tab_page,
 last_news_page, Home/desktop/drawer/error и зависимые модели/Cubit удалены

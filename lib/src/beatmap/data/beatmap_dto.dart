@@ -55,7 +55,8 @@ final class BeatmapDetailsDto {
         preview: AudioTrack.resolve(
           reader.optionalString('preview_url') ?? '',
           base: Uri.https('osu.ppy.sh'),
-          title: '${reader.requiredString('artist')} — ${reader.requiredString('title')}',
+          title:
+              '${reader.requiredString('artist')} — ${reader.requiredString('title')}',
         ),
         creator: reader.requiredString('creator'),
         difficulties: difficulties,

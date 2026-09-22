@@ -18,6 +18,7 @@ final class AudioPlaybackController extends ChangeNotifier {
   Future<void>? _configuration;
   Future<void> _retiring = Future<void>.value();
   Future<bool>? _activation;
+  Timer? _loadingTimeout;
   final List<StreamSubscription<Object?>> _subscriptions = [];
   final List<StreamSubscription<Object?>> _sessionSubscriptions = [];
   bool _configured = false;
@@ -51,9 +52,14 @@ final class AudioPlaybackController extends ChangeNotifier {
 
   Future<void> play(Object owner, AudioTrack track) async {
     if (_disposed) return;
-    if (owns(owner) && _phase == AudioPlaybackPhase.loading) return;
-    final Duration start = owns(owner) && _uri == track.uri &&
-            _phase == AudioPlaybackPhase.paused
+    if (owns(owner) &&
+        _uri == track.uri &&
+        (_phase == AudioPlaybackPhase.loading ||
+            _phase == AudioPlaybackPhase.playing)) {
+      return;
+    }
+    final Duration start =
+        owns(owner) && _uri == track.uri && _phase == AudioPlaybackPhase.paused
         ? _position
         : Duration.zero;
     _retire();
@@ -63,6 +69,7 @@ final class AudioPlaybackController extends ChangeNotifier {
     _position = start;
     _duration = null;
     _phase = AudioPlaybackPhase.loading;
+    _watchLoading(generation);
     _changed();
     try {
       await _retiring;
@@ -86,21 +93,28 @@ final class AudioPlaybackController extends ChangeNotifier {
             case ProcessingState.loading:
             case ProcessingState.buffering:
               _phase = AudioPlaybackPhase.loading;
+              _watchLoading(generation);
             case ProcessingState.ready:
-              if (state.playing) _phase = AudioPlaybackPhase.playing;
+              if (state.playing) {
+                _phase = AudioPlaybackPhase.playing;
+                _loadingTimeout?.cancel();
+                _loadingTimeout = null;
+              }
             case ProcessingState.idle:
               break;
           }
           _changed();
         }),
-        player.createPositionStream(
-          minPeriod: const Duration(milliseconds: 250),
-          maxPeriod: const Duration(milliseconds: 500),
-        ).listen((Duration value) {
-          if (!_current(generation)) return;
-          _position = value;
-          _changed();
-        }),
+        player
+            .createPositionStream(
+              minPeriod: const Duration(milliseconds: 250),
+              maxPeriod: const Duration(milliseconds: 500),
+            )
+            .listen((Duration value) {
+              if (!_current(generation)) return;
+              _position = value;
+              _changed();
+            }),
         player.durationStream.listen((Duration? value) {
           if (!_current(generation)) return;
           _duration = value;
@@ -110,10 +124,9 @@ final class AudioPlaybackController extends ChangeNotifier {
           _fail(generation);
         }),
       ]);
-      await player.setUrl(
-        track.uri.toString(),
-        initialPosition: start,
-      ).timeout(const Duration(seconds: 25));
+      await player
+          .setUrl(track.uri.toString(), initialPosition: start)
+          .timeout(const Duration(seconds: 25));
       if (!_current(generation)) return;
       final Future<bool> activation = _session!.setActive(true);
       _activation = activation;
@@ -126,19 +139,19 @@ final class AudioPlaybackController extends ChangeNotifier {
       }
       // play's future completes on pause/end, not on start.
       unawaited(_play(player, generation));
-    } on Object {
+    } on Object catch (_, stackTrace) {
       // Plugin failures may contain source URLs. Surface a localized state,
       // never log raw platform exceptions or feed them to OAuth error handling.
       if (!_configured) _configuration = null;
-      _fail(generation);
+      _fail(generation, stackTrace: stackTrace);
     }
   }
 
   Future<void> _play(AudioPlayer player, int generation) async {
     try {
       await player.play();
-    } on Object {
-      _fail(generation);
+    } on Object catch (_, stackTrace) {
+      _fail(generation, stackTrace: stackTrace);
     }
   }
 
@@ -156,8 +169,8 @@ final class AudioPlaybackController extends ChangeNotifier {
     _changed();
     try {
       await _player?.seek(_position);
-    } on Object {
-      _fail(generation);
+    } on Object catch (_, stackTrace) {
+      _fail(generation, stackTrace: stackTrace);
     }
   }
 
@@ -190,15 +203,32 @@ final class AudioPlaybackController extends ChangeNotifier {
 
   bool _current(int generation) => !_disposed && generation == _generation;
 
-  void _fail(int generation) {
+  void _watchLoading(int generation) {
+    _loadingTimeout ??= Timer(const Duration(seconds: 25), () {
+      _fail(generation);
+    });
+  }
+
+  void _fail(int generation, {StackTrace? stackTrace}) {
     if (!_current(generation)) return;
     _retire();
     _phase = AudioPlaybackPhase.failed;
+    if (stackTrace != null) {
+      FlutterError.reportError(
+        FlutterErrorDetails(
+          exception: StateError('Audio playback failed.'),
+          stack: stackTrace,
+          library: 'Tracksu audio',
+        ),
+      );
+    }
     _changed();
   }
 
   void _retire() {
     _generation++;
+    _loadingTimeout?.cancel();
+    _loadingTimeout = null;
     final AudioPlayer? player = _player;
     _player = null;
     final Future<bool>? activation = _activation;
@@ -210,7 +240,11 @@ final class AudioPlaybackController extends ChangeNotifier {
     final Future<void> previous = _retiring;
     _retiring = () async {
       await previous;
-      await Future.wait(cancellations);
+      try {
+        await Future.wait(cancellations);
+      } on Object {
+        // Teardown must still dispose the decoder if a subscription fails.
+      }
       try {
         await player?.dispose();
       } on Object {

@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Shared foreground audio
+
+- Added an application-owned single-track player and reusable UiAudioPlayer:
+  explicit play, pause/seek/replay, cancelable loading, timeouts and retry.
+- Beatmaps consume preview_url; the rich reader extracts supported first-party
+  MP3 audio/source blocks without forwarding media HTML to the renderer.
+- Route/branch ownership, interruption/background handling and lazy-list keep-alive
+  prevent overlapping tracks and accidental auto-resume. No background service.
+- Seven-language Play disclosure is independent of external-image permission.
+  Existing just_audio/audio_session versions promoted to direct dependencies.
+- Verification is static only; device playback and layout acceptance remain open.
+
 ### Collection cache coverage
 
 - Extended the bounded session page cache to medals, spotlight catalog/details

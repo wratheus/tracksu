@@ -206,6 +206,13 @@ if (!context.mounted || locale == null) return;
 
 ## Media, statistics and product compositions
 
+`UiAudioPlayer` is a controlled inline audio panel. The host supplies title/status,
+translated action/seek/time labels, progress and callbacks. It owns only transient
+slider scrubbing; seek dispatches on gesture end. Loading remains cancelable and
+respects reduced motion. Network, focus, consent, plugin state and route ownership
+stay in the app's shared audio controller/view, not the UI package. A network-free
+product catalog example covers the paused/seekable presentation.
+
 The product catalog now starts with actual reusable compositions, not only
 Material controls. All examples use explicit preview values and existing local
 Tracksu artwork; they do not fetch player data or represent real statistics.
