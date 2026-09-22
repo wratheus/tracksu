@@ -54,7 +54,9 @@ final class TeamScreen extends StatelessWidget {
                     child: Center(child: _Failure(failure)),
                   )
                 else
-                  UiPageSkeleton.profile(label: context.t.teamLoading)
+                  SliverToBoxAdapter(
+                    child: UiPageSkeleton.profile(label: context.t.teamLoading),
+                  )
               else ...<Widget>[
                 if (busy)
                   const SliverToBoxAdapter(child: LinearProgressIndicator()),

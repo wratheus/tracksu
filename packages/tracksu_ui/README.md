@@ -338,6 +338,13 @@ pair. Use `UiNotice` alongside existing content for refresh failures, and
 `UiLoading` at pagination footers; do not replace a loaded list with full-page
 loading. Skeletons are static, and the parent announces loading once.
 
+`UiPageSkeleton.profile/list` are **box widgets**, not slivers. Inside
+`CustomScrollView.slivers`, always use `SliverToBoxAdapter(child:
+UiPageSkeleton.list(label: localizedLoading))`. Adding one directly as a sliver
+can fail at runtime even when static analysis passes. Use skeletons only when
+there is no usable snapshot for the exact query; an empty successful collection
+is still a snapshot, not a loading state.
+
 ### Automatic pagination
 
 Append `UiSliverAutoLoad(pageKey: nextCursor, label: localizedLoading,

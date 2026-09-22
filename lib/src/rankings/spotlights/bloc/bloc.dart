@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/rankings/domain/rankings_repository.dart';
 import 'package:tracksu/src/rankings/spotlights/domain/spotlight.dart';
@@ -7,13 +9,18 @@ part 'event.dart';
 part 'state.dart';
 
 final class SpotlightsBloc extends Bloc<SpotlightsEvent, SpotlightsState> {
-  factory SpotlightsBloc({required SpotlightsRepository repository}) =>
-      SpotlightsBloc._(repository);
-  SpotlightsBloc._(this._repository) : super(const SpotlightsInitialState()) {
+  factory SpotlightsBloc({
+    required SpotlightsRepository repository,
+    required PageCache cache,
+  }) => SpotlightsBloc._(repository, cache);
+  SpotlightsBloc._(this._repository, this._cache)
+    : super(const SpotlightsInitialState()) {
     // Concurrent latest-wins selection; repeated refresh is ignored while busy.
-    on<SpotlightsEvent>(_onEvent);
+    on<SpotlightsEvent>(_onEvent, transformer: concurrent());
   }
   final SpotlightsRepository _repository;
+  final PageCache _cache;
+  static const String _catalogKey = 'spotlights-catalog';
   int _generation = 0;
 
   Future<void> _onEvent(
@@ -21,7 +28,7 @@ final class SpotlightsBloc extends Bloc<SpotlightsEvent, SpotlightsState> {
     Emitter<SpotlightsState> emit,
   ) async {
     List<Spotlight>? catalog;
-    var ruleset = ProfileRuleset.osu;
+    ProfileRuleset ruleset = ProfileRuleset.osu;
     int? id;
     SpotlightDetails? previous;
     final SpotlightsState current = state;
@@ -59,17 +66,48 @@ final class SpotlightsBloc extends Bloc<SpotlightsEvent, SpotlightsState> {
     if (event is SpotlightSelected) id = event.id;
     if (event is SpotlightRulesetSelected) ruleset = event.ruleset;
     final int generation = ++_generation;
+    final int cacheRevision = _cache.revision;
+    // Reopen revalidates the catalog; a selected chart refresh only reloads
+    // its details. Empty catalogs still retry discovery of new charts.
+    final bool refreshCatalog = catalog == null;
+    if (catalog == null) {
+      catalog = _cache.read<List<Spotlight>>(_catalogKey);
+      id = catalog?.firstOrNull?.id;
+    }
+    Object detailsKey(int value) => ('spotlight-details', value, ruleset);
+    previous ??= id == null
+        ? null
+        : _cache.read<SpotlightDetails>(detailsKey(id));
     bool stale() => generation != _generation || emit.isDone || isClosed;
+    emit(
+      catalog == null
+          ? const SpotlightsLoadingState()
+          : SpotlightsLoadedState(
+              catalog: catalog,
+              ruleset: ruleset,
+              selectedId: id,
+              details: previous,
+              loading: refreshCatalog || id != null,
+            ),
+    );
     try {
-      if (catalog == null) {
-        emit(const SpotlightsLoadingState());
-        catalog = await _repository.catalog();
+      if (refreshCatalog) {
+        final List<Spotlight> result = List<Spotlight>.unmodifiable(
+          await _repository.catalog(),
+        );
         if (stale()) return;
-        id = catalog.isEmpty ? null : catalog.first.id;
+        _cache.write(_catalogKey, result, revision: cacheRevision);
+        catalog = result;
+        if (!catalog.any((Spotlight item) => item.id == id)) {
+          id = catalog.firstOrNull?.id;
+          previous = id == null
+              ? null
+              : _cache.read<SpotlightDetails>(detailsKey(id));
+        }
       }
       emit(
         SpotlightsLoadedState(
-          catalog: catalog,
+          catalog: catalog!,
           ruleset: ruleset,
           selectedId: id,
           details: previous,
@@ -81,6 +119,7 @@ final class SpotlightsBloc extends Bloc<SpotlightsEvent, SpotlightsState> {
         SpotlightQuery(id: id, ruleset: ruleset),
       );
       if (stale()) return;
+      _cache.write(detailsKey(id), details, revision: cacheRevision);
       emit(
         SpotlightsLoadedState(
           catalog: catalog,

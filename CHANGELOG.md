@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Collection cache coverage
+
+- Extended the bounded session page cache to medals, spotlight catalog/details
+  and beatmap leaderboards. Keys distinguish player, chart/mode and difficulty/
+  mode/legacy variant; only successful responses replace immutable snapshots.
+- Reopening shows cached content while revalidating, cold loads use shared static
+  skeletons, and failed refreshes retain content with Retry. Cache clearing and
+  account-identity invalidation use the existing revision guards.
+- Added explicit droppable/concurrent BLoC policies and complete leaderboard
+  provider keys; rapid selections cannot write obsolete spotlight responses.
+- Fixed the team cold-load box/sliver mismatch and misleading failure text while
+  a team ruleset change is still in progress. Audio remains planned.
+
 ### Teams and compact rankings
 
 - Added a native public team page: cover/flag/tag, description, recruitment and

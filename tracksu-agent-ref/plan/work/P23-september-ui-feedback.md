@@ -38,8 +38,9 @@
 ## Следующие связанные этапы, не объявлять реализованными
 
 - [x] Расширить page snapshots/skeletons на scores/коллекции карт (11 сентября).
-- [ ] Расширить page snapshots/skeletons на медали/spotlights
-  и таблицу результатов карты. Их текущие route states сохраняются пока route жив.
+- [x] Расширить page snapshots/skeletons на медали/spotlights
+  и таблицу результатов карты — [P25, 22 сентября](P25-collection-cache-coverage.md).
+  Реализовано; ручная приёмка открыта. Cache остаётся session-memory.
 - [ ] Disk cache/офлайн после перезапуска и измерение размера — отдельно; сейчас
   прямо раскрываем в настройках memory-only политику, не обещаем offline.
 - [ ] Общий аудиоплеер: preview карты и поддерживаемые audio sources новостей;
@@ -120,4 +121,5 @@ Review: cache keys/identity revision, только success writes, refresh failu
 clear during IO, отмена DNS/TCP/TLS/decode, bounds/cache eviction, sheet extent,
 mounted/ownership. Анализатор — без замечаний. Тесты/APK/catalog не запускались.
 Результат реализации — awaiting_manual_check; вся P23 остаётся in_progress
-из-за отдельного audio этапа и расширения cache coverage.
+из-за отдельного audio этапа. Collection-cache coverage закрыто реализацией P25;
+disk/offline, Liquid Glass и Dynamic Island по-прежнему отдельный future scope.

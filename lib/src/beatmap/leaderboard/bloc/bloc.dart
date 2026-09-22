@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/beatmap/domain/repository.dart';
 import 'package:tracksu/src/beatmap/leaderboard/domain/repository.dart';
 
@@ -8,15 +10,17 @@ part 'state.dart';
 final class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
   factory LeaderboardBloc({
     required LeaderboardRepository repository,
+    required PageCache cache,
     required LeaderboardQuery query,
-  }) => LeaderboardBloc._(repository, query);
+  }) => LeaderboardBloc._(repository, cache, query);
 
-  LeaderboardBloc._(this._repository, this._query)
+  LeaderboardBloc._(this._repository, this._cache, this._query)
     : super(const LeaderboardLoadingState()) {
     // One fixed difficulty per scope; ignore refresh repeats while busy.
-    on<LeaderboardEvent>(_onEvent);
+    on<LeaderboardEvent>(_onEvent, transformer: droppable());
   }
   final LeaderboardRepository _repository;
+  final PageCache _cache;
   final LeaderboardQuery _query;
   bool _busy = false;
 
@@ -30,9 +34,21 @@ final class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
         break;
     }
     _busy = true;
+    final Object cacheKey = (
+      'beatmap-leaderboard',
+      _query.beatmapId,
+      _query.ruleset,
+      _query.legacy,
+    );
+    final int cacheRevision = _cache.revision;
+    final List<LeaderboardEntry>? cached = _cache.read<List<LeaderboardEntry>>(
+      cacheKey,
+    );
     final LeaderboardLoadedState? previous = state is LeaderboardLoadedState
         ? state as LeaderboardLoadedState
-        : null;
+        : cached == null
+        ? null
+        : LeaderboardLoadedState(cached);
     emit(
       previous == null
           ? const LeaderboardLoadingState()
@@ -41,7 +57,9 @@ final class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
     try {
       final List<LeaderboardEntry> entries = await _repository.load(_query);
       if (isClosed || emit.isDone) return;
-      emit(LeaderboardLoadedState(entries));
+      final LeaderboardLoadedState loaded = LeaderboardLoadedState(entries);
+      _cache.write(cacheKey, loaded.entries, revision: cacheRevision);
+      emit(loaded);
     } on Object catch (error, stackTrace) {
       if (isClosed || emit.isDone) return;
       final BeatmapFailureKind kind = error is BeatmapFailure

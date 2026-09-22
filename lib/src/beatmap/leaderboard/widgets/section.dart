@@ -33,8 +33,8 @@ final class LeaderboardSection extends StatelessWidget {
             const LeaderboardLoadRequested(),
           );
           return switch (state) {
-            LeaderboardLoadingState() => const SliverToBoxAdapter(
-              child: LinearProgressIndicator(),
+            LeaderboardLoadingState() => SliverToBoxAdapter(
+              child: UiPageSkeleton.list(label: context.t.scoresLoading),
             ),
             LeaderboardErrorState(:final failure) => SliverToBoxAdapter(
               child: BeatmapFailureView(failure: failure, onRetry: refresh),
@@ -49,11 +49,16 @@ final class LeaderboardSection extends StatelessWidget {
                     label: context.t.beatmapRefreshLeaderboard,
                   ),
                 ),
-                if (state.failure case final failure?)
+                if (state.failure != null)
                   SliverToBoxAdapter(
-                    child: BeatmapFailureView(
-                      failure: failure,
-                      onRetry: refresh,
+                    child: Padding(
+                      padding: const EdgeInsets.all(UiSpace.lg),
+                      child: UiNotice(
+                        message: context.t.profileShowingPreviousData,
+                        tone: UiNoticeTone.warning,
+                        actionLabel: context.t.retry,
+                        onAction: refresh,
+                      ),
                     ),
                   ),
                 if (state.entries.isEmpty)

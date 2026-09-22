@@ -108,9 +108,8 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
       ),
       slivers: <Widget>[
         if (state is SpotlightsInitialState || state is SpotlightsLoadingState)
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Center(child: UiLoading(label: context.t.rankingsLoading)),
+          SliverToBoxAdapter(
+            child: UiPageSkeleton.list(label: context.t.rankingsLoading),
           ),
         if (state case SpotlightsFailureState(:final failure))
           SliverToBoxAdapter(child: _Failure(failure)),
@@ -150,8 +149,12 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
               ),
             ),
           ),
-          if (state.loading)
+          if (state.loading && state.details != null)
             const SliverToBoxAdapter(child: LinearProgressIndicator()),
+          if (state.loading && state.details == null)
+            SliverToBoxAdapter(
+              child: UiPageSkeleton.list(label: context.t.rankingsLoading),
+            ),
           if (state.failure case final RankingsFailureKind failure)
             SliverToBoxAdapter(
               child: _Failure(failure, keepingContent: state.details != null),

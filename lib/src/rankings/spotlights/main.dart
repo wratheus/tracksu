@@ -11,6 +11,7 @@ final class SpotlightsMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider<SpotlightsBloc>(
     create: (_) => SpotlightsBloc(
+      cache: DepsScope.of(context).pageCache,
       repository: SpotlightsRepositoryImpl(
         remoteSource: OsuSpotlightsRemoteSource(
           restClient: DepsScope.of(context).publicRestClient,

@@ -170,8 +170,8 @@ final class TeamContent extends StatelessWidget {
                   ),
                   if (selectedMode != data.ruleset)
                     UiNotice(
-                      message: context.t.profileShowingPreviousData,
-                      tone: UiNoticeTone.warning,
+                      message: context.t.newsKeepingContent,
+                      tone: UiNoticeTone.information,
                     ),
                   UiSurface.card(
                     child: Column(

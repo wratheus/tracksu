@@ -13,11 +13,11 @@ final class MedalsError extends MedalsState {
 }
 
 final class MedalsLoaded extends MedalsState {
-  const MedalsLoaded(
-    this.medals, {
+  MedalsLoaded(
+    List<EarnedMedal> medals, {
     this.refreshing = false,
     this.refreshFailed = false,
-  });
+  }) : medals = List<EarnedMedal>.unmodifiable(medals);
   final List<EarnedMedal> medals;
   final bool refreshing;
   final bool refreshFailed;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:tracksu/src/profile/medals/bloc/bloc.dart';
@@ -36,6 +37,7 @@ final class _MedalsMainState extends State<MedalsMain> {
   Widget build(BuildContext context) => BlocProvider<MedalsBloc>(
     key: ValueKey<int>(widget.userId),
     create: (_) => MedalsBloc(
+      cache: DepsScope.of(context).pageCache,
       repository: MedalsRepositoryImpl(MedalsRemoteSource(_client)),
       userId: widget.userId,
     )..add(const MedalsLoadRequested()),

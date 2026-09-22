@@ -34,10 +34,14 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 ### Loading and preferences
 
-- Profiles, beatmap details, news feed/articles and ranking queries reuse bounded
+- Profiles, beatmap details/results, news feed/articles, ranking queries,
+  profile scores/maps, medals, spotlights and teams reuse bounded
   in-memory snapshots while fresh data loads; refresh failures retain usable data.
   Initial loads without cached data show static skeletons. This cache lasts only
   for the running session (30-minute freshness limit), not across app restarts.
+- Spotlight details are isolated by chart/mode; map results by difficulty/mode/
+  legacy variant, and medals by player. Reopening always revalidates; failed
+  updates keep previous data with Retry, rather than clearing the screen.
 - Settings can clear page snapshots and image caches without signing out or
   resetting preferences. Already open content remains visible. Account changes
   invalidate page snapshots; external-image permission remains a separate choice.
