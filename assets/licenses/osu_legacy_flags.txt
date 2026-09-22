@@ -1,0 +1,25 @@
+osu! legacy flag textures
+
+Source: osu-resources, ppy and contributors
+https://github.com/ppy/osu-resources/tree/c520a9cc9dc75c10eabb0362758f150d2fcc4c8e/osu.Game.Resources/Textures/Flags
+
+The 225 PNG files bundled in assets/icon_country_flags are byte-identical to
+the corresponding files at the source revision above. Tracksu has relocated
+them without modifying the image files.
+
+That revision of osu-resources declares its content under the Creative Commons
+Attribution-NonCommercial 4.0 International license (CC-BY-NC 4.0).
+
+Source license notice:
+https://github.com/ppy/osu-resources/blob/c520a9cc9dc75c10eabb0362758f150d2fcc4c8e/README.md
+
+License terms and disclaimer of warranties:
+https://creativecommons.org/licenses/by-nc/4.0/legalcode
+https://github.com/ppy/osu-resources/blob/c520a9cc9dc75c10eabb0362758f150d2fcc4c8e/LICENCE.md
+
+These assets are provided without warranties under that license. This notice
+does not grant commercial distribution rights, trademark rights, or endorsement
+by ppy. The license is separate from the MIT license for original Tracksu code.
+
+This is the historical flag set, not the later Twemoji-derived replacement.
+This notice does not cover other Tracksu images, fonts, icons or remote media.

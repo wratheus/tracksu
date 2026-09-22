@@ -165,7 +165,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get aboutLicensesDescription =>
-      'Open-Source-Abhängigkeiten und Schrift Exo 2';
+      'Open-Source-Bibliotheken und Asset-Lizenzen';
 
   @override
   String get aboutLinkFailed => 'Der Link konnte nicht geöffnet werden.';

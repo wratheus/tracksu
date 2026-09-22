@@ -496,6 +496,7 @@ sealed class Pubspec {
       'assets': <Object>[
         r'assets/models/countries.json',
         r'assets/licenses/exo2.txt',
+        r'assets/licenses/osu_legacy_flags.txt',
         r'assets/icon_game_mods/',
         r'assets/icon_country_flags/',
         r'assets/utils/painted_logo.png',

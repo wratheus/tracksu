@@ -166,7 +166,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get aboutOsu => 'Сайт osu!';
 
   @override
-  String get aboutLicensesDescription => 'Открытые зависимости и шрифт Exo 2';
+  String get aboutLicensesDescription =>
+      'Открытые библиотеки и лицензии ресурсов';
 
   @override
   String get aboutLinkFailed => 'Не удалось открыть ссылку.';

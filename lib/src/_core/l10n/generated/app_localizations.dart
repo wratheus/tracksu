@@ -348,10 +348,10 @@ abstract class AppLocalizations {
   /// **'osu! website'**
   String get aboutOsu;
 
-  /// Description of bundled dependency notices and the Exo 2 font notice.
+  /// Description of bundled dependency and asset notices, including fonts and flag textures.
   ///
   /// In en, this message translates to:
-  /// **'Open-source dependencies and Exo 2 font'**
+  /// **'Open-source libraries and asset licenses'**
   String get aboutLicensesDescription;
 
   /// External browser/app link launch failure.

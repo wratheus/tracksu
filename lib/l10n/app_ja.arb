@@ -39,7 +39,7 @@
   "aboutVersion": "バージョン {version} · ビルド {build}",
   "aboutProject": "GitHubのプロジェクト",
   "aboutOsu": "osu!公式サイト",
-  "aboutLicensesDescription": "オープンソースの依存ライブラリとExo 2フォント",
+  "aboutLicensesDescription": "オープンソースライブラリと素材のライセンス",
   "aboutLinkFailed": "リンクを開けませんでした。",
   "settingsAppearance": "外観",
   "settingsTheme": "テーマ",

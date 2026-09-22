@@ -39,7 +39,7 @@
   "aboutVersion": "Version {version} · Build {build}",
   "aboutProject": "Projet sur GitHub",
   "aboutOsu": "Site d’osu!",
-  "aboutLicensesDescription": "Dépendances open source et police Exo 2",
+  "aboutLicensesDescription": "Bibliothèques open source et licences des ressources",
   "aboutLinkFailed": "Impossible d’ouvrir le lien.",
   "settingsAppearance": "Apparence",
   "settingsTheme": "Thème",

@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### Asset provenance and native cleanup
+
+- Matched all 225 flag PNGs to a pinned historical osu-resources revision and
+  registered its CC-BY-NC 4.0 attribution/license links alongside the Exo 2 notice.
+  This does not approve commercial distribution or license other app artwork.
+- Removed eight unreferenced Android PNGs (610,464 source bytes); active launcher
+  and density-specific splash assets are unchanged. No APK-size claim is made.
+- Corrected the asset plan: countries.json now powers the country picker and
+  must remain bundled. Torus/Venera need separate licensing; Exo 2 stays in use.
+
 ### Shared foreground audio
 
 - Added an application-owned single-track player and reusable UiAudioPlayer:

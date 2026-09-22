@@ -157,7 +157,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutOsu => 'osu!公式サイト';
 
   @override
-  String get aboutLicensesDescription => 'オープンソースの依存ライブラリとExo 2フォント';
+  String get aboutLicensesDescription => 'オープンソースライブラリと素材のライセンス';
 
   @override
   String get aboutLinkFailed => 'リンクを開けませんでした。';

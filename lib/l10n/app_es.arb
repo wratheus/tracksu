@@ -39,7 +39,7 @@
   "aboutVersion": "Versión {version} · Compilación {build}",
   "aboutProject": "Proyecto en GitHub",
   "aboutOsu": "Sitio web de osu!",
-  "aboutLicensesDescription": "Dependencias de código abierto y fuente Exo 2",
+  "aboutLicensesDescription": "Bibliotecas de código abierto y licencias de recursos",
   "aboutLinkFailed": "No se pudo abrir el enlace.",
   "settingsAppearance": "Apariencia",
   "settingsTheme": "Tema",

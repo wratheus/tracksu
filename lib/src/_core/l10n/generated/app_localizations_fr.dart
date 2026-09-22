@@ -164,7 +164,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get aboutLicensesDescription =>
-      'Dépendances open source et police Exo 2';
+      'Bibliothèques open source et licences des ressources';
 
   @override
   String get aboutLinkFailed => 'Impossible d’ouvrir le lien.';

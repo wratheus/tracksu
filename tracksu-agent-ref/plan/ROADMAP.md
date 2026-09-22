@@ -21,8 +21,11 @@ memory cache для основных разделов и коллекций scor
 автопагинация четырёх списков, общий центрированный loader, парные флаги
 страны/команды и pubspec_generator реализованы. Общий audio preview реализован
 в P26; collection cache/skeleton coverage — в P25. Следом — ручная обратная связь
-по готовым срезам и release-инвентаризация ассетов/лицензий P01.2; не расширять
-это автоматически до disk cache, фонового плеера или новых backend-фич.
+по готовым срезам. [P27: инвентаризация assets](work/P27-assets-provenance.md)
+подтвердила источник 225 флагов, добавила CC-BY-NC notice и убрала 8 неиспользуемых
+native PNG. До релиза открыты коммерческие права flags, mode icons/branding
+и отдельная лицензия/выбор шрифта. Не расширять это автоматически до disk cache,
+фонового плеера или новых backend-фич.
 Liquid Glass и Dynamic Island — только future, не текущая работа.
 
 **P07 — поэкранная доработка**, [активный контракт](work/P07-product-integration.md).
@@ -101,7 +104,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | 4 · [P11](work/P11-product.md) | Основной рейтинг и [Spotlights P19](work/P19-spotlights-product.md): карточки/аватары/баннеры, mode selector, даты/участники и поиск каталога подключены. Ручная приёмка | awaiting_manual_check |
 | 5 · [P20](work/P20-news-product.md) | Новости: карточки с обложками/датами/интервалами, общий rich reader и разрешение внешних картинок, cursor paging, refresh/retry. Ручная проверка | awaiting_manual_check |
 | Проверить · [P07.2 — навигация](../reference/NAVIGATION_SPEC.md) | go_router/stateful branches, отдельный Search, панель на деталях, OAuth overlay и status stream реализованы. Ручной Back/keyboard/callback/restoration checklist | awaiting_manual_check |
-| 6 · [P01.2](work/P01.2-assets.md) | 34 assets/Palette удалены в 9a70de5; Exo 2 notice подключён в P22. Остались точный provenance, flags/modes/branding и нужный osu!-шрифт; native splash отдельно | backlog |
+| 6 · [P01.2 / P27](work/P27-assets-provenance.md) | Legacy cleanup и flags provenance выполнены; notices Exo 2/CC-BY-NC flags в About. Открыты commercial rights, modes/branding, отдельная лицензия/выбор шрифта; splash-дизайн отдельно | in_progress |
 | 7 · [P07 — визуальная приёмка](work/P07-ui-foundation.md) | Оценить уже реализованные предметные карточки/графики в каталоге, состояния и assets. Уточнить палитру/шрифты/иконки перед переносом страниц; корректировки относительно Stitch разрешены | backlog |
 | 8 · [P21 — настройки](work/P21-settings-product.md) / [P22 — About](work/P22-about-and-licenses.md) | Аккаунт/media, язык/тема, sign-out, About/build info/лицензии реализованы. Ручная приёмка; privacy/terms после P01.3, вынос l10n отдельно | awaiting_manual_check |
 | 9 · [P06.1](DETAILS.md#p06-1) | Firebase analytics: typed facade/UI binding; отдельное согласие до сбора, сохранение выбора и отзыв в настройках по P01.3; выбрать Firebase environment | backlog |

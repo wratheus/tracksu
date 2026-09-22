@@ -39,7 +39,7 @@
   "aboutVersion": "Версия {version} · Сборка {build}",
   "aboutProject": "Проект на GitHub",
   "aboutOsu": "Сайт osu!",
-  "aboutLicensesDescription": "Открытые зависимости и шрифт Exo 2",
+  "aboutLicensesDescription": "Открытые библиотеки и лицензии ресурсов",
   "aboutLinkFailed": "Не удалось открыть ссылку.",
   "settingsAppearance": "Оформление",
   "settingsTheme": "Тема",

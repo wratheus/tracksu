@@ -156,7 +156,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aboutOsu => 'osu! 网站';
 
   @override
-  String get aboutLicensesDescription => '开源依赖和 Exo 2 字体';
+  String get aboutLicensesDescription => '开源库和资源许可证';
 
   @override
   String get aboutLinkFailed => '无法打开链接。';

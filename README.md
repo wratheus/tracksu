@@ -342,7 +342,6 @@ and the [active roadmap](tracksu-agent-ref/plan/ROADMAP.md) for planned work.
 
 ## Roadmap
 
-- Restore audio previews.
 - Add beatmap mod filters and personal score tables.
 - Complete the visual system and unified themes.
 - Move production-sensitive OAuth credentials behind a backend service.
@@ -363,6 +362,14 @@ Tracksu uses or references the following projects and services:
 
 Attribution does not replace a license. The origin, license, and distribution
 rights of bundled assets must be reviewed before a public release.
+
+The bundled 225 flag PNGs match the [historical osu-resources set](https://github.com/ppy/osu-resources/tree/c520a9cc9dc75c10eabb0362758f150d2fcc4c8e/osu.Game.Resources/Textures/Flags),
+whose source notice specifies **CC-BY-NC 4.0**, not the license of today's
+Twemoji-derived flags. Attribution and license links are available offline in
+Settings → About → Licenses. Commercial distribution needs a separate decision;
+this audit does not grant it. Exo 2 has its own bundled SIL OFL notice.
+See the [asset inventory](tracksu-agent-ref/plan/work/P27-assets-provenance.md)
+for evidence, retained consumers and remaining mode-icon/branding questions.
 
 ## License and disclaimer
 
