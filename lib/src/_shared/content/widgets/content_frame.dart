@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/audio/audio_playback_controller.dart';
+import 'package:tracksu/src/_shared/audio/widgets/audio_track_player.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/content/data/content_media_loader.dart';
@@ -14,12 +16,15 @@ final class ContentFrame extends StatefulWidget {
     required this.document,
     required this.onOpenLink,
     this.mediaPermission,
+    this.audioController,
     super.key,
   });
   final ContentDocument document;
   final Future<bool> Function(String url) onOpenLink;
   // No controller (e.g. offline catalog) never permits network images.
   final ContentMediaController? mediaPermission;
+  // No controller (offline catalog) means no native player or network requests.
+  final AudioPlaybackController? audioController;
   @override
   State<ContentFrame> createState() => _ContentFrameState();
 }
@@ -156,6 +161,11 @@ final class _ContentFrameState extends State<ContentFrame>
           bottom: UiSpace.sm,
         ),
         child: switch (block) {
+          ContentAudio(:final track) when widget.audioController != null =>
+            AudioTrackPlayer(
+              track: track,
+              controller: widget.audioController!,
+            ),
           ContentText() => _text(context, block),
           ContentImage() =>
             widget.mediaPermission?.allowed == true
@@ -191,7 +201,7 @@ final class _ContentFrameState extends State<ContentFrame>
               ),
             ),
           ),
-          ContentUnsupported() => UiSurface.inset(
+          ContentUnsupported() || ContentAudio() => UiSurface.inset(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: UiSpace.sm,

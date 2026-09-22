@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 
 /// Repository-normalized content. Never carries executable HTML or credentials.
 @immutable
@@ -41,4 +42,9 @@ final class ContentDisclosure extends ContentBlock {
 
 final class ContentUnsupported extends ContentBlock {
   const ContentUnsupported(super.id);
+}
+
+final class ContentAudio extends ContentBlock {
+  const ContentAudio(super.id, this.track);
+  final AudioTrack track;
 }

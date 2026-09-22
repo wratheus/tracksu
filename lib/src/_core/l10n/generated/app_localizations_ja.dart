@@ -10,6 +10,43 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get audioPreview => '試聴';
+
+  @override
+  String get audioPlay => '再生';
+
+  @override
+  String get audioPause => '一時停止';
+
+  @override
+  String get audioReplay => 'もう一度再生';
+
+  @override
+  String get audioCancel => '読み込みを中止';
+
+  @override
+  String get audioLoading => '音声を読み込み中…';
+
+  @override
+  String get audioPlaying => '再生中';
+
+  @override
+  String get audioPaused => '一時停止中';
+
+  @override
+  String get audioCompleted => '再生終了';
+
+  @override
+  String get audioFailed => '音声を再生できませんでした。接続を確認して再試行してください。';
+
+  @override
+  String get audioConnectionNotice =>
+      '再生すると osu! の音声サーバーに接続し、IP アドレスが共有され、通信量が発生します。自動再生はしません。';
+
+  @override
+  String get audioSeek => '再生位置';
+
+  @override
   String get teamTitle => 'チーム';
 
   @override

@@ -10,6 +10,44 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get audioPreview => 'Послушать';
+
+  @override
+  String get audioPlay => 'Слушать';
+
+  @override
+  String get audioPause => 'Пауза';
+
+  @override
+  String get audioReplay => 'Слушать снова';
+
+  @override
+  String get audioCancel => 'Отменить загрузку';
+
+  @override
+  String get audioLoading => 'Загрузка аудио…';
+
+  @override
+  String get audioPlaying => 'Воспроизводится';
+
+  @override
+  String get audioPaused => 'На паузе';
+
+  @override
+  String get audioCompleted => 'Воспроизведение завершено';
+
+  @override
+  String get audioFailed =>
+      'Не удалось воспроизвести аудио. Проверьте соединение и попробуйте снова.';
+
+  @override
+  String get audioConnectionNotice =>
+      'По нажатию «Слушать» приложение подключится к аудиосерверам osu!: им будет виден ваш IP, используется интернет-трафик. Автовоспроизведения нет.';
+
+  @override
+  String get audioSeek => 'Позиция воспроизведения';
+
+  @override
   String get teamTitle => 'Команда';
 
   @override

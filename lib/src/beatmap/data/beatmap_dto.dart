@@ -1,4 +1,5 @@
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
+import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 import 'package:tracksu/src/_shared/beatmaps/data/beatmap_metadata_dto.dart';
 import 'package:tracksu/src/_shared/content/data/content_page_dto.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
@@ -51,6 +52,11 @@ final class BeatmapDetailsDto {
         id: id,
         title: reader.requiredString('title'),
         artist: reader.requiredString('artist'),
+        preview: AudioTrack.resolve(
+          reader.optionalString('preview_url') ?? '',
+          base: Uri.https('osu.ppy.sh'),
+          title: '${reader.requiredString('artist')} — ${reader.requiredString('title')}',
+        ),
         creator: reader.requiredString('creator'),
         difficulties: difficulties,
         metadata: BeatmapMetadataDto.fromJson(json).toDomain(),

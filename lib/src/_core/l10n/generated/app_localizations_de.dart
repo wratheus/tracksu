@@ -10,6 +10,44 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get audioPreview => 'Hörprobe';
+
+  @override
+  String get audioPlay => 'Abspielen';
+
+  @override
+  String get audioPause => 'Pause';
+
+  @override
+  String get audioReplay => 'Erneut abspielen';
+
+  @override
+  String get audioCancel => 'Laden abbrechen';
+
+  @override
+  String get audioLoading => 'Audio wird geladen…';
+
+  @override
+  String get audioPlaying => 'Wiedergabe läuft';
+
+  @override
+  String get audioPaused => 'Pausiert';
+
+  @override
+  String get audioCompleted => 'Beendet';
+
+  @override
+  String get audioFailed =>
+      'Audio konnte nicht abgespielt werden. Verbindung prüfen und erneut versuchen.';
+
+  @override
+  String get audioConnectionNotice =>
+      'Abspielen verbindet mit den Audioservern von osu!, übermittelt deine IP-Adresse und verbraucht Datenvolumen. Keine automatische Wiedergabe.';
+
+  @override
+  String get audioSeek => 'Wiedergabeposition';
+
+  @override
   String get teamTitle => 'Team';
 
   @override

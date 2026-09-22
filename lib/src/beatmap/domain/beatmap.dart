@@ -1,6 +1,7 @@
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/_shared/beatmaps/domain/beatmap_metadata.dart';
 import 'package:tracksu/src/_shared/content/domain/content_page.dart';
+import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 
 sealed class BeatmapParams {
   BeatmapParams(this.id) {
@@ -44,6 +45,7 @@ final class BeatmapDetails {
     required List<BeatmapDifficulty> difficulties,
     this.metadata,
     this.description,
+    this.preview,
   }) : difficulties = List<BeatmapDifficulty>.unmodifiable(difficulties);
   final int id;
   final String title;
@@ -52,4 +54,5 @@ final class BeatmapDetails {
   final List<BeatmapDifficulty> difficulties;
   final BeatmapMetadata? metadata;
   final ContentPage? description;
+  final AudioTrack? preview;
 }

@@ -91,6 +91,7 @@ final class _ContentPageSectionState extends State<ContentPageSection> {
         ),
         if (_expanded && widget.page.document != null)
           ContentFrame.sliver(
+            audioController: DepsScope.of(context).audioPlaybackController,
             mediaPermission: DepsScope.of(context).contentMediaController,
             document: widget.page.document!,
             onOpenLink: _open,

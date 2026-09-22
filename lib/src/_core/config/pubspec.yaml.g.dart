@@ -408,6 +408,8 @@ sealed class Pubspec {
     'tracksu_storage': r'^1.0.0',
     'tracksu_ui': r'^1.0.0',
     'http': r'^1.6.0',
+    'just_audio': r'^0.10.6',
+    'audio_session': r'^0.2.4',
     'html': r'^0.15.1',
     'url_launcher': r'^6.3.2',
     'share_plus': r'^13.3.0',

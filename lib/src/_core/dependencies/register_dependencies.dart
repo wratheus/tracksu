@@ -21,6 +21,7 @@ import 'package:tracksu_network/tracksu_network.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
 import 'package:tracksu/src/_shared/sharing/share_service.dart';
 import 'package:tracksu/src/_shared/content/content_media_controller.dart';
+import 'package:tracksu/src/_shared/audio/audio_playback_controller.dart';
 
 Future<DepsContainer> registerDependencies() async {
   const FlutterSecureStorage storage = FlutterSecureStorage();
@@ -91,6 +92,7 @@ Future<DepsContainer> registerDependencies() async {
   );
 
   return DepsContainer(
+    audioPlaybackController: AudioPlaybackController(),
     pageCache: PageCache(
       identityRevision: () => sessionController.identityRevision,
     ),

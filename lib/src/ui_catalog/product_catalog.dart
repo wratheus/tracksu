@@ -54,7 +54,7 @@ final class ProductCatalogSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SliverList.builder(
-    itemCount: 20,
+    itemCount: 21,
     itemBuilder: (BuildContext context, int index) =>
         KeyedSubtree(key: ValueKey<int>(index), child: _sample(context, index)),
   );
@@ -618,7 +618,22 @@ final class ProductCatalogSliver extends StatelessWidget {
           ],
         ),
       ),
-      _ => throw RangeError.range(index, 0, 19, 'index'),
+      20 => UiSection(
+        title: t.audioPreview,
+        child: UiAudioPlayer(
+          title: t.uiCatalogSampleNotice,
+          status: t.audioPaused,
+          actionLabel: t.audioPlay,
+          actionIcon: Icons.play_arrow_rounded,
+          positionLabel: '0:12',
+          durationLabel: '0:30',
+          seekLabel: t.audioSeek,
+          progress: .4,
+          onAction: preview,
+          onSeek: (_) => preview(),
+        ),
+      ),
+      _ => throw RangeError.range(index, 0, 20, 'index'),
     };
     return sample;
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
@@ -215,6 +216,7 @@ final class TeamContent extends StatelessWidget {
             _heading(context.t.teamDescription),
             if (description.document case final document?)
               ContentFrame.sliver(
+                audioController: DepsScope.of(context).audioPlaybackController,
                 document: document,
                 onOpenLink: _link,
                 mediaPermission: mediaPermission,

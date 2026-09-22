@@ -103,6 +103,7 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
                 child: UiText.bodyMedium(context.t.contentUnavailable),
               )
             : ContentFrame.sliver(
+                audioController: DepsScope.of(context).audioPlaybackController,
                 mediaPermission: DepsScope.of(context).contentMediaController,
                 document: widget.article.document!,
                 onOpenLink: _open,

@@ -10,6 +10,44 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get audioPreview => 'Audio preview';
+
+  @override
+  String get audioPlay => 'Play';
+
+  @override
+  String get audioPause => 'Pause';
+
+  @override
+  String get audioReplay => 'Replay';
+
+  @override
+  String get audioCancel => 'Cancel loading';
+
+  @override
+  String get audioLoading => 'Loading audio…';
+
+  @override
+  String get audioPlaying => 'Playing';
+
+  @override
+  String get audioPaused => 'Paused';
+
+  @override
+  String get audioCompleted => 'Finished';
+
+  @override
+  String get audioFailed =>
+      'Could not play this audio. Check your connection and try again.';
+
+  @override
+  String get audioConnectionNotice =>
+      'Play connects to osu! audio servers, sharing your IP address and using mobile data. Nothing plays automatically.';
+
+  @override
+  String get audioSeek => 'Playback position';
+
+  @override
   String get teamTitle => 'Team';
 
   @override

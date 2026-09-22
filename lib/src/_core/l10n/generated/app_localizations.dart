@@ -108,6 +108,78 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Shared foreground audio player: audioPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio preview'**
+  String get audioPreview;
+
+  /// Shared foreground audio player: audioPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get audioPlay;
+
+  /// Shared foreground audio player: audioPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get audioPause;
+
+  /// Shared foreground audio player: audioReplay.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay'**
+  String get audioReplay;
+
+  /// Shared foreground audio player: audioCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel loading'**
+  String get audioCancel;
+
+  /// Shared foreground audio player: audioLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading audio…'**
+  String get audioLoading;
+
+  /// Shared foreground audio player: audioPlaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing'**
+  String get audioPlaying;
+
+  /// Shared foreground audio player: audioPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get audioPaused;
+
+  /// Shared foreground audio player: audioCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished'**
+  String get audioCompleted;
+
+  /// Shared foreground audio player: audioFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not play this audio. Check your connection and try again.'**
+  String get audioFailed;
+
+  /// Shared foreground audio player: explicit Play disclosure, independent of image permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Play connects to osu! audio servers, sharing your IP address and using mobile data. Nothing plays automatically.'**
+  String get audioConnectionNotice;
+
+  /// Shared foreground audio player: audioSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Playback position'**
+  String get audioSeek;
+
   /// Native osu! team page: teamTitle.
   ///
   /// In en, this message translates to:

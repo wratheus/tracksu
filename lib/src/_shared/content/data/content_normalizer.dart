@@ -1,4 +1,5 @@
 import 'package:html/dom.dart';
+import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 import 'package:html/parser.dart' as parser;
 import 'package:tracksu/src/_shared/content/domain/content_document.dart';
 import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
@@ -11,6 +12,7 @@ final class ContentNormalizer {
   int _nodes = 0;
   int _media = 0;
   int _cells = 0;
+  int _audio = 0;
 
   static ContentDocument html(String source, Uri base) {
     if (source.length > 2000000) {
@@ -163,6 +165,24 @@ final class ContentNormalizer {
             ),
           ),
         );
+      } else if (node.localName == 'audio') {
+        flush();
+        if (++_audio > 32) throw const FormatException('Too many audio sources.');
+        AudioTrack? track;
+        for (final String source in <String>[
+          if (node.attributes['src'] case final String src) src,
+          for (final Element child in node.children)
+            if (child.localName == 'source' && child.attributes['src'] != null)
+              child.attributes['src']!,
+        ]) {
+          track = AudioTrack.resolve(
+            source, base: _base, title: node.attributes['title'] ?? '',
+          );
+          if (track != null) break;
+        }
+        result.add(track == null
+            ? ContentUnsupported(++_id)
+            : ContentAudio(++_id, track));
       } else if (_embeds.contains(node.localName)) {
         flush();
         result.add(ContentUnsupported(++_id));

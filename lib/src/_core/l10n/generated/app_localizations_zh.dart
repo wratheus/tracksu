@@ -10,6 +10,43 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get audioPreview => '音频试听';
+
+  @override
+  String get audioPlay => '播放';
+
+  @override
+  String get audioPause => '暂停';
+
+  @override
+  String get audioReplay => '重新播放';
+
+  @override
+  String get audioCancel => '取消加载';
+
+  @override
+  String get audioLoading => '正在加载音频…';
+
+  @override
+  String get audioPlaying => '正在播放';
+
+  @override
+  String get audioPaused => '已暂停';
+
+  @override
+  String get audioCompleted => '播放结束';
+
+  @override
+  String get audioFailed => '无法播放音频。请检查网络连接后重试。';
+
+  @override
+  String get audioConnectionNotice =>
+      '点击播放将连接 osu! 音频服务器，向其提供你的 IP 地址并消耗流量。不会自动播放。';
+
+  @override
+  String get audioSeek => '播放位置';
+
+  @override
   String get teamTitle => '战队';
 
   @override

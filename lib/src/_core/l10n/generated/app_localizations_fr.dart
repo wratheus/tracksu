@@ -10,6 +10,44 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String get audioPreview => 'Extrait audio';
+
+  @override
+  String get audioPlay => 'Écouter';
+
+  @override
+  String get audioPause => 'Pause';
+
+  @override
+  String get audioReplay => 'Réécouter';
+
+  @override
+  String get audioCancel => 'Annuler le chargement';
+
+  @override
+  String get audioLoading => 'Chargement audio…';
+
+  @override
+  String get audioPlaying => 'Lecture en cours';
+
+  @override
+  String get audioPaused => 'En pause';
+
+  @override
+  String get audioCompleted => 'Terminé';
+
+  @override
+  String get audioFailed =>
+      'Impossible de lire cet audio. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get audioConnectionNotice =>
+      'Écouter vous connecte aux serveurs audio d’osu!, leur transmet votre adresse IP et consomme des données mobiles. Aucune lecture automatique.';
+
+  @override
+  String get audioSeek => 'Position de lecture';
+
+  @override
   String get teamTitle => 'Équipe';
 
   @override
