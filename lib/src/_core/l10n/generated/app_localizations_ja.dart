@@ -10,6 +10,22 @@ class AppLocalizationsJa extends AppLocalizations {
   AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
   @override
+  String get settingsCacheCalculating => 'キャッシュ容量を計算中…';
+
+  @override
+  String get settingsCacheFailed => 'キャッシュにアクセスできませんでした。もう一度お試しください。';
+
+  @override
+  String settingsCacheConfirm(String size) {
+    return '保存された画像と音声 $size MiB を削除しますか？メディアキャッシュは空（0 MiB）になります。ページのキャッシュも削除されます。アカウントと設定は保持されます。';
+  }
+
+  @override
+  String settingsCacheSize(String size) {
+    return '端末に $size MiB';
+  }
+
+  @override
   String get audioPreview => '試聴';
 
   @override
@@ -38,10 +54,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get audioFailed => '音声を再生できませんでした。接続を確認して再試行してください。';
-
-  @override
-  String get audioConnectionNotice =>
-      '再生すると osu! の音声サーバーに接続し、IP アドレスが共有され、通信量が発生します。自動再生はしません。';
 
   @override
   String get audioSeek => '再生位置';
@@ -121,7 +133,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get settingsCacheDescription =>
-      'ページと画像はアプリの実行中にメモリに保存されます。削除してもアカウント、設定、開いているページは保持されます。';
+      '画像と音声は端末に保存されます（最大128 MiB）。ページはセッション中メモリに保持されます。削除すると再生が停止しますが、アカウントと設定は保持されます。';
 
   @override
   String get settingsCacheCleared => 'キャッシュを削除しました';
@@ -346,11 +358,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get shareFailed => '共有メニューを開けませんでした。もう一度お試しください。';
 
   @override
-  String get contentMediaSettings => '外部画像';
+  String get contentMediaSettings => '画像を読み込む';
 
   @override
   String get contentMediaConsent =>
-      'プロフィール、ビートマップの説明、ニュース内の画像は外部サーバーから取得します。サーバーにはIPアドレスが伝わり、リクエストが記録される場合があります。この選択はこの端末のすべての外部画像に適用され、アカウントメニューから変更できます。osu!のアバターやマップのカバーは別に読み込まれます。';
+      '画像は自動で読み込まれます。通信量を節約するにはオフにしてください。画像サーバーにIPアドレスが伝わり、音声は再生を押すと接続します。メディアは端末にキャッシュされます。';
 
   @override
   String get contentMediaAllow => '画像を許可';
@@ -359,7 +371,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contentMediaDecline => '今は読み込まない';
 
   @override
-  String get contentMediaDisabled => '外部画像は無効です。アカウントメニューから有効にできます。';
+  String get contentMediaDisabled => '画像はオフです。設定で有効にできます。';
 
   @override
   String get contentMediaSaveFailed => '設定を保存できませんでした。再起動後に元に戻る場合があります。';
@@ -391,7 +403,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get rankingsCountryCatalogHint =>
-      '英語名または2文字のコードで検索できます。一部はコードのみ表示されます。ランキングの提供状況はosu!によって異なります。';
+      '国名または2文字のコードで検索できます。ランキングの提供状況はosu!によって異なります。';
 
   @override
   String get rankingsCountryCatalogFailed => '国一覧を読み込めませんでした。';

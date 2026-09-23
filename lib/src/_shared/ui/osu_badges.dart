@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
@@ -40,6 +41,7 @@ final class OsuPlayerFlags extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
     mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.end,
     spacing: UiSpace.xs,
     children: <Widget>[
       if (countryCode case final String code)
@@ -63,7 +65,7 @@ final class OsuTeamFlag extends StatelessWidget {
     final Widget flag = _OsuFlag(
       image: team.flagUri == null
           ? null
-          : NetworkImage(team.flagUri.toString()),
+          : AppMedia.image(context, team.flagUri),
       label: team.name,
       icon: Icons.groups_outlined,
     );
@@ -76,7 +78,8 @@ final class OsuTeamFlag extends StatelessWidget {
         borderRadius: BorderRadius.circular(UiSpace.xs),
         child: ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
-          child: Center(
+          child: Align(
+            alignment: Alignment.bottomCenter,
             widthFactor: 1,
             heightFactor: 1,
             child: ExcludeSemantics(child: flag),
@@ -104,7 +107,7 @@ final class _OsuFlag extends StatelessWidget {
       borderRadius: BorderRadius.circular(UiSpace.xs),
       child: UiImage(
         image: image,
-        width: 28,
+        width: 30,
         height: 20,
         semanticLabel: label,
         fallback: Icon(icon, size: 16),

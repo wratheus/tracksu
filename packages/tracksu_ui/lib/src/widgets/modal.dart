@@ -175,6 +175,7 @@ abstract final class UiModal {
     required String title,
     required WidgetBuilder builder,
     Widget? cover,
+    Widget? coverAction,
     bool useRootNavigator = true,
   }) => _show<T>(
     context,
@@ -182,6 +183,7 @@ abstract final class UiModal {
     builder: builder,
     scrollable: true,
     cover: cover,
+    coverAction: coverAction,
     useRootNavigator: useRootNavigator,
   );
 
@@ -192,6 +194,7 @@ abstract final class UiModal {
     required bool scrollable,
     required bool useRootNavigator,
     Widget? cover,
+    Widget? coverAction,
   }) => showModalBottomSheet<T>(
     context: context,
     useRootNavigator: useRootNavigator,
@@ -206,7 +209,11 @@ abstract final class UiModal {
       );
       final Widget header = cover == null
           ? titleHeader
-          : _ModalCoverHeader(cover: cover, title: titleHeader);
+          : _ModalCoverHeader(
+              cover: cover,
+              title: titleHeader,
+              action: coverAction,
+            );
       return Padding(
         padding: EdgeInsets.only(
           bottom: MediaQuery.viewInsetsOf(modalContext).bottom,
@@ -248,9 +255,14 @@ abstract final class UiModal {
 /// Full-bleed artwork is clipped by the sheet shape, not a second inset card.
 /// An opaque surface behind text preserves contrast in both app themes.
 final class _ModalCoverHeader extends StatelessWidget {
-  const _ModalCoverHeader({required this.cover, required this.title});
+  const _ModalCoverHeader({
+    required this.cover,
+    required this.title,
+    this.action,
+  });
   final Widget cover;
   final Widget title;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
@@ -279,7 +291,10 @@ final class _ModalCoverHeader extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: UiSpace.md, bottom: 96),
+              padding: EdgeInsets.only(
+                top: UiSpace.md,
+                bottom: action == null ? 96 : UiSpace.lg,
+              ),
               child: Center(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
@@ -300,6 +315,11 @@ final class _ModalCoverHeader extends StatelessWidget {
                 ),
               ),
             ),
+            if (action != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
+                child: action,
+              ),
             title,
           ],
         ),

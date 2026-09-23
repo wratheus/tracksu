@@ -10,6 +10,22 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get settingsCacheCalculating => '正在计算缓存大小…';
+
+  @override
+  String get settingsCacheFailed => '无法访问缓存，请重试。';
+
+  @override
+  String settingsCacheConfirm(String size) {
+    return '清除已保存的 $size MiB 图片和音频？媒体缓存将变为空（0 MiB）。页面缓存也会清除。账号和设置将保留。';
+  }
+
+  @override
+  String settingsCacheSize(String size) {
+    return '设备上已存储 $size MiB';
+  }
+
+  @override
   String get audioPreview => '音频试听';
 
   @override
@@ -38,10 +54,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get audioFailed => '无法播放音频。请检查网络连接后重试。';
-
-  @override
-  String get audioConnectionNotice =>
-      '点击播放将连接 osu! 音频服务器，向其提供你的 IP 地址并消耗流量。不会自动播放。';
 
   @override
   String get audioSeek => '播放位置';
@@ -121,7 +133,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsCacheDescription =>
-      '页面数据和图片在本次运行期间保存在内存中。清除缓存不会影响账号、设置和已打开的页面。';
+      '图片和音频保存在设备上（最多128 MiB）。页面数据在本次会话期间保留在内存中。清除会停止播放，但保留账号和设置。';
 
   @override
   String get settingsCacheCleared => '缓存已清除';
@@ -344,11 +356,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get shareFailed => '无法打开分享菜单，请重试。';
 
   @override
-  String get contentMediaSettings => '外部图片';
+  String get contentMediaSettings => '加载图片';
 
   @override
   String get contentMediaConsent =>
-      '个人资料、谱面描述和新闻中的图片从外部服务器下载。这些服务器会收到您的 IP 地址，并可能记录请求。此选择适用于本设备上的所有此类图片，可在账户菜单中更改。osu! 头像和谱面封面单独加载。';
+      '图片会自动加载。关闭此选项可节省流量。图片服务器会收到你的IP地址；音频在点击播放后才连接。媒体会缓存在设备上。';
 
   @override
   String get contentMediaAllow => '允许图片';
@@ -357,7 +369,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contentMediaDecline => '暂不加载';
 
   @override
-  String get contentMediaDisabled => '外部图片已关闭。您可以在账户菜单中开启。';
+  String get contentMediaDisabled => '图片已关闭，可在设置中启用。';
 
   @override
   String get contentMediaSaveFailed => '无法保存此设置。重启应用后可能恢复原设置。';
@@ -388,8 +400,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get rankingsCountrySearch => '国家名称或代码';
 
   @override
-  String get rankingsCountryCatalogHint =>
-      '按英文名称或两字母代码搜索。部分条目仅显示代码。是否提供排名取决于 osu!。';
+  String get rankingsCountryCatalogHint => '按国家名称或两字母代码搜索。排行榜是否可用取决于osu!。';
 
   @override
   String get rankingsCountryCatalogFailed => '无法加载国家列表。';

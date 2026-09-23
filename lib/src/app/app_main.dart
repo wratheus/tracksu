@@ -4,6 +4,7 @@ import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/generated/app_localizations.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 
 final class AppMain extends StatelessWidget {
   const AppMain({required this.dependencies, super.key});
@@ -41,6 +42,10 @@ final class AppMain extends StatelessWidget {
                       : const Duration(milliseconds: 280),
                   themeAnimationCurve: Curves.easeInOutCubic,
                   routerConfig: dependencies.appRouter.config,
+                  builder: (_, Widget? child) => AppMedia(
+                    controller: dependencies.contentMediaController,
+                    child: child ?? const SizedBox.shrink(),
+                  ),
                 ),
           );
         },

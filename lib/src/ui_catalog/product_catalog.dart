@@ -620,17 +620,46 @@ final class ProductCatalogSliver extends StatelessWidget {
       ),
       20 => UiSection(
         title: t.audioPreview,
-        child: UiAudioPlayer(
-          title: t.uiCatalogSampleNotice,
-          status: t.audioPaused,
-          actionLabel: t.audioPlay,
-          actionIcon: Icons.play_arrow_rounded,
-          positionLabel: '0:12',
-          durationLabel: '0:30',
-          seekLabel: t.audioSeek,
-          progress: .4,
-          onAction: preview,
-          onSeek: (_) => preview(),
+        child: Column(
+          spacing: UiSpace.md,
+          children: <Widget>[
+            UiAudioPlayer(
+              title: t.uiCatalogSampleNotice,
+              status: t.audioPaused,
+              actionLabel: t.audioPlay,
+              actionIcon: Icons.play_arrow_rounded,
+              positionLabel: '0:12',
+              durationLabel: '0:30',
+              seekLabel: t.audioSeek,
+              progress: .4,
+              onAction: preview,
+              onSeek: (_) => preview(),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(UiShape.card),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: <Widget>[
+                  UiCover(image: _avatar, aspectRatio: 3),
+                  Padding(
+                    padding: const EdgeInsets.all(UiSpace.sm),
+                    child: UiAudioPlayer.overlay(
+                      title: t.uiCatalogSampleNotice,
+                      status: t.audioPaused,
+                      actionLabel: t.audioPlay,
+                      actionIcon: Icons.play_arrow_rounded,
+                      positionLabel: '0:12',
+                      durationLabel: '0:30',
+                      seekLabel: t.audioSeek,
+                      progress: .4,
+                      onAction: preview,
+                      onSeek: (_) => preview(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
       _ => throw RangeError.range(index, 0, 20, 'index'),

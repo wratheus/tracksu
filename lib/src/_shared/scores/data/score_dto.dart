@@ -118,6 +118,7 @@ final class OsuScoreDto {
     }
     final BeatmapMetadata? map = metadata?.toDomain();
     return OsuScore(
+      preview: map?.preview,
       coverUri: map?.bannerUri ?? map?.coverUri,
       id: id,
       beatmapId: beatmapId,

@@ -1,3 +1,5 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -114,7 +116,7 @@ final class _AccountActionsState extends State<AccountActions> {
           icon: authenticated && _avatar != null
               ? UiAvatar.small(
                   name: context.t.account,
-                  image: NetworkImage(_avatar.toString()),
+                  image: AppMedia.image(context, _avatar),
                 )
               : Icon(
                   authenticated ? Icons.account_circle : Icons.person_outline,

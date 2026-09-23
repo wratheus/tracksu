@@ -5,7 +5,6 @@ import 'package:tracksu/src/_shared/content/data/content_media_loader.dart';
 import 'package:tracksu/src/_shared/content/domain/content_document.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_image.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_media_scope.dart';
-import 'package:tracksu/src/_shared/content/widgets/content_media_settings.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -226,19 +225,6 @@ final class _NewsList extends StatelessWidget {
           padding: const EdgeInsets.all(UiSpace.lg),
           sliver: SliverMainAxisGroup(
             slivers: <Widget>[
-              if (DepsScope.of(context).contentMediaController.choice == null &&
-                  items.any((NewsPost post) => post.coverUri != null))
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: UiSpace.md),
-                    child: UiSurface.inset(
-                      child: ContentMediaSettings(
-                        controller: DepsScope.of(context)
-                            .contentMediaController,
-                      ),
-                    ),
-                  ),
-                ),
               SliverList.builder(
                 key: const ValueKey<String>('news-list'),
                 itemCount: items.length,

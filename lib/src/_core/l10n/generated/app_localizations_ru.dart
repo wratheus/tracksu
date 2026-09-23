@@ -10,6 +10,23 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
+  String get settingsCacheCalculating => 'Подсчёт размера кэша…';
+
+  @override
+  String get settingsCacheFailed =>
+      'Не удалось получить доступ к кэшу. Попробуйте снова.';
+
+  @override
+  String settingsCacheConfirm(String size) {
+    return 'Удалить $size МиБ сохранённых изображений и аудио? Медиакэш станет пустым (0 МиБ). Кэш страниц тоже будет очищен. Аккаунт и настройки сохранятся.';
+  }
+
+  @override
+  String settingsCacheSize(String size) {
+    return '$size МиБ на устройстве';
+  }
+
+  @override
   String get audioPreview => 'Послушать';
 
   @override
@@ -39,10 +56,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get audioFailed =>
       'Не удалось воспроизвести аудио. Проверьте соединение и попробуйте снова.';
-
-  @override
-  String get audioConnectionNotice =>
-      'По нажатию «Слушать» приложение подключится к аудиосерверам osu!: им будет виден ваш IP, используется интернет-трафик. Автовоспроизведения нет.';
 
   @override
   String get audioSeek => 'Позиция воспроизведения';
@@ -128,7 +141,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsCacheDescription =>
-      'Данные страниц и картинки хранятся в памяти на время работы приложения. Очистка сохранит аккаунт, настройки и уже открытые страницы.';
+      'Изображения и аудио сохраняются на устройстве (до 128 МиБ). Данные страниц — в памяти на время сеанса. Очистка остановит воспроизведение, но сохранит аккаунт и настройки.';
 
   @override
   String get settingsCacheCleared => 'Кэш очищен';
@@ -367,11 +380,11 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось открыть меню «Поделиться». Попробуйте ещё раз.';
 
   @override
-  String get contentMediaSettings => 'Внешние изображения';
+  String get contentMediaSettings => 'Загружать изображения';
 
   @override
   String get contentMediaConsent =>
-      'Картинки внутри профилей, описаний карт и новостей скачиваются с внешних серверов. Эти серверы получают ваш IP-адрес и могут записывать запросы. Выбор действует для всех таких картинок на этом устройстве; изменить его можно в меню аккаунта. Аватары и обложки карт с osu! загружаются отдельно.';
+      'Изображения загружаются автоматически. Можно отключить для экономии трафика. Серверам изображений виден ваш IP; аудио подключается по нажатию «Слушать». Медиа кэшируются на устройстве.';
 
   @override
   String get contentMediaAllow => 'Разрешить картинки';
@@ -381,7 +394,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get contentMediaDisabled =>
-      'Внешние картинки отключены. Включить их можно в меню аккаунта.';
+      'Изображения отключены. Включить можно в настройках.';
 
   @override
   String get contentMediaSaveFailed =>
@@ -415,7 +428,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get rankingsCountryCatalogHint =>
-      'Поиск по английскому названию или коду из двух букв. Часть стран указана только кодом. Доступность рейтинга зависит от osu!.';
+      'Ищите по названию страны или двухбуквенному коду. Наличие рейтинга зависит от osu!.';
 
   @override
   String get rankingsCountryCatalogFailed =>

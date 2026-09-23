@@ -22,11 +22,15 @@ final class _RankingCountryPickerState extends State<RankingCountryPicker> {
   final TextEditingController _search = TextEditingController();
   late Future<List<RankingCountryOption>> _countries;
   String _query = '';
+  String? _language;
 
   @override
-  void initState() {
-    super.initState();
-    _countries = widget.repository.load();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final String language = Localizations.localeOf(context).languageCode;
+    if (_language == language) return;
+    _language = language;
+    _countries = widget.repository.load(languageCode: language);
   }
 
   @override
@@ -96,8 +100,11 @@ final class _RankingCountryPickerState extends State<RankingCountryPicker> {
                   child: UiContentState.error(
                     title: context.t.rankingsCountryCatalogFailed,
                     actionLabel: context.t.retry,
-                    onAction: () =>
-                        setState(() => _countries = widget.repository.load()),
+                    onAction: () => setState(
+                      () => _countries = widget.repository.load(
+                        languageCode: _language ?? 'en',
+                      ),
+                    ),
                   ),
                 )
               else if (visible.isEmpty)

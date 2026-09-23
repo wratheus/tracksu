@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_cover.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/beatmaps/domain/beatmap.dart';
@@ -18,9 +19,10 @@ final class ProfileBeatmapCard extends StatelessWidget {
             : context.t.beatmapsMapFallback(beatmap.id)),
     artist: beatmap.artist,
     difficulty: beatmap.difficulty,
-    cover: beatmap.metadata?.coverUri == null
-        ? null
-        : NetworkImage(beatmap.metadata!.coverUri.toString()),
+    banner: BeatmapCover(
+      uri: beatmap.metadata?.bannerUri ?? beatmap.metadata?.coverUri,
+      preview: beatmap.metadata?.preview,
+    ),
     facts: BeatmapFacts(
       metadata: beatmap.metadata,
       stars: beatmap.stars,

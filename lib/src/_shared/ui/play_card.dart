@@ -18,6 +18,7 @@ final class OsuPlayCard extends StatelessWidget {
     this.totalLabel,
     this.failureLabel,
     this.cover,
+    this.banner,
     this.leading,
     this.identity,
     this.onTap,
@@ -37,6 +38,7 @@ final class OsuPlayCard extends StatelessWidget {
   final List<String> mods;
   final String noModsLabel;
   final ImageProvider? cover;
+  final Widget? banner;
   final Widget? leading;
   final Widget? identity;
   final VoidCallback? onTap;
@@ -48,6 +50,11 @@ final class OsuPlayCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       spacing: UiSpace.sm,
       children: <Widget>[
+        if (banner != null)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(UiShape.control),
+            child: banner,
+          ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: UiSpace.md,

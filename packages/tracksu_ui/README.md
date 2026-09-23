@@ -168,6 +168,9 @@ Do not open modals from build, and do not treat dismiss as successful consent.
 rounded sheet top, behind a contrast-protected title/close header. Do not repeat
 that cover inside the padded body. The adaptive minimum extent reserves room
 for the measured header and content. A manual cover example is in the catalog.
+Use `coverAction` for an interactive overlay (for example `UiAudioPlayer.overlay`),
+not inside the decorative `cover`: artwork is excluded from semantics and has a
+contrast layer above it. The action stays accessible above that layer.
 `UiGradeGauge` is an accuracy/reference gauge, not a pie chart; the feature must
 supply grade rules and a truthful accessible description. Narrow layouts and
 large text move grade labels into a legend. The catalog includes a sample.
@@ -212,6 +215,14 @@ slider scrubbing; seek dispatches on gesture end. Loading remains cancelable and
 respects reduced motion. Network, focus, consent, plugin state and route ownership
 stay in the app's shared audio controller/view, not the UI package. A network-free
 product catalog example covers the paused/seekable presentation.
+`UiAudioPlayer.overlay` is the compact cover variant: one action, loading/seek
+track and elapsed time, without the full panel's title/status rows. Both variants
+are in the offline catalog. `BeatmapCover` in the app composes it with cached
+artwork; the kit never owns downloads, cache paths or playback state.
+
+`UiAvatar` uses a proportional corner radius (16% of its side), so small ranking
+avatars remain recognizably square. Flags are an app-level composition, not an
+image-cache responsibility.
 
 The product catalog now starts with actual reusable compositions, not only
 Material controls. All examples use explicit preview values and existing local

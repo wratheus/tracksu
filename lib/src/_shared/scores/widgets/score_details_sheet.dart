@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_shared/scores/widgets/score_judgements.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
@@ -70,7 +71,7 @@ final class ScoreDetailsSheet extends StatelessWidget {
                             name: name,
                             image: playerAvatar == null
                                 ? null
-                                : NetworkImage(playerAvatar.toString()),
+                                : AppMedia.image(context, playerAvatar),
                           ),
                           Expanded(
                             child: Column(

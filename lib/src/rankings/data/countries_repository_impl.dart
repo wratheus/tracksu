@@ -10,12 +10,13 @@ final class RankingCountriesRepositoryImpl
   }) => RankingCountriesRepositoryImpl._(source);
   RankingCountriesRepositoryImpl._(this._source);
   final RankingCountriesLocalSource _source;
-  Future<List<RankingCountryOption>>? _pending;
+  final Map<String, Future<List<RankingCountryOption>>> _pending = {};
 
   @override
-  Future<List<RankingCountryOption>> load() => _pending ??= _load();
+  Future<List<RankingCountryOption>> load({String languageCode = 'en'}) =>
+      _pending[languageCode] ??= _load(languageCode);
 
-  Future<List<RankingCountryOption>> _load() async {
+  Future<List<RankingCountryOption>> _load(String languageCode) async {
     try {
       final JsonMapReader reader = JsonMapReader(await _source.load());
       final Map<String, String> names = <String, String>{};
@@ -28,7 +29,11 @@ final class RankingCountriesRepositoryImpl
         if (names.containsKey(code)) {
           throw const FormatException('Duplicate country name.');
         }
-        names[code] = row.requiredString('name');
+        final Map<String, dynamic>? translations = row.optionalMap('names');
+        names[code] = translations == null
+            ? row.requiredString('name')
+            : JsonMapReader(translations).optionalString(languageCode) ??
+                  row.requiredString('name');
       }
       final Set<String> codes = <String>{...names.keys};
       for (final Object? item in reader.requiredList('codes')) {
@@ -51,7 +56,7 @@ final class RankingCountriesRepositoryImpl
       return List<RankingCountryOption>.unmodifiable(result);
     } on Object {
       // A failed bundle read can be retried; never cache a failed Future forever.
-      _pending = null;
+      _pending.remove(languageCode);
       rethrow;
     }
   }

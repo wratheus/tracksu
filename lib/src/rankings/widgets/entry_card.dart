@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_shared/navigation/team_navigation.dart';
 import 'package:intl/intl.dart';
@@ -50,7 +51,7 @@ final class _RankingEntryCardState extends State<RankingEntryCard> {
         country: widget.entry.country,
         avatar: widget.entry.avatarUri == null
             ? null
-            : NetworkImage(widget.entry.avatarUri.toString()),
+            : AppMedia.image(context, widget.entry.avatarUri),
         value: widget.type.sort == 'performance'
             ? NumberFormat.decimalPatternDigits(
                 locale: context.t.localeName,

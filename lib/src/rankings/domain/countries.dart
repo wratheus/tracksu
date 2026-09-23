@@ -7,5 +7,5 @@ final class RankingCountryOption {
 }
 
 abstract interface class RankingCountriesRepository {
-  Future<List<RankingCountryOption>> load();
+  Future<List<RankingCountryOption>> load({String languageCode = 'en'});
 }

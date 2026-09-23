@@ -10,6 +10,23 @@ class AppLocalizationsDe extends AppLocalizations {
   AppLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
+  String get settingsCacheCalculating => 'Cachegröße wird berechnet…';
+
+  @override
+  String get settingsCacheFailed =>
+      'Kein Zugriff auf den Cache. Bitte erneut versuchen.';
+
+  @override
+  String settingsCacheConfirm(String size) {
+    return '$size MiB gespeicherte Bilder und Audio löschen? Der Mediencache ist danach leer (0 MiB). Auch zwischengespeicherte Seiten werden gelöscht. Konto und Einstellungen bleiben.';
+  }
+
+  @override
+  String settingsCacheSize(String size) {
+    return '$size MiB auf dem Gerät';
+  }
+
+  @override
   String get audioPreview => 'Hörprobe';
 
   @override
@@ -39,10 +56,6 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get audioFailed =>
       'Audio konnte nicht abgespielt werden. Verbindung prüfen und erneut versuchen.';
-
-  @override
-  String get audioConnectionNotice =>
-      'Abspielen verbindet mit den Audioservern von osu!, übermittelt deine IP-Adresse und verbraucht Datenvolumen. Keine automatische Wiedergabe.';
 
   @override
   String get audioSeek => 'Wiedergabeposition';
@@ -125,7 +138,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get settingsCacheDescription =>
-      'Seiten und Bilder werden während dieser Sitzung im Arbeitsspeicher gespeichert. Konto, Einstellungen und geöffnete Seiten bleiben beim Leeren erhalten.';
+      'Bilder und Audio werden auf dem Gerät gespeichert (bis zu 128 MiB). Seiten bleiben während der Sitzung im Arbeitsspeicher. Leeren stoppt die Wiedergabe; Konto und Einstellungen bleiben.';
 
   @override
   String get settingsCacheCleared => 'Cache geleert';
@@ -364,11 +377,11 @@ class AppLocalizationsDe extends AppLocalizations {
       'Das Teilen-Menü konnte nicht geöffnet werden. Versuche es erneut.';
 
   @override
-  String get contentMediaSettings => 'Externe Bilder';
+  String get contentMediaSettings => 'Bilder laden';
 
   @override
   String get contentMediaConsent =>
-      'Bilder in Profilen, Beatmap-Beschreibungen und Nachrichten werden von externen Servern geladen. Diese erhalten deine IP-Adresse und können Anfragen protokollieren. Die Auswahl gilt auf diesem Gerät für alle solchen Bilder und lässt sich im Kontomenü ändern. Avatare und Beatmap-Cover von osu! werden separat geladen.';
+      'Bilder werden automatisch geladen. Zum Datensparen kannst du dies ausschalten. Bildserver erhalten deine IP-Adresse; Audio verbindet sich erst beim Abspielen. Medien werden auf dem Gerät zwischengespeichert.';
 
   @override
   String get contentMediaAllow => 'Bilder erlauben';
@@ -378,7 +391,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get contentMediaDisabled =>
-      'Externe Bilder sind deaktiviert. Du kannst sie im Kontomenü aktivieren.';
+      'Bilder sind ausgeschaltet. In den Einstellungen aktivieren.';
 
   @override
   String get contentMediaSaveFailed =>
@@ -412,7 +425,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get rankingsCountryCatalogHint =>
-      'Suche nach englischem Namen oder zweistelligem Code. Einige Einträge zeigen nur den Code. Die Verfügbarkeit der Rangliste hängt von osu! ab.';
+      'Nach Ländernamen oder zweistelligem Code suchen. Die Verfügbarkeit der Rangliste hängt von osu! ab.';
 
   @override
   String get rankingsCountryCatalogFailed =>

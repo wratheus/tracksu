@@ -23,6 +23,19 @@ final class _SearchHomeState extends State<SearchHome> {
   ProfileRuleset _ruleset = ProfileRuleset.osu;
   bool _invalid = false;
   bool _opening = false;
+  int _navigation = 0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // goBranch(initialLocation: true) can remove the pushed route without
+    // completing its push Future. Returning to Search always releases the form.
+    if ((ModalRoute.isCurrentOf(context) ?? true) &&
+        TickerMode.valuesOf(context).enabled) {
+      _opening = false;
+      _navigation++;
+    }
+  }
 
   Future<void> _submit() async {
     if (_opening) return;
@@ -39,11 +52,14 @@ final class _SearchHomeState extends State<SearchHome> {
       _opening = true;
     });
     FocusScope.of(context).unfocus();
+    final int navigation = ++_navigation;
     try {
       await DepsScope.of(context).appRouter
           .openProfile(context, ProfileParams(user: user, ruleset: _ruleset));
     } finally {
-      if (mounted) setState(() => _opening = false);
+      if (mounted && navigation == _navigation) {
+        setState(() => _opening = false);
+      }
     }
   }
 

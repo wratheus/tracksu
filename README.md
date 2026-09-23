@@ -23,13 +23,15 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 ### Audio previews
 
-- Beatmap pages use the API's preview URL; supported osu!-hosted MP3 audio blocks
-  in news use the same inline player with pause, seek, replay and retry.
-- Only explicit Play connects to audio servers, with an IP/data-use notice.
+- Map cards, details, spotlights and result sheets place the player on their cover
+  when the API supplies a preview URL. Supported osu!-hosted MP3 audio blocks and
+  direct links in rich content use the same player with pause, seek, replay and retry.
+- Only explicit Play requests audio; connection information lives in Settings.
   One track plays at a time; route changes stop it, interruptions/background pause
   it without automatic resume. Scrolling a news article keeps its active player.
-- No arbitrary embedded players, autoplay, audio downloads or background service.
-  Image permission remains separate. Device audio verification is still pending.
+- Completed MP3s reuse the shared bounded disk cache; no export/download-library
+  feature, arbitrary embedded players, autoplay or background service.
+  Image preference remains separate. Device audio verification is still pending.
 
 ### Teams and rankings
 
@@ -52,11 +54,16 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Spotlight details are isolated by chart/mode; map results by difficulty/mode/
   legacy variant, and medals by player. Reopening always revalidates; failed
   updates keep previous data with Retry, rather than clearing the screen.
-- Settings can clear page snapshots and image caches without signing out or
-  resetting preferences. Already open content remains visible. Account changes
-  invalidate page snapshots; external-image permission remains a separate choice.
-- Rich-content images share a consent-aware, bounded memory cache. Other avatars
-  and covers use Flutter's decoded image cache. No offline download feature yet.
+- Settings shows completed media-file bytes and clears page snapshots, disk media
+  and Flutter's decoded images, stopping playback without signing out or resetting
+  preferences. Already open content may remain visible. Account changes invalidate
+  page snapshots; image preferences are independent of the account.
+- Rich images, avatars, covers, team flags and audio share one disk repository:
+  128 MiB / 500-file target, seven-day expiry checked on access/startup, coalesced
+  requests, at most four downloads, atomic writes and pinned playback files.
+  The OS may reclaim cache files; pages themselves are still memory-only.
+- Images load by default. Settings can disable all network images; an existing
+  explicit opt-out is preserved. Bundled country flags do not require the network.
 - Language lives in settings and shows the selected flag; system/light/dark theme
   changes use a short eased transition, disabled when the system requests it.
 - The home Share action links to this Tracksu repository, not osu! search.
@@ -92,7 +99,7 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Expand About me using the shared native rich-content reader for the server's
   BBCode-derived HTML. Supported formatting, HTTPS images and collapsible blocks
   render in-app; embeds and unsupported content remain on the original page.
-  External image servers receive your IP address, as disclosed in the reader.
+  External image servers receive your IP address, as disclosed in Settings.
   Missing rendered profile content falls back to escaped raw text.
 - Beatmap descriptions reuse the same reader and link handling without an extra
   API request. Invalid optional content does not hide the profile or leaderboard.
@@ -127,8 +134,8 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 - Browse global performance-point and score rankings for all four rulesets.
 - Choose a country/region in a searchable, lazy picker with bundled flags.
-  Search uses the existing English names or two-letter codes; countries absent
-  from the name catalog appear by code. Availability is determined by osu!.
+  All 224 named flag entries have en/ru/de/fr/es/ja/zh names from Unicode CLDR
+  48.2.0; search accepts localized names or codes. Availability is determined by osu!.
 - Ruleset and PP/score sorting are independent controls. Player rows show avatars,
   the selected metric and position in that filtered table, not global PP rank.
   Page snapshots can have position gaps when live rankings move; refresh updates them.

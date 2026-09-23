@@ -20,7 +20,23 @@ final class UiAudioPlayer extends StatefulWidget {
     this.loading = false,
     this.failed = false,
     super.key,
-  });
+  }) : _overlay = false;
+  const UiAudioPlayer.overlay({
+    required this.title,
+    required this.status,
+    required this.actionLabel,
+    required this.actionIcon,
+    required this.positionLabel,
+    required this.durationLabel,
+    required this.seekLabel,
+    required this.onAction,
+    this.progress = 0,
+    this.onSeek,
+    this.loading = false,
+    this.failed = false,
+    super.key,
+  }) : _overlay = true;
+  final bool _overlay;
   final String title;
   final String status;
   final String actionLabel;
@@ -48,64 +64,116 @@ final class _UiAudioPlayerState extends State<UiAudioPlayer> {
   }
 
   @override
-  Widget build(BuildContext context) => UiSurface.tonal(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: UiSpace.sm,
-      children: <Widget>[
-        Row(
-          spacing: UiSpace.md,
-          children: <Widget>[
-            UiIconButton.filled(
-              tooltip: widget.actionLabel,
-              icon: widget.actionIcon,
-              onPressed: widget.onAction,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: UiSpace.xs,
+  Widget build(BuildContext context) => widget._overlay
+      ? _overlay(context)
+      : UiSurface.tonal(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: UiSpace.sm,
+            children: <Widget>[
+              Row(
+                spacing: UiSpace.md,
                 children: <Widget>[
-                  UiText.titleSmall(widget.title),
-                  UiText.bodySmall(
-                    widget.status,
-                    secondary: !widget.failed,
-                    color: widget.failed
-                        ? Theme.of(context).colorScheme.error
-                        : null,
+                  UiIconButton.filled(
+                    tooltip: widget.actionLabel,
+                    icon: widget.actionIcon,
+                    onPressed: widget.onAction,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: UiSpace.xs,
+                      children: <Widget>[
+                        UiText.titleSmall(widget.title),
+                        if (widget.status.isNotEmpty)
+                          UiText.bodySmall(
+                            widget.status,
+                            secondary: !widget.failed,
+                            color: widget.failed
+                                ? Theme.of(context).colorScheme.error
+                                : null,
+                          ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-        if (widget.loading)
-          LinearProgressIndicator(
-            value: MediaQuery.disableAnimationsOf(context) ? .35 : null,
-          )
-        else
-          Semantics(
-            label: widget.seekLabel,
-            child: Slider(
-              value: _scrub ?? widget.progress.clamp(0, 1),
-              onChanged: widget.onSeek == null
-                  ? null
-                  : (double value) => setState(() => _scrub = value),
-              onChangeEnd: widget.onSeek == null
-                  ? null
-                  : (double value) {
-                      setState(() => _scrub = null);
-                      widget.onSeek!(value);
-                    },
-            ),
+              if (widget.loading)
+                LinearProgressIndicator(
+                  value: MediaQuery.disableAnimationsOf(context) ? .35 : null,
+                )
+              else
+                Semantics(
+                  label: widget.seekLabel,
+                  child: Slider(
+                    value: _scrub ?? widget.progress.clamp(0, 1),
+                    onChanged: widget.onSeek == null
+                        ? null
+                        : (double value) => setState(() => _scrub = value),
+                    onChangeEnd: widget.onSeek == null
+                        ? null
+                        : (double value) {
+                            setState(() => _scrub = null);
+                            widget.onSeek!(value);
+                          },
+                  ),
+                ),
+              Row(
+                children: <Widget>[
+                  Expanded(child: UiText.labelSmall(widget.positionLabel)),
+                  UiText.labelSmall(widget.durationLabel, secondary: true),
+                ],
+              ),
+            ],
           ),
-        Row(
-          children: <Widget>[
-            Expanded(child: UiText.labelSmall(widget.positionLabel)),
-            UiText.labelSmall(widget.durationLabel, secondary: true),
-          ],
-        ),
-      ],
+        );
+
+  Widget _overlay(BuildContext context) => Material(
+    color: Theme.of(context).colorScheme.surface.withValues(alpha: .94),
+    borderRadius: BorderRadius.circular(UiShape.control),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: UiSpace.xs),
+      child: Row(
+        spacing: UiSpace.xs,
+        children: <Widget>[
+          UiIconButton.filled(
+            tooltip: '${widget.actionLabel} · ${widget.title}',
+            icon: widget.actionIcon,
+            onPressed: widget.onAction,
+          ),
+          Expanded(
+            child: widget.loading
+                ? LinearProgressIndicator(
+                    value: MediaQuery.disableAnimationsOf(context) ? .35 : null,
+                  )
+                : widget.onSeek == null
+                ? UiText.labelMedium(
+                    widget.failed ? widget.status : widget.actionLabel,
+                    maxLines: 2,
+                    color: widget.failed
+                        ? Theme.of(context).colorScheme.error
+                        : null,
+                  )
+                : Semantics(
+                    label: widget.seekLabel,
+                    child: Slider(
+                      value: _scrub ?? widget.progress.clamp(0, 1),
+                      onChanged: (double value) =>
+                          setState(() => _scrub = value),
+                      onChangeEnd: (double value) {
+                        setState(() => _scrub = null);
+                        widget.onSeek?.call(value);
+                      },
+                    ),
+                  ),
+          ),
+          if (widget.onSeek != null)
+            Padding(
+              padding: const EdgeInsetsDirectional.only(end: UiSpace.sm),
+              child: UiText.labelSmall(widget.positionLabel),
+            ),
+        ],
+      ),
     ),
   );
 }

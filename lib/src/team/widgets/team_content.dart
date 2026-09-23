@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,7 +58,7 @@ final class TeamContent extends StatelessWidget {
                 children: <Widget>[
                   if (data.cover case final Uri cover)
                     UiCover(
-                      image: NetworkImage(cover.toString()),
+                      image: AppMedia.image(context, cover),
                       aspectRatio: 3,
                     ),
                   Padding(
@@ -74,8 +75,9 @@ final class TeamContent extends StatelessWidget {
                               child: UiImage(
                                 image: data.identity.flagUri == null
                                     ? null
-                                    : NetworkImage(
-                                        data.identity.flagUri.toString(),
+                                    : AppMedia.image(
+                                        context,
+                                        data.identity.flagUri,
                                       ),
                                 width: 56,
                                 height: 40,

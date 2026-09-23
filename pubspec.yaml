@@ -25,6 +25,8 @@ dependencies:
   http: ^1.6.0
   just_audio: ^0.10.6
   audio_session: ^0.2.4
+  crypto: ^3.0.7
+  path_provider: ^2.1.6
   html: ^0.15.1
   url_launcher: ^6.3.2
   share_plus: ^13.3.0
@@ -54,6 +56,7 @@ flutter:
     - assets/models/countries.json
     - assets/licenses/exo2.txt
     - assets/licenses/osu_legacy_flags.txt
+    - assets/licenses/unicode_cldr.txt
     - assets/icon_game_mods/
     - assets/icon_country_flags/
     - assets/utils/painted_logo.png

@@ -10,6 +10,22 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get settingsCacheCalculating => 'Calculating cache size…';
+
+  @override
+  String get settingsCacheFailed => 'Could not access the cache. Try again.';
+
+  @override
+  String settingsCacheConfirm(String size) {
+    return 'Clear $size MiB of saved images and audio? The media cache will be empty (0 MiB). Page snapshots will also be cleared. Your account and settings stay.';
+  }
+
+  @override
+  String settingsCacheSize(String size) {
+    return '$size MiB on disk';
+  }
+
+  @override
   String get audioPreview => 'Audio preview';
 
   @override
@@ -39,10 +55,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get audioFailed =>
       'Could not play this audio. Check your connection and try again.';
-
-  @override
-  String get audioConnectionNotice =>
-      'Play connects to osu! audio servers, sharing your IP address and using mobile data. Nothing plays automatically.';
 
   @override
   String get audioSeek => 'Playback position';
@@ -124,7 +136,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsCacheDescription =>
-      'Cached pages and images are kept in memory during this session. Clearing them keeps your account, settings and currently open pages.';
+      'Images and audio are saved on this device (up to 128 MiB). Page snapshots stay in memory during the session. Clearing stops playback and keeps your account and settings.';
 
   @override
   String get settingsCacheCleared => 'Cache cleared';
@@ -361,11 +373,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shareFailed => 'Could not open the share sheet. Please try again.';
 
   @override
-  String get contentMediaSettings => 'External images';
+  String get contentMediaSettings => 'Load images';
 
   @override
   String get contentMediaConsent =>
-      'Images embedded in profiles, beatmap descriptions and news are downloaded from external servers. Those servers receive your IP address and can log requests. This choice applies to all such images on this device; you can change it in the account menu. Avatars and map covers from osu! load separately.';
+      'Images load automatically. Turn this off to save data. Image hosts receive your IP address; audio connects when you press Play. Media is cached on this device.';
 
   @override
   String get contentMediaAllow => 'Allow images';
@@ -374,8 +386,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contentMediaDecline => 'Not now';
 
   @override
-  String get contentMediaDisabled =>
-      'External images are off. You can enable them in the account menu.';
+  String get contentMediaDisabled => 'Images are off. Enable them in Settings.';
 
   @override
   String get contentMediaSaveFailed =>
@@ -409,7 +420,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rankingsCountryCatalogHint =>
-      'Search English names or two-letter codes. Some entries show only a code. Ranking availability depends on osu!.';
+      'Search a country name or two-letter code. Ranking availability depends on osu!.';
 
   @override
   String get rankingsCountryCatalogFailed => 'Could not load the country list.';

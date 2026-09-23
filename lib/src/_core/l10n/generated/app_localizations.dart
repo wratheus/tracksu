@@ -108,6 +108,30 @@ abstract class AppLocalizations {
     Locale('zh'),
   ];
 
+  /// Shown while scanning the application's media cache directory.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculating cache size…'**
+  String get settingsCacheCalculating;
+
+  /// Media cache directory read or clear failed; retry is available.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not access the cache. Try again.'**
+  String get settingsCacheFailed;
+
+  /// Confirm removing completed cached media files and session page snapshots. Size is preformatted using the current locale.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear {size} MiB of saved images and audio? The media cache will be empty (0 MiB). Page snapshots will also be cleared. Your account and settings stay.'**
+  String settingsCacheConfirm(String size);
+
+  /// Completed cached media file size in mebibytes; size is already locale-formatted, not heap usage.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} MiB on disk'**
+  String settingsCacheSize(String size);
+
   /// Shared foreground audio player: audioPreview.
   ///
   /// In en, this message translates to:
@@ -167,12 +191,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not play this audio. Check your connection and try again.'**
   String get audioFailed;
-
-  /// Shared foreground audio player: explicit Play disclosure, independent of image permission.
-  ///
-  /// In en, this message translates to:
-  /// **'Play connects to osu! audio servers, sharing your IP address and using mobile data. Nothing plays automatically.'**
-  String get audioConnectionNotice;
 
   /// Shared foreground audio player: audioSeek.
   ///
@@ -270,25 +288,25 @@ abstract class AppLocalizations {
   /// **'osu!lazer accuracy reference scale; SS requires 100% (its visible band is enlarged). The grade comes from the result: misses, mods and legacy scoring can also affect it.'**
   String get scoreGaugeReference;
 
-  /// Settings group for bounded memory cache.
+  /// Settings group for persistent media and session page caches.
   ///
   /// In en, this message translates to:
   /// **'Cache'**
   String get settingsCache;
 
-  /// Action and confirmation title to clear page and image cache.
+  /// Action and confirmation title to clear page snapshots and cached images/audio.
   ///
   /// In en, this message translates to:
   /// **'Clear cache'**
   String get settingsClearCache;
 
-  /// Explains memory-only cache and that clearing retains account/settings/current view.
+  /// Persistent media and session-local page cache; clearing retains credentials and preferences.
   ///
   /// In en, this message translates to:
-  /// **'Cached pages and images are kept in memory during this session. Clearing them keeps your account, settings and currently open pages.'**
+  /// **'Images and audio are saved on this device (up to 128 MiB). Page snapshots stay in memory during the session. Clearing stops playback and keeps your account and settings.'**
   String get settingsCacheDescription;
 
-  /// Confirmation that the session cache was cleared.
+  /// Confirmation that page snapshots and cached media files were cleared.
   ///
   /// In en, this message translates to:
   /// **'Cache cleared'**
@@ -687,13 +705,13 @@ abstract class AppLocalizations {
   /// External image preference: contentMediaSettings.
   ///
   /// In en, this message translates to:
-  /// **'External images'**
+  /// **'Load images'**
   String get contentMediaSettings;
 
-  /// One-time external rich-content image permission; IP and request logging disclosure; separate from trusted osu covers.
+  /// Default-on image preference and media privacy disclosure in Settings.
   ///
   /// In en, this message translates to:
-  /// **'Images embedded in profiles, beatmap descriptions and news are downloaded from external servers. Those servers receive your IP address and can log requests. This choice applies to all such images on this device; you can change it in the account menu. Avatars and map covers from osu! load separately.'**
+  /// **'Images load automatically. Turn this off to save data. Image hosts receive your IP address; audio connects when you press Play. Media is cached on this device.'**
   String get contentMediaConsent;
 
   /// External image preference: contentMediaAllow.
@@ -711,7 +729,7 @@ abstract class AppLocalizations {
   /// External image preference: contentMediaDisabled.
   ///
   /// In en, this message translates to:
-  /// **'External images are off. You can enable them in the account menu.'**
+  /// **'Images are off. Enable them in Settings.'**
   String get contentMediaDisabled;
 
   /// External image preference: contentMediaSaveFailed.
@@ -756,10 +774,10 @@ abstract class AppLocalizations {
   /// **'Country name or code'**
   String get rankingsCountrySearch;
 
-  /// Ranking page: Search English names or two-letter codes. Some entries show only a code. Ranking availability depends on osu!.
+  /// Country catalog search help for localized names and ISO codes.
   ///
   /// In en, this message translates to:
-  /// **'Search English names or two-letter codes. Some entries show only a code. Ranking availability depends on osu!.'**
+  /// **'Search a country name or two-letter code. Ranking availability depends on osu!.'**
   String get rankingsCountryCatalogHint;
 
   /// Ranking page: Could not load the country list.

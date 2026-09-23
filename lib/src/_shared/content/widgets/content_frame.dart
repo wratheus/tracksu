@@ -8,7 +8,6 @@ import 'package:tracksu/src/_shared/content/domain/content_document.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_image.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 import 'package:tracksu/src/_shared/content/content_media_controller.dart';
-import 'package:tracksu/src/_shared/content/widgets/content_media_settings.dart';
 
 /// Feature-agnostic lazy document. Parent supplies navigation and the document.
 final class ContentFrame extends StatefulWidget {
@@ -41,7 +40,7 @@ final class _ContentFrameState extends State<ContentFrame>
   @override
   void initState() {
     super.initState();
-    _media = ContentMediaLoader(cache: widget.mediaPermission?.cache);
+    _media = ContentMediaLoader(repository: widget.mediaPermission?.repository);
     widget.mediaPermission?.addListener(_permissionChanged);
     WidgetsBinding.instance.addObserver(this);
     _foreground =
@@ -75,7 +74,9 @@ final class _ContentFrameState extends State<ContentFrame>
     if (_fetching == fetching) return;
     _fetching = fetching;
     if (fetching) {
-      _media = ContentMediaLoader(cache: widget.mediaPermission?.cache);
+      _media = ContentMediaLoader(
+        repository: widget.mediaPermission?.repository,
+      );
     } else {
       _media.close();
     }
@@ -91,7 +92,9 @@ final class _ContentFrameState extends State<ContentFrame>
     }
     if (!identical(oldWidget.document, widget.document)) {
       _media.close();
-      _media = ContentMediaLoader(cache: widget.mediaPermission?.cache);
+      _media = ContentMediaLoader(
+        repository: widget.mediaPermission?.repository,
+      );
       if (!_fetching) _media.close();
       _expanded.clear();
       _flatten();
@@ -121,26 +124,9 @@ final class _ContentFrameState extends State<ContentFrame>
   }
 
   @override
-  Widget build(BuildContext context) => SliverMainAxisGroup(
-    slivers: <Widget>[
-      if (widget.mediaPermission case final ContentMediaController permission
-          when permission.choice == null && _hasImages(widget.document.blocks))
-        SliverToBoxAdapter(
-          child: UiSurface.inset(
-            child: ContentMediaSettings(controller: permission),
-          ),
-        ),
-      _content(context),
-    ],
-  );
+  Widget build(BuildContext context) => _content(context);
 
   void _permissionChanged() => setState(_syncMedia);
-
-  bool _hasImages(List<ContentBlock> blocks) => blocks.any(
-    (ContentBlock block) =>
-        block is ContentImage && block.uri != null ||
-        block is ContentDisclosure && _hasImages(block.children),
-  );
 
   Widget _content(BuildContext context) => SliverList.builder(
     key: ObjectKey(widget.document),

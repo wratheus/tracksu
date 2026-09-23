@@ -22,6 +22,7 @@ import 'package:tracksu_storage/tracksu_storage.dart';
 import 'package:tracksu/src/_shared/sharing/share_service.dart';
 import 'package:tracksu/src/_shared/content/content_media_controller.dart';
 import 'package:tracksu/src/_shared/audio/audio_playback_controller.dart';
+import 'package:tracksu/src/_shared/media/data/media_cache_repository.dart';
 
 Future<DepsContainer> registerDependencies() async {
   const FlutterSecureStorage storage = FlutterSecureStorage();
@@ -34,7 +35,9 @@ Future<DepsContainer> registerDependencies() async {
     store: FlutterSecureThemeStore(storage: storage),
   );
   await themeController.restore();
+  final MediaCacheRepository mediaCache = MediaCacheRepository();
   final ContentMediaController contentMediaController = ContentMediaController(
+    repository: mediaCache,
     store: FlutterSecureContentMediaStore(storage: storage),
   );
   await contentMediaController.restore();
@@ -92,7 +95,8 @@ Future<DepsContainer> registerDependencies() async {
   );
 
   return DepsContainer(
-    audioPlaybackController: AudioPlaybackController(),
+    mediaCache: mediaCache,
+    audioPlaybackController: AudioPlaybackController(repository: mediaCache),
     pageCache: PageCache(
       identityRevision: () => sessionController.identityRevision,
     ),

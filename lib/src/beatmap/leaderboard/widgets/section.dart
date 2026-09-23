@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/profile/domain/profile_params.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
@@ -11,7 +12,8 @@ import 'package:tracksu/src/beatmap/widgets/failure.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class LeaderboardSection extends StatelessWidget {
-  const LeaderboardSection({this.coverUri, super.key});
+  const LeaderboardSection({this.coverUri, this.preview, super.key});
+  final AudioTrack? preview;
   final Uri? coverUri;
   @override
   Widget build(BuildContext context) => SliverMainAxisGroup(
@@ -79,6 +81,7 @@ final class LeaderboardSection extends StatelessWidget {
                     ),
                     child: OsuScoreCard(
                       coverUri: coverUri,
+                      preview: preview,
                       playerAvatar: state.entries[index].avatarUri,
                       playerFlags:
                           state.entries[index].countryCode == null &&

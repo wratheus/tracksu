@@ -12,7 +12,13 @@ final class AudioTrackPlayer extends StatefulWidget {
     required this.track,
     required this.controller,
     super.key,
-  });
+  }) : _overlay = false;
+  const AudioTrackPlayer.overlay({
+    required this.track,
+    required this.controller,
+    super.key,
+  }) : _overlay = true;
+  final bool _overlay;
   final AudioTrack track;
   final AudioPlaybackController controller;
 
@@ -122,7 +128,10 @@ final class _AudioTrackPlayerState extends State<AudioTrackPlayer>
           AudioPlaybackPhase.failed => context.t.retry,
           _ => context.t.audioPlay,
         };
-        return UiAudioPlayer(
+        final player = widget._overlay
+            ? UiAudioPlayer.overlay
+            : UiAudioPlayer.new;
+        return player(
           title: widget.track.title.isEmpty
               ? context.t.audioPreview
               : widget.track.title,
@@ -132,7 +141,7 @@ final class _AudioTrackPlayerState extends State<AudioTrackPlayer>
             AudioPlaybackPhase.paused => context.t.audioPaused,
             AudioPlaybackPhase.completed => context.t.audioCompleted,
             AudioPlaybackPhase.failed => context.t.audioFailed,
-            AudioPlaybackPhase.idle => context.t.audioConnectionNotice,
+            AudioPlaybackPhase.idle => '',
           },
           actionLabel: action,
           actionIcon: switch (phase) {

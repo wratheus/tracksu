@@ -109,9 +109,18 @@ final class ContentNormalizer {
 
   bool _special(Element element) =>
       element.localName == 'img' ||
+      _audioLink(element) != null ||
       _disclosure(element) ||
       _embeds.contains(element.localName) ||
       element.children.any(_special);
+
+  AudioTrack? _audioLink(Element element) => element.localName == 'a'
+      ? AudioTrack.resolve(
+          element.attributes['href'] ?? '',
+          base: _base,
+          title: element.text.trim(),
+        )
+      : null;
 
   List<ContentBlock> _blocks(List<Node> nodes, List<Element> wrappers) {
     final List<ContentBlock> result = <ContentBlock>[];
@@ -165,6 +174,12 @@ final class ContentNormalizer {
             ),
           ),
         );
+      } else if (_audioLink(node) case final AudioTrack track) {
+        flush();
+        if (++_audio > 32) {
+          throw const FormatException('Too many audio sources.');
+        }
+        result.add(ContentAudio(++_id, track));
       } else if (node.localName == 'audio') {
         flush();
         if (++_audio > 32) {

@@ -11,11 +11,13 @@ import 'package:tracksu_storage/tracksu_storage.dart';
 import 'package:tracksu/src/_shared/sharing/share_service.dart';
 import 'package:tracksu/src/_shared/content/content_media_controller.dart';
 import 'package:tracksu/src/_shared/audio/audio_playback_controller.dart';
+import 'package:tracksu/src/_shared/media/data/media_cache_repository.dart';
 
 final class DepsContainer {
   const DepsContainer({
     required this.appRouter,
     required this.pageCache,
+    required this.mediaCache,
     required this.audioPlaybackController,
     required this.localeController,
     required this.themeController,
@@ -34,6 +36,7 @@ final class DepsContainer {
 
   final TracksuAppRouter appRouter;
   final PageCache pageCache;
+  final MediaCacheRepository mediaCache;
   final AudioPlaybackController audioPlaybackController;
   final LocaleController localeController;
   final ThemeController themeController;
@@ -51,6 +54,7 @@ final class DepsContainer {
 
   void close() {
     audioPlaybackController.dispose();
+    mediaCache.dispose();
     pageCache.clear();
     appRouter.dispose();
     sessionController.dispose();

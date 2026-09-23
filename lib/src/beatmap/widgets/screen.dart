@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
-import 'package:tracksu/src/_shared/audio/widgets/audio_track_player.dart';
+import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_cover.dart';
 import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
@@ -85,37 +84,16 @@ final class BeatmapScreen extends StatelessWidget {
                         child: OsuBeatmapCard.featured(
                           title: state.details.title,
                           artist: state.details.artist,
-                          cover:
-                              (state.details.metadata?.bannerUri ??
-                                      state.details.metadata?.coverUri) ==
-                                  null
-                              ? null
-                              : NetworkImage(
-                                  (state.details.metadata?.bannerUri ??
-                                          state.details.metadata?.coverUri)
-                                      .toString(),
-                                ),
+                          banner: BeatmapCover(
+                            uri:
+                                state.details.metadata?.bannerUri ??
+                                state.details.metadata?.coverUri,
+                            preview: state.details.preview,
+                          ),
                           facts: BeatmapFacts(metadata: state.details.metadata),
                         ),
                       ),
                     ),
-                    if (state.details.preview case final preview?)
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            UiSpace.lg,
-                            0,
-                            UiSpace.lg,
-                            UiSpace.lg,
-                          ),
-                          child: AudioTrackPlayer(
-                            key: ValueKey<Uri>(preview.uri),
-                            track: preview,
-                            controller: DepsScope.of(context)
-                                .audioPlaybackController,
-                          ),
-                        ),
-                      ),
                     if (state.failure case final failure?)
                       SliverToBoxAdapter(
                         child: BeatmapFailureView(
@@ -321,6 +299,7 @@ final class _LeaderboardForSelection extends StatelessWidget {
       _ => difficulty.ruleset,
     };
     return LeaderboardMain(
+      preview: state.details.preview,
       coverUri:
           state.details.metadata?.bannerUri ?? state.details.metadata?.coverUri,
       key: ValueKey<(int, ProfileRuleset)>((id, ruleset)),

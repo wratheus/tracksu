@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:intl/intl.dart';
@@ -88,7 +89,7 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
                   icon: Icons.groups_outlined,
                   image: team.flagUri == null
                       ? null
-                      : NetworkImage(team.flagUri.toString()),
+                      : AppMedia.image(context, team.flagUri),
                   onTap: _opening ? null : () => _team(team.id),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_media_settings.dart';
@@ -15,22 +16,46 @@ final class SettingsScreen extends StatefulWidget {
 
 final class _SettingsScreenState extends State<SettingsScreen> {
   bool _busy = false;
+  Future<void>? _cacheReady;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _cacheReady ??= DepsScope.of(context).mediaCache.initialize();
+  }
+
+  String _size(int bytes) => NumberFormat.decimalPatternDigits(
+    locale: context.t.localeName,
+    decimalDigits: 2,
+  ).format(bytes / (1024 * 1024));
 
   Future<void> _clearCache() async {
     final bool clear = await UiModal.confirm(
       context,
       title: context.t.settingsClearCache,
-      message: context.t.settingsCacheDescription,
+      message: context.t.settingsCacheConfirm(
+        _size(DepsScope.of(context).mediaCache.sizeBytes),
+      ),
       confirmLabel: context.t.settingsClearCache,
       cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
     );
     if (!mounted || !clear) return;
     final deps = DepsScope.of(context);
-    deps.pageCache.clear();
-    deps.contentMediaController.cache.clear();
-    PaintingBinding.instance.imageCache.clear();
-    PaintingBinding.instance.imageCache.clearLiveImages();
-    UiFeedback.snack(context, message: context.t.settingsCacheCleared);
+    try {
+      await deps.audioPlaybackController.stop();
+      deps.pageCache.clear();
+      await deps.mediaCache.clear();
+      PaintingBinding.instance.imageCache.clear();
+      PaintingBinding.instance.imageCache.clearLiveImages();
+      if (mounted) {
+        setState(() => _cacheReady = deps.mediaCache.initialize());
+        UiFeedback.snack(context, message: context.t.settingsCacheCleared);
+      }
+    } on Object {
+      if (mounted) {
+        UiFeedback.snack(context, message: context.t.settingsCacheFailed);
+      }
+    }
   }
 
   Future<void> _run(Future<void> Function() action) async {
@@ -214,13 +239,36 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                           title: context.t.settingsCache,
                           child: UiSurface.card(
                             padding: EdgeInsets.zero,
-                            child: UiTile.navigation(
-                              title: context.t.settingsClearCache,
-                              subtitle: context.t.settingsCacheDescription,
-                              leading: const Icon(
-                                Icons.cleaning_services_outlined,
-                              ),
-                              onTap: _busy ? null : () => _run(_clearCache),
+                            child: FutureBuilder<void>(
+                              future: _cacheReady,
+                              builder:
+                                  (
+                                    BuildContext context,
+                                    AsyncSnapshot<void> snapshot,
+                                  ) => ListenableBuilder(
+                                    listenable: deps.mediaCache,
+                                    builder: (BuildContext context, _) =>
+                                        UiTile.navigation(
+                                          title: context.t.settingsClearCache,
+                                          subtitle: snapshot.hasError
+                                              ? context.t.settingsCacheFailed
+                                              : snapshot.connectionState !=
+                                                    ConnectionState.done
+                                              ? context
+                                                    .t
+                                                    .settingsCacheCalculating
+                                              : '${context.t.settingsCacheSize(_size(deps.mediaCache.sizeBytes))}\n${context.t.settingsCacheDescription}',
+                                          leading: const Icon(
+                                            Icons.cleaning_services_outlined,
+                                          ),
+                                          onTap:
+                                              _busy ||
+                                                  snapshot.connectionState !=
+                                                      ConnectionState.done
+                                              ? null
+                                              : () => _run(_clearCache),
+                                        ),
+                                  ),
                             ),
                           ),
                         ),

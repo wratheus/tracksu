@@ -92,6 +92,19 @@ final class _CountryControl extends StatefulWidget {
 
 final class _CountryControlState extends State<_CountryControl> {
   bool _choosing = false;
+  String? _language;
+  Future<List<RankingCountryOption>>? _names;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final String language = Localizations.localeOf(context).languageCode;
+    if (_language == language) return;
+    _language = language;
+    _names = context.read<RankingCountriesRepository>().load(
+      languageCode: language,
+    );
+  }
 
   Future<void> _choose(String? selected) async {
     if (_choosing) return;
@@ -120,13 +133,33 @@ final class _CountryControlState extends State<_CountryControl> {
   Widget build(BuildContext context) =>
       BlocSelector<RankingsBloc, RankingsState, String?>(
         selector: (RankingsState state) => state.country?.value,
-        builder: (BuildContext context, String? country) => UiTile.navigation(
-          title: context.t.rankingsCountrySelection,
-          subtitle: country ?? context.t.rankingsWorldwide,
-          leading: country == null
-              ? const Icon(Icons.public)
-              : OsuCountryFlag(code: country, label: country),
-          onTap: _choosing ? null : () => _choose(country),
-        ),
+        builder: (BuildContext context, String? country) =>
+            FutureBuilder<List<RankingCountryOption>>(
+              future: _names,
+              builder:
+                  (
+                    BuildContext context,
+                    AsyncSnapshot<List<RankingCountryOption>> snapshot,
+                  ) {
+                    final String label = country == null
+                        ? context.t.rankingsWorldwide
+                        : snapshot.data
+                                  ?.where(
+                                    (RankingCountryOption item) =>
+                                        item.country.value == country,
+                                  )
+                                  .firstOrNull
+                                  ?.name ??
+                              country;
+                    return UiTile.navigation(
+                      title: context.t.rankingsCountrySelection,
+                      subtitle: label,
+                      leading: country == null
+                          ? const Icon(Icons.public)
+                          : OsuCountryFlag(code: country, label: label),
+                      onTap: _choosing ? null : () => _choose(country),
+                    );
+                  },
+            ),
       );
 }

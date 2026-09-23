@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
@@ -9,7 +10,13 @@ import 'package:tracksu/src/beatmap/leaderboard/domain/repository.dart';
 import 'package:tracksu/src/beatmap/leaderboard/widgets/section.dart';
 
 final class LeaderboardMain extends StatelessWidget {
-  const LeaderboardMain({required this.query, this.coverUri, super.key});
+  const LeaderboardMain({
+    required this.query,
+    this.coverUri,
+    this.preview,
+    super.key,
+  });
+  final AudioTrack? preview;
   final LeaderboardQuery query;
   final Uri? coverUri;
   @override
@@ -28,6 +35,6 @@ final class LeaderboardMain extends StatelessWidget {
       ),
       query: query,
     )..add(const LeaderboardLoadRequested()),
-    child: LeaderboardSection(coverUri: coverUri),
+    child: LeaderboardSection(coverUri: coverUri, preview: preview),
   );
 }

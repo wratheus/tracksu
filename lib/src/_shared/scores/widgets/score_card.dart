@@ -1,3 +1,8 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
+import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
+import 'package:tracksu/src/_shared/audio/widgets/audio_track_player.dart';
+import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_cover.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
@@ -16,6 +21,7 @@ final class OsuScoreCard extends StatefulWidget {
     this.playerAvatar,
     this.playerFlags,
     this.coverUri,
+    this.preview,
     super.key,
   });
   final OsuScore score;
@@ -25,6 +31,7 @@ final class OsuScoreCard extends StatefulWidget {
   final Uri? playerAvatar;
   final Widget? playerFlags;
   final Uri? coverUri;
+  final AudioTrack? preview;
 
   /// Optional navigation to the map, offered after inspecting the result.
   final VoidCallback? onTap;
@@ -51,11 +58,20 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
           await UiModal.scrollable<ScoreDetailsAction>(
             context,
             title: context.t.scoreDetailsTitle,
-            cover: (widget.coverUri ?? selectedScore.coverUri) == null
+            coverAction: (widget.preview ?? selectedScore.preview) == null
+                ? null
+                : AudioTrackPlayer.overlay(
+                    track: (widget.preview ?? selectedScore.preview)!,
+                    controller: DepsScope.of(context).audioPlaybackController,
+                  ),
+            cover:
+                (widget.coverUri ?? selectedScore.coverUri) == null &&
+                    (widget.preview ?? selectedScore.preview) == null
                 ? null
                 : UiCover(
-                    image: NetworkImage(
-                      (widget.coverUri ?? selectedScore.coverUri).toString(),
+                    image: AppMedia.image(
+                      context,
+                      (widget.coverUri ?? selectedScore.coverUri),
                     ),
                     aspectRatio: 3,
                   ),
@@ -89,6 +105,9 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
     ).add_Hm().format(score.endedAt.toLocal());
     final String locale = Localizations.localeOf(context).toLanguageTag();
     return OsuPlayCard(
+      banner: widget.playerLabel != null || score.preview == null
+          ? null
+          : BeatmapCover(uri: score.coverUri, preview: score.preview),
       identity: widget.playerFlags,
       leading: widget.playerLabel == null
           ? null
@@ -96,7 +115,7 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
               name: widget.playerLabel!,
               image: widget.playerAvatar == null
                   ? null
-                  : NetworkImage(widget.playerAvatar.toString()),
+                  : AppMedia.image(context, widget.playerAvatar),
             ),
       title:
           widget.playerLabel ??

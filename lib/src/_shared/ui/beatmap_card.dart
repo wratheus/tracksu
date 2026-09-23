@@ -8,6 +8,7 @@ final class OsuBeatmapCard extends StatelessWidget {
     this.artist,
     this.difficulty,
     this.cover,
+    this.banner,
     this.badges = const <Widget>[],
     this.detail,
     this.onTap,
@@ -19,6 +20,7 @@ final class OsuBeatmapCard extends StatelessWidget {
     this.artist,
     this.difficulty,
     this.cover,
+    this.banner,
     this.badges = const <Widget>[],
     this.detail,
     this.onTap,
@@ -29,6 +31,7 @@ final class OsuBeatmapCard extends StatelessWidget {
   final String? artist;
   final String? difficulty;
   final ImageProvider? cover;
+  final Widget? banner;
   final List<Widget> badges;
   final String? detail;
   final VoidCallback? onTap;
@@ -44,7 +47,9 @@ final class OsuBeatmapCard extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        if (cover != null)
+        if (banner case final Widget value)
+          value
+        else if (cover != null)
           UiCover(image: cover, aspectRatio: _featured ? 3.2 : 3),
         Padding(
           padding: const EdgeInsets.all(UiSpace.lg),

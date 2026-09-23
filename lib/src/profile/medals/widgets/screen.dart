@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -99,7 +100,7 @@ final class MedalsScreen extends StatelessWidget {
                           children: <Widget>[
                             if (medal.imageUri != null)
                               UiImage(
-                                image: NetworkImage(medal.imageUri.toString()),
+                                image: AppMedia.image(context, medal.imageUri),
                                 width: 64,
                                 height: 64,
                                 fit: BoxFit.contain,

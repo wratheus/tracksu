@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
@@ -48,7 +49,7 @@ final class _TeamMemberRowState extends State<TeamMemberRow> {
             name: member.name,
             image: member.avatar == null
                 ? null
-                : NetworkImage(member.avatar.toString()),
+                : AppMedia.image(context, member.avatar),
           ),
           Expanded(
             child: Column(

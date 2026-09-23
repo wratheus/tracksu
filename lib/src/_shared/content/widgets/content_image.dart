@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/content/data/content_media_loader.dart';
+import 'package:tracksu/src/_shared/media/data/media_download.dart';
 import 'package:tracksu/src/_shared/content/domain/content_document.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -79,10 +80,10 @@ final class _ContentImageViewState extends State<ContentImageView> {
       final int height = descriptor.height;
       if (width <= 0 ||
           height <= 0 ||
-          width > 8192 ||
-          height > 8192 ||
-          width * height > 16000000) {
-        throw const ContentMediaFailure();
+          width > 16384 ||
+          height > 16384 ||
+          width * height > 40000000) {
+        throw const MediaDownloadFailure();
       }
       if (!mounted || _request != request) return;
       final double ratio = math.min(
@@ -104,9 +105,13 @@ final class _ContentImageViewState extends State<ContentImageView> {
       if (mounted && _request == request) {
         // A bad raster must not make Retry decode the same cached bytes forever.
         if (widget.image.uri case final Uri uri) {
-          widget.loader.cache?.remove(uri);
+          try {
+            await widget.loader.repository?.evictImage(uri);
+          } on Object {
+            // A cache eviction failure must not mask the failed image state.
+          }
         }
-        setState(() => _failed = true);
+        if (mounted && _request == request) setState(() => _failed = true);
       }
     } finally {
       codec?.dispose();

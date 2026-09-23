@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+### September 22 feedback: cached media and browsing
+
+- Added a shared persistent image/MP3 repository: coalesced requests, bounded
+  downloads, atomic writes, seven-day expiry and 128 MiB / 500-file eviction target.
+  Settings displays completed file size and clears media plus page snapshots,
+  stopping playback first. Decoder-owned files stay pinned until disposal.
+- Images now load by default with a Settings opt-out; previous explicit opt-outs
+  remain respected. All network image consumers share the same policy/cache.
+  First-party CDN requests use platform DNS/TLS; arbitrary external images retain
+  checked-address connections. Raster signatures, not unreliable MIME headers,
+  determine supported formats; compressed HTTP responses are supported.
+- Added compact cover players to map cards/details, spotlights and score sheets;
+  rich content also recognizes supported direct MP3 links. Removed the repeated
+  Play connection paragraph; disclosure remains in Settings. No autoplay.
+- Fixed the retained Search form staying disabled after returning to its root.
+- Country/team flags are 30×20, avatars are squarer and ranking identities align
+  at the avatar baseline. All 224 country entries have seven-language CLDR names,
+  with bundled Unicode attribution. API availability is unchanged.
+- Static analysis only; device playback, networking and visual acceptance pending.
+
 ### Asset provenance and native cleanup
 
 - Matched all 225 flag PNGs to a pinned historical osu-resources revision and

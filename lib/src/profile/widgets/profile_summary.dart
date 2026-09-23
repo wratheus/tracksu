@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_shared/navigation/team_navigation.dart';
 import 'package:tracksu/src/profile/widgets/profile_details_sections.dart';
@@ -43,10 +44,10 @@ final class ProfileSummary extends StatelessWidget {
         username: profile.username,
         countryCode: profile.countryCode,
         countryLabel: context.t.profileCountry(profile.countryCode),
-        avatar: NetworkImage(profile.avatarUri.toString()),
+        avatar: AppMedia.image(context, profile.avatarUri),
         cover: profile.coverUri == null
             ? null
-            : NetworkImage(profile.coverUri.toString()),
+            : AppMedia.image(context, profile.coverUri),
         team: profile.details?.team,
         onTeamTap: openTeam,
         nameAction: profile.details?.previousNames?.isNotEmpty == true

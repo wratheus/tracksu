@@ -1,5 +1,6 @@
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/_shared/scores/domain/score_details.dart';
+import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 
 /// Summary projection of API response version 20220705+, not the legacy Score.
 final class OsuScore {
@@ -21,6 +22,7 @@ final class OsuScore {
     this.artist,
     this.difficulty,
     this.coverUri,
+    this.preview,
   }) : mods = List<ScoreMod>.unmodifiable(mods),
        hitCounts = List<ScoreHitCount>.unmodifiable(hitCounts);
 
@@ -44,4 +46,5 @@ final class OsuScore {
   final String? artist;
   final String? difficulty;
   final Uri? coverUri;
+  final AudioTrack? preview;
 }

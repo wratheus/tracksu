@@ -1,3 +1,5 @@
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
+import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_cover.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_shared/navigation/team_navigation.dart';
 import 'package:tracksu/src/_shared/preferences/settings_button.dart';
@@ -179,9 +181,10 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
                     builder: (VoidCallback? open) => OsuBeatmapCard.compact(
                       title: map.title,
                       artist: map.artist,
-                      cover: map.metadata?.coverUri == null
-                          ? null
-                          : NetworkImage(map.metadata!.coverUri.toString()),
+                      banner: BeatmapCover(
+                        uri: map.metadata?.bannerUri ?? map.metadata?.coverUri,
+                        preview: map.metadata?.preview,
+                      ),
                       facts: BeatmapFacts(metadata: map.metadata),
                       badges: <Widget>[
                         if (map.difficultyCount case final int count)
@@ -236,7 +239,7 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
                           country: player.country,
                           avatar: player.avatarUri == null
                               ? null
-                              : NetworkImage(player.avatarUri.toString()),
+                              : AppMedia.image(context, player.avatarUri),
                           team: player.team,
                           onTeamTap: openTeam,
                           position:

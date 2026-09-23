@@ -38,29 +38,42 @@ final class OsuRankingRow extends StatelessWidget {
             MediaQuery.textScalerOf(context).scale(14) > 20;
         final ColorScheme colors = Theme.of(context).colorScheme;
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           spacing: UiSpace.md,
           children: <Widget>[
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: UiSpace.xs,
-              children: <Widget>[
-                if (!narrow)
-                  UiText.titleLarge(position, color: colors.tertiary),
-                UiAvatar.small(name: username, image: avatar),
-              ],
-            ),
+            UiAvatar.medium(name: username, image: avatar),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: UiSpace.xs,
                 children: <Widget>[
-                  if (narrow)
-                    UiText.titleMedium(position, color: colors.tertiary),
-                  UiText.titleMedium(
-                    username,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  Row(
+                    spacing: UiSpace.sm,
+                    children: <Widget>[
+                      Flexible(
+                        child: UiText.titleMedium(
+                          position,
+                          color: colors.tertiary,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      if (!narrow)
+                        Expanded(
+                          child: UiText.titleMedium(
+                            username,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                    ],
                   ),
+                  if (narrow)
+                    UiText.titleMedium(
+                      username,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   OsuPlayerFlags(
                     countryCode: country,
                     team: team,

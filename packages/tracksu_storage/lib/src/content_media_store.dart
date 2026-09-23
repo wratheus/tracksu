@@ -5,7 +5,7 @@ abstract interface class ContentMediaStore {
   Future<void> writePermission(bool allowed);
 }
 
-/// Versioned consent; absent/unrecognised values never grant permission.
+/// Persisted explicit choice. Null leaves the product default to the caller.
 final class FlutterSecureContentMediaStore implements ContentMediaStore {
   factory FlutterSecureContentMediaStore({
     required FlutterSecureStorage storage,

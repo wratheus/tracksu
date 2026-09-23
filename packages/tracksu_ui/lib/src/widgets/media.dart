@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tracksu_ui/src/theme/tokens.dart';
 
 /// Bounded image decoding; no global cache mutation, headers or disk cache.
 final class UiImage extends StatelessWidget {
@@ -97,7 +96,7 @@ final class UiAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ClipRRect(
-    borderRadius: BorderRadius.circular(UiShape.card),
+    borderRadius: BorderRadius.circular(size * .16),
     child: UiImage(
       image: image,
       width: size,

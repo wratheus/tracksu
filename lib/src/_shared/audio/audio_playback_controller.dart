@@ -4,13 +4,20 @@ import 'package:audio_session/audio_session.dart';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
+import 'package:tracksu/src/_shared/media/data/media_cache_repository.dart';
 
 enum AudioPlaybackPhase { idle, loading, playing, paused, completed, failed }
 
 /// Application-owned, credential-free foreground playback. Each view has an
 /// identity token: an old route cannot stop a new route's player. Every resume
-/// prepares a fresh decoder at the saved position; pause frees network/buffers.
+/// prepares a fresh decoder at the saved position; pause frees decoder buffers.
+/// Already requested public media may finish caching after its view is released.
 final class AudioPlaybackController extends ChangeNotifier {
+  factory AudioPlaybackController({required MediaCacheRepository repository}) =>
+      AudioPlaybackController._(repository);
+  AudioPlaybackController._(this._repository);
+  final MediaCacheRepository _repository;
+  CachedAudio? _cachedAudio;
   Object? _owner;
   Uri? _uri;
   AudioPlayer? _player;
@@ -74,6 +81,12 @@ final class AudioPlaybackController extends ChangeNotifier {
     try {
       await _retiring;
       if (!_current(generation)) return;
+      final CachedAudio audio = await _repository.audio(track);
+      if (!_current(generation)) {
+        audio.release();
+        return;
+      }
+      _cachedAudio = audio;
       await (_configuration ??= _configure());
       if (!_current(generation)) return;
       final AudioPlayer player = AudioPlayer(
@@ -124,9 +137,10 @@ final class AudioPlaybackController extends ChangeNotifier {
           _fail(generation);
         }),
       ]);
-      await player
-          .setUrl(track.uri.toString(), initialPosition: start)
-          .timeout(const Duration(seconds: 25));
+      final Future<Duration?> prepared = audio.path == null
+          ? player.setUrl(track.uri.toString(), initialPosition: start)
+          : player.setFilePath(audio.path!, initialPosition: start);
+      await prepared.timeout(const Duration(seconds: 25));
       if (!_current(generation)) return;
       final Future<bool> activation = _session!.setActive(true);
       _activation = activation;
@@ -204,7 +218,7 @@ final class AudioPlaybackController extends ChangeNotifier {
   bool _current(int generation) => !_disposed && generation == _generation;
 
   void _watchLoading(int generation) {
-    _loadingTimeout ??= Timer(const Duration(seconds: 25), () {
+    _loadingTimeout ??= Timer(const Duration(seconds: 60), () {
       _fail(generation);
     });
   }
@@ -231,6 +245,8 @@ final class AudioPlaybackController extends ChangeNotifier {
     _loadingTimeout = null;
     final AudioPlayer? player = _player;
     _player = null;
+    final CachedAudio? cachedAudio = _cachedAudio;
+    _cachedAudio = null;
     final Future<bool>? activation = _activation;
     _activation = null;
     final List<Future<void>> cancellations = [
@@ -249,6 +265,8 @@ final class AudioPlaybackController extends ChangeNotifier {
         await player?.dispose();
       } on Object {
         // Best-effort native teardown; the source is no longer owned.
+      } finally {
+        cachedAudio?.release();
       }
       try {
         await activation;
@@ -257,6 +275,11 @@ final class AudioPlaybackController extends ChangeNotifier {
         // Best-effort focus release; a platform may already have revoked it.
       }
     }();
+  }
+
+  Future<void> stop() async {
+    if (_owner case final Object owner) release(owner);
+    await _retiring;
   }
 
   void _changed() {
