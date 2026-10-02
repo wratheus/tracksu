@@ -79,7 +79,10 @@ final class RankingsSection extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: UiContentState.empty(title: context.t.rankingsEmpty),
                   ),
+                // Keep the list subtree when leading refresh slivers change
+                // and the trailing auto-load disappears in the same rebuild.
                 SliverPadding(
+                  key: const ValueKey<String>('rankings-list'),
                   padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
                   sliver: UiSliverCardList(
                     itemCount: state.items.length,

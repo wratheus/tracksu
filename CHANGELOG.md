@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+### Rankings list identity during refresh
+
+- The loaded rankings group is a positional sliver list whose optional leading
+  refresh slivers and trailing auto-load shift the unkeyed list sliver between
+  rebuilds, so its rows were deactivated despite their own keys. The list
+  `SliverPadding` now has one constant `ValueKey<String>('rankings-list')`.
+- Pinned formatter/analyzer, diff-check and iOS simulator build passed.
+  Parent's earlier instrumented before/after refresh retained the sampled list
+  and visible-row identities, but did not capture the in-refresh transition.
+- Quick GUI QA on the dedicated Tracksu iPhone 17 (2026-10-02) is blocked:
+  computer-use found no Simulator window; Simulator.app is absent from the
+  active Xcode's standard application path and Spotlight found no bundle.
+  An inspected framebuffer screenshot shows Search only, not Rankings QA.
+  Refresh retention, scroll/pagination and Retry remain unverified by GUI;
+  P29 still awaits manual check.
+
 ### iOS Ogg Vorbis previews
 
 - Added `audio_decode` 1.3.5 (MIT; compiles stb_vorbis MIT/Unlicense and
