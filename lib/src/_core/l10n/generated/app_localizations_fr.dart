@@ -399,6 +399,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'Cette adresse d’image n’est pas prise en charge. Ouvrez la page originale.';
 
   @override
+  String get contentImagePaused => 'Le chargement de l’image est en pause.';
+
+  @override
   String get profilePlayHistoryTitle => 'Parties par mois';
 
   @override
@@ -631,6 +634,22 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get contentImageFailed =>
       'Impossible de charger l’image. Elle est peut-être indisponible ou sa taille ou son format n’est pas pris en charge.';
+
+  @override
+  String get contentImageUnavailable =>
+      'Cette image n’est plus disponible à sa source.';
+
+  @override
+  String get contentImageNetwork =>
+      'Impossible de joindre le serveur de l’image. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get contentImageFormat =>
+      'Ce format d’image ne peut pas être affiché.';
+
+  @override
+  String get contentImageTooLarge =>
+      'Cette image est trop grande pour être affichée.';
 
   @override
   String get contentImageOpen => 'Agrandir l’image';

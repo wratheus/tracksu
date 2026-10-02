@@ -402,6 +402,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Diese Bildadresse wird nicht unterstützt. Öffne die Originalseite.';
 
   @override
+  String get contentImagePaused => 'Das Laden des Bildes ist pausiert.';
+
+  @override
   String get profilePlayHistoryTitle => 'Spiele pro Monat';
 
   @override
@@ -635,6 +638,22 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get contentImageFailed =>
       'Das Bild konnte nicht geladen werden. Es ist möglicherweise nicht verfügbar oder überschreitet die unterstützte Größe bzw. das Format.';
+
+  @override
+  String get contentImageUnavailable =>
+      'Dieses Bild ist an seiner Quelle nicht mehr verfügbar.';
+
+  @override
+  String get contentImageNetwork =>
+      'Der Bildserver ist nicht erreichbar. Prüfe deine Verbindung und versuche es erneut.';
+
+  @override
+  String get contentImageFormat =>
+      'Dieses Bildformat kann nicht angezeigt werden.';
+
+  @override
+  String get contentImageTooLarge =>
+      'Dieses Bild ist zu groß, um angezeigt zu werden.';
 
   @override
   String get contentImageOpen => 'Bild vergrößern';

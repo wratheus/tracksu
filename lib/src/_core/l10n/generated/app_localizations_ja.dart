@@ -380,6 +380,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contentImageUnsupported => 'この画像アドレスには対応していません。元のページを開いてください。';
 
   @override
+  String get contentImagePaused => '画像の読み込みを一時停止しています。';
+
+  @override
   String get profilePlayHistoryTitle => '月ごとのプレイ回数';
 
   @override
@@ -607,6 +610,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get contentImageFailed => '画像を読み込めませんでした。画像が利用できないか、サイズまたは形式が対応範囲外です。';
+
+  @override
+  String get contentImageUnavailable => 'この画像は元の場所では利用できなくなりました。';
+
+  @override
+  String get contentImageNetwork => '画像サーバーに接続できませんでした。接続を確認して、もう一度お試しください。';
+
+  @override
+  String get contentImageFormat => 'この画像形式は表示できません。';
+
+  @override
+  String get contentImageTooLarge => 'この画像は大きすぎて表示できません。';
 
   @override
   String get contentImageOpen => '画像を拡大';

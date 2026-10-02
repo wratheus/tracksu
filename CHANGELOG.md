@@ -18,6 +18,19 @@
   Full reduced-motion/large-font/performance and user acceptance remain open;
   the known ranking-list identity review item is a separate follow-up.
 
+### Rich-content image handling and audio signatures
+
+- Preserve typed HTTP/format/size/transport failures, distinguish suspended loaders
+  from blocked addresses, invalidate stale request identity before null URI.
+  Missing upstream images show compact unavailable cards; transient errors retry.
+- Render intrinsic image ratios without upscaling; authored dimensions are maxima.
+  Regenerated all seven locales from their ARB sources.
+- Determine MP3/Vorbis container from bytes and cache with its matching suffix;
+  URL extension and Content-Type are not accepted as format proof. Native iOS
+  Ogg playback is still unsupported at this checkpoint; a decoder follows.
+- Parent reproduced lifeline proxy/origin404 and successfully cold-loaded a healthy
+  960x1780 PNG from the same profile. MP3 control played; no missing bytes invented.
+
 ### September 22 feedback: cached media and browsing
 
 - Added a shared persistent image/MP3 repository: coalesced requests, bounded

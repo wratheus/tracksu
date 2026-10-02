@@ -378,6 +378,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contentImageUnsupported => '不支持此图片地址。请打开原页面查看。';
 
   @override
+  String get contentImagePaused => '图片加载已暂停。';
+
+  @override
   String get profilePlayHistoryTitle => '每月游玩次数';
 
   @override
@@ -600,6 +603,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get contentImageFailed => '无法加载图片。图片可能不可用，或大小、格式不受支持。';
+
+  @override
+  String get contentImageUnavailable => '此图片在来源处已不可用。';
+
+  @override
+  String get contentImageNetwork => '无法连接图片服务器。请检查网络后重试。';
+
+  @override
+  String get contentImageFormat => '无法显示此图片格式。';
+
+  @override
+  String get contentImageTooLarge => '此图片过大，无法显示。';
 
   @override
   String get contentImageOpen => '放大图片';

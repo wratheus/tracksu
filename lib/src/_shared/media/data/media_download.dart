@@ -4,10 +4,22 @@ import 'dart:typed_data';
 
 import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 
+/// Audio containers accepted by the cache; the suffix is the native file type.
+enum MediaAudioFormat {
+  mp3('mp3'),
+  ogg('ogg');
+
+  const MediaAudioFormat(this.extension);
+  final String extension;
+}
+
 /// Cancellable queued/active fetch; failure deliberately excludes remote URLs.
 final class MediaDownload {
   MediaDownload(this._uri, {this.audio = false});
   final bool audio;
+
+  /// Set by a successful audio [load] from the payload signature.
+  MediaAudioFormat? audioFormat;
   final Uri _uri;
   HttpClient? _client;
   ConnectionTask<Socket>? _socket;
@@ -44,7 +56,7 @@ final class MediaDownload {
         if (_cancelled ||
             addresses.isEmpty ||
             addresses.any((InternetAddress a) => !_publicAddress(a))) {
-          throw const MediaDownloadFailure();
+          throw const MediaDownloadFailure(MediaFailureReason.blocked);
         }
         // A custom factory replaces HttpClient's TLS setup, not just DNS.
         // Pin the checked IP, but validate the certificate and SNI by hostname.
@@ -58,15 +70,18 @@ final class MediaDownload {
     for (int redirect = 0; redirect <= 3; redirect++) {
       _checkUri(uri);
       if (audio && AudioTrack.resolve(uri.toString()) == null) {
-        throw const MediaDownloadFailure();
+        // Only a redirect can reach this: the initial URI already resolved.
+        throw const MediaDownloadFailure(MediaFailureReason.redirectRejected);
       }
-      if (_cancelled) throw const MediaDownloadFailure();
+      if (_cancelled) {
+        throw const MediaDownloadFailure(MediaFailureReason.cancelled);
+      }
       final HttpClientRequest request = await client.getUrl(uri);
       request.followRedirects = false;
       request.headers.set(
         HttpHeaders.acceptHeader,
         audio
-            ? 'audio/mpeg,application/octet-stream'
+            ? 'audio/mpeg,audio/ogg,application/octet-stream'
             : 'image/png,image/jpeg,image/webp,image/gif,*/*;q=0.5',
       );
       final HttpClientResponse response = await request.close();
@@ -75,35 +90,49 @@ final class MediaDownload {
           HttpHeaders.locationHeader,
         );
         if (location == null || redirect == 3) {
-          throw const MediaDownloadFailure();
+          throw const MediaDownloadFailure(MediaFailureReason.redirectLimit);
         }
         uri = uri.resolve(location);
         // A trusted request cannot redirect into an arbitrary/private host.
         if (_trustedHost(_uri.host) && !_trustedHost(uri.host)) {
-          throw const MediaDownloadFailure();
+          throw const MediaDownloadFailure(MediaFailureReason.redirectRejected);
         }
         // Do not download a redirect body of unbounded size.
         await response.listen((_) {}).cancel();
         continue;
       }
       final int maxBytes = (audio ? 24 : 16) * 1024 * 1024;
-      if (response.statusCode != 200 || response.contentLength > maxBytes) {
-        throw const MediaDownloadFailure();
+      if (response.statusCode != 200) {
+        throw MediaDownloadFailure(
+          MediaFailureReason.httpStatus,
+          response.statusCode,
+        );
+      }
+      if (response.contentLength > maxBytes) {
+        throw const MediaDownloadFailure(MediaFailureReason.tooLarge);
       }
       final BytesBuilder builder = BytesBuilder(copy: false);
       await for (final List<int> chunk in response) {
-        if (_cancelled || builder.length + chunk.length > maxBytes) {
-          throw const MediaDownloadFailure();
+        if (_cancelled) {
+          throw const MediaDownloadFailure(MediaFailureReason.cancelled);
+        }
+        if (builder.length + chunk.length > maxBytes) {
+          throw const MediaDownloadFailure(MediaFailureReason.tooLarge);
         }
         builder.add(chunk);
       }
       final Uint8List bytes = builder.takeBytes();
-      if (audio ? !_mp3(bytes) : !_raster(bytes)) {
-        throw const MediaDownloadFailure();
+      if (audio) {
+        audioFormat = detectAudio(bytes);
+        if (audioFormat == null) {
+          throw const MediaDownloadFailure(MediaFailureReason.invalidFormat);
+        }
+      } else if (!_raster(bytes)) {
+        throw const MediaDownloadFailure(MediaFailureReason.invalidFormat);
       }
       return bytes;
     }
-    throw const MediaDownloadFailure();
+    throw const MediaDownloadFailure(MediaFailureReason.redirectLimit);
   }
 
   Future<Socket> _connect(Uri uri, List<InternetAddress> addresses) async {
@@ -147,7 +176,7 @@ final class MediaDownload {
       }
       return secure;
     }
-    throw const MediaDownloadFailure();
+    throw const MediaDownloadFailure(MediaFailureReason.connection);
   }
 
   static void _checkUri(Uri uri) {
@@ -162,7 +191,7 @@ final class MediaDownload {
         host.endsWith('.local') ||
         host.endsWith('.internal') ||
         host.endsWith('.home.arpa')) {
-      throw const MediaDownloadFailure();
+      throw const MediaDownloadFailure(MediaFailureReason.blocked);
     }
   }
 
@@ -199,10 +228,32 @@ final class MediaDownload {
     'i.ppy.sh',
   }.contains(host);
 
+  /// Recognizes the payload itself; neither URL suffix nor Content-Type counts.
+  static MediaAudioFormat? detectAudio(Uint8List bytes) {
+    if (_vorbis(bytes)) return MediaAudioFormat.ogg;
+    if (_mp3(bytes)) return MediaAudioFormat.mp3;
+    return null;
+  }
+
   static bool _mp3(Uint8List bytes) =>
       bytes.length >= 3 &&
       (String.fromCharCodes(bytes.take(3)) == 'ID3' ||
           bytes[0] == 0xff && bytes[1] & 0xe0 == 0xe0);
+
+  /// First Ogg page must be a beginning-of-stream page whose packet is the
+  /// Vorbis identification header. Opus, FLAC and video in Ogg are rejected.
+  static bool _vorbis(Uint8List bytes) {
+    if (bytes.length < 28 ||
+        String.fromCharCodes(bytes.take(4)) != 'OggS' ||
+        bytes[4] != 0 ||
+        bytes[5] & 0x02 == 0) {
+      return false;
+    }
+    final int packet = 27 + bytes[26];
+    return bytes.length >= packet + 7 &&
+        bytes[packet] == 1 &&
+        String.fromCharCodes(bytes.skip(packet + 1).take(6)) == 'vorbis';
+  }
 
   static bool _raster(Uint8List bytes) => const <String>[
     'image/png',
@@ -235,6 +286,30 @@ final class MediaDownload {
   }
 }
 
+/// Privacy-safe diagnostics: a category and HTTP status only, never a URL,
+/// host, header or platform message.
+enum MediaFailureReason {
+  unavailable,
+  blocked,
+  redirectRejected,
+  redirectLimit,
+  httpStatus,
+  tooLarge,
+  invalidFormat,
+  cancelled,
+  connection,
+  timeout,
+}
+
 final class MediaDownloadFailure implements Exception {
-  const MediaDownloadFailure();
+  const MediaDownloadFailure([
+    this.reason = MediaFailureReason.unavailable,
+    this.status,
+  ]);
+  final MediaFailureReason reason;
+  final int? status;
+
+  @override
+  String toString() =>
+      'MediaDownloadFailure(${reason.name}${status == null ? '' : ' $status'})';
 }

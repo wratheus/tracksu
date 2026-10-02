@@ -23,11 +23,23 @@ final class ContentText extends ContentBlock {
 }
 
 final class ContentImage extends ContentBlock {
-  const ContentImage(super.id, {required this.uri, required this.alt});
+  const ContentImage(
+    super.id, {
+    required this.uri,
+    required this.alt,
+    this.width,
+    this.height,
+  }) : assert(width == null || width > 0),
+       assert(height == null || height > 0);
 
   /// null preserves a blocked image's position/alternative text without a fetch.
   final Uri? uri;
   final String alt;
+
+  /// Authored layout size in CSS px (bounded by the normalizer), not the
+  /// decoded raster size. null means the intrinsic image size applies.
+  final int? width;
+  final int? height;
 }
 
 final class ContentDisclosure extends ContentBlock {

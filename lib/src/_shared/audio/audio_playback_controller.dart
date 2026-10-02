@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 import 'package:tracksu/src/_shared/media/data/media_cache_repository.dart';
+import 'package:tracksu/src/_shared/media/data/media_download.dart';
 
 enum AudioPlaybackPhase { idle, loading, playing, paused, completed, failed }
 
@@ -134,7 +136,7 @@ final class AudioPlaybackController extends ChangeNotifier {
           _changed();
         }),
         player.errorStream.listen((PlayerException error) {
-          _fail(generation);
+          _fail(generation, _cause(error));
         }),
       ]);
       final Future<Duration?> prepared = audio.path == null
@@ -148,24 +150,24 @@ final class AudioPlaybackController extends ChangeNotifier {
       if (!_current(generation)) return;
       _activation = null;
       if (!activated) {
-        _fail(generation);
+        _fail(generation, 'focus denied');
         return;
       }
       // play's future completes on pause/end, not on start.
       unawaited(_play(player, generation));
-    } on Object catch (_, stackTrace) {
+    } on Object catch (error, stackTrace) {
       // Plugin failures may contain source URLs. Surface a localized state,
       // never log raw platform exceptions or feed them to OAuth error handling.
       if (!_configured) _configuration = null;
-      _fail(generation, stackTrace: stackTrace);
+      _fail(generation, _cause(error), stackTrace: stackTrace);
     }
   }
 
   Future<void> _play(AudioPlayer player, int generation) async {
     try {
       await player.play();
-    } on Object catch (_, stackTrace) {
-      _fail(generation, stackTrace: stackTrace);
+    } on Object catch (error, stackTrace) {
+      _fail(generation, _cause(error), stackTrace: stackTrace);
     }
   }
 
@@ -183,8 +185,8 @@ final class AudioPlaybackController extends ChangeNotifier {
     _changed();
     try {
       await _player?.seek(_position);
-    } on Object catch (_, stackTrace) {
-      _fail(generation, stackTrace: stackTrace);
+    } on Object catch (error, stackTrace) {
+      _fail(generation, _cause(error), stackTrace: stackTrace);
     }
   }
 
@@ -219,23 +221,32 @@ final class AudioPlaybackController extends ChangeNotifier {
 
   void _watchLoading(int generation) {
     _loadingTimeout ??= Timer(const Duration(seconds: 60), () {
-      _fail(generation);
+      _fail(generation, 'loading timeout');
     });
   }
 
-  void _fail(int generation, {StackTrace? stackTrace}) {
+  /// Stage and category only: platform messages may contain source URLs.
+  static String _cause(Object error) => switch (error) {
+    MediaDownloadFailure() => 'source $error',
+    IOException() => 'source network ${error.runtimeType}',
+    PlayerException(:final int code) => 'decoder code $code',
+    PlayerInterruptedException() => 'decoder interrupted',
+    TimeoutException() => 'decoder prepare timeout',
+    _ => 'platform ${error.runtimeType}',
+  };
+
+  void _fail(int generation, String cause, {StackTrace? stackTrace}) {
     if (!_current(generation)) return;
     _retire();
     _phase = AudioPlaybackPhase.failed;
-    if (stackTrace != null) {
-      FlutterError.reportError(
-        FlutterErrorDetails(
-          exception: StateError('Audio playback failed.'),
-          stack: stackTrace,
-          library: 'Tracksu audio',
-        ),
-      );
-    }
+    // Reported once per attempt: a retired generation cannot report again.
+    FlutterError.reportError(
+      FlutterErrorDetails(
+        exception: StateError('Audio playback failed: $cause.'),
+        stack: stackTrace,
+        library: 'Tracksu audio',
+      ),
+    );
     _changed();
   }
 

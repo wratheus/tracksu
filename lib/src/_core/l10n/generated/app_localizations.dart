@@ -744,6 +744,12 @@ abstract class AppLocalizations {
   /// **'This image address is not supported. Open the original page to view it.'**
   String get contentImageUnsupported;
 
+  /// Rich-content reader image placeholder while loading is paused.
+  ///
+  /// In en, this message translates to:
+  /// **'Image loading is paused.'**
+  String get contentImagePaused;
+
   /// Monthly play count from API monthly_playcounts, not replay views.
   ///
   /// In en, this message translates to:
@@ -1121,6 +1127,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not load the image. It may be unavailable or exceed supported size or format.'**
   String get contentImageFailed;
+
+  /// Rich-content reader image error: contentImageUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This image is no longer available at its source.'**
+  String get contentImageUnavailable;
+
+  /// Rich-content reader image error: contentImageNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the image host. Check your connection and try again.'**
+  String get contentImageNetwork;
+
+  /// Rich-content reader image error: contentImageFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'This image format cannot be displayed.'**
+  String get contentImageFormat;
+
+  /// Rich-content reader image error: contentImageTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'This image is too large to display.'**
+  String get contentImageTooLarge;
 
   /// Shared rich content reader: Enlarge image
   ///

@@ -397,6 +397,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'This image address is not supported. Open the original page to view it.';
 
   @override
+  String get contentImagePaused => 'Image loading is paused.';
+
+  @override
   String get profilePlayHistoryTitle => 'Plays by month';
 
   @override
@@ -628,6 +631,20 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get contentImageFailed =>
       'Could not load the image. It may be unavailable or exceed supported size or format.';
+
+  @override
+  String get contentImageUnavailable =>
+      'This image is no longer available at its source.';
+
+  @override
+  String get contentImageNetwork =>
+      'Could not reach the image host. Check your connection and try again.';
+
+  @override
+  String get contentImageFormat => 'This image format cannot be displayed.';
+
+  @override
+  String get contentImageTooLarge => 'This image is too large to display.';
 
   @override
   String get contentImageOpen => 'Enlarge image';

@@ -25,3 +25,15 @@ this correction. No automated tests and no broad GUI/performance guarantee.
 Remaining: full user acceptance, large fonts/reduced-motion coverage, ranking
 list SliverPadding identity on simultaneous leading refresh/trailing removal.
 Content sizing/failure and real iOS Vorbis playback are still subsequent steps.
+
+## C3: content image sizing and typed failures
+
+Lifeline missing images are real upstream404 (proxy and origin), not evidence of
+a missing image codec. Compact terminal unavailable errors, lifecycle suspension
+and stale-URI guard are reviewed; healthy same-profile PNG cold-fetch/decode
+960x1780 succeeded. Transient errors retain Retry. Dimensions stay intrinsic and
+never upscale; localizations generated for seven languages.
+Media data comes verbatim from saved pre-Ogg correction snapshot previously
+formatted/analyzed/simulator-built. MP3 control plays. Ogg/Vorbis signature/suffix
+recognized, but native iOS raw Ogg remains a diagnosed playback blocker until C4.
+No arbitrary codec/host/TLS/redirect/security widening, no automated tests.

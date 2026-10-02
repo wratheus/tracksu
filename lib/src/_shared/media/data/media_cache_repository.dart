@@ -53,7 +53,8 @@ final class MediaCacheRepository extends ChangeNotifier {
         )) {
           if (entity is! File) continue;
           final String name = entity.uri.pathSegments.last;
-          if (!RegExp(r'^[a-f0-9]{64}\.(image|mp3)(\.part)?$').hasMatch(name)) {
+          if (!RegExp(r'^[a-f0-9]{64}\.(image|mp3|ogg)(\.part)?$')
+              .hasMatch(name)) {
             continue;
           }
           final FileStat stat = await entity.stat();
@@ -82,8 +83,30 @@ final class MediaCacheRepository extends ChangeNotifier {
         Error.throwWithStackTrace(error, stack);
       });
 
+  /// Logical identity (pins, coalescing, downloads). Audio files on disk carry
+  /// a format suffix, so use [_logical] to map a file name back to this key.
   static String _key(Uri uri, bool audio) =>
-      '${sha256.convert(utf8.encode(uri.toString()))}.${audio ? 'mp3' : 'image'}';
+      '${sha256.convert(utf8.encode(uri.toString()))}.${audio ? 'audio' : 'image'}';
+
+  static final RegExp _audioSuffix = RegExp(r'\.(mp3|ogg)$');
+
+  static String _logical(String fileName) =>
+      fileName.replaceFirst(_audioSuffix, '.audio');
+
+  static String _audioFile(String key, MediaAudioFormat format) =>
+      '${key.substring(0, key.length - 'audio'.length)}${format.extension}';
+
+  static MediaAudioFormat _formatOf(String fileName) =>
+      fileName.endsWith('.ogg') ? MediaAudioFormat.ogg : MediaAudioFormat.mp3;
+
+  /// Existing entry for a logical audio key, whichever container it holds.
+  String? _audioEntry(String key) {
+    for (final MediaAudioFormat format in MediaAudioFormat.values) {
+      final String name = _audioFile(key, format);
+      if (_entries.containsKey(name)) return name;
+    }
+    return null;
+  }
 
   Future<Uint8List> image(Uri uri) async {
     if (!_imagesAllowed || _closed) throw const MediaDownloadFailure();
@@ -115,7 +138,7 @@ final class MediaCacheRepository extends ChangeNotifier {
     _pins.update(key, (int count) => count + 1, ifAbsent: () => 1);
     try {
       final _MediaData data = await _load(track.uri, audio: true);
-      return CachedAudio._(data.file?.path, () => _unpin(key));
+      return CachedAudio._(data.file?.path, data.format, () => _unpin(key));
     } on Object {
       _unpin(key);
       rethrow;
@@ -163,7 +186,7 @@ final class MediaCacheRepository extends ChangeNotifier {
           _clearing ||
           revision != _revision ||
           !audio && !_imagesAllowed) {
-        throw const MediaDownloadFailure();
+        throw const MediaDownloadFailure(MediaFailureReason.cancelled);
       }
     }
 
@@ -175,26 +198,32 @@ final class MediaCacheRepository extends ChangeNotifier {
       diskAvailable = false;
     }
     check();
-    final File? cached = !diskAvailable
+    final ({File file, String name})? cached = !diskAvailable
         ? null
         : await _serial(() async {
             check();
-            final entry = _entries[key];
-            if (entry == null) return null;
+            final String? name = audio ? _audioEntry(key) : key;
+            final entry = name == null ? null : _entries[name];
+            if (name == null || entry == null) return null;
             final FileStat stat = await entry.file.stat();
             if (stat.type != FileSystemEntityType.file ||
                 DateTime.now().difference(stat.modified) > maxAge) {
-              await _remove(key);
+              await _remove(name);
               _changed();
               return null;
             }
-            _entries.remove(key);
-            _entries[key] = entry;
+            _entries.remove(name);
+            _entries[name] = entry;
             // Keep write time for absolute expiry; reading must not make an avatar
             // immortal. In-process access order is maintained by the linked map.
-            return entry.file;
+            return (file: entry.file, name: name);
           });
-    if (cached != null) return _MediaData.disk(cached);
+    if (cached != null) {
+      return _MediaData.disk(
+        cached.file,
+        audio ? _formatOf(cached.name) : null,
+      );
+    }
     if (_active >= 4) {
       final Completer<void> slot = Completer<void>();
       _waiting.add(slot);
@@ -211,22 +240,31 @@ final class MediaCacheRepository extends ChangeNotifier {
         const Duration(seconds: 40),
         onTimeout: () {
           download?.cancel();
-          throw const MediaDownloadFailure();
+          throw const MediaDownloadFailure(MediaFailureReason.timeout);
         },
       );
       check();
+      final MediaAudioFormat? format = download.audioFormat;
       if (!diskAvailable) return _MediaData.memory(bytes);
+      // The file suffix follows the validated payload, never the URL.
+      final String name = format == null ? key : _audioFile(key, format);
       return await _serial(() async {
         check();
-        final File partial = File('${_directory!.path}/$key.part');
+        final File partial = File('${_directory!.path}/$name.part');
         try {
           // The OS may reclaim its cache directory during a running session.
           await _directory!.create(recursive: true);
           await partial.writeAsBytes(bytes, flush: true);
           check();
-          final File file = await partial.rename('${_directory!.path}/$key');
-          _bytes -= _entries.remove(key)?.size ?? 0;
-          _entries[key] = (file: file, size: bytes.length);
+          if (format != null) {
+            // A stale sibling container for the same identity must not linger.
+            for (final MediaAudioFormat other in MediaAudioFormat.values) {
+              if (other != format) await _remove(_audioFile(key, other));
+            }
+          }
+          final File file = await partial.rename('${_directory!.path}/$name');
+          _bytes -= _entries.remove(name)?.size ?? 0;
+          _entries[name] = (file: file, size: bytes.length);
           _bytes += bytes.length;
           try {
             await _trim(protect: key);
@@ -234,7 +272,7 @@ final class MediaCacheRepository extends ChangeNotifier {
             // Keep a usable new file and report real bytes if eviction failed.
           }
           _changed();
-          return _MediaData.disk(file);
+          return _MediaData.disk(file, format);
         } on FileSystemException {
           // Images can use the validated bytes; audio falls back to streaming.
           return _MediaData.memory(bytes);
@@ -268,9 +306,10 @@ final class MediaCacheRepository extends ChangeNotifier {
   Future<void> _trim({String? protect}) async {
     for (final String key in _entries.keys.toList()) {
       if (_bytes <= capacityBytes && _entries.length <= 500) break;
-      if (key == protect ||
-          _pins.containsKey(key) ||
-          _pending.containsKey(key)) {
+      final String logical = _logical(key);
+      if (logical == protect ||
+          _pins.containsKey(logical) ||
+          _pending.containsKey(logical)) {
         continue;
       }
       await _remove(key);
@@ -343,10 +382,13 @@ final class MediaCacheRepository extends ChangeNotifier {
 }
 
 final class CachedAudio {
-  CachedAudio._(this.path, this._release);
+  CachedAudio._(this.path, this.format, this._release);
 
   /// Null means disk storage was unavailable; playback may stream the URL.
   final String? path;
+
+  /// Container validated from the payload; matches the file suffix of [path].
+  final MediaAudioFormat? format;
   final VoidCallback _release;
   bool _released = false;
   void release() {
@@ -357,8 +399,9 @@ final class CachedAudio {
 }
 
 final class _MediaData {
-  const _MediaData.disk(this.file) : bytes = null;
-  const _MediaData.memory(this.bytes) : file = null;
+  const _MediaData.disk(this.file, this.format) : bytes = null;
+  const _MediaData.memory(this.bytes) : file = null, format = null;
   final File? file;
+  final MediaAudioFormat? format;
   final Uint8List? bytes;
 }

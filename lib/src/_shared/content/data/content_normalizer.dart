@@ -172,6 +172,8 @@ final class ContentNormalizer {
               0,
               (node.attributes['alt'] ?? '').length.clamp(0, 300),
             ),
+            width: _imageSize(node, 'width'),
+            height: _imageSize(node, 'height'),
           ),
         );
       } else if (_audioLink(node) case final AudioTrack track) {
@@ -258,6 +260,35 @@ final class ContentNormalizer {
     }
     flush();
     return result;
+  }
+
+  /// Only absolute pixel lengths. Percentages, em, calc() and other CSS units
+  /// are ignored, so the renderer falls back to the intrinsic raster size.
+  static int? _dimension(String? value, {required bool css}) {
+    if (value == null || value.length > 32) return null;
+    final RegExpMatch? match = RegExp(
+      css ? r'^(\d{1,5})(?:\.\d+)?px$' : r'^(\d{1,5})(?:\.\d+)?(?:px)?$',
+    ).firstMatch(value.trim().toLowerCase());
+    if (match == null) return null;
+    final int pixels = int.parse(match[1]!);
+    return pixels > 0 && pixels <= 4096 ? pixels : null;
+  }
+
+  /// Inline CSS wins over presentational attributes, as in a browser. A
+  /// declared but unsupported CSS length does not fall back to the attribute.
+  static int? _imageSize(Element image, String property) {
+    final String style = image.attributes['style'] ?? '';
+    if (style.length > 2048) return null;
+    String? declared;
+    for (final String declaration in style.split(';')) {
+      final List<String> pair = declaration.split(':');
+      if (pair.length == 2 && pair[0].trim().toLowerCase() == property) {
+        declared = pair[1];
+      }
+    }
+    return declared == null
+        ? _dimension(image.attributes[property], css: false)
+        : _dimension(declared, css: true);
   }
 
   Node? _clean(Node node) {

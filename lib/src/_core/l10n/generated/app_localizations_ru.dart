@@ -405,6 +405,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Адрес этой картинки не поддерживается. Посмотреть её можно на странице оригинала.';
 
   @override
+  String get contentImagePaused => 'Загрузка картинки приостановлена.';
+
+  @override
   String get profilePlayHistoryTitle => 'Игры по месяцам';
 
   @override
@@ -637,6 +640,20 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get contentImageFailed =>
       'Не удалось загрузить картинку. Возможно, она недоступна либо её размер или формат не поддерживается.';
+
+  @override
+  String get contentImageUnavailable =>
+      'Эта картинка больше недоступна на источнике.';
+
+  @override
+  String get contentImageNetwork =>
+      'Не удалось связаться с источником картинки. Проверьте соединение и повторите.';
+
+  @override
+  String get contentImageFormat => 'Формат этой картинки не поддерживается.';
+
+  @override
+  String get contentImageTooLarge => 'Эта картинка слишком большая для показа.';
 
   @override
   String get contentImageOpen => 'Увеличить изображение';
