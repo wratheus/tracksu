@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Public team loading
+
+- Allow public GET team endpoints for all four rulesets; fix a local auth-interceptor
+  StateError without widening the allowed hosts or methods. Parent simulator QA
+  confirmed real team loading. Full user acceptance remains pending.
+
 ### September 22 feedback: cached media and browsing
 
 - Added a shared persistent image/MP3 repository: coalesced requests, bounded
