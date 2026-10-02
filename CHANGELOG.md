@@ -8,6 +8,16 @@
   StateError without widening the allowed hosts or methods. Parent simulator QA
   confirmed real team loading. Full user acceptance remains pending.
 
+### Shared UI feedback
+
+- Coordinate one-page skeleton pulse and one-shot content/sliver reveal; static
+  reduced-motion output. Cached images stay immediate and transparent images
+  have no permanent grey loading backdrop. News/article skeletons are included.
+- Center ranking avatar/name rows and use a controls-only cover player.
+- Parent recorded slowed genuine cold loads for team/news on the existing iPhone17.
+  Full reduced-motion/large-font/performance and user acceptance remain open;
+  the known ranking-list identity review item is a separate follow-up.
+
 ### September 22 feedback: cached media and browsing
 
 - Added a shared persistent image/MP3 repository: coalesced requests, bounded

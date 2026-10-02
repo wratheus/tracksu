@@ -25,6 +25,8 @@ final class OsuCountryFlag extends StatelessWidget {
 }
 
 /// Country and team flags share geometry; absent team data adds no placeholder.
+/// Flags are centered on one line, so a 44 px team target does not push the
+/// visible country flag to the bottom of the row.
 final class OsuPlayerFlags extends StatelessWidget {
   const OsuPlayerFlags({
     this.countryCode,
@@ -41,7 +43,6 @@ final class OsuPlayerFlags extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
     mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.end,
     spacing: UiSpace.xs,
     children: <Widget>[
       if (countryCode case final String code)
@@ -78,8 +79,8 @@ final class OsuTeamFlag extends StatelessWidget {
         borderRadius: BorderRadius.circular(UiSpace.xs),
         child: ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
-          child: Align(
-            alignment: Alignment.bottomCenter,
+          // The visible flag stays centered inside the full hit target.
+          child: Center(
             widthFactor: 1,
             heightFactor: 1,
             child: ExcludeSemantics(child: flag),

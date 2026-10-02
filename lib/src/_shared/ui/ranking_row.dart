@@ -37,68 +37,83 @@ final class OsuRankingRow extends StatelessWidget {
             box.maxWidth < 330 ||
             MediaQuery.textScalerOf(context).scale(14) > 20;
         final ColorScheme colors = Theme.of(context).colorScheme;
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          spacing: UiSpace.md,
+        // Avatar, name/position header and value share one vertical center, so
+        // the nickname never sits above the avatar. Flags live in their own
+        // band below; it always reserves the 44 px team target, so rows with
+        // and without a team keep identical geometry.
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            UiAvatar.medium(name: username, image: avatar),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: UiSpace.xs,
-                children: <Widget>[
-                  Row(
-                    spacing: UiSpace.sm,
+            Row(
+              spacing: UiSpace.md,
+              children: <Widget>[
+                UiAvatar.medium(name: username, image: avatar),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: UiSpace.xs,
                     children: <Widget>[
-                      Flexible(
-                        child: UiText.titleMedium(
-                          position,
-                          color: colors.tertiary,
+                      Row(
+                        spacing: UiSpace.sm,
+                        children: <Widget>[
+                          Flexible(
+                            child: UiText.titleMedium(
+                              position,
+                              color: colors.tertiary,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (!narrow)
+                            Expanded(
+                              child: UiText.titleMedium(
+                                username,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                        ],
+                      ),
+                      if (narrow)
+                        UiText.titleMedium(
+                          username,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                      if (!narrow)
-                        Expanded(
-                          child: UiText.titleMedium(
-                            username,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
                     ],
                   ),
-                  if (narrow)
-                    UiText.titleMedium(
-                      username,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  OsuPlayerFlags(
-                    countryCode: country,
-                    team: team,
-                    onTeamTap: onTeamTap,
+                ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: box.maxWidth * 0.34),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      UiText.titleLarge(
+                        value,
+                        color: colors.primary,
+                        textAlign: TextAlign.end,
+                      ),
+                      UiText.labelSmall(
+                        valueLabel,
+                        secondary: true,
+                        textAlign: TextAlign.end,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: box.maxWidth * 0.34),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  UiText.titleLarge(
-                    value,
-                    color: colors.primary,
-                    textAlign: TextAlign.end,
-                  ),
-                  UiText.labelSmall(
-                    valueLabel,
-                    secondary: true,
-                    textAlign: TextAlign.end,
-                  ),
-                ],
+              constraints: const BoxConstraints(minHeight: 44),
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                heightFactor: 1,
+                child: OsuPlayerFlags(
+                  countryCode: country,
+                  team: team,
+                  onTeamTap: onTeamTap,
+                ),
               ),
             ),
           ],

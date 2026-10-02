@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
 import 'package:tracksu_ui/src/widgets/icon_button.dart';
-import 'package:tracksu_ui/src/widgets/surface.dart';
 import 'package:tracksu_ui/src/widgets/text.dart';
 
 /// Presentation only. The host supplies translated labels and owns playback.
+/// Controls only: title, status and time are announced, but only an error is
+/// rendered as text. No own card/background; the parent owns the surface.
 final class UiAudioPlayer extends StatefulWidget {
   const UiAudioPlayer({
     required this.title,
@@ -21,6 +22,8 @@ final class UiAudioPlayer extends StatefulWidget {
     this.failed = false,
     super.key,
   }) : _overlay = false;
+
+  /// Placed over artwork: tracks and the error get their own contrast.
   const UiAudioPlayer.overlay({
     required this.title,
     required this.status,
@@ -64,75 +67,20 @@ final class _UiAudioPlayerState extends State<UiAudioPlayer> {
   }
 
   @override
-  Widget build(BuildContext context) => widget._overlay
-      ? _overlay(context)
-      : UiSurface.tonal(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: UiSpace.sm,
-            children: <Widget>[
-              Row(
-                spacing: UiSpace.md,
-                children: <Widget>[
-                  UiIconButton.filled(
-                    tooltip: widget.actionLabel,
-                    icon: widget.actionIcon,
-                    onPressed: widget.onAction,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: UiSpace.xs,
-                      children: <Widget>[
-                        UiText.titleSmall(widget.title),
-                        if (widget.status.isNotEmpty)
-                          UiText.bodySmall(
-                            widget.status,
-                            secondary: !widget.failed,
-                            color: widget.failed
-                                ? Theme.of(context).colorScheme.error
-                                : null,
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              if (widget.loading)
-                LinearProgressIndicator(
-                  value: MediaQuery.disableAnimationsOf(context) ? .35 : null,
-                )
-              else
-                Semantics(
-                  label: widget.seekLabel,
-                  child: Slider(
-                    value: _scrub ?? widget.progress.clamp(0, 1),
-                    onChanged: widget.onSeek == null
-                        ? null
-                        : (double value) => setState(() => _scrub = value),
-                    onChangeEnd: widget.onSeek == null
-                        ? null
-                        : (double value) {
-                            setState(() => _scrub = null);
-                            widget.onSeek!(value);
-                          },
-                  ),
-                ),
-              Row(
-                children: <Widget>[
-                  Expanded(child: UiText.labelSmall(widget.positionLabel)),
-                  UiText.labelSmall(widget.durationLabel, secondary: true),
-                ],
-              ),
-            ],
-          ),
-        );
-
-  Widget _overlay(BuildContext context) => Material(
-    color: Theme.of(context).colorScheme.surface.withValues(alpha: .94),
-    borderRadius: BorderRadius.circular(UiShape.control),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: UiSpace.xs),
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    // Over artwork the inactive track must stay visible on any image.
+    final Color? track = widget._overlay
+        ? colors.surface.withValues(alpha: .72)
+        : null;
+    return Semantics(
+      container: true,
+      label: widget.title,
+      value: <String>[
+        if (widget.status.isNotEmpty) widget.status,
+        if (widget.onSeek != null)
+          '${widget.positionLabel} / ${widget.durationLabel}',
+      ].join(', '),
       child: Row(
         spacing: UiSpace.xs,
         children: <Widget>[
@@ -143,37 +91,75 @@ final class _UiAudioPlayerState extends State<UiAudioPlayer> {
           ),
           Expanded(
             child: widget.loading
-                ? LinearProgressIndicator(
-                    value: MediaQuery.disableAnimationsOf(context) ? .35 : null,
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: UiSpace.sm),
+                    child: LinearProgressIndicator(
+                      value: MediaQuery.disableAnimationsOf(context)
+                          ? .35
+                          : null,
+                      backgroundColor: track,
+                    ),
+                  )
+                : widget.failed
+                ? Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: _Error(
+                      message: widget.status,
+                      overlay: widget._overlay,
+                    ),
                   )
                 : widget.onSeek == null
-                ? UiText.labelMedium(
-                    widget.failed ? widget.status : widget.actionLabel,
-                    maxLines: 2,
-                    color: widget.failed
-                        ? Theme.of(context).colorScheme.error
-                        : null,
-                  )
+                ? const SizedBox.shrink()
                 : Semantics(
                     label: widget.seekLabel,
-                    child: Slider(
-                      value: _scrub ?? widget.progress.clamp(0, 1),
-                      onChanged: (double value) =>
-                          setState(() => _scrub = value),
-                      onChangeEnd: (double value) {
-                        setState(() => _scrub = null);
-                        widget.onSeek?.call(value);
-                      },
+                    child: SliderTheme(
+                      data: SliderTheme.of(context)
+                          .copyWith(inactiveTrackColor: track),
+                      child: Slider(
+                        value: _scrub ?? widget.progress.clamp(0, 1),
+                        onChanged: (double value) =>
+                            setState(() => _scrub = value),
+                        onChangeEnd: (double value) {
+                          setState(() => _scrub = null);
+                          widget.onSeek?.call(value);
+                        },
+                      ),
                     ),
                   ),
           ),
-          if (widget.onSeek != null)
-            Padding(
-              padding: const EdgeInsetsDirectional.only(end: UiSpace.sm),
-              child: UiText.labelSmall(widget.positionLabel),
-            ),
         ],
       ),
-    ),
-  );
+    );
+  }
+}
+
+final class _Error extends StatelessWidget {
+  const _Error({required this.message, required this.overlay});
+  final String message;
+  final bool overlay;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final Widget text = UiText.labelMedium(
+      message,
+      maxLines: 2,
+      color: overlay ? colors.onErrorContainer : colors.error,
+    );
+    if (!overlay) return text;
+    // The only text over artwork; an error must stay readable on any image.
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.errorContainer,
+        borderRadius: BorderRadius.circular(UiShape.control),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: UiSpace.sm,
+          vertical: UiSpace.xs,
+        ),
+        child: text,
+      ),
+    );
+  }
 }

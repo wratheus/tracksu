@@ -9,6 +9,16 @@ abstract final class UiSpace {
   static const double xxl = 32;
 }
 
+/// Shared motion tokens. Callers must honor reduced motion themselves.
+abstract final class UiMotion {
+  /// Cold-load reveal of content and images.
+  static const Duration reveal = Duration(milliseconds: 220);
+  static const Curve revealCurve = Curves.easeOut;
+
+  /// One full dim-and-restore cycle of a page skeleton.
+  static const Duration skeletonPulse = Duration(milliseconds: 1400);
+}
+
 abstract final class UiShape {
   static const double control = 12;
   static const double card = 16;

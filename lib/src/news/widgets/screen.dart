@@ -17,7 +17,10 @@ import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class NewsScreen extends StatelessWidget {
-  const NewsScreen({super.key});
+  const NewsScreen({required this.article, super.key});
+
+  /// Selects the cold-load skeleton geometry: article reader or card list.
+  final bool article;
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
@@ -60,71 +63,78 @@ final class NewsScreen extends StatelessWidget {
           BlocBuilder<NewsBloc, NewsState>(
             builder: (BuildContext context, NewsState state) => switch (state) {
               NewsInitialState() || NewsLoadingState() => SliverToBoxAdapter(
-                child: UiPageSkeleton.list(label: context.t.newsLoading),
+                child: article
+                    ? UiPageSkeleton.article(label: context.t.newsLoading)
+                    : UiPageSkeleton.news(label: context.t.newsLoading),
               ),
               NewsFailureState(:final failure) => SliverToBoxAdapter(
                 child: _NewsError(failure),
               ),
-              NewsContentState() => SliverMainAxisGroup(
-                slivers: <Widget>[
-                  if (state.operation == NewsOperation.refresh)
-                    SliverToBoxAdapter(
-                      child: LinearProgressIndicator(
-                        semanticsLabel: context.t.newsLoading,
-                      ),
-                    ),
-                  if (state.failure case final NewsFailureKind failure
-                      when state.failedOperation == NewsOperation.refresh)
-                    SliverToBoxAdapter(
-                      child: _NewsError(
-                        failure,
-                        keepingContent:
-                            state is NewsArticleState ||
-                            (state is NewsListState && state.items.isNotEmpty),
-                      ),
-                    ),
-                  if (state is NewsArticleState)
-                    NewsArticleContent(
-                      key: ValueKey<int>(state.article.post.id),
-                      article: state.article,
-                    ),
-                  if (state is NewsListState) ...<Widget>[
-                    if (state.items.isEmpty)
+              NewsContentState() => UiSliverReveal(
+                sliver: SliverMainAxisGroup(
+                  slivers: <Widget>[
+                    if (state.operation == NewsOperation.refresh)
                       SliverToBoxAdapter(
-                        child: UiContentState.empty(title: context.t.newsEmpty),
+                        child: LinearProgressIndicator(
+                          semanticsLabel: context.t.newsLoading,
+                        ),
                       ),
-                    _NewsList(
-                      key: const ValueKey<String>('news-media-list'),
-                      items: state.items,
-                    ),
+                    if (state.failure case final NewsFailureKind failure
+                        when state.failedOperation == NewsOperation.refresh)
+                      SliverToBoxAdapter(
+                        child: _NewsError(
+                          failure,
+                          keepingContent:
+                              state is NewsArticleState ||
+                              (state is NewsListState &&
+                                  state.items.isNotEmpty),
+                        ),
+                      ),
+                    if (state is NewsArticleState)
+                      NewsArticleContent(
+                        key: ValueKey<int>(state.article.post.id),
+                        article: state.article,
+                      ),
+                    if (state is NewsListState) ...<Widget>[
+                      if (state.items.isEmpty)
+                        SliverToBoxAdapter(
+                          child: UiContentState.empty(
+                            title: context.t.newsEmpty,
+                          ),
+                        ),
+                      _NewsList(
+                        key: const ValueKey<String>('news-media-list'),
+                        items: state.items,
+                      ),
+                    ],
+                    if (state.operation == NewsOperation.loadMore)
+                      SliverToBoxAdapter(
+                        child: Center(
+                          child: UiLoading(label: context.t.newsLoading),
+                        ),
+                      )
+                    else if (state.failure case final NewsFailureKind failure
+                        when state.failedOperation == NewsOperation.loadMore)
+                      SliverToBoxAdapter(
+                        child: _NewsError(
+                          failure,
+                          keepingContent: true,
+                          operation: state.failedOperation,
+                        ),
+                      )
+                    else if (state is NewsListState &&
+                        state.cursor != null &&
+                        state.operation == null &&
+                        state.failure == null)
+                      UiSliverAutoLoad(
+                        pageKey: state.cursor!,
+                        label: context.t.newsLoading,
+                        onLoad: () => context.read<NewsBloc>().add(
+                          const NewsMoreRequested(),
+                        ),
+                      ),
                   ],
-                  if (state.operation == NewsOperation.loadMore)
-                    SliverToBoxAdapter(
-                      child: Center(
-                        child: UiLoading(label: context.t.newsLoading),
-                      ),
-                    )
-                  else if (state.failure case final NewsFailureKind failure
-                      when state.failedOperation == NewsOperation.loadMore)
-                    SliverToBoxAdapter(
-                      child: _NewsError(
-                        failure,
-                        keepingContent: true,
-                        operation: state.failedOperation,
-                      ),
-                    )
-                  else if (state is NewsListState &&
-                      state.cursor != null &&
-                      state.operation == null &&
-                      state.failure == null)
-                    UiSliverAutoLoad(
-                      pageKey: state.cursor!,
-                      label: context.t.newsLoading,
-                      onLoad: () => context.read<NewsBloc>().add(
-                        const NewsMoreRequested(),
-                      ),
-                    ),
-                ],
+                ),
               ),
             },
           ),

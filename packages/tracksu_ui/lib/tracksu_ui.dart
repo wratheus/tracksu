@@ -15,6 +15,7 @@ export 'src/widgets/image_viewer.dart';
 export 'src/widgets/badge.dart';
 export 'src/widgets/content_state.dart';
 export 'src/widgets/page_skeleton.dart';
+export 'src/widgets/reveal.dart';
 export 'src/widgets/metric.dart';
 export 'src/widgets/chart.dart';
 export 'src/widgets/grade_gauge.dart';

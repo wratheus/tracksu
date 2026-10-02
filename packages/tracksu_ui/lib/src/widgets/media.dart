@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu_ui/src/theme/tokens.dart';
 
 /// Bounded image decoding; no global cache mutation, headers or disk cache.
 final class UiImage extends StatelessWidget {
@@ -73,10 +74,38 @@ final class UiImage extends StatelessWidget {
                 gaplessPlayback: false,
                 errorBuilder: (_, _, _) => placeholder,
                 // No byte-progress rebuilds or shimmer timers in image lists.
-                frameBuilder: (_, Widget child, int? frame, bool sync) =>
-                    sync || frame != null
-                    ? child
-                    : ColoredBox(color: colors.surfaceContainerHighest),
+                // Synchronously cached frames stay immediate; others
+                // cross-fade from the placeholder color so nothing stays
+                // behind transparent pixels.
+                frameBuilder: (_, Widget child, int? frame, bool sync) {
+                  if (sync) {
+                    return child;
+                  }
+                  final Widget loading = ColoredBox(
+                    color: colors.surfaceContainerHighest,
+                  );
+                  if (MediaQuery.disableAnimationsOf(context)) {
+                    return frame == null ? loading : child;
+                  }
+                  final bool ready = frame != null;
+                  return Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      AnimatedOpacity(
+                        opacity: ready ? 0 : 1,
+                        duration: UiMotion.reveal,
+                        curve: UiMotion.revealCurve,
+                        child: loading,
+                      ),
+                      AnimatedOpacity(
+                        opacity: ready ? 1 : 0,
+                        duration: UiMotion.reveal,
+                        curve: UiMotion.revealCurve,
+                        child: child,
+                      ),
+                    ],
+                  );
+                },
               ),
       ),
     );

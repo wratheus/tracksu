@@ -72,59 +72,63 @@ final class BeatmapScreen extends StatelessWidget {
                 BeatmapErrorState(:final failure) => SliverToBoxAdapter(
                   child: BeatmapFailureView(failure: failure, onRetry: refresh),
                 ),
-                BeatmapLoadedState() => SliverMainAxisGroup(
-                  slivers: <Widget>[
-                    if (state.refreshing)
-                      const SliverToBoxAdapter(
-                        child: LinearProgressIndicator(),
-                      ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.all(UiSpace.lg),
-                        child: OsuBeatmapCard.featured(
-                          title: state.details.title,
-                          artist: state.details.artist,
-                          banner: BeatmapCover(
-                            uri:
-                                state.details.metadata?.bannerUri ??
-                                state.details.metadata?.coverUri,
-                            preview: state.details.preview,
+                BeatmapLoadedState() => UiSliverReveal(
+                  sliver: SliverMainAxisGroup(
+                    slivers: <Widget>[
+                      if (state.refreshing)
+                        const SliverToBoxAdapter(
+                          child: LinearProgressIndicator(),
+                        ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.all(UiSpace.lg),
+                          child: OsuBeatmapCard.featured(
+                            title: state.details.title,
+                            artist: state.details.artist,
+                            banner: BeatmapCover(
+                              uri:
+                                  state.details.metadata?.bannerUri ??
+                                  state.details.metadata?.coverUri,
+                              preview: state.details.preview,
+                            ),
+                            facts: BeatmapFacts(
+                              metadata: state.details.metadata,
+                            ),
                           ),
-                          facts: BeatmapFacts(metadata: state.details.metadata),
                         ),
                       ),
-                    ),
-                    if (state.failure case final failure?)
-                      SliverToBoxAdapter(
-                        child: BeatmapFailureView(
-                          failure: failure,
-                          onRetry: refresh,
+                      if (state.failure case final failure?)
+                        SliverToBoxAdapter(
+                          child: BeatmapFailureView(
+                            failure: failure,
+                            onRetry: refresh,
+                          ),
                         ),
-                      ),
-                    if (state.details.difficulties.isEmpty)
-                      SliverToBoxAdapter(
-                        child: UiContentState.empty(
-                          title: context.t.beatmapNoDifficulties,
+                      if (state.details.difficulties.isEmpty)
+                        SliverToBoxAdapter(
+                          child: UiContentState.empty(
+                            title: context.t.beatmapNoDifficulties,
+                          ),
                         ),
-                      ),
-                    if (state.details.description case final description?)
-                      ContentPageSection(
-                        key: ValueKey<int>(state.details.id),
-                        page: description,
-                        title: context.t.beatmapDescription,
-                      ),
-                    if (state.selectedId != null)
-                      SliverToBoxAdapter(
-                        child: _DifficultyPicker(state: state),
-                      ),
-                    if (state.selectedId case final int id)
-                      _LeaderboardForSelection(
-                        key: ValueKey<int>(id),
-                        params: params,
-                        state: state,
-                        id: id,
-                      ),
-                  ],
+                      if (state.details.description case final description?)
+                        ContentPageSection(
+                          key: ValueKey<int>(state.details.id),
+                          page: description,
+                          title: context.t.beatmapDescription,
+                        ),
+                      if (state.selectedId != null)
+                        SliverToBoxAdapter(
+                          child: _DifficultyPicker(state: state),
+                        ),
+                      if (state.selectedId case final int id)
+                        _LeaderboardForSelection(
+                          key: ValueKey<int>(id),
+                          params: params,
+                          state: state,
+                          id: id,
+                        ),
+                    ],
+                  ),
                 ),
               };
             },

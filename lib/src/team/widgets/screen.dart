@@ -57,21 +57,29 @@ final class TeamScreen extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: UiPageSkeleton.profile(label: context.t.teamLoading),
                   )
-              else ...<Widget>[
-                if (busy)
-                  const SliverToBoxAdapter(child: LinearProgressIndicator()),
-                if (state case TeamLoaded(
-                  failure: final TeamFailureKind failure,
-                ))
-                  SliverToBoxAdapter(child: _Failure(failure)),
-                TeamContent(
-                  data: data,
-                  selectedMode: state is TeamLoaded
-                      ? (state.requestedMode ?? data.ruleset)
-                      : data.ruleset,
-                  mediaPermission: DepsScope.of(context).contentMediaController,
+              else
+                UiSliverReveal(
+                  sliver: SliverMainAxisGroup(
+                    slivers: <Widget>[
+                      if (busy)
+                        const SliverToBoxAdapter(
+                          child: LinearProgressIndicator(),
+                        ),
+                      if (state case TeamLoaded(
+                        failure: final TeamFailureKind failure,
+                      ))
+                        SliverToBoxAdapter(child: _Failure(failure)),
+                      TeamContent(
+                        data: data,
+                        selectedMode: state is TeamLoaded
+                            ? (state.requestedMode ?? data.ruleset)
+                            : data.ruleset,
+                        mediaPermission: DepsScope.of(context)
+                            .contentMediaController,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
             ],
           ),
         ),

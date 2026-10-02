@@ -220,6 +220,23 @@ track and elapsed time, without the full panel's title/status rows. Both variant
 are in the offline catalog. `BeatmapCover` in the app composes it with cached
 artwork; the kit never owns downloads, cache paths or playback state.
 
+`UiAudioPlayer` is controls-only: action button plus loading/seek track. Title,
+status and time are exposed through semantics; only an error is drawn as text
+(on its own error container over artwork). It paints no card or background, so
+the parent owns the surface. The overlay variant gives the inactive track extra
+contrast over images.
+
+`UiAudioPlayer`'s sibling `UiPageSkeleton` adds `.news` (two cards with 16:9
+cover and text lines) and `.article` (headline, byline, paragraphs). Like
+`.profile/.list` they are box widgets with a fixed number of placeholders. All
+placeholders of one page pulse together from a single controller; under reduced
+motion they stay static.
+
+`UiReveal` (box) and `UiSliverReveal` (sliver) fade their child in once when
+first mounted, using `UiMotion.reveal`/`revealCurve`; keep them at a stable tree
+position so refresh and pagination do not replay the fade. They honor reduced
+motion and never wrap lazy lists in an `AnimatedSwitcher`.
+
 `UiAvatar` uses a proportional corner radius (16% of its side), so small ranking
 avatars remain recognizably square. Flags are an app-level composition, not an
 image-cache responsibility.

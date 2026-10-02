@@ -61,88 +61,92 @@ final class RankingsSection extends StatelessWidget {
           RankingsFailureState(:final failure) => SliverToBoxAdapter(
             child: _RankingsError(failure: failure),
           ),
-          RankingsLoadedState() => SliverMainAxisGroup(
-            slivers: <Widget>[
-              if (state.operation == RankingsOperation.refresh)
-                const SliverToBoxAdapter(child: _RankingsProgress()),
-              if (state.failedOperation == RankingsOperation.refresh &&
-                  state.failure != null)
-                SliverToBoxAdapter(
-                  child: _RankingsError(
-                    failure: state.failure!,
-                    failedOperation: state.failedOperation,
-                    hasContent: state.items.isNotEmpty,
+          RankingsLoadedState() => UiSliverReveal(
+            sliver: SliverMainAxisGroup(
+              slivers: <Widget>[
+                if (state.operation == RankingsOperation.refresh)
+                  const SliverToBoxAdapter(child: _RankingsProgress()),
+                if (state.failedOperation == RankingsOperation.refresh &&
+                    state.failure != null)
+                  SliverToBoxAdapter(
+                    child: _RankingsError(
+                      failure: state.failure!,
+                      failedOperation: state.failedOperation,
+                      hasContent: state.items.isNotEmpty,
+                    ),
                   ),
-                ),
-              if (state.items.isEmpty)
-                SliverToBoxAdapter(
-                  child: UiContentState.empty(title: context.t.rankingsEmpty),
-                ),
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
-                sliver: UiSliverCardList(
-                  itemCount: state.items.length,
-                  itemBuilder: (_, int index) => RankingEntryCard(
-                    key: ValueKey<int>(state.items[index].id),
-                    entry: state.items[index],
-                    type: state.type,
-                    onOpen: () => DepsScope.of(context).appRouter.openProfile(
-                      context,
-                      ProfileParams(
-                        user: ProfileUserId(state.items[index].id),
-                        ruleset: state.type.ruleset,
+                if (state.items.isEmpty)
+                  SliverToBoxAdapter(
+                    child: UiContentState.empty(title: context.t.rankingsEmpty),
+                  ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
+                  sliver: UiSliverCardList(
+                    itemCount: state.items.length,
+                    itemBuilder: (_, int index) => RankingEntryCard(
+                      key: ValueKey<int>(state.items[index].id),
+                      entry: state.items[index],
+                      type: state.type,
+                      onOpen: () => DepsScope.of(context).appRouter.openProfile(
+                        context,
+                        ProfileParams(
+                          user: ProfileUserId(state.items[index].id),
+                          ruleset: state.type.ruleset,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              if (state.nextPage != null &&
-                  state.operation == null &&
-                  state.failure == null)
-                UiSliverAutoLoad(
-                  pageKey: (
-                    state.type,
-                    state.country?.value,
-                    state.variant,
-                    state.nextPage,
+                if (state.nextPage != null &&
+                    state.operation == null &&
+                    state.failure == null)
+                  UiSliverAutoLoad(
+                    pageKey: (
+                      state.type,
+                      state.country?.value,
+                      state.variant,
+                      state.nextPage,
+                    ),
+                    label: context.t.rankingsLoading,
+                    onLoad: () => context.read<RankingsBloc>().add(
+                      const RankingsMoreRequested(),
+                    ),
                   ),
-                  label: context.t.rankingsLoading,
-                  onLoad: () => context.read<RankingsBloc>().add(
-                    const RankingsMoreRequested(),
-                  ),
-                ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: UiSpace.xl),
-                  child: switch (state) {
-                    RankingsLoadedState(
-                      operation: RankingsOperation.loadMore,
-                    ) =>
-                      const _RankingsProgress(),
-                    RankingsLoadedState(
-                      failure: final RankingsFailureKind failure,
-                      failedOperation: RankingsOperation.loadMore,
-                    ) =>
-                      _RankingsError(
-                        failure: failure,
-                        failedOperation: state.failedOperation,
-                        hasContent: state.items.isNotEmpty,
-                      ),
-                    _ when state.failedOperation == RankingsOperation.refresh =>
-                      const SizedBox.shrink(),
-                    _ when state.nextPage != null => const SizedBox.shrink(),
-                    _ when state.nextPage == null && state.items.isNotEmpty =>
-                      Center(
-                        child: UiText.bodySmall(
-                          context.t.rankingsEnd,
-                          secondary: true,
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: UiSpace.xl),
+                    child: switch (state) {
+                      RankingsLoadedState(
+                        operation: RankingsOperation.loadMore,
+                      ) =>
+                        const _RankingsProgress(),
+                      RankingsLoadedState(
+                        failure: final RankingsFailureKind failure,
+                        failedOperation: RankingsOperation.loadMore,
+                      ) =>
+                        _RankingsError(
+                          failure: failure,
+                          failedOperation: state.failedOperation,
+                          hasContent: state.items.isNotEmpty,
                         ),
-                      ),
-                    _ => const SizedBox.shrink(),
-                  },
+                      _
+                          when state.failedOperation ==
+                              RankingsOperation.refresh =>
+                        const SizedBox.shrink(),
+                      _ when state.nextPage != null => const SizedBox.shrink(),
+                      _ when state.nextPage == null && state.items.isNotEmpty =>
+                        Center(
+                          child: UiText.bodySmall(
+                            context.t.rankingsEnd,
+                            secondary: true,
+                          ),
+                        ),
+                      _ => const SizedBox.shrink(),
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         },
       ),

@@ -21,6 +21,6 @@ final class NewsMain extends StatelessWidget {
         ),
       ),
     )..add(const NewsStarted()),
-    child: const NewsScreen(),
+    child: NewsScreen(article: params != null),
   );
 }

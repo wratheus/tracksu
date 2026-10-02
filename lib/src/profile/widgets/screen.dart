@@ -94,9 +94,9 @@ final class ProfileScreen extends StatelessWidget {
                     ProfileFailureState(:final failure) => Center(
                       child: ProfileErrorMessage(failure: failure),
                     ),
-                    ProfileLoadedState() => ProfileContent(
+                    ProfileLoadedState() => UiReveal(
                       key: ValueKey<int>(state.profile.id),
-                      state: state,
+                      child: ProfileContent(state: state),
                     ),
                   },
             ),

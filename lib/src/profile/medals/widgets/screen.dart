@@ -63,82 +63,87 @@ final class MedalsScreen extends StatelessWidget {
           }
           final MedalsLoaded loaded = state as MedalsLoaded;
           final List<EarnedMedal> medals = loaded.medals;
-          return CustomScrollView(
-            slivers: <Widget>[
-              if (loaded.refreshing)
-                const SliverToBoxAdapter(child: LinearProgressIndicator()),
-              if (loaded.refreshFailed)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(UiSpace.lg),
-                    child: UiNotice(
-                      message: context.t.profileShowingPreviousData,
-                      tone: UiNoticeTone.warning,
-                      actionLabel: context.t.retry,
-                      onAction: () => _refresh(context),
+          return UiReveal(
+            child: CustomScrollView(
+              slivers: <Widget>[
+                if (loaded.refreshing)
+                  const SliverToBoxAdapter(child: LinearProgressIndicator()),
+                if (loaded.refreshFailed)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(UiSpace.lg),
+                      child: UiNotice(
+                        message: context.t.profileShowingPreviousData,
+                        tone: UiNoticeTone.warning,
+                        actionLabel: context.t.retry,
+                        onAction: () => _refresh(context),
+                      ),
                     ),
                   ),
-                ),
-              if (medals.isEmpty)
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(
-                    child: UiContentState.empty(title: context.t.medalsEmpty),
-                  ),
-                )
-              else
-                SliverPadding(
-                  padding: const EdgeInsets.all(UiSpace.lg),
-                  sliver: UiSliverCardList(
-                    itemCount: medals.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final EarnedMedal medal = medals[index];
-                      return UiSurface.card(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: UiSpace.md,
-                          children: <Widget>[
-                            if (medal.imageUri != null)
-                              UiImage(
-                                image: AppMedia.image(context, medal.imageUri),
-                                width: 64,
-                                height: 64,
-                                fit: BoxFit.contain,
-                              )
-                            else
-                              const Icon(
-                                Icons.workspace_premium_outlined,
-                                size: 48,
-                              ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                spacing: UiSpace.sm,
-                                children: <Widget>[
-                                  UiText.titleMedium(
-                                    medal.name ??
-                                        context.t.profileMedalId(medal.id),
+                if (medals.isEmpty)
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: UiContentState.empty(title: context.t.medalsEmpty),
+                    ),
+                  )
+                else
+                  SliverPadding(
+                    padding: const EdgeInsets.all(UiSpace.lg),
+                    sliver: UiSliverCardList(
+                      itemCount: medals.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final EarnedMedal medal = medals[index];
+                        return UiSurface.card(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: UiSpace.md,
+                            children: <Widget>[
+                              if (medal.imageUri != null)
+                                UiImage(
+                                  image: AppMedia.image(
+                                    context,
+                                    medal.imageUri,
                                   ),
-                                  if (medal.description
-                                      case final String description)
-                                    UiText.bodyMedium(description),
-                                  UiText.bodySmall(
-                                    DateFormat.yMMMd(
-                                      Localizations.localeOf(context)
-                                          .toLanguageTag(),
-                                    ).format(medal.earnedAt.toLocal()),
-                                    secondary: true,
-                                  ),
-                                ],
+                                  width: 64,
+                                  height: 64,
+                                  fit: BoxFit.contain,
+                                )
+                              else
+                                const Icon(
+                                  Icons.workspace_premium_outlined,
+                                  size: 48,
+                                ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  spacing: UiSpace.sm,
+                                  children: <Widget>[
+                                    UiText.titleMedium(
+                                      medal.name ??
+                                          context.t.profileMedalId(medal.id),
+                                    ),
+                                    if (medal.description
+                                        case final String description)
+                                      UiText.bodyMedium(description),
+                                    UiText.bodySmall(
+                                      DateFormat.yMMMd(
+                                        Localizations.localeOf(context)
+                                            .toLanguageTag(),
+                                      ).format(medal.earnedAt.toLocal()),
+                                      secondary: true,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           );
         },
       ),
