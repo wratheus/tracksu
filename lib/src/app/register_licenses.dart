@@ -19,4 +19,13 @@ void registerAssetLicenses() {
     );
     yield LicenseEntryWithLineBreaks(const <String>['osu! legacy flags'], text);
   });
+  LicenseRegistry.addLicense(() async* {
+    final String text = await rootBundle.loadString(
+      'assets/licenses/audio_decode_codecs.txt',
+    );
+    yield LicenseEntryWithLineBreaks(const <String>[
+      'stb_vorbis',
+      'minimp3',
+    ], text);
+  });
 }

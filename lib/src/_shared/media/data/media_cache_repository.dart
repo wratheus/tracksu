@@ -8,12 +8,21 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 import 'package:tracksu/src/_shared/media/data/media_download.dart';
+import 'package:tracksu/src/_shared/media/data/vorbis_wav.dart';
+
+/// On-disk audio containers in lookup order. WAV is only ever written by the
+/// local Vorbis decoder; a downloaded payload must be MP3 or Ogg Vorbis.
+enum _AudioFile { wav, mp3, ogg }
 
 /// App-owned public media only. Atomic disk writes, coalesced requests, bounded
 /// concurrency and LRU; no API payloads, tokens, URL index or cookies on disk.
 final class MediaCacheRepository extends ChangeNotifier {
   static const int capacityBytes = 128 * 1024 * 1024;
   static const Duration maxAge = Duration(days: 7);
+
+  /// iOS AVFoundation has no Vorbis decoder: there an Ogg payload is stored as
+  /// locally decoded PCM WAV. Other platforms play Ogg natively.
+  static final bool _decodesVorbis = Platform.isIOS;
   final LinkedHashMap<String, ({File file, int size})> _entries =
       LinkedHashMap();
   final Map<String, Future<_MediaData>> _pending = {};
@@ -29,6 +38,7 @@ final class MediaCacheRepository extends ChangeNotifier {
   Directory? _directory;
   Future<void>? _initializing;
   Future<void> _operations = Future<void>.value();
+  Future<void> _decoding = Future<void>.value();
   int get sizeBytes => _bytes;
   int get revision => _revision;
 
@@ -53,7 +63,7 @@ final class MediaCacheRepository extends ChangeNotifier {
         )) {
           if (entity is! File) continue;
           final String name = entity.uri.pathSegments.last;
-          if (!RegExp(r'^[a-f0-9]{64}\.(image|mp3|ogg)(\.part)?$')
+          if (!RegExp(r'^[a-f0-9]{64}\.(image|mp3|ogg|wav)(\.part)?$')
               .hasMatch(name)) {
             continue;
           }
@@ -88,21 +98,18 @@ final class MediaCacheRepository extends ChangeNotifier {
   static String _key(Uri uri, bool audio) =>
       '${sha256.convert(utf8.encode(uri.toString()))}.${audio ? 'audio' : 'image'}';
 
-  static final RegExp _audioSuffix = RegExp(r'\.(mp3|ogg)$');
+  static final RegExp _audioSuffix = RegExp(r'\.(mp3|ogg|wav)$');
 
   static String _logical(String fileName) =>
       fileName.replaceFirst(_audioSuffix, '.audio');
 
-  static String _audioFile(String key, MediaAudioFormat format) =>
-      '${key.substring(0, key.length - 'audio'.length)}${format.extension}';
-
-  static MediaAudioFormat _formatOf(String fileName) =>
-      fileName.endsWith('.ogg') ? MediaAudioFormat.ogg : MediaAudioFormat.mp3;
+  static String _audioFile(String key, _AudioFile file) =>
+      '${key.substring(0, key.length - 'audio'.length)}${file.name}';
 
   /// Existing entry for a logical audio key, whichever container it holds.
   String? _audioEntry(String key) {
-    for (final MediaAudioFormat format in MediaAudioFormat.values) {
-      final String name = _audioFile(key, format);
+    for (final _AudioFile file in _AudioFile.values) {
+      final String name = _audioFile(key, file);
       if (_entries.containsKey(name)) return name;
     }
     return null;
@@ -198,7 +205,8 @@ final class MediaCacheRepository extends ChangeNotifier {
       diskAvailable = false;
     }
     check();
-    final ({File file, String name})? cached = !diskAvailable
+    final ({File file, MediaAudioFormat? format, bool playable})? cached =
+        !diskAvailable
         ? null
         : await _serial(() async {
             check();
@@ -212,18 +220,57 @@ final class MediaCacheRepository extends ChangeNotifier {
               _changed();
               return null;
             }
+            final bool wav = audio && name.endsWith('.wav');
+            // Older builds named every audio payload `.mp3`: trust bytes only.
+            final MediaAudioFormat? format = !audio
+                ? null
+                : wav
+                ? MediaAudioFormat.ogg
+                : MediaDownload.detectAudio(await _head(entry.file));
+            if (audio && format == null) {
+              await _remove(name);
+              _changed();
+              return null;
+            }
             _entries.remove(name);
             _entries[name] = entry;
             // Keep write time for absolute expiry; reading must not make an avatar
             // immortal. In-process access order is maintained by the linked map.
-            return (file: entry.file, name: name);
+            return (
+              file: entry.file,
+              format: format,
+              playable:
+                  wav || format != MediaAudioFormat.ogg || !_decodesVorbis,
+            );
           });
-    if (cached != null) {
-      return _MediaData.disk(
-        cached.file,
-        audio ? _formatOf(cached.name) : null,
-      );
+    if (cached != null && cached.playable) {
+      return _MediaData.disk(cached.file, cached.format);
     }
+    return _slot(() async {
+      check();
+      ({Uint8List bytes, MediaAudioFormat? format})? payload;
+      if (cached != null) {
+        if (await _readPayload(cached.file) case final Uint8List bytes) {
+          payload = (bytes: bytes, format: cached.format);
+        }
+        check();
+      }
+      payload ??= await _download(uri, key, audio: audio, check: check);
+      check();
+      return _store(
+        key,
+        payload,
+        audio: audio,
+        diskAvailable: diskAvailable,
+        check: check,
+      );
+    });
+  }
+
+  /// Bounds full payloads held at once: a slot covers the cached read or
+  /// download, the queued Vorbis decode and the atomic write. Holders never
+  /// wait for another slot, and [_serial]/[_decoding] work never takes one.
+  Future<T> _slot<T>(Future<T> Function() action) async {
     if (_active >= 4) {
       final Completer<void> slot = Completer<void>();
       _waiting.add(slot);
@@ -231,6 +278,93 @@ final class MediaCacheRepository extends ChangeNotifier {
     } else {
       _active++;
     }
+    try {
+      return await action();
+    } finally {
+      if (_waiting.isNotEmpty) {
+        _waiting.removeFirst().complete();
+      } else {
+        _active--;
+      }
+    }
+  }
+
+  Future<_MediaData> _store(
+    String key,
+    ({Uint8List bytes, MediaAudioFormat? format}) payload, {
+    required bool audio,
+    required bool diskAvailable,
+    required void Function() check,
+  }) async {
+    final MediaAudioFormat? format = payload.format;
+    final bool decode = format == MediaAudioFormat.ogg && _decodesVorbis;
+    Uint8List bytes = payload.bytes;
+    if (decode) {
+      // The remote Vorbis URL is not playable either: no local file, no audio.
+      if (!diskAvailable) throw const MediaDownloadFailure();
+      bytes = await _decodeVorbis(bytes, check);
+      check();
+    }
+    if (!diskAvailable) return _MediaData.memory(bytes);
+    // The file suffix follows the validated payload, never the URL.
+    final String name = format == null
+        ? key
+        : _audioFile(
+            key,
+            decode
+                ? _AudioFile.wav
+                : switch (format) {
+                    MediaAudioFormat.mp3 => _AudioFile.mp3,
+                    MediaAudioFormat.ogg => _AudioFile.ogg,
+                  },
+          );
+    return _serial(() async {
+      check();
+      final File partial = File('${_directory!.path}/$name.part');
+      try {
+        // The OS may reclaim its cache directory during a running session.
+        await _directory!.create(recursive: true);
+        await partial.writeAsBytes(bytes, flush: true);
+        check();
+        if (audio) {
+          // A stale sibling container for the same identity must not linger.
+          for (final _AudioFile other in _AudioFile.values) {
+            final String sibling = _audioFile(key, other);
+            if (sibling != name) await _remove(sibling);
+          }
+        }
+        final File file = await partial.rename('${_directory!.path}/$name');
+        _bytes -= _entries.remove(name)?.size ?? 0;
+        _entries[name] = (file: file, size: bytes.length);
+        _bytes += bytes.length;
+        try {
+          await _trim(protect: key);
+        } on FileSystemException {
+          // Keep a usable new file and report real bytes if eviction failed.
+        }
+        _changed();
+        return _MediaData.disk(file, format);
+      } on FileSystemException {
+        // Images use the validated bytes and MP3/native Ogg falls back to
+        // streaming; decoded Vorbis has no playable remote equivalent.
+        if (decode) throw const MediaDownloadFailure();
+        return _MediaData.memory(bytes);
+      } finally {
+        try {
+          if (await partial.exists()) await partial.delete();
+        } on FileSystemException {
+          // Startup cleanup retries orphaned partial files.
+        }
+      }
+    });
+  }
+
+  Future<({Uint8List bytes, MediaAudioFormat? format})> _download(
+    Uri uri,
+    String key, {
+    required bool audio,
+    required void Function() check,
+  }) async {
     MediaDownload? download;
     try {
       check();
@@ -243,55 +377,54 @@ final class MediaCacheRepository extends ChangeNotifier {
           throw const MediaDownloadFailure(MediaFailureReason.timeout);
         },
       );
-      check();
-      final MediaAudioFormat? format = download.audioFormat;
-      if (!diskAvailable) return _MediaData.memory(bytes);
-      // The file suffix follows the validated payload, never the URL.
-      final String name = format == null ? key : _audioFile(key, format);
-      return await _serial(() async {
-        check();
-        final File partial = File('${_directory!.path}/$name.part');
-        try {
-          // The OS may reclaim its cache directory during a running session.
-          await _directory!.create(recursive: true);
-          await partial.writeAsBytes(bytes, flush: true);
-          check();
-          if (format != null) {
-            // A stale sibling container for the same identity must not linger.
-            for (final MediaAudioFormat other in MediaAudioFormat.values) {
-              if (other != format) await _remove(_audioFile(key, other));
-            }
-          }
-          final File file = await partial.rename('${_directory!.path}/$name');
-          _bytes -= _entries.remove(name)?.size ?? 0;
-          _entries[name] = (file: file, size: bytes.length);
-          _bytes += bytes.length;
-          try {
-            await _trim(protect: key);
-          } on FileSystemException {
-            // Keep a usable new file and report real bytes if eviction failed.
-          }
-          _changed();
-          return _MediaData.disk(file, format);
-        } on FileSystemException {
-          // Images can use the validated bytes; audio falls back to streaming.
-          return _MediaData.memory(bytes);
-        } finally {
-          try {
-            if (await partial.exists()) await partial.delete();
-          } on FileSystemException {
-            // Startup cleanup retries orphaned partial files.
-          }
-        }
-      });
+      return (bytes: bytes, format: download.audioFormat);
     } finally {
       download?.cancel();
       _downloads.remove(key);
-      if (_waiting.isNotEmpty) {
-        _waiting.removeFirst().complete();
-      } else {
-        _active--;
+    }
+  }
+
+  /// One native decode at a time, off the UI isolate. A started decode cannot
+  /// be cancelled: [clear] awaits it through [_pending] and the caller's
+  /// revision check discards its result, so nothing obsolete is written.
+  Future<Uint8List> _decodeVorbis(Uint8List ogg, void Function() check) {
+    final Future<Uint8List> result = _decoding.then((_) {
+      check();
+      return compute(vorbisToWav, ogg, debugLabel: 'Tracksu Vorbis decode');
+    });
+    _decoding = result.then<void>((_) {}, onError: (Object _, StackTrace _) {});
+    return result;
+  }
+
+  /// Enough leading bytes for [MediaDownload.detectAudio]; unreadable is empty.
+  static Future<Uint8List> _head(File file) async {
+    try {
+      final RandomAccessFile handle = await file.open();
+      try {
+        return await handle.read(512);
+      } finally {
+        await handle.close();
       }
+    } on FileSystemException {
+      return Uint8List(0);
+    }
+  }
+
+  /// Whole cached payload sized from the open file, never more than the
+  /// download cap. Null when unreadable or oversized: download it again and
+  /// let the new file replace the entry.
+  static Future<Uint8List?> _readPayload(File file) async {
+    try {
+      final RandomAccessFile handle = await file.open();
+      try {
+        final int length = await handle.length();
+        if (length > MediaDownload.maxAudioBytes) return null;
+        return await handle.read(length);
+      } finally {
+        await handle.close();
+      }
+    } on FileSystemException {
+      return null;
     }
   }
 
@@ -385,9 +518,10 @@ final class CachedAudio {
   CachedAudio._(this.path, this.format, this._release);
 
   /// Null means disk storage was unavailable; playback may stream the URL.
+  /// Never null for Vorbis on iOS, where [path] is a locally decoded WAV.
   final String? path;
 
-  /// Container validated from the payload; matches the file suffix of [path].
+  /// Payload container validated from the downloaded bytes.
   final MediaAudioFormat? format;
   final VoidCallback _release;
   bool _released = false;

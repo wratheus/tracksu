@@ -4,6 +4,23 @@
 
 ## Сейчас
 
+[P29: коррекция UI-обратной связи](work/P29-ui-feedback-correction.md) —
+correction 1: Ogg Vorbis в media cache (preview CDN), downscale-only inline
+изображения, ограниченный placeholder/decode, ranking row без ника над аватаром.
+Ogg/Vorbis playback на iOS подтверждён parent-проверкой 2026-10-02
+(точный preview873811); полный GUI QA/приёмка пользователем ещё открыты.
+Продолжение: allowlist `/api/v2/teams/{id}[/ruleset]` в public-интерцепторе
+(причина сбоя загрузки команды), пульсирующий skeleton и `UiReveal`/
+`UiSliverReveal` для cold load. Статус awaiting_manual_check; Simulator.app GUI
+недоступен, проверка через simctl — на родителе.
+2026-10-02: по новому одобрению пользователя (заменяет прежний отказ от
+декодера) добавлен `audio_decode` 1.3.5 — iOS Ogg Vorbis → WAV в media cache
+с ограничивающим preflight. Analyzer и simulator build пройдены. Parent
+установил final artifact на существующий iPhone17: preview873811 играет,
+позиция растёт, pause/seek/resume работают; MP3-контроль518 также играет.
+Карточка quaver показывает Pause/прогресс без ошибки. Пользовательская
+приёмка/общий статус P29 — awaiting_manual_check; доказательства в work card.
+
 [P28: обратная связь 22 сентября](work/P28-media-cache-and-browsing.md)
 реализована: общий disk cache изображений/MP3 и размер/очистка в настройках,
 плеер внутри обложек, изображения по умолчанию с opt-out, повторный поиск,

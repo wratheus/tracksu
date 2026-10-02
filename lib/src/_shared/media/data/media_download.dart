@@ -4,18 +4,13 @@ import 'dart:typed_data';
 
 import 'package:tracksu/src/_shared/audio/domain/audio_track.dart';
 
-/// Audio containers accepted by the cache; the suffix is the native file type.
-enum MediaAudioFormat {
-  mp3('mp3'),
-  ogg('ogg');
-
-  const MediaAudioFormat(this.extension);
-  final String extension;
-}
+/// Audio payload containers accepted from the network.
+enum MediaAudioFormat { mp3, ogg }
 
 /// Cancellable queued/active fetch; failure deliberately excludes remote URLs.
 final class MediaDownload {
   MediaDownload(this._uri, {this.audio = false});
+  static const int maxAudioBytes = 24 * 1024 * 1024;
   final bool audio;
 
   /// Set by a successful audio [load] from the payload signature.
@@ -101,7 +96,7 @@ final class MediaDownload {
         await response.listen((_) {}).cancel();
         continue;
       }
-      final int maxBytes = (audio ? 24 : 16) * 1024 * 1024;
+      final int maxBytes = audio ? maxAudioBytes : 16 * 1024 * 1024;
       if (response.statusCode != 200) {
         throw MediaDownloadFailure(
           MediaFailureReason.httpStatus,

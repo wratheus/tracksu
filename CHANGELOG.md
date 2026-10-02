@@ -2,34 +2,59 @@
 
 ## Unreleased
 
-### Public team loading
+### iOS Ogg Vorbis previews
 
-- Allow public GET team endpoints for all four rulesets; fix a local auth-interceptor
-  StateError without widening the allowed hosts or methods. Parent simulator QA
-  confirmed real team loading. Full user acceptance remains pending.
+- Added `audio_decode` 1.3.5 (MIT; compiles stb_vorbis MIT/Unlicense and
+  minimp3 CC0 through a Dart build hook, no plugin or pod). On iOS a validated
+  Ogg Vorbis preview is decoded once in a background isolate and cached as a
+  16-bit WAV; MP3 and non-iOS Ogg keep the native path. Legacy cache entries are
+  classified by their bytes, not their `.mp3` suffix.
+- Before native decode, a structural preflight accepts only one complete
+  logical stream (1–2 channels, 8–48 kHz, standard block sizes) and bounds
+  decoded PCM to 16 MiB. The claimed end granule is checked before decoding;
+  actual decoded duration is checked afterward and accepted output is at most
+  45 s. One decode runs at a time, four slots bound full payload lifetimes,
+  and stale results are never written. Codec notices are under About → Licenses.
+- Status: awaiting user acceptance. Analyzer and iOS simulator build passed;
+  parent verified real preview873811 playback, pause/seek/resume and MP3 control518
+  on the existing iPhone17. The quaver card shows Pause/progress without its old error.
 
-### Shared UI feedback
+### Rich-content image diagnostics
 
-- Coordinate one-page skeleton pulse and one-shot content/sliver reveal; static
-  reduced-motion output. Cached images stay immediate and transparent images
-  have no permanent grey loading backdrop. News/article skeletons are included.
-- Center ranking avatar/name rows and use a controls-only cover player.
-- Parent recorded slowed genuine cold loads for team/news on the existing iPhone17.
-  Full reduced-motion/large-font/performance and user acceptance remain open;
-  the known ranking-list identity review item is a separate follow-up.
+- Preserve privacy-safe typed HTTP/size/format/transport failures. Missing upstream
+  images (404/410) show compact source-unavailable cards instead of huge placeholders
+  and a misleading format message; transient failures retain Retry.
+- Invalidate old request identity before a null-URI branch; distinguish paused
+  loaders from blocked addresses. All seven locales were generated from ARB sources.
+- Reproduced lifeline's two expired-source images: proxy and origin return404;
+  the client cannot restore missing upstream bytes. A healthy PNG from that same
+  profile cold-loaded and decoded at960×1780; no broad format expansion was needed.
 
-### Rich-content image handling and audio signatures
+### Correction 2: team load and skeleton transitions
 
-- Preserve typed HTTP/format/size/transport failures, distinguish suspended loaders
-  from blocked addresses, invalidate stale request identity before null URI.
-  Missing upstream images show compact unavailable cards; transient errors retry.
-- Render intrinsic image ratios without upscaling; authored dimensions are maxima.
-  Regenerated all seven locales from their ARB sources.
-- Determine MP3/Vorbis container from bytes and cache with its matching suffix;
-  URL extension and Content-Type are not accepted as format proof. Native iOS
-  Ogg playback is still unsupported at this checkpoint; a decoder follows.
-- Parent reproduced lifeline proxy/origin404 and successfully cold-loaded a healthy
-  960x1780 PNG from the same profile. MP3 control played; no missing bytes invented.
+- Public API client now allows `GET /api/v2/teams/{id}[/{ruleset}]`; before,
+  team requests failed locally with `StateError` before any network call.
+- `UiPageSkeleton` pulses with one controller per page (static under reduced
+  motion). New `UiReveal`/`UiSliverReveal` and `UiMotion` tokens fade content in
+  once on cold load (news, team, profile, rankings, beatmap, medals); images fade
+  in without a spinner flash, synchronous cache hits stay immediate.
+- Initial developer pass ran format/analyzer only. Subsequent parent simulator
+  cold-load QA covered team/news and all four team rulesets; full GUI acceptance,
+  large-font/reduced-motion coverage and ranking-list identity follow-up remain open.
+
+### Correction 1: audio formats, inline images, ranking row
+
+- Media cache accepts first-party Ogg Vorbis previews in addition to MP3,
+  recognized by payload signature; cached files get the matching `.ogg`/`.mp3`
+  suffix and `CachedAudio` exposes the format. Other codecs remain rejected.
+  Whether iOS plays Ogg natively is not yet verified.
+- Inline rich-content images keep their intrinsic ratio and are never upscaled;
+  authored width/height are maxima. Placeholders are bounded on both axes and
+  decoding follows the display size and device pixel ratio.
+- Ranking rows center the avatar against name/position; flags sit in a band below.
+- `UiAudioPlayer` is controls-only; `UiPageSkeleton.news/article` added.
+- Verified before this correction: analyzer and iOS build. Not verified: tests,
+  Android, audio playback, final visuals.
 
 ### September 22 feedback: cached media and browsing
 

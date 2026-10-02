@@ -32,6 +32,14 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Completed MP3s reuse the shared bounded disk cache; no export/download-library
   feature, arbitrary embedded players, autoplay or background service.
   Image preference remains separate. Device audio verification is still pending.
+- Beatmap previews from `b.ppy.sh` are Ogg Vorbis despite the `.mp3` path. iOS
+  has no Vorbis decoder, so there a validated preview is decoded once by
+  `audio_decode` (stb_vorbis over FFI) in a background isolate and cached as WAV.
+  Preflight bounds PCM to 16 MiB; the actual duration is checked after decoding
+  and accepted output is at most 45 s. A false end granule can cause longer
+  audio to be processed before rejection, but cannot bypass the PCM bound.
+  Other platforms keep native Ogg playback. Without cache storage, an iOS
+  Vorbis preview fails safely. Live simulator playback remains pending.
 
 ### Teams and rankings
 
@@ -182,7 +190,8 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   on this device independently of sign-in. Sign-out asks for confirmation from
   both settings and the account menu.
 - Settings → About shows the version/build generated from `pubspec.yaml`, project links and bundled
-  open-source notices, including Exo 2. License text is available offline;
+  open-source notices, including Exo 2 and the stb_vorbis/minimp3 decoders
+  compiled by `audio_decode`. License text is available offline;
   external project links open only when selected.
 - Keep browsing through section-specific loading, empty, error, retry, refresh,
   and pagination states.
