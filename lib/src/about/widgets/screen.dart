@@ -1,165 +1,269 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:tracksu/src/about/domain/build_info.dart';
+import 'package:tracksu/src/about/licenses/screen.dart';
+import 'package:tracksu/src/profile/domain/profile_params.dart';
+import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
+import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final class AboutScreen extends StatefulWidget {
+/// osu! accounts of the people behind Tracksu, in display order.
+const List<({int id, String name, bool author})> _people =
+    <({int id, String name, bool author})>[
+      (id: 12288747, name: 'Repentance', author: true),
+      (id: 24581198, name: 'Sgooll', author: false),
+    ];
+
+/// About in four calm tabs (same segmented control as the profile):
+/// the app and its build, the authors, the history, the licenses.
+final class AboutScreen extends StatelessWidget {
   const AboutScreen({required this.info, required this.onRetry, super.key});
   final Future<AppBuildInfo> info;
   final VoidCallback onRetry;
+
   @override
-  State<AboutScreen> createState() => _AboutScreenState();
+  Widget build(BuildContext context) => DefaultTabController(
+    length: 4,
+    child: Scaffold(
+      appBar: AppBar(title: UiText.titleLarge(context.t.aboutTitle)),
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: <Widget>[
+            const _AboutTabs(),
+            Expanded(
+              child: TabBarView(
+                children: <Widget>[
+                  _AppTab(info: info, onRetry: onRetry),
+                  const _AuthorsTab(),
+                  const _HistoryTab(),
+                  const LicensesView(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
-final class _AboutScreenState extends State<AboutScreen> {
-  bool _opening = false;
-
-  Future<void> _open(Uri uri) async {
-    if (_opening) return;
-    setState(() => _opening = true);
-    try {
-      if (!await launchUrl(uri, mode: LaunchMode.externalApplication) &&
-          mounted) {
-        UiFeedback.snack(context, message: context.t.aboutLinkFailed);
-      }
-    } on Object {
-      if (mounted) {
-        UiFeedback.snack(context, message: context.t.aboutLinkFailed);
-      }
-    } finally {
-      if (mounted) setState(() => _opening = false);
-    }
-  }
-
-  Future<void> _licenses() async {
-    if (_opening) return;
-    setState(() => _opening = true);
-    try {
-      await DepsScope.of(context).appRouter.openLicenses(context);
-    } finally {
-      if (mounted) setState(() => _opening = false);
-    }
-  }
+final class _AboutTabs extends StatelessWidget {
+  const _AboutTabs();
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: UiText.titleLarge(context.t.aboutTitle)),
-    body: UiFrame.scroll(
-      slivers: <Widget>[
-        SliverToBoxAdapter(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: UiSpace.xl,
-            children: <Widget>[
-              UiSurface.card(
-                padding: const EdgeInsets.all(UiSpace.xl),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: UiSpace.md,
-                  children: <Widget>[
-                    UiText.headlineLarge(context.t.appTitle),
-                    UiText.bodyLarge(
-                      context.t.aboutDescription,
-                      secondary: true,
-                    ),
-                    const Divider(),
-                    UiText.bodySmall(
-                      context.t.aboutUnofficial,
-                      secondary: true,
-                    ),
-                  ],
-                ),
+  Widget build(BuildContext context) {
+    final TabController controller = DefaultTabController.of(context);
+    final List<(IconData, String)> tabs = <(IconData, String)>[
+      (Icons.info_outline_rounded, context.t.aboutTabApp),
+      (Icons.people_outline_rounded, context.t.aboutTabAuthors),
+      (Icons.history_rounded, context.t.aboutTabHistory),
+      (Icons.description_outlined, context.t.aboutTabLicenses),
+    ];
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        UiSpace.lg,
+        UiSpace.sm,
+        UiSpace.lg,
+        UiSpace.xs,
+      ),
+      child: AnimatedBuilder(
+        animation: controller,
+        builder: (BuildContext context, _) => UiSegmentedControl<int>(
+          selected: controller.index,
+          segments: <UiSegment<int>>[
+            for (int i = 0; i < tabs.length; i++)
+              UiSegment<int>(
+                value: i,
+                label: tabs[i].$2,
+                icon: Icon(tabs[i].$1),
               ),
-              UiSection(
-                title: context.t.aboutBuild,
-                child: UiSurface.inset(
-                  child: FutureBuilder<AppBuildInfo>(
-                    future: widget.info,
+          ],
+          onChanged: controller.animateTo,
+        ),
+      ),
+    );
+  }
+}
+
+Future<void> _openLink(BuildContext context, Uri uri) async {
+  try {
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication) &&
+        context.mounted) {
+      UiFeedback.snack(context, message: context.t.aboutLinkFailed);
+    }
+  } on Object {
+    if (context.mounted) {
+      UiFeedback.snack(context, message: context.t.aboutLinkFailed);
+    }
+  }
+}
+
+final class _AppTab extends StatelessWidget {
+  const _AppTab({required this.info, required this.onRetry});
+  final Future<AppBuildInfo> info;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) => UiFrame.scroll(
+    slivers: <Widget>[
+      SliverToBoxAdapter(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: UiSpace.xl,
+          children: <Widget>[
+            UiSurface.tonal(
+              padding: const EdgeInsets.all(UiSpace.xl),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: UiSpace.md,
+                children: <Widget>[
+                  UiText.headlineLarge(context.t.appTitle),
+                  UiText.bodyLarge(context.t.aboutDescription),
+                  FutureBuilder<AppBuildInfo>(
+                    future: info,
                     builder:
                         (
                           BuildContext context,
                           AsyncSnapshot<AppBuildInfo> snapshot,
-                        ) {
-                          if (snapshot.connectionState !=
-                              ConnectionState.done) {
-                            return LinearProgressIndicator(
-                              semanticsLabel: context.t.aboutBuild,
-                            );
-                          }
-                          if (snapshot.hasError || !snapshot.hasData) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              spacing: UiSpace.sm,
-                              children: <Widget>[
-                                UiText.bodyMedium(
-                                  context.t.aboutBuildUnavailable,
+                        ) => switch (snapshot) {
+                          AsyncSnapshot<AppBuildInfo>(
+                            connectionState: ConnectionState.done,
+                            hasData: true,
+                            requireData: final AppBuildInfo data,
+                          ) =>
+                            SelectionArea(
+                              child: UiBadge.neutral(
+                                context.t.aboutVersion(
+                                  data.version,
+                                  data.buildNumber,
                                 ),
-                                UiButton.text(
-                                  label: context.t.retry,
-                                  onPressed: widget.onRetry,
-                                ),
-                              ],
-                            );
-                          }
-                          final AppBuildInfo info = snapshot.requireData;
-                          return SelectionArea(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              spacing: UiSpace.sm,
-                              children: <Widget>[
-                                UiText.titleMedium(
-                                  context.t.aboutVersion(
-                                    info.version,
-                                    info.buildNumber,
-                                  ),
-                                ),
-                                UiText.bodySmall(
-                                  info.packageName,
-                                  secondary: true,
-                                ),
-                              ],
+                                icon: Icons.tag_rounded,
+                              ),
                             ),
-                          );
+                          AsyncSnapshot<AppBuildInfo>(
+                            connectionState: ConnectionState.done,
+                          ) =>
+                            UiButton.text(
+                              label: context.t.aboutBuildUnavailable,
+                              icon: Icons.refresh,
+                              onPressed: onRetry,
+                            ),
+                          _ => const SizedBox(height: 24),
                         },
                   ),
-                ),
+                ],
               ),
-              UiSurface.card(
-                padding: EdgeInsets.zero,
+            ),
+            UiListGroup(
+              footer: context.t.aboutUnofficial,
+              children: <Widget>[
+                UiTile.value(
+                  title: context.t.aboutProject,
+                  value: 'GitHub',
+                  leading: const UiTileIcon(Icons.code),
+                  onTap: () => _openLink(
+                    context,
+                    Uri.https('github.com', '/wratheus/tracksu'),
+                  ),
+                ),
+                UiTile.value(
+                  title: context.t.aboutOsu,
+                  value: 'osu.ppy.sh',
+                  leading: const UiTileIcon(Icons.open_in_new),
+                  onTap: () => _openLink(context, Uri.https('osu.ppy.sh')),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+final class _AuthorsTab extends StatelessWidget {
+  const _AuthorsTab();
+
+  @override
+  Widget build(BuildContext context) => UiFrame.scroll(
+    slivers: <Widget>[
+      SliverToBoxAdapter(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          spacing: UiSpace.lg,
+          children: <Widget>[
+            UiText.bodyLarge(context.t.aboutAuthorsIntro, secondary: true),
+            UiListGroup(
+              children: <Widget>[
+                for (final ({int id, String name, bool author}) person
+                    in _people)
+                  UiTile.navigation(
+                    title: person.name,
+                    subtitle: person.author
+                        ? context.t.aboutRoleAuthor
+                        : context.t.aboutRoleCoauthor,
+                    // Public osu! avatar CDN, same host as API avatars.
+                    leading: UiAvatar.small(
+                      name: person.name,
+                      image: AppMedia.image(
+                        context,
+                        Uri.https('a.ppy.sh', '/${person.id}'),
+                      ),
+                    ),
+                    onTap: () => DepsScope.of(context).appRouter.openProfile(
+                      context,
+                      ProfileParams(
+                        user: ProfileUserId(person.id),
+                        ruleset: ProfileRuleset.osu,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+final class _HistoryTab extends StatelessWidget {
+  const _HistoryTab();
+
+  @override
+  Widget build(BuildContext context) {
+    final List<(String?, String, String)> steps = <(String?, String, String)>[
+      ('2021', context.t.aboutHistoryV1Title, context.t.aboutHistoryV1Body),
+      (null, context.t.aboutHistoryV2Title, context.t.aboutHistoryV2Body),
+      ('2026', context.t.aboutHistoryV3Title, context.t.aboutHistoryV3Body),
+    ];
+    return UiFrame.scroll(
+      slivers: <Widget>[
+        SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: UiSpace.lg,
+            children: <Widget>[
+              UiText.bodyLarge(context.t.aboutHistoryIntro, secondary: true),
+              for (int i = 0; i < steps.length; i++)
+                _TimelineStep(
+                  year: steps[i].$1,
+                  title: steps[i].$2,
+                  body: steps[i].$3,
+                  current: i == steps.length - 1,
+                ),
+              UiSurface.tonal(
+                padding: const EdgeInsets.all(UiSpace.lg),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: UiSpace.sm,
                   children: <Widget>[
-                    UiTile.navigation(
-                      title: context.t.aboutProject,
-                      subtitle: 'github.com/wratheus/tracksu',
-                      leading: const Icon(Icons.code),
-                      onTap: _opening
-                          ? null
-                          : () => _open(
-                              Uri.https('github.com', '/wratheus/tracksu'),
-                            ),
-                    ),
-                    UiTile.navigation(
-                      title: context.t.aboutOsu,
-                      subtitle: 'osu.ppy.sh',
-                      leading: const Icon(Icons.open_in_new),
-                      onTap: _opening
-                          ? null
-                          : () => _open(Uri.https('osu.ppy.sh')),
-                    ),
-                    const Divider(
-                      height: 1,
-                      indent: UiSpace.lg,
-                      endIndent: UiSpace.lg,
-                    ),
-                    UiTile.navigation(
-                      title: MaterialLocalizations.of(context)
-                          .licensesPageTitle,
-                      subtitle: context.t.aboutLicensesDescription,
-                      leading: const Icon(Icons.description_outlined),
-                      onTap: _opening ? null : _licenses,
-                    ),
+                    UiText.titleMedium(context.t.aboutThanksTitle),
+                    UiText.bodyMedium(context.t.aboutThanksBody),
                   ],
                 ),
               ),
@@ -167,6 +271,57 @@ final class _AboutScreenState extends State<AboutScreen> {
           ),
         ),
       ],
-    ),
-  );
+    );
+  }
+}
+
+/// One version: a dot on the left (filled for the current one), the year
+/// as a small badge, title and a short paragraph.
+final class _TimelineStep extends StatelessWidget {
+  const _TimelineStep({
+    required this.year,
+    required this.title,
+    required this.body,
+    required this.current,
+  });
+  final String? year;
+  final String title;
+  final String body;
+  final bool current;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: UiSpace.md,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: UiSpace.lg),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: current ? colors.primary : Colors.transparent,
+              border: Border.all(color: colors.primary, width: 2),
+            ),
+            child: const SizedBox.square(dimension: 12),
+          ),
+        ),
+        Expanded(
+          child: UiSurface.card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: UiSpace.sm,
+              children: <Widget>[
+                if (year case final String label)
+                  UiBadge.accent(label, icon: Icons.event_outlined),
+                UiText.titleMedium(title),
+                UiText.bodyMedium(body, secondary: true),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

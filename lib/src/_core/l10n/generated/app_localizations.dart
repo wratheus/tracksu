@@ -348,6 +348,102 @@ abstract class AppLocalizations {
   /// **'About Tracksu'**
   String get aboutTitle;
 
+  /// About screen: aboutTabApp
+  ///
+  /// In en, this message translates to:
+  /// **'App'**
+  String get aboutTabApp;
+
+  /// About screen: aboutTabAuthors
+  ///
+  /// In en, this message translates to:
+  /// **'Authors'**
+  String get aboutTabAuthors;
+
+  /// About screen: aboutTabHistory
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get aboutTabHistory;
+
+  /// About screen: aboutTabLicenses
+  ///
+  /// In en, this message translates to:
+  /// **'Licenses'**
+  String get aboutTabLicenses;
+
+  /// About screen: aboutRoleAuthor
+  ///
+  /// In en, this message translates to:
+  /// **'Author'**
+  String get aboutRoleAuthor;
+
+  /// About screen: aboutRoleCoauthor
+  ///
+  /// In en, this message translates to:
+  /// **'Co-author'**
+  String get aboutRoleCoauthor;
+
+  /// About screen: aboutAuthorsIntro
+  ///
+  /// In en, this message translates to:
+  /// **'Tracksu is made by osu! players for osu! players. Tap a name to open their osu! profile.'**
+  String get aboutAuthorsIntro;
+
+  /// About screen: aboutHistoryIntro
+  ///
+  /// In en, this message translates to:
+  /// **'This is the third iteration of Tracksu. The first version appeared in 2021.'**
+  String get aboutHistoryIntro;
+
+  /// About screen: aboutHistoryV1Title
+  ///
+  /// In en, this message translates to:
+  /// **'First version'**
+  String get aboutHistoryV1Title;
+
+  /// About screen: aboutHistoryV1Body
+  ///
+  /// In en, this message translates to:
+  /// **'The first Tracksu: an osu! player\'s profile and statistics in a pocket app.'**
+  String get aboutHistoryV1Body;
+
+  /// About screen: aboutHistoryV2Title
+  ///
+  /// In en, this message translates to:
+  /// **'Second version'**
+  String get aboutHistoryV2Title;
+
+  /// About screen: aboutHistoryV2Body
+  ///
+  /// In en, this message translates to:
+  /// **'Grew out of the first one; what we learned there shaped the current app.'**
+  String get aboutHistoryV2Body;
+
+  /// About screen: aboutHistoryV3Title
+  ///
+  /// In en, this message translates to:
+  /// **'Third version'**
+  String get aboutHistoryV3Title;
+
+  /// About screen: aboutHistoryV3Body
+  ///
+  /// In en, this message translates to:
+  /// **'Rewritten from scratch on osu! API v2: profiles, scores, beatmaps, rankings, teams, news, audio previews and seven languages.'**
+  String get aboutHistoryV3Body;
+
+  /// About screen: aboutThanksTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks'**
+  String get aboutThanksTitle;
+
+  /// About screen: aboutThanksBody
+  ///
+  /// In en, this message translates to:
+  /// **'To ppy and the osu! team for the game and its public API. To the osu! community for the maps, the players and the ideas. To the authors of the open-source libraries listed under Licenses.'**
+  String get aboutThanksBody;
+
   /// Short factual description of Tracksu's browsing features.
   ///
   /// In en, this message translates to:

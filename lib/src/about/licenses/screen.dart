@@ -13,15 +13,31 @@ final class _PackageLicenses {
   final List<LicenseEntry> entries;
 }
 
-/// Replaces Flutter's stock LicensePage: themed, searchable, explains why the
-/// list exists, and opens each package's text in a sheet.
-final class LicensesScreen extends StatefulWidget {
+/// Route form: the licenses list with its own app bar.
+final class LicensesScreen extends StatelessWidget {
   const LicensesScreen({super.key});
+
   @override
-  State<LicensesScreen> createState() => _LicensesScreenState();
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: UiText.titleLarge(
+        MaterialLocalizations.of(context).licensesPageTitle,
+      ),
+    ),
+    body: const LicensesView(),
+  );
 }
 
-final class _LicensesScreenState extends State<LicensesScreen> {
+/// Replaces Flutter's stock LicensePage: themed, searchable, explains why the
+/// list exists, and opens each package's text in a sheet. Also embedded as
+/// the "Licenses" tab of About.
+final class LicensesView extends StatefulWidget {
+  const LicensesView({super.key});
+  @override
+  State<LicensesView> createState() => _LicensesViewState();
+}
+
+final class _LicensesViewState extends State<LicensesView> {
   late final Future<List<_PackageLicenses>> _packages = _collect();
   final TextEditingController _search = TextEditingController();
   String _query = '';
@@ -65,13 +81,7 @@ final class _LicensesScreenState extends State<LicensesScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: UiText.titleLarge(
-        MaterialLocalizations.of(context).licensesPageTitle,
-      ),
-    ),
-    body: FutureBuilder<List<_PackageLicenses>>(
+  Widget build(BuildContext context) => FutureBuilder<List<_PackageLicenses>>(
       future: _packages,
       builder:
           (BuildContext context, AsyncSnapshot<List<_PackageLicenses>> snap) {
@@ -154,7 +164,6 @@ final class _LicensesScreenState extends State<LicensesScreen> {
               ],
             );
           },
-    ),
   );
 }
 

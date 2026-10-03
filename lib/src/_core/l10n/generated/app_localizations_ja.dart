@@ -157,6 +157,57 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutTitle => 'Tracksuについて';
 
   @override
+  String get aboutTabApp => 'アプリ';
+
+  @override
+  String get aboutTabAuthors => '作者';
+
+  @override
+  String get aboutTabHistory => '歴史';
+
+  @override
+  String get aboutTabLicenses => 'ライセンス';
+
+  @override
+  String get aboutRoleAuthor => '作者';
+
+  @override
+  String get aboutRoleCoauthor => '共同作者';
+
+  @override
+  String get aboutAuthorsIntro =>
+      'Tracksuはosu!プレイヤーがosu!プレイヤーのために作っています。名前をタップするとosu!プロフィールを開きます。';
+
+  @override
+  String get aboutHistoryIntro => 'これはTracksuの3代目です。最初のバージョンは2021年に登場しました。';
+
+  @override
+  String get aboutHistoryV1Title => '初代';
+
+  @override
+  String get aboutHistoryV1Body => '最初のTracksu：osu!プレイヤーのプロフィールと統計をポケットに。';
+
+  @override
+  String get aboutHistoryV2Title => '2代目';
+
+  @override
+  String get aboutHistoryV2Body => '初代から生まれ、その経験が現在のアプリの土台になりました。';
+
+  @override
+  String get aboutHistoryV3Title => '3代目';
+
+  @override
+  String get aboutHistoryV3Body =>
+      'osu! API v2でゼロから作り直し：プロフィール、スコア、ビートマップ、ランキング、チーム、ニュース、音声プレビュー、7言語に対応。';
+
+  @override
+  String get aboutThanksTitle => '謝辞';
+
+  @override
+  String get aboutThanksBody =>
+      'ゲームと公開APIを提供するppyとosu!チームに。マップ、プレイヤー、アイデアをくれるosu!コミュニティに。「ライセンス」に載っているオープンソースライブラリの作者たちに。';
+
+  @override
   String get aboutDescription => 'osu!のプレイヤー、スコア、ビートマップ、ニュースをチェック。';
 
   @override

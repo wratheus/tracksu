@@ -167,6 +167,60 @@ class AppLocalizationsRu extends AppLocalizations {
   String get aboutTitle => 'О приложении';
 
   @override
+  String get aboutTabApp => 'Приложение';
+
+  @override
+  String get aboutTabAuthors => 'Авторы';
+
+  @override
+  String get aboutTabHistory => 'История';
+
+  @override
+  String get aboutTabLicenses => 'Лицензии';
+
+  @override
+  String get aboutRoleAuthor => 'Автор';
+
+  @override
+  String get aboutRoleCoauthor => 'Соавтор';
+
+  @override
+  String get aboutAuthorsIntro =>
+      'Tracksu делают игроки osu! для игроков osu!. Нажмите на имя, чтобы открыть профиль в osu!.';
+
+  @override
+  String get aboutHistoryIntro =>
+      'Это третья итерация Tracksu. Первая версия появилась в 2021 году.';
+
+  @override
+  String get aboutHistoryV1Title => 'Первая версия';
+
+  @override
+  String get aboutHistoryV1Body =>
+      'Первый Tracksu: профиль и статистика игрока osu! в кармане.';
+
+  @override
+  String get aboutHistoryV2Title => 'Вторая версия';
+
+  @override
+  String get aboutHistoryV2Body =>
+      'Выросла из первой; опыт, полученный в ней, лёг в основу нынешнего приложения.';
+
+  @override
+  String get aboutHistoryV3Title => 'Третья версия';
+
+  @override
+  String get aboutHistoryV3Body =>
+      'Написана заново на osu! API v2: профили, результаты, карты, рейтинги, команды, новости, превью треков и семь языков.';
+
+  @override
+  String get aboutThanksTitle => 'Благодарности';
+
+  @override
+  String get aboutThanksBody =>
+      'ppy и команде osu! — за игру и открытый API. Сообществу osu! — за карты, игроков и идеи. Авторам открытых библиотек — их список во вкладке «Лицензии».';
+
+  @override
   String get aboutDescription =>
       'Профили игроков, результаты, карты и новости osu!';
 

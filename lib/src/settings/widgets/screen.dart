@@ -117,219 +117,226 @@ final class _SettingsScreenState extends State<SettingsScreen> {
           setState(() => _cacheReady = deps.mediaCache.initialize());
         },
         child: UiFrame.scroll(
-        slivers: <Widget>[
-          SliverToBoxAdapter(
-            child: StreamBuilder<SessionStatus>(
-              stream: deps.sessionController.statusChanges,
-              initialData: deps.sessionController.status,
-              builder:
-                  (
-                    BuildContext context,
-                    AsyncSnapshot<SessionStatus> snapshot,
-                  ) {
-                    final bool authenticated =
-                        snapshot.data == SessionStatus.authenticated;
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      spacing: UiSpace.xl,
-                      children: <Widget>[
-                        UiSurface.tonal(
-                          padding: const EdgeInsets.all(UiSpace.xl),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            spacing: UiSpace.md,
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: StreamBuilder<SessionStatus>(
+                stream: deps.sessionController.statusChanges,
+                initialData: deps.sessionController.status,
+                builder:
+                    (
+                      BuildContext context,
+                      AsyncSnapshot<SessionStatus> snapshot,
+                    ) {
+                      final bool authenticated =
+                          snapshot.data == SessionStatus.authenticated;
+                      // Grouped list: short rows with the current value on
+                      // the trailing edge; explanations live in footnotes.
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: UiSpace.xl,
+                        children: <Widget>[
+                          _AccountHeader(authenticated: authenticated),
+                          UiListGroup(
+                            title: context.t.account,
                             children: <Widget>[
-                              Icon(
-                                authenticated
-                                    ? Icons.verified_user_outlined
-                                    : Icons.explore_outlined,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSecondaryContainer,
-                              ),
-                              UiText.headlineSmall(
-                                authenticated
-                                    ? context.t.account
-                                    : context.t.guestModeTitle,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSecondaryContainer,
-                              ),
-                              UiText.bodyMedium(
-                                authenticated
-                                    ? context.t.guestSignedInDescription
-                                    : context.t.guestSignedOutDescription,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSecondaryContainer,
-                              ),
-                            ],
-                          ),
-                        ),
-                        _SettingsGroup(
-                          title: context.t.account,
-                          children: <Widget>[
-                            if (authenticated)
-                              UiTile.navigation(
-                                title: context.t.viewMyProfile,
-                                leading: const Icon(Icons.person_outline),
+                              if (authenticated)
+                                UiTile.value(
+                                  title: context.t.viewMyProfile,
+                                  leading: const UiTileIcon(
+                                    Icons.person_outline,
+                                  ),
+                                  onTap: _busy
+                                      ? null
+                                      : () => _run(
+                                          () => deps.appRouter
+                                              .openCurrentProfile(context),
+                                        ),
+                                ),
+                              UiTile.value(
+                                title: authenticated
+                                    ? context.t.signInWithAnotherAccount
+                                    : context.t.signInWithOsu,
+                                leading: const UiTileIcon(Icons.login),
                                 onTap: _busy
                                     ? null
                                     : () => _run(
-                                        () => deps.appRouter.openCurrentProfile(
-                                          context,
-                                        ),
+                                        () => deps.appRouter.openLogin(context),
                                       ),
                               ),
-                            UiTile.navigation(
-                              title: authenticated
-                                  ? context.t.signInWithAnotherAccount
-                                  : context.t.signInWithOsu,
-                              leading: const Icon(Icons.login),
-                              onTap: _busy
-                                  ? null
-                                  : () => _run(
-                                      () => deps.appRouter.openLogin(context),
-                                    ),
-                            ),
-                          ],
-                        ),
-                        _SettingsGroup(
-                          title: context.t.settingsAppearance,
-                          children: <Widget>[
-                            ValueListenableBuilder<Locale?>(
-                              valueListenable: deps.localeController,
-                              builder:
-                                  (
-                                    BuildContext context,
-                                    Locale? locale,
-                                    _,
-                                  ) => UiTile.navigation(
-                                    title: context.t.languageSelection,
-                                    subtitle: AppLanguage.fromLocale(locale)
-                                        .label(context.t),
-                                    leading: AppLanguageIcon(
-                                      language: AppLanguage.fromLocale(locale),
-                                    ),
-                                    onTap: _busy
-                                        ? null
-                                        : () => _run(
-                                            () => LanguagePicker.show(context),
-                                          ),
-                                  ),
-                            ),
-                            const Divider(
-                              height: 1,
-                              indent: UiSpace.lg,
-                              endIndent: UiSpace.lg,
-                            ),
-                            ValueListenableBuilder<ThemeMode>(
-                              valueListenable: deps.themeController,
-                              builder:
-                                  (BuildContext context, ThemeMode mode, _) =>
-                                      UiTile.navigation(
-                                        title: context.t.settingsTheme,
-                                        subtitle: _themeLabel(context, mode),
-                                        leading: Icon(_themeIcon(mode)),
-                                        onTap: _busy
-                                            ? null
-                                            : () => _run(_selectTheme),
+                            ],
+                          ),
+                          UiListGroup(
+                            title: context.t.settingsAppearance,
+                            children: <Widget>[
+                              ValueListenableBuilder<Locale?>(
+                                valueListenable: deps.localeController,
+                                builder:
+                                    (
+                                      BuildContext context,
+                                      Locale? locale,
+                                      _,
+                                    ) => UiTile.value(
+                                      title: context.t.languageSelection,
+                                      value: AppLanguage.fromLocale(
+                                        locale,
+                                      ).label(context.t),
+                                      leading: const UiTileIcon(
+                                        Icons.translate,
                                       ),
-                            ),
-                          ],
-                        ),
-                        UiSection(
-                          title: context.t.contentMediaSettings,
-                          child: UiSurface.card(
-                            child: ContentMediaSettings(
-                              controller: deps.contentMediaController,
-                            ),
+                                      onTap: _busy
+                                          ? null
+                                          : () => _run(
+                                              () => LanguagePicker.show(
+                                                context,
+                                              ),
+                                            ),
+                                    ),
+                              ),
+                              ValueListenableBuilder<ThemeMode>(
+                                valueListenable: deps.themeController,
+                                builder:
+                                    (
+                                      BuildContext context,
+                                      ThemeMode mode,
+                                      _,
+                                    ) => UiTile.value(
+                                      title: context.t.settingsTheme,
+                                      value: _themeLabel(context, mode),
+                                      leading: UiTileIcon(_themeIcon(mode)),
+                                      onTap: _busy
+                                          ? null
+                                          : () => _run(_selectTheme),
+                                    ),
+                              ),
+                            ],
                           ),
-                        ),
-                        if (authenticated)
-                          UiButton.destructive(
-                            label: context.t.signOut,
-                            onPressed: _busy
-                                ? null
-                                : () => _run(() => SignOutAction.show(context)),
+                          UiListGroup(
+                            title: context.t.contentMediaSettings,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(UiSpace.lg),
+                                child: ContentMediaSettings(
+                                  controller: deps.contentMediaController,
+                                ),
+                              ),
+                            ],
                           ),
-                        UiSection(
-                          title: context.t.settingsCache,
-                          child: UiSurface.card(
-                            padding: EdgeInsets.zero,
-                            child: FutureBuilder<void>(
-                              future: _cacheReady,
-                              builder:
-                                  (
-                                    BuildContext context,
-                                    AsyncSnapshot<void> snapshot,
-                                  ) => ListenableBuilder(
-                                    listenable: deps.mediaCache,
-                                    builder: (BuildContext context, _) =>
-                                        UiTile.navigation(
+                          UiListGroup(
+                            title: context.t.settingsCache,
+                            footer: context.t.settingsCacheDescription,
+                            children: <Widget>[
+                              FutureBuilder<void>(
+                                future: _cacheReady,
+                                builder:
+                                    (
+                                      BuildContext context,
+                                      AsyncSnapshot<void> snapshot,
+                                    ) => ListenableBuilder(
+                                      listenable: deps.mediaCache,
+                                      builder: (BuildContext context, _) {
+                                        final bool ready =
+                                            snapshot.connectionState ==
+                                            ConnectionState.done;
+                                        return UiTile.value(
                                           title: context.t.settingsClearCache,
-                                          subtitle: snapshot.hasError
+                                          value: snapshot.hasError
                                               ? context.t.settingsCacheFailed
-                                              : snapshot.connectionState !=
-                                                    ConnectionState.done
-                                              ? context
-                                                    .t
-                                                    .settingsCacheCalculating
-                                              : '${context.t.settingsCacheSize(_size(deps.mediaCache.sizeBytes))}\n${context.t.settingsCacheDescription}',
-                                          leading: const Icon(
+                                              : ready
+                                              ? context.t.settingsCacheSize(
+                                                  _size(
+                                                    deps.mediaCache.sizeBytes,
+                                                  ),
+                                                )
+                                              : '…',
+                                          leading: const UiTileIcon(
                                             Icons.cleaning_services_outlined,
                                           ),
-                                          onTap:
-                                              _busy ||
-                                                  snapshot.connectionState !=
-                                                      ConnectionState.done
+                                          onTap: _busy || !ready
                                               ? null
                                               : () => _run(_clearCache),
-                                        ),
-                                  ),
+                                        );
+                                      },
+                                    ),
+                              ),
+                            ],
+                          ),
+                          UiListGroup(
+                            children: <Widget>[
+                              UiTile.value(
+                                title: context.t.aboutTitle,
+                                leading: const UiTileIcon(Icons.info_outline),
+                                onTap: _busy
+                                    ? null
+                                    : () => _run(
+                                        () => deps.appRouter.openAbout(context),
+                                      ),
+                              ),
+                            ],
+                          ),
+                          if (authenticated)
+                            UiButton.destructive(
+                              label: context.t.signOut,
+                              onPressed: _busy
+                                  ? null
+                                  : () => _run(
+                                      () => SignOutAction.show(context),
+                                    ),
                             ),
-                          ),
-                        ),
-                        UiSurface.card(
-                          padding: EdgeInsets.zero,
-                          child: UiTile.navigation(
-                            title: context.t.aboutTitle,
-                            leading: const Icon(Icons.info_outline),
-                            onTap: _busy
-                                ? null
-                                : () => _run(
-                                    () => deps.appRouter.openAbout(context),
-                                  ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }
 }
 
-final class _SettingsGroup extends StatelessWidget {
-  const _SettingsGroup({required this.title, required this.children});
-  final String title;
-  final List<Widget> children;
+/// Who is using the app: guest or signed in, in one calm tonal card.
+final class _AccountHeader extends StatelessWidget {
+  const _AccountHeader({required this.authenticated});
+  final bool authenticated;
 
   @override
-  Widget build(BuildContext context) => UiSection(
-    title: title,
-    child: UiSurface.card(
-      padding: const EdgeInsets.symmetric(vertical: UiSpace.xs),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: children,
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    return UiSurface.tonal(
+      padding: const EdgeInsets.all(UiSpace.lg),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: UiSpace.md,
+        children: <Widget>[
+          Icon(
+            authenticated
+                ? Icons.verified_user_outlined
+                : Icons.explore_outlined,
+            size: 28,
+            color: colors.onSecondaryContainer,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: UiSpace.xs,
+              children: <Widget>[
+                UiText.titleMedium(
+                  authenticated ? context.t.account : context.t.guestModeTitle,
+                  color: colors.onSecondaryContainer,
+                ),
+                UiText.bodySmall(
+                  authenticated
+                      ? context.t.guestSignedInDescription
+                      : context.t.guestSignedOutDescription,
+                  color: colors.onSecondaryContainer,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-    ),
-  );
+    );
+  }
 }
 
 String _themeLabel(BuildContext context, ThemeMode mode) => switch (mode) {

@@ -157,6 +157,57 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aboutTitle => '关于 Tracksu';
 
   @override
+  String get aboutTabApp => '应用';
+
+  @override
+  String get aboutTabAuthors => '作者';
+
+  @override
+  String get aboutTabHistory => '历史';
+
+  @override
+  String get aboutTabLicenses => '许可证';
+
+  @override
+  String get aboutRoleAuthor => '作者';
+
+  @override
+  String get aboutRoleCoauthor => '合作者';
+
+  @override
+  String get aboutAuthorsIntro =>
+      'Tracksu 由 osu! 玩家为 osu! 玩家打造。点按名字可打开其 osu! 个人资料。';
+
+  @override
+  String get aboutHistoryIntro => '这是 Tracksu 的第三次迭代。第一个版本诞生于 2021 年。';
+
+  @override
+  String get aboutHistoryV1Title => '第一版';
+
+  @override
+  String get aboutHistoryV1Body => '最初的 Tracksu：把 osu! 玩家的个人资料和统计装进口袋。';
+
+  @override
+  String get aboutHistoryV2Title => '第二版';
+
+  @override
+  String get aboutHistoryV2Body => '由第一版发展而来，其中的经验塑造了现在的应用。';
+
+  @override
+  String get aboutHistoryV3Title => '第三版';
+
+  @override
+  String get aboutHistoryV3Body =>
+      '基于 osu! API v2 从零重写：个人资料、成绩、谱面、排行榜、战队、新闻、音频预览以及七种语言。';
+
+  @override
+  String get aboutThanksTitle => '致谢';
+
+  @override
+  String get aboutThanksBody =>
+      '感谢 ppy 和 osu! 团队提供游戏及公开 API。感谢 osu! 社区带来的谱面、玩家与创意。感谢「许可证」中列出的开源库作者。';
+
+  @override
   String get aboutDescription => '浏览 osu! 玩家、成绩、谱面和新闻。';
 
   @override

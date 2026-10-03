@@ -166,6 +166,60 @@ class AppLocalizationsDe extends AppLocalizations {
   String get aboutTitle => 'Über Tracksu';
 
   @override
+  String get aboutTabApp => 'App';
+
+  @override
+  String get aboutTabAuthors => 'Autoren';
+
+  @override
+  String get aboutTabHistory => 'Geschichte';
+
+  @override
+  String get aboutTabLicenses => 'Lizenzen';
+
+  @override
+  String get aboutRoleAuthor => 'Autor';
+
+  @override
+  String get aboutRoleCoauthor => 'Co-Autor';
+
+  @override
+  String get aboutAuthorsIntro =>
+      'Tracksu wird von osu!-Spielern für osu!-Spieler gemacht. Tippe auf einen Namen, um das osu!-Profil zu öffnen.';
+
+  @override
+  String get aboutHistoryIntro =>
+      'Dies ist die dritte Iteration von Tracksu. Die erste Version erschien 2021.';
+
+  @override
+  String get aboutHistoryV1Title => 'Erste Version';
+
+  @override
+  String get aboutHistoryV1Body =>
+      'Das erste Tracksu: Profil und Statistiken eines osu!-Spielers in der Hosentasche.';
+
+  @override
+  String get aboutHistoryV2Title => 'Zweite Version';
+
+  @override
+  String get aboutHistoryV2Body =>
+      'Entstand aus der ersten; ihre Erfahrungen prägen die heutige App.';
+
+  @override
+  String get aboutHistoryV3Title => 'Dritte Version';
+
+  @override
+  String get aboutHistoryV3Body =>
+      'Komplett neu auf osu! API v2: Profile, Ergebnisse, Beatmaps, Ranglisten, Teams, News, Audiovorschauen und sieben Sprachen.';
+
+  @override
+  String get aboutThanksTitle => 'Danke';
+
+  @override
+  String get aboutThanksBody =>
+      'An ppy und das osu!-Team für das Spiel und die öffentliche API. An die osu!-Community für Maps, Spieler und Ideen. An die Autoren der Open-Source-Bibliotheken unter „Lizenzen“.';
+
+  @override
   String get aboutDescription =>
       'Entdecke osu!-Spieler, Ergebnisse, Beatmaps und Neuigkeiten.';
 
