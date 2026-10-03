@@ -97,8 +97,26 @@ final class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final deps = DepsScope.of(context);
     return Scaffold(
-      appBar: AppBar(title: UiText.titleLarge(context.t.settingsTitle)),
-      body: UiFrame.scroll(
+      appBar: AppBar(
+        title: UiText.titleLarge(context.t.settingsTitle),
+        bottom: UiAppBarProgressSlot(
+          child: FutureBuilder<void>(
+            future: _cacheReady,
+            builder: (BuildContext context, AsyncSnapshot<void> snapshot) =>
+                UiAppBarProgress(
+                  visible:
+                      _busy || snapshot.connectionState != ConnectionState.done,
+                  semanticsLabel: context.t.settingsCacheCalculating,
+                ),
+          ),
+        ),
+      ),
+      // Pull to recount the media cache; progress shows under the app bar.
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() => _cacheReady = deps.mediaCache.initialize());
+        },
+        child: UiFrame.scroll(
         slivers: <Widget>[
           SliverToBoxAdapter(
             child: StreamBuilder<SessionStatus>(
@@ -290,6 +308,7 @@ final class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/navigation/shell_reselect.dart';
 import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
@@ -53,6 +54,18 @@ final class RankingsMain extends StatelessWidget {
                       ),
                 ),
               ],
+              bottom: UiAppBarProgressSlot(
+                child: BlocSelector<RankingsBloc, RankingsState, bool>(
+                  selector: (RankingsState state) =>
+                      state is RankingsLoadedState &&
+                      state.operation == RankingsOperation.refresh,
+                  builder: (BuildContext context, bool busy) =>
+                      UiAppBarProgress(
+                        visible: busy,
+                        semanticsLabel: context.t.rankingsLoading,
+                      ),
+                ),
+              ),
             ),
             body: const SafeArea(child: _RankingsBody()),
           ),
@@ -83,9 +96,31 @@ final class _RankingsBodyState extends State<_RankingsBody> {
         listener: (_, _) {
           if (_scroll.hasClients) _scroll.jumpTo(0);
         },
-        child: CustomScrollView(
+        child: UiScrollToTop(
+          tooltip: context.t.scrollToTop,
           controller: _scroll,
-          slivers: const <Widget>[RankingsSection()],
+          scrollRequests: ShellReselectScope.maybeOf(
+            context,
+            ShellTab.rankings,
+          ),
+          // Pull down to refresh; the spinner retracts at once and progress
+          // continues on the app-bar line instead of a button and a loader.
+          child: RefreshIndicator(
+            onRefresh: () async {
+              final RankingsBloc bloc = context.read<RankingsBloc>();
+              if (bloc.state is RankingsLoadedState) {
+                bloc.add(const RankingsRefreshRequested());
+              }
+            },
+            child: CustomScrollView(
+              controller: _scroll,
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: <Widget>[
+                const RankingsSection(),
+                UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+              ],
+            ),
+          ),
         ),
       );
 }

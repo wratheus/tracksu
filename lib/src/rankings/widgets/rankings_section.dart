@@ -24,26 +24,6 @@ final class RankingsSection extends StatelessWidget {
             spacing: UiSpace.md,
             children: <Widget>[
               const RankingsFilters(),
-              UiButton.text(
-                onPressed: () =>
-                    DepsScope.of(context).appRouter.openSpotlights(context),
-                label: context.t.spotlightsTitle,
-              ),
-              BlocSelector<RankingsBloc, RankingsState, bool>(
-                selector: (RankingsState state) =>
-                    state is RankingsInitialState ||
-                    state is RankingsLoadingState ||
-                    (state is RankingsLoadedState && state.operation != null),
-                builder: (BuildContext context, bool busy) => UiButton.text(
-                  onPressed: busy
-                      ? null
-                      : () => context.read<RankingsBloc>().add(
-                          const RankingsRefreshRequested(),
-                        ),
-                  icon: Icons.refresh,
-                  label: context.t.rankingsRefresh,
-                ),
-              ),
               UiText.bodySmall(
                 context.t.rankingsPositionNotice,
                 secondary: true,
@@ -64,8 +44,7 @@ final class RankingsSection extends StatelessWidget {
           RankingsLoadedState() => UiSliverReveal(
             sliver: SliverMainAxisGroup(
               slivers: <Widget>[
-                if (state.operation == RankingsOperation.refresh)
-                  const SliverToBoxAdapter(child: _RankingsProgress()),
+                // Refresh progress is the app-bar line (RankingsMain).
                 if (state.failedOperation == RankingsOperation.refresh &&
                     state.failure != null)
                   SliverToBoxAdapter(
