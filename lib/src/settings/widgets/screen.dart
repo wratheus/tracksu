@@ -24,15 +24,16 @@ final class _SettingsScreenState extends State<SettingsScreen> {
     _cacheReady ??= DepsScope.of(context).mediaCache.initialize();
   }
 
+  /// Decimal megabytes, as people read storage sizes on their phones.
   String _size(int bytes) => NumberFormat.decimalPatternDigits(
     locale: context.t.localeName,
-    decimalDigits: 2,
-  ).format(bytes / (1024 * 1024));
+    decimalDigits: 1,
+  ).format(bytes / 1000000);
 
   Future<void> _clearCache() async {
     final bool clear = await UiModal.confirm(
       context,
-      title: context.t.settingsClearCache,
+      title: context.t.settingsClearCacheTitle,
       message: context.t.settingsCacheConfirm(
         _size(DepsScope.of(context).mediaCache.sizeBytes),
       ),
