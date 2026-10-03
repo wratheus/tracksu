@@ -63,10 +63,12 @@ final class UiContentState extends StatelessWidget {
           liveRegion:
               _state == _ContentState.error || _state == _ContentState.loading,
           child: Padding(
-            padding: const EdgeInsets.all(UiSpace.xl),
+            // Empty/offline are notes inside a list, not page headlines: a
+            // smaller icon and body text; errors keep the stronger title.
+            padding: EdgeInsets.all(_quiet ? UiSpace.lg : UiSpace.xl),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              spacing: UiSpace.md,
+              spacing: _quiet ? UiSpace.sm : UiSpace.md,
               children: <Widget>[
                 Icon(
                   switch (_state) {
@@ -75,14 +77,21 @@ final class UiContentState extends StatelessWidget {
                     _ContentState.offline => Icons.wifi_off_outlined,
                     _ContentState.loading => Icons.hourglass_empty,
                   },
-                  size: 32,
+                  size: _quiet ? 24 : 32,
                   color: _state == _ContentState.error
                       ? Theme.of(context).colorScheme.error
                       : Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
-                UiText.titleMedium(title, textAlign: TextAlign.center),
-                if (message != null)
+                if (_quiet)
                   UiText.bodyMedium(
+                    title,
+                    secondary: true,
+                    textAlign: TextAlign.center,
+                  )
+                else
+                  UiText.titleMedium(title, textAlign: TextAlign.center),
+                if (message != null)
+                  (_quiet ? UiText.bodySmall : UiText.bodyMedium)(
                     message!,
                     secondary: true,
                     textAlign: TextAlign.center,
@@ -93,6 +102,9 @@ final class UiContentState extends StatelessWidget {
             ),
           ),
         );
+
+  bool get _quiet =>
+      _state == _ContentState.empty || _state == _ContentState.offline;
 }
 
 /// Static skeleton: reduced-motion friendly; its parent announces loading once.

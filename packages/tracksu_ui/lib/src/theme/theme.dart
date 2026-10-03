@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
 
@@ -126,6 +127,17 @@ abstract final class TracksuTheme {
           onWarning: dark ? const Color(0xFFF1D493) : const Color(0xFF644810),
         ),
       ],
+      // Platform-native route transitions, set explicitly so they do not
+      // drift with SDK defaults: Android uses the Material 3 fade-forward
+      // (smooth, predictive-back aware); Apple platforms keep the native
+      // slide with the edge-swipe back gesture.
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+        },
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: colors.surface,
         foregroundColor: colors.onSurface,

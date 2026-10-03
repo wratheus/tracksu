@@ -9,6 +9,7 @@ final class UiMetric extends StatelessWidget {
     this.detail,
     this.icon,
     this.tone = UiMetricTone.neutral,
+    this.unavailable = false,
     super.key,
   }) : _layout = _MetricLayout.featured;
   const UiMetric.compact({
@@ -17,6 +18,7 @@ final class UiMetric extends StatelessWidget {
     this.detail,
     this.icon,
     this.tone = UiMetricTone.neutral,
+    this.unavailable = false,
     super.key,
   }) : _layout = _MetricLayout.compact;
   const UiMetric.row({
@@ -25,6 +27,7 @@ final class UiMetric extends StatelessWidget {
     this.detail,
     this.icon,
     this.tone = UiMetricTone.neutral,
+    this.unavailable = false,
     super.key,
   }) : _layout = _MetricLayout.row;
   final String label;
@@ -32,6 +35,10 @@ final class UiMetric extends StatelessWidget {
   final String? detail;
   final IconData? icon;
   final UiMetricTone tone;
+
+  /// [value] is an explanation ("No rank", "Unavailable"), not a number: it is
+  /// set small and secondary instead of in the metric's display size.
+  final bool unavailable;
   final _MetricLayout _layout;
 
   @override
@@ -81,7 +88,10 @@ final class UiMetric extends StatelessWidget {
                 spacing: UiSpace.xs,
                 children: <Widget>[
                   UiText.bodySmall(label, secondary: true),
-                  UiText.titleMedium(value, color: valueColor),
+                  if (unavailable)
+                    UiText.bodyMedium(value, secondary: true)
+                  else
+                    UiText.titleMedium(value, color: valueColor),
                   if (detail != null)
                     UiText.bodySmall(detail!, secondary: true),
                 ],
@@ -98,7 +108,9 @@ final class UiMetric extends StatelessWidget {
         spacing: UiSpace.xs,
         children: <Widget>[
           heading,
-          if (_layout == _MetricLayout.featured)
+          if (unavailable)
+            UiText.bodyMedium(value, secondary: true)
+          else if (_layout == _MetricLayout.featured)
             UiText.metric(value, color: valueColor)
           else
             UiText.titleMedium(value, color: valueColor),

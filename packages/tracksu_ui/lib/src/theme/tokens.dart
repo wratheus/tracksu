@@ -11,9 +11,11 @@ abstract final class UiSpace {
 
 /// Shared motion tokens. Callers must honor reduced motion themselves.
 abstract final class UiMotion {
-  /// Cold-load reveal of content and images.
-  static const Duration reveal = Duration(milliseconds: 220);
-  static const Curve revealCurve = Curves.easeOut;
+  /// Cold-load reveal of content and images. A slightly longer, decelerating
+  /// curve so content settles in after the route transition instead of
+  /// popping at its end.
+  static const Duration reveal = Duration(milliseconds: 260);
+  static const Curve revealCurve = Curves.easeOutCubic;
 
   /// One full dim-and-restore cycle of a page skeleton.
   static const Duration skeletonPulse = Duration(milliseconds: 1400);
