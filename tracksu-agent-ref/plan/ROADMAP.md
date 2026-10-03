@@ -162,7 +162,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Следом · P33 | Рейтинг команд; «Рейтинги» на внутренних вкладках (Игроки / Команды / Страны); сперва проверка `rankings/{mode}/team` | queued (обязательно) |
 | Следом · P34 | Daily challenge «Карта дня» на главной; сперва проверка `rooms?category=daily_challenge` | queued (обязательно) |
 | Следом · P35 | Оригинальные иконки модов osu! + акроним везде (`OsuModBadge`); сперва решение по источнику и лицензии ресурсов ppy | queued, ждёт решения |
-| Следом · P36 | «Настройки» и «О приложении»: вкладки, авторы, история (3-я итерация, первая — 2021) | queued, структура согласуется |
+| Сейчас · [P36](work/P36-settings-and-about.md) | «Настройки» — сгруппированный список; «О приложении» — вкладки, авторы, история, лицензии | awaiting_manual_check (уточнить год/текст 2-й версии) |
 | Сейчас · [P28](work/P28-media-cache-and-browsing.md) | Дисковый media cache/размер/очистка, плееры на обложках, default-on картинки, поиск, страны и flags реализованы; ручная проверка | awaiting_manual_check |
 | Сейчас · [Поэкранная доработка](work/P07-product-integration.md) | Функциональный shell/главная, затем каждый экран по отдельным data/UX критериям; raw migration не является завершением | in_progress |
 | До analytics/release · [P01.3](work/P01.3-privacy-and-terms.md) | Data inventory, privacy notice/policy, условия, About/атрибуции, ссылки из guest/OAuth/settings и store disclosures | backlog |

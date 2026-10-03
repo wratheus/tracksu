@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Settings and About (P36)
+
+- Settings are a grouped list: account header, then rows with the current
+  value on the trailing edge (language, theme, cache size) and footnotes
+  for explanations (`UiTile.value`, `UiTileIcon`, `UiListGroup`).
+- About has tabs — App, Authors (Repentance, author; Sgooll, co-author;
+  tap opens the profile), History (third iteration; the first appeared in
+  2021; thanks) and Licenses (the searchable list, embedded).
+
 ### Glass controls, app-bar progress, licenses screen (P32)
 
 - `UiGlass` frosted material for floating controls; the audio capsule and a
