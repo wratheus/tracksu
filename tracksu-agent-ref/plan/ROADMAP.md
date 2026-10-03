@@ -1,8 +1,45 @@
 # Очередь переработки Tracksu
 
-2026-09-23 · единственная активная очередь. Сверена с кодом и историей Git.
+2026-10-03 · единственная активная очередь. Сверена с кодом и историей Git.
 
 ## Сейчас
+
+[P30: аудит после Hermes](work/P30-october-review.md) — реализован в коде,
+awaiting_manual_check: ranking row, место под «Наверх», типизированные ошибки
+аудио, P29-хвосты; таблица «риск → тест → результат» в карточке.
+[P32](work/P32-spotlights-seasons-grid-player.md): Spotlights оставлены
+неприметным архивом внизу главной (поддержка в osu! прекращена в 2020,
+их заменили Seasons; Seasons в публичном API нет). Сетка аватар/текст,
+новый плеер, компактные фильтры, цвета osu!, сердце supporter.
+**Следующие обязательные срезы (решение пользователя):**
+1. P33 — рейтинг команд во вкладке «Рейтинги», вкладку перестроить
+   на внутренние вкладки (Игроки / Команды / Страны).
+2. P34 — Daily challenge («Карта дня») на главной.
+[P31: Spotlights](work/P31-spotlights-contract.md) — контракт osu-web
+(справочные даты без порядка, тип чарта, 404 по ruleset = пусто) и вход со
+стартового экрана вместо Рейтингов. Проверку и коммиты делает пользователь
+(план коммитов в P30). Прежний запрет tests заменён
+[TESTING](../standards/TESTING.md); никаких тестов ради процента покрытия.
+
+
+Срез P29 rankings (`bb677d1`, сохранение списка при refresh) закрыт по решению
+пользователя; непроверенные GUI-переходы отмечены в карточке, не выданы за PASS.
+P01.3 privacy/terms пока не брать в работу по текущему решению пользователя;
+обязательность перед release/analytics сохраняется.
+Текущий согласованный набор исправлений — реализован в коде, автотесты
+проходят; статус awaiting_manual_check, GUI-приёмка не выполнена
+([P29](work/P29-ui-feedback-correction.md), раздел «Навигация, языки, media»):
+- [x] Типизированные причины ошибок avatar/cover в `app_media.dart`, без
+  удаления исправного disk cache из-за посторонних ошибок.
+- [x] Названия языков в выборе всегда на языке оригинала.
+- [x] Возврат наверх через появляющуюся кнопку на длинных страницах.
+- [x] Возврат наверх при повторном нажатии активной вкладки navbar;
+  сохранить существующий return-to-root с деталей и не запускать refresh.
+
+Следующий существенный API-срез выбирать из остатка [P12](work/P12-beatmap.md):
+фильтр leaderboard по mods, friends/country и личный score. Это открытые
+пункты, не одобренная реализация; перед выбором сверить API/scopes.
+Новые локальные избранное/история и сравнение игроков в текущую очередь не входят.
 
 [P29: коррекция UI-обратной связи](work/P29-ui-feedback-correction.md) —
 correction 1: Ogg Vorbis в media cache (preview CDN), downscale-only inline
@@ -119,6 +156,13 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 
 | Порядок / ID | Следующий цельный результат | Статус |
 | --- | --- | --- |
+| Сейчас · [P30](work/P30-october-review.md) | Аудит 2–3 октября, исправления, ключевые regression tests | awaiting_manual_check |
+| Сейчас · [P31](work/P31-spotlights-contract.md) | Spotlights по контракту osu-web, вход со стартового экрана | awaiting_manual_check |
+| Сейчас · [P32](work/P32-spotlights-seasons-grid-player.md) | Сетка аватар/текст, плеер, фильтры, цвета osu!, supporter; Spotlights — архив внизу главной | awaiting_manual_check |
+| Следом · P33 | Рейтинг команд; «Рейтинги» на внутренних вкладках (Игроки / Команды / Страны); сперва проверка `rankings/{mode}/team` | queued (обязательно) |
+| Следом · P34 | Daily challenge «Карта дня» на главной; сперва проверка `rooms?category=daily_challenge` | queued (обязательно) |
+| Следом · P35 | Оригинальные иконки модов osu! + акроним везде (`OsuModBadge`); сперва решение по источнику и лицензии ресурсов ppy | queued, ждёт решения |
+| Следом · P36 | «Настройки» и «О приложении»: вкладки, авторы, история (3-я итерация, первая — 2021) | queued, структура согласуется |
 | Сейчас · [P28](work/P28-media-cache-and-browsing.md) | Дисковый media cache/размер/очистка, плееры на обложках, default-on картинки, поиск, страны и flags реализованы; ручная проверка | awaiting_manual_check |
 | Сейчас · [Поэкранная доработка](work/P07-product-integration.md) | Функциональный shell/главная, затем каждый экран по отдельным data/UX критериям; raw migration не является завершением | in_progress |
 | До analytics/release · [P01.3](work/P01.3-privacy-and-terms.md) | Data inventory, privacy notice/policy, условия, About/атрибуции, ссылки из guest/OAuth/settings и store disclosures | backlog |
@@ -142,9 +186,9 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | До выпуска · [P00 + P01.1 + P03](DETAILS.md#p00) | Новые store accounts и публичный branding, новый release keystore/backup, production signing/App Links fingerprints, release/profile build и device checks | backlog |
 | До выпуска · [P01](DETAILS.md#p01) | Актуализировать архитектурные ADR и карту функций; права osu!, атрибуция, privacy/market requirements | backlog |
 | [P15](DETAILS.md#p15) | Ручная регрессия и release readiness; отдельное разрешение на публикацию. Старый update-path не обещаем: ID новый, прежних ключей нет | backlog |
-| [P04](DETAILS.md#p04) | Новый iOS host/SPM, signing/capabilities, simulator/device/archive — после Android | deferred |
+| [P04](DETAILS.md#p04) | Локальный simulator host уже собирается; остаются signing, OAuth callback/capabilities, device/archive | partial / release deferred |
 | [P17](DETAILS.md#p17) | BFF с callback/token exchange, убрать secret из binary, выбрать domain/hosting/stack после client MVP | deferred |
-| [T01](DETAILS.md#t01) | Автотесты — только по отдельному решению; не пишем и не запускаем параллельно | deferred |
+| [T01](DETAILS.md#t01) | Широкая тестовая инфраструктура/CI — отдельно. Целевые regression tests разрешены и входят в feature по TESTING | infrastructure deferred |
 
 Следом — поэкранные срезы из активного контракта с ручной оценкой пользователя.
 Cleanup выполняется для доказанно мёртвого кода/assets. Удаление legacy не означает,
@@ -165,8 +209,8 @@ UI kit и каталог уже существуют. Следующие стр�
 
 ## Уже принятые решения — не спрашивать повторно
 
-- Flutter 3.47.2 / Dart 3.13; Pub workspace в корне; JDK 25, Android по TSD.
-- Android ID/namespace: `io.github.wratheus.tracksu`. iOS/web/desktop hosts удалены.
+- Flutter 3.47.5 / Dart 3.13; Pub workspace в корне; JDK 25, Android по TSD.
+- Android ID/namespace: `io.github.wratheus.tracksu`. iOS simulator host восстановлен локально; web/desktop hosts отсутствуют.
 - REST поверх `http`, именованные методы, interceptors, cancellation, один retry.
 - DTO parsing в repository, raw payload в source, общие JSON readers.
 - Main → local source/repository/Bloc, shared infrastructure в DepsContainer.
@@ -174,10 +218,12 @@ UI kit и каталог уже существуют. Следующие стр�
 - en/ru/de/fr/es/ja/zh, системный язык и сохранённый выбор; ARB/context.t для UI.
   Формат ARB — [Flutter policy](../standards/LOCALIZATION.md), не примеры TSD.
 - Client secret пока envied из ignored .env; обфускация не защита секрета; BFF позже.
-- Устройство/UX проверяет пользователь. Автотесты отложены. По уточнению
-  2026-09-09 APK не собираем/не запускаем/не проверяем, включая каталог;
-  текущий gate — format, analyze lib/packages и review. Исторические build
-  checklist не применять без нового разрешения пользователя.
+- С 2026-10-03 исполнитель сам проверяет GUI симулятора и ключевые регрессии
+  автотестами по TESTING. Пользователь принимает продукт/дизайн. iOS simulator
+  build/install разрешены; Android APK и release не входят в текущий срез.
+- Фактический analyzer app/packages пока `flutter_lints`; строгая подготовленная
+  policy не подключена. Это старое расхождение docs/code, отдельный follow-up P02
+  (инвентаризация диагностик без массового autofix и ослабления правил).
 
 ## Как работаем дальше
 

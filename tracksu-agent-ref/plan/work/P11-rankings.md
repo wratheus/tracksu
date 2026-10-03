@@ -2,6 +2,8 @@
 
 Текущая доработка основного рейтинга: [P11-product](P11-product.md).
 Продуктовый UI Spotlights: [P19](P19-spotlights-product.md), реализован 2026-09-10.
+С 2026-10-03 вход в Spotlights — со стартового экрана, код в `lib/src/spotlights`;
+контракт дат/404 по ruleset пересмотрен: [P31](P31-spotlights-contract.md).
 Ниже — история реализации API-срезов, не описание актуального UI.
 Ручной country input и восемь общих chips заменены; APK/build инструкции
 ниже не применять: с 2026-09-09 только format/analyze/review по указанию пользователя.

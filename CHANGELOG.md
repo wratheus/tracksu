@@ -2,6 +2,98 @@
 
 ## Unreleased
 
+### Glass controls, app-bar progress, licenses screen (P32)
+
+- `UiGlass` frosted material for floating controls; the audio capsule and a
+  new round scroll-to-top button use it (no saturated pink pill).
+- Profile section tabs reuse `UiSegmentedControl`, synced with swipes.
+- Refresh/ruleset-switch progress is one 2 px line under the app bar
+  (`UiAppBarProgress`) on profile, rankings and settings; pull-to-refresh
+  replaces the rankings refresh button and in-content loaders.
+- Licenses: themed, searchable screen with an intro and per-package sheets
+  instead of Flutter's stock page.
+- Profile score/map tabs and the beatmap page refresh by pulling; their
+  refresh buttons and in-list loaders are gone (`PageActivity` feeds one
+  app-bar line). Beatmap page order: card, difficulties, description,
+  leaderboard.
+- Explicit platform page transitions (Android fade-forward, iOS native
+  slide) and a softer 260 ms content reveal.
+- Shared `OsuCategoryPicker` for profile scores and maps.
+- Missing values (no rank, no PP, no play time) are small secondary text
+  instead of headline numbers; empty list states are quieter.
+
+### Compact filters, osu! colours, supporter heart (P32)
+
+- Profile maps: one category selector line opening a grouped sheet
+  (Player / Mapper) plus a refresh icon, replacing eight wrapped chips and a
+  text button; scores use one line of two chips and a refresh icon.
+- Beatmap difficulties: one horizontal strip of star-coloured ruleset pips
+  (osu-web order and colours) with a star badge and the selected name.
+- Hit results and grades use osu!lazer colours; the accuracy arc takes the
+  grade colour and the grade letter is large, heavy and glowing.
+- Team members: pink osu!supporter heart right after the name (also in the
+  profile header); one presence line with a status dot instead of
+  "offline" plus a separate last-seen line.
+
+### Avatar grid and modern audio capsule (P32)
+
+- Text beside an avatar now spans exactly its height (`OsuAvatarBands`): the
+  top band starts on the avatar's top edge, the bottom band (flags, value
+  label, status) ends on its bottom edge; line leading is trimmed at both
+  ends. Ranking rows use a 72 px avatar, the profile header 96 px; the
+  previous-names icon aligns with the name, the ID sits beside the avatar.
+- `UiAudioPlayer` is a capsule: idle it is one 44 px round control; playing
+  it expands to a slim 4 px timeline with elapsed/total time. Loading shows a
+  ring, failures an icon and the cause. Over artwork the active capsule is
+  frosted glass (no blur when idle, to keep long lists cheap).
+
+### Spotlights: osu-web data contract and start-screen entry
+
+- Spotlights moved from Rankings to the start (Search) screen as an archive
+  card; the feature now lives in `lib/src/spotlights`. Rankings no longer link
+  to it. Route `…/spotlights` is unchanged and still exists in every branch.
+- Root cause of the empty catalog: chart 68 "Best of 2012" has
+  `start_date` 2013-02-01 and `end_date` 2013-01-31 in the live API. osu-web
+  stores these as staff-entered descriptive dates, never validates or uses
+  them, and renders both verbatim. The DTO no longer imposes an ordering rule
+  (and no longer drops such dates); the UI shows "Start date" and "End date"
+  as two facts instead of a range. Malformed date strings still fail.
+- Domain gains `SpotlightKind` from `type` (monthly, best of the year,
+  special, theme; unknown values stay `other`), shown as a badge and in the
+  catalogue picker. Catalogue search matches name/ID; names carry the year.
+- osu-web answers 404 when a chart has no table for the requested ruleset.
+  For a chart from the catalogue this is now a "No ranking for this ruleset"
+  empty state, not an error with a pointless Retry.
+- New/changed strings in all seven ARB files; `spotlightsPeriod/Starts/Ends`
+  removed. Tests: repository contract (real chart 68 data, kinds, malformed
+  date) and Bloc ruleset-404 → empty state → back to a loaded ruleset.
+
+### Typed audio failure messages
+
+- `AudioPlaybackController.failure` classifies a failed attempt as network,
+  unavailable (404/410, blocked source), unsupported (decoder rejection,
+  invalid format, too large), focus or unknown; the player shows a matching
+  localized message. Previously every failure, including iOS decoder -11800,
+  told the user to check the connection. Logging is unchanged (no URLs).
+
+### Navigation, languages and media (P29 follow-up)
+
+- Long main screens show a shared scroll-to-top button after about one
+  viewport; re-tapping the active tab scrolls its root to the top (also after
+  returning from details) without resetting filters or refreshing.
+- The language picker and the current setting show each language in its own
+  name (English, Русский, Deutsch, Français, Español, 日本語, 中文).
+- Avatar/cover decoding errors no longer evict healthy cached bytes; typed
+  download failures propagate unchanged.
+- Removed the template counter test that never matched the app.
+
+### Rankings rows, scroll-to-top clearance (P30)
+
+- Ranking rows: rank, name and metric share one alphabetic baseline; flags and
+  the metric label form a second line; narrow widths/large text stack instead.
+- Long pages reserve exact space under the last item for the scroll-to-top
+  button, so the final action stays tappable at max extent.
+
 ### Rankings list identity during refresh
 
 - The loaded rankings group is a positional sliver list whose optional leading
@@ -11,12 +103,8 @@
 - Pinned formatter/analyzer, diff-check and iOS simulator build passed.
   Parent's earlier instrumented before/after refresh retained the sampled list
   and visible-row identities, but did not capture the in-refresh transition.
-- Quick GUI QA on the dedicated Tracksu iPhone 17 (2026-10-02) is blocked:
-  computer-use found no Simulator window; Simulator.app is absent from the
-  active Xcode's standard application path and Spotlight found no bundle.
-  An inspected framebuffer screenshot shows Search only, not Rankings QA.
-  Refresh retention, scroll/pagination and Retry remain unverified by GUI;
-  P29 still awaits manual check.
+- Refresh retention, absence of repeated cold skeleton/scroll reset,
+  pagination and Retry remain unverified by GUI; P29 awaits manual check.
 
 ### iOS Ogg Vorbis previews
 

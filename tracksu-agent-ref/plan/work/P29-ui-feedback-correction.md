@@ -2,34 +2,12 @@
 
 2026-10-02 · implemented in code / awaiting_manual_check.
 
-## План локальных checkpoint-коммитов
+## Состояние реализации
 
-Пользователь разрешил небольшие локальные коммиты проверенных исправлений;
-прежний no-commit снят только для этих шагов. Push/deploy и существующий
-untracked `ios/` исключены. Наличие коммита не означает пользовательскую приёмку.
-
-- C1: public team endpoint allowlist и относящаяся документация.
-- C2: общий skeleton/reveal/image fade, controls-only player, ranking UI и
-  необходимые consumers; изменения shared API и consumers атомарны.
-- C3: content image sizing/typed failures/lifecycle + locales, безопасная
-  диагностика аудио и распознавание payload. Media data берётся из сохранённого
-  проверенного pre-Ogg снимка; iOS Vorbis на этом checkpoint ещё ограничение.
-- C4: iOS Vorbis→WAV, native decoder/dependency/license/cache integration,
-  фактический playback873811 и MP3-контроль, финальные docs и lockfile.
-
-Следующий отдельный срез: стабильная identity списка rankings при refresh.
-URI→null image guard уже исправлен; историческую находку не исправлять повторно.
-
-Локальные checkpoints на ветке `dev`, автор/committer проверены:
-- `01f65e5` — public team endpoints.
-- `f97bb56` — shared UI transitions и consumers.
-- `f27ea82` — image failures/intrinsic sizing и pre-Ogg media snapshot.
-- C4 Vorbis/dependency/licenses — атомарный commit финального снимка; его hash
-  записывается в отдельный handoff после создания, без self-hash/amend цикла.
-
-Каждый checkpoint содержит относящийся CHANGELOG и версию этой work card;
-промежуточные документы не заявляют ещё не внесённый iOS decoder. Все source
-bytes рабочего дерева сохранены при staged/index-only разбиении. `ios/` не staged.
+Исправления команд, shared UI transitions, content images и iOS Vorbis внесены
+локальными коммитами `01f65e5`, `f97bb56`, `f27ea82`, `11b0eff`.
+Сохранение списка rankings при refresh — `bb677d1`.
+Общий статус: **awaiting_manual_check**; коммиты не заменяют приёмку.
 
 ## История correction 1
 
@@ -525,203 +503,71 @@ ios, очистки auth, commit/push/deploy не было.
 сценарии открыты. Ограничения PCM/длительности, native setup allocations и
 отсутствие hardFFItimeout остаются документированными; allOggcodecs не обещаны.
 
-#### Rankings: стабильная идентичность списка — исправление в коде
+#### Rankings: сохранение списка при refresh
 
-Статус: **awaiting_manual_check**. Исправление подтверждено чтением pinned
-reconciliation source и техническими проверками; live identity ещё не измерена.
+Исправление внесено в `bb677d1`: постоянная `ValueKey<String>('rankings-list')`
+на прямом list-owning `SliverPadding` в `rankings_section.dart`.
+Одновременное добавление leading refresh sliver и удаление trailing auto-load
+больше не должно пересоздавать родительский список из-за positional reconciliation.
+Ключи отдельных строк ранее не защищали от удаления их родителя.
 
-Граница: `lib/src/rankings/widgets/rankings_section.dart`, загруженная ветка
-`SliverMainAxisGroup`. Дочерние элементы группы синхронизируются позиционно
-(`MultiChildRenderObjectElement` → `Element.updateChildren`, pinned SDK 3.47.5,
-`framework.dart` 4138–4320; `SliverMainAxisGroup` — обычный
-`MultiChildRenderObjectWidget`, без своей diff-логики).
+Гарантия ограничена loaded-поддеревом. Сохранение каждой lazy row при выходе
+за viewport/cache extent, перестановке данных или Loaded→Loading/Failure
+не гарантируется. Row identity ожидается для того же id на том же индексе.
 
-Разбор по исходникам, старый `[SliverPadding(list), UiSliverAutoLoad, footer]` →
-новый `[refresh SliverToBoxAdapter, SliverPadding(list), footer]`:
-- head: `SliverPadding` vs `SliverToBoxAdapter` — `canUpdate` false, остановка;
-- suffix: footer `SliverToBoxAdapter` совпадает; затем `UiSliverAutoLoad` vs
-  `SliverPadding` — не совпадает;
-- middle: старые `SliverPadding` и `UiSliverAutoLoad` без key попадают в
-  `deactivateChild`, хотя у строк внутри есть `ValueKey<int>(id)`: ключи строк
-  не спасают, т.к. их родитель-список уничтожен.
+Проверки pinned Flutter3.47.5:
+- format:1file,0changed;
+- parent analyzer:No issues found!(1.4s);
+- diff-check:exit0;
+- simulator debug build:exit0,Xcode15.1s;
+- независимый review:critical/high/medium findings нет.
 
-Исправление: одна константная `ValueKey<String>('rankings-list')` на
-`SliverPadding` — прямом потомке loaded-группы. Не на `UiSliverCardList`/строке,
-без зависимости от state/query, без новых обёрток. С ключом старый элемент
-попадает в `oldKeyedChildren` и находится по key в middle; обратный переход
-(refresh-sliver исчез) разбирается так же.
+Инструментальная before/after проверка настоящего refresh сохранила sampled
+list element/render и первую видимую строку с тем же id/индексом. Переходный
+кадр во время refresh не измерен. Это частичное свидетельство, не GUI-приёмка.
+Приложение установлено на отдельное iOS27.0 устройство; экран Search отображается.
 
-Ручная проверка (parent, ещё не выполнена):
-1. Parent устанавливает новый artifact только на существующий iPhone17
-   `7150350D-89C4-44A6-AE44-146571C269DE` и открывает Rankings. Этот worker
-   не устанавливал/не перезапускал app; уже установленная версия не содержит fix.
-2. Дождаться loaded с `items.isNotEmpty`, `nextPage != null`, `operation == null`,
-   `failure == null`; auto-load должен быть mounted, но ещё не trigger. Снять
-   identity реального `SliverPadding` с key `rankings-list`, его render object,
-   дочернего `RenderSliverList` и одной видимой неизменной строки через live
-   debugger/Inspector (не сохранять service capability URL).
-3. Нажать видимую кнопку Refresh либо вызвать настоящий
-   `RankingsRefreshRequested` через найденный живой Bloc, если кнопка вне экрана.
-   Не emit fabricated states. Во время refresh одновременно добавляется leading
-   progress и исчезает auto-load. Сверить те же element/render identities,
-   отсутствие повторного cold reveal/перезагрузки аватара у сохранённой строки.
-   Offset не должен сбрасываться в ноль; добавление progress меняет геометрию,
-   поэтому абсолютная неподвижность строки на экране не обещается.
-4. После настоящего success сверить обратный переход, затем обычную pagination.
-   Для error/Retry повторить refresh при временной недоступности сети, восстановить
-   сеть и Retry; не очищать auth/cache. Row identity ожидается только для того же
-   id на том же индексе: внешний Padding в UiSliverCardList не keyed, поэтому
-   перестановка данных может пересоздать карточку. Это не расширяется данным fix.
-5. Проверить прежнее поведение смены фильтра/страны/типа: cache hit даёт
-   Loaded(refresh) с другими items, cache miss — Loading и новый cold reveal.
-   Сохранение дерева между Loaded и Loading/Failure не гарантируется этим fix.
+Статус среза rankings: **done по решению пользователя** — исправление
+`bb677d1` принято, дальнейшая GUI-проверка этого среза остановлена.
+Прокрутка вниз/вверх и отображение строк второй страницы подтверждены через
+Device Hub на выделенном Tracksu iPhone 17. Активные переходы refresh/pagination,
+failed refresh/Retry и filter cache hit/miss не подтверждены; решение закрыть
+срез не означает, что эти проверки пройдены. Общий P29 этим не закрывается.
 
-Проверки оркестратора (pinned Flutter 3.47.5, все команды exit 0):
-- `fvm dart format lib/src/rankings/widgets/rankings_section.dart` —
-  Formatted 1 file (0 changed), 0.03 s;
-- `fvm dart format --output=none --set-exit-if-changed
-  lib/src/rankings/widgets/rankings_section.dart` — 1 file (0 changed), 0.02 s;
-- `fvm flutter analyze --no-pub lib packages` — No issues found!, 2.6 s;
-- `git diff --check` — без вывода;
-- `fvm flutter build ios --simulator --debug --no-pub` — Xcode 15.1 s,
-  `build/ios/iphonesimulator/Runner.app`.
+#### Навигация, языки, media — 2026-10-02
 
-Artifact: `/Users/aleksandrpavlenko/Projects/tracksu/build/ios/iphonesimulator/Runner.app`.
-Developer team CLI (Claude Sonnet) завершился exit 0; команды с compound Bash
-получили permission denial, worker использовал разрешённые Read/Edit/Write без
-обхода approvals. Автотесты/harness/Android/device/signing не выполнялись.
-Commit/push/deploy, staging и установка app не выполнялись; untracked `ios/`
-не регенерировался/не удалялся. Build — только разрешённый simulator build.
-Технические проверки не доказывают live element identity; общий P29 остаётся
-awaiting_manual_check.
+Статус: **implemented + automated verified / awaiting_manual_check**.
+GUI-приёмка не выполнялась; PASS не заявляется.
 
-Свежий независимый read-only team reviewer (Claude Sonnet, exit 0, четыре
-Flutter skills) подтвердил правильную границу ключа и forward/reverse переходы
-по pinned SDK. Critical/high/medium находок нет. Два low-уточнения docs закрыты:
-row identity только при том же id/индексе; cache hit Loaded(refresh) отличается
-от cache miss Loading. Финальный свежий read-only audit exit 0 подтвердил
-уточнения и отсутствие blocking findings; информационные замечания — краткий
-комментарий и отсутствие запрещённого regression test. Первый reviewer не мог
-запустить git diff (tools только Read/Grep/Glob); финальному передан точный
-orchestrator-captured diff, проверены текущие исходники. Финальный reviewer не
-перечитывал PLAYBOOK; правила/skills и NO TESTS были в полном task prompt.
-Reviewer не запускал проверки и не заявляет live QA. Scope/diff независимо
-сверены оркестратором: только три разрешённых tracked файла, index пуст,
-HEAD остаётся `11b0eff7be9dfeb0cc1faf3d0aeab8641aa25988`, `?? ios/` сохранён.
-Логи/reports/точный diff находятся в scratch с префиксом
-`tracksu-ranking-identity-`; финальный reviewer log:
-`/Users/aleksandrpavlenko/Documents/autonomous-ai-agents/pavlenko-agent-team/runs/3df9b8e9b5364dd1919a49f5d177baf1/stdout.txt`.
-После docs-уточнений финальные format-check exit 0 (1 file, 0 changed),
-analyzer exit 0 (No issues found!, 2.1 s), diff-check exit 0. Production correction cycles: 0;
-один docs-clarification pass. Install/live QA остаётся на parent.
+- Media (`app_media.dart`): исправные disk bytes больше не удаляются при
+  ошибке декодера. Opaque Exception/Error codec/engine не доказывает порчу
+  (download уже проверяет сигнатуру), поэтому → `unavailable`; превышение
+  размеров → `tooLarge`; upstream `MediaDownloadFailure` (reason/status)
+  пробрасывается без изменений с исходным stack trace. Сообщения платформы и
+  URL в UI не попадают.
+- Языки: в picker и в текущей настройке — автонимы (English, Русский, Deutsch,
+  Français, Español, 日本語, 中文); «System» локализуется. Коды, порядок и
+  persistence не менялись.
+- `UiScrollToTop` (tracksu_ui): видимость вычисляется один раз за кадр из
+  актуального состояния своего controller (не из устаревших notifications),
+  корректно при замене длинного контента коротким и resize. Подключён к
+  Поиску, Рейтингам (owned controller), Spotlights, Новостям/статье, карте и
+  leaderboard, медалям, команде и каждой секции профиля (свой controller).
+  Main scrollables с `primary: true` явно — на desktop route controller
+  не наследуется автоматически.
+- Reselect активной вкладки → прокрутка root к началу (см. NAVIGATION_SPEC);
+  отложенный запрос отбрасывается, если вкладка уже сменилась.
 
-## Пауза по требованию пользователя — 2026-10-02
+Автотесты (новые): `test/src/_shared/media/widgets/app_media_test.dart`
+(реальный `MediaCacheRepository` с mock cache dir: healthy PNG, decoder
+Exception/Error без eviction, tooLarge, upstream identity),
+`test/src/_shared/preferences/language_picker_test.dart`,
+`test/tracksu_ui/widgets/scroll_to_top_test.dart`,
+`test/src/guest/widgets/guest_shell_test.dart` (реальный GoRouter
+StatefulShellRoute + GuestShell). Шаблонный `test/widget_test.dart` (counter)
+падает независимо от этого среза.
 
-**Работа остановлена. Не продолжать QA, сборки, staging или commit без нового
-поручения пользователя.** Owned Flutter attach и simctl console-proxy остановлены.
-Новые GUI-действия при фиксации паузы не выполнялись.
-
-- Ветка `dev`, HEAD `11b0eff7be9dfeb0cc1faf3d0aeab8641aa25988`.
-  Ранее созданы четыре локальных checkpoint-коммита: `01f65e5`, `f97bb56`,
-  `f27ea82`, `11b0eff`. Push не выполнялся; `ios/` не включён.
-- Новая ranking identity правка **не закоммичена**: три tracked изменения —
-  `rankings_section.dart`, `CHANGELOG.md`, эта work card. Index пуст;
-  существующий `?? ios/` сохранён. Source diff — комментарий и constant key
-  на прямом list-owning `SliverPadding`, без изменений аудио/cache/native host.
-- Child format/analyzer/diff/simulator build и независимый review прошли;
-  parent повторил format (1 file,0changed), analyzer (No issues found!,1.4s)
-  и diff-check. Parent установил artifact на существующий iPhone17
-  `7150350D-89C4-44A6-AE44-146571C269DE`; app UI был виден на screenshot.
-- Parent инструментально подтвердил реальные before/after refresh:
-  Loaded,50items,nextPage2,operationnull,failure=null. Старые padding/list
-  element+render объекты остались active с теми же identityHashCode:
-  padding734806774/render797118051,list864695870/render715923808.
-  Первая видимая строка (id7562902,тот же индекс) также осталась active,
-  element identity2282216. Это не доказательство всех строк/перестановок.
-- Первая выбранная строка после refresh оказалась unmounted; выбор был заменён
-  на фактически видимую первую строку. Причина пересоздания той отдельной строки
-  не установлена; общее сохранение всех lazy rows не заявляется.
-- **Переходный кадр с simultaneous leading progress/trailing auto-load removal
-  не зафиксирован.** Breakpoint не поймал нужную фазу; попытка read-only
-  post-frame observer завершилась expression compilation error113, без
-  добавления production instrumentation. Error/Retry, pagination/filter и
-  полноценная GUI-проверка этой правки остаются открытыми. Это не app build error.
-- Задержка parent QA возникла в debugger workflow: несколько попыток получения
-  service URI/attach, ошибки параметров и watch-expression, повторный выбор
-  объекта строки. Вместо продолжения инструментальной петли пользователь
-  остановил работу и сменил метод UI-приёмки. Общий P29 awaiting_manual_check.
-
-### Новый обязательный метод simulator UI QA
-
-Пользователь требует управлять **реальным окном Simulator через компьютер**:
-видимые GUI-клики курсором, ввод/скролл, сохранение screenshot после действий
-и визуальный анализ. Прежний VM/DDS/Python recipe выше — исторический и
-**не является дальнейшим планом UI-проверки**. Router/BLoC/widget вызовы через
-сокеты не заменяют клики пользователя. Инструментальный debugger разрешается
-только отдельным новым поручением, не как автоматический обход проблем GUI.
-
-При возобновлении load `computer-use`; использовать доступный GUI input tool.
-Уточнение пользователя: цель — **простота и скорость готового GUI workflow**,
-а не обязательное движение физического OS cursor. Использовать рабочий режим
-готового computer-use tool (background delivery/agent cursor допустимы, если
-они действительно нажимают интерфейс Simulator и результат виден на screenshot).
-Цикл: screenshot → click/type/scroll → screenshot → визуальная проверка.
-При неудаче — новый screenshot и максимум одна простая корректирующая попытка,
-далее сообщить блокер. Не тратить полчаса на написание собственного QA-кода,
-настройку сокетов/debugger или инфраструктуры для проверки обычного UI-сценария.
-Сейчас не проверять driver, не менять permissions/config и не запускать Simulator.
-Правило сохранено в canonical `pavlenko-flutter-quality` (входит в CLI worker
-prompt) и `tracksu-development`; developer/reviewer должны получить его.
-Следующий шаг только после разрешения: реальная GUI-проверка Refresh/scroll/Retry
-со скриншотами, затем решение о пятом локальном коммите. Не закрывать P29 автоматически.
-
-## Возобновление по новому поручению — 2026-10-02
-
-Пользователь: «окей пусть продолжат работу». Пауза выше — исторический checkpoint;
-разрешено продолжить ограниченную GUI-проверку ranking correction. Использовать
-готовый computer-use tool для настоящего окна Simulator: screenshot → действие
-→ screenshot → визуальный анализ. Не открывать VM/DDS, не писать QA-скрипты,
-не вызывать router/BLoC/widget APIs вместо жестов. По следующему явному поручению
-пользователя создан отдельный `Tracksu iPhone 17`, iOS27.0,
-UDID `569DF6F0-7902-4C25-B818-935EB8C8688F`. Использовать только его для
-дальнейшего Tracksu QA. Устройство booted; текущий Runner.app установлен,
-launch exit0 (PID97381); наличие app независимо проверено get_app_container.
-GUI-проверка ещё не выполнена. Старый iPhone17 и его данные не изменялись;
-auth/cache между устройствами не копировались. Не пересобирать без конкретной
-необходимости.
-После одного простого корректирующего повтора при блокере — отчёт, не длинная
-настройка инфраструктуры. Worker сохраняет доказательства и actual gaps;
-parent решает о локальном checkpoint commit после readback. Push/deploy/ios
-по-прежнему исключены; общий P29 остаётся awaiting_manual_check.
-
-### Короткая GUI-попытка на dedicated device — 2026-10-02
-
-Статус: **BLOCKED / awaiting_manual_check**, не GUI verified.
-
-- Загружены computer-use, Tracksu/team и четыре canonical Flutter skills.
-  `computer_use(capture, app=Simulator)` вернул 0×0, no on-screen window,
-  без screenshot/элементов; `list_apps` не содержит Simulator.
-- `xcode-select -p`: `/Applications/Xcode.app/Contents/Developer`.
-  Единственная простая корректирующая попытка — открыть установленный
-  Simulator.app с `-CurrentDeviceUDID 569DF6F0-7902-4C25-B818-935EB8C8688F` —
-  остановилась на проверке отсутствующего
-  `/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app`
-  (exit 1; open не выполнялся). Spotlight-поиск точного bundle identifier
-  `com.apple.iphonesimulator` не дал результата; discovery по /Applications
-  также не нашёл Simulator.app. Это блокер GUI host, не ошибка Runner build.
-- Dedicated `Tracksu iPhone 17` по simctl остаётся Booted. Только с него снят
-  framebuffer screenshot (exit 0), сохранён и визуально просмотрен:
-  `/Users/aleksandrpavlenko/.hermes/cache/scratch/tracksu-ranking-gui-blocker-dedicated.png`.
-  На изображении штатный Search / Find player, пустое поле Exact username or ID,
-  выбран ctd; в нижней панели есть Rankings. Нет видимого permission/auth dialog
-  или app error. Framebuffer не является screenshot окна Simulator/доказательством
-  GUI-кликов; по нему невозможно проверить эффект Refresh.
-- Реальных кликов Rankings/Refresh, scroll/pagination не выполнено: окна для
-  готового GUI tool нет. Loaded-content retention, repeated cold skeleton,
-  scroll reset, transient refresh и Retry/error остаются GUI gaps. Никаких
-  утверждений об internal identity по screenshot не делается; прежняя VM
-  проверка остаётся отдельным историческим свидетельством.
-- После блокера остановились без repair/install/driver/permissions detour,
-  VM/DDS/сокетов, QA automation, build, изменения auth/cache/native host,
-  source fixes, staging/commit/push. Старый личный simulator не использован.
-  Изменены только эта card и относящийся CHANGELOG; source correction сохранён.
+Открыто для GUI: retap вкладки на root и с деталей; сохранение scroll другой
+вкладки; появление/скрытие кнопки и отсутствие перекрытия navbar/player/safe
+area; reduced motion; tooltip в семи языках; автонимы в picker/настройках;
+ошибка аватара/обложки без потери кэша.

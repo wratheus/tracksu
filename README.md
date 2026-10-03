@@ -2,7 +2,7 @@
 
 # Tracksu
 
-[![Flutter 3.47.2](https://img.shields.io/badge/Flutter-3.47.2-02569B?logo=flutter&logoColor=white)](https://flutter.dev/)
+[![Flutter 3.47.5](https://img.shields.io/badge/Flutter-3.47.5-02569B?logo=flutter&logoColor=white)](https://flutter.dev/)
 [![Dart 3.13](https://img.shields.io/badge/Dart-3.13-0175C2?logo=dart&logoColor=white)](https://dart.dev/)
 [![Platform: Android](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)](#platform-status)
 [![License: MIT](https://img.shields.io/badge/license-MIT-A78BFA)](LICENSE)
@@ -32,6 +32,9 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Completed MP3s reuse the shared bounded disk cache; no export/download-library
   feature, arbitrary embedded players, autoplay or background service.
   Image preference remains separate. Device audio verification is still pending.
+- A failed attempt says why: connection/timeout (retry may help), the preview
+  is gone (404/410), the format cannot be decoded on this device, or another
+  app holds audio focus. Decoder failures no longer ask to check the connection.
 - Beatmap previews from `b.ppy.sh` are Ogg Vorbis despite the `.mp3` path. iOS
   has no Vorbis decoder, so there a validated preview is decoded once by
   `audio_decode` (stb_vorbis over FFI) in a background isolate and cached as WAV.
@@ -39,7 +42,8 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   and accepted output is at most 45 s. A false end granule can cause longer
   audio to be processed before rejection, but cannot bypass the PCM bound.
   Other platforms keep native Ogg playback. Without cache storage, an iOS
-  Vorbis preview fails safely. Live simulator playback remains pending.
+  Vorbis preview fails safely. Simulator playback was verified for preview 873811;
+  physical-device audio and interruptions still need acceptance.
 
 ### Teams and rankings
 
@@ -57,7 +61,8 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Profiles, beatmap details/results, news feed/articles, ranking queries,
   profile scores/maps, medals, spotlights and teams reuse bounded
   in-memory snapshots while fresh data loads; refresh failures retain usable data.
-  Initial loads without cached data show static skeletons. This cache lasts only
+  Initial loads without cached data show shared pulsing skeletons (static with
+  reduced motion). This cache lasts only
   for the running session (30-minute freshness limit), not across app restarts.
 - Spotlight details are isolated by chart/mode; map results by difficulty/mode/
   legacy variant, and medals by player. Reopening always revalidates; failed
@@ -129,7 +134,9 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Search / Rankings / News have independent retained stacks. The bottom bar
   stays visible on profile, beatmap and article details.
 - Switching tabs preserves the destination's stack. Tapping the active tab
-  returns to its root; the root's filters and scroll are not reset.
+  returns to its root and scrolls to the top without refreshing or resetting filters.
+- Long browsing pages also offer a return-to-top button. Scrollable clearance
+  keeps the final action reachable above it, without resizing the viewport.
 - Android Back pops details first, then returns from a secondary tab's root
   to the retained Search tab. Only Back at the actual Search root can exit.
 - OAuth opens above the shell and closes back to the original context.
@@ -138,7 +145,7 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Router restoration covers destinations and identifiers, not the entire
   network cache or search/filter state after process death.
 
-### Rankings and spotlights
+### Rankings
 
 - Browse global performance-point and score rankings for all four rulesets.
 - Choose a country/region in a searchable, lazy picker with bundled flags.
@@ -151,11 +158,22 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   player preserve scroll and existing content; refresh failures appear above it.
 - Switch osu!mania rankings between 4K and 7K variants.
 - Open any ranked player directly in the selected ruleset.
-- Browse osu! Spotlights, their beatmaps, and server-provided player charts.
-- Spotlight collections show localized dates and participant totals when
-  supplied, map banners/facts and player avatars/flags. Rankings remain the
-  server's top-40, not all participants. Search the catalogue by name/year/ID
-  in a lazy sheet; dismissing it keeps the underlying page's scroll position.
+
+### Spotlights
+
+- Spotlights are a discontinued osu! feature (last chart in 2020; osu! replaced
+  them with Seasons). The app keeps them as a low-key "Spotlights archive" row
+  at the bottom of the start screen, and the screen itself says so. Seasons
+  have no public API v2 endpoints and are not covered.
+- Each chart shows its kind and the two dates entered by osu! staff exactly as
+  osu-web shows them ("Start date", "End date"). They are descriptive labels
+  with no ordering guarantee (chart 68 "Best of 2012" ends before it starts),
+  so the app never joins them into a range or rejects a chart because of them.
+- Map banners/facts, participant totals when supplied, player avatars/flags.
+  Rankings are the server's top 40, not all participants. Search the catalogue
+  by name (names carry the year) or ID in a lazy sheet.
+- Many old charts exist only for some rulesets; osu-web answers 404 for those
+  and the app shows "No ranking for this ruleset" instead of an error.
 
 ### Beatmaps and scores
 
@@ -167,7 +185,7 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 - Share public osu! pages through a reusable Tracksu sheet: Telegram, WhatsApp,
   Facebook, X/Twitter, the system app chooser, or copy link. Search shares the
-  public osu! search page (not your draft); rankings retain mode/country/variant.
+  Tracksu repository; rankings retain mode/country/variant.
   No recipient selection or posting happens automatically; app/browser behaviour
   and previews depend on the destination. Private settings and OAuth are excluded.
 
@@ -177,11 +195,11 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   rich content; disabling it keeps the text feed usable without image requests.
 - Read formatted profile About pages and news through a shared native reader:
   expandable spoilers, bounded raster images and an image zoom viewer.
-- External rich-content images load only after a one-time permission choice.
-  Allow/decline is saved on this device; change it in Account → External images.
-  Third-party hosts receive your IP address and may record requests. This setting
-  does not cover osu! avatars/map covers. Video/unsupported embeds and full original styling
-  remain available through the original-page action. Raw BBCode is a plain-text fallback.
+- Network images load by default; Settings can disable them, including avatars
+  and map covers. A previously saved opt-out remains respected. Third-party hosts
+  receive your IP address and may record requests. Video/unsupported embeds and
+  full original styling remain available through the original-page action.
+  Raw BBCode is a plain-text fallback.
 - Optionally sign in through osu! OAuth, open your own profile, and sign out locally.
 - Use the interface in English, Russian, German, French, Spanish, Japanese, or
   Simplified Chinese; the selected language is remembered between launches.
@@ -236,7 +254,7 @@ It uses the same Android app ID as the normal debug app. Run the default
 | --- | --- |
 | Android | Active development; debug builds are available locally |
 | Google Play | Not currently published |
-| iOS | Host project will be recreated after the Android rebuild |
+| iOS | Local experimental host; debug simulator builds work. Device signing and OAuth callback integration remain open |
 | Windows | Not part of the current supported build |
 
 All current Android variants use debug signing. They are development builds,
@@ -248,7 +266,7 @@ The current Android application ID is `io.github.wratheus.tracksu`.
 ### Requirements
 
 - [FVM](https://fvm.app/)
-- Flutter `3.47.2`
+- Flutter `3.47.5`
 - Dart `3.13`
 - Android SDK with `compileSdk 37`
 - JDK `25`
@@ -342,26 +360,24 @@ The removed legacy implementation is not an architectural reference for new work
 ## Development checks
 
 ```sh
-fvm dart analyze lib packages/tracksu_network/lib packages/tracksu_storage/lib
-fvm flutter build apk --debug
+fvm flutter analyze --no-pub
+fvm flutter test --no-pub
+fvm flutter build ios --simulator --debug --no-pub
 ```
 
-The debug APK is generated at:
-
-```text
-build/app/outputs/flutter-apk/app-debug.apk
-```
-
-Automated tests are currently deferred; behavior still requires manual device
-verification. See the [changelog](CHANGELOG.md) for recent implementation work
-and the [active roadmap](tracksu-agent-ref/plan/ROADMAP.md) for planned work.
+Add focused tests for key behavior and reproducible regressions, not for a
+coverage target. Device/GUI checks remain separate from automated assertions.
+See the [testing policy](tracksu-agent-ref/standards/TESTING.md),
+[changelog](CHANGELOG.md) and [active roadmap](tracksu-agent-ref/plan/ROADMAP.md).
+The iOS simulator artifact is `build/ios/iphonesimulator/Runner.app`.
+Android release and physical-device acceptance are separate work.
 
 ## Roadmap
 
 - Add beatmap mod filters and personal score tables.
 - Complete the visual system and unified themes.
 - Move production-sensitive OAuth credentials behind a backend service.
-- Restore a supported iOS host after the Android application is ready.
+- Complete iOS device signing, OAuth callbacks and platform acceptance.
 
 Plans may change as the API integration and interface are validated. Historical
 source builds remain available on the [Releases page](https://github.com/wratheus/tracksu/releases),
