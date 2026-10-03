@@ -6,23 +6,14 @@
 в общую папку без изменения содержания. Это правила будущей работы в пределах
 выбранной части, не команда начать реализацию и не автоматическая установка.
 
-## Обязательное исключение: никаких автотестов сейчас
+## Проверки по текущему поручению пользователя
 
-Уточнение пользователя 2026-09-09: APK не собирать, не устанавливать и не
-проверять, в том числе catalog. Текущий gate — format, статический анализ и
-review ошибок проекта/diff. Указания build в skills и исторических work cards
-не применять без нового явного разрешения. Ручную проверку делает пользователь.
-
-Пользователь прямо исключил написание, изменение и запуск автотестов из
-рефакторинга. Поэтому требования skills `mandatory tests`, targeted tests,
-regression tests, mocks/fakes, golden, coverage и test CI **не выполняются**
-на P00–P15. Существующие тесты тоже не «чинятся заодно». Всё это относится к
-отдельному T01, только после нового явного выбора пользователя.
-
-Из quality-процесса остаются чтение кода, проверка контрактов, lifecycle и diff,
-а при реализации — format/analyze/build по scope. Поведение проверяет пользователь
-вручную. Отсутствие автотестов не объявлять неожиданным blocker и не пытаться
-обойти это правило созданием «проверочного» test harness под другим именем.
+С 2026-10-03 прежний запрет на автотесты отменён: нужны аккуратные проверки
+ключевых реальных регрессий, без тестов на каждый метод и покрытия ради покрытия.
+Единственный актуальный контракт — [TESTING](TESTING.md). Исполнитель также сам
+проверяет сценарии через GUI симулятора и фиксирует фактические результаты.
+Сборка/установка iOS simulator разрешены; Android APK/release и публикация
+не являются частью этого поручения.
 
 ## Когда какой skill читать
 
@@ -31,7 +22,7 @@ regression tests, mocks/fakes, golden, coverage и test CI **не выполня
 | [pavlenko-flutter-feature](../skills/pavlenko-flutter-feature/SKILL.md) | Foundation, перенос/добавление feature, repository/Bloc | Reuse-first; main/domain/data/bloc/widgets; явный DI; typed contracts; ownership и concurrency |
 | [pavlenko-flutter-ui](../skills/pavlenko-flutter-ui/SKILL.md) | UI kit, экран, форма, локализация, список | Public UI API, themes/tokens, чистые builders, scope UI-state, layout/lifecycle и l10n |
 | [pavlenko-dart-style](../skills/pavlenko-dart-style/SKILL.md) | Любое изменение Dart-кода | SDK/analyzer style, types/nullability, sealed/final, errors/async, imports и constructors |
-| [pavlenko-flutter-quality](../skills/pavlenko-flutter-quality/SKILL.md) | Review и handoff каждой реализации | Проверка diff, errors, race/lifecycle, scope и реальные результаты проверок; без test-разделов |
+| [pavlenko-flutter-quality](../skills/pavlenko-flutter-quality/SKILL.md) | Review и handoff каждой реализации | Проверка diff, errors, race/lifecycle и ключевых регрессий по TESTING |
 
 Обычный порядок для вертикального среза: feature → dart-style → ui (если есть UI)
 → quality. Для чистого UI: ui → dart-style → quality. Для документации skills
@@ -94,7 +85,7 @@ regression tests, mocks/fakes, golden, coverage и test CI **не выполня
   из TSD не относятся к Tracksu. Не создавать похожие контроллеры «для соответствия».
 - `make get/gen` использовать только после появления этих команд в Tracksu
   и проверки их содержания; инструкции TSD местами устарели. Генерацию запускать
-  при изменении inputs, результаты не править вручную. Тестовые команды исключены.
+  при изменении inputs, результаты не править вручную. Тесты выбираем по TESTING, не механически по каждому разделу skill.
 - Приватный `analyzer_lichi` не переносим: основа — пользовательский YAML и
   [подготовленная policy Tracksu](../standards/CODE_STYLE.md), подключаемая на P02 для app и
   packages. SDK/analyzer policy имеет приоритет над примером синтаксиса из TSD
@@ -109,5 +100,5 @@ regression tests, mocks/fakes, golden, coverage и test CI **не выполня
 
 Назвать применённые skills, если они определили существенное решение. Указать
 scope, изменение поведения, фактические технические проверки и ручной checklist.
-Не писать «тесты прошли»: они не запускались по договорённости. Новые вопросы
+Для тестов и GUI указывать конкретные сценарии и фактический результат. Новые вопросы
 и unrelated bugs записать отдельно; не расширять scope на несогласованную архитектуру.

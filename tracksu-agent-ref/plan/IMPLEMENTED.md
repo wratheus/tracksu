@@ -10,7 +10,7 @@
 | Область | Что уже не требуется начинать заново | Опорные коммиты |
 | --- | --- | --- |
 | Workspace/platforms | Flutter app в корне; удалены web/desktop/iOS hosts; новый Android namespace | 4bd22db, da72ed0, 9fb1e84 |
-| Toolchain | FVM 3.47.2, Dart 3.13, общая analyzer policy, workspace/lockfile, обновление runtime packages | a3d793f, 50f62d3, 3594f0a, 21f8c8a |
+| Toolchain | FVM/Dart baseline, flutter_lints (строгая policy не подключена; сверка P30), workspace/lockfile, обновление runtime packages | a3d793f, 50f62d3, 3594f0a, 21f8c8a |
 | Android | Kotlin host/DSL, AGP 9.3.2 / Gradle 9.7.1, shrinking/proguard для build types; пока debug signing | 7382e34, 50f62d3, 5cbfc76 |
 | DI | registerDependencies, DepsContainer/DepsScope, bootstrap и shared clients | 87f321d |
 | Network | http REST с именованными методами, payload accessors, options/cancellation/interceptors, API headers/version и один retry после 401 | 4a4f4f5, d97974b, ac6b2a9, c36d2a7 |

@@ -41,8 +41,16 @@ Legacy удаляем после ручной проверки и перенос
   поздние завершения закрытых Bloc не emit. Повторные refresh игнорируются.
 - Из score сохраняется его ruleset, включая конверт; звёзды/длительность в
   списке описывают исходную native difficulty, не пересчитанные mod attributes.
-- Top global, legacy=false. Моды показываются acronyms; фильтры mods,
-  friends/country, личный score, полный hit-statistics и preview не реализованы.
+- [x] Top global, legacy=false; моды показываются acronyms.
+- [x] Подробные statistics/maximum_statistics и настройки модов реализованы
+  последующим срезом [P10-result-content](P10-result-content.md).
+- [x] Preview подключён к экрану карты и leaderboard последующим P26/P29;
+  это не означает прохождение всех ручных сценариев данной страницы.
+- [ ] Фильтр leaderboard по mods.
+- [ ] Leaderboard friends/country.
+- [ ] Личный score на выбранной сложности.
+  Эти расширения требуют отдельной сверки API/scopes и согласования среза.
+  Текущий source передаёт только mode, legacy_only и type=global.
   Offset/cursor этого endpoint не выдумываем. Порядок строк — серверный.
 - Текущее оформление без новой темы и assets. Навигация через appRouter,
   callbacks не содержат HTTP/JSON. Профиль остаётся в предыдущем route.
