@@ -161,6 +161,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Сейчас · [P32](work/P32-spotlights-seasons-grid-player.md) | Сетка аватар/текст, плеер, фильтры, цвета osu!, supporter; Spotlights — архив внизу главной | awaiting_manual_check |
 | Следом · P33 | Рейтинг команд; «Рейтинги» на внутренних вкладках (Игроки / Команды / Страны); сперва проверка `rankings/{mode}/team` | queued (обязательно) |
 | Следом · P34 | Daily challenge «Карта дня» на главной; сперва проверка `rooms?category=daily_challenge` | queued (обязательно) |
+| Сейчас · [P37](work/P37-ios-oauth-callback.md) | iOS не возвращается после входа: нет Associated Domains, Team и AASA; варианты A (Universal Links) / B (своя схема) | ждёт решения |
 | Следом · P35 | Оригинальные иконки модов osu! + акроним везде (`OsuModBadge`); сперва решение по источнику и лицензии ресурсов ppy | queued, ждёт решения |
 | Сейчас · [P36](work/P36-settings-and-about.md) | «Настройки» — сгруппированный список; «О приложении» — вкладки, авторы, история, лицензии | awaiting_manual_check (уточнить год/текст 2-й версии) |
 | Сейчас · [P28](work/P28-media-cache-and-browsing.md) | Дисковый media cache/размер/очистка, плееры на обложках, default-on картинки, поиск, страны и flags реализованы; ручная проверка | awaiting_manual_check |
