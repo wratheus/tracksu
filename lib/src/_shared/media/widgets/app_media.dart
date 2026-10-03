@@ -39,13 +39,14 @@ final class _CachedMediaImage extends ImageProvider<_CachedMediaImage> {
     ImageDecoderCallback decode,
   ) => MultiFrameImageStreamCompleter(codec: _decode(decode), scale: 1);
 
+  /// Disk bytes are never evicted here: the download already validated the
+  /// image signature, and an opaque engine/codec failure does not prove the
+  /// cached payload is corrupt. The cache expires such entries by age/LRU.
   Future<ui.Codec> _decode(ImageDecoderCallback decode) async {
     ui.ImageDescriptor? descriptor;
     ui.ImmutableBuffer? buffer;
-    bool received = false;
     try {
       final Uint8List bytes = await repository.image(uri);
-      received = true;
       buffer = await ui.ImmutableBuffer.fromUint8List(bytes);
       descriptor = await ui.ImageDescriptor.encoded(buffer);
       if (descriptor.width <= 0 ||
@@ -53,24 +54,23 @@ final class _CachedMediaImage extends ImageProvider<_CachedMediaImage> {
           descriptor.width > 16384 ||
           descriptor.height > 16384 ||
           descriptor.width * descriptor.height > 40000000) {
-        throw const MediaDownloadFailure();
+        throw const MediaDownloadFailure(MediaFailureReason.tooLarge);
       }
       descriptor.dispose();
       descriptor = null;
       final ui.ImmutableBuffer owned = buffer;
       buffer = null; // Flutter's decoder takes ownership of the buffer.
       return await decode(owned);
-    } on Object {
-      if (received) {
-        try {
-          await repository.evictImage(uri);
-        } on Object {
-          // A failed disk cleanup must not hide the original decode failure.
-        }
-      }
+    } on Object catch (error, stackTrace) {
       // Error keys must be evictable on the next resolve/retry.
       scheduleMicrotask(() => PaintingBinding.instance.imageCache.evict(this));
-      throw const MediaDownloadFailure();
+      // Never surface platform messages or URLs: only a typed safe reason.
+      Error.throwWithStackTrace(
+        error is MediaDownloadFailure
+            ? error
+            : const MediaDownloadFailure(MediaFailureReason.unavailable),
+        stackTrace,
+      );
     } finally {
       descriptor?.dispose();
       buffer?.dispose();

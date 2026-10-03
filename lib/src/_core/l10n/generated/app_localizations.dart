@@ -186,11 +186,35 @@ abstract class AppLocalizations {
   /// **'Finished'**
   String get audioCompleted;
 
-  /// Shared foreground audio player: audioFailed.
+  /// Shared audio player: connection, timeout or transient server failure; retry may help.
   ///
   /// In en, this message translates to:
   /// **'Could not play this audio. Check your connection and try again.'**
   String get audioFailed;
+
+  /// Audio source returned 404/410 or is not an allowed media location.
+  ///
+  /// In en, this message translates to:
+  /// **'This audio preview is no longer available.'**
+  String get audioFailedUnavailable;
+
+  /// Downloaded audio could not be decoded or is too large; not a connection issue.
+  ///
+  /// In en, this message translates to:
+  /// **'This audio format cannot be played on this device.'**
+  String get audioFailedUnsupported;
+
+  /// Audio focus was denied because another app is playing.
+  ///
+  /// In en, this message translates to:
+  /// **'Another app is using audio. Try again when it stops.'**
+  String get audioFailedFocus;
+
+  /// Audio failed for an unclassified reason; no connection hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not play this audio.'**
+  String get audioFailedUnknown;
 
   /// Shared foreground audio player: audioSeek.
   ///
@@ -372,6 +396,30 @@ abstract class AppLocalizations {
   /// **'Open-source libraries and asset licenses'**
   String get aboutLicensesDescription;
 
+  /// Intro on the licenses screen: why the list exists.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracksu is built on open-source software. These are the packages inside the app and the license texts their authors require us to show.'**
+  String get licensesIntro;
+
+  /// Search field on the licenses screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Search packages'**
+  String get licensesSearch;
+
+  /// Empty search result on the licenses screen.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching packages.'**
+  String get licensesNoMatch;
+
+  /// Number of packages with licenses.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} package} other{{count} packages}}'**
+  String licensesPackageCount(int count);
+
   /// External browser/app link launch failure.
   ///
   /// In en, this message translates to:
@@ -432,28 +480,70 @@ abstract class AppLocalizations {
   /// **'No matching spotlights.'**
   String get spotlightsNoMatch;
 
-  /// Published UTC calendar period; dates already localized.
+  /// Staff-entered spotlight start date shown verbatim like osu-web; not ordered against the end date.
   ///
   /// In en, this message translates to:
-  /// **'{start} – {end}'**
-  String spotlightsPeriod(String start, String end);
+  /// **'Start date: {date}'**
+  String spotlightsStartDate(String date);
 
-  /// Spotlight period with only its start available.
+  /// Staff-entered spotlight end date shown verbatim like osu-web; may precede the start date in old charts.
   ///
   /// In en, this message translates to:
-  /// **'From {date}'**
-  String spotlightsStarts(String date);
+  /// **'End date: {date}'**
+  String spotlightsEndDate(String date);
 
-  /// Spotlight period with only its end available.
+  /// osu-web spotlight type 'monthly'.
   ///
   /// In en, this message translates to:
-  /// **'Until {date}'**
-  String spotlightsEnds(String date);
+  /// **'Monthly'**
+  String get spotlightsKindMonthly;
+
+  /// osu-web spotlight type 'bestof' (yearly chart).
+  ///
+  /// In en, this message translates to:
+  /// **'Best of the year'**
+  String get spotlightsKindBestOf;
+
+  /// osu-web spotlight type 'special'.
+  ///
+  /// In en, this message translates to:
+  /// **'Special'**
+  String get spotlightsKindSpecial;
+
+  /// osu-web spotlight type 'theme'.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get spotlightsKindTheme;
+
+  /// The selected spotlight has no chart for the chosen ruleset (osu-web 404).
+  ///
+  /// In en, this message translates to:
+  /// **'No ranking for this ruleset.'**
+  String get spotlightsRulesetUnavailable;
+
+  /// Hint under the missing-ruleset state; the ruleset selector is above it.
+  ///
+  /// In en, this message translates to:
+  /// **'osu! ran this spotlight only for some rulesets. Choose another one above.'**
+  String get spotlightsRulesetUnavailableHint;
+
+  /// Says Spotlights are a discontinued archive (last chart 2020) replaced by Seasons on osu!; shown on the start screen entry and atop the Spotlights screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Old osu! charts; the last one ran in 2020. osu! no longer holds Spotlights — Seasons replaced them.'**
+  String get spotlightsHomeDescription;
+
+  /// Low-key start screen entry opening the Spotlights archive.
+  ///
+  /// In en, this message translates to:
+  /// **'Spotlights archive'**
+  String get spotlightsOpen;
 
   /// Number of difficulties returned in the whole beatmap set, not the curated Spotlight playlist.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, one{# difficulty in set} other{# difficulties in set}}'**
+  /// **'{count, plural, one{{count} difficulty in set} other{{count} difficulties in set}}'**
   String spotlightsDifficultyCount(int count);
 
   /// Profile/score/settings UI: Settings
@@ -1452,10 +1542,10 @@ abstract class AppLocalizations {
   /// **'Spotlight ranking · up to 40 players'**
   String get spotlightsRankingLimit;
 
-  /// Selected Spotlight or game mode is unavailable.
+  /// The selected spotlight itself is unavailable; a missing ruleset uses spotlightsRulesetUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'This spotlight or ruleset is unavailable.'**
+  /// **'This spotlight is unavailable.'**
   String get spotlightsNotFound;
 
   /// Application brand name. Do not translate Tracksu.
@@ -1788,6 +1878,18 @@ abstract class AppLocalizations {
   /// **'osu!supporter'**
   String get profileSupporter;
 
+  /// Mini sheet shown when tapping the supporter heart; explains osu!supporter.
+  ///
+  /// In en, this message translates to:
+  /// **'This player has osu!supporter: a voluntary subscription that keeps osu! running without ads. Supporters get extra features such as more friends, a profile cover and in-game beatmap downloads.'**
+  String get profileSupporterInfo;
+
+  /// Closes an informational sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get actionGotIt;
+
   /// No player statistics for the selected game mode.
   ///
   /// In en, this message translates to:
@@ -2033,6 +2135,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Refresh beatmaps'**
   String get beatmapsRefresh;
+
+  /// Profile maps tab: category selector label and sheet title.
+  ///
+  /// In en, this message translates to:
+  /// **'Map category'**
+  String get beatmapsCategory;
+
+  /// Category sheet group: maps the player plays or saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Player'**
+  String get beatmapsGroupPlayer;
+
+  /// Category sheet group: maps the user created or guest-mapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Mapper'**
+  String get beatmapsGroupMapper;
 
   /// No maps in the selected category.
   ///
@@ -2327,6 +2447,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Chinese (Simplified)'**
   String get chineseLanguage;
+
+  /// Tooltip and accessibility label of the button that scrolls a long page back to its top.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to top'**
+  String get scrollToTop;
 }
 
 class _AppLocalizationsDelegate

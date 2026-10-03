@@ -1,6 +1,7 @@
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/_shared/ui/osu_colors.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
@@ -25,25 +26,32 @@ final class OsuCountryFlag extends StatelessWidget {
 }
 
 /// Country and team flags share geometry; absent team data adds no placeholder.
-/// Flags are centered on one line, so a 44 px team target does not push the
-/// visible country flag to the bottom of the row.
+/// By default flags are centered in their line. With [bottomAligned] the
+/// visible flags sit on the line's bottom edge (a grid baseline such as an
+/// avatar's bottom) while the team's 44 px target grows upward only.
 final class OsuPlayerFlags extends StatelessWidget {
   const OsuPlayerFlags({
     this.countryCode,
     this.countryLabel,
     this.team,
     this.onTeamTap,
+    this.bottomAligned = false,
     super.key,
   });
   final String? countryCode;
   final String? countryLabel;
   final ProfileTeam? team;
   final VoidCallback? onTeamTap;
+  final bool bottomAligned;
 
   @override
   Widget build(BuildContext context) => Row(
     mainAxisSize: MainAxisSize.min,
-    spacing: UiSpace.xs,
+    crossAxisAlignment: bottomAligned
+        ? CrossAxisAlignment.end
+        : CrossAxisAlignment.center,
+    // A start-aligned team flag has no inner margin, so the gap is explicit.
+    spacing: bottomAligned ? UiSpace.sm : UiSpace.xs,
     children: <Widget>[
       if (countryCode case final String code)
         OsuCountryFlag(
@@ -51,15 +59,29 @@ final class OsuPlayerFlags extends StatelessWidget {
           label: countryLabel ?? context.t.profileCountry(code),
         ),
       if (team case final ProfileTeam affiliation)
-        OsuTeamFlag(team: affiliation, onTap: onTeamTap),
+        OsuTeamFlag(
+          team: affiliation,
+          onTap: onTeamTap,
+          alignment: bottomAligned
+              ? AlignmentDirectional.bottomStart
+              : AlignmentDirectional.center,
+        ),
     ],
   );
 }
 
 final class OsuTeamFlag extends StatelessWidget {
-  const OsuTeamFlag({required this.team, this.onTap, super.key});
+  const OsuTeamFlag({
+    required this.team,
+    this.onTap,
+    this.alignment = AlignmentDirectional.center,
+    super.key,
+  });
   final ProfileTeam team;
   final VoidCallback? onTap;
+
+  /// Where the visible flag sits inside its 44 px hit target.
+  final AlignmentGeometry alignment;
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +101,8 @@ final class OsuTeamFlag extends StatelessWidget {
         borderRadius: BorderRadius.circular(UiSpace.xs),
         child: ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
-          // The visible flag stays centered inside the full hit target.
-          child: Center(
+          child: Align(
+            alignment: alignment,
             widthFactor: 1,
             heightFactor: 1,
             child: ExcludeSemantics(child: flag),
@@ -262,4 +284,88 @@ final class OsuMods extends StatelessWidget {
               .map((String mod) => UiBadge.neutral(mod))
               .toList(growable: false),
   );
+}
+
+/// osu!supporter tag as on osu.ppy.sh: a soft pink heart with a light top
+/// and a faint glow. Tapping explains what it means in a small sheet.
+final class OsuSupporterHeart extends StatelessWidget {
+  const OsuSupporterHeart({this.size = 18, super.key});
+  final double size;
+
+  Future<void> _explain(BuildContext context) => UiModal.info(
+    context,
+    title: context.t.profileSupporter,
+    message: context.t.profileSupporterInfo,
+    closeLabel: context.t.actionGotIt,
+  );
+
+  @override
+  Widget build(BuildContext context) => Tooltip(
+    message: context.t.profileSupporter,
+    child: Semantics(
+      button: true,
+      label: context.t.profileSupporter,
+      excludeSemantics: true,
+      child: InkResponse(
+        onTap: () => _explain(context),
+        radius: size,
+        child: Padding(
+          padding: const EdgeInsets.all(UiSpace.xs),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: OsuColors.pink.withValues(alpha: .35),
+                  blurRadius: size * .6,
+                ),
+              ],
+            ),
+            child: ShaderMask(
+              blendMode: BlendMode.srcIn,
+              shaderCallback: (Rect bounds) => const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[OsuColors.pinkLight, OsuColors.pink],
+              ).createShader(bounds),
+              child: Icon(
+                Icons.favorite_rounded,
+                size: size,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/// Presence dot + text: online in the success hue, offline neutral.
+final class OsuPresence extends StatelessWidget {
+  const OsuPresence({required this.online, required this.label, super.key});
+  final bool online;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final Color dot = online
+        ? Theme.of(context).extension<UiStatusColors>()?.success ??
+              colors.primary
+        : colors.outline;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      spacing: UiSpace.xs,
+      children: <Widget>[
+        ExcludeSemantics(
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: dot, shape: BoxShape.circle),
+            child: const SizedBox.square(dimension: 8),
+          ),
+        ),
+        Flexible(child: UiText.bodySmall(label, secondary: true, maxLines: 1)),
+      ],
+    );
+  }
 }

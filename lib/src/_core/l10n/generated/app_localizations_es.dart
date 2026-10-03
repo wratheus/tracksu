@@ -58,6 +58,21 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se pudo reproducir el audio. Comprueba la conexión e inténtalo de nuevo.';
 
   @override
+  String get audioFailedUnavailable =>
+      'Esta vista previa de audio ya no está disponible.';
+
+  @override
+  String get audioFailedUnsupported =>
+      'Este formato de audio no se puede reproducir en este dispositivo.';
+
+  @override
+  String get audioFailedFocus =>
+      'Otra app está usando el audio. Inténtalo cuando termine.';
+
+  @override
+  String get audioFailedUnknown => 'No se pudo reproducir el audio.';
+
+  @override
   String get audioSeek => 'Posición de reproducción';
 
   @override
@@ -181,6 +196,27 @@ class AppLocalizationsEs extends AppLocalizations {
       'Bibliotecas de código abierto y licencias de recursos';
 
   @override
+  String get licensesIntro =>
+      'Tracksu se basa en software de código abierto. Aquí están los paquetes de la app y los textos de licencia que sus autores piden mostrar.';
+
+  @override
+  String get licensesSearch => 'Buscar paquetes';
+
+  @override
+  String get licensesNoMatch => 'No hay paquetes que coincidan.';
+
+  @override
+  String licensesPackageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count paquetes',
+      one: '$count paquete',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get aboutLinkFailed => 'No se pudo abrir el enlace.';
 
   @override
@@ -211,27 +247,49 @@ class AppLocalizationsEs extends AppLocalizations {
   String get spotlightsNoMatch => 'No hay Spotlights coincidentes.';
 
   @override
-  String spotlightsPeriod(String start, String end) {
-    return '$start – $end';
+  String spotlightsStartDate(String date) {
+    return 'Fecha de inicio: $date';
   }
 
   @override
-  String spotlightsStarts(String date) {
-    return 'Desde $date';
+  String spotlightsEndDate(String date) {
+    return 'Fecha de fin: $date';
   }
 
   @override
-  String spotlightsEnds(String date) {
-    return 'Hasta $date';
-  }
+  String get spotlightsKindMonthly => 'Mensual';
+
+  @override
+  String get spotlightsKindBestOf => 'Lo mejor del año';
+
+  @override
+  String get spotlightsKindSpecial => 'Especial';
+
+  @override
+  String get spotlightsKindTheme => 'Temática';
+
+  @override
+  String get spotlightsRulesetUnavailable =>
+      'No hay clasificación para este modo de juego.';
+
+  @override
+  String get spotlightsRulesetUnavailableHint =>
+      'osu! solo mantuvo este Spotlight para algunos modos. Elige otro arriba.';
+
+  @override
+  String get spotlightsHomeDescription =>
+      'Antiguas clasificaciones de osu!; la última fue en 2020. Los Spotlights ya no se organizan: los reemplazaron las Seasons.';
+
+  @override
+  String get spotlightsOpen => 'Archivo de Spotlights';
 
   @override
   String spotlightsDifficultyCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# dificultades en el conjunto',
-      one: '# dificultad en el conjunto',
+      other: '$count dificultades en el conjunto',
+      one: '$count dificultad en el conjunto',
     );
     return '$_temp0';
   }
@@ -814,8 +872,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Clasificación del Spotlight · hasta 40 jugadores';
 
   @override
-  String get spotlightsNotFound =>
-      'Este Spotlight o modo de juego no está disponible.';
+  String get spotlightsNotFound => 'Este Spotlight no está disponible.';
 
   @override
   String get appTitle => 'Tracksu';
@@ -1032,6 +1089,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileSupporter => 'osu!supporter';
 
   @override
+  String get profileSupporterInfo =>
+      'Este jugador tiene osu!supporter: una suscripción voluntaria que mantiene osu! sin anuncios. Los supporters obtienen extras como más amigos, una portada de perfil y descargas de beatmaps en el juego.';
+
+  @override
+  String get actionGotIt => 'Entendido';
+
+  @override
   String get profileNoStatistics =>
       'Aún no hay estadísticas para este modo de juego.';
 
@@ -1204,6 +1268,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get beatmapsRefresh => 'Actualizar beatmaps';
+
+  @override
+  String get beatmapsCategory => 'Categoría de beatmaps';
+
+  @override
+  String get beatmapsGroupPlayer => 'Jugador';
+
+  @override
+  String get beatmapsGroupMapper => 'Mapper';
 
   @override
   String get beatmapsEmpty => 'No hay beatmaps en esta categoría.';
@@ -1381,4 +1454,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get chineseLanguage => 'Chino (simplificado)';
+
+  @override
+  String get scrollToTop => 'Ir arriba';
 }

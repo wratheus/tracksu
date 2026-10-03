@@ -24,15 +24,16 @@ enum AppLanguage {
     orElse: () => system,
   );
 
+  /// Languages are always shown as autonyms; only "System" is localized.
   String label(AppLocalizations t) => switch (this) {
     system => t.systemLanguage,
-    english => t.englishLanguage,
-    russian => t.russianLanguage,
-    german => t.germanLanguage,
-    french => t.frenchLanguage,
-    spanish => t.spanishLanguage,
-    japanese => t.japaneseLanguage,
-    chinese => t.chineseLanguage,
+    english => 'English',
+    russian => 'Русский',
+    german => 'Deutsch',
+    french => 'Français',
+    spanish => 'Español',
+    japanese => '日本語',
+    chinese => '中文',
   };
 }
 

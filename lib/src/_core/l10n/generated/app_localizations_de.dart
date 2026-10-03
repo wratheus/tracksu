@@ -58,6 +58,21 @@ class AppLocalizationsDe extends AppLocalizations {
       'Audio konnte nicht abgespielt werden. Verbindung prüfen und erneut versuchen.';
 
   @override
+  String get audioFailedUnavailable =>
+      'Diese Audiovorschau ist nicht mehr verfügbar.';
+
+  @override
+  String get audioFailedUnsupported =>
+      'Dieses Audioformat kann auf diesem Gerät nicht abgespielt werden.';
+
+  @override
+  String get audioFailedFocus =>
+      'Eine andere App verwendet gerade Audio. Versuche es danach erneut.';
+
+  @override
+  String get audioFailedUnknown => 'Audio konnte nicht abgespielt werden.';
+
+  @override
   String get audioSeek => 'Wiedergabeposition';
 
   @override
@@ -181,6 +196,27 @@ class AppLocalizationsDe extends AppLocalizations {
       'Open-Source-Bibliotheken und Asset-Lizenzen';
 
   @override
+  String get licensesIntro =>
+      'Tracksu basiert auf Open-Source-Software. Hier sind die Pakete in der App und die Lizenztexte, die ihre Autoren anzuzeigen verlangen.';
+
+  @override
+  String get licensesSearch => 'Pakete suchen';
+
+  @override
+  String get licensesNoMatch => 'Keine passenden Pakete.';
+
+  @override
+  String licensesPackageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Pakete',
+      one: '$count Paket',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get aboutLinkFailed => 'Der Link konnte nicht geöffnet werden.';
 
   @override
@@ -212,27 +248,49 @@ class AppLocalizationsDe extends AppLocalizations {
   String get spotlightsNoMatch => 'Keine passenden Spotlights.';
 
   @override
-  String spotlightsPeriod(String start, String end) {
-    return '$start – $end';
+  String spotlightsStartDate(String date) {
+    return 'Startdatum: $date';
   }
 
   @override
-  String spotlightsStarts(String date) {
-    return 'Ab $date';
+  String spotlightsEndDate(String date) {
+    return 'Enddatum: $date';
   }
 
   @override
-  String spotlightsEnds(String date) {
-    return 'Bis $date';
-  }
+  String get spotlightsKindMonthly => 'Monatlich';
+
+  @override
+  String get spotlightsKindBestOf => 'Jahresbeste';
+
+  @override
+  String get spotlightsKindSpecial => 'Spezial';
+
+  @override
+  String get spotlightsKindTheme => 'Thema';
+
+  @override
+  String get spotlightsRulesetUnavailable =>
+      'Für diesen Spielmodus gibt es keine Rangliste.';
+
+  @override
+  String get spotlightsRulesetUnavailableHint =>
+      'osu! hat dieses Spotlight nur für einige Spielmodi geführt. Wähle oben einen anderen.';
+
+  @override
+  String get spotlightsHomeDescription =>
+      'Alte osu!-Charts, der letzte lief 2020. Spotlights werden nicht mehr veranstaltet – Seasons haben sie ersetzt.';
+
+  @override
+  String get spotlightsOpen => 'Spotlights-Archiv';
 
   @override
   String spotlightsDifficultyCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# Schwierigkeiten im Set',
-      one: '# Schwierigkeit im Set',
+      other: '$count Schwierigkeiten im Set',
+      one: '$count Schwierigkeit im Set',
     );
     return '$_temp0';
   }
@@ -817,8 +875,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Spotlight-Rangliste · bis zu 40 Spieler';
 
   @override
-  String get spotlightsNotFound =>
-      'Dieses Spotlight oder dieser Spielmodus ist nicht verfügbar.';
+  String get spotlightsNotFound => 'Dieses Spotlight ist nicht verfügbar.';
 
   @override
   String get appTitle => 'Tracksu';
@@ -1035,6 +1092,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profileSupporter => 'osu!supporter';
 
   @override
+  String get profileSupporterInfo =>
+      'Dieser Spieler hat osu!supporter – ein freiwilliges Abo, das osu! werbefrei finanziert. Supporter erhalten Extras wie mehr Freunde, ein Profilbanner und Beatmap-Downloads im Spiel.';
+
+  @override
+  String get actionGotIt => 'Verstanden';
+
+  @override
   String get profileNoStatistics =>
       'Noch keine Statistiken für diesen Spielmodus.';
 
@@ -1211,6 +1275,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get beatmapsRefresh => 'Beatmaps aktualisieren';
 
   @override
+  String get beatmapsCategory => 'Beatmap-Kategorie';
+
+  @override
+  String get beatmapsGroupPlayer => 'Spieler';
+
+  @override
+  String get beatmapsGroupMapper => 'Mapper';
+
+  @override
   String get beatmapsEmpty => 'Keine Beatmaps in dieser Kategorie.';
 
   @override
@@ -1384,4 +1457,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get chineseLanguage => 'Chinesisch (vereinfacht)';
+
+  @override
+  String get scrollToTop => 'Nach oben';
 }

@@ -26,7 +26,15 @@
   "audioCompleted": "Finished",
   "@audioCompleted": {"description": "Shared foreground audio player: audioCompleted."},
   "audioFailed": "Could not play this audio. Check your connection and try again.",
-  "@audioFailed": {"description": "Shared foreground audio player: audioFailed."},
+  "@audioFailed": {"description": "Shared audio player: connection, timeout or transient server failure; retry may help."},
+  "audioFailedUnavailable": "This audio preview is no longer available.",
+  "@audioFailedUnavailable": {"description":"Audio source returned 404/410 or is not an allowed media location."},
+  "audioFailedUnsupported": "This audio format cannot be played on this device.",
+  "@audioFailedUnsupported": {"description":"Downloaded audio could not be decoded or is too large; not a connection issue."},
+  "audioFailedFocus": "Another app is using audio. Try again when it stops.",
+  "@audioFailedFocus": {"description":"Audio focus was denied because another app is playing."},
+  "audioFailedUnknown": "Could not play this audio.",
+  "@audioFailedUnknown": {"description":"Audio failed for an unclassified reason; no connection hint."},
   "audioSeek": "Playback position",
   "@audioSeek": {"description": "Shared foreground audio player: audioSeek."},
   "teamTitle": "Team",
@@ -87,6 +95,14 @@
   "@aboutOsu": {"description":"Action opening the public osu! website."},
   "aboutLicensesDescription": "Open-source libraries and asset licenses",
   "@aboutLicensesDescription": {"description":"Description of bundled dependency and asset notices, including fonts and flag textures."},
+  "licensesIntro": "Tracksu is built on open-source software. These are the packages inside the app and the license texts their authors require us to show.",
+  "@licensesIntro": {"description":"Intro on the licenses screen: why the list exists."},
+  "licensesSearch": "Search packages",
+  "@licensesSearch": {"description":"Search field on the licenses screen."},
+  "licensesNoMatch": "No matching packages.",
+  "@licensesNoMatch": {"description":"Empty search result on the licenses screen."},
+  "licensesPackageCount": "{count, plural, one{{count} package} other{{count} packages}}",
+  "@licensesPackageCount": {"description":"Number of packages with licenses.","placeholders":{"count":{"type":"int"}}},
   "aboutLinkFailed": "Could not open the link.",
   "@aboutLinkFailed": {"description":"External browser/app link launch failure."},
   "settingsAppearance": "Appearance",
@@ -107,13 +123,27 @@
   "@spotlightsSearch": {"description":"Local Spotlight catalogue search field."},
   "spotlightsNoMatch": "No matching spotlights.",
   "@spotlightsNoMatch": {"description":"Empty local catalogue search result."},
-  "spotlightsPeriod": "{start} – {end}",
-  "@spotlightsPeriod": {"description":"Published UTC calendar period; dates already localized.","placeholders":{"start":{"type":"String"},"end":{"type":"String"}}},
-  "spotlightsStarts": "From {date}",
-  "@spotlightsStarts": {"description":"Spotlight period with only its start available.","placeholders":{"date":{"type":"String"}}},
-  "spotlightsEnds": "Until {date}",
-  "@spotlightsEnds": {"description":"Spotlight period with only its end available.","placeholders":{"date":{"type":"String"}}},
-  "spotlightsDifficultyCount": "{count, plural, one{# difficulty in set} other{# difficulties in set}}",
+  "spotlightsStartDate": "Start date: {date}",
+  "@spotlightsStartDate": {"description":"Staff-entered spotlight start date shown verbatim like osu-web; not ordered against the end date.","placeholders":{"date":{"type":"String"}}},
+  "spotlightsEndDate": "End date: {date}",
+  "@spotlightsEndDate": {"description":"Staff-entered spotlight end date shown verbatim like osu-web; may precede the start date in old charts.","placeholders":{"date":{"type":"String"}}},
+  "spotlightsKindMonthly": "Monthly",
+  "@spotlightsKindMonthly": {"description":"osu-web spotlight type 'monthly'."},
+  "spotlightsKindBestOf": "Best of the year",
+  "@spotlightsKindBestOf": {"description":"osu-web spotlight type 'bestof' (yearly chart)."},
+  "spotlightsKindSpecial": "Special",
+  "@spotlightsKindSpecial": {"description":"osu-web spotlight type 'special'."},
+  "spotlightsKindTheme": "Theme",
+  "@spotlightsKindTheme": {"description":"osu-web spotlight type 'theme'."},
+  "spotlightsRulesetUnavailable": "No ranking for this ruleset.",
+  "@spotlightsRulesetUnavailable": {"description":"The selected spotlight has no chart for the chosen ruleset (osu-web 404)."},
+  "spotlightsRulesetUnavailableHint": "osu! ran this spotlight only for some rulesets. Choose another one above.",
+  "@spotlightsRulesetUnavailableHint": {"description":"Hint under the missing-ruleset state; the ruleset selector is above it."},
+  "spotlightsHomeDescription": "Old osu! charts; the last one ran in 2020. osu! no longer holds Spotlights — Seasons replaced them.",
+  "@spotlightsHomeDescription": {"description":"Says Spotlights are a discontinued archive (last chart 2020) replaced by Seasons on osu!; shown on the start screen entry and atop the Spotlights screen."},
+  "spotlightsOpen": "Spotlights archive",
+  "@spotlightsOpen": {"description":"Low-key start screen entry opening the Spotlights archive."},
+  "spotlightsDifficultyCount": "{count, plural, one{{count} difficulty in set} other{{count} difficulties in set}}",
   "@spotlightsDifficultyCount": {"description":"Number of difficulties returned in the whole beatmap set, not the curated Spotlight playlist.","placeholders":{"count":{"type":"int"}}},
   "settingsTitle": "Settings",
   "@settingsTitle": {"description":"Profile/score/settings UI: Settings"},
@@ -486,9 +516,9 @@
   "@spotlightsRankingLimit": {
     "description": "Explains that the Spotlight ranking shows at most 40 players, not the full ranking."
   },
-  "spotlightsNotFound": "This spotlight or ruleset is unavailable.",
+  "spotlightsNotFound": "This spotlight is unavailable.",
   "@spotlightsNotFound": {
-    "description": "Selected Spotlight or game mode is unavailable."
+    "description": "The selected spotlight itself is unavailable; a missing ruleset uses spotlightsRulesetUnavailable."
   },
   "appTitle": "Tracksu",
   "@appTitle": {
@@ -743,6 +773,12 @@
     "description": "Player is currently offline."
   },
   "profileSupporter": "osu!supporter",
+  "@profileSupporter": {"description":"Tooltip/semantics of the pink supporter heart next to a username; product name, keep as is."},
+  "profileSupporterInfo": "This player has osu!supporter: a voluntary subscription that keeps osu! running without ads. Supporters get extra features such as more friends, a profile cover and in-game beatmap downloads.",
+  "@profileSupporterInfo": {"description":"Mini sheet shown when tapping the supporter heart; explains osu!supporter."},
+  "actionGotIt": "Got it",
+  "@actionGotIt": {"description":"Closes an informational sheet."},
+  "profileSupporter": "osu!supporter",
   "@profileSupporter": {
     "description": "Official osu!supporter label; do not translate."
   },
@@ -966,6 +1002,12 @@
   "@beatmapsRefresh": {
     "description": "Button or tooltip to refresh the beatmap list."
   },
+  "beatmapsCategory": "Map category",
+  "@beatmapsCategory": {"description":"Profile maps tab: category selector label and sheet title."},
+  "beatmapsGroupPlayer": "Player",
+  "@beatmapsGroupPlayer": {"description":"Category sheet group: maps the player plays or saved."},
+  "beatmapsGroupMapper": "Mapper",
+  "@beatmapsGroupMapper": {"description":"Category sheet group: maps the user created or guest-mapped."},
   "beatmapsEmpty": "No beatmaps in this category.",
   "@beatmapsEmpty": {
     "description": "No maps in the selected category."
@@ -1211,5 +1253,9 @@
   "chineseLanguage": "Chinese (Simplified)",
   "@chineseLanguage": {
     "description": "Language selector label for Simplified Chinese; Traditional Chinese is not offered."
+  },
+  "scrollToTop": "Back to top",
+  "@scrollToTop": {
+    "description": "Tooltip and accessibility label of the button that scrolls a long page back to its top."
   }
 }

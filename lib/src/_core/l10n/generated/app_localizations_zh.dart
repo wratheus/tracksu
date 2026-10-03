@@ -56,6 +56,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get audioFailed => '无法播放音频。请检查网络连接后重试。';
 
   @override
+  String get audioFailedUnavailable => '此音频预览已不可用。';
+
+  @override
+  String get audioFailedUnsupported => '此设备无法播放该音频格式。';
+
+  @override
+  String get audioFailedFocus => '其他应用正在使用音频。请在其停止后重试。';
+
+  @override
+  String get audioFailedUnknown => '无法播放音频。';
+
+  @override
   String get audioSeek => '播放位置';
 
   @override
@@ -171,6 +183,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aboutLicensesDescription => '开源库和资源许可证';
 
   @override
+  String get licensesIntro => 'Tracksu 基于开源软件构建。这里列出应用中的软件包及其作者要求展示的许可证文本。';
+
+  @override
+  String get licensesSearch => '搜索软件包';
+
+  @override
+  String get licensesNoMatch => '没有匹配的软件包。';
+
+  @override
+  String licensesPackageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个软件包',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get aboutLinkFailed => '无法打开链接。';
 
   @override
@@ -201,19 +232,40 @@ class AppLocalizationsZh extends AppLocalizations {
   String get spotlightsNoMatch => '没有匹配的Spotlight。';
 
   @override
-  String spotlightsPeriod(String start, String end) {
-    return '$start 至 $end';
+  String spotlightsStartDate(String date) {
+    return '开始日期：$date';
   }
 
   @override
-  String spotlightsStarts(String date) {
-    return '从$date起';
+  String spotlightsEndDate(String date) {
+    return '结束日期：$date';
   }
 
   @override
-  String spotlightsEnds(String date) {
-    return '至$date';
-  }
+  String get spotlightsKindMonthly => '月度';
+
+  @override
+  String get spotlightsKindBestOf => '年度最佳';
+
+  @override
+  String get spotlightsKindSpecial => '特别';
+
+  @override
+  String get spotlightsKindTheme => '主题';
+
+  @override
+  String get spotlightsRulesetUnavailable => '此游戏模式没有排名。';
+
+  @override
+  String get spotlightsRulesetUnavailableHint =>
+      'osu! 仅在部分游戏模式中举办了此 Spotlight。请在上方选择其他模式。';
+
+  @override
+  String get spotlightsHomeDescription =>
+      'osu! 旧榜单，最后一期在 2020 年。Spotlights 已停止举办，现由 Seasons 取代。';
+
+  @override
+  String get spotlightsOpen => 'Spotlights 存档';
 
   @override
   String spotlightsDifficultyCount(int count) {
@@ -767,7 +819,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get spotlightsRankingLimit => 'Spotlight 排名 · 最多 40 名玩家';
 
   @override
-  String get spotlightsNotFound => '此 Spotlight 或游戏模式不可用。';
+  String get spotlightsNotFound => '此 Spotlight 不可用。';
 
   @override
   String get appTitle => 'Tracksu';
@@ -964,6 +1016,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profileSupporter => 'osu!supporter';
 
   @override
+  String get profileSupporterInfo =>
+      '该玩家拥有 osu!supporter：一种自愿订阅，让 osu! 无需广告即可运营。支持者可获得更多好友位、个人资料封面、游戏内下载谱面等额外功能。';
+
+  @override
+  String get actionGotIt => '知道了';
+
+  @override
   String get profileNoStatistics => '此游戏模式下暂无统计数据。';
 
   @override
@@ -1133,6 +1192,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get beatmapsRefresh => '刷新谱面';
 
   @override
+  String get beatmapsCategory => '谱面类别';
+
+  @override
+  String get beatmapsGroupPlayer => '玩家';
+
+  @override
+  String get beatmapsGroupMapper => '谱师';
+
+  @override
   String get beatmapsEmpty => '此分类下暂无谱面。';
 
   @override
@@ -1298,4 +1366,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get chineseLanguage => '中文（简体）';
+
+  @override
+  String get scrollToTop => '回到顶部';
 }

@@ -58,6 +58,20 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось воспроизвести аудио. Проверьте соединение и попробуйте снова.';
 
   @override
+  String get audioFailedUnavailable => 'Это аудио-превью больше недоступно.';
+
+  @override
+  String get audioFailedUnsupported =>
+      'Этот формат аудио не воспроизводится на устройстве.';
+
+  @override
+  String get audioFailedFocus =>
+      'Звук занят другим приложением. Попробуйте, когда оно освободит его.';
+
+  @override
+  String get audioFailedUnknown => 'Не удалось воспроизвести аудио.';
+
+  @override
   String get audioSeek => 'Позиция воспроизведения';
 
   @override
@@ -183,6 +197,29 @@ class AppLocalizationsRu extends AppLocalizations {
       'Открытые библиотеки и лицензии ресурсов';
 
   @override
+  String get licensesIntro =>
+      'Tracksu построен на открытом ПО. Здесь пакеты внутри приложения и тексты лицензий, которые их авторы просят показывать.';
+
+  @override
+  String get licensesSearch => 'Поиск пакетов';
+
+  @override
+  String get licensesNoMatch => 'Подходящих пакетов нет.';
+
+  @override
+  String licensesPackageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count пакета',
+      many: '$count пакетов',
+      few: '$count пакета',
+      one: '$count пакет',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get aboutLinkFailed => 'Не удалось открыть ссылку.';
 
   @override
@@ -213,29 +250,50 @@ class AppLocalizationsRu extends AppLocalizations {
   String get spotlightsNoMatch => 'Подходящие подборки не найдены.';
 
   @override
-  String spotlightsPeriod(String start, String end) {
-    return '$start — $end';
+  String spotlightsStartDate(String date) {
+    return 'Дата начала: $date';
   }
 
   @override
-  String spotlightsStarts(String date) {
-    return 'С $date';
+  String spotlightsEndDate(String date) {
+    return 'Дата окончания: $date';
   }
 
   @override
-  String spotlightsEnds(String date) {
-    return 'До $date';
-  }
+  String get spotlightsKindMonthly => 'Месячная';
+
+  @override
+  String get spotlightsKindBestOf => 'Лучшее за год';
+
+  @override
+  String get spotlightsKindSpecial => 'Специальная';
+
+  @override
+  String get spotlightsKindTheme => 'Тематическая';
+
+  @override
+  String get spotlightsRulesetUnavailable => 'Для этого режима рейтинга нет.';
+
+  @override
+  String get spotlightsRulesetUnavailableHint =>
+      'osu! вела эту подборку не для всех режимов. Выберите другой режим выше.';
+
+  @override
+  String get spotlightsHomeDescription =>
+      'Старые чарты osu!, последний прошёл в 2020 году. Поддержка Spotlights прекращена — в osu! их заменили Seasons.';
+
+  @override
+  String get spotlightsOpen => 'Архив Spotlights';
 
   @override
   String spotlightsDifficultyCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# сложности в наборе',
-      many: '# сложностей в наборе',
-      few: '# сложности в наборе',
-      one: '# сложность в наборе',
+      other: '$count сложности в наборе',
+      many: '$count сложностей в наборе',
+      few: '$count сложности в наборе',
+      one: '$count сложность в наборе',
     );
     return '$_temp0';
   }
@@ -812,7 +870,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get spotlightsRankingLimit => 'Рейтинг подборки · до 40 игроков';
 
   @override
-  String get spotlightsNotFound => 'Подборка или выбранный режим недоступны.';
+  String get spotlightsNotFound => 'Подборка недоступна.';
 
   @override
   String get appTitle => 'Tracksu';
@@ -1028,6 +1086,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileSupporter => 'osu!supporter';
 
   @override
+  String get profileSupporterInfo =>
+      'У игрока есть osu!supporter — добровольная подписка, на которую osu! живёт без рекламы. Супортеры получают дополнительные возможности: больше друзей, обложку профиля, загрузку карт прямо из игры.';
+
+  @override
+  String get actionGotIt => 'Понятно';
+
+  @override
   String get profileNoStatistics => 'Для этого режима пока нет статистики.';
 
   @override
@@ -1196,6 +1261,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get beatmapsRefresh => 'Обновить карты';
+
+  @override
+  String get beatmapsCategory => 'Категория карт';
+
+  @override
+  String get beatmapsGroupPlayer => 'Игрок';
+
+  @override
+  String get beatmapsGroupMapper => 'Маппер';
 
   @override
   String get beatmapsEmpty => 'В этой категории пока нет карт.';
@@ -1369,4 +1443,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get chineseLanguage => 'Китайский (упрощённый)';
+
+  @override
+  String get scrollToTop => 'Наверх';
 }

@@ -57,6 +57,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not play this audio. Check your connection and try again.';
 
   @override
+  String get audioFailedUnavailable =>
+      'This audio preview is no longer available.';
+
+  @override
+  String get audioFailedUnsupported =>
+      'This audio format cannot be played on this device.';
+
+  @override
+  String get audioFailedFocus =>
+      'Another app is using audio. Try again when it stops.';
+
+  @override
+  String get audioFailedUnknown => 'Could not play this audio.';
+
+  @override
   String get audioSeek => 'Playback position';
 
   @override
@@ -179,6 +194,27 @@ class AppLocalizationsEn extends AppLocalizations {
       'Open-source libraries and asset licenses';
 
   @override
+  String get licensesIntro =>
+      'Tracksu is built on open-source software. These are the packages inside the app and the license texts their authors require us to show.';
+
+  @override
+  String get licensesSearch => 'Search packages';
+
+  @override
+  String get licensesNoMatch => 'No matching packages.';
+
+  @override
+  String licensesPackageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count packages',
+      one: '$count package',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get aboutLinkFailed => 'Could not open the link.';
 
   @override
@@ -209,27 +245,48 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spotlightsNoMatch => 'No matching spotlights.';
 
   @override
-  String spotlightsPeriod(String start, String end) {
-    return '$start – $end';
+  String spotlightsStartDate(String date) {
+    return 'Start date: $date';
   }
 
   @override
-  String spotlightsStarts(String date) {
-    return 'From $date';
+  String spotlightsEndDate(String date) {
+    return 'End date: $date';
   }
 
   @override
-  String spotlightsEnds(String date) {
-    return 'Until $date';
-  }
+  String get spotlightsKindMonthly => 'Monthly';
+
+  @override
+  String get spotlightsKindBestOf => 'Best of the year';
+
+  @override
+  String get spotlightsKindSpecial => 'Special';
+
+  @override
+  String get spotlightsKindTheme => 'Theme';
+
+  @override
+  String get spotlightsRulesetUnavailable => 'No ranking for this ruleset.';
+
+  @override
+  String get spotlightsRulesetUnavailableHint =>
+      'osu! ran this spotlight only for some rulesets. Choose another one above.';
+
+  @override
+  String get spotlightsHomeDescription =>
+      'Old osu! charts; the last one ran in 2020. osu! no longer holds Spotlights — Seasons replaced them.';
+
+  @override
+  String get spotlightsOpen => 'Spotlights archive';
 
   @override
   String spotlightsDifficultyCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# difficulties in set',
-      one: '# difficulty in set',
+      other: '$count difficulties in set',
+      one: '$count difficulty in set',
     );
     return '$_temp0';
   }
@@ -804,7 +861,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spotlightsRankingLimit => 'Spotlight ranking · up to 40 players';
 
   @override
-  String get spotlightsNotFound => 'This spotlight or ruleset is unavailable.';
+  String get spotlightsNotFound => 'This spotlight is unavailable.';
 
   @override
   String get appTitle => 'Tracksu';
@@ -1016,6 +1073,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSupporter => 'osu!supporter';
 
   @override
+  String get profileSupporterInfo =>
+      'This player has osu!supporter: a voluntary subscription that keeps osu! running without ads. Supporters get extra features such as more friends, a profile cover and in-game beatmap downloads.';
+
+  @override
+  String get actionGotIt => 'Got it';
+
+  @override
   String get profileNoStatistics => 'No statistics for this ruleset yet.';
 
   @override
@@ -1185,6 +1249,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get beatmapsRefresh => 'Refresh beatmaps';
+
+  @override
+  String get beatmapsCategory => 'Map category';
+
+  @override
+  String get beatmapsGroupPlayer => 'Player';
+
+  @override
+  String get beatmapsGroupMapper => 'Mapper';
 
   @override
   String get beatmapsEmpty => 'No beatmaps in this category.';
@@ -1357,4 +1430,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chineseLanguage => 'Chinese (Simplified)';
+
+  @override
+  String get scrollToTop => 'Back to top';
 }

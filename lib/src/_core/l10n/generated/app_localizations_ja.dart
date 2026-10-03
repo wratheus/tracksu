@@ -56,6 +56,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get audioFailed => '音声を再生できませんでした。接続を確認して再試行してください。';
 
   @override
+  String get audioFailedUnavailable => 'この音声プレビューは利用できなくなりました。';
+
+  @override
+  String get audioFailedUnsupported => 'この音声形式はこのデバイスで再生できません。';
+
+  @override
+  String get audioFailedFocus => '別のアプリが音声を使用中です。終了後に再試行してください。';
+
+  @override
+  String get audioFailedUnknown => '音声を再生できませんでした。';
+
+  @override
   String get audioSeek => '再生位置';
 
   @override
@@ -172,6 +184,26 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutLicensesDescription => 'オープンソースライブラリと素材のライセンス';
 
   @override
+  String get licensesIntro =>
+      'Tracksuはオープンソースソフトウェアで作られています。アプリに含まれるパッケージと、作者が表示を求めるライセンス文です。';
+
+  @override
+  String get licensesSearch => 'パッケージを検索';
+
+  @override
+  String get licensesNoMatch => '一致するパッケージはありません。';
+
+  @override
+  String licensesPackageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count個のパッケージ',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get aboutLinkFailed => 'リンクを開けませんでした。';
 
   @override
@@ -202,19 +234,40 @@ class AppLocalizationsJa extends AppLocalizations {
   String get spotlightsNoMatch => '一致するSpotlightはありません。';
 
   @override
-  String spotlightsPeriod(String start, String end) {
-    return '$start ～ $end';
+  String spotlightsStartDate(String date) {
+    return '開始日：$date';
   }
 
   @override
-  String spotlightsStarts(String date) {
-    return '$dateから';
+  String spotlightsEndDate(String date) {
+    return '終了日：$date';
   }
 
   @override
-  String spotlightsEnds(String date) {
-    return '$dateまで';
-  }
+  String get spotlightsKindMonthly => '月間';
+
+  @override
+  String get spotlightsKindBestOf => '年間ベスト';
+
+  @override
+  String get spotlightsKindSpecial => '特別';
+
+  @override
+  String get spotlightsKindTheme => 'テーマ';
+
+  @override
+  String get spotlightsRulesetUnavailable => 'このゲームモードのランキングはありません。';
+
+  @override
+  String get spotlightsRulesetUnavailableHint =>
+      'このSpotlightは一部のゲームモードでのみ実施されました。上で別のモードを選んでください。';
+
+  @override
+  String get spotlightsHomeDescription =>
+      'osu!の旧チャート（最後は2020年）。Spotlightsは終了し、現在はSeasonsに置き換えられています。';
+
+  @override
+  String get spotlightsOpen => 'Spotlightsアーカイブ';
 
   @override
   String spotlightsDifficultyCount(int count) {
@@ -777,7 +830,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get spotlightsRankingLimit => 'Spotlightランキング · 最大40人';
 
   @override
-  String get spotlightsNotFound => 'このSpotlightまたはゲームモードは利用できません。';
+  String get spotlightsNotFound => 'このSpotlightは利用できません。';
 
   @override
   String get appTitle => 'Tracksu';
@@ -977,6 +1030,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profileSupporter => 'osu!supporter';
 
   @override
+  String get profileSupporterInfo =>
+      'このプレイヤーはosu!supporterです。osu!を広告なしで支える任意のサブスクリプションで、フレンド枠の拡大、プロフィールカバー、ゲーム内でのビートマップのダウンロードなどの特典があります。';
+
+  @override
+  String get actionGotIt => 'OK';
+
+  @override
   String get profileNoStatistics => 'このゲームモードの統計はまだありません。';
 
   @override
@@ -1146,6 +1206,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get beatmapsRefresh => 'ビートマップを更新';
 
   @override
+  String get beatmapsCategory => 'ビートマップの種類';
+
+  @override
+  String get beatmapsGroupPlayer => 'プレイヤー';
+
+  @override
+  String get beatmapsGroupMapper => 'マッパー';
+
+  @override
   String get beatmapsEmpty => 'このカテゴリにビートマップはありません。';
 
   @override
@@ -1311,4 +1380,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get chineseLanguage => '中国語（簡体字）';
+
+  @override
+  String get scrollToTop => '先頭へ戻る';
 }

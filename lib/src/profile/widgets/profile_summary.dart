@@ -42,6 +42,8 @@ final class ProfileSummary extends StatelessWidget {
       teamId: profile.details?.team?.id,
       builder: (VoidCallback? openTeam) => OsuPlayerCard.profile(
         username: profile.username,
+        supporter: profile.isSupporter,
+        online: profile.isOnline,
         countryCode: profile.countryCode,
         countryLabel: context.t.profileCountry(profile.countryCode),
         avatar: AppMedia.image(context, profile.avatarUri),
@@ -68,7 +70,7 @@ final class ProfileSummary extends StatelessWidget {
             ? const <UiMetric>[]
             : <UiMetric>[
                 UiMetric.compact(
-                  label: context.t.profilePpLabel,
+                  label: 'PP',
                   value: decimal.format(statistics.performancePoints),
                   tone: UiMetricTone.primary,
                 ),
