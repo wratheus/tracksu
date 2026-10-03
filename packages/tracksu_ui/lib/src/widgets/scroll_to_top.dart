@@ -145,18 +145,37 @@ final class _UiScrollToTopState extends State<UiScrollToTop> {
         onNotification: _onNotification,
         child: widget.child,
       ),
-      if (_visible)
-        Positioned(
-          right: 0,
-          bottom: 0,
-          child: Tooltip(
-            message: widget.tooltip,
-            child: _ScrollToTopControl(
-              tooltip: widget.tooltip,
-              onPressed: _scrollToTop,
-            ),
-          ),
+      // Fades and scales in/out; once hidden the control leaves the tree.
+      Positioned(
+        right: 0,
+        bottom: 0,
+        child: AnimatedSwitcher(
+          duration: MediaQuery.disableAnimationsOf(context)
+              ? Duration.zero
+              : UiMotion.reveal,
+          switchInCurve: UiMotion.revealCurve,
+          switchOutCurve: Curves.easeInCubic,
+          transitionBuilder: (Widget child, Animation<double> animation) =>
+              FadeTransition(
+                opacity: animation,
+                child: ScaleTransition(
+                  scale: Tween<double>(begin: .8, end: 1).animate(animation),
+                  alignment: Alignment.bottomRight,
+                  child: child,
+                ),
+              ),
+          child: _visible
+              ? Tooltip(
+                  key: const ValueKey<bool>(true),
+                  message: widget.tooltip,
+                  child: _ScrollToTopControl(
+                    tooltip: widget.tooltip,
+                    onPressed: _scrollToTop,
+                  ),
+                )
+              : const SizedBox.shrink(key: ValueKey<bool>(false)),
         ),
+      ),
     ],
   );
 }
@@ -200,15 +219,16 @@ final class _ScrollToTopControl extends StatelessWidget {
   );
 }
 
-/// Round frosted-glass control with an arrow: quiet over any content, no
-/// saturated fill. The label lives in the tooltip and semantics.
+/// Round frosted-glass control with an arrow: a light veil on light pages,
+/// smoky on dark ones, soft shadow, no saturated fill. The label lives in the
+/// tooltip and semantics.
 final class _ScrollToTopButton extends StatelessWidget {
   const _ScrollToTopButton({required this.tooltip, required this.onPressed});
 
   final String tooltip;
   final VoidCallback? onPressed;
 
-  static const double _size = 48;
+  static const double _size = 44;
 
   @override
   Widget build(BuildContext context) => Semantics(
@@ -216,19 +236,19 @@ final class _ScrollToTopButton extends StatelessWidget {
     enabled: onPressed != null,
     label: tooltip,
     excludeSemantics: true,
-    child: UiGlass(
+    child: UiGlass.surface(
       shape: const CircleBorder(),
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
           onTap: onPressed,
           customBorder: const CircleBorder(),
-          child: const SizedBox.square(
+          child: SizedBox.square(
             dimension: _size,
             child: Icon(
-              Icons.arrow_upward_rounded,
-              size: 22,
-              color: UiGlass.onGlass,
+              Icons.keyboard_arrow_up_rounded,
+              size: 26,
+              color: UiGlass.onSurfaceGlass(context),
             ),
           ),
         ),

@@ -116,8 +116,8 @@ void main() {
         ),
       ),
     );
-    await tester.pump();
-    await tester.pump();
+    // The control fades out before it leaves the tree.
+    await tester.pumpAndSettle();
 
     expect(find.byTooltip(_tooltip), findsNothing);
   });
