@@ -570,6 +570,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profileValueUnavailable => '暂无数据';
 
   @override
+  String get profileNotRanked => '未上榜';
+
+  @override
   String get profileGradesTitle => '成绩等级';
 
   @override
@@ -1193,6 +1196,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get beatmapsCategory => '谱面类别';
+
+  @override
+  String get scoresCategory => '成绩类型';
 
   @override
   String get beatmapsGroupPlayer => '玩家';

@@ -64,7 +64,12 @@ final class ScoreDetailsSheet extends StatelessWidget {
                   spacing: UiSpace.md,
                   children: <Widget>[
                     if (playerLabel case final String name)
-                      Row(
+                      // Avatar and name are the player's link, like the
+                      // "Open profile" button below.
+                      _PlayerLink(
+                        enabled: canOpenPlayer,
+                        label: context.t.profileOpen,
+                        child: Row(
                         spacing: UiSpace.md,
                         children: <Widget>[
                           UiAvatar.medium(
@@ -83,7 +88,10 @@ final class ScoreDetailsSheet extends StatelessWidget {
                               ],
                             ),
                           ),
+                          if (canOpenPlayer)
+                            const Icon(Icons.chevron_right, size: 20),
                         ],
+                      ),
                       ),
                     UiText.titleLarge(
                       score.beatmapTitle ??
@@ -116,6 +124,7 @@ final class ScoreDetailsSheet extends StatelessWidget {
                           value: score.performancePoints == null
                               ? context.t.scoresNoPp
                               : decimal.format(score.performancePoints),
+                          unavailable: score.performancePoints == null,
                           tone: UiMetricTone.primary,
                         ),
                         UiMetric.compact(
@@ -253,6 +262,38 @@ final class ScoreDetailsSheet extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+final class _PlayerLink extends StatelessWidget {
+  const _PlayerLink({
+    required this.enabled,
+    required this.label,
+    required this.child,
+  });
+  final bool enabled;
+  final String label;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!enabled) return child;
+    return Semantics(
+      button: true,
+      label: label,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(UiShape.control),
+        onTap: () {
+          if (ModalRoute.of(context)?.isCurrent == true) {
+            Navigator.of(context).pop(ScoreDetailsAction.player);
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: UiSpace.xs),
+          child: child,
+        ),
+      ),
     );
   }
 }

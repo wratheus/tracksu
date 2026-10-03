@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tracksu/src/_shared/ui/category_picker.dart';
+import 'package:tracksu/src/_shared/ui/page_activity.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/scores/bloc/bloc.dart';
 import 'package:tracksu/src/profile/scores/domain/scores_query.dart';
@@ -14,69 +16,59 @@ import 'package:tracksu_ui/tracksu_ui.dart';
 final class ProfileScoresSection extends StatelessWidget {
   const ProfileScoresSection({super.key});
 
+  static bool _busy(ProfileScoresState state) =>
+      state is ProfileScoresInitialState ||
+      state is ProfileScoresLoadingState ||
+      (state is ProfileScoresLoadedState && state.operation != null);
+
   @override
   Widget build(BuildContext context) => SliverMainAxisGroup(
     slivers: <Widget>[
       SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.all(UiSpace.lg),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: UiSpace.md,
-            children: <Widget>[
-              Text(
-                context.t.scoresTitle,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              BlocSelector<
-                ProfileScoresBloc,
-                ProfileScoresState,
-                ProfileScoresType
-              >(
-                selector: (ProfileScoresState state) => state.type,
-                builder: (BuildContext context, ProfileScoresType selected) =>
-                    Wrap(
-                      spacing: UiSpace.md,
-                      runSpacing: UiSpace.sm,
-                      children: <Widget>[
-                        for (final ProfileScoresType type
-                            in ProfileScoresType.values)
-                          ChoiceChip(
-                            avatar: Icon(switch (type) {
-                              ProfileScoresType.best =>
-                                Icons.emoji_events_outlined,
-                              ProfileScoresType.recent => Icons.history,
-                            }),
-                            selected: type == selected,
-                            label: Text(switch (type) {
-                              ProfileScoresType.best => context.t.scoresBest,
-                              ProfileScoresType.recent =>
-                                context.t.scoresRecent,
-                            }),
-                            onSelected: (_) => context
-                                .read<ProfileScoresBloc>()
-                                .add(ProfileScoresTypeSelected(type)),
-                          ),
-                      ],
-                    ),
-              ),
-              BlocSelector<ProfileScoresBloc, ProfileScoresState, bool>(
-                selector: (ProfileScoresState state) =>
-                    state is ProfileScoresInitialState ||
-                    state is ProfileScoresLoadingState ||
-                    (state is ProfileScoresLoadedState &&
-                        state.operation != null),
-                builder: (BuildContext context, bool busy) => UiButton.text(
-                  onPressed: busy
-                      ? null
-                      : () => context.read<ProfileScoresBloc>().add(
-                          const ProfileScoresRefreshRequested(),
+          // The tab already says "Scores"; one compact line of controls.
+          child: BlocBuilder<ProfileScoresBloc, ProfileScoresState>(
+            buildWhen: (ProfileScoresState a, ProfileScoresState b) =>
+                a.type != b.type || _busy(a) != _busy(b),
+            builder: (BuildContext context, ProfileScoresState state) =>
+                // Pull-to-refresh and the app-bar line replace a refresh
+                // button and an in-list loader.
+                PageActivityReporter(
+                  busy:
+                      state is ProfileScoresLoadedState &&
+                      state.operation == ProfileScoresOperation.refresh,
+                  child: PageRefreshTarget(
+                    onRefresh: () {
+                      final ProfileScoresBloc bloc = context
+                          .read<ProfileScoresBloc>();
+                      if (!_busy(bloc.state)) {
+                        bloc.add(const ProfileScoresRefreshRequested());
+                      }
+                    },
+                    child: OsuCategoryPicker<ProfileScoresType>(
+                      title: context.t.scoresCategory,
+                      selected: state.type,
+                      groups: const <OsuCategoryGroup<ProfileScoresType>>[
+                        OsuCategoryGroup<ProfileScoresType>(
+                          options: ProfileScoresType.values,
                         ),
-                  icon: Icons.refresh,
-                  label: context.t.scoresRefresh,
+                      ],
+                      icon: (ProfileScoresType type) => switch (type) {
+                        ProfileScoresType.best => Icons.emoji_events_outlined,
+                        ProfileScoresType.recent => Icons.history,
+                      },
+                      label: (BuildContext context, ProfileScoresType type) =>
+                          switch (type) {
+                            ProfileScoresType.best => context.t.scoresBest,
+                            ProfileScoresType.recent => context.t.scoresRecent,
+                          },
+                      onSelected: (ProfileScoresType type) => context
+                          .read<ProfileScoresBloc>()
+                          .add(ProfileScoresTypeSelected(type)),
+                    ),
+                  ),
                 ),
-              ),
-            ],
           ),
         ),
       ),
@@ -92,8 +84,6 @@ final class ProfileScoresSection extends StatelessWidget {
               ),
               ProfileScoresLoadedState() => SliverMainAxisGroup(
                 slivers: <Widget>[
-                  if (state.operation == ProfileScoresOperation.refresh)
-                    const SliverToBoxAdapter(child: _ScoresProgress()),
                   if (state.items.isEmpty)
                     SliverToBoxAdapter(
                       child: UiContentState.empty(title: context.t.scoresEmpty),

@@ -34,9 +34,10 @@ final class ProfileSummary extends StatelessWidget {
       locale: locale,
       decimalDigits: 2,
     );
-    String rank(int? value) => value == null || value <= 0
-        ? context.t.profileUnranked
-        : '#${number.format(value)}';
+    bool ranked(int? value) => value != null && value > 0;
+    // "Not ranked" is an explanation, not a number: small, secondary text.
+    String rank(int? value) =>
+        ranked(value) ? '#${number.format(value)}' : context.t.profileNotRanked;
 
     final Widget header = TeamNavigation(
       teamId: profile.details?.team?.id,
@@ -64,6 +65,7 @@ final class ProfileSummary extends StatelessWidget {
             : UiMetric(
                 label: context.t.profileGlobalRankLabel,
                 value: rank(statistics.globalRank),
+                unavailable: !ranked(statistics.globalRank),
                 tone: UiMetricTone.tertiary,
               ),
         metrics: statistics == null
@@ -77,6 +79,7 @@ final class ProfileSummary extends StatelessWidget {
                 UiMetric.compact(
                   label: context.t.profileCountryRankLabel,
                   value: rank(statistics.countryRank),
+                  unavailable: !ranked(statistics.countryRank),
                   tone: UiMetricTone.secondary,
                 ),
               ],
@@ -117,6 +120,7 @@ final class ProfileSummary extends StatelessWidget {
                           UiMetric.compact(
                             label: context.t.profilePlayTimeLabel,
                             icon: Icons.schedule,
+                            unavailable: statistics.playTime == null,
                             value: statistics.playTime == null
                                 ? context.t.profileValueUnavailable
                                 : context.t.profileDuration(

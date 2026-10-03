@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/scores/widgets/score_card.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
+import 'package:tracksu/src/_shared/ui/page_activity.dart';
 import 'package:tracksu/src/beatmap/leaderboard/bloc/bloc.dart';
 import 'package:tracksu/src/beatmap/widgets/failure.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
@@ -43,12 +44,17 @@ final class LeaderboardSection extends StatelessWidget {
             ),
             LeaderboardLoadedState() => SliverMainAxisGroup(
               slivers: <Widget>[
-                if (state.refreshing)
-                  const SliverToBoxAdapter(child: LinearProgressIndicator()),
+                // Pull-to-refresh on the page and the app-bar line replace
+                // the refresh button and the in-list progress bar.
                 SliverToBoxAdapter(
-                  child: UiButton.text(
-                    onPressed: state.refreshing ? null : refresh,
-                    label: context.t.beatmapRefreshLeaderboard,
+                  child: PageActivityReporter(
+                    busy: state.refreshing,
+                    child: PageRefreshTarget(
+                      onRefresh: () {
+                        if (!state.refreshing) refresh();
+                      },
+                      child: const SizedBox.shrink(),
+                    ),
                   ),
                 ),
                 if (state.failure != null)

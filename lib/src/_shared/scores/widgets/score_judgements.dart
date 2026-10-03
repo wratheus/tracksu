@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/scores/domain/score.dart';
 import 'package:tracksu/src/_shared/scores/domain/score_details.dart';
+import 'package:tracksu/src/_shared/ui/osu_colors.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -56,16 +57,15 @@ final class ScoreJudgements extends StatelessWidget {
       locale: locale,
       decimalDigits: 1,
     );
-    final ColorScheme colors = Theme.of(context).colorScheme;
     Color color(String kind) => switch (kind) {
-      'miss' || 'small_tick_miss' => colors.error,
-      'perfect' => colors.primary,
-      'great' => colors.secondary,
-      'good' || 'large_tick_hit' => colors.tertiary,
-      'ok' || 'small_tick_hit' => Theme.of(
-        context,
-      ).extension<UiStatusColors>()!.success,
-      _ => Theme.of(context).extension<UiStatusColors>()!.warning,
+      'miss' => OsuColors.miss,
+      'small_tick_miss' => OsuColors.tickMiss,
+      'perfect' => OsuColors.perfect,
+      'great' => OsuColors.great,
+      'good' => OsuColors.good,
+      'ok' => OsuColors.ok,
+      'large_tick_hit' || 'small_tick_hit' => OsuColors.tick,
+      _ => OsuColors.meh,
     };
     // AccuracyCircle uses these lazer reference cutoffs. Never recalculate
     // the API grade from accuracy: misses, mods and legacy scoring also matter.
@@ -74,12 +74,12 @@ final class ScoreJudgements extends StatelessWidget {
         : <double>[0, 0.7, 0.8, 0.9, 0.95, 0.99, 1];
     final List<String> grades = <String>['D', 'C', 'B', 'A', 'S', 'SS'];
     final List<Color> gradeColors = <Color>[
-      colors.error,
-      color('meh'),
-      colors.tertiary,
-      color('ok'),
-      colors.secondary,
-      colors.primary,
+      OsuColors.rankD,
+      OsuColors.rankC,
+      OsuColors.rankB,
+      OsuColors.rankA,
+      OsuColors.rankS,
+      OsuColors.rankSS,
     ];
     final String accuracy = NumberFormat.decimalPercentPattern(
       locale: locale,
@@ -96,7 +96,8 @@ final class ScoreJudgements extends StatelessWidget {
             child: UiGradeGauge(
               accuracy: score.accuracy,
               accuracyLabel: accuracy,
-              grade: score.rank,
+              grade: _gradeLabel(score.rank),
+              gradeColor: OsuColors.forRank(score.rank),
               semanticLabel:
                   '${context.t.scoresGrade(score.rank)}, ${context.t.profileAccuracyLabel}: $accuracy. ${context.t.scoreGaugeReference}',
               bands: <UiGaugeBand>[
@@ -105,7 +106,7 @@ final class ScoreJudgements extends StatelessWidget {
                     start: cutoffs[i],
                     end: cutoffs[i + 1],
                     label: grades[i],
-                    color: gradeColors[i],
+                    color: OsuColors.text(context, gradeColors[i]),
                   ),
               ],
             ),
@@ -120,7 +121,7 @@ final class ScoreJudgements extends StatelessWidget {
                 Expanded(child: UiText.labelLarge(labels[hit.kind]!)),
                 UiText.titleMedium(
                   '${number.format(hit.achieved)}×',
-                  color: color(hit.kind),
+                  color: OsuColors.text(context, color(hit.kind)),
                 ),
                 if (total > 0)
                   UiText.bodySmall(
@@ -138,3 +139,10 @@ final class ScoreJudgements extends StatelessWidget {
     );
   }
 }
+
+/// API ranks XH/X/SH are silver variants; the letter shown is SS/SS/S.
+String _gradeLabel(String rank) => switch (rank.toUpperCase()) {
+  'XH' || 'X' => 'SS',
+  'SH' => 'S',
+  final String other => other,
+};

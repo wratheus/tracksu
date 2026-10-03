@@ -599,6 +599,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileValueUnavailable => 'Unavailable';
 
   @override
+  String get profileNotRanked => 'Not ranked';
+
+  @override
   String get profileGradesTitle => 'Score grades';
 
   @override
@@ -1252,6 +1255,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get beatmapsCategory => 'Map category';
+
+  @override
+  String get scoresCategory => 'Score type';
 
   @override
   String get beatmapsGroupPlayer => 'Player';

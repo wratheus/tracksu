@@ -5,6 +5,7 @@ import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
+import 'package:tracksu/src/_shared/ui/page_activity.dart';
 import 'package:tracksu/src/profile/bloc/bloc.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/widgets/profile_content.dart';
@@ -15,7 +16,11 @@ final class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => PageActivityHost(
+    child: Builder(builder: _scaffold),
+  );
+
+  Widget _scaffold(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: BlocSelector<ProfileBloc, ProfileState, String?>(
         selector: (ProfileState state) =>
@@ -56,6 +61,21 @@ final class ProfileScreen extends StatelessWidget {
           ),
         ),
       ],
+      // One line for the profile and its score/map sections.
+      bottom: UiAppBarProgressSlot(
+        child: BlocSelector<ProfileBloc, ProfileState, bool>(
+          selector: (ProfileState state) =>
+              state is ProfileLoadedState &&
+              (state.isBusy || state.requestedRuleset != null),
+          builder: (BuildContext context, bool busy) => ListenableBuilder(
+            listenable: PageActivityHost.maybeOf(context)!,
+            builder: (BuildContext context, _) => UiAppBarProgress(
+              visible: busy || PageActivityHost.maybeOf(context)!.busy,
+              semanticsLabel: context.t.profileRefreshing,
+            ),
+          ),
+        ),
+      ),
     ),
     body: SafeArea(
       top: false,

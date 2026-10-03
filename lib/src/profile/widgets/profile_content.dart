@@ -7,6 +7,7 @@ import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/scores/main.dart';
 import 'package:tracksu/src/profile/widgets/profile_summary.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_page_section.dart';
+import 'package:tracksu/src/_shared/ui/page_activity.dart';
 import 'package:tracksu/src/profile/widgets/profile_error_message.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -22,18 +23,13 @@ final class ProfileContent extends StatelessWidget {
         : ProfileRulesetSelected(state.failedRuleset!),
   );
 
+  /// Pull-to-refresh only starts the request: the pull spinner retracts at
+  /// once and progress continues on the app-bar line, so there is one
+  /// loading indicator per page.
   Future<void> _refresh(BuildContext context) async {
     final ProfileBloc bloc = context.read<ProfileBloc>();
     if (bloc.state case ProfileLoadedState(isBusy: true)) return;
-    final Future<void> completed = bloc.stream
-        .firstWhere(
-          (ProfileState state) =>
-              state is! ProfileLoadingState &&
-              !(state is ProfileLoadedState && state.isBusy),
-        )
-        .then<void>((_) {}, onError: (Object _, StackTrace _) {});
     bloc.add(const ProfileRefreshRequested());
-    await completed;
   }
 
   @override
@@ -41,16 +37,8 @@ final class ProfileContent extends StatelessWidget {
     length: 3,
     child: Column(
       children: <Widget>[
-        if (state.isBusy)
-          LinearProgressIndicator(semanticsLabel: context.t.profileRefreshing),
-        if (state.requestedRuleset != null)
-          Padding(
-            padding: const EdgeInsets.all(UiSpace.sm),
-            child: UiText.bodySmall(
-              context.t.profileSwitchingMode,
-              secondary: true,
-            ),
-          ),
+        // Refresh and ruleset switches show the line under the app bar
+        // (ProfileScreen), not a bar or a caption inside the content.
         if (state.refreshFailure != null)
           Padding(
             padding: const EdgeInsets.all(UiSpace.sm),
@@ -66,13 +54,11 @@ final class ProfileContent extends StatelessWidget {
             ignoring: state.requestedRuleset != null,
             child: Column(
               children: <Widget>[
-                TabBar(
-                  isScrollable: true,
-                  tabAlignment: TabAlignment.start,
-                  tabs: <Widget>[
-                    Tab(text: context.t.profileOverview),
-                    Tab(text: context.t.scoresTitle),
-                    Tab(text: context.t.beatmapsTitle),
+                _ProfileTabs(
+                  tabs: <(IconData, String)>[
+                    (Icons.person_outline_rounded, context.t.profileOverview),
+                    (Icons.emoji_events_outlined, context.t.scoresTitle),
+                    (Icons.library_music_outlined, context.t.beatmapsTitle),
                   ],
                 ),
                 Expanded(
@@ -144,6 +130,7 @@ final class _ProfileSectionState extends State<_ProfileSection>
   final ScrollController _scrollController = ScrollController(
     keepScrollOffset: false,
   );
+  final PageRefresh _sectionRefresh = PageRefresh();
 
   @override
   bool get wantKeepAlive => true;
@@ -160,10 +147,65 @@ final class _ProfileSectionState extends State<_ProfileSection>
     final Widget scroll = CustomScrollView(
       controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
-      slivers: widget.slivers,
+      slivers: <Widget>[
+        ...widget.slivers,
+        UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+      ],
     );
-    return widget.onRefresh == null
-        ? scroll
-        : RefreshIndicator(onRefresh: widget.onRefresh!, child: scroll);
+    // Every tab refreshes by pulling: the overview refreshes the profile, a
+    // section refreshes its own Bloc through PageRefreshTarget. Progress is
+    // the app-bar line (PageActivity), not a loader in the list.
+    return UiScrollToTop(
+      tooltip: context.t.scrollToTop,
+      controller: _scrollController,
+      child: PageRefreshScope(
+        refresh: _sectionRefresh,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            if (widget.onRefresh case final Future<void> Function() refresh) {
+              await refresh();
+            } else {
+              _sectionRefresh();
+            }
+          },
+          child: scroll,
+        ),
+      ),
+    );
+  }
+}
+
+/// Section switcher built from the same segmented control as the ruleset
+/// selector above it, kept in sync with the TabBarView (taps and swipes).
+final class _ProfileTabs extends StatelessWidget {
+  const _ProfileTabs({required this.tabs});
+  final List<(IconData, String)> tabs;
+
+  @override
+  Widget build(BuildContext context) {
+    final TabController controller = DefaultTabController.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        UiSpace.lg,
+        UiSpace.sm,
+        UiSpace.lg,
+        UiSpace.xs,
+      ),
+      child: AnimatedBuilder(
+        animation: controller,
+        builder: (BuildContext context, _) => UiSegmentedControl<int>(
+          selected: controller.index,
+          segments: <UiSegment<int>>[
+            for (int i = 0; i < tabs.length; i++)
+              UiSegment<int>(
+                value: i,
+                label: tabs[i].$2,
+                icon: Icon(tabs[i].$1),
+              ),
+          ],
+          onChanged: controller.animateTo,
+        ),
+      ),
+    );
   }
 }

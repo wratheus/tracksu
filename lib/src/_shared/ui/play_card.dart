@@ -11,6 +11,7 @@ final class OsuPlayCard extends StatelessWidget {
     required this.comboLabel,
     required this.performanceLabel,
     required this.dateLabel,
+    this.performanceUnavailable = false,
     required this.mods,
     required this.noModsLabel,
     this.artist,
@@ -30,6 +31,10 @@ final class OsuPlayCard extends StatelessWidget {
   final String accuracyLabel;
   final String comboLabel;
   final String performanceLabel;
+
+  /// [performanceLabel] explains missing PP (unranked map, failed play) and
+  /// is set small and secondary rather than as the pink headline number.
+  final bool performanceUnavailable;
   final String dateLabel;
   final String? artist;
   final String? difficulty;
@@ -102,10 +107,13 @@ final class OsuPlayCard extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: <Widget>[
             OsuGradeBadge(grade: grade, label: gradeLabel),
-            UiText.titleMedium(
-              performanceLabel,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            if (performanceUnavailable)
+              UiText.bodySmall(performanceLabel, secondary: true)
+            else
+              UiText.titleMedium(
+                performanceLabel,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             UiText.bodyMedium(accuracyLabel),
             UiText.bodyMedium(comboLabel, secondary: true),
           ],

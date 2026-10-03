@@ -350,8 +350,9 @@ final class OsuPresence extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
+    // The status *content* colour: the container shade is too dark for a dot.
     final Color dot = online
-        ? Theme.of(context).extension<UiStatusColors>()?.success ??
+        ? Theme.of(context).extension<UiStatusColors>()?.onSuccess ??
               colors.primary
         : colors.outline;
     return Row(

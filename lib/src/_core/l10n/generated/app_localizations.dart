@@ -1098,6 +1098,12 @@ abstract class AppLocalizations {
   /// **'Unavailable'**
   String get profileValueUnavailable;
 
+  /// Short value for a missing global/country rank; shown small under the rank label.
+  ///
+  /// In en, this message translates to:
+  /// **'Not ranked'**
+  String get profileNotRanked;
+
   /// Player profile UI: Score grades.
   ///
   /// In en, this message translates to:
@@ -2141,6 +2147,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Map category'**
   String get beatmapsCategory;
+
+  /// Profile scores tab: selector label and sheet title (best / recent).
+  ///
+  /// In en, this message translates to:
+  /// **'Score type'**
+  String get scoresCategory;
 
   /// Category sheet group: maps the player plays or saved.
   ///

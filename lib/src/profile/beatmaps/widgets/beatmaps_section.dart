@@ -9,10 +9,17 @@ import 'package:tracksu/src/profile/beatmaps/bloc/bloc.dart';
 import 'package:tracksu/src/profile/beatmaps/domain/beatmaps_query.dart';
 import 'package:tracksu/src/profile/beatmaps/domain/beatmaps_repository.dart';
 import 'package:tracksu/src/profile/beatmaps/widgets/beatmap_card.dart';
+import 'package:tracksu/src/profile/beatmaps/widgets/category_picker.dart';
+import 'package:tracksu/src/_shared/ui/page_activity.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class ProfileBeatmapsSection extends StatelessWidget {
   const ProfileBeatmapsSection({super.key});
+
+  static bool _busy(ProfileBeatmapsState state) =>
+      state is ProfileBeatmapsInitialState ||
+      state is ProfileBeatmapsLoadingState ||
+      (state is ProfileBeatmapsLoadedState && state.operation != null);
 
   @override
   Widget build(BuildContext context) => SliverMainAxisGroup(
@@ -20,87 +27,33 @@ final class ProfileBeatmapsSection extends StatelessWidget {
       SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.all(UiSpace.lg),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: UiSpace.md,
-            children: <Widget>[
-              Text(
-                context.t.beatmapsTitle,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              BlocSelector<
-                ProfileBeatmapsBloc,
-                ProfileBeatmapsState,
-                ProfileBeatmapsType
-              >(
-                selector: (ProfileBeatmapsState state) => state.type,
-                builder: (BuildContext context, ProfileBeatmapsType selected) =>
-                    Wrap(
-                      spacing: UiSpace.md,
-                      runSpacing: UiSpace.sm,
-                      children: <Widget>[
-                        for (final ProfileBeatmapsType type
-                            in ProfileBeatmapsType.values)
-                          ChoiceChip(
-                            avatar: Icon(switch (type) {
-                              ProfileBeatmapsType.mostPlayed =>
-                                Icons.play_circle_outline,
-                              ProfileBeatmapsType.favourite =>
-                                Icons.favorite_outline,
-                              ProfileBeatmapsType.ranked =>
-                                Icons.verified_outlined,
-                              ProfileBeatmapsType.pending =>
-                                Icons.hourglass_empty,
-                              ProfileBeatmapsType.graveyard =>
-                                Icons.archive_outlined,
-                              ProfileBeatmapsType.loved => Icons.favorite,
-                              ProfileBeatmapsType.guest => Icons.group_outlined,
-                              ProfileBeatmapsType.nominated =>
-                                Icons.workspace_premium_outlined,
-                            }),
-                            selected: type == selected,
-                            label: Text(switch (type) {
-                              ProfileBeatmapsType.mostPlayed =>
-                                context.t.beatmapsMostPlayed,
-                              ProfileBeatmapsType.favourite =>
-                                context.t.beatmapsFavourite,
-                              ProfileBeatmapsType.ranked =>
-                                context.t.beatmapsRanked,
-                              ProfileBeatmapsType.pending =>
-                                context.t.beatmapsPending,
-                              ProfileBeatmapsType.graveyard =>
-                                context.t.beatmapsGraveyard,
-                              ProfileBeatmapsType.loved =>
-                                context.t.beatmapsLoved,
-                              ProfileBeatmapsType.guest =>
-                                context.t.beatmapsGuest,
-                              ProfileBeatmapsType.nominated =>
-                                context.t.beatmapsNominated,
-                            }),
-                            onSelected: (_) => context
-                                .read<ProfileBeatmapsBloc>()
-                                .add(ProfileBeatmapsTypeSelected(type)),
-                          ),
-                      ],
+          // The tab already says "Maps"; no repeated section title.
+          child: BlocBuilder<ProfileBeatmapsBloc, ProfileBeatmapsState>(
+            buildWhen: (ProfileBeatmapsState a, ProfileBeatmapsState b) =>
+                a.type != b.type || _busy(a) != _busy(b),
+            builder: (BuildContext context, ProfileBeatmapsState state) =>
+                // Pull-to-refresh and the app-bar line replace a refresh
+                // button and an in-list loader.
+                PageActivityReporter(
+                  busy:
+                      state is ProfileBeatmapsLoadedState &&
+                      state.operation == ProfileBeatmapsOperation.refresh,
+                  child: PageRefreshTarget(
+                    onRefresh: () {
+                      final ProfileBeatmapsBloc bloc = context
+                          .read<ProfileBeatmapsBloc>();
+                      if (!_busy(bloc.state)) {
+                        bloc.add(const ProfileBeatmapsRefreshRequested());
+                      }
+                    },
+                    child: ProfileBeatmapsCategoryBar(
+                      selected: state.type,
+                      onSelected: (ProfileBeatmapsType type) => context
+                          .read<ProfileBeatmapsBloc>()
+                          .add(ProfileBeatmapsTypeSelected(type)),
                     ),
-              ),
-              BlocSelector<ProfileBeatmapsBloc, ProfileBeatmapsState, bool>(
-                selector: (ProfileBeatmapsState state) =>
-                    state is ProfileBeatmapsInitialState ||
-                    state is ProfileBeatmapsLoadingState ||
-                    (state is ProfileBeatmapsLoadedState &&
-                        state.operation != null),
-                builder: (BuildContext context, bool busy) => UiButton.text(
-                  onPressed: busy
-                      ? null
-                      : () => context.read<ProfileBeatmapsBloc>().add(
-                          const ProfileBeatmapsRefreshRequested(),
-                        ),
-                  icon: Icons.refresh,
-                  label: context.t.beatmapsRefresh,
+                  ),
                 ),
-              ),
-            ],
           ),
         ),
       ),
@@ -116,8 +69,6 @@ final class ProfileBeatmapsSection extends StatelessWidget {
               ),
               ProfileBeatmapsLoadedState() => SliverMainAxisGroup(
                 slivers: <Widget>[
-                  if (state.operation == ProfileBeatmapsOperation.refresh)
-                    const SliverToBoxAdapter(child: _BeatmapsProgress()),
                   if (state.items.isEmpty)
                     SliverToBoxAdapter(
                       child: UiContentState.empty(

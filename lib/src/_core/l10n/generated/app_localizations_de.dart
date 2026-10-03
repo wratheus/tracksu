@@ -607,6 +607,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get profileValueUnavailable => 'Nicht verfügbar';
 
   @override
+  String get profileNotRanked => 'Ohne Rang';
+
+  @override
   String get profileGradesTitle => 'Ergebnisnoten';
 
   @override
@@ -1276,6 +1279,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get beatmapsCategory => 'Beatmap-Kategorie';
+
+  @override
+  String get scoresCategory => 'Ergebnisart';
 
   @override
   String get beatmapsGroupPlayer => 'Spieler';

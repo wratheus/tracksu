@@ -577,6 +577,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profileValueUnavailable => 'データなし';
 
   @override
+  String get profileNotRanked => 'ランク外';
+
+  @override
   String get profileGradesTitle => '成績ランク';
 
   @override
@@ -1207,6 +1210,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get beatmapsCategory => 'ビートマップの種類';
+
+  @override
+  String get scoresCategory => 'スコアの種類';
 
   @override
   String get beatmapsGroupPlayer => 'プレイヤー';

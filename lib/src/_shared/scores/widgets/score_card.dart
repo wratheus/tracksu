@@ -131,6 +131,7 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
       ).format(score.accuracy),
       comboLabel:
           '${NumberFormat.decimalPattern(locale).format(score.maximumCombo)}×',
+      performanceUnavailable: score.performancePoints == null,
       performanceLabel: score.performancePoints == null
           ? context.t.scoresNoPp
           : '${NumberFormat.decimalPatternDigits(locale: locale, decimalDigits: 0).format(score.performancePoints)} pp',

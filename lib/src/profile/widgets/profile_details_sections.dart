@@ -201,8 +201,9 @@ final class _RankedPlayCard extends StatelessWidget {
               UiMetric.compact(
                 label: context.t.profileGlobalRankLabel,
                 value: stats.rank == null
-                    ? context.t.profileUnranked
+                    ? context.t.profileNotRanked
                     : '#${number.format(stats.rank)}',
+                unavailable: stats.rank == null,
                 icon: Icons.public,
                 tone: UiMetricTone.tertiary,
               ),

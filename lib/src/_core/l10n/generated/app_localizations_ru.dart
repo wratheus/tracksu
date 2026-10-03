@@ -609,6 +609,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileValueUnavailable => 'Нет данных';
 
   @override
+  String get profileNotRanked => 'Нет места';
+
+  @override
   String get profileGradesTitle => 'Оценки результатов';
 
   @override
@@ -1264,6 +1267,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get beatmapsCategory => 'Категория карт';
+
+  @override
+  String get scoresCategory => 'Тип результатов';
 
   @override
   String get beatmapsGroupPlayer => 'Игрок';
