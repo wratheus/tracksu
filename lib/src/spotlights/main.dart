@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
-import 'package:tracksu/src/rankings/spotlights/bloc/bloc.dart';
-import 'package:tracksu/src/rankings/spotlights/data/remote_source.dart';
-import 'package:tracksu/src/rankings/spotlights/data/repository_impl.dart';
-import 'package:tracksu/src/rankings/spotlights/widgets/screen.dart';
+import 'package:tracksu/src/spotlights/bloc/bloc.dart';
+import 'package:tracksu/src/spotlights/data/remote_source.dart';
+import 'package:tracksu/src/spotlights/data/repository_impl.dart';
+import 'package:tracksu/src/spotlights/widgets/screen.dart';
 
 final class SpotlightsMain extends StatelessWidget {
   const SpotlightsMain({super.key});

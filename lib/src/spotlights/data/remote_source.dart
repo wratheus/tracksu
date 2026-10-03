@@ -1,5 +1,5 @@
 import 'package:tracksu/src/rankings/data/rankings_remote_source.dart';
-import 'package:tracksu/src/rankings/spotlights/domain/spotlight.dart';
+import 'package:tracksu/src/spotlights/domain/spotlight.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 
 abstract interface class SpotlightsRemoteSource {

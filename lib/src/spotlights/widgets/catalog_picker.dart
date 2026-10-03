@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
-import 'package:tracksu/src/rankings/spotlights/domain/spotlight.dart';
+import 'package:tracksu/src/spotlights/domain/spotlight.dart';
+import 'package:tracksu/src/spotlights/widgets/facts.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Search is local and transient; only choosing a result changes the Bloc query.
@@ -28,15 +28,13 @@ final class _SpotlightCatalogPickerState extends State<SpotlightCatalogPicker> {
 
   @override
   Widget build(BuildContext context) {
-    final DateFormat date = DateFormat.yMMMd(
-      Localizations.localeOf(context).toLanguageTag(),
-    );
+    // Chart names carry their year ("Best of 2012"); dates are staff-entered
+    // labels and may belong to the following year, so they are not searched.
     final List<Spotlight> visible = widget.catalog
         .where(
           (Spotlight item) =>
               item.name.toLowerCase().contains(_query) ||
-              item.id.toString() == _query ||
-              (item.startsAt?.year.toString().contains(_query) ?? false),
+              item.id.toString() == _query,
         )
         .toList(growable: false);
     return CustomScrollView(
@@ -73,9 +71,7 @@ final class _SpotlightCatalogPickerState extends State<SpotlightCatalogPicker> {
               return UiTile.selection(
                 key: ValueKey<int>(item.id),
                 title: item.name,
-                subtitle: item.startsAt == null
-                    ? null
-                    : date.format(item.startsAt!),
+                subtitle: spotlightKindLabel(context, item.kind),
                 leading: const Icon(Icons.collections_bookmark_outlined),
                 selected: item.id == widget.selectedId,
                 onTap: () {

@@ -2,9 +2,9 @@ import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
 import 'package:tracksu/src/auth/data/oauth_remote_source_exception.dart';
 import 'package:tracksu/src/rankings/data/rankings_remote_source.dart';
 import 'package:tracksu/src/rankings/domain/rankings_repository.dart';
-import 'package:tracksu/src/rankings/spotlights/domain/spotlight.dart';
-import 'package:tracksu/src/rankings/spotlights/data/remote_source.dart';
-import 'package:tracksu/src/rankings/spotlights/data/spotlight_dto.dart';
+import 'package:tracksu/src/spotlights/domain/spotlight.dart';
+import 'package:tracksu/src/spotlights/data/remote_source.dart';
+import 'package:tracksu/src/spotlights/data/spotlight_dto.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 
 final class SpotlightsRepositoryImpl implements SpotlightsRepository {

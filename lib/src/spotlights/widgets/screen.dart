@@ -17,11 +17,11 @@ import 'package:tracksu/src/profile/domain/profile_params.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/rankings/domain/rankings_repository.dart';
-import 'package:tracksu/src/rankings/spotlights/bloc/bloc.dart';
-import 'package:tracksu/src/rankings/spotlights/domain/spotlight.dart';
-import 'package:tracksu/src/rankings/spotlights/widgets/catalog_picker.dart';
-import 'package:tracksu/src/rankings/spotlights/widgets/navigation_card.dart';
-import 'package:tracksu/src/rankings/spotlights/widgets/period.dart';
+import 'package:tracksu/src/spotlights/bloc/bloc.dart';
+import 'package:tracksu/src/spotlights/domain/spotlight.dart';
+import 'package:tracksu/src/spotlights/widgets/catalog_picker.dart';
+import 'package:tracksu/src/spotlights/widgets/navigation_card.dart';
+import 'package:tracksu/src/spotlights/widgets/facts.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class SpotlightsScreen extends StatelessWidget {
@@ -64,7 +64,10 @@ final class SpotlightsScreen extends StatelessWidget {
         ),
       ],
     ),
-    body: const SafeArea(child: _SpotlightsBody()),
+    body: UiScrollToTop(
+      tooltip: context.t.scrollToTop,
+      child: const SafeArea(child: _SpotlightsBody()),
+    ),
   );
 }
 
@@ -102,6 +105,8 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
     BuildContext context,
   ) => BlocBuilder<SpotlightsBloc, SpotlightsState>(
     builder: (BuildContext context, SpotlightsState state) => CustomScrollView(
+      // Desktop does not inherit the route controller implicitly.
+      primary: true,
       // Opening a picker does not replace the viewport or discard its offset.
       key: ValueKey<Object>(
         state is SpotlightsLoadedState
@@ -123,6 +128,8 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 spacing: UiSpace.lg,
                 children: <Widget>[
+                  // Archive only: osu! stopped running Spotlights in 2020.
+                  UiNotice(message: context.t.spotlightsHomeDescription),
                   if (state.catalog.isEmpty)
                     UiContentState.empty(title: context.t.spotlightsEmpty)
                   else ...<Widget>[
@@ -156,6 +163,13 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
           if (state.loading && state.details == null)
             SliverToBoxAdapter(
               child: UiPageSkeleton.list(label: context.t.rankingsLoading),
+            ),
+          if (state.rulesetUnavailable)
+            SliverToBoxAdapter(
+              child: UiContentState.empty(
+                title: context.t.spotlightsRulesetUnavailable,
+                message: context.t.spotlightsRulesetUnavailableHint,
+              ),
             ),
           if (state.failure case final RankingsFailureKind failure)
             SliverToBoxAdapter(
@@ -256,6 +270,7 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
             ),
           ],
         ],
+        UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
       ],
     ),
   );
@@ -271,7 +286,7 @@ final class _SpotlightSummary extends StatelessWidget {
       spacing: UiSpace.md,
       children: <Widget>[
         UiText.titleLarge(spotlight.name),
-        SpotlightPeriod(spotlight: spotlight),
+        SpotlightFacts(spotlight: spotlight),
         if (spotlight.participantCount case final int count)
           UiMetric.compact(
             label: context.t.spotlightsParticipants,

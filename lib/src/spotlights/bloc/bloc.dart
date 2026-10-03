@@ -3,7 +3,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/rankings/domain/rankings_repository.dart';
-import 'package:tracksu/src/rankings/spotlights/domain/spotlight.dart';
+import 'package:tracksu/src/spotlights/domain/spotlight.dart';
 
 part 'event.dart';
 part 'state.dart';
@@ -79,6 +79,7 @@ final class SpotlightsBloc extends Bloc<SpotlightsEvent, SpotlightsState> {
         ? null
         : _cache.read<SpotlightDetails>(detailsKey(id));
     bool stale() => generation != _generation || emit.isDone || isClosed;
+    bool requestingDetails = false;
     emit(
       catalog == null
           ? const SpotlightsLoadingState()
@@ -115,6 +116,7 @@ final class SpotlightsBloc extends Bloc<SpotlightsEvent, SpotlightsState> {
         ),
       );
       if (id == null) return;
+      requestingDetails = true;
       final SpotlightDetails details = await _repository.load(
         SpotlightQuery(id: id, ruleset: ruleset),
       );
@@ -133,6 +135,22 @@ final class SpotlightsBloc extends Bloc<SpotlightsEvent, SpotlightsState> {
       final RankingsFailureKind failure = error is RankingsFailure
           ? error.kind
           : RankingsFailureKind.unavailable;
+      // The id comes from the catalog, so a charts 404 is osu-web's
+      // "ruleset isn't available for the specified spotlight": many old
+      // charts exist only for some rulesets. That is content, not a fault.
+      if (requestingDetails &&
+          catalog != null &&
+          failure == RankingsFailureKind.notFound) {
+        emit(
+          SpotlightsLoadedState(
+            catalog: catalog,
+            ruleset: ruleset,
+            selectedId: id,
+            rulesetUnavailable: true,
+          ),
+        );
+        return;
+      }
       addError(RankingsFailure(failure), stackTrace);
       emit(
         catalog == null

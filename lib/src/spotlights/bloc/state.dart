@@ -25,6 +25,7 @@ final class SpotlightsLoadedState extends SpotlightsState {
     this.details,
     this.loading = false,
     this.failure,
+    this.rulesetUnavailable = false,
   }) : catalog = List<Spotlight>.unmodifiable(catalog);
   final List<Spotlight> catalog;
   final ProfileRuleset ruleset;
@@ -32,4 +33,7 @@ final class SpotlightsLoadedState extends SpotlightsState {
   final SpotlightDetails? details;
   final bool loading;
   final RankingsFailureKind? failure;
+
+  /// The selected chart has no ranking table for [ruleset].
+  final bool rulesetUnavailable;
 }

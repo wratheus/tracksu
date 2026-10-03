@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/about/licenses/screen.dart';
 import 'package:tracksu/src/about/main.dart';
 import 'package:tracksu/src/settings/main.dart';
 import 'package:tracksu/src/team/main.dart';
@@ -19,7 +20,7 @@ import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/profile/main.dart';
 import 'package:tracksu/src/rankings/main.dart';
-import 'package:tracksu/src/rankings/spotlights/main.dart';
+import 'package:tracksu/src/spotlights/main.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Features pass typed values; only this facade knows route paths and stacks.
@@ -110,8 +111,7 @@ final class TracksuAppRouter {
     GoRoute(path: 'about', builder: (_, _) => const AboutMain()),
     GoRoute(
       path: 'licenses',
-      builder: (BuildContext context, _) =>
-          LicensePage(applicationName: context.t.appTitle),
+      builder: (_, _) => const LicensesScreen(),
     ),
     GoRoute(
       path: 'medals/:user',
