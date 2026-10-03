@@ -10,6 +10,47 @@ import 'package:tracksu/src/_shared/media/data/media_download.dart';
 
 enum AudioPlaybackPhase { idle, loading, playing, paused, completed, failed }
 
+/// User-facing category of a failed attempt; never carries URLs or platform
+/// text. A decoder rejection is not a connection problem and must not say so.
+enum AudioPlaybackFailure {
+  /// Connection, timeout or a transient server status: retry may help.
+  network,
+
+  /// The source is gone (404/410) or not an allowed media location.
+  unavailable,
+
+  /// Bytes arrived but this device cannot decode them, or they are too large.
+  unsupported,
+
+  /// Another app holds audio focus.
+  focus,
+  unknown;
+
+  static AudioPlaybackFailure of(Object error) => switch (error) {
+    MediaDownloadFailure(:final reason, :final status) => switch (reason) {
+      MediaFailureReason.httpStatus => switch (status) {
+        404 || 410 => unavailable,
+        408 || 429 || != null && >= 500 => network,
+        _ => unknown,
+      },
+      MediaFailureReason.connection ||
+      MediaFailureReason.timeout ||
+      MediaFailureReason.cancelled => network,
+      MediaFailureReason.unavailable ||
+      MediaFailureReason.blocked ||
+      MediaFailureReason.redirectRejected ||
+      MediaFailureReason.redirectLimit => unavailable,
+      MediaFailureReason.invalidFormat ||
+      MediaFailureReason.tooLarge => unsupported,
+    },
+    IOException() || TimeoutException() => network,
+    // just_audio reports codec/container rejections as PlayerException
+    // (iOS -11800 for Ogg was one); the bytes were already downloaded.
+    PlayerException() => unsupported,
+    _ => unknown,
+  };
+}
+
 /// Application-owned, credential-free foreground playback. Each view has an
 /// identity token: an old route cannot stop a new route's player. Every resume
 /// prepares a fresh decoder at the saved position; pause frees decoder buffers.
@@ -35,11 +76,16 @@ final class AudioPlaybackController extends ChangeNotifier {
   bool _disposed = false;
   bool _notificationPending = false;
   AudioPlaybackPhase _phase = AudioPlaybackPhase.idle;
+  AudioPlaybackFailure? _failure;
   Duration _position = Duration.zero;
   Duration? _duration;
 
   bool owns(Object owner) => identical(_owner, owner);
   AudioPlaybackPhase get phase => _phase;
+
+  /// Set only while [phase] is [AudioPlaybackPhase.failed].
+  AudioPlaybackFailure? get failure =>
+      _phase == AudioPlaybackPhase.failed ? _failure : null;
   Duration get position => _position;
   Duration? get duration => _duration;
 
@@ -136,7 +182,7 @@ final class AudioPlaybackController extends ChangeNotifier {
           _changed();
         }),
         player.errorStream.listen((PlayerException error) {
-          _fail(generation, _cause(error));
+          _fail(generation, error);
         }),
       ]);
       final Future<Duration?> prepared = audio.path == null
@@ -150,7 +196,11 @@ final class AudioPlaybackController extends ChangeNotifier {
       if (!_current(generation)) return;
       _activation = null;
       if (!activated) {
-        _fail(generation, 'focus denied');
+        _fail(
+          generation,
+          'focus denied',
+          failure: AudioPlaybackFailure.focus,
+        );
         return;
       }
       // play's future completes on pause/end, not on start.
@@ -159,7 +209,7 @@ final class AudioPlaybackController extends ChangeNotifier {
       // Plugin failures may contain source URLs. Surface a localized state,
       // never log raw platform exceptions or feed them to OAuth error handling.
       if (!_configured) _configuration = null;
-      _fail(generation, _cause(error), stackTrace: stackTrace);
+      _fail(generation, error, stackTrace: stackTrace);
     }
   }
 
@@ -167,7 +217,7 @@ final class AudioPlaybackController extends ChangeNotifier {
     try {
       await player.play();
     } on Object catch (error, stackTrace) {
-      _fail(generation, _cause(error), stackTrace: stackTrace);
+      _fail(generation, error, stackTrace: stackTrace);
     }
   }
 
@@ -186,7 +236,7 @@ final class AudioPlaybackController extends ChangeNotifier {
     try {
       await _player?.seek(_position);
     } on Object catch (error, stackTrace) {
-      _fail(generation, _cause(error), stackTrace: stackTrace);
+      _fail(generation, error, stackTrace: stackTrace);
     }
   }
 
@@ -221,7 +271,11 @@ final class AudioPlaybackController extends ChangeNotifier {
 
   void _watchLoading(int generation) {
     _loadingTimeout ??= Timer(const Duration(seconds: 60), () {
-      _fail(generation, 'loading timeout');
+      _fail(
+        generation,
+        'loading timeout',
+        failure: AudioPlaybackFailure.network,
+      );
     });
   }
 
@@ -235,10 +289,19 @@ final class AudioPlaybackController extends ChangeNotifier {
     _ => 'platform ${error.runtimeType}',
   };
 
-  void _fail(int generation, String cause, {StackTrace? stackTrace}) {
+  /// [error] is either a caught exception or a short internal cause label;
+  /// labels pass their [failure] explicitly.
+  void _fail(
+    int generation,
+    Object error, {
+    StackTrace? stackTrace,
+    AudioPlaybackFailure? failure,
+  }) {
     if (!_current(generation)) return;
     _retire();
     _phase = AudioPlaybackPhase.failed;
+    _failure = failure ?? AudioPlaybackFailure.of(error);
+    final String cause = error is String ? error : _cause(error);
     // Reported once per attempt: a retired generation cannot report again.
     FlutterError.reportError(
       FlutterErrorDetails(

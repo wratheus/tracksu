@@ -140,7 +140,16 @@ final class _AudioTrackPlayerState extends State<AudioTrackPlayer>
             AudioPlaybackPhase.playing => context.t.audioPlaying,
             AudioPlaybackPhase.paused => context.t.audioPaused,
             AudioPlaybackPhase.completed => context.t.audioCompleted,
-            AudioPlaybackPhase.failed => context.t.audioFailed,
+            AudioPlaybackPhase.failed => switch (controller.failure) {
+              AudioPlaybackFailure.network => context.t.audioFailed,
+              AudioPlaybackFailure.unavailable =>
+                context.t.audioFailedUnavailable,
+              AudioPlaybackFailure.unsupported =>
+                context.t.audioFailedUnsupported,
+              AudioPlaybackFailure.focus => context.t.audioFailedFocus,
+              AudioPlaybackFailure.unknown ||
+              null => context.t.audioFailedUnknown,
+            },
             AudioPlaybackPhase.idle => '',
           },
           actionLabel: action,

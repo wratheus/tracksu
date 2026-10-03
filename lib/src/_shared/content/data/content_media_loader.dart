@@ -34,9 +34,9 @@ final class ContentMediaLoader {
     try {
       final Uint8List bytes = await repository!.image(uri);
       if (!request._result.isCompleted) request._result.complete(bytes);
-    } on Object catch (error) {
+    } on Object catch (error, stackTrace) {
       if (!request._result.isCompleted) {
-        request._result.completeError(_classify(error));
+        request._result.completeError(_classify(error), stackTrace);
       }
     } finally {
       _requests.remove(request);
