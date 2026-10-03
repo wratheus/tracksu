@@ -17,12 +17,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String settingsCacheConfirm(String size) {
-    return 'Supprimer $size Mio d’images et d’audio enregistrés ? Le cache multimédia sera vide (0 Mio). Les pages en cache seront aussi effacées. Le compte et les réglages sont conservés.';
+    return 'Supprimer $size Mo d’images et d’audio ? Votre compte et vos réglages sont conservés.';
   }
 
   @override
   String settingsCacheSize(String size) {
-    return '$size Mio sur l’appareil';
+    return '$size Mo';
   }
 
   @override
@@ -147,11 +147,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsCache => 'Cache';
 
   @override
-  String get settingsClearCache => 'Vider le cache';
+  String get settingsClearCache => 'Vider';
 
   @override
   String get settingsCacheDescription =>
-      'Images et audio sont enregistrés sur l’appareil (128 Mio maximum). Les pages restent en mémoire pendant la session. Vider le cache arrête la lecture et conserve le compte et les réglages.';
+      'Couvertures et aperçus audio enregistrés sur cet appareil.';
 
   @override
   String get settingsCacheCleared => 'Cache vidé';
@@ -164,13 +164,17 @@ class AppLocalizationsFr extends AppLocalizations {
   String get aboutTitle => 'À propos de Tracksu';
 
   @override
-  String get aboutTabApp => 'App';
+  String get aboutTabApp => 'À propos';
+
+  @override
+  String get settingsClearCacheTitle => 'Vider le cache ?';
+
+  @override
+  String get aboutHistoryShort =>
+      'Tracksu existe depuis 2021 et a été plusieurs fois développé et reconstruit.';
 
   @override
   String get aboutTabAuthors => 'Auteurs';
-
-  @override
-  String get aboutTabHistory => 'Histoire';
 
   @override
   String get aboutTabLicenses => 'Licences';
@@ -180,35 +184,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get aboutRoleCoauthor => 'Co-auteur';
-
-  @override
-  String get aboutAuthorsIntro =>
-      'Tracksu est fait par des joueurs d’osu! pour des joueurs d’osu!. Touchez un nom pour ouvrir son profil osu!.';
-
-  @override
-  String get aboutHistoryIntro =>
-      'Voici la troisième itération de Tracksu. La première version est apparue en 2021.';
-
-  @override
-  String get aboutHistoryV1Title => 'Première version';
-
-  @override
-  String get aboutHistoryV1Body =>
-      'Le premier Tracksu : le profil et les statistiques d’un joueur osu! dans la poche.';
-
-  @override
-  String get aboutHistoryV2Title => 'Deuxième version';
-
-  @override
-  String get aboutHistoryV2Body =>
-      'Issue de la première ; ses leçons ont façonné l’app actuelle.';
-
-  @override
-  String get aboutHistoryV3Title => 'Troisième version';
-
-  @override
-  String get aboutHistoryV3Body =>
-      'Réécrite de zéro sur l’API osu! v2 : profils, scores, beatmaps, classements, équipes, actualités, aperçus audio et sept langues.';
 
   @override
   String get aboutThanksTitle => 'Merci';
@@ -490,7 +465,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get contentMediaConsent =>
-      'Les images se chargent automatiquement. Désactivez cette option pour économiser les données. Les serveurs d’images reçoivent votre adresse IP ; l’audio se connecte à la lecture. Les médias sont mis en cache sur l’appareil.';
+      'Couvertures et avatars se chargent automatiquement. Désactivez pour économiser des données.';
 
   @override
   String get contentMediaAllow => 'Autoriser les images';
@@ -1491,7 +1466,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get rankingsWorldwide => 'Monde entier';
 
   @override
-  String get rankingsAllKeys => 'Tous les nombres de touches';
+  String get rankingsAllKeys => 'Toutes';
 
   @override
   String get germanLanguage => 'Allemand';

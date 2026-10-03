@@ -123,13 +123,13 @@ abstract class AppLocalizations {
   /// Confirm removing completed cached media files and session page snapshots. Size is preformatted using the current locale.
   ///
   /// In en, this message translates to:
-  /// **'Clear {size} MiB of saved images and audio? The media cache will be empty (0 MiB). Page snapshots will also be cleared. Your account and settings stay.'**
+  /// **'Delete {size} MB of images and audio? Your account and settings stay.'**
   String settingsCacheConfirm(String size);
 
   /// Completed cached media file size in mebibytes; size is already locale-formatted, not heap usage.
   ///
   /// In en, this message translates to:
-  /// **'{size} MiB on disk'**
+  /// **'{size} MB'**
   String settingsCacheSize(String size);
 
   /// Shared foreground audio player: audioPreview.
@@ -321,13 +321,13 @@ abstract class AppLocalizations {
   /// Action and confirmation title to clear page snapshots and cached images/audio.
   ///
   /// In en, this message translates to:
-  /// **'Clear cache'**
+  /// **'Clear'**
   String get settingsClearCache;
 
   /// Persistent media and session-local page cache; clearing retains credentials and preferences.
   ///
   /// In en, this message translates to:
-  /// **'Images and audio are saved on this device (up to 128 MiB). Page snapshots stay in memory during the session. Clearing stops playback and keeps your account and settings.'**
+  /// **'Covers and audio previews saved on this device.'**
   String get settingsCacheDescription;
 
   /// Confirmation that page snapshots and cached media files were cleared.
@@ -351,20 +351,26 @@ abstract class AppLocalizations {
   /// About screen: aboutTabApp
   ///
   /// In en, this message translates to:
-  /// **'App'**
+  /// **'About'**
   String get aboutTabApp;
+
+  /// Title of the clear-cache confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear the cache?'**
+  String get settingsClearCacheTitle;
+
+  /// One-line history on the About tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracksu has existed since 2021 and has been developed and rebuilt more than once.'**
+  String get aboutHistoryShort;
 
   /// About screen: aboutTabAuthors
   ///
   /// In en, this message translates to:
   /// **'Authors'**
   String get aboutTabAuthors;
-
-  /// About screen: aboutTabHistory
-  ///
-  /// In en, this message translates to:
-  /// **'History'**
-  String get aboutTabHistory;
 
   /// About screen: aboutTabLicenses
   ///
@@ -383,54 +389,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Co-author'**
   String get aboutRoleCoauthor;
-
-  /// About screen: aboutAuthorsIntro
-  ///
-  /// In en, this message translates to:
-  /// **'Tracksu is made by osu! players for osu! players. Tap a name to open their osu! profile.'**
-  String get aboutAuthorsIntro;
-
-  /// About screen: aboutHistoryIntro
-  ///
-  /// In en, this message translates to:
-  /// **'This is the third iteration of Tracksu. The first version appeared in 2021.'**
-  String get aboutHistoryIntro;
-
-  /// About screen: aboutHistoryV1Title
-  ///
-  /// In en, this message translates to:
-  /// **'First version'**
-  String get aboutHistoryV1Title;
-
-  /// About screen: aboutHistoryV1Body
-  ///
-  /// In en, this message translates to:
-  /// **'The first Tracksu: an osu! player\'s profile and statistics in a pocket app.'**
-  String get aboutHistoryV1Body;
-
-  /// About screen: aboutHistoryV2Title
-  ///
-  /// In en, this message translates to:
-  /// **'Second version'**
-  String get aboutHistoryV2Title;
-
-  /// About screen: aboutHistoryV2Body
-  ///
-  /// In en, this message translates to:
-  /// **'Grew out of the first one; what we learned there shaped the current app.'**
-  String get aboutHistoryV2Body;
-
-  /// About screen: aboutHistoryV3Title
-  ///
-  /// In en, this message translates to:
-  /// **'Third version'**
-  String get aboutHistoryV3Title;
-
-  /// About screen: aboutHistoryV3Body
-  ///
-  /// In en, this message translates to:
-  /// **'Rewritten from scratch on osu! API v2: profiles, scores, beatmaps, rankings, teams, news, audio previews and seven languages.'**
-  String get aboutHistoryV3Body;
 
   /// About screen: aboutThanksTitle
   ///
@@ -897,7 +855,7 @@ abstract class AppLocalizations {
   /// Default-on image preference and media privacy disclosure in Settings.
   ///
   /// In en, this message translates to:
-  /// **'Images load automatically. Turn this off to save data. Image hosts receive your IP address; audio connects when you press Play. Media is cached on this device.'**
+  /// **'Covers and avatars load automatically. Turn off to save data.'**
   String get contentMediaConsent;
 
   /// External image preference: contentMediaAllow.
@@ -2523,7 +2481,7 @@ abstract class AppLocalizations {
   /// mania filter without restriction to a key count.
   ///
   /// In en, this message translates to:
-  /// **'All key counts'**
+  /// **'All'**
   String get rankingsAllKeys;
 
   /// Language selector label for German.

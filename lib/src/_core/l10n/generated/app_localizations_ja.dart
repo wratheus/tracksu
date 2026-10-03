@@ -17,12 +17,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String settingsCacheConfirm(String size) {
-    return '保存された画像と音声 $size MiB を削除しますか？メディアキャッシュは空（0 MiB）になります。ページのキャッシュも削除されます。アカウントと設定は保持されます。';
+    return '画像と音声 $size MB を削除しますか？アカウントと設定は残ります。';
   }
 
   @override
   String settingsCacheSize(String size) {
-    return '端末に $size MiB';
+    return '$size MB';
   }
 
   @override
@@ -141,11 +141,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsCache => 'キャッシュ';
 
   @override
-  String get settingsClearCache => 'キャッシュを削除';
+  String get settingsClearCache => '消去';
 
   @override
-  String get settingsCacheDescription =>
-      '画像と音声は端末に保存されます（最大128 MiB）。ページはセッション中メモリに保持されます。削除すると再生が停止しますが、アカウントと設定は保持されます。';
+  String get settingsCacheDescription => 'この端末に保存されたカバーと音声プレビュー。';
 
   @override
   String get settingsCacheCleared => 'キャッシュを削除しました';
@@ -157,13 +156,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get aboutTitle => 'Tracksuについて';
 
   @override
-  String get aboutTabApp => 'アプリ';
+  String get aboutTabApp => '概要';
+
+  @override
+  String get settingsClearCacheTitle => 'キャッシュを消去しますか？';
+
+  @override
+  String get aboutHistoryShort => 'Tracksuは2021年から存在し、何度も改良・作り直されてきました。';
 
   @override
   String get aboutTabAuthors => '作者';
-
-  @override
-  String get aboutTabHistory => '歴史';
 
   @override
   String get aboutTabLicenses => 'ライセンス';
@@ -173,32 +175,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get aboutRoleCoauthor => '共同作者';
-
-  @override
-  String get aboutAuthorsIntro =>
-      'Tracksuはosu!プレイヤーがosu!プレイヤーのために作っています。名前をタップするとosu!プロフィールを開きます。';
-
-  @override
-  String get aboutHistoryIntro => 'これはTracksuの3代目です。最初のバージョンは2021年に登場しました。';
-
-  @override
-  String get aboutHistoryV1Title => '初代';
-
-  @override
-  String get aboutHistoryV1Body => '最初のTracksu：osu!プレイヤーのプロフィールと統計をポケットに。';
-
-  @override
-  String get aboutHistoryV2Title => '2代目';
-
-  @override
-  String get aboutHistoryV2Body => '初代から生まれ、その経験が現在のアプリの土台になりました。';
-
-  @override
-  String get aboutHistoryV3Title => '3代目';
-
-  @override
-  String get aboutHistoryV3Body =>
-      'osu! API v2でゼロから作り直し：プロフィール、スコア、ビートマップ、ランキング、チーム、ニュース、音声プレビュー、7言語に対応。';
 
   @override
   String get aboutThanksTitle => '謝辞';
@@ -465,8 +441,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contentMediaSettings => '画像を読み込む';
 
   @override
-  String get contentMediaConsent =>
-      '画像は自動で読み込まれます。通信量を節約するにはオフにしてください。画像サーバーにIPアドレスが伝わり、音声は再生を押すと接続します。メディアは端末にキャッシュされます。';
+  String get contentMediaConsent => 'カバーとアバターは自動で読み込まれます。通信量を節約するにはオフにします。';
 
   @override
   String get contentMediaAllow => '画像を許可';
@@ -1421,7 +1396,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get rankingsWorldwide => '全世界';
 
   @override
-  String get rankingsAllKeys => 'すべてのキー数';
+  String get rankingsAllKeys => 'すべて';
 
   @override
   String get germanLanguage => 'ドイツ語';

@@ -17,12 +17,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String settingsCacheConfirm(String size) {
-    return '清除已保存的 $size MiB 图片和音频？媒体缓存将变为空（0 MiB）。页面缓存也会清除。账号和设置将保留。';
+    return '删除 $size MB 的图片和音频？账户和设置将保留。';
   }
 
   @override
   String settingsCacheSize(String size) {
-    return '设备上已存储 $size MiB';
+    return '$size MB';
   }
 
   @override
@@ -141,11 +141,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsCache => '缓存';
 
   @override
-  String get settingsClearCache => '清除缓存';
+  String get settingsClearCache => '清除';
 
   @override
-  String get settingsCacheDescription =>
-      '图片和音频保存在设备上（最多128 MiB）。页面数据在本次会话期间保留在内存中。清除会停止播放，但保留账号和设置。';
+  String get settingsCacheDescription => '保存在此设备上的封面和音频预览。';
 
   @override
   String get settingsCacheCleared => '缓存已清除';
@@ -157,13 +156,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get aboutTitle => '关于 Tracksu';
 
   @override
-  String get aboutTabApp => '应用';
+  String get aboutTabApp => '关于';
+
+  @override
+  String get settingsClearCacheTitle => '清除缓存？';
+
+  @override
+  String get aboutHistoryShort => 'Tracksu 自 2021 年起就已存在，并多次迭代与重建。';
 
   @override
   String get aboutTabAuthors => '作者';
-
-  @override
-  String get aboutTabHistory => '历史';
 
   @override
   String get aboutTabLicenses => '许可证';
@@ -173,32 +175,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get aboutRoleCoauthor => '合作者';
-
-  @override
-  String get aboutAuthorsIntro =>
-      'Tracksu 由 osu! 玩家为 osu! 玩家打造。点按名字可打开其 osu! 个人资料。';
-
-  @override
-  String get aboutHistoryIntro => '这是 Tracksu 的第三次迭代。第一个版本诞生于 2021 年。';
-
-  @override
-  String get aboutHistoryV1Title => '第一版';
-
-  @override
-  String get aboutHistoryV1Body => '最初的 Tracksu：把 osu! 玩家的个人资料和统计装进口袋。';
-
-  @override
-  String get aboutHistoryV2Title => '第二版';
-
-  @override
-  String get aboutHistoryV2Body => '由第一版发展而来，其中的经验塑造了现在的应用。';
-
-  @override
-  String get aboutHistoryV3Title => '第三版';
-
-  @override
-  String get aboutHistoryV3Body =>
-      '基于 osu! API v2 从零重写：个人资料、成绩、谱面、排行榜、战队、新闻、音频预览以及七种语言。';
 
   @override
   String get aboutThanksTitle => '致谢';
@@ -462,8 +438,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contentMediaSettings => '加载图片';
 
   @override
-  String get contentMediaConsent =>
-      '图片会自动加载。关闭此选项可节省流量。图片服务器会收到你的IP地址；音频在点击播放后才连接。媒体会缓存在设备上。';
+  String get contentMediaConsent => '封面和头像会自动加载。关闭可节省流量。';
 
   @override
   String get contentMediaAllow => '允许图片';
@@ -1407,7 +1382,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get rankingsWorldwide => '全球';
 
   @override
-  String get rankingsAllKeys => '所有键数';
+  String get rankingsAllKeys => '全部';
 
   @override
   String get germanLanguage => '德语';
