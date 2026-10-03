@@ -1,38 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/_shared/navigation/shell_reselect.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Stack and state lifetime belong to StatefulShellRoute, not tab taps.
-final class GuestShell extends StatelessWidget {
+final class GuestShell extends StatefulWidget {
   const GuestShell({required this.navigationShell, super.key});
 
   final StatefulNavigationShell navigationShell;
 
+  @override
+  State<GuestShell> createState() => _GuestShellState();
+}
+
+final class _GuestShellState extends State<GuestShell> {
+  final ShellReselectController _reselect = ShellReselectController();
+
+  StatefulNavigationShell get _shell => widget.navigationShell;
+
+  @override
+  void dispose() {
+    _reselect.dispose();
+    super.dispose();
+  }
+
   void _select(int index) {
     FocusManager.instance.primaryFocus?.unfocus();
-    navigationShell.goBranch(
-      index,
-      initialLocation: index == navigationShell.currentIndex,
-    );
+    final bool reselect = index == _shell.currentIndex;
+    _shell.goBranch(index, initialLocation: reselect);
+    if (!reselect) return;
+    // Details are already popped by the next frame, so the root is mounted.
+    // A tab switched in the meantime must not scroll a now inactive branch.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && widget.navigationShell.currentIndex == index) {
+        _reselect.request(ShellTab.values[index]);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) => PopScope<void>(
     // The delegate tries the active branch first. This scope belongs only
     // to the shell's root page: it does not veto a detail's native pop/swipe.
-    canPop: navigationShell.currentIndex == 0,
+    canPop: _shell.currentIndex == 0,
     onPopInvokedWithResult: (bool didPop, _) {
-      if (!didPop && navigationShell.currentIndex != 0) _select(0);
+      if (!didPop && _shell.currentIndex != 0) _select(0);
     },
     child: Scaffold(
       // The inner feature Scaffold handles keyboard insets once.
       resizeToAvoidBottomInset: false,
-      body: navigationShell,
+      body: ShellReselectScope(controller: _reselect, child: _shell),
       bottomNavigationBar: MediaQuery.viewInsetsOf(context).bottom > 0
           ? null
           : UiNavigationBar(
-              selectedIndex: navigationShell.currentIndex,
+              selectedIndex: _shell.currentIndex,
               onSelected: _select,
               items: <UiNavigationItem>[
                 UiNavigationItem(

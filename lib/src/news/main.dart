@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
+import 'package:tracksu/src/_shared/navigation/shell_reselect.dart';
 import 'package:tracksu/src/news/bloc/bloc.dart';
 import 'package:tracksu/src/news/data/remote_source.dart';
 import 'package:tracksu/src/news/data/repository_impl.dart';
@@ -21,6 +22,11 @@ final class NewsMain extends StatelessWidget {
         ),
       ),
     )..add(const NewsStarted()),
-    child: NewsScreen(article: params != null),
+    child: NewsScreen(
+      article: params != null,
+      reselect: params == null
+          ? ShellReselectScope.maybeOf(context, ShellTab.news)
+          : null,
+    ),
   );
 }
