@@ -37,6 +37,8 @@ final class UiFrame extends StatelessWidget {
               ? Padding(padding: padding, child: _child)
               : CustomScrollView(
                   controller: controller,
+                  // Short pages still accept pull-to-refresh.
+                  physics: const AlwaysScrollableScrollPhysics(),
                   slivers: <Widget>[
                     SliverPadding(
                       padding: padding,

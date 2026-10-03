@@ -118,6 +118,18 @@ final class UiAvatar extends StatelessWidget {
     : size = 56;
   const UiAvatar.large({required this.name, this.image, super.key}) : size = 88;
 
+  /// List rows: fits a title line plus a 44 px flag/action band exactly, so
+  /// the text column spans the avatar from its top to its bottom edge.
+  const UiAvatar.row({required this.name, this.image, super.key})
+    : size = rowSize;
+
+  /// Profile header: title, one secondary line and the 44 px flag band.
+  const UiAvatar.hero({required this.name, this.image, super.key})
+    : size = heroSize;
+
+  static const double rowSize = 72;
+  static const double heroSize = 96;
+
   /// Used for a grapheme-safe fallback, not automatically repeated by TalkBack.
   final String name;
   final ImageProvider? image;

@@ -27,8 +27,13 @@ final class UiGradeGauge extends StatelessWidget {
     required this.grade,
     required this.bands,
     required this.semanticLabel,
+    this.gradeColor,
     super.key,
   });
+
+  /// Caller-owned grade hue (e.g. the game's rank colour). It tints the
+  /// accuracy arc and the grade letter; null falls back to theme roles.
+  final Color? gradeColor;
   final double accuracy;
   final String accuracyLabel;
   final String grade;
@@ -64,8 +69,11 @@ final class UiGradeGauge extends StatelessWidget {
                                 : 0,
                             bands: bands,
                             track: colors.surfaceContainerHighest,
-                            accent: colors.secondary,
+                            accent: gradeColor == null
+                                ? colors.secondary
+                                : Color.lerp(gradeColor, Colors.white, .35)!,
                             endColor:
+                                gradeColor ??
                                 Theme.of(context)
                                     .extension<UiStatusColors>()
                                     ?.success ??
@@ -77,13 +85,14 @@ final class UiGradeGauge extends StatelessWidget {
                     Positioned.fill(
                       child: Padding(
                         padding: const EdgeInsets.all(64),
-                        child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              UiText.displaySmall(
-                                grade,
-                                color: colors.secondary,
+                              _GradeLetter(
+                                grade: grade,
+                                color: gradeColor ?? colors.secondary,
                               ),
                               UiText.titleMedium(accuracyLabel),
                             ],
@@ -133,6 +142,36 @@ final class UiGradeGauge extends StatelessWidget {
   }
 }
 
+/// The grade is the headline: heavy, large, in its own hue with a soft glow.
+final class _GradeLetter extends StatelessWidget {
+  const _GradeLetter({required this.grade, required this.color});
+  final String grade;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle? base = Theme.of(context).textTheme.displayLarge;
+    return Text(
+      grade,
+      maxLines: 1,
+      textHeightBehavior: const TextHeightBehavior(
+        applyHeightToFirstAscent: false,
+        applyHeightToLastDescent: false,
+      ),
+      style: base?.copyWith(
+        fontSize: 64,
+        height: 1,
+        fontWeight: FontWeight.w900,
+        letterSpacing: -1,
+        color: color,
+        shadows: <Shadow>[
+          Shadow(color: color.withValues(alpha: .55), blurRadius: 24),
+        ],
+      ),
+    );
+  }
+}
+
 final class _GaugePainter extends CustomPainter {
   const _GaugePainter({
     required this.accuracy,
@@ -161,7 +200,9 @@ final class _GaugePainter extends CustomPainter {
       end: Alignment.bottomCenter,
       colors: <Color>[accent, endColor],
     ).createShader(rect);
+    paint.strokeCap = StrokeCap.round;
     canvas.drawArc(rect, -math.pi / 2, accuracy * math.pi * 2, false, paint);
+    paint.strokeCap = StrokeCap.butt;
     paint
       ..shader = null
       ..strokeWidth = 3;
