@@ -24,10 +24,6 @@ final class RankingsSection extends StatelessWidget {
             spacing: UiSpace.md,
             children: <Widget>[
               const RankingsFilters(),
-              UiText.bodySmall(
-                context.t.rankingsPositionNotice,
-                secondary: true,
-              ),
             ],
           ),
         ),

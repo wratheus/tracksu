@@ -36,7 +36,9 @@ final class RankingsFilters extends StatelessWidget {
               segments: <UiSegment<bool>>[
                 UiSegment<bool>(
                   value: true,
-                  label: context.t.profilePpLabel,
+                  // Short labels so the segmented control can show them;
+                  // a long label hides every label in the row.
+                  label: 'PP',
                   icon: const Icon(Icons.bolt),
                 ),
                 UiSegment<bool>(

@@ -59,14 +59,35 @@ final class NewsScreen extends StatelessWidget {
           ),
         ),
       ],
+      bottom: UiAppBarProgressSlot(
+        child: BlocSelector<NewsBloc, NewsState, bool>(
+          selector: (NewsState state) =>
+              state is NewsContentState &&
+              state.operation == NewsOperation.refresh,
+          builder: (BuildContext context, bool busy) => UiAppBarProgress(
+            visible: busy,
+            semanticsLabel: context.t.newsLoading,
+          ),
+        ),
+      ),
     ),
     body: UiScrollToTop(
       tooltip: context.t.scrollToTop,
       scrollRequests: reselect,
       child: SafeArea(
-        child: CustomScrollView(
+        // Pull down to refresh the feed or the open article; progress is
+        // the line under the app bar.
+        child: RefreshIndicator(
+          onRefresh: () async {
+            final NewsBloc bloc = context.read<NewsBloc>();
+            if (bloc.state case NewsContentState(operation: null)) {
+              bloc.add(const NewsRefreshRequested());
+            }
+          },
+          child: CustomScrollView(
           // Desktop does not inherit the route controller implicitly.
           primary: true,
+          physics: const AlwaysScrollableScrollPhysics(),
           slivers: <Widget>[
             BlocBuilder<NewsBloc, NewsState>(
               builder: (BuildContext context, NewsState state) =>
@@ -83,12 +104,6 @@ final class NewsScreen extends StatelessWidget {
                     NewsContentState() => UiSliverReveal(
                       sliver: SliverMainAxisGroup(
                         slivers: <Widget>[
-                          if (state.operation == NewsOperation.refresh)
-                            SliverToBoxAdapter(
-                              child: LinearProgressIndicator(
-                                semanticsLabel: context.t.newsLoading,
-                              ),
-                            ),
                           if (state.failure case final NewsFailureKind failure
                               when state.failedOperation ==
                                   NewsOperation.refresh)
@@ -153,6 +168,7 @@ final class NewsScreen extends StatelessWidget {
             ),
             UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
           ],
+          ),
         ),
       ),
     ),
