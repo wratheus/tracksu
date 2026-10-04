@@ -46,7 +46,6 @@ final class TeamRankingsSection extends StatelessWidget {
                       TeamRankingCard(
                         key: ValueKey<int>(items[index].team.id),
                         entry: items[index],
-                        performance: state.performance,
                         onTap: () => DepsScope.of(
                           context,
                         ).appRouter.openTeam(context, items[index].team.id),
@@ -57,7 +56,7 @@ final class TeamRankingsSection extends StatelessWidget {
                   state.operation == null &&
                   state.failure == null)
                 UiSliverAutoLoad(
-                  pageKey: (state.ruleset, state.performance, state.nextPage),
+                  pageKey: (state.ruleset, state.nextPage),
                   label: context.t.rankingsLoading,
                   onLoad: () => context.read<TeamRankingsBloc>().add(
                     const TeamRankingsMoreRequested(),

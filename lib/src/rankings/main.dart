@@ -112,13 +112,10 @@ final class _RankingsBodyState extends State<_RankingsBody> {
     super.dispose();
   }
 
-  /// Teams follow the shared ruleset/sort filters; the bloc ignores a query
-  /// it already has, so this is safe on every type change.
+  /// Teams follow the shared ruleset (they have no sort); the bloc ignores
+  /// a query it already has, so this is safe on every type change.
   void _syncTeams(RankingsType type) => context.read<TeamRankingsBloc>().add(
-    TeamRankingsQueryChanged(
-      ruleset: type.ruleset,
-      performance: type.sort == 'performance',
-    ),
+    TeamRankingsQueryChanged(ruleset: type.ruleset),
   );
 
   void _select(_RankingsTab tab) {

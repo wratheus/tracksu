@@ -10,9 +10,11 @@ abstract interface class TeamRankingsRemoteSource {
 }
 
 /// `GET /rankings/{mode}/team` — accepted by osu-web `RankingController`
-/// (`TeamStatistics`, `sort` = performance | score, 50 per page, at most
-/// 10 000 results) but not described in the public API docs: treat the
-/// shape as an undocumented contract and fail loudly if it changes.
+/// (`TeamStatistics`, 50 per page, at most 10 000 results) but not described
+/// in the public API docs: treat the shape as an undocumented contract and
+/// fail loudly if it changes. Always ordered by performance: the sort is a
+/// path segment only on the website route (`rankings/{mode}/team/score`);
+/// the API route is `rankings/{mode}/{type}` and ignores `?sort=`.
 final class OsuTeamRankingsRemoteSource implements TeamRankingsRemoteSource {
   const OsuTeamRankingsRemoteSource({required RestClient restClient})
     : _client = restClient;
@@ -27,7 +29,6 @@ final class OsuTeamRankingsRemoteSource implements TeamRankingsRemoteSource {
       path: '/rankings/${query.ruleset.apiValue}/team',
       queryParameters: <String, Object?>{
         'cursor[page]': query.page,
-        'sort': query.performance ? 'performance' : 'score',
       },
       options: options,
     );

@@ -12,8 +12,8 @@ import 'package:tracksu_ui/tracksu_ui.dart';
 final class RankingsFilters extends StatelessWidget {
   const RankingsFilters({this.teams = false, super.key});
 
-  /// Team rankings take only ruleset and sort: osu-web applies country and
-  /// mania variant to the global (player) table only.
+  /// Team rankings take only the ruleset: osu-web applies country and mania
+  /// variant to the player table only, and the API orders teams by PP only.
   final bool teams;
 
   @override
@@ -35,28 +35,29 @@ final class RankingsFilters extends StatelessWidget {
                     ),
                   ),
             ),
-            UiSegmentedControl<bool>(
-              selected: type.sort == 'performance',
-              segments: <UiSegment<bool>>[
-                UiSegment<bool>(
-                  value: true,
-                  // Short labels so the segmented control can show them;
-                  // a long label hides every label in the row.
-                  label: 'PP',
-                  icon: const Icon(Icons.bolt),
-                ),
-                UiSegment<bool>(
-                  value: false,
-                  label: context.t.rankingsScore,
-                  icon: const Icon(Icons.leaderboard_outlined),
-                ),
-              ],
-              onChanged: (bool performance) => context.read<RankingsBloc>().add(
-                RankingsTypeSelected(
-                  RankingsType.select(type.ruleset, performance),
+            if (!teams)
+              UiSegmentedControl<bool>(
+                selected: type.sort == 'performance',
+                segments: <UiSegment<bool>>[
+                  UiSegment<bool>(
+                    value: true,
+                    // Short labels so the segmented control can show them;
+                    // a long label hides every label in the row.
+                    label: 'PP',
+                    icon: const Icon(Icons.bolt),
+                  ),
+                  UiSegment<bool>(
+                    value: false,
+                    label: context.t.rankingsScore,
+                    icon: const Icon(Icons.leaderboard_outlined),
+                  ),
+                ],
+                onChanged: (bool performance) => context.read<RankingsBloc>().add(
+                  RankingsTypeSelected(
+                    RankingsType.select(type.ruleset, performance),
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),

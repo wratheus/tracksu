@@ -43,11 +43,7 @@ final class _Source implements TeamRankingsRemoteSource {
 
 Future<TeamRankingsPage> _load(Map<String, dynamic> response, {int page = 1}) =>
     TeamRankingsRepositoryImpl(remoteSource: _Source(response)).load(
-      TeamRankingsQuery(
-        ruleset: ProfileRuleset.osu,
-        performance: true,
-        page: page,
-      ),
+      TeamRankingsQuery(ruleset: ProfileRuleset.osu, page: page),
     );
 
 void main() {
