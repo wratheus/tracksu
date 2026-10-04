@@ -1,0 +1,21 @@
+osu! mod icons
+
+Source: osu-resources, ppy and contributors
+https://github.com/ppy/osu-resources/tree/e4010bddabce61374aacfa676d0175d5788b14b4/osu.Game.Resources/Textures/Icons
+
+The 72 PNG files bundled in assets/icon_mods are byte-identical to the
+corresponding files at the source revision above: 70 glyphs from Icons/Mods
+(the "mod-" prefix is dropped from the file name) and the mod-icon and
+mod-icon-extender shapes from Icons/BeatmapDetails. Tracksu only tints them
+at runtime; the image files are not modified.
+
+That revision of osu-resources declares its content under the Creative Commons
+Attribution-NonCommercial 4.0 International license (CC-BY-NC 4.0).
+
+License terms and disclaimer of warranties:
+https://creativecommons.org/licenses/by-nc/4.0/legalcode
+https://github.com/ppy/osu-resources/blob/e4010bddabce61374aacfa676d0175d5788b14b4/LICENCE.md
+
+These assets are provided without warranties under that license. This notice
+does not grant commercial distribution rights, trademark rights, or endorsement
+by ppy. The license is separate from the MIT license for original Tracksu code.

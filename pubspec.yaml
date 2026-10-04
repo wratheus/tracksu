@@ -57,9 +57,11 @@ flutter:
     - assets/models/countries.json
     - assets/licenses/exo2.txt
     - assets/licenses/osu_legacy_flags.txt
+    - assets/licenses/osu_mod_icons.txt
     - assets/licenses/unicode_cldr.txt
     - assets/licenses/audio_decode_codecs.txt
     - assets/icon_game_mods/
+    - assets/icon_mods/
     - assets/icon_country_flags/
     - assets/utils/painted_logo.png
     - assets/utils/1024x500_banner.png

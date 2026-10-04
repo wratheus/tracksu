@@ -21,6 +21,12 @@ void registerAssetLicenses() {
   });
   LicenseRegistry.addLicense(() async* {
     final String text = await rootBundle.loadString(
+      'assets/licenses/osu_mod_icons.txt',
+    );
+    yield LicenseEntryWithLineBreaks(const <String>['osu! mod icons'], text);
+  });
+  LicenseRegistry.addLicense(() async* {
+    final String text = await rootBundle.loadString(
       'assets/licenses/audio_decode_codecs.txt',
     );
     yield LicenseEntryWithLineBreaks(const <String>[

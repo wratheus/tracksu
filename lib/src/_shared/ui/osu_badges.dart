@@ -6,6 +6,8 @@ import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
+export 'package:tracksu/src/_shared/ui/osu_mods.dart';
+
 /// Asset paths stay in the host. Unknown/missing codes have a visible fallback.
 final class OsuCountryFlag extends StatelessWidget {
   const OsuCountryFlag({required this.code, required this.label, super.key});
@@ -266,24 +268,6 @@ final class OsuGradeBadge extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Acronyms are API content, not translated UI. Unknown future mods remain visible.
-final class OsuMods extends StatelessWidget {
-  const OsuMods({required this.mods, required this.emptyLabel, super.key});
-  final List<String> mods;
-  final String emptyLabel;
-
-  @override
-  Widget build(BuildContext context) => Wrap(
-    spacing: UiSpace.xs,
-    runSpacing: UiSpace.xs,
-    children: mods.isEmpty
-        ? <Widget>[UiBadge.neutral(emptyLabel)]
-        : mods
-              .map((String mod) => UiBadge.neutral(mod))
-              .toList(growable: false),
-  );
 }
 
 /// osu!supporter tag as on osu.ppy.sh: a soft pink heart with a light top
