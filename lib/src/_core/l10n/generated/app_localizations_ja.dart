@@ -1455,4 +1455,153 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dailyFailed => '今日のマップを読み込めませんでした。';
+
+  @override
+  String get contentVideoPlay => '動画を再生';
+
+  @override
+  String get contentVideoPause => '一時停止';
+
+  @override
+  String get contentVideoFullscreen => '全画面';
+
+  @override
+  String get contentVideoExitFullscreen => '全画面を終了';
+
+  @override
+  String get contentVideoFailed => '動画を再生できませんでした。';
+
+  @override
+  String get contentEmbedYoutube => 'YouTube で見る';
+
+  @override
+  String contentEmbedOpen(String host) {
+    return '$host で開く';
+  }
+
+  @override
+  String get commentsTitle => 'コメント';
+
+  @override
+  String commentsTitleCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'コメント $countString 件',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsSortNew => '新着';
+
+  @override
+  String get commentsSortOld => '古い順';
+
+  @override
+  String get commentsSortTop => '人気';
+
+  @override
+  String get commentsLoading => 'コメントを読み込み中';
+
+  @override
+  String get commentsFailed => 'コメントを読み込めませんでした。';
+
+  @override
+  String get commentsEmpty => 'まだコメントはありません。';
+
+  @override
+  String get commentsDeleted => '削除されたコメント';
+
+  @override
+  String get commentsEdited => '編集済み';
+
+  @override
+  String get commentsPinned => '固定';
+
+  @override
+  String get commentsUnknownUser => '削除されたユーザー';
+
+  @override
+  String commentsVotes(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 票',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsReplies(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '返信 $countString 件',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsHideReplies => '返信を隠す';
+
+  @override
+  String get commentsMoreReplies => 'さらに返信を表示';
+
+  @override
+  String get commentsJustNow => 'たった今';
+
+  @override
+  String commentsMinutesAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 分前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsHoursAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 時間前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsDaysAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 日前',
+    );
+    return '$_temp0';
+  }
 }

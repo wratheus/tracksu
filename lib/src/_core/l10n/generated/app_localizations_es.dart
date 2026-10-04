@@ -1533,4 +1533,159 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dailyFailed => 'No se pudo cargar el mapa del día.';
+
+  @override
+  String get contentVideoPlay => 'Reproducir vídeo';
+
+  @override
+  String get contentVideoPause => 'Pausa';
+
+  @override
+  String get contentVideoFullscreen => 'Pantalla completa';
+
+  @override
+  String get contentVideoExitFullscreen => 'Salir de pantalla completa';
+
+  @override
+  String get contentVideoFailed => 'No se pudo reproducir el vídeo.';
+
+  @override
+  String get contentEmbedYoutube => 'Ver en YouTube';
+
+  @override
+  String contentEmbedOpen(String host) {
+    return 'Abrir en $host';
+  }
+
+  @override
+  String get commentsTitle => 'Comentarios';
+
+  @override
+  String commentsTitleCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString comentarios',
+      one: '$countString comentario',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsSortNew => 'Nuevos';
+
+  @override
+  String get commentsSortOld => 'Antiguos';
+
+  @override
+  String get commentsSortTop => 'Top';
+
+  @override
+  String get commentsLoading => 'Cargando comentarios';
+
+  @override
+  String get commentsFailed => 'No se pudieron cargar los comentarios.';
+
+  @override
+  String get commentsEmpty => 'Aún no hay comentarios.';
+
+  @override
+  String get commentsDeleted => 'Comentario eliminado';
+
+  @override
+  String get commentsEdited => 'editado';
+
+  @override
+  String get commentsPinned => 'Fijado';
+
+  @override
+  String get commentsUnknownUser => 'Usuario eliminado';
+
+  @override
+  String commentsVotes(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString votos',
+      one: '$countString voto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsReplies(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString respuestas',
+      one: '$countString respuesta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsHideReplies => 'Ocultar respuestas';
+
+  @override
+  String get commentsMoreReplies => 'Más respuestas';
+
+  @override
+  String get commentsJustNow => 'ahora mismo';
+
+  @override
+  String commentsMinutesAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'hace $countString min',
+      one: 'hace $countString min',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsHoursAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'hace $countString h',
+      one: 'hace $countString h',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsDaysAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'hace $countString días',
+      one: 'hace $countString día',
+    );
+    return '$_temp0';
+  }
 }

@@ -1524,4 +1524,171 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dailyFailed => 'Не удалось загрузить карту дня.';
+
+  @override
+  String get contentVideoPlay => 'Смотреть видео';
+
+  @override
+  String get contentVideoPause => 'Пауза';
+
+  @override
+  String get contentVideoFullscreen => 'Во весь экран';
+
+  @override
+  String get contentVideoExitFullscreen => 'Выйти из полноэкранного режима';
+
+  @override
+  String get contentVideoFailed => 'Не удалось воспроизвести видео.';
+
+  @override
+  String get contentEmbedYoutube => 'Смотреть на YouTube';
+
+  @override
+  String contentEmbedOpen(String host) {
+    return 'Открыть на $host';
+  }
+
+  @override
+  String get commentsTitle => 'Комментарии';
+
+  @override
+  String commentsTitleCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString комментария',
+      many: '$countString комментариев',
+      few: '$countString комментария',
+      one: '$countString комментарий',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsSortNew => 'Новые';
+
+  @override
+  String get commentsSortOld => 'Старые';
+
+  @override
+  String get commentsSortTop => 'Лучшие';
+
+  @override
+  String get commentsLoading => 'Загрузка комментариев';
+
+  @override
+  String get commentsFailed => 'Не удалось загрузить комментарии.';
+
+  @override
+  String get commentsEmpty => 'Комментариев пока нет.';
+
+  @override
+  String get commentsDeleted => 'Комментарий удалён';
+
+  @override
+  String get commentsEdited => 'изменён';
+
+  @override
+  String get commentsPinned => 'Закреплён';
+
+  @override
+  String get commentsUnknownUser => 'Удалённый пользователь';
+
+  @override
+  String commentsVotes(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString голоса',
+      many: '$countString голосов',
+      few: '$countString голоса',
+      one: '$countString голос',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsReplies(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString ответа',
+      many: '$countString ответов',
+      few: '$countString ответа',
+      one: '$countString ответ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsHideReplies => 'Скрыть ответы';
+
+  @override
+  String get commentsMoreReplies => 'Ещё ответы';
+
+  @override
+  String get commentsJustNow => 'только что';
+
+  @override
+  String commentsMinutesAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString мин назад',
+      many: '$countString мин назад',
+      few: '$countString мин назад',
+      one: '$countString мин назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsHoursAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString ч назад',
+      many: '$countString ч назад',
+      few: '$countString ч назад',
+      one: '$countString ч назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsDaysAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString дня назад',
+      many: '$countString дней назад',
+      few: '$countString дня назад',
+      one: '$countString день назад',
+    );
+    return '$_temp0';
+  }
 }

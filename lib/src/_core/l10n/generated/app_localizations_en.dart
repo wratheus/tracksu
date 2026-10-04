@@ -1509,4 +1509,159 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dailyFailed => 'Couldn\'t load the map of the day.';
+
+  @override
+  String get contentVideoPlay => 'Play video';
+
+  @override
+  String get contentVideoPause => 'Pause';
+
+  @override
+  String get contentVideoFullscreen => 'Full screen';
+
+  @override
+  String get contentVideoExitFullscreen => 'Exit full screen';
+
+  @override
+  String get contentVideoFailed => 'Couldn\'t play the video.';
+
+  @override
+  String get contentEmbedYoutube => 'Watch on YouTube';
+
+  @override
+  String contentEmbedOpen(String host) {
+    return 'Open on $host';
+  }
+
+  @override
+  String get commentsTitle => 'Comments';
+
+  @override
+  String commentsTitleCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString comments',
+      one: '$countString comment',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsSortNew => 'New';
+
+  @override
+  String get commentsSortOld => 'Old';
+
+  @override
+  String get commentsSortTop => 'Top';
+
+  @override
+  String get commentsLoading => 'Loading comments';
+
+  @override
+  String get commentsFailed => 'Couldn\'t load comments.';
+
+  @override
+  String get commentsEmpty => 'No comments yet.';
+
+  @override
+  String get commentsDeleted => 'Comment deleted';
+
+  @override
+  String get commentsEdited => 'edited';
+
+  @override
+  String get commentsPinned => 'Pinned';
+
+  @override
+  String get commentsUnknownUser => 'Deleted user';
+
+  @override
+  String commentsVotes(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString votes',
+      one: '$countString vote',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsReplies(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString replies',
+      one: '$countString reply',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsHideReplies => 'Hide replies';
+
+  @override
+  String get commentsMoreReplies => 'More replies';
+
+  @override
+  String get commentsJustNow => 'just now';
+
+  @override
+  String commentsMinutesAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString min ago',
+      one: '$countString min ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsHoursAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString h ago',
+      one: '$countString h ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsDaysAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString days ago',
+      one: '$countString day ago',
+    );
+    return '$_temp0';
+  }
 }

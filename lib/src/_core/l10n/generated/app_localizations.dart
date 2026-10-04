@@ -2573,6 +2573,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t load the map of the day.'**
   String get dailyFailed;
+
+  /// Rich content video: play button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Play video'**
+  String get contentVideoPlay;
+
+  /// Rich content video: pause button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get contentVideoPause;
+
+  /// Rich content video: enter full screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get contentVideoFullscreen;
+
+  /// Rich content video: leave full screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit full screen'**
+  String get contentVideoExitFullscreen;
+
+  /// Rich content video failed to load or play.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t play the video.'**
+  String get contentVideoFailed;
+
+  /// Card for an embedded YouTube video; opens YouTube.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch on YouTube'**
+  String get contentEmbedYoutube;
+
+  /// Card for another embedded player; host is a domain like player.twitch.tv.
+  ///
+  /// In en, this message translates to:
+  /// **'Open on {host}'**
+  String contentEmbedOpen(String host);
+
+  /// Comments section title and tab label.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get commentsTitle;
+
+  /// Comments section title with the total number of comments.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} comment} other{{count} comments}}'**
+  String commentsTitleCount(int count);
+
+  /// Comment sort: newest first. Keep very short (segmented control).
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get commentsSortNew;
+
+  /// Comment sort: oldest first. Keep very short (segmented control).
+  ///
+  /// In en, this message translates to:
+  /// **'Old'**
+  String get commentsSortOld;
+
+  /// Comment sort: most votes first. Keep very short (segmented control).
+  ///
+  /// In en, this message translates to:
+  /// **'Top'**
+  String get commentsSortTop;
+
+  /// Accessibility label while comments load.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading comments'**
+  String get commentsLoading;
+
+  /// Comments could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load comments.'**
+  String get commentsFailed;
+
+  /// No comments on this post or map.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet.'**
+  String get commentsEmpty;
+
+  /// Placeholder text of a deleted comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment deleted'**
+  String get commentsDeleted;
+
+  /// Marker after the time of an edited comment.
+  ///
+  /// In en, this message translates to:
+  /// **'edited'**
+  String get commentsEdited;
+
+  /// Tooltip of the pin icon on a pinned comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get commentsPinned;
+
+  /// Author name when the account no longer exists.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted user'**
+  String get commentsUnknownUser;
+
+  /// Accessibility label of a comment vote count.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} vote} other{{count} votes}}'**
+  String commentsVotes(int count);
+
+  /// Button that shows a comment's replies.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} reply} other{{count} replies}}'**
+  String commentsReplies(int count);
+
+  /// Button that hides a comment's replies.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide replies'**
+  String get commentsHideReplies;
+
+  /// Loads further replies of a comment.
+  ///
+  /// In en, this message translates to:
+  /// **'More replies'**
+  String get commentsMoreReplies;
+
+  /// Comment time under one minute.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get commentsJustNow;
+
+  /// Comment time in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} min ago} other{{count} min ago}}'**
+  String commentsMinutesAgo(int count);
+
+  /// Comment time in hours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} h ago} other{{count} h ago}}'**
+  String commentsHoursAgo(int count);
+
+  /// Comment time in days (under a week).
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} day ago} other{{count} days ago}}'**
+  String commentsDaysAgo(int count);
 }
 
 class _AppLocalizationsDelegate

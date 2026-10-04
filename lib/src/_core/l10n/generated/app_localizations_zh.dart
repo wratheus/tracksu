@@ -1441,4 +1441,153 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dailyFailed => '无法加载今日谱面。';
+
+  @override
+  String get contentVideoPlay => '播放视频';
+
+  @override
+  String get contentVideoPause => '暂停';
+
+  @override
+  String get contentVideoFullscreen => '全屏';
+
+  @override
+  String get contentVideoExitFullscreen => '退出全屏';
+
+  @override
+  String get contentVideoFailed => '无法播放视频。';
+
+  @override
+  String get contentEmbedYoutube => '在 YouTube 上观看';
+
+  @override
+  String contentEmbedOpen(String host) {
+    return '在 $host 打开';
+  }
+
+  @override
+  String get commentsTitle => '评论';
+
+  @override
+  String commentsTitleCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 条评论',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsSortNew => '最新';
+
+  @override
+  String get commentsSortOld => '最早';
+
+  @override
+  String get commentsSortTop => '热门';
+
+  @override
+  String get commentsLoading => '正在加载评论';
+
+  @override
+  String get commentsFailed => '无法加载评论。';
+
+  @override
+  String get commentsEmpty => '暂无评论。';
+
+  @override
+  String get commentsDeleted => '评论已删除';
+
+  @override
+  String get commentsEdited => '已编辑';
+
+  @override
+  String get commentsPinned => '置顶';
+
+  @override
+  String get commentsUnknownUser => '已删除的用户';
+
+  @override
+  String commentsVotes(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 票',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsReplies(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 条回复',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commentsHideReplies => '收起回复';
+
+  @override
+  String get commentsMoreReplies => '更多回复';
+
+  @override
+  String get commentsJustNow => '刚刚';
+
+  @override
+  String commentsMinutesAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 分钟前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsHoursAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 小时前',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String commentsDaysAgo(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 天前',
+    );
+    return '$_temp0';
+  }
 }
