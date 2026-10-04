@@ -2484,6 +2484,18 @@ abstract class AppLocalizations {
   /// **'All'**
   String get rankingsAllKeys;
 
+  /// Rankings tab: player table.
+  ///
+  /// In en, this message translates to:
+  /// **'Players'**
+  String get rankingsPlayers;
+
+  /// Rankings tab: osu! team table.
+  ///
+  /// In en, this message translates to:
+  /// **'Teams'**
+  String get rankingsTeams;
+
   /// Language selector label for German.
   ///
   /// In en, this message translates to:

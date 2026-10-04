@@ -398,6 +398,8 @@
   "rankingsCountryInvalid": "Введите код страны из двух латинских букв.",
   "rankingsWorldwide": "Весь мир",
   "rankingsAllKeys": "Все",
+  "rankingsPlayers": "Игроки",
+  "rankingsTeams": "Команды",
   "germanLanguage": "Немецкий",
   "frenchLanguage": "Французский",
   "spanishLanguage": "Испанский",

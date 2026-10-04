@@ -1469,6 +1469,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get rankingsAllKeys => 'Toutes';
 
   @override
+  String get rankingsPlayers => 'Joueurs';
+
+  @override
+  String get rankingsTeams => 'Équipes';
+
+  @override
   String get germanLanguage => 'Allemand';
 
   @override

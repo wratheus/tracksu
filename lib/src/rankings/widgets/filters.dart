@@ -10,7 +10,11 @@ import 'package:tracksu/src/rankings/widgets/country_picker.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class RankingsFilters extends StatelessWidget {
-  const RankingsFilters({super.key});
+  const RankingsFilters({this.teams = false, super.key});
+
+  /// Team rankings take only ruleset and sort: osu-web applies country and
+  /// mania variant to the global (player) table only.
+  final bool teams;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -56,7 +60,8 @@ final class RankingsFilters extends StatelessWidget {
           ],
         ),
       ),
-      const _CountryControl(),
+      if (!teams) const _CountryControl(),
+      if (!teams)
       BlocSelector<RankingsBloc, RankingsState, (bool, ManiaVariant)>(
         selector: (RankingsState state) =>
             (state.type.ruleset == ProfileRuleset.mania, state.variant),

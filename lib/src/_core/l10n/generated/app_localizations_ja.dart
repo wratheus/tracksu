@@ -1399,6 +1399,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get rankingsAllKeys => 'すべて';
 
   @override
+  String get rankingsPlayers => 'プレイヤー';
+
+  @override
+  String get rankingsTeams => 'チーム';
+
+  @override
   String get germanLanguage => 'ドイツ語';
 
   @override

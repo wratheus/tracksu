@@ -11,7 +11,10 @@ import 'package:tracksu/src/rankings/widgets/filters.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class RankingsSection extends StatelessWidget {
-  const RankingsSection({super.key});
+  const RankingsSection({this.leading, super.key});
+
+  /// Shown above the filters, e.g. the players/teams switch.
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) => SliverMainAxisGroup(
@@ -20,11 +23,9 @@ final class RankingsSection extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(UiSpace.lg),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: UiSpace.md,
-            children: <Widget>[
-              const RankingsFilters(),
-            ],
+            children: <Widget>[?leading, const RankingsFilters()],
           ),
         ),
       ),

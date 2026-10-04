@@ -1385,6 +1385,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get rankingsAllKeys => '全部';
 
   @override
+  String get rankingsPlayers => '玩家';
+
+  @override
+  String get rankingsTeams => '战队';
+
+  @override
   String get germanLanguage => '德语';
 
   @override

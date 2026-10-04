@@ -398,6 +398,8 @@
   "rankingsCountryInvalid": "请输入两个字母的国家代码。",
   "rankingsWorldwide": "全球",
   "rankingsAllKeys": "全部",
+  "rankingsPlayers": "玩家",
+  "rankingsTeams": "战队",
   "germanLanguage": "德语",
   "frenchLanguage": "法语",
   "spanishLanguage": "西班牙语",

@@ -1256,6 +1256,10 @@
   "@rankingsAllKeys": {
     "description": "mania filter without restriction to a key count."
   },
+  "rankingsPlayers": "Players",
+  "@rankingsPlayers": {"description":"Rankings tab: player table."},
+  "rankingsTeams": "Teams",
+  "@rankingsTeams": {"description":"Rankings tab: osu! team table."},
   "germanLanguage": "German",
   "@germanLanguage": {
     "description": "Language selector label for German."

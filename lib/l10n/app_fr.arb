@@ -398,6 +398,8 @@
   "rankingsCountryInvalid": "Saisissez un code de pays à deux lettres.",
   "rankingsWorldwide": "Monde entier",
   "rankingsAllKeys": "Toutes",
+  "rankingsPlayers": "Joueurs",
+  "rankingsTeams": "Équipes",
   "germanLanguage": "Allemand",
   "frenchLanguage": "Français",
   "spanishLanguage": "Espagnol",

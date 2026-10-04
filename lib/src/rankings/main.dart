@@ -13,6 +13,11 @@ import 'package:tracksu/src/rankings/data/rankings_repository_impl.dart';
 import 'package:tracksu/src/rankings/data/countries_local_source.dart';
 import 'package:tracksu/src/rankings/data/countries_repository_impl.dart';
 import 'package:tracksu/src/rankings/domain/countries.dart';
+import 'package:tracksu/src/rankings/teams/bloc/bloc.dart';
+import 'package:tracksu/src/rankings/teams/data/remote_source.dart';
+import 'package:tracksu/src/rankings/teams/data/repository_impl.dart';
+import 'package:tracksu/src/rankings/teams/widgets/team_section.dart';
+import 'package:tracksu/src/rankings/widgets/filters.dart';
 import 'package:tracksu/src/rankings/widgets/rankings_section.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -26,7 +31,16 @@ final class RankingsMain extends StatelessWidget {
         create: (_) => RankingCountriesRepositoryImpl(
           source: const AssetRankingCountriesLocalSource(),
         ),
-        child: BlocProvider<RankingsBloc>(
+        child: BlocProvider<TeamRankingsBloc>(
+              create: (_) => TeamRankingsBloc(
+                cache: DepsScope.of(context).pageCache,
+                repository: TeamRankingsRepositoryImpl(
+                  remoteSource: OsuTeamRankingsRemoteSource(
+                    restClient: DepsScope.of(context).publicRestClient,
+                  ),
+                ),
+              ),
+          child: BlocProvider<RankingsBloc>(
           create: (_) => RankingsBloc(
             cache: DepsScope.of(context).pageCache,
             repository: RankingsRepositoryImpl(
@@ -59,16 +73,23 @@ final class RankingsMain extends StatelessWidget {
                   selector: (RankingsState state) =>
                       state is RankingsLoadedState &&
                       state.operation == RankingsOperation.refresh,
-                  builder: (BuildContext context, bool busy) =>
-                      UiAppBarProgress(
-                        visible: busy,
-                        semanticsLabel: context.t.rankingsLoading,
+                  builder: (BuildContext context, bool players) =>
+                      BlocSelector<TeamRankingsBloc, TeamRankingsState, bool>(
+                        selector: (TeamRankingsState state) =>
+                            state.items != null &&
+                            state.operation == TeamRankingsOperation.refresh,
+                        builder: (BuildContext context, bool teams) =>
+                            UiAppBarProgress(
+                              visible: players || teams,
+                              semanticsLabel: context.t.rankingsLoading,
+                            ),
                       ),
                 ),
               ),
             ),
             body: const SafeArea(child: _RankingsBody()),
           ),
+        ),
         ),
       );
 }
@@ -79,48 +100,108 @@ final class _RankingsBody extends StatefulWidget {
   State<_RankingsBody> createState() => _RankingsBodyState();
 }
 
+enum _RankingsTab { players, teams }
+
 final class _RankingsBodyState extends State<_RankingsBody> {
   final ScrollController _scroll = ScrollController();
+  _RankingsTab _tab = _RankingsTab.players;
+
   @override
   void dispose() {
     _scroll.dispose();
     super.dispose();
   }
 
+  /// Teams follow the shared ruleset/sort filters; the bloc ignores a query
+  /// it already has, so this is safe on every type change.
+  void _syncTeams(RankingsType type) => context.read<TeamRankingsBloc>().add(
+    TeamRankingsQueryChanged(
+      ruleset: type.ruleset,
+      performance: type.sort == 'performance',
+    ),
+  );
+
+  void _select(_RankingsTab tab) {
+    if (tab == _tab) return;
+    setState(() => _tab = tab);
+    if (tab == _RankingsTab.teams) {
+      _syncTeams(context.read<RankingsBloc>().state.type);
+    }
+    if (_scroll.hasClients) _scroll.jumpTo(0);
+  }
+
   @override
-  Widget build(BuildContext context) =>
-      BlocListener<RankingsBloc, RankingsState>(
-        listenWhen: (RankingsState before, RankingsState after) =>
-            (before.type, before.country?.value, before.variant) !=
-            (after.type, after.country?.value, after.variant),
-        listener: (_, _) {
-          if (_scroll.hasClients) _scroll.jumpTo(0);
-        },
-        child: UiScrollToTop(
-          tooltip: context.t.scrollToTop,
-          controller: _scroll,
-          scrollRequests: ShellReselectScope.maybeOf(
-            context,
-            ShellTab.rankings,
-          ),
-          // Pull down to refresh; the spinner retracts at once and progress
-          // continues on the app-bar line instead of a button and a loader.
-          child: RefreshIndicator(
-            onRefresh: () async {
-              final RankingsBloc bloc = context.read<RankingsBloc>();
-              if (bloc.state is RankingsLoadedState) {
-                bloc.add(const RankingsRefreshRequested());
-              }
-            },
-            child: CustomScrollView(
-              controller: _scroll,
-              physics: const AlwaysScrollableScrollPhysics(),
-              slivers: <Widget>[
-                const RankingsSection(),
-                UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
-              ],
-            ),
+  Widget build(BuildContext context) {
+    final Widget tabs = UiSegmentedControl<_RankingsTab>(
+      selected: _tab,
+      segments: <UiSegment<_RankingsTab>>[
+        UiSegment<_RankingsTab>(
+          value: _RankingsTab.players,
+          label: context.t.rankingsPlayers,
+          icon: const Icon(Icons.person_outline_rounded),
+        ),
+        UiSegment<_RankingsTab>(
+          value: _RankingsTab.teams,
+          label: context.t.rankingsTeams,
+          icon: const Icon(Icons.groups_outlined),
+        ),
+      ],
+      onChanged: _select,
+    );
+    final bool teams = _tab == _RankingsTab.teams;
+    return BlocListener<RankingsBloc, RankingsState>(
+      listenWhen: (RankingsState before, RankingsState after) =>
+          (before.type, before.country?.value, before.variant) !=
+          (after.type, after.country?.value, after.variant),
+      listener: (_, RankingsState state) {
+        if (_scroll.hasClients) _scroll.jumpTo(0);
+        if (_tab == _RankingsTab.teams) _syncTeams(state.type);
+      },
+      child: UiScrollToTop(
+        tooltip: context.t.scrollToTop,
+        controller: _scroll,
+        scrollRequests: ShellReselectScope.maybeOf(context, ShellTab.rankings),
+        // Pull down to refresh; the spinner retracts at once and progress
+        // continues on the app-bar line instead of a button and a loader.
+        child: RefreshIndicator(
+          onRefresh: () async {
+            if (teams) {
+              context.read<TeamRankingsBloc>().add(
+                const TeamRankingsRefreshRequested(),
+              );
+              return;
+            }
+            final RankingsBloc bloc = context.read<RankingsBloc>();
+            if (bloc.state is RankingsLoadedState) {
+              bloc.add(const RankingsRefreshRequested());
+            }
+          },
+          child: CustomScrollView(
+            controller: _scroll,
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: <Widget>[
+              if (teams) ...<Widget>[
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(UiSpace.lg),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      spacing: UiSpace.md,
+                      children: <Widget>[
+                        tabs,
+                        const RankingsFilters(teams: true),
+                      ],
+                    ),
+                  ),
+                ),
+                const TeamRankingsSection(),
+              ] else
+                RankingsSection(leading: tabs),
+              UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }

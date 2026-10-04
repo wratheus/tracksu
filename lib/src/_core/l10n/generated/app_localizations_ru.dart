@@ -1465,6 +1465,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get rankingsAllKeys => 'Все';
 
   @override
+  String get rankingsPlayers => 'Игроки';
+
+  @override
+  String get rankingsTeams => 'Команды';
+
+  @override
   String get germanLanguage => 'Немецкий';
 
   @override
