@@ -39,7 +39,6 @@ final class TeamRankingCard extends StatelessWidget {
             decimalDigits: 0,
           ).format(entry.performance)
         : score.compact;
-    final String unit = performance ? 'PP' : context.t.profileRankedScoreLabel;
     final Widget card = UiSurface.card(
         onTap: onTap,
         padding: const EdgeInsets.all(UiSpace.md),
@@ -71,12 +70,14 @@ final class TeamRankingCard extends StatelessWidget {
                 TextSpan(
                   children: <InlineSpan>[
                     TextSpan(text: value),
-                    TextSpan(
-                      text: ' $unit',
-                      style: theme.textTheme.labelMedium?.copyWith(
-                        color: colors.primary,
+                    // Only PP carries a unit; a score needs no caption.
+                    if (performance)
+                      TextSpan(
+                        text: ' PP',
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          color: colors.primary,
+                        ),
                       ),
-                    ),
                   ],
                 ),
                 maxLines: 1,
@@ -107,6 +108,9 @@ final class TeamRankingCard extends StatelessWidget {
       );
     return performance
         ? card
-        : Tooltip(message: '$unit: ${score.exact}', child: card);
+        : Tooltip(
+            message: '${context.t.profileRankedScoreLabel}: ${score.exact}',
+            child: card,
+          );
   }
 }

@@ -259,7 +259,7 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
                           position:
                               '#${NumberFormat.decimalPattern(context.t.localeName).format(index + 1)}',
                           value: score.compact,
-                          valueLabel: context.t.profileRankedScoreLabel,
+                          valueLabel: '',
                           onTap: open,
                         ),
                       ),

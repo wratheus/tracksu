@@ -21,6 +21,8 @@ final class OsuRankingRow extends StatelessWidget {
   final String username;
   final String position;
   final String value;
+
+  /// Unit after the value ("PP"); empty shows the value alone.
   final String valueLabel;
   final String country;
   final ImageProvider? avatar;
@@ -86,7 +88,7 @@ final class OsuRankingRow extends StatelessWidget {
                 ],
               ),
               metric,
-              label,
+              if (valueLabel.isNotEmpty) label,
             ],
           );
         }
@@ -112,11 +114,12 @@ final class OsuRankingRow extends StatelessWidget {
                   TextSpan(
                     children: <InlineSpan>[
                       TextSpan(text: value),
-                      TextSpan(
-                        text: ' $valueLabel',
-                        style: Theme.of(context).textTheme.labelMedium
-                            ?.copyWith(color: colors.primary),
-                      ),
+                      if (valueLabel.isNotEmpty)
+                        TextSpan(
+                          text: ' $valueLabel',
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(color: colors.primary),
+                        ),
                     ],
                   ),
                   maxLines: 1,

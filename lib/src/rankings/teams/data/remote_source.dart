@@ -13,6 +13,10 @@ abstract interface class TeamRankingsRemoteSource {
 /// (`TeamStatistics`, `sort` = performance | score, 50 per page, at most
 /// 10 000 results) but not described in the public API docs: treat the
 /// shape as an undocumented contract and fail loudly if it changes.
+/// Known limitation: the API route `rankings/{mode}/{type}` has no sort
+/// segment and ignores `?sort=`, so rows always come in PP order; the
+/// Score view shows ranked score values in that order. `sort` is still
+/// sent so a future API sort works without an app change.
 final class OsuTeamRankingsRemoteSource implements TeamRankingsRemoteSource {
   const OsuTeamRankingsRemoteSource({required RestClient restClient})
     : _client = restClient;

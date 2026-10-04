@@ -58,9 +58,8 @@ final class _RankingEntryCardState extends State<RankingEntryCard> {
                 decimalDigits: 0,
               ).format(widget.entry.pp)
             : score.compact,
-        valueLabel: widget.type.sort == 'performance'
-            ? 'PP'
-            : context.t.profileRankedScoreLabel,
+        // Only PP carries a unit; a score needs no caption.
+        valueLabel: widget.type.sort == 'performance' ? 'PP' : '',
         position:
             '#${NumberFormat.decimalPattern(context.t.localeName).format(widget.entry.position)}',
         onTap: _opening ? null : _open,
