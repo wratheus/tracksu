@@ -8,11 +8,11 @@
   ppy/osu-resources, tinted by mod type as in osu!lazer) and the acronym;
   the full name is in the tooltip. Unknown mods keep a neutral icon.
 
-### Team rankings fix
+### Ranking rows
 
-- Teams are ordered by PP only: the osu! API has no score sort for teams,
-  so the PP/Score switch is hidden there and rows no longer show the
-  "Ranked score" caption.
+- Ranked score values no longer carry a "Ranked score" caption (players,
+  teams, Spotlights); PP keeps its unit. Teams keep the PP/Score switch,
+  but the osu! API orders them by PP in both views.
 
 ### Map of the day (P34)
 
@@ -25,7 +25,8 @@
 
 - Rankings have a Players / Teams switch. Teams use the shared ruleset,
   load 50 per page with auto-load and pull-to-refresh, and open the team
-  page. Rows show the team flag, rank, name, PP, tag and member count. Backed by osu-web's undocumented `rankings/{mode}/team`.
+  page. Rows show the team flag, rank, name, PP or score, tag and member
+  count. Backed by osu-web's undocumented `rankings/{mode}/team`.
 
 ### iOS app icon
 

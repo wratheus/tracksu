@@ -50,7 +50,7 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Compact ranking rows show the position, avatar/country/team and a separate
   right-aligned PP or ranked-score value. Team flags open a native team page.
 - The Rankings tab switches between Players and Teams. Teams follow the
-  selected ruleset and are ordered by PP (the API has no other team sort).
+  selected ruleset and PP/Score view; the osu! API orders teams by PP only.
 - Mods appear as small chips with the official osu! icon and acronym.
 - Team pages show the public API's identity/cover, recruitment, description,
   leader/members and per-mode statistics, with member-profile navigation.
