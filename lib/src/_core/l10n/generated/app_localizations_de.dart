@@ -1501,4 +1501,39 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get scrollToTop => 'Nach oben';
+
+  @override
+  String get dailyTitle => 'Map des Tages';
+
+  @override
+  String dailyRemaining(String time) {
+    return 'Noch $time';
+  }
+
+  @override
+  String dailyParticipants(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString Spieler',
+      one: '$countString Spieler',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dailyNone => 'Gerade gibt es keine Daily Challenge.';
+
+  @override
+  String get dailyLeaderboard => 'Rangliste des Tages';
+
+  @override
+  String get dailyOpenMap => 'Map öffnen';
+
+  @override
+  String get dailyFailed => 'Map des Tages konnte nicht geladen werden.';
 }

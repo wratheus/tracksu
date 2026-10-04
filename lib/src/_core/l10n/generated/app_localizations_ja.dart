@@ -1421,4 +1421,38 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get scrollToTop => '先頭へ戻る';
+
+  @override
+  String get dailyTitle => '今日のマップ';
+
+  @override
+  String dailyRemaining(String time) {
+    return '残り $time';
+  }
+
+  @override
+  String dailyParticipants(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 人',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dailyNone => '現在デイリーチャレンジはありません。';
+
+  @override
+  String get dailyLeaderboard => '今日のランキング';
+
+  @override
+  String get dailyOpenMap => 'マップを開く';
+
+  @override
+  String get dailyFailed => '今日のマップを読み込めませんでした。';
 }

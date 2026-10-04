@@ -1407,4 +1407,38 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get scrollToTop => '回到顶部';
+
+  @override
+  String get dailyTitle => '今日谱面';
+
+  @override
+  String dailyRemaining(String time) {
+    return '剩余 $time';
+  }
+
+  @override
+  String dailyParticipants(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 名玩家',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dailyNone => '目前没有每日挑战。';
+
+  @override
+  String get dailyLeaderboard => '今日排行';
+
+  @override
+  String get dailyOpenMap => '打开谱面';
+
+  @override
+  String get dailyFailed => '无法加载今日谱面。';
 }

@@ -2531,6 +2531,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to top'**
   String get scrollToTop;
+
+  /// Home card label and page title for the osu! daily challenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Map of the day'**
+  String get dailyTitle;
+
+  /// Time until the daily challenge ends; time is a localized hours/minutes duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} left'**
+  String dailyRemaining(String time);
+
+  /// How many players took part in today's daily challenge.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} player} other{{count} players}}'**
+  String dailyParticipants(int count);
+
+  /// Daily challenge page when osu! has no active challenge.
+  ///
+  /// In en, this message translates to:
+  /// **'No daily challenge right now.'**
+  String get dailyNone;
+
+  /// Heading above the daily challenge leaderboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s leaderboard'**
+  String get dailyLeaderboard;
+
+  /// Button that opens the daily challenge beatmap page.
+  ///
+  /// In en, this message translates to:
+  /// **'Open map'**
+  String get dailyOpenMap;
+
+  /// Daily challenge could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the map of the day.'**
+  String get dailyFailed;
 }
 
 class _AppLocalizationsDelegate

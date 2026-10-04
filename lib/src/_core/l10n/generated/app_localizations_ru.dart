@@ -1487,4 +1487,41 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get scrollToTop => 'Наверх';
+
+  @override
+  String get dailyTitle => 'Карта дня';
+
+  @override
+  String dailyRemaining(String time) {
+    return 'Осталось $time';
+  }
+
+  @override
+  String dailyParticipants(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString игрока',
+      many: '$countString игроков',
+      few: '$countString игрока',
+      one: '$countString игрок',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dailyNone => 'Сейчас карты дня нет.';
+
+  @override
+  String get dailyLeaderboard => 'Рейтинг дня';
+
+  @override
+  String get dailyOpenMap => 'Открыть карту';
+
+  @override
+  String get dailyFailed => 'Не удалось загрузить карту дня.';
 }
