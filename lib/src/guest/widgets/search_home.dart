@@ -98,7 +98,7 @@ final class _SearchHomeState extends State<SearchHome> {
 
   @override
   Widget build(BuildContext context) => BlocProvider<DailyChallengeBloc>(
-    create: createDailyChallengeBloc,
+    create: (_) => createDailyChallengeBloc(DepsScope.of(context)),
     child: Builder(builder: _buildPage),
   );
 

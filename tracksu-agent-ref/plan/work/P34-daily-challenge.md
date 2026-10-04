@@ -57,6 +57,16 @@ https://osu.ppy.sh/docs/index.html (rooms index).
   использования.
 - Allowlist публичного клиента: `^/api/v2/rooms(/[1-9][0-9]*/leaderboard)?$`.
 
+## Исправление 2026-10-04: красный экран на главной
+
+`BlocProvider(create: createDailyChallengeBloc)` передавал в фабрику
+контекст `create`, а она вызывала `DepsScope.of(context)` —
+`dependOnInheritedWidgetOfExactType` в `create` запрещён (assert provider:
+«Tried to listen to an InheritedWidget in a life-cycle that will never be
+called again»), блок не создавался и главная падала. Теперь фабрика
+принимает `DepsContainer`, а `DepsScope.of` вызывается с контекстом
+`build`, как в остальных `*Main`.
+
 ## Тесты
 
 `test/src/daily/repository_test.dart`: разбор комнаты (режим, моды, даты,
