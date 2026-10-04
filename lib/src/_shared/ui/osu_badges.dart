@@ -370,3 +370,44 @@ final class OsuPresence extends StatelessWidget {
     );
   }
 }
+
+/// Star rating pill in the osu-web difficulty colour.
+final class OsuStarBadge extends StatelessWidget {
+  const OsuStarBadge({required this.stars, required this.label, super.key});
+  final double stars;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final Color foreground = OsuColors.onStars(stars);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: OsuColors.forStars(stars),
+        borderRadius: BorderRadius.circular(UiShape.control),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: UiSpace.sm,
+          vertical: UiSpace.xs,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 2,
+          children: <Widget>[
+            Icon(Icons.star_rounded, size: 16, color: foreground),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: foreground,
+                fontWeight: FontWeight.w700,
+                fontFeatures: const <FontFeature>[
+                  FontFeature.tabularFigures(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -322,7 +322,7 @@ final class _DifficultyPicker extends StatelessWidget {
             Row(
               spacing: UiSpace.sm,
               children: <Widget>[
-                _StarBadge(
+                OsuStarBadge(
                   stars: difficulty.stars,
                   label: stars.format(difficulty.stars),
                 ),
@@ -401,47 +401,6 @@ final class _DifficultyPip extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Star rating pill in the osu-web difficulty colour.
-final class _StarBadge extends StatelessWidget {
-  const _StarBadge({required this.stars, required this.label});
-  final double stars;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final Color foreground = OsuColors.onStars(stars);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: OsuColors.forStars(stars),
-        borderRadius: BorderRadius.circular(UiShape.control),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: UiSpace.sm,
-          vertical: UiSpace.xs,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 2,
-          children: <Widget>[
-            Icon(Icons.star_rounded, size: 16, color: foreground),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: foreground,
-                fontWeight: FontWeight.w700,
-                fontFeatures: const <FontFeature>[
-                  FontFeature.tabularFigures(),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
     );
