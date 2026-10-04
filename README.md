@@ -148,6 +148,13 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Router restoration covers destinations and identifiers, not the entire
   network cache or search/filter state after process death.
 
+### News and comments
+
+- Articles play osu!-hosted videos and featured artist tracks inline;
+  YouTube and other embeds open outside the app.
+- News posts and beatmaps show comments with sorting, replies, votes and
+  endless scroll.
+
 ### Map of the day
 
 - Home shows osu!'s current daily challenge: the map, time left, ruleset,

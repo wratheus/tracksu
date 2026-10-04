@@ -162,6 +162,8 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Сейчас · [P32](work/P32-spotlights-seasons-grid-player.md) | Сетка аватар/текст, плеер, фильтры, цвета osu!, supporter; Spotlights — архив внизу главной | awaiting_manual_check |
 | Готово · [P33](work/P33-team-rankings.md) | Рейтинг команд: «Игроки / Команды» во вкладке «Рейтинги»; контракт `rankings/{mode}/team` (недокументирован) | awaiting_manual_check |
 | Готово · [P34](work/P34-daily-challenge.md) | «Карта дня» на главной и страница с рейтингом дня; `rooms?category=daily_challenge` с `x-api-version: 20240529`, лидерборд комнаты (недокументирован) | awaiting_manual_check |
+| Сейчас · [P38](work/P38-news-media.md) | Видео (video_player, ADR-007), YouTube-карточки, статьи с >32 треками снова открываются | awaiting_manual_check |
+| Сейчас · [P39](work/P39-comments.md) | Комментарии у новостей и карт: сортировка, бесконечная прокрутка, ответы, голоса, профиль | awaiting_manual_check |
 | Сейчас · [P37](work/P37-ios-oauth-callback.md) | iOS не возвращается после входа: нет Associated Domains, Team и AASA; варианты A (Universal Links) / B (своя схема) | ждёт решения |
 | Сейчас · [P35](work/P35-mod-icons.md) | Официальные иконки модов (osu-resources, CC BY-NC) + акроним во всём приложении | awaiting_manual_check |
 | Сейчас · [P36](work/P36-settings-and-about.md) | «Настройки» — сгруппированный список; «О приложении» — вкладки, авторы, история, лицензии | awaiting_manual_check (уточнить год/текст 2-й версии) |

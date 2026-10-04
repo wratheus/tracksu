@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+### Comments (P39)
+
+- News posts and beatmaps show comments: New / Old / Top sort, pinned
+  first, endless scroll, replies on demand, votes, relative time; avatars,
+  names and profile links open the profile. Beatmaps switch between
+  Results and Comments at the bottom.
+
+### Videos and embeds in news (P38)
+
+- osu!-hosted videos play inline (tap to load, controls, full screen).
+- YouTube embeds show a preview card that opens YouTube; other players
+  open their page.
+- Posts with many track previews (over 32) open again.
+
 ### Mod icons (P35)
 
 - Mods everywhere are small chips with the official osu! icon (from
