@@ -4,6 +4,9 @@ import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/news/domain/news.dart';
+import 'package:tracksu/src/comments/domain/comment.dart';
+import 'package:tracksu/src/comments/main.dart';
+import 'package:tracksu/src/comments/widgets/comments_section.dart';
 import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
@@ -108,6 +111,13 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
                 document: widget.article.document!,
                 onOpenLink: _open,
               ),
+      ),
+      CommentsScope(
+        target: CommentTarget(
+          CommentableType.newsPost,
+          widget.article.post.id,
+        ),
+        child: const CommentsSection(),
       ),
     ],
   );

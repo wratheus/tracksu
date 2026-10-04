@@ -17,6 +17,9 @@ import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/beatmap/leaderboard/domain/repository.dart';
 import 'package:tracksu/src/beatmap/leaderboard/main.dart';
 import 'package:tracksu/src/beatmap/widgets/failure.dart';
+import 'package:tracksu/src/comments/domain/comment.dart';
+import 'package:tracksu/src/comments/main.dart';
+import 'package:tracksu/src/comments/widgets/comments_section.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -166,13 +169,18 @@ final class BeatmapScreen extends StatelessWidget {
                               title: context.t.beatmapDescription,
                             ),
                           ),
-                        if (state.selectedId case final int id)
-                          _LeaderboardForSelection(
-                            key: ValueKey<int>(id),
-                            params: params,
-                            state: state,
-                            id: id,
-                          ),
+                        _ResultsAndComments(
+                          setId: state.details.id,
+                          leaderboard: switch (state.selectedId) {
+                            final int id => _LeaderboardForSelection(
+                              key: ValueKey<int>(id),
+                              params: params,
+                              state: state,
+                              id: id,
+                            ),
+                            null => null,
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -435,4 +443,63 @@ final class _LeaderboardForSelection extends StatelessWidget {
       query: LeaderboardQuery(beatmapId: id, ruleset: ruleset),
     );
   }
+}
+
+enum _LowerTab { results, comments }
+
+/// Results and comments share the bottom of the page behind one switch;
+/// comments load the first time their tab opens and survive switching.
+final class _ResultsAndComments extends StatefulWidget {
+  const _ResultsAndComments({required this.setId, this.leaderboard});
+  final int setId;
+
+  /// Null when the set has no difficulty to rank.
+  final Widget? leaderboard;
+
+  @override
+  State<_ResultsAndComments> createState() => _ResultsAndCommentsState();
+}
+
+final class _ResultsAndCommentsState extends State<_ResultsAndComments> {
+  _LowerTab _tab = _LowerTab.results;
+
+  @override
+  Widget build(BuildContext context) => CommentsScope(
+    target: CommentTarget(CommentableType.beatmapset, widget.setId),
+    child: SliverMainAxisGroup(
+      slivers: <Widget>[
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(
+            UiSpace.lg,
+            UiSpace.xl,
+            UiSpace.lg,
+            0,
+          ),
+          sliver: SliverToBoxAdapter(
+            child: UiSegmentedControl<_LowerTab>(
+              selected: _tab,
+              segments: <UiSegment<_LowerTab>>[
+                UiSegment<_LowerTab>(
+                  value: _LowerTab.results,
+                  label: context.t.beatmapLeaderboard,
+                  icon: const Icon(Icons.leaderboard_outlined),
+                ),
+                UiSegment<_LowerTab>(
+                  value: _LowerTab.comments,
+                  label: context.t.commentsTitle,
+                  icon: const Icon(Icons.forum_outlined),
+                ),
+              ],
+              onChanged: (_LowerTab tab) => setState(() => _tab = tab),
+            ),
+          ),
+        ),
+        switch (_tab) {
+          _LowerTab.results =>
+            widget.leaderboard ?? const SliverToBoxAdapter(),
+          _LowerTab.comments => const CommentsSection(showTitle: false),
+        },
+      ],
+    ),
+  );
 }

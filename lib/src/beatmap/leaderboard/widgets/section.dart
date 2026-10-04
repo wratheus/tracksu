@@ -19,17 +19,9 @@ final class LeaderboardSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SliverMainAxisGroup(
     slivers: <Widget>[
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(
-            UiSpace.lg,
-            UiSpace.xl,
-            UiSpace.lg,
-            UiSpace.sm,
-          ),
-          child: UiText.titleLarge(context.t.beatmapLeaderboard),
-        ),
-      ),
+      // The beatmap page labels this section with its Results/Comments
+      // switch, so there is no own title.
+      const SliverToBoxAdapter(child: SizedBox(height: UiSpace.sm)),
       BlocBuilder<LeaderboardBloc, LeaderboardState>(
         builder: (BuildContext context, LeaderboardState state) {
           void refresh() => context.read<LeaderboardBloc>().add(
