@@ -26,6 +26,9 @@ final class OsuPublicAuthorizationInterceptor
           RegExp(r'^/api/v2/beatmapsets/[1-9][0-9]*$')
               .hasMatch(request.uri.path) ||
           RegExp(r'^/api/v2/teams/[1-9][0-9]*(/(osu|taiko|fruits|mania))?$')
+              .hasMatch(request.uri.path) ||
+          // Daily challenge: rooms index and one room's leaderboard (P34).
+          RegExp(r'^/api/v2/rooms(/[1-9][0-9]*/leaderboard)?$')
               .hasMatch(request.uri.path));
 
   @override

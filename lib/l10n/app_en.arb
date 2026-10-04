@@ -1283,5 +1283,19 @@
   "scrollToTop": "Back to top",
   "@scrollToTop": {
     "description": "Tooltip and accessibility label of the button that scrolls a long page back to its top."
-  }
+  },
+  "dailyTitle": "Map of the day",
+  "@dailyTitle": {"description":"Home card label and page title for the osu! daily challenge."},
+  "dailyRemaining": "{time} left",
+  "@dailyRemaining": {"description":"Time until the daily challenge ends; time is a localized hours/minutes duration.","placeholders":{"time":{"type":"String"}}},
+  "dailyParticipants": "{count, plural, one{{count} player} other{{count} players}}",
+  "@dailyParticipants": {"description":"How many players took part in today's daily challenge.","placeholders":{"count":{"type":"int","format":"decimalPattern"}}},
+  "dailyNone": "No daily challenge right now.",
+  "@dailyNone": {"description":"Daily challenge page when osu! has no active challenge."},
+  "dailyLeaderboard": "Today's leaderboard",
+  "@dailyLeaderboard": {"description":"Heading above the daily challenge leaderboard."},
+  "dailyOpenMap": "Open map",
+  "@dailyOpenMap": {"description":"Button that opens the daily challenge beatmap page."},
+  "dailyFailed": "Couldn't load the map of the day.",
+  "@dailyFailed": {"description":"Daily challenge could not be loaded."}
 }

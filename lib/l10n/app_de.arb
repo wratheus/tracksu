@@ -405,5 +405,12 @@
   "spanishLanguage": "Spanisch",
   "japaneseLanguage": "Japanisch",
   "chineseLanguage": "Chinesisch (vereinfacht)",
-  "scrollToTop": "Nach oben"
+  "scrollToTop": "Nach oben",
+  "dailyTitle": "Map des Tages",
+  "dailyRemaining": "Noch {time}",
+  "dailyParticipants": "{count, plural, one{{count} Spieler} other{{count} Spieler}}",
+  "dailyNone": "Gerade gibt es keine Daily Challenge.",
+  "dailyLeaderboard": "Rangliste des Tages",
+  "dailyOpenMap": "Map öffnen",
+  "dailyFailed": "Map des Tages konnte nicht geladen werden."
 }

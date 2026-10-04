@@ -20,6 +20,7 @@ import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/profile/main.dart';
 import 'package:tracksu/src/rankings/main.dart';
+import 'package:tracksu/src/daily/main.dart';
 import 'package:tracksu/src/spotlights/main.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -144,6 +145,7 @@ final class TracksuAppRouter {
       ),
     ),
     GoRoute(path: 'spotlights', builder: (_, _) => const SpotlightsMain()),
+    GoRoute(path: 'daily', builder: (_, _) => const DailyChallengeMain()),
   ];
 
   String get _branchPath =>
@@ -188,6 +190,9 @@ final class TracksuAppRouter {
 
   Future<void> openSpotlights(BuildContext context) async =>
       config.push<void>('$_branchPath/spotlights');
+
+  Future<void> openDailyChallenge(BuildContext context) async =>
+      config.push<void>('$_branchPath/daily');
 
   Future<void> openBeatmap(BuildContext context, BeatmapParams params) async {
     final String kind = params is BeatmapsetParams ? 'set' : 'difficulty';

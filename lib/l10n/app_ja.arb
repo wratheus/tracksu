@@ -405,5 +405,12 @@
   "spanishLanguage": "スペイン語",
   "japaneseLanguage": "日本語",
   "chineseLanguage": "中国語（簡体字）",
-  "scrollToTop": "先頭へ戻る"
+  "scrollToTop": "先頭へ戻る",
+  "dailyTitle": "今日のマップ",
+  "dailyRemaining": "残り {time}",
+  "dailyParticipants": "{count, plural, other{{count} 人}}",
+  "dailyNone": "現在デイリーチャレンジはありません。",
+  "dailyLeaderboard": "今日のランキング",
+  "dailyOpenMap": "マップを開く",
+  "dailyFailed": "今日のマップを読み込めませんでした。"
 }

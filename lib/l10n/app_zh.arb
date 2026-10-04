@@ -405,5 +405,12 @@
   "spanishLanguage": "西班牙语",
   "japaneseLanguage": "日语",
   "chineseLanguage": "中文（简体）",
-  "scrollToTop": "回到顶部"
+  "scrollToTop": "回到顶部",
+  "dailyTitle": "今日谱面",
+  "dailyRemaining": "剩余 {time}",
+  "dailyParticipants": "{count, plural, other{{count} 名玩家}}",
+  "dailyNone": "目前没有每日挑战。",
+  "dailyLeaderboard": "今日排行",
+  "dailyOpenMap": "打开谱面",
+  "dailyFailed": "无法加载今日谱面。"
 }

@@ -405,5 +405,12 @@
   "spanishLanguage": "Испанский",
   "japaneseLanguage": "Японский",
   "chineseLanguage": "Китайский (упрощённый)",
-  "scrollToTop": "Наверх"
+  "scrollToTop": "Наверх",
+  "dailyTitle": "Карта дня",
+  "dailyRemaining": "Осталось {time}",
+  "dailyParticipants": "{count, plural, one{{count} игрок} few{{count} игрока} many{{count} игроков} other{{count} игрока}}",
+  "dailyNone": "Сейчас карты дня нет.",
+  "dailyLeaderboard": "Рейтинг дня",
+  "dailyOpenMap": "Открыть карту",
+  "dailyFailed": "Не удалось загрузить карту дня."
 }
