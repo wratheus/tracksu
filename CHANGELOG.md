@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Map of the day (P34)
+
+- Home shows osu!'s current daily challenge under the search card: cover
+  with preview, time left, ruleset, stars, difficulty, required mods and
+  participants. Pull down to refresh. Tapping opens a page with the map
+  and today's leaderboard (players open their profile, teams their page).
+
 ### Team rankings (P33)
 
 - Rankings have a Players / Teams switch. Teams use the shared ruleset and
@@ -18,9 +25,9 @@
 - Settings are a grouped list: account header, then rows with the current
   value on the trailing edge (language, theme, cache size) and footnotes
   for explanations (`UiTile.value`, `UiTileIcon`, `UiListGroup`).
-- About has tabs — App, Authors (Repentance, author; Sgooll, co-author;
-  tap opens the profile), History (third iteration; the first appeared in
-  2021; thanks) and Licenses (the searchable list, embedded).
+- About has two labelled tabs: About (app, short history since 2021,
+  authors Repentance and Sgooll opening their profiles, links, thanks) and
+  Licenses (the searchable list, embedded).
 
 ### Glass controls, app-bar progress, licenses screen (P32)
 

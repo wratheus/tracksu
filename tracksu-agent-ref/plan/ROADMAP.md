@@ -14,7 +14,8 @@ awaiting_manual_check: ranking row, место под «Наверх», типи
 **Следующие обязательные срезы (решение пользователя):**
 1. P33 — рейтинг команд во вкладке «Рейтинги», вкладку перестроить
    на внутренние вкладки (Игроки / Команды / Страны).
-2. P34 — Daily challenge («Карта дня») на главной.
+2. P34 — Daily challenge («Карта дня») на главной — сделано,
+   [P34](work/P34-daily-challenge.md), ждёт проверки.
 [P31: Spotlights](work/P31-spotlights-contract.md) — контракт osu-web
 (справочные даты без порядка, тип чарта, 404 по ruleset = пусто) и вход со
 стартового экрана вместо Рейтингов. Проверку и коммиты делает пользователь
@@ -159,8 +160,8 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Сейчас · [P30](work/P30-october-review.md) | Аудит 2–3 октября, исправления, ключевые regression tests | awaiting_manual_check |
 | Сейчас · [P31](work/P31-spotlights-contract.md) | Spotlights по контракту osu-web, вход со стартового экрана | awaiting_manual_check |
 | Сейчас · [P32](work/P32-spotlights-seasons-grid-player.md) | Сетка аватар/текст, плеер, фильтры, цвета osu!, supporter; Spotlights — архив внизу главной | awaiting_manual_check |
-| Сейчас · [P33](work/P33-team-rankings.md) | Рейтинг команд: «Игроки / Команды» во вкладке «Рейтинги»; контракт `rankings/{mode}/team` (недокументирован) | awaiting_manual_check |
-| Следом · P34 | Daily challenge «Карта дня» на главной; сперва проверка `rooms?category=daily_challenge` | queued (обязательно) |
+| Готово · [P33](work/P33-team-rankings.md) | Рейтинг команд: «Игроки / Команды» во вкладке «Рейтинги»; контракт `rankings/{mode}/team` (недокументирован) | awaiting_manual_check |
+| Сейчас · [P34](work/P34-daily-challenge.md) | «Карта дня» на главной и страница с рейтингом дня; `rooms?category=daily_challenge` с `x-api-version: 20240529`, лидерборд комнаты (недокументирован) | awaiting_manual_check |
 | Сейчас · [P37](work/P37-ios-oauth-callback.md) | iOS не возвращается после входа: нет Associated Domains, Team и AASA; варианты A (Universal Links) / B (своя схема) | ждёт решения |
 | Следом · P35 | Оригинальные иконки модов osu! + акроним везде (`OsuModBadge`); сперва решение по источнику и лицензии ресурсов ppy | queued, ждёт решения |
 | Сейчас · [P36](work/P36-settings-and-about.md) | «Настройки» — сгруппированный список; «О приложении» — вкладки, авторы, история, лицензии | awaiting_manual_check (уточнить год/текст 2-й версии) |

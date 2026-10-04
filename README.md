@@ -145,6 +145,12 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Router restoration covers destinations and identifiers, not the entire
   network cache or search/filter state after process death.
 
+### Map of the day
+
+- Home shows osu!'s current daily challenge: the map, time left, ruleset,
+  stars, required mods and participants. Its page has today's leaderboard
+  and opens the map in the right difficulty and ruleset.
+
 ### Rankings
 
 - Browse global performance-point and score rankings for all four rulesets.
