@@ -13,6 +13,12 @@ final class ContentNormalizer {
   int _media = 0;
   int _cells = 0;
   int _audio = 0;
+  int _video = 0;
+
+  // Featured artist track updates carry dozens of previews (36 in winter
+  // 2026); players are lazy and share one audio controller.
+  static const int _maxAudio = 200;
+  static const int _maxVideo = 32;
 
   static ContentDocument html(String source, Uri base) {
     if (source.length > 2000000) {
@@ -178,13 +184,13 @@ final class ContentNormalizer {
         );
       } else if (_audioLink(node) case final AudioTrack track) {
         flush();
-        if (++_audio > 32) {
+        if (++_audio > _maxAudio) {
           throw const FormatException('Too many audio sources.');
         }
         result.add(ContentAudio(++_id, track));
       } else if (node.localName == 'audio') {
         flush();
-        if (++_audio > 32) {
+        if (++_audio > _maxAudio) {
           throw const FormatException('Too many audio sources.');
         }
         AudioTrack? track;
@@ -205,6 +211,45 @@ final class ContentNormalizer {
           track == null
               ? ContentUnsupported(++_id)
               : ContentAudio(++_id, track),
+        );
+      } else if (node.localName == 'video') {
+        flush();
+        if (++_video > _maxVideo) {
+          throw const FormatException('Too many video sources.');
+        }
+        Uri? video;
+        for (final String source in <String>[
+          if (node.attributes['src'] case final String src) src,
+          for (final Element child in node.children)
+            if (child.localName == 'source' && child.attributes['src'] != null)
+              child.attributes['src']!,
+        ]) {
+          video = ContentVideo.resolve(source, base: _base);
+          if (video != null) break;
+        }
+        result.add(
+          video == null
+              ? ContentUnsupported(++_id)
+              : ContentVideo(
+                  ++_id,
+                  uri: video,
+                  poster: PublicWebLink.resolve(
+                    node.attributes['poster'] ?? '',
+                    base: _base,
+                  ),
+                ),
+        );
+      } else if (node.localName == 'iframe') {
+        flush();
+        if (++_video > _maxVideo) {
+          throw const FormatException('Too many video sources.');
+        }
+        result.add(
+          ContentEmbed.resolve(
+                ++_id,
+                PublicWebLink.resolve(node.attributes['src'] ?? '', base: _base),
+              ) ??
+              ContentUnsupported(_id),
         );
       } else if (_embeds.contains(node.localName)) {
         flush();

@@ -5,7 +5,9 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/content/data/content_media_loader.dart';
 import 'package:tracksu/src/_shared/content/domain/content_document.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_embed.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_image.dart';
+import 'package:tracksu/src/_shared/content/widgets/content_video.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 import 'package:tracksu/src/_shared/content/content_media_controller.dart';
 
@@ -150,6 +152,18 @@ final class _ContentFrameState extends State<ContentFrame>
           ContentAudio(:final track) when widget.audioController != null =>
             AudioTrackPlayer(track: track, controller: widget.audioController!),
           ContentText() => _text(context, block),
+          // Video downloads follow the same media preference as images.
+          ContentVideo() when widget.mediaPermission?.allowed == true =>
+            ContentVideoView(
+              video: block,
+              audioController: widget.audioController,
+              onOpenOriginal: () =>
+                  widget.onOpenLink(widget.document.uri.toString()),
+            ),
+          ContentEmbed() => ContentEmbedCard(
+            embed: block,
+            onOpenLink: widget.onOpenLink,
+          ),
           ContentImage() =>
             widget.mediaPermission?.allowed == true
                 ? ContentImageView(image: block, loader: _media)
@@ -184,21 +198,27 @@ final class _ContentFrameState extends State<ContentFrame>
               ),
             ),
           ),
-          ContentUnsupported() || ContentAudio() => UiSurface.inset(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: UiSpace.sm,
-              children: <Widget>[
-                UiText.bodySmall(context.t.contentUnsupported, secondary: true),
-                UiButton.text(
-                  label: context.t.contentOriginal,
-                  icon: Icons.open_in_new,
-                  onPressed: () =>
-                      widget.onOpenLink(widget.document.uri.toString()),
-                ),
-              ],
+          ContentUnsupported() || ContentAudio() || ContentVideo() =>
+            UiSurface.inset(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: UiSpace.sm,
+                children: <Widget>[
+                  UiText.bodySmall(
+                    block is ContentVideo
+                        ? context.t.contentMediaDisabled
+                        : context.t.contentUnsupported,
+                    secondary: true,
+                  ),
+                  UiButton.text(
+                    label: context.t.contentOriginal,
+                    icon: Icons.open_in_new,
+                    onPressed: () =>
+                        widget.onOpenLink(widget.document.uri.toString()),
+                  ),
+                ],
+              ),
             ),
-          ),
         },
       );
     },
