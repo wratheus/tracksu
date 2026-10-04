@@ -161,9 +161,9 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Сейчас · [P31](work/P31-spotlights-contract.md) | Spotlights по контракту osu-web, вход со стартового экрана | awaiting_manual_check |
 | Сейчас · [P32](work/P32-spotlights-seasons-grid-player.md) | Сетка аватар/текст, плеер, фильтры, цвета osu!, supporter; Spotlights — архив внизу главной | awaiting_manual_check |
 | Готово · [P33](work/P33-team-rankings.md) | Рейтинг команд: «Игроки / Команды» во вкладке «Рейтинги»; контракт `rankings/{mode}/team` (недокументирован) | awaiting_manual_check |
-| Сейчас · [P34](work/P34-daily-challenge.md) | «Карта дня» на главной и страница с рейтингом дня; `rooms?category=daily_challenge` с `x-api-version: 20240529`, лидерборд комнаты (недокументирован) | awaiting_manual_check |
+| Готово · [P34](work/P34-daily-challenge.md) | «Карта дня» на главной и страница с рейтингом дня; `rooms?category=daily_challenge` с `x-api-version: 20240529`, лидерборд комнаты (недокументирован) | awaiting_manual_check |
 | Сейчас · [P37](work/P37-ios-oauth-callback.md) | iOS не возвращается после входа: нет Associated Domains, Team и AASA; варианты A (Universal Links) / B (своя схема) | ждёт решения |
-| Следом · P35 | Оригинальные иконки модов osu! + акроним везде (`OsuModBadge`); сперва решение по источнику и лицензии ресурсов ppy | queued, ждёт решения |
+| Сейчас · [P35](work/P35-mod-icons.md) | Официальные иконки модов (osu-resources, CC BY-NC) + акроним во всём приложении | awaiting_manual_check |
 | Сейчас · [P36](work/P36-settings-and-about.md) | «Настройки» — сгруппированный список; «О приложении» — вкладки, авторы, история, лицензии | awaiting_manual_check (уточнить год/текст 2-й версии) |
 | Сейчас · [P28](work/P28-media-cache-and-browsing.md) | Дисковый media cache/размер/очистка, плееры на обложках, default-on картинки, поиск, страны и flags реализованы; ручная проверка | awaiting_manual_check |
 | Сейчас · [Поэкранная доработка](work/P07-product-integration.md) | Функциональный shell/главная, затем каждый экран по отдельным data/UX критериям; raw migration не является завершением | in_progress |

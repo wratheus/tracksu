@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Mod icons (P35)
+
+- Mods everywhere are small chips with the official osu! icon (from
+  ppy/osu-resources, tinted by mod type as in osu!lazer) and the acronym;
+  the full name is in the tooltip. Unknown mods keep a neutral icon.
+
+### Team rankings fix
+
+- Teams are ordered by PP only: the osu! API has no score sort for teams,
+  so the PP/Score switch is hidden there and rows no longer show the
+  "Ranked score" caption.
+
 ### Map of the day (P34)
 
 - Home shows osu!'s current daily challenge under the search card: cover
@@ -11,10 +23,9 @@
 
 ### Team rankings (P33)
 
-- Rankings have a Players / Teams switch. Teams use the shared ruleset and
-  PP/score sort, load 50 per page with auto-load and pull-to-refresh, and
-  open the team page. Rows show the team flag, rank, name, value, tag and
-  member count. Backed by osu-web's undocumented `rankings/{mode}/team`.
+- Rankings have a Players / Teams switch. Teams use the shared ruleset,
+  load 50 per page with auto-load and pull-to-refresh, and open the team
+  page. Rows show the team flag, rank, name, PP, tag and member count. Backed by osu-web's undocumented `rankings/{mode}/team`.
 
 ### iOS app icon
 
