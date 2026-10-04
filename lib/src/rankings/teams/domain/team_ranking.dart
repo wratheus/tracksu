@@ -26,11 +26,15 @@ final class TeamRankingEntry {
 final class TeamRankingsQuery {
   TeamRankingsQuery({
     required this.ruleset,
+    required this.performance,
     this.page = 1,
   }) {
     if (page < 1) throw ArgumentError.value(page, 'page');
   }
   final ProfileRuleset ruleset;
+
+  /// `sort=performance` when true, `sort=score` otherwise.
+  final bool performance;
   final int page;
 }
 

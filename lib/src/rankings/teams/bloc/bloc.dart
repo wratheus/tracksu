@@ -10,11 +10,14 @@ sealed class TeamRankingsEvent {
   const TeamRankingsEvent();
 }
 
-/// Also the start event: the ruleset comes from the shared rankings filters.
-/// Teams have no sort choice: the API orders them by PP only.
+/// Also the start event: ruleset/sort come from the shared rankings filters.
 final class TeamRankingsQueryChanged extends TeamRankingsEvent {
-  const TeamRankingsQueryChanged({required this.ruleset});
+  const TeamRankingsQueryChanged({
+    required this.ruleset,
+    required this.performance,
+  });
   final ProfileRuleset ruleset;
+  final bool performance;
 }
 
 final class TeamRankingsRefreshRequested extends TeamRankingsEvent {
@@ -32,6 +35,7 @@ enum TeamRankingsOperation { refresh, loadMore }
 final class TeamRankingsState {
   TeamRankingsState({
     required this.ruleset,
+    required this.performance,
     List<TeamRankingEntry>? items,
     this.nextPage,
     this.operation,
@@ -41,6 +45,7 @@ final class TeamRankingsState {
   }) : items = items == null ? null : List.unmodifiable(items);
 
   final ProfileRuleset ruleset;
+  final bool performance;
   final List<TeamRankingEntry>? items;
   final int? nextPage;
   final TeamRankingsOperation? operation;
@@ -60,7 +65,7 @@ final class TeamRankingsBloc extends Bloc<TeamRankingsEvent, TeamRankingsState> 
   }) : _repository = repository,
        _cache = cache,
        super(
-         TeamRankingsState(ruleset: ProfileRuleset.osu),
+         TeamRankingsState(ruleset: ProfileRuleset.osu, performance: true),
        ) {
     on<TeamRankingsEvent>(_onEvent, transformer: concurrent());
   }
@@ -74,14 +79,20 @@ final class TeamRankingsBloc extends Bloc<TeamRankingsEvent, TeamRankingsState> 
     Emitter<TeamRankingsState> emit,
   ) async {
     ProfileRuleset ruleset = state.ruleset;
+    bool performance = state.performance;
     List<TeamRankingEntry>? previous = state.items;
     int? previousNext = state.nextPage;
     TeamRankingsOperation operation = TeamRankingsOperation.refresh;
     int page = 1;
     switch (event) {
       case TeamRankingsQueryChanged():
-        if (state.started && event.ruleset == ruleset) return;
+        if (state.started &&
+            event.ruleset == ruleset &&
+            event.performance == performance) {
+          return;
+        }
         ruleset = event.ruleset;
+        performance = event.performance;
         previous = null;
         previousNext = null;
       case TeamRankingsRefreshRequested():
@@ -97,7 +108,7 @@ final class TeamRankingsBloc extends Bloc<TeamRankingsEvent, TeamRankingsState> 
         operation = TeamRankingsOperation.loadMore;
     }
     final int generation = ++_generation;
-    final Object key = ('team-rankings', ruleset);
+    final Object key = ('team-rankings', ruleset, performance);
     final int revision = _cache.revision;
     if (previous == null) {
       final TeamRankingsPage? cached = _cache.read<TeamRankingsPage>(key);
@@ -107,6 +118,7 @@ final class TeamRankingsBloc extends Bloc<TeamRankingsEvent, TeamRankingsState> 
     emit(
       TeamRankingsState(
         ruleset: ruleset,
+        performance: performance,
         items: previous,
         nextPage: previousNext,
         operation: operation,
@@ -117,6 +129,7 @@ final class TeamRankingsBloc extends Bloc<TeamRankingsEvent, TeamRankingsState> 
       final TeamRankingsPage result = await _repository.load(
         TeamRankingsQuery(
           ruleset: ruleset,
+          performance: performance,
           page: page,
         ),
       );
@@ -141,7 +154,8 @@ final class TeamRankingsBloc extends Bloc<TeamRankingsEvent, TeamRankingsState> 
       emit(
         TeamRankingsState(
           ruleset: ruleset,
-            items: unique.values.toList(growable: false),
+          performance: performance,
+          items: unique.values.toList(growable: false),
           nextPage: result.nextPage,
           started: true,
         ),
@@ -155,7 +169,8 @@ final class TeamRankingsBloc extends Bloc<TeamRankingsEvent, TeamRankingsState> 
       emit(
         TeamRankingsState(
           ruleset: ruleset,
-            items: previous,
+          performance: performance,
+          items: previous,
           nextPage: previousNext,
           failure: kind,
           failedOperation: operation,

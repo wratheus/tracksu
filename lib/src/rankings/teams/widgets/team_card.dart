@@ -8,15 +8,17 @@ import 'package:tracksu/src/rankings/teams/domain/team_ranking.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Team row on the same avatar grid as player rows: the 2:1 team flag in
-/// place of the avatar, rank + name + PP on its top edge, tag and
+/// place of the avatar, rank + name + value on its top edge, tag and
 /// member count on its bottom edge.
 final class TeamRankingCard extends StatelessWidget {
   const TeamRankingCard({
     required this.entry,
+    required this.performance,
     required this.onTap,
     super.key,
   });
   final TeamRankingEntry entry;
+  final bool performance;
   final VoidCallback? onTap;
 
   static const double _flagWidth = 96;
@@ -31,10 +33,13 @@ final class TeamRankingCard extends StatelessWidget {
       entry.rankedScore,
       locale: locale,
     );
-    final String value = NumberFormat.decimalPatternDigits(
-      locale: locale,
-      decimalDigits: 0,
-    ).format(entry.performance);
+    final String value = performance
+        ? NumberFormat.decimalPatternDigits(
+            locale: locale,
+            decimalDigits: 0,
+          ).format(entry.performance)
+        : score.compact;
+    final String unit = performance ? 'PP' : context.t.profileRankedScoreLabel;
     final Widget card = UiSurface.card(
         onTap: onTap,
         padding: const EdgeInsets.all(UiSpace.md),
@@ -67,7 +72,7 @@ final class TeamRankingCard extends StatelessWidget {
                   children: <InlineSpan>[
                     TextSpan(text: value),
                     TextSpan(
-                      text: ' PP',
+                      text: ' $unit',
                       style: theme.textTheme.labelMedium?.copyWith(
                         color: colors.primary,
                       ),
@@ -100,10 +105,8 @@ final class TeamRankingCard extends StatelessWidget {
           ),
         ),
       );
-    // osu! orders teams by PP only; ranked score stays one long-press away.
-    return Tooltip(
-      message: '${context.t.profileRankedScoreLabel}: ${score.exact}',
-      child: card,
-    );
+    return performance
+        ? card
+        : Tooltip(message: '$unit: ${score.exact}', child: card);
   }
 }
