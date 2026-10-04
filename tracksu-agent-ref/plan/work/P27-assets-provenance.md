@@ -88,3 +88,12 @@ diff review. Lockfile не менялся. Тесты, APK, приложение
 Diff подтверждает отсутствие изменений в активных Flutter PNG/TTF и lockfile.
 Ручная приёмка: LicensePage offline и launcher/splash при следующем запуске
 пользователем. Полная лицензионная/branding готовность P01.2 остаётся открытой.
+
+## iOS AppIcon (2026-10-04)
+
+`ios/Runner/Assets.xcassets/AppIcon.appiconset` собран из того же логотипа,
+что и Android launcher (`assets/utils/painted_logo.png`, 512 px — самый
+крупный источник «Tracksu!»): круг 92 % на непрозрачном квадрате цвета
+фона логотипа (#221A1A), без альфа-канала (требование iOS), 15 размеров
+от 20 до 1024 px. 1024 px — апскейл ×1,8 из 512; для стора нужен
+векторный/крупный исходник логотипа.
