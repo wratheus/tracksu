@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### Team rankings (P33)
+
+- Rankings have a Players / Teams switch. Teams use the shared ruleset and
+  PP/score sort, load 50 per page with auto-load and pull-to-refresh, and
+  open the team page. Rows show the team flag, rank, name, value, tag and
+  member count. Backed by osu-web's undocumented `rankings/{mode}/team`.
+
+### iOS app icon
+
+- The iOS app uses the same "Tracksu!" logo as the Android launcher.
+
 ### Settings and About (P36)
 
 - Settings are a grouped list: account header, then rows with the current
