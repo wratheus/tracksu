@@ -4,8 +4,9 @@
 
 ### Rankings pages, countries, comments polish
 
-- Players / Teams / Countries are swipeable pages under a fixed switcher;
-  each keeps its own scroll and refresh.
+- Players / Teams / Countries are swipeable pages under a fixed header with
+  the page switcher and the shared ruleset and PP/Score filters; country
+  and 4K/7K stay on the Players page. Each page keeps its own scroll.
 - Countries get the PP/Score view (osu! still orders them by PP) and show
   long names on two lines with the value below.
 - Comment threads are soft cards with reply guide lines; votes are a
