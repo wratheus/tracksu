@@ -1377,5 +1377,7 @@
   "beatmapSearchFailed": "Couldn't search beatmaps.",
   "@beatmapSearchFailed": {"description":"Beatmap search request failed."},
   "beatmapSearchFound": "{count, plural, one{{count} beatmap found} other{{count} beatmaps found}}",
-  "@beatmapSearchFound": {"description":"Total number of beatmapsets found.","placeholders":{"count":{"type":"int","format":"decimalPattern"}}}
+  "@beatmapSearchFound": {"description":"Total number of beatmapsets found.","placeholders":{"count":{"type":"int","format":"decimalPattern"}}},
+  "aboutBuiltWithFlutter": "Built with Flutter",
+  "@aboutBuiltWithFlutter": {"description":"About screen line naming the UI framework (Flutter is a product name)."}
 }

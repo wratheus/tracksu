@@ -452,5 +452,6 @@
   "beatmapSearchAny": "任意状态",
   "beatmapSearchEmpty": "未找到结果。",
   "beatmapSearchFailed": "无法搜索谱面。",
-  "beatmapSearchFound": "{count, plural, other{找到 {count} 张谱面}}"
+  "beatmapSearchFound": "{count, plural, other{找到 {count} 张谱面}}",
+  "aboutBuiltWithFlutter": "使用 Flutter 开发"
 }

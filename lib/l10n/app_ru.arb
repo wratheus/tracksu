@@ -452,5 +452,6 @@
   "beatmapSearchAny": "Любой статус",
   "beatmapSearchEmpty": "Ничего не найдено.",
   "beatmapSearchFailed": "Не удалось выполнить поиск.",
-  "beatmapSearchFound": "{count, plural, one{Найдена {count} карта} few{Найдено {count} карты} many{Найдено {count} карт} other{Найдено {count} карты}}"
+  "beatmapSearchFound": "{count, plural, one{Найдена {count} карта} few{Найдено {count} карты} many{Найдено {count} карт} other{Найдено {count} карты}}",
+  "aboutBuiltWithFlutter": "Разработано на Flutter"
 }

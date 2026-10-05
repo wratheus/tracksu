@@ -7,8 +7,10 @@
 [![Platform: Android](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)](#platform-status)
 [![License: MIT](https://img.shields.io/badge/license-MIT-A78BFA)](LICENSE)
 
-An unofficial Flutter client for exploring player statistics, rankings,
-beatmaps, scores, spotlights, and news from the [osu! API](https://osu.ppy.sh/docs/).
+An unofficial client for exploring player statistics, rankings, beatmaps,
+scores, comments and news from the [osu! API](https://osu.ppy.sh/docs/).
+Built with [Flutter](https://flutter.dev/) (Dart) from a single codebase for
+Android and iOS.
 
 Tracksu is designed as a compact companion for osu! players who want to browse
 the game's public data from an Android device. Most of the app is available

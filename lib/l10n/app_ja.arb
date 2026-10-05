@@ -452,5 +452,6 @@
   "beatmapSearchAny": "すべての状態",
   "beatmapSearchEmpty": "見つかりませんでした。",
   "beatmapSearchFailed": "ビートマップを検索できませんでした。",
-  "beatmapSearchFound": "{count, plural, other{{count} 件のビートマップ}}"
+  "beatmapSearchFound": "{count, plural, other{{count} 件のビートマップ}}",
+  "aboutBuiltWithFlutter": "Flutter で開発"
 }

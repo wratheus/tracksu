@@ -452,5 +452,6 @@
   "beatmapSearchAny": "Beliebiger Status",
   "beatmapSearchEmpty": "Nichts gefunden.",
   "beatmapSearchFailed": "Beatmap-Suche fehlgeschlagen.",
-  "beatmapSearchFound": "{count, plural, one{{count} Beatmap gefunden} other{{count} Beatmaps gefunden}}"
+  "beatmapSearchFound": "{count, plural, one{{count} Beatmap gefunden} other{{count} Beatmaps gefunden}}",
+  "aboutBuiltWithFlutter": "Entwickelt mit Flutter"
 }

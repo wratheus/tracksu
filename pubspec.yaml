@@ -1,5 +1,5 @@
 name: tracksu
-description: Flutter project disgned for tracking and analyzing osu! statisics provided by osu! API
+description: Unofficial osu! companion app built with Flutter — player statistics, rankings, beatmaps and news from the osu! API.
 
 publish_to: 'none'
 
