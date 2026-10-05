@@ -162,6 +162,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Сейчас · [P32](work/P32-spotlights-seasons-grid-player.md) | Сетка аватар/текст, плеер, фильтры, цвета osu!, supporter; Spotlights — архив внизу главной | awaiting_manual_check |
 | Готово · [P33](work/P33-team-rankings.md) | Рейтинг команд: «Игроки / Команды» во вкладке «Рейтинги»; контракт `rankings/{mode}/team` (недокументирован) | awaiting_manual_check |
 | Готово · [P34](work/P34-daily-challenge.md) | «Карта дня» на главной и страница с рейтингом дня; `rooms?category=daily_challenge` с `x-api-version: 20240529`, лидерборд комнаты (недокументирован) | awaiting_manual_check |
+| Сейчас · [P42](work/P42-profile-prefetch-and-linked-tabs.md) | Профиль: Результаты и Карты грузятся в фоне при входе; бегунок вкладок идёт за свайпом страницы | awaiting_manual_check |
 | Сейчас · [P41](work/P41-beatmap-search.md) | Поиск карт: текст, режим, статус, бесконечная прокрутка; вход с главной | awaiting_manual_check |
 | Сейчас · [P40](work/P40-country-rankings.md) | Рейтинг стран: третья вкладка «Страны», тап открывает игроков страны | awaiting_manual_check |
 | Сейчас · [P38](work/P38-news-media.md) | Видео (video_player, ADR-007), YouTube-карточки, статьи с >32 треками снова открываются | awaiting_manual_check |
@@ -171,6 +172,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Сейчас · [P36](work/P36-settings-and-about.md) | «Настройки» — сгруппированный список; «О приложении» — вкладки, авторы, история, лицензии | awaiting_manual_check (уточнить год/текст 2-й версии) |
 | Сейчас · [P28](work/P28-media-cache-and-browsing.md) | Дисковый media cache/размер/очистка, плееры на обложках, default-on картинки, поиск, страны и flags реализованы; ручная проверка | awaiting_manual_check |
 | Сейчас · [Поэкранная доработка](work/P07-product-integration.md) | Функциональный shell/главная, затем каждый экран по отдельным data/UX критериям; raw migration не является завершением | in_progress |
+| На будущее · [P43](work/P43-tablet-and-ipad-plan.md) | Планшеты и iPad: брейкпоинты, ширина контента, NavigationRail, сетки, master-detail; решение по iPad до релиза | backlog |
 | До analytics/release · [P01.3](work/P01.3-privacy-and-terms.md) | Data inventory, privacy notice/policy, условия, About/атрибуции, ссылки из guest/OAuth/settings и store disclosures | backlog |
 | Сейчас · [P07.1](work/P07.1-languages.md) | en/ru/de/fr/es/ja/zh, стандартный ARB template, language persistence и fallback подключены; ручная языковая проверка | awaiting_manual_check |
 | Сейчас · [P07 foundation](work/P07-ui-foundation.md) | Темы, базовые компоненты и предметный каталог: media/аватары, flags/grades/mods, карточки игрока/карты/результата/новости, метрики, line/bar charts, content states. Код реализован; ручная оценка каталога перед переносом страниц | awaiting_manual_check |
