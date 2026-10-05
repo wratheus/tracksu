@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Country rankings (P40)
+
+- Rankings have a third tab, Countries: flag, localized name, PP and active
+  players per ruleset. Tapping a country opens the player table for it.
+
 ### Comments (P39)
 
 - News posts and beatmaps show comments: New / Old / Top sort, pinned
