@@ -441,5 +441,16 @@
   "commentsHoursAgo": "{count, plural, one{{count} ч назад} few{{count} ч назад} many{{count} ч назад} other{{count} ч назад}}",
   "commentsDaysAgo": "{count, plural, one{{count} день назад} few{{count} дня назад} many{{count} дней назад} other{{count} дня назад}}",
   "rankingsCountries": "Страны",
-  "rankingsCountryPlayers": "{count, plural, one{{count} активный игрок} few{{count} активных игрока} many{{count} активных игроков} other{{count} активного игрока}}"
+  "rankingsCountryPlayers": "{count, plural, one{{count} активный игрок} few{{count} активных игрока} many{{count} активных игроков} other{{count} активного игрока}}",
+  "beatmapSearchTitle": "Поиск карт",
+  "beatmapSearchHomeDescription": "Ранкнутые, лавнутые и другие карты osu!",
+  "beatmapSearchHint": "Название, исполнитель или маппер",
+  "beatmapSearchStatus": "Статус карт",
+  "beatmapSearchLeaderboard": "С таблицей рекордов",
+  "beatmapSearchQualified": "Квалифицированные",
+  "beatmapSearchWip": "В работе",
+  "beatmapSearchAny": "Любой статус",
+  "beatmapSearchEmpty": "Ничего не найдено.",
+  "beatmapSearchFailed": "Не удалось выполнить поиск.",
+  "beatmapSearchFound": "{count, plural, one{Найдена {count} карта} few{Найдено {count} карты} many{Найдено {count} карт} other{Найдено {count} карты}}"
 }

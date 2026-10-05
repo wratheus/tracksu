@@ -441,5 +441,16 @@
   "commentsHoursAgo": "{count, plural, other{{count} 小时前}}",
   "commentsDaysAgo": "{count, plural, other{{count} 天前}}",
   "rankingsCountries": "国家",
-  "rankingsCountryPlayers": "{count, plural, other{{count} 名活跃玩家}}"
+  "rankingsCountryPlayers": "{count, plural, other{{count} 名活跃玩家}}",
+  "beatmapSearchTitle": "搜索谱面",
+  "beatmapSearchHomeDescription": "已上架、Loved 等 osu! 谱面",
+  "beatmapSearchHint": "标题、艺术家或作者",
+  "beatmapSearchStatus": "谱面状态",
+  "beatmapSearchLeaderboard": "有排行榜",
+  "beatmapSearchQualified": "Qualified",
+  "beatmapSearchWip": "制作中",
+  "beatmapSearchAny": "任意状态",
+  "beatmapSearchEmpty": "未找到结果。",
+  "beatmapSearchFailed": "无法搜索谱面。",
+  "beatmapSearchFound": "{count, plural, other{找到 {count} 张谱面}}"
 }

@@ -31,7 +31,9 @@ final class OsuPublicAuthorizationInterceptor
           RegExp(r'^/api/v2/rooms(/[1-9][0-9]*/leaderboard)?$')
               .hasMatch(request.uri.path) ||
           // Comments of news posts and beatmapsets (P39).
-          request.uri.path == '/api/v2/comments');
+          request.uri.path == '/api/v2/comments' ||
+          // Beatmap listing search (P41).
+          request.uri.path == '/api/v2/beatmapsets/search');
 
   @override
   Future<RestRequest> onRequest(RestRequest request) async {

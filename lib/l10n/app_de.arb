@@ -441,5 +441,16 @@
   "commentsHoursAgo": "{count, plural, one{vor {count} Std.} other{vor {count} Std.}}",
   "commentsDaysAgo": "{count, plural, one{vor {count} Tag} other{vor {count} Tagen}}",
   "rankingsCountries": "Länder",
-  "rankingsCountryPlayers": "{count, plural, one{{count} aktiver Spieler} other{{count} aktive Spieler}}"
+  "rankingsCountryPlayers": "{count, plural, one{{count} aktiver Spieler} other{{count} aktive Spieler}}",
+  "beatmapSearchTitle": "Beatmap-Suche",
+  "beatmapSearchHomeDescription": "Ranked, Loved und andere osu!-Beatmaps",
+  "beatmapSearchHint": "Titel, Künstler oder Mapper",
+  "beatmapSearchStatus": "Beatmap-Status",
+  "beatmapSearchLeaderboard": "Mit Rangliste",
+  "beatmapSearchQualified": "Qualifiziert",
+  "beatmapSearchWip": "In Arbeit",
+  "beatmapSearchAny": "Beliebiger Status",
+  "beatmapSearchEmpty": "Nichts gefunden.",
+  "beatmapSearchFailed": "Beatmap-Suche fehlgeschlagen.",
+  "beatmapSearchFound": "{count, plural, one{{count} Beatmap gefunden} other{{count} Beatmaps gefunden}}"
 }

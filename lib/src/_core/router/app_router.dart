@@ -20,6 +20,7 @@ import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/profile/main.dart';
 import 'package:tracksu/src/rankings/main.dart';
+import 'package:tracksu/src/beatmap_search/main.dart';
 import 'package:tracksu/src/daily/main.dart';
 import 'package:tracksu/src/spotlights/main.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
@@ -146,6 +147,15 @@ final class TracksuAppRouter {
     ),
     GoRoute(path: 'spotlights', builder: (_, _) => const SpotlightsMain()),
     GoRoute(path: 'daily', builder: (_, _) => const DailyChallengeMain()),
+    GoRoute(
+      path: 'beatmaps',
+      builder: (_, GoRouterState state) => BeatmapSearchMain(
+        // Bounded so a pasted deep link cannot carry an unbounded query.
+        text: (state.uri.queryParameters['q'] ?? '').trim().characters
+            .take(200)
+            .toString(),
+      ),
+    ),
   ];
 
   String get _branchPath =>
@@ -193,6 +203,16 @@ final class TracksuAppRouter {
 
   Future<void> openDailyChallenge(BuildContext context) async =>
       config.push<void>('$_branchPath/daily');
+
+  Future<void> openBeatmapSearch(BuildContext context, {String text = ''}) =>
+      config.push<void>(
+        Uri(
+          path: '$_branchPath/beatmaps',
+          queryParameters: text.trim().isEmpty
+              ? null
+              : <String, String>{'q': text.trim()},
+        ).toString(),
+      );
 
   Future<void> openBeatmap(BuildContext context, BeatmapParams params) async {
     final String kind = params is BeatmapsetParams ? 'set' : 'difficulty';

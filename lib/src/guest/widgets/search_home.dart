@@ -69,6 +69,13 @@ final class _SearchHomeState extends State<SearchHome> {
     );
   }
 
+  Future<void> _openBeatmapSearch() async {
+    if (_opening) return;
+    await _open(
+      (TracksuAppRouter router) => router.openBeatmapSearch(context),
+    );
+  }
+
   Future<void> _openDaily() async {
     if (_opening) return;
     await _open(
@@ -173,6 +180,15 @@ final class _SearchHomeState extends State<SearchHome> {
                               onPressed: _opening ? null : _submit,
                             ),
                           ],
+                        ),
+                      ),
+                      UiSurface.card(
+                        padding: EdgeInsets.zero,
+                        child: UiTile.navigation(
+                          leading: const Icon(Icons.library_music_outlined),
+                          title: context.t.beatmapSearchTitle,
+                          subtitle: context.t.beatmapSearchHomeDescription,
+                          onTap: _opening ? null : _openBeatmapSearch,
                         ),
                       ),
                       DailyChallengeHomeSection(

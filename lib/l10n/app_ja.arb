@@ -441,5 +441,16 @@
   "commentsHoursAgo": "{count, plural, other{{count} 時間前}}",
   "commentsDaysAgo": "{count, plural, other{{count} 日前}}",
   "rankingsCountries": "国",
-  "rankingsCountryPlayers": "{count, plural, other{アクティブプレイヤー {count} 人}}"
+  "rankingsCountryPlayers": "{count, plural, other{アクティブプレイヤー {count} 人}}",
+  "beatmapSearchTitle": "ビートマップ検索",
+  "beatmapSearchHomeDescription": "Ranked・Loved などの osu! ビートマップ",
+  "beatmapSearchHint": "タイトル、アーティスト、マッパー",
+  "beatmapSearchStatus": "ビートマップの状態",
+  "beatmapSearchLeaderboard": "ランキングあり",
+  "beatmapSearchQualified": "Qualified",
+  "beatmapSearchWip": "制作中",
+  "beatmapSearchAny": "すべての状態",
+  "beatmapSearchEmpty": "見つかりませんでした。",
+  "beatmapSearchFailed": "ビートマップを検索できませんでした。",
+  "beatmapSearchFound": "{count, plural, other{{count} 件のビートマップ}}"
 }
