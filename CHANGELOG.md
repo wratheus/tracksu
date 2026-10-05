@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### Rankings pages, countries, comments polish
+
+- Players / Teams / Countries are swipeable pages under a fixed switcher;
+  each keeps its own scroll and refresh.
+- Countries get the PP/Score view (osu! still orders them by PP) and show
+  long names on two lines with the value below.
+- Comment threads are soft cards with reply guide lines; votes are a
+  heart pill; Reply and votes open the comment on osu.ppy.sh (the API lets
+  only the official client vote or post).
+
 ### Faster profile tabs, linked tab switcher (P42)
 
 - Opening a profile starts loading Results and Maps in the background, so
