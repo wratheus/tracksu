@@ -128,14 +128,36 @@ final class _RankingsBody extends StatefulWidget {
 
 enum _RankingsTab { players, teams, countries }
 
-final class _RankingsBodyState extends State<_RankingsBody> {
-  final ScrollController _scroll = ScrollController();
-  _RankingsTab _tab = _RankingsTab.players;
+/// Players / Teams / Countries as swipeable pages under one fixed switcher
+/// (same linked control as the profile). Each page keeps its own scroll,
+/// pull-to-refresh and return-to-top; the shared ruleset/sort filters sit
+/// at the top of every page.
+final class _RankingsBodyState extends State<_RankingsBody>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabs = TabController(
+    length: _RankingsTab.values.length,
+    vsync: this,
+  )..addListener(_tabChanged);
+  final List<ScrollController> _scrolls = <ScrollController>[
+    for (final _RankingsTab _ in _RankingsTab.values) ScrollController(),
+  ];
+  int _index = 0;
+
+  _RankingsTab get _tab => _RankingsTab.values[_index];
 
   @override
   void dispose() {
-    _scroll.dispose();
+    _tabs.dispose();
+    for (final ScrollController scroll in _scrolls) {
+      scroll.dispose();
+    }
     super.dispose();
+  }
+
+  void _tabChanged() {
+    if (_tabs.index == _index) return;
+    setState(() => _index = _tabs.index);
+    _sync(context.read<RankingsBloc>().state.type);
   }
 
   /// Teams follow the shared ruleset/sort filters; the bloc ignores a query
@@ -162,110 +184,172 @@ final class _RankingsBodyState extends State<_RankingsBody> {
     }
   }
 
-  void _select(_RankingsTab tab) {
-    if (tab == _tab) return;
-    setState(() => _tab = tab);
-    _sync(context.read<RankingsBloc>().state.type);
-    if (_scroll.hasClients) _scroll.jumpTo(0);
+  void _toTop(int page) {
+    final ScrollController scroll = _scrolls[page];
+    if (scroll.hasClients) scroll.jumpTo(0);
   }
 
   /// A country row opens the player table of that country.
   void _openCountry(CountryRankingEntry entry) {
-    setState(() => _tab = _RankingsTab.players);
     context.read<RankingsBloc>().add(RankingsCountrySelected(entry.country));
-    if (_scroll.hasClients) _scroll.jumpTo(0);
+    _toTop(_RankingsTab.players.index);
+    _tabs.animateTo(_RankingsTab.players.index);
+  }
+
+  void _refresh(_RankingsTab tab) {
+    switch (tab) {
+      case _RankingsTab.teams:
+        context.read<TeamRankingsBloc>().add(
+          const TeamRankingsRefreshRequested(),
+        );
+      case _RankingsTab.countries:
+        context.read<CountryRankingsBloc>().add(
+          const CountryRankingsRefreshRequested(),
+        );
+      case _RankingsTab.players:
+        final RankingsBloc bloc = context.read<RankingsBloc>();
+        if (bloc.state is RankingsLoadedState) {
+          bloc.add(const RankingsRefreshRequested());
+        }
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
-    final Widget tabs = UiSegmentedControl<_RankingsTab>(
-      selected: _tab,
-      segments: <UiSegment<_RankingsTab>>[
-        UiSegment<_RankingsTab>(
-          value: _RankingsTab.players,
-          label: context.t.rankingsPlayers,
-          icon: const Icon(Icons.person_outline_rounded),
+  Widget build(BuildContext context) => BlocListener<RankingsBloc, RankingsState>(
+    listenWhen: (RankingsState before, RankingsState after) =>
+        (before.type, before.country?.value, before.variant) !=
+        (after.type, after.country?.value, after.variant),
+    listener: (_, RankingsState state) {
+      _toTop(_index);
+      _sync(state.type);
+    },
+    child: Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            UiSpace.lg,
+            UiSpace.sm,
+            UiSpace.lg,
+            UiSpace.xs,
+          ),
+          child: UiSegmentedControl<int>(
+            selected: _index,
+            // Switches as soon as a page is swiped past halfway.
+            position: _tabs.animation,
+            segments: <UiSegment<int>>[
+              UiSegment<int>(
+                value: _RankingsTab.players.index,
+                label: context.t.rankingsPlayers,
+                icon: const Icon(Icons.person_outline_rounded),
+              ),
+              UiSegment<int>(
+                value: _RankingsTab.teams.index,
+                label: context.t.rankingsTeams,
+                icon: const Icon(Icons.groups_outlined),
+              ),
+              UiSegment<int>(
+                value: _RankingsTab.countries.index,
+                label: context.t.rankingsCountries,
+                icon: const Icon(Icons.public),
+              ),
+            ],
+            onChanged: _tabs.animateTo,
+          ),
         ),
-        UiSegment<_RankingsTab>(
-          value: _RankingsTab.teams,
-          label: context.t.rankingsTeams,
-          icon: const Icon(Icons.groups_outlined),
-        ),
-        UiSegment<_RankingsTab>(
-          value: _RankingsTab.countries,
-          label: context.t.rankingsCountries,
-          icon: const Icon(Icons.public),
-        ),
-      ],
-      onChanged: _select,
-    );
-    return BlocListener<RankingsBloc, RankingsState>(
-      listenWhen: (RankingsState before, RankingsState after) =>
-          (before.type, before.country?.value, before.variant) !=
-          (after.type, after.country?.value, after.variant),
-      listener: (_, RankingsState state) {
-        if (_scroll.hasClients) _scroll.jumpTo(0);
-        _sync(state.type);
-      },
-      child: UiScrollToTop(
-        tooltip: context.t.scrollToTop,
-        controller: _scroll,
-        scrollRequests: ShellReselectScope.maybeOf(context, ShellTab.rankings),
-        // Pull down to refresh; the spinner retracts at once and progress
-        // continues on the app-bar line instead of a button and a loader.
-        child: RefreshIndicator(
-          onRefresh: () async {
-            switch (_tab) {
-              case _RankingsTab.teams:
-                context.read<TeamRankingsBloc>().add(
-                  const TeamRankingsRefreshRequested(),
-                );
-                return;
-              case _RankingsTab.countries:
-                context.read<CountryRankingsBloc>().add(
-                  const CountryRankingsRefreshRequested(),
-                );
-                return;
-              case _RankingsTab.players:
-                break;
-            }
-            final RankingsBloc bloc = context.read<RankingsBloc>();
-            if (bloc.state is RankingsLoadedState) {
-              bloc.add(const RankingsRefreshRequested());
-            }
-          },
-          child: CustomScrollView(
-            controller: _scroll,
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: <Widget>[
-              if (_tab == _RankingsTab.players)
-                RankingsSection(leading: tabs)
-              else ...<Widget>[
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(UiSpace.lg),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      spacing: UiSpace.md,
-                      children: <Widget>[
-                        tabs,
-                        RankingsFilters(
-                          scope: _tab == _RankingsTab.teams
-                              ? RankingsFilterScope.teams
-                              : RankingsFilterScope.countries,
-                        ),
-                      ],
-                    ),
-                  ),
+        Expanded(
+          child: TabBarView(
+            controller: _tabs,
+            children: <Widget>[
+              for (final _RankingsTab tab in _RankingsTab.values)
+                _RankingsPage(
+                  key: ValueKey<_RankingsTab>(tab),
+                  controller: _scrolls[tab.index],
+                  // Re-tapping the Rankings tab scrolls the visible page.
+                  scrollRequests: tab == _tab
+                      ? ShellReselectScope.maybeOf(context, ShellTab.rankings)
+                      : null,
+                  onRefresh: () => _refresh(tab),
+                  slivers: switch (tab) {
+                    _RankingsTab.players => const <Widget>[RankingsSection()],
+                    _RankingsTab.teams => const <Widget>[
+                      _Filters(scope: RankingsFilterScope.teams),
+                      TeamRankingsSection(),
+                    ],
+                    _RankingsTab.countries => <Widget>[
+                      const _Filters(scope: RankingsFilterScope.countries),
+                      BlocSelector<RankingsBloc, RankingsState, bool>(
+                        selector: (RankingsState state) =>
+                            state.type.sort == 'performance',
+                        builder: (BuildContext context, bool performance) =>
+                            CountryRankingsSection(
+                              performance: performance,
+                              onOpenCountry: _openCountry,
+                            ),
+                      ),
+                    ],
+                  },
                 ),
-                if (_tab == _RankingsTab.teams)
-                  const TeamRankingsSection()
-                else
-                  CountryRankingsSection(onOpenCountry: _openCountry),
-              ],
-              UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
             ],
           ),
+        ),
+      ],
+    ),
+  );
+}
+
+final class _Filters extends StatelessWidget {
+  const _Filters({required this.scope});
+  final RankingsFilterScope scope;
+
+  @override
+  Widget build(BuildContext context) => SliverPadding(
+    padding: const EdgeInsets.all(UiSpace.lg),
+    sliver: SliverToBoxAdapter(child: RankingsFilters(scope: scope)),
+  );
+}
+
+/// One swipeable page: own scroll position (kept alive), pull-to-refresh
+/// and return-to-top button.
+final class _RankingsPage extends StatefulWidget {
+  const _RankingsPage({
+    required this.controller,
+    required this.onRefresh,
+    required this.slivers,
+    this.scrollRequests,
+    super.key,
+  });
+  final ScrollController controller;
+  final VoidCallback onRefresh;
+  final List<Widget> slivers;
+  final Listenable? scrollRequests;
+
+  @override
+  State<_RankingsPage> createState() => _RankingsPageState();
+}
+
+final class _RankingsPageState extends State<_RankingsPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return UiScrollToTop(
+      tooltip: context.t.scrollToTop,
+      controller: widget.controller,
+      scrollRequests: widget.scrollRequests,
+      // Pull down to refresh; the spinner retracts at once and progress
+      // continues on the app-bar line instead of a button and a loader.
+      child: RefreshIndicator(
+        onRefresh: () async => widget.onRefresh(),
+        child: CustomScrollView(
+          controller: widget.controller,
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: <Widget>[
+            ...widget.slivers,
+            UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+          ],
         ),
       ),
     );
