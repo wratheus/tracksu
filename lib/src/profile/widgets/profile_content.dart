@@ -3,16 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/profile/bloc/bloc.dart';
 import 'package:tracksu/src/profile/beatmaps/main.dart';
+import 'package:tracksu/src/profile/beatmaps/widgets/beatmaps_section.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/scores/main.dart';
+import 'package:tracksu/src/profile/scores/widgets/scores_section.dart';
 import 'package:tracksu/src/profile/widgets/profile_summary.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_page_section.dart';
 import 'package:tracksu/src/_shared/ui/page_activity.dart';
 import 'package:tracksu/src/profile/widgets/profile_error_message.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
-/// TabBarView mounts sections lazily; keep-alive retains each visited section's
-/// scroll and local Bloc. Only scores are recreated when the ruleset changes.
+/// Section Blocs live above the tabs and start with the profile, so Results
+/// and Maps load in the background while the overview is read; switching to
+/// a tab shows ready data. TabBarView still builds section widgets lazily and
+/// keep-alive retains their scroll. Only scores are recreated (new provider
+/// key) when the ruleset changes. See P42.
 final class ProfileContent extends StatelessWidget {
   const ProfileContent({required this.state, super.key});
   final ProfileLoadedState state;
@@ -33,7 +38,16 @@ final class ProfileContent extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => DefaultTabController(
+  Widget build(BuildContext context) => ProfileScoresProvider(
+    userId: state.profile.id,
+    ruleset: state.ruleset,
+    child: ProfileBeatmapsProvider(
+      userId: state.profile.id,
+      child: _tabs(context),
+    ),
+  );
+
+  Widget _tabs(BuildContext context) => DefaultTabController(
     length: 3,
     child: Column(
       children: <Widget>[
@@ -90,16 +104,13 @@ final class ProfileContent extends StatelessWidget {
                       _ProfileSection(
                         key: ValueKey<ProfileRuleset>(state.ruleset),
                         slivers: <Widget>[
-                          ProfileScoresMain(
-                            userId: state.profile.id,
-                            ruleset: state.ruleset,
-                          ),
+                          const ProfileScoresSection(),
                         ],
                       ),
                       _ProfileSection(
                         key: const ValueKey<String>('maps'),
                         slivers: <Widget>[
-                          ProfileBeatmapsMain(userId: state.profile.id),
+                          const ProfileBeatmapsSection(),
                         ],
                       ),
                     ],
@@ -195,6 +206,8 @@ final class _ProfileTabs extends StatelessWidget {
         animation: controller,
         builder: (BuildContext context, _) => UiSegmentedControl<int>(
           selected: controller.index,
+          // Thumb follows the page while it is swiped, not after it settles.
+          position: controller.animation,
           segments: <UiSegment<int>>[
             for (int i = 0; i < tabs.length; i++)
               UiSegment<int>(

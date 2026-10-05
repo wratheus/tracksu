@@ -6,20 +6,25 @@ import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/profile/scores/bloc/bloc.dart';
 import 'package:tracksu/src/profile/scores/data/scores_remote_source.dart';
 import 'package:tracksu/src/profile/scores/data/scores_repository_impl.dart';
-import 'package:tracksu/src/profile/scores/widgets/scores_section.dart';
 
-/// Mounted with a player/ruleset key; owns only this section's repository/Bloc.
-final class ProfileScoresMain extends StatelessWidget {
-  const ProfileScoresMain({
+/// Owns the Results section's repository/Bloc for one player and ruleset.
+/// Placed above the profile tabs and created eagerly, so the first page is
+/// requested as soon as the profile opens — not when the tab is first shown.
+final class ProfileScoresProvider extends StatelessWidget {
+  const ProfileScoresProvider({
     required this.userId,
     required this.ruleset,
+    required this.child,
     super.key,
   });
   final int userId;
   final ProfileRuleset ruleset;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) => BlocProvider<ProfileScoresBloc>(
+    key: ValueKey<(int, ProfileRuleset)>((userId, ruleset)),
+    lazy: false,
     create: (_) => ProfileScoresBloc(
       cache: DepsScope.of(context).pageCache,
       repository: ProfileScoresRepositoryImpl(
@@ -30,6 +35,6 @@ final class ProfileScoresMain extends StatelessWidget {
       user: ProfileUserId(userId),
       ruleset: ruleset,
     )..add(const ProfileScoresStarted()),
-    child: const ProfileScoresSection(),
+    child: child,
   );
 }

@@ -5,15 +5,22 @@ import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/profile/beatmaps/bloc/bloc.dart';
 import 'package:tracksu/src/profile/beatmaps/data/beatmaps_remote_source.dart';
 import 'package:tracksu/src/profile/beatmaps/data/beatmaps_repository_impl.dart';
-import 'package:tracksu/src/profile/beatmaps/widgets/beatmaps_section.dart';
 
-/// Mounted with a player key; owns only this section's repository/Bloc.
-final class ProfileBeatmapsMain extends StatelessWidget {
-  const ProfileBeatmapsMain({required this.userId, super.key});
+/// Owns the Maps section's repository/Bloc for one player. Placed above the
+/// profile tabs and created eagerly (see ProfileScoresProvider).
+final class ProfileBeatmapsProvider extends StatelessWidget {
+  const ProfileBeatmapsProvider({
+    required this.userId,
+    required this.child,
+    super.key,
+  });
   final int userId;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) => BlocProvider<ProfileBeatmapsBloc>(
+    key: ValueKey<int>(userId),
+    lazy: false,
     create: (_) => ProfileBeatmapsBloc(
       cache: DepsScope.of(context).pageCache,
       repository: ProfileBeatmapsRepositoryImpl(
@@ -23,6 +30,6 @@ final class ProfileBeatmapsMain extends StatelessWidget {
       ),
       user: ProfileUserId(userId),
     )..add(const ProfileBeatmapsStarted()),
-    child: const ProfileBeatmapsSection(),
+    child: child,
   );
 }
