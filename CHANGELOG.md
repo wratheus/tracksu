@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Beatmap search (P41)
+
+- Home has a Beatmap search entry: search by title/artist/mapper, ruleset
+  and status (has leaderboard, ranked, loved, pending, graveyard…), with
+  endless scroll and the usual beatmap cards.
+
 ### Country rankings (P40)
 
 - Rankings have a third tab, Countries: flag, localized name, PP and active

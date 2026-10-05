@@ -150,6 +150,11 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Router restoration covers destinations and identifiers, not the entire
   network cache or search/filter state after process death.
 
+### Beatmap search
+
+- Search osu! beatmaps by text, ruleset and status from the home screen.
+  Without a signed-in user osu! ignores sorting and advanced filters.
+
 ### News and comments
 
 - Articles play osu!-hosted videos and featured artist tracks inline;
