@@ -17,11 +17,16 @@ final class UiSegment<T extends Object> {
 
 /// A controlled, single-row choice. Drag previews locally and commits once on
 /// release; only the caller may update domain state or start a request.
+///
+/// With [position] (a continuous segment index, e.g. `TabController.animation`)
+/// the thumb follows a linked page view frame by frame while it is swiped,
+/// instead of jumping after the page settles.
 final class UiSegmentedControl<T extends Object> extends StatefulWidget {
   UiSegmentedControl({
     required List<UiSegment<T>> segments,
     required this.selected,
     required this.onChanged,
+    this.position,
     super.key,
   }) : segments = List<UiSegment<T>>.unmodifiable(segments),
        assert(segments.length >= 2),
@@ -37,6 +42,10 @@ final class UiSegmentedControl<T extends Object> extends StatefulWidget {
   final T selected;
   final ValueChanged<T>? onChanged;
 
+  /// 0 … segments.length - 1 in segment order; overrides [selected] for the
+  /// thumb and the highlighted label while no local drag is in progress.
+  final Animation<double>? position;
+
   @override
   State<UiSegmentedControl<T>> createState() => _UiSegmentedControlState<T>();
 }
@@ -46,6 +55,33 @@ final class _UiSegmentedControlState<T extends Object>
   int? _dragIndex;
   int? _pressedIndex;
   int? _focusedIndex;
+
+  /// Nearest segment to [UiSegmentedControl.position]; rebuilds only when it
+  /// changes, while the thumb itself follows every frame in [_Thumb].
+  int? _positionIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.position?.addListener(_positionChanged);
+    _positionIndex = _nearest();
+  }
+
+  @override
+  void dispose() {
+    widget.position?.removeListener(_positionChanged);
+    super.dispose();
+  }
+
+  int? _nearest() => widget.position?.value.round().clamp(
+    0,
+    widget.segments.length - 1,
+  );
+
+  void _positionChanged() {
+    final int? index = _nearest();
+    if (index != _positionIndex) setState(() => _positionIndex = index);
+  }
 
   void _preview(double x, double width, TextDirection direction) {
     final int physical = (x / width * widget.segments.length).floor().clamp(
@@ -66,6 +102,11 @@ final class _UiSegmentedControlState<T extends Object>
   @override
   void didUpdateWidget(covariant UiSegmentedControl<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.position != widget.position) {
+      oldWidget.position?.removeListener(_positionChanged);
+      widget.position?.addListener(_positionChanged);
+      _positionIndex = _nearest();
+    }
     if (widget.onChanged == null ||
         oldWidget.selected != widget.selected ||
         oldWidget.segments.length != widget.segments.length) {
@@ -84,7 +125,7 @@ final class _UiSegmentedControlState<T extends Object>
     final int selectedIndex = widget.segments.indexWhere(
       (UiSegment<T> segment) => segment.value == widget.selected,
     );
-    final int activeIndex = _dragIndex ?? selectedIndex;
+    final int activeIndex = _dragIndex ?? _positionIndex ?? selectedIndex;
     const BeveledRectangleBorder shape = BeveledRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(UiShape.control),
@@ -138,15 +179,10 @@ final class _UiSegmentedControlState<T extends Object>
             child: Stack(
               children: <Widget>[
                 Positioned.fill(
-                  child: AnimatedAlign(
-                    duration: MediaQuery.disableAnimationsOf(context)
-                        ? Duration.zero
-                        : const Duration(milliseconds: 160),
-                    curve: Curves.easeOutCubic,
-                    alignment: AlignmentDirectional(
-                      -1 + 2 * activeIndex / (widget.segments.length - 1),
-                      0,
-                    ),
+                  child: _Thumb(
+                    position: _dragIndex == null ? widget.position : null,
+                    index: activeIndex,
+                    count: widget.segments.length,
                     child: FractionallySizedBox(
                       widthFactor: 1 / widget.segments.length,
                       heightFactor: 1,
@@ -274,6 +310,45 @@ final class _UiSegmentedControlState<T extends Object>
           ),
         );
       },
+    );
+  }
+}
+
+/// The selection thumb: tied to [position] frame by frame when given (a
+/// linked page view being swiped), otherwise animated to [index].
+final class _Thumb extends StatelessWidget {
+  const _Thumb({
+    required this.position,
+    required this.index,
+    required this.count,
+    required this.child,
+  });
+  final Animation<double>? position;
+  final int index;
+  final int count;
+  final Widget child;
+
+  AlignmentDirectional _at(double value) =>
+      AlignmentDirectional(-1 + 2 * value.clamp(0, count - 1) / (count - 1), 0);
+
+  @override
+  Widget build(BuildContext context) {
+    final Animation<double>? linked = position;
+    if (linked != null) {
+      return AnimatedBuilder(
+        animation: linked,
+        builder: (BuildContext context, Widget? child) =>
+            Align(alignment: _at(linked.value), child: child),
+        child: child,
+      );
+    }
+    return AnimatedAlign(
+      duration: MediaQuery.disableAnimationsOf(context)
+          ? Duration.zero
+          : const Duration(milliseconds: 160),
+      curve: Curves.easeOutCubic,
+      alignment: _at(index.toDouble()),
+      child: child,
     );
   }
 }

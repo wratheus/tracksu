@@ -70,6 +70,7 @@ final class _AboutTabs extends StatelessWidget {
         animation: controller,
         builder: (BuildContext context, _) => UiSegmentedControl<int>(
           selected: controller.index,
+          position: controller.animation,
           segments: <UiSegment<int>>[
             for (int i = 0; i < tabs.length; i++)
               UiSegment<int>(
@@ -120,6 +121,16 @@ final class _AppTab extends StatelessWidget {
                   UiText.headlineLarge(context.t.appTitle),
                   UiText.bodyLarge(context.t.aboutDescription),
                   UiText.bodyMedium(context.t.aboutHistoryShort, secondary: true),
+                  Row(
+                    spacing: UiSpace.sm,
+                    children: <Widget>[
+                      const FlutterLogo(size: 18),
+                      UiText.bodyMedium(
+                        context.t.aboutBuiltWithFlutter,
+                        secondary: true,
+                      ),
+                    ],
+                  ),
                   FutureBuilder<AppBuildInfo>(
                     future: info,
                     builder:
