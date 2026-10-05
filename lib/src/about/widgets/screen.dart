@@ -14,7 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 const List<({int id, String name, bool author})> _people =
     <({int id, String name, bool author})>[
       (id: 12288747, name: 'Repentance', author: true),
-      (id: 24581198, name: 'Sgooll', author: false),
+      (id: 24581198, name: 'Sgooll', author: true),
     ];
 
 /// About in two labelled tabs (same segmented control as the profile):
