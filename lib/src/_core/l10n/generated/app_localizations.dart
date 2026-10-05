@@ -2819,6 +2819,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Built with Flutter'**
   String get aboutBuiltWithFlutter;
+
+  /// Comment action that opens the comment on osu.ppy.sh to reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get commentsReply;
+
+  /// Tooltip of the comment vote count: the osu! API lets only the official client vote or post.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting and replying happen on osu.ppy.sh'**
+  String get commentsVoteOnSite;
 }
 
 class _AppLocalizationsDelegate

@@ -1668,4 +1668,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get aboutBuiltWithFlutter => 'Flutter で開発';
+
+  @override
+  String get commentsReply => '返信';
+
+  @override
+  String get commentsVoteOnSite => '投票と返信は osu.ppy.sh で行えます';
 }

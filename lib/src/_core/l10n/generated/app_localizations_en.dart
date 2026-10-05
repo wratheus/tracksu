@@ -1731,4 +1731,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutBuiltWithFlutter => 'Built with Flutter';
+
+  @override
+  String get commentsReply => 'Reply';
+
+  @override
+  String get commentsVoteOnSite => 'Voting and replying happen on osu.ppy.sh';
 }

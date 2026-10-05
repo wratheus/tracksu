@@ -1758,4 +1758,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get aboutBuiltWithFlutter => 'Entwickelt mit Flutter';
+
+  @override
+  String get commentsReply => 'Antworten';
+
+  @override
+  String get commentsVoteOnSite => 'Abstimmen und Antworten auf osu.ppy.sh';
 }

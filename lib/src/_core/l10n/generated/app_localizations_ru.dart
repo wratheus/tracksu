@@ -1762,4 +1762,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get aboutBuiltWithFlutter => 'Разработано на Flutter';
+
+  @override
+  String get commentsReply => 'Ответить';
+
+  @override
+  String get commentsVoteOnSite => 'Голосовать и отвечать можно на osu.ppy.sh';
 }

@@ -1654,4 +1654,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get aboutBuiltWithFlutter => '使用 Flutter 开发';
+
+  @override
+  String get commentsReply => '回复';
+
+  @override
+  String get commentsVoteOnSite => '投票和回复请前往 osu.ppy.sh';
 }
