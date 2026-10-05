@@ -206,7 +206,7 @@ final class _ProfileTabs extends StatelessWidget {
         animation: controller,
         builder: (BuildContext context, _) => UiSegmentedControl<int>(
           selected: controller.index,
-          // Thumb follows the page while it is swiped, not after it settles.
+          // Switches as soon as the page is swiped past halfway.
           position: controller.animation,
           segments: <UiSegment<int>>[
             for (int i = 0; i < tabs.length; i++)

@@ -19,8 +19,8 @@ final class UiSegment<T extends Object> {
 /// release; only the caller may update domain state or start a request.
 ///
 /// With [position] (a continuous segment index, e.g. `TabController.animation`)
-/// the thumb follows a linked page view frame by frame while it is swiped,
-/// instead of jumping after the page settles.
+/// the thumb switches as soon as a linked page view is swiped past halfway
+/// (same snap animation as a tap), instead of after the page settles.
 final class UiSegmentedControl<T extends Object> extends StatefulWidget {
   UiSegmentedControl({
     required List<UiSegment<T>> segments,
@@ -42,8 +42,8 @@ final class UiSegmentedControl<T extends Object> extends StatefulWidget {
   final T selected;
   final ValueChanged<T>? onChanged;
 
-  /// 0 … segments.length - 1 in segment order; overrides [selected] for the
-  /// thumb and the highlighted label while no local drag is in progress.
+  /// 0 … segments.length - 1 in segment order; its nearest segment overrides
+  /// [selected] for the thumb and label while no local drag is in progress.
   final Animation<double>? position;
 
   @override
@@ -57,7 +57,7 @@ final class _UiSegmentedControlState<T extends Object>
   int? _focusedIndex;
 
   /// Nearest segment to [UiSegmentedControl.position]; rebuilds only when it
-  /// changes, while the thumb itself follows every frame in [_Thumb].
+  /// changes, so the thumb snaps to it with the usual animation.
   int? _positionIndex;
 
   @override
@@ -180,7 +180,6 @@ final class _UiSegmentedControlState<T extends Object>
               children: <Widget>[
                 Positioned.fill(
                   child: _Thumb(
-                    position: _dragIndex == null ? widget.position : null,
                     index: activeIndex,
                     count: widget.segments.length,
                     child: FractionallySizedBox(
@@ -314,43 +313,22 @@ final class _UiSegmentedControlState<T extends Object>
   }
 }
 
-/// The selection thumb: tied to [position] frame by frame when given (a
-/// linked page view being swiped), otherwise animated to [index].
+/// The selection thumb, animated to [index].
 final class _Thumb extends StatelessWidget {
-  const _Thumb({
-    required this.position,
-    required this.index,
-    required this.count,
-    required this.child,
-  });
-  final Animation<double>? position;
+  const _Thumb({required this.index, required this.count, required this.child});
   final int index;
   final int count;
   final Widget child;
 
-  AlignmentDirectional _at(double value) =>
-      AlignmentDirectional(-1 + 2 * value.clamp(0, count - 1) / (count - 1), 0);
-
   @override
-  Widget build(BuildContext context) {
-    final Animation<double>? linked = position;
-    if (linked != null) {
-      return AnimatedBuilder(
-        animation: linked,
-        builder: (BuildContext context, Widget? child) =>
-            Align(alignment: _at(linked.value), child: child),
-        child: child,
-      );
-    }
-    return AnimatedAlign(
-      duration: MediaQuery.disableAnimationsOf(context)
-          ? Duration.zero
-          : const Duration(milliseconds: 160),
-      curve: Curves.easeOutCubic,
-      alignment: _at(index.toDouble()),
-      child: child,
-    );
-  }
+  Widget build(BuildContext context) => AnimatedAlign(
+    duration: MediaQuery.disableAnimationsOf(context)
+        ? Duration.zero
+        : const Duration(milliseconds: 160),
+    curve: Curves.easeOutCubic,
+    alignment: AlignmentDirectional(-1 + 2 * index / (count - 1), 0),
+    child: child,
+  );
 }
 
 /// One bounded blur, not one filter per segment. Ink never paints the thumb.
