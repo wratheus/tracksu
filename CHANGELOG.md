@@ -7,8 +7,8 @@
 - Opening a profile starts loading Results and Maps in the background, so
   switching tabs shows data right away; first pages stay in the session
   cache.
-- The profile and About tab switcher follows the page while it is swiped
-  instead of jumping after it settles.
+- The profile and About tab switcher switches as soon as a page is swiped
+  past halfway instead of after it settles.
 - About says the app is built with Flutter.
 
 ### Beatmap search (P41)
