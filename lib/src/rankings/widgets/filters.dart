@@ -9,17 +9,15 @@ import 'package:tracksu/src/rankings/domain/rankings_query.dart';
 import 'package:tracksu/src/rankings/widgets/country_picker.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
-/// Which table the shared filters drive.
+/// Which part of the rankings filters to show.
 enum RankingsFilterScope {
-  /// Ruleset, PP/score, country, mania variant.
+  /// Ruleset and PP/score: one fixed block above the Players / Teams /
+  /// Countries pages, shared by all three.
+  shared,
+
+  /// Country and mania variant: osu-web applies them to players only, so
+  /// they sit at the top of the Players page.
   players,
-
-  /// Ruleset and PP/score: osu-web applies country and variant to players only.
-  teams,
-
-  /// Ruleset and PP/score view: osu! orders countries by PP only, the score
-  /// view shows ranked score in that order (like teams).
-  countries,
 }
 
 final class RankingsFilters extends StatelessWidget {
@@ -33,72 +31,73 @@ final class RankingsFilters extends StatelessWidget {
     crossAxisAlignment: CrossAxisAlignment.stretch,
     spacing: UiSpace.md,
     children: <Widget>[
-      BlocSelector<RankingsBloc, RankingsState, RankingsType>(
-        selector: (RankingsState state) => state.type,
-        builder: (BuildContext context, RankingsType type) => Column(
-          spacing: UiSpace.md,
-          children: <Widget>[
-            OsuRulesetSelector(
-              selected: type.ruleset,
-              onChanged: (ProfileRuleset ruleset) =>
-                  context.read<RankingsBloc>().add(
-                    RankingsTypeSelected(
-                      RankingsType.select(ruleset, type.sort == 'performance'),
+      if (!_players)
+        BlocSelector<RankingsBloc, RankingsState, RankingsType>(
+          selector: (RankingsState state) => state.type,
+          builder: (BuildContext context, RankingsType type) => Column(
+            spacing: UiSpace.md,
+            children: <Widget>[
+              OsuRulesetSelector(
+                selected: type.ruleset,
+                onChanged: (ProfileRuleset ruleset) =>
+                    context.read<RankingsBloc>().add(
+                      RankingsTypeSelected(
+                        RankingsType.select(ruleset, type.sort == 'performance'),
+                      ),
                     ),
+              ),
+              UiSegmentedControl<bool>(
+                selected: type.sort == 'performance',
+                segments: <UiSegment<bool>>[
+                  UiSegment<bool>(
+                    value: true,
+                    // Short labels so the segmented control can show them;
+                    // a long label hides every label in the row.
+                    label: 'PP',
+                    icon: const Icon(Icons.bolt),
                   ),
-            ),
-            UiSegmentedControl<bool>(
-              selected: type.sort == 'performance',
-              segments: <UiSegment<bool>>[
-                UiSegment<bool>(
-                  value: true,
-                  // Short labels so the segmented control can show them;
-                  // a long label hides every label in the row.
-                  label: 'PP',
-                  icon: const Icon(Icons.bolt),
-                ),
-                UiSegment<bool>(
-                  value: false,
-                  label: context.t.rankingsScore,
-                  icon: const Icon(Icons.leaderboard_outlined),
-                ),
-              ],
-              onChanged: (bool performance) => context.read<RankingsBloc>().add(
-                RankingsTypeSelected(
-                  RankingsType.select(type.ruleset, performance),
+                  UiSegment<bool>(
+                    value: false,
+                    label: context.t.rankingsScore,
+                    icon: const Icon(Icons.leaderboard_outlined),
+                  ),
+                ],
+                onChanged: (bool performance) => context.read<RankingsBloc>().add(
+                  RankingsTypeSelected(
+                    RankingsType.select(type.ruleset, performance),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       if (_players) const _CountryControl(),
       if (_players)
-      BlocSelector<RankingsBloc, RankingsState, (bool, ManiaVariant)>(
-        selector: (RankingsState state) =>
-            (state.type.ruleset == ProfileRuleset.mania, state.variant),
-        builder: (BuildContext context, (bool, ManiaVariant) selection) =>
-            selection.$1
-            ? UiSegmentedControl<ManiaVariant>(
-                selected: selection.$2,
-                segments: <UiSegment<ManiaVariant>>[
-                  for (final ManiaVariant variant in ManiaVariant.values)
-                    UiSegment<ManiaVariant>(
-                      value: variant,
-                      label: switch (variant) {
-                        ManiaVariant.all => context.t.rankingsAllKeys,
-                        ManiaVariant.fourKeys => '4K',
-                        ManiaVariant.sevenKeys => '7K',
-                      },
-                      icon: const Icon(Icons.piano),
-                    ),
-                ],
-                onChanged: (ManiaVariant variant) => context
-                    .read<RankingsBloc>()
-                    .add(RankingsVariantSelected(variant)),
-              )
-            : const SizedBox.shrink(),
-      ),
+        BlocSelector<RankingsBloc, RankingsState, (bool, ManiaVariant)>(
+          selector: (RankingsState state) =>
+              (state.type.ruleset == ProfileRuleset.mania, state.variant),
+          builder: (BuildContext context, (bool, ManiaVariant) selection) =>
+              selection.$1
+              ? UiSegmentedControl<ManiaVariant>(
+                  selected: selection.$2,
+                  segments: <UiSegment<ManiaVariant>>[
+                    for (final ManiaVariant variant in ManiaVariant.values)
+                      UiSegment<ManiaVariant>(
+                        value: variant,
+                        label: switch (variant) {
+                          ManiaVariant.all => context.t.rankingsAllKeys,
+                          ManiaVariant.fourKeys => '4K',
+                          ManiaVariant.sevenKeys => '7K',
+                        },
+                        icon: const Icon(Icons.piano),
+                      ),
+                  ],
+                  onChanged: (ManiaVariant variant) => context
+                      .read<RankingsBloc>()
+                      .add(RankingsVariantSelected(variant)),
+                )
+              : const SizedBox.shrink(),
+        ),
     ],
   );
 }

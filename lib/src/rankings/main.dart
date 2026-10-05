@@ -128,10 +128,10 @@ final class _RankingsBody extends StatefulWidget {
 
 enum _RankingsTab { players, teams, countries }
 
-/// Players / Teams / Countries as swipeable pages under one fixed switcher
-/// (same linked control as the profile). Each page keeps its own scroll,
-/// pull-to-refresh and return-to-top; the shared ruleset/sort filters sit
-/// at the top of every page.
+/// Players / Teams / Countries as swipeable pages under one fixed header:
+/// the linked page switcher and the ruleset + PP/score filters all three
+/// pages share. Each page keeps its own scroll, pull-to-refresh and
+/// return-to-top; country and 4K/7K stay on the Players page.
 final class _RankingsBodyState extends State<_RankingsBody>
     with SingleTickerProviderStateMixin {
   late final TabController _tabs = TabController(
@@ -256,6 +256,15 @@ final class _RankingsBodyState extends State<_RankingsBody>
             onChanged: _tabs.animateTo,
           ),
         ),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(
+            UiSpace.lg,
+            UiSpace.sm,
+            UiSpace.lg,
+            UiSpace.xs,
+          ),
+          child: RankingsFilters(scope: RankingsFilterScope.shared),
+        ),
         Expanded(
           child: TabBarView(
             controller: _tabs,
@@ -272,11 +281,11 @@ final class _RankingsBodyState extends State<_RankingsBody>
                   slivers: switch (tab) {
                     _RankingsTab.players => const <Widget>[RankingsSection()],
                     _RankingsTab.teams => const <Widget>[
-                      _Filters(scope: RankingsFilterScope.teams),
+                      _PageTop(),
                       TeamRankingsSection(),
                     ],
                     _RankingsTab.countries => <Widget>[
-                      const _Filters(scope: RankingsFilterScope.countries),
+                      const _PageTop(),
                       BlocSelector<RankingsBloc, RankingsState, bool>(
                         selector: (RankingsState state) =>
                             state.type.sort == 'performance',
@@ -297,15 +306,13 @@ final class _RankingsBodyState extends State<_RankingsBody>
   );
 }
 
-final class _Filters extends StatelessWidget {
-  const _Filters({required this.scope});
-  final RankingsFilterScope scope;
+/// Breathing room between the fixed header and the first card.
+final class _PageTop extends StatelessWidget {
+  const _PageTop();
 
   @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: const EdgeInsets.all(UiSpace.lg),
-    sliver: SliverToBoxAdapter(child: RankingsFilters(scope: scope)),
-  );
+  Widget build(BuildContext context) =>
+      const SliverToBoxAdapter(child: SizedBox(height: UiSpace.md));
 }
 
 /// One swipeable page: own scroll position (kept alive), pull-to-refresh
