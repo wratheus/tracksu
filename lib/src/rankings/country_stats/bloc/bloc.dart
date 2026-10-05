@@ -123,7 +123,7 @@ final class CountryRankingsBloc extends Bloc<CountryRankingsEvent, CountryRankin
       if (operation == CountryRankingsOperation.refresh) {
         _cache.write(key, result, revision: revision);
       }
-      final Map<int, CountryRankingEntry> unique = <int, CountryRankingEntry>{
+      final Map<String, CountryRankingEntry> unique = <String, CountryRankingEntry>{
         if (operation == CountryRankingsOperation.loadMore)
           for (final CountryRankingEntry e in previous ?? const <CountryRankingEntry>[])
             e.country.value: e,
