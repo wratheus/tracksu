@@ -1590,4 +1590,68 @@ class AppLocalizationsZh extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get rankingsCountries => '国家';
+
+  @override
+  String rankingsCountryPlayers(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 名活跃玩家',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get beatmapSearchTitle => '搜索谱面';
+
+  @override
+  String get beatmapSearchHomeDescription => '已上架、Loved 等 osu! 谱面';
+
+  @override
+  String get beatmapSearchHint => '标题、艺术家或作者';
+
+  @override
+  String get beatmapSearchStatus => '谱面状态';
+
+  @override
+  String get beatmapSearchLeaderboard => '有排行榜';
+
+  @override
+  String get beatmapSearchQualified => 'Qualified';
+
+  @override
+  String get beatmapSearchWip => '制作中';
+
+  @override
+  String get beatmapSearchAny => '任意状态';
+
+  @override
+  String get beatmapSearchEmpty => '未找到结果。';
+
+  @override
+  String get beatmapSearchFailed => '无法搜索谱面。';
+
+  @override
+  String beatmapSearchFound(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '找到 $countString 张谱面',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aboutBuiltWithFlutter => '使用 Flutter 开发';
 }

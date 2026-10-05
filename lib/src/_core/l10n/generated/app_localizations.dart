@@ -2735,6 +2735,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, one{{count} day ago} other{{count} days ago}}'**
   String commentsDaysAgo(int count);
+
+  /// Rankings tab: country table. Keep short (segmented control).
+  ///
+  /// In en, this message translates to:
+  /// **'Countries'**
+  String get rankingsCountries;
+
+  /// Active players of a country in the country ranking.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} active player} other{{count} active players}}'**
+  String rankingsCountryPlayers(int count);
+
+  /// Beatmap listing search: page title and home entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmap search'**
+  String get beatmapSearchTitle;
+
+  /// Subtitle of the beatmap search entry on the home screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Ranked, loved and other osu! beatmaps'**
+  String get beatmapSearchHomeDescription;
+
+  /// Beatmap search field label.
+  ///
+  /// In en, this message translates to:
+  /// **'Title, artist or mapper'**
+  String get beatmapSearchHint;
+
+  /// Beatmap status picker title.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmap status'**
+  String get beatmapSearchStatus;
+
+  /// Status filter: maps with a leaderboard (ranked, approved, qualified, loved).
+  ///
+  /// In en, this message translates to:
+  /// **'Has leaderboard'**
+  String get beatmapSearchLeaderboard;
+
+  /// Status filter: qualified maps.
+  ///
+  /// In en, this message translates to:
+  /// **'Qualified'**
+  String get beatmapSearchQualified;
+
+  /// Status filter: work-in-progress maps.
+  ///
+  /// In en, this message translates to:
+  /// **'Work in progress'**
+  String get beatmapSearchWip;
+
+  /// Status filter: all statuses.
+  ///
+  /// In en, this message translates to:
+  /// **'Any status'**
+  String get beatmapSearchAny;
+
+  /// No beatmaps match the search.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found.'**
+  String get beatmapSearchEmpty;
+
+  /// Beatmap search request failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t search beatmaps.'**
+  String get beatmapSearchFailed;
+
+  /// Total number of beatmapsets found.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} beatmap found} other{{count} beatmaps found}}'**
+  String beatmapSearchFound(int count);
+
+  /// About screen line naming the UI framework (Flutter is a product name).
+  ///
+  /// In en, this message translates to:
+  /// **'Built with Flutter'**
+  String get aboutBuiltWithFlutter;
 }
 
 class _AppLocalizationsDelegate

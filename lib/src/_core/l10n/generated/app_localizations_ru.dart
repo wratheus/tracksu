@@ -1691,4 +1691,75 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get rankingsCountries => 'Страны';
+
+  @override
+  String rankingsCountryPlayers(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString активного игрока',
+      many: '$countString активных игроков',
+      few: '$countString активных игрока',
+      one: '$countString активный игрок',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get beatmapSearchTitle => 'Поиск карт';
+
+  @override
+  String get beatmapSearchHomeDescription =>
+      'Ранкнутые, лавнутые и другие карты osu!';
+
+  @override
+  String get beatmapSearchHint => 'Название, исполнитель или маппер';
+
+  @override
+  String get beatmapSearchStatus => 'Статус карт';
+
+  @override
+  String get beatmapSearchLeaderboard => 'С таблицей рекордов';
+
+  @override
+  String get beatmapSearchQualified => 'Квалифицированные';
+
+  @override
+  String get beatmapSearchWip => 'В работе';
+
+  @override
+  String get beatmapSearchAny => 'Любой статус';
+
+  @override
+  String get beatmapSearchEmpty => 'Ничего не найдено.';
+
+  @override
+  String get beatmapSearchFailed => 'Не удалось выполнить поиск.';
+
+  @override
+  String beatmapSearchFound(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Найдено $countString карты',
+      many: 'Найдено $countString карт',
+      few: 'Найдено $countString карты',
+      one: 'Найдена $countString карта',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aboutBuiltWithFlutter => 'Разработано на Flutter';
 }

@@ -1688,4 +1688,71 @@ class AppLocalizationsEs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get rankingsCountries => 'Países';
+
+  @override
+  String rankingsCountryPlayers(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString jugadores activos',
+      one: '$countString jugador activo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get beatmapSearchTitle => 'Buscar beatmaps';
+
+  @override
+  String get beatmapSearchHomeDescription =>
+      'Beatmaps de osu! rankeados, loved y otros';
+
+  @override
+  String get beatmapSearchHint => 'Título, artista o mapper';
+
+  @override
+  String get beatmapSearchStatus => 'Estado del beatmap';
+
+  @override
+  String get beatmapSearchLeaderboard => 'Con clasificación';
+
+  @override
+  String get beatmapSearchQualified => 'Calificados';
+
+  @override
+  String get beatmapSearchWip => 'En progreso';
+
+  @override
+  String get beatmapSearchAny => 'Cualquier estado';
+
+  @override
+  String get beatmapSearchEmpty => 'No se encontró nada.';
+
+  @override
+  String get beatmapSearchFailed => 'No se pudieron buscar beatmaps.';
+
+  @override
+  String beatmapSearchFound(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString beatmaps encontrados',
+      one: '$countString beatmap encontrado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aboutBuiltWithFlutter => 'Desarrollado con Flutter';
 }

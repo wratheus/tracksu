@@ -1604,4 +1604,68 @@ class AppLocalizationsJa extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get rankingsCountries => '国';
+
+  @override
+  String rankingsCountryPlayers(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'アクティブプレイヤー $countString 人',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get beatmapSearchTitle => 'ビートマップ検索';
+
+  @override
+  String get beatmapSearchHomeDescription => 'Ranked・Loved などの osu! ビートマップ';
+
+  @override
+  String get beatmapSearchHint => 'タイトル、アーティスト、マッパー';
+
+  @override
+  String get beatmapSearchStatus => 'ビートマップの状態';
+
+  @override
+  String get beatmapSearchLeaderboard => 'ランキングあり';
+
+  @override
+  String get beatmapSearchQualified => 'Qualified';
+
+  @override
+  String get beatmapSearchWip => '制作中';
+
+  @override
+  String get beatmapSearchAny => 'すべての状態';
+
+  @override
+  String get beatmapSearchEmpty => '見つかりませんでした。';
+
+  @override
+  String get beatmapSearchFailed => 'ビートマップを検索できませんでした。';
+
+  @override
+  String beatmapSearchFound(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 件のビートマップ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aboutBuiltWithFlutter => 'Flutter で開発';
 }
