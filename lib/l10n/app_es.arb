@@ -439,5 +439,7 @@
   "commentsJustNow": "ahora mismo",
   "commentsMinutesAgo": "{count, plural, one{hace {count} min} other{hace {count} min}}",
   "commentsHoursAgo": "{count, plural, one{hace {count} h} other{hace {count} h}}",
-  "commentsDaysAgo": "{count, plural, one{hace {count} día} other{hace {count} días}}"
+  "commentsDaysAgo": "{count, plural, one{hace {count} día} other{hace {count} días}}",
+  "rankingsCountries": "Países",
+  "rankingsCountryPlayers": "{count, plural, one{{count} jugador activo} other{{count} jugadores activos}}"
 }

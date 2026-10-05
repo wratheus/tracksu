@@ -439,5 +439,7 @@
   "commentsJustNow": "только что",
   "commentsMinutesAgo": "{count, plural, one{{count} мин назад} few{{count} мин назад} many{{count} мин назад} other{{count} мин назад}}",
   "commentsHoursAgo": "{count, plural, one{{count} ч назад} few{{count} ч назад} many{{count} ч назад} other{{count} ч назад}}",
-  "commentsDaysAgo": "{count, plural, one{{count} день назад} few{{count} дня назад} many{{count} дней назад} other{{count} дня назад}}"
+  "commentsDaysAgo": "{count, plural, one{{count} день назад} few{{count} дня назад} many{{count} дней назад} other{{count} дня назад}}",
+  "rankingsCountries": "Страны",
+  "rankingsCountryPlayers": "{count, plural, one{{count} активный игрок} few{{count} активных игрока} many{{count} активных игроков} other{{count} активного игрока}}"
 }

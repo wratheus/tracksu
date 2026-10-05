@@ -439,5 +439,7 @@
   "commentsJustNow": "たった今",
   "commentsMinutesAgo": "{count, plural, other{{count} 分前}}",
   "commentsHoursAgo": "{count, plural, other{{count} 時間前}}",
-  "commentsDaysAgo": "{count, plural, other{{count} 日前}}"
+  "commentsDaysAgo": "{count, plural, other{{count} 日前}}",
+  "rankingsCountries": "国",
+  "rankingsCountryPlayers": "{count, plural, other{アクティブプレイヤー {count} 人}}"
 }

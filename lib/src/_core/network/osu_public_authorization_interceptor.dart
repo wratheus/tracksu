@@ -19,7 +19,7 @@ final class OsuPublicAuthorizationInterceptor
           request.uri.path == '/api/v2/spotlights' ||
           RegExp(r'^/api/v2/news(/[1-9][0-9]*)?$').hasMatch(request.uri.path) ||
           RegExp(
-            r'^/api/v2/rankings/(osu|taiko|fruits|mania)/(performance|score|charts|team)$',
+            r'^/api/v2/rankings/(osu|taiko|fruits|mania)/(performance|score|charts|team|country)$',
           ).hasMatch(request.uri.path) ||
           RegExp(r'^/api/v2/beatmaps/[1-9][0-9]*(/scores)?$')
               .hasMatch(request.uri.path) ||

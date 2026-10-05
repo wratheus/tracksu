@@ -1351,5 +1351,9 @@
   "commentsHoursAgo": "{count, plural, one{{count} h ago} other{{count} h ago}}",
   "@commentsHoursAgo": {"description":"Comment time in hours.","placeholders":{"count":{"type":"int","format":"decimalPattern"}}},
   "commentsDaysAgo": "{count, plural, one{{count} day ago} other{{count} days ago}}",
-  "@commentsDaysAgo": {"description":"Comment time in days (under a week).","placeholders":{"count":{"type":"int","format":"decimalPattern"}}}
+  "@commentsDaysAgo": {"description":"Comment time in days (under a week).","placeholders":{"count":{"type":"int","format":"decimalPattern"}}},
+  "rankingsCountries": "Countries",
+  "@rankingsCountries": {"description":"Rankings tab: country table. Keep short (segmented control)."},
+  "rankingsCountryPlayers": "{count, plural, one{{count} active player} other{{count} active players}}",
+  "@rankingsCountryPlayers": {"description":"Active players of a country in the country ranking.","placeholders":{"count":{"type":"int","format":"decimalPattern"}}}
 }

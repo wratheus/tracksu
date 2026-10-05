@@ -9,12 +9,23 @@ import 'package:tracksu/src/rankings/domain/rankings_query.dart';
 import 'package:tracksu/src/rankings/widgets/country_picker.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
-final class RankingsFilters extends StatelessWidget {
-  const RankingsFilters({this.teams = false, super.key});
+/// Which table the shared filters drive.
+enum RankingsFilterScope {
+  /// Ruleset, PP/score, country, mania variant.
+  players,
 
-  /// Team rankings take only ruleset and sort: osu-web applies country and
-  /// mania variant to the global (player) table only.
-  final bool teams;
+  /// Ruleset and PP/score: osu-web applies country and variant to players only.
+  teams,
+
+  /// Ruleset only: country rankings are ordered by PP and not filterable.
+  countries,
+}
+
+final class RankingsFilters extends StatelessWidget {
+  const RankingsFilters({this.scope = RankingsFilterScope.players, super.key});
+  final RankingsFilterScope scope;
+
+  bool get _players => scope == RankingsFilterScope.players;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -35,33 +46,34 @@ final class RankingsFilters extends StatelessWidget {
                     ),
                   ),
             ),
-            UiSegmentedControl<bool>(
-              selected: type.sort == 'performance',
-              segments: <UiSegment<bool>>[
-                UiSegment<bool>(
-                  value: true,
-                  // Short labels so the segmented control can show them;
-                  // a long label hides every label in the row.
-                  label: 'PP',
-                  icon: const Icon(Icons.bolt),
-                ),
-                UiSegment<bool>(
-                  value: false,
-                  label: context.t.rankingsScore,
-                  icon: const Icon(Icons.leaderboard_outlined),
-                ),
-              ],
-              onChanged: (bool performance) => context.read<RankingsBloc>().add(
-                RankingsTypeSelected(
-                  RankingsType.select(type.ruleset, performance),
+            if (scope != RankingsFilterScope.countries)
+              UiSegmentedControl<bool>(
+                selected: type.sort == 'performance',
+                segments: <UiSegment<bool>>[
+                  UiSegment<bool>(
+                    value: true,
+                    // Short labels so the segmented control can show them;
+                    // a long label hides every label in the row.
+                    label: 'PP',
+                    icon: const Icon(Icons.bolt),
+                  ),
+                  UiSegment<bool>(
+                    value: false,
+                    label: context.t.rankingsScore,
+                    icon: const Icon(Icons.leaderboard_outlined),
+                  ),
+                ],
+                onChanged: (bool performance) => context.read<RankingsBloc>().add(
+                  RankingsTypeSelected(
+                    RankingsType.select(type.ruleset, performance),
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),
-      if (!teams) const _CountryControl(),
-      if (!teams)
+      if (_players) const _CountryControl(),
+      if (_players)
       BlocSelector<RankingsBloc, RankingsState, (bool, ManiaVariant)>(
         selector: (RankingsState state) =>
             (state.type.ruleset == ProfileRuleset.mania, state.variant),

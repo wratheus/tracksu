@@ -439,5 +439,7 @@
   "commentsJustNow": "刚刚",
   "commentsMinutesAgo": "{count, plural, other{{count} 分钟前}}",
   "commentsHoursAgo": "{count, plural, other{{count} 小时前}}",
-  "commentsDaysAgo": "{count, plural, other{{count} 天前}}"
+  "commentsDaysAgo": "{count, plural, other{{count} 天前}}",
+  "rankingsCountries": "国家",
+  "rankingsCountryPlayers": "{count, plural, other{{count} 名活跃玩家}}"
 }

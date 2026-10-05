@@ -13,6 +13,11 @@ import 'package:tracksu/src/rankings/data/rankings_repository_impl.dart';
 import 'package:tracksu/src/rankings/data/countries_local_source.dart';
 import 'package:tracksu/src/rankings/data/countries_repository_impl.dart';
 import 'package:tracksu/src/rankings/domain/countries.dart';
+import 'package:tracksu/src/rankings/country_stats/bloc/bloc.dart';
+import 'package:tracksu/src/rankings/country_stats/data/remote_source.dart';
+import 'package:tracksu/src/rankings/country_stats/data/repository_impl.dart';
+import 'package:tracksu/src/rankings/country_stats/domain/country_ranking.dart';
+import 'package:tracksu/src/rankings/country_stats/widgets/country_section.dart';
 import 'package:tracksu/src/rankings/teams/bloc/bloc.dart';
 import 'package:tracksu/src/rankings/teams/data/remote_source.dart';
 import 'package:tracksu/src/rankings/teams/data/repository_impl.dart';
@@ -31,7 +36,16 @@ final class RankingsMain extends StatelessWidget {
         create: (_) => RankingCountriesRepositoryImpl(
           source: const AssetRankingCountriesLocalSource(),
         ),
-        child: BlocProvider<TeamRankingsBloc>(
+        child: BlocProvider<CountryRankingsBloc>(
+          create: (_) => CountryRankingsBloc(
+            cache: DepsScope.of(context).pageCache,
+            repository: CountryRankingsRepositoryImpl(
+              remoteSource: OsuCountryRankingsRemoteSource(
+                restClient: DepsScope.of(context).publicRestClient,
+              ),
+            ),
+          ),
+          child: BlocProvider<TeamRankingsBloc>(
               create: (_) => TeamRankingsBloc(
                 cache: DepsScope.of(context).pageCache,
                 repository: TeamRankingsRepositoryImpl(
@@ -79,9 +93,20 @@ final class RankingsMain extends StatelessWidget {
                             state.items != null &&
                             state.operation == TeamRankingsOperation.refresh,
                         builder: (BuildContext context, bool teams) =>
-                            UiAppBarProgress(
-                              visible: players || teams,
-                              semanticsLabel: context.t.rankingsLoading,
+                            BlocSelector<
+                              CountryRankingsBloc,
+                              CountryRankingsState,
+                              bool
+                            >(
+                              selector: (CountryRankingsState state) =>
+                                  state.items != null &&
+                                  state.operation ==
+                                      CountryRankingsOperation.refresh,
+                              builder: (BuildContext context, bool countries) =>
+                                  UiAppBarProgress(
+                                    visible: players || teams || countries,
+                                    semanticsLabel: context.t.rankingsLoading,
+                                  ),
                             ),
                       ),
                 ),
@@ -89,6 +114,7 @@ final class RankingsMain extends StatelessWidget {
             ),
             body: const SafeArea(child: _RankingsBody()),
           ),
+        ),
         ),
         ),
       );
@@ -100,7 +126,7 @@ final class _RankingsBody extends StatefulWidget {
   State<_RankingsBody> createState() => _RankingsBodyState();
 }
 
-enum _RankingsTab { players, teams }
+enum _RankingsTab { players, teams, countries }
 
 final class _RankingsBodyState extends State<_RankingsBody> {
   final ScrollController _scroll = ScrollController();
@@ -121,12 +147,32 @@ final class _RankingsBodyState extends State<_RankingsBody> {
     ),
   );
 
+  void _syncCountries(RankingsType type) => context
+      .read<CountryRankingsBloc>()
+      .add(CountryRankingsRulesetChanged(type.ruleset));
+
+  void _sync(RankingsType type) {
+    switch (_tab) {
+      case _RankingsTab.players:
+        break;
+      case _RankingsTab.teams:
+        _syncTeams(type);
+      case _RankingsTab.countries:
+        _syncCountries(type);
+    }
+  }
+
   void _select(_RankingsTab tab) {
     if (tab == _tab) return;
     setState(() => _tab = tab);
-    if (tab == _RankingsTab.teams) {
-      _syncTeams(context.read<RankingsBloc>().state.type);
-    }
+    _sync(context.read<RankingsBloc>().state.type);
+    if (_scroll.hasClients) _scroll.jumpTo(0);
+  }
+
+  /// A country row opens the player table of that country.
+  void _openCountry(CountryRankingEntry entry) {
+    setState(() => _tab = _RankingsTab.players);
+    context.read<RankingsBloc>().add(RankingsCountrySelected(entry.country));
     if (_scroll.hasClients) _scroll.jumpTo(0);
   }
 
@@ -145,17 +191,21 @@ final class _RankingsBodyState extends State<_RankingsBody> {
           label: context.t.rankingsTeams,
           icon: const Icon(Icons.groups_outlined),
         ),
+        UiSegment<_RankingsTab>(
+          value: _RankingsTab.countries,
+          label: context.t.rankingsCountries,
+          icon: const Icon(Icons.public),
+        ),
       ],
       onChanged: _select,
     );
-    final bool teams = _tab == _RankingsTab.teams;
     return BlocListener<RankingsBloc, RankingsState>(
       listenWhen: (RankingsState before, RankingsState after) =>
           (before.type, before.country?.value, before.variant) !=
           (after.type, after.country?.value, after.variant),
       listener: (_, RankingsState state) {
         if (_scroll.hasClients) _scroll.jumpTo(0);
-        if (_tab == _RankingsTab.teams) _syncTeams(state.type);
+        _sync(state.type);
       },
       child: UiScrollToTop(
         tooltip: context.t.scrollToTop,
@@ -165,11 +215,19 @@ final class _RankingsBodyState extends State<_RankingsBody> {
         // continues on the app-bar line instead of a button and a loader.
         child: RefreshIndicator(
           onRefresh: () async {
-            if (teams) {
-              context.read<TeamRankingsBloc>().add(
-                const TeamRankingsRefreshRequested(),
-              );
-              return;
+            switch (_tab) {
+              case _RankingsTab.teams:
+                context.read<TeamRankingsBloc>().add(
+                  const TeamRankingsRefreshRequested(),
+                );
+                return;
+              case _RankingsTab.countries:
+                context.read<CountryRankingsBloc>().add(
+                  const CountryRankingsRefreshRequested(),
+                );
+                return;
+              case _RankingsTab.players:
+                break;
             }
             final RankingsBloc bloc = context.read<RankingsBloc>();
             if (bloc.state is RankingsLoadedState) {
@@ -180,7 +238,9 @@ final class _RankingsBodyState extends State<_RankingsBody> {
             controller: _scroll,
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: <Widget>[
-              if (teams) ...<Widget>[
+              if (_tab == _RankingsTab.players)
+                RankingsSection(leading: tabs)
+              else ...<Widget>[
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.all(UiSpace.lg),
@@ -189,14 +249,20 @@ final class _RankingsBodyState extends State<_RankingsBody> {
                       spacing: UiSpace.md,
                       children: <Widget>[
                         tabs,
-                        const RankingsFilters(teams: true),
+                        RankingsFilters(
+                          scope: _tab == _RankingsTab.teams
+                              ? RankingsFilterScope.teams
+                              : RankingsFilterScope.countries,
+                        ),
                       ],
                     ),
                   ),
                 ),
-                const TeamRankingsSection(),
-              ] else
-                RankingsSection(leading: tabs),
+                if (_tab == _RankingsTab.teams)
+                  const TeamRankingsSection()
+                else
+                  CountryRankingsSection(onOpenCountry: _openCountry),
+              ],
               UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
             ],
           ),
