@@ -453,5 +453,7 @@
   "beatmapSearchEmpty": "見つかりませんでした。",
   "beatmapSearchFailed": "ビートマップを検索できませんでした。",
   "beatmapSearchFound": "{count, plural, other{{count} 件のビートマップ}}",
-  "aboutBuiltWithFlutter": "Flutter で開発"
+  "aboutBuiltWithFlutter": "Flutter で開発",
+  "commentsReply": "返信",
+  "commentsVoteOnSite": "投票と返信は osu.ppy.sh で行えます"
 }

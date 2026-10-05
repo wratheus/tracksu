@@ -1379,5 +1379,9 @@
   "beatmapSearchFound": "{count, plural, one{{count} beatmap found} other{{count} beatmaps found}}",
   "@beatmapSearchFound": {"description":"Total number of beatmapsets found.","placeholders":{"count":{"type":"int","format":"decimalPattern"}}},
   "aboutBuiltWithFlutter": "Built with Flutter",
-  "@aboutBuiltWithFlutter": {"description":"About screen line naming the UI framework (Flutter is a product name)."}
+  "@aboutBuiltWithFlutter": {"description":"About screen line naming the UI framework (Flutter is a product name)."},
+  "commentsReply": "Reply",
+  "@commentsReply": {"description":"Comment action that opens the comment on osu.ppy.sh to reply."},
+  "commentsVoteOnSite": "Voting and replying happen on osu.ppy.sh",
+  "@commentsVoteOnSite": {"description":"Tooltip of the comment vote count: the osu! API lets only the official client vote or post."}
 }

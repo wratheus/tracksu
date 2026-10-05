@@ -453,5 +453,7 @@
   "beatmapSearchEmpty": "No se encontró nada.",
   "beatmapSearchFailed": "No se pudieron buscar beatmaps.",
   "beatmapSearchFound": "{count, plural, one{{count} beatmap encontrado} other{{count} beatmaps encontrados}}",
-  "aboutBuiltWithFlutter": "Desarrollado con Flutter"
+  "aboutBuiltWithFlutter": "Desarrollado con Flutter",
+  "commentsReply": "Responder",
+  "commentsVoteOnSite": "Votar y responder se hace en osu.ppy.sh"
 }

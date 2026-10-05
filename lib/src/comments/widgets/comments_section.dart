@@ -190,8 +190,6 @@ final class _CommentsSectionState extends State<CommentsSection> {
                     itemCount: rows.length,
                     itemBuilder: (BuildContext context, int index) {
                       final _Row row = rows[index];
-                      final double indent =
-                          row.depth.clamp(0, 3) * UiSpace.xl;
                       final Widget child = switch (row) {
                         (comment: final Comment comment, depth: _, moreFor: _) =>
                           CommentTile(
@@ -204,6 +202,9 @@ final class _CommentsSectionState extends State<CommentsSection> {
                                 ? null
                                 : () => _openProfile(comment.userId!),
                             onOpenLink: _openLink,
+                            onOpenOnSite: () => _openLink(
+                              'https://osu.ppy.sh/comments/${comment.id}',
+                            ),
                             repliesExpanded: _expanded.contains(comment.id),
                             onToggleReplies: comment.repliesCount > 0
                                 ? () => _toggle(state, comment)
@@ -229,23 +230,18 @@ final class _CommentsSectionState extends State<CommentsSection> {
                                   ),
                           ),
                       };
-                      return Padding(
-                        padding: EdgeInsetsDirectional.only(start: indent),
-                        child: row.depth == 0 && index > 0
-                            ? DecoratedBox(
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    top: BorderSide(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.outlineVariant,
-                                      width: .5,
-                                    ),
-                                  ),
-                                ),
-                                child: child,
-                              )
-                            : child,
+                      // Each thread is one soft card: the root opens it,
+                      // the last reply (or the root alone) closes it, and
+                      // threads are separated by space instead of lines.
+                      final bool first = row.depth == 0;
+                      final bool last =
+                          index == rows.length - 1 ||
+                          rows[index + 1].depth == 0;
+                      return _ThreadRow(
+                        depth: row.depth,
+                        first: first,
+                        last: last,
+                        child: child,
                       );
                     },
                   ),
@@ -295,4 +291,70 @@ final class _CommentsSectionState extends State<CommentsSection> {
           );
         },
       );
+}
+
+/// One row of a thread card. Replies are indented with a thin guide line
+/// per level (capped at three) so nesting reads without borders between
+/// comments.
+final class _ThreadRow extends StatelessWidget {
+  const _ThreadRow({
+    required this.depth,
+    required this.first,
+    required this.last,
+    required this.child,
+  });
+  final int depth;
+  final bool first;
+  final bool last;
+  final Widget child;
+
+  static const double _radius = UiShape.card;
+  static const double _step = UiSpace.lg;
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final int levels = depth.clamp(0, 3);
+    Widget content = child;
+    for (int level = 0; level < levels; level++) {
+      content = Padding(
+        padding: const EdgeInsetsDirectional.only(start: _step / 2),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: BorderDirectional(
+              start: BorderSide(
+                color: colors.outlineVariant.withValues(alpha: .7),
+                width: 1.5,
+              ),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsetsDirectional.only(start: _step / 2),
+            child: content,
+          ),
+        ),
+      );
+    }
+    return Padding(
+      padding: EdgeInsets.only(bottom: last ? UiSpace.md : 0),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceContainerLow,
+          borderRadius: BorderRadius.vertical(
+            top: first ? const Radius.circular(_radius) : Radius.zero,
+            bottom: last ? const Radius.circular(_radius) : Radius.zero,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            UiSpace.md,
+            first ? UiSpace.sm : 0,
+            UiSpace.md,
+            last ? UiSpace.sm : 0,
+          ),
+          child: content,
+        ),
+      ),
+    );
+  }
 }
