@@ -12,8 +12,15 @@ import 'package:tracksu_ui/tracksu_ui.dart';
 /// tapping a country opens the player table filtered to it. Refresh is
 /// pull-to-refresh, progress is the app-bar line.
 final class CountryRankingsSection extends StatefulWidget {
-  const CountryRankingsSection({required this.onOpenCountry, super.key});
+  const CountryRankingsSection({
+    required this.onOpenCountry,
+    required this.performance,
+    super.key,
+  });
   final ValueChanged<CountryRankingEntry> onOpenCountry;
+
+  /// Shared PP/score view; the order is PP either way (osu! API).
+  final bool performance;
 
   @override
   State<CountryRankingsSection> createState() => _CountryRankingsSectionState();
@@ -79,6 +86,7 @@ final class _CountryRankingsSectionState extends State<CountryRankingsSection> {
                         name:
                             _names[items[index].country.value] ??
                             items[index].country.value,
+                        performance: widget.performance,
                         onTap: () => widget.onOpenCountry(items[index]),
                       ),
                 ),

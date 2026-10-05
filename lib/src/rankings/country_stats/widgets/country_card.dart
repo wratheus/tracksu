@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tracksu/src/_core/l10n/localized_count.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/avatar_bands.dart';
 import 'package:tracksu/src/rankings/country_stats/domain/country_ranking.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Country row on the same grid as player and team rows: the bundled flag
-/// in place of the avatar, rank + name + PP on top, active players below.
+/// in place of the avatar. Top: rank and the localized name, which may take
+/// two lines in a smaller face (long names like "United States of America"
+/// stay readable). Bottom: active players and the value with its unit.
 final class CountryRankingCard extends StatelessWidget {
   const CountryRankingCard({
     required this.entry,
     required this.name,
+    required this.performance,
     required this.onTap,
     super.key,
   });
@@ -18,6 +22,9 @@ final class CountryRankingCard extends StatelessWidget {
 
   /// Localized name; the code until names have loaded.
   final String name;
+
+  /// Show PP (true) or ranked score. osu! orders countries by PP either way.
+  final bool performance;
 
   /// Opens the player table of this country.
   final VoidCallback? onTap;
@@ -31,7 +38,14 @@ final class CountryRankingCard extends StatelessWidget {
     final ColorScheme colors = theme.colorScheme;
     final String locale = context.t.localeName;
     final double dpr = MediaQuery.devicePixelRatioOf(context);
-    return UiSurface.card(
+    final LocalizedCount score = LocalizedCount(
+      entry.rankedScore,
+      locale: locale,
+    );
+    final TextStyle? nameStyle = theme.textTheme.titleSmall?.copyWith(
+      height: 1.2,
+    );
+    final Widget card = UiSurface.card(
       onTap: onTap,
       padding: const EdgeInsets.all(UiSpace.md),
       child: OsuAvatarBands(
@@ -51,19 +65,30 @@ final class CountryRankingCard extends StatelessWidget {
             ),
           ),
         ),
-        top: Row(
+        top: Text.rich(
+          TextSpan(
+            children: <InlineSpan>[
+              TextSpan(
+                text:
+                    '#${NumberFormat.decimalPattern(locale).format(entry.position)}  ',
+                style: nameStyle?.copyWith(color: colors.tertiary),
+              ),
+              TextSpan(text: name),
+            ],
+          ),
+          style: nameStyle,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        bottom: Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           spacing: UiSpace.sm,
           children: <Widget>[
-            UiText.titleMedium(
-              '#${NumberFormat.decimalPattern(locale).format(entry.position)}',
-              color: colors.tertiary,
-              maxLines: 1,
-            ),
             Expanded(
-              child: UiText.titleMedium(
-                name,
+              child: UiText.bodySmall(
+                context.t.rankingsCountryPlayers(entry.activeUsers),
+                secondary: true,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -72,17 +97,20 @@ final class CountryRankingCard extends StatelessWidget {
               TextSpan(
                 children: <InlineSpan>[
                   TextSpan(
-                    text: NumberFormat.decimalPatternDigits(
-                      locale: locale,
-                      decimalDigits: 0,
-                    ).format(entry.performance),
+                    text: performance
+                        ? NumberFormat.decimalPatternDigits(
+                            locale: locale,
+                            decimalDigits: 0,
+                          ).format(entry.performance)
+                        : score.compact,
                   ),
-                  TextSpan(
-                    text: ' PP',
-                    style: theme.textTheme.labelMedium?.copyWith(
-                      color: colors.primary,
+                  if (performance)
+                    TextSpan(
+                      text: ' PP',
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: colors.primary,
+                      ),
                     ),
-                  ),
                 ],
               ),
               maxLines: 1,
@@ -94,15 +122,13 @@ final class CountryRankingCard extends StatelessWidget {
             ),
           ],
         ),
-        bottom: Align(
-          alignment: AlignmentDirectional.bottomStart,
-          child: UiText.bodySmall(
-            context.t.rankingsCountryPlayers(entry.activeUsers),
-            secondary: true,
-            maxLines: 1,
-          ),
-        ),
       ),
     );
+    return performance
+        ? card
+        : Tooltip(
+            message: '${context.t.profileRankedScoreLabel}: ${score.exact}',
+            child: card,
+          );
   }
 }

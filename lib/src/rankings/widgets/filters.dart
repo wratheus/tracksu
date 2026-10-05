@@ -17,7 +17,8 @@ enum RankingsFilterScope {
   /// Ruleset and PP/score: osu-web applies country and variant to players only.
   teams,
 
-  /// Ruleset only: country rankings are ordered by PP and not filterable.
+  /// Ruleset and PP/score view: osu! orders countries by PP only, the score
+  /// view shows ranked score in that order (like teams).
   countries,
 }
 
@@ -46,29 +47,28 @@ final class RankingsFilters extends StatelessWidget {
                     ),
                   ),
             ),
-            if (scope != RankingsFilterScope.countries)
-              UiSegmentedControl<bool>(
-                selected: type.sort == 'performance',
-                segments: <UiSegment<bool>>[
-                  UiSegment<bool>(
-                    value: true,
-                    // Short labels so the segmented control can show them;
-                    // a long label hides every label in the row.
-                    label: 'PP',
-                    icon: const Icon(Icons.bolt),
-                  ),
-                  UiSegment<bool>(
-                    value: false,
-                    label: context.t.rankingsScore,
-                    icon: const Icon(Icons.leaderboard_outlined),
-                  ),
-                ],
-                onChanged: (bool performance) => context.read<RankingsBloc>().add(
-                  RankingsTypeSelected(
-                    RankingsType.select(type.ruleset, performance),
-                  ),
+            UiSegmentedControl<bool>(
+              selected: type.sort == 'performance',
+              segments: <UiSegment<bool>>[
+                UiSegment<bool>(
+                  value: true,
+                  // Short labels so the segmented control can show them;
+                  // a long label hides every label in the row.
+                  label: 'PP',
+                  icon: const Icon(Icons.bolt),
+                ),
+                UiSegment<bool>(
+                  value: false,
+                  label: context.t.rankingsScore,
+                  icon: const Icon(Icons.leaderboard_outlined),
+                ),
+              ],
+              onChanged: (bool performance) => context.read<RankingsBloc>().add(
+                RankingsTypeSelected(
+                  RankingsType.select(type.ruleset, performance),
                 ),
               ),
+            ),
           ],
         ),
       ),
