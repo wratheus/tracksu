@@ -18,6 +18,8 @@ final class LeaderboardRemoteSource {
         'mode': query.ruleset.apiValue,
         'legacy_only': query.legacy ? 1 : 0,
         'type': 'global',
+        // PHP reads indexed keys as the `mods[]` array.
+        for (int i = 0; i < query.mods.length; i++) 'mods[$i]': query.mods[i],
       },
       options: options,
     );

@@ -16,6 +16,8 @@ import 'package:tracksu/src/beatmap/bloc/bloc.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/beatmap/leaderboard/domain/repository.dart';
 import 'package:tracksu/src/beatmap/leaderboard/main.dart';
+import 'package:tracksu/src/beatmap/leaderboard/widgets/mod_filter.dart';
+import 'package:tracksu/src/beatmap/widgets/difficulty_stats.dart';
 import 'package:tracksu/src/beatmap/widgets/failure.dart';
 import 'package:tracksu/src/comments/domain/comment.dart';
 import 'package:tracksu/src/comments/main.dart';
@@ -31,9 +33,8 @@ final class BeatmapScreen extends StatelessWidget {
   final PageRefresh _leaderboardRefresh = PageRefresh();
 
   @override
-  Widget build(BuildContext context) => PageActivityHost(
-    child: Builder(builder: _scaffold),
-  );
+  Widget build(BuildContext context) =>
+      PageActivityHost(child: Builder(builder: _scaffold));
 
   Widget _scaffold(BuildContext context) => Scaffold(
     appBar: AppBar(
@@ -99,96 +100,97 @@ final class BeatmapScreen extends StatelessWidget {
               _leaderboardRefresh();
             },
             child: CustomScrollView(
-          // Desktop does not inherit the route controller implicitly.
-          primary: true,
-          physics: const AlwaysScrollableScrollPhysics(),
-          slivers: <Widget>[
-            BlocBuilder<BeatmapBloc, BeatmapState>(
-              builder: (BuildContext context, BeatmapState state) {
-                void refresh() => context.read<BeatmapBloc>().add(
-                  const BeatmapLoadRequested(),
-                );
-                return switch (state) {
-                  BeatmapLoadingState() => SliverToBoxAdapter(
-                    child: UiPageSkeleton.profile(
-                      label: context.t.beatmapTitle,
-                    ),
-                  ),
-                  BeatmapErrorState(:final failure) => SliverToBoxAdapter(
-                    child: BeatmapFailureView(
-                      failure: failure,
-                      onRetry: refresh,
-                    ),
-                  ),
-                  BeatmapLoadedState() => UiSliverReveal(
-                    sliver: SliverMainAxisGroup(
-                      slivers: <Widget>[
-                        SliverToBoxAdapter(
-                          child: Padding(
-                            padding: const EdgeInsets.all(UiSpace.lg),
-                            child: OsuBeatmapCard.featured(
-                              title: state.details.title,
-                              artist: state.details.artist,
-                              banner: BeatmapCover(
-                                uri:
-                                    state.details.metadata?.bannerUri ??
-                                    state.details.metadata?.coverUri,
-                                preview: state.details.preview,
-                              ),
-                              facts: BeatmapFacts(
-                                metadata: state.details.metadata,
-                              ),
-                            ),
-                          ),
+              // Desktop does not inherit the route controller implicitly.
+              primary: true,
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: <Widget>[
+                BlocBuilder<BeatmapBloc, BeatmapState>(
+                  builder: (BuildContext context, BeatmapState state) {
+                    void refresh() => context.read<BeatmapBloc>().add(
+                      const BeatmapLoadRequested(),
+                    );
+                    return switch (state) {
+                      BeatmapLoadingState() => SliverToBoxAdapter(
+                        child: UiPageSkeleton.profile(
+                          label: context.t.beatmapTitle,
                         ),
-                        if (state.failure case final failure?)
-                          SliverToBoxAdapter(
-                            child: BeatmapFailureView(
-                              failure: failure,
-                              onRetry: refresh,
-                            ),
-                          ),
-                        if (state.details.difficulties.isEmpty)
-                          SliverToBoxAdapter(
-                            child: UiContentState.empty(
-                              title: context.t.beatmapNoDifficulties,
-                            ),
-                          ),
-                        // Difficulties right under the map card, then the
-                        // (collapsible) description, then the leaderboard.
-                        if (state.selectedId != null)
-                          SliverToBoxAdapter(
-                            child: _DifficultyPicker(state: state),
-                          ),
-                        if (state.details.description case final description?)
-                          SliverPadding(
-                            padding: const EdgeInsets.only(top: UiSpace.sm),
-                            sliver: ContentPageSection(
-                              key: ValueKey<int>(state.details.id),
-                              page: description,
-                              title: context.t.beatmapDescription,
-                            ),
-                          ),
-                        _ResultsAndComments(
-                          setId: state.details.id,
-                          leaderboard: switch (state.selectedId) {
-                            final int id => _LeaderboardForSelection(
-                              key: ValueKey<int>(id),
-                              params: params,
-                              state: state,
-                              id: id,
-                            ),
-                            null => null,
-                          },
+                      ),
+                      BeatmapErrorState(:final failure) => SliverToBoxAdapter(
+                        child: BeatmapFailureView(
+                          failure: failure,
+                          onRetry: refresh,
                         ),
-                      ],
-                    ),
-                  ),
-                };
-              },
-            ),
-            UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
-          ],
+                      ),
+                      BeatmapLoadedState() => UiSliverReveal(
+                        sliver: SliverMainAxisGroup(
+                          slivers: <Widget>[
+                            SliverToBoxAdapter(
+                              child: Padding(
+                                padding: const EdgeInsets.all(UiSpace.lg),
+                                child: OsuBeatmapCard.featured(
+                                  title: state.details.title,
+                                  artist: state.details.artist,
+                                  banner: BeatmapCover(
+                                    uri:
+                                        state.details.metadata?.bannerUri ??
+                                        state.details.metadata?.coverUri,
+                                    preview: state.details.preview,
+                                  ),
+                                  facts: BeatmapFacts(
+                                    metadata: state.details.metadata,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            if (state.failure case final failure?)
+                              SliverToBoxAdapter(
+                                child: BeatmapFailureView(
+                                  failure: failure,
+                                  onRetry: refresh,
+                                ),
+                              ),
+                            if (state.details.difficulties.isEmpty)
+                              SliverToBoxAdapter(
+                                child: UiContentState.empty(
+                                  title: context.t.beatmapNoDifficulties,
+                                ),
+                              ),
+                            // Difficulties right under the map card, then the
+                            // (collapsible) description, then the leaderboard.
+                            if (state.selectedId != null)
+                              SliverToBoxAdapter(
+                                child: _DifficultyPicker(state: state),
+                              ),
+                            if (state.details.description
+                                case final description?)
+                              SliverPadding(
+                                padding: const EdgeInsets.only(top: UiSpace.sm),
+                                sliver: ContentPageSection(
+                                  key: ValueKey<int>(state.details.id),
+                                  page: description,
+                                  title: context.t.beatmapDescription,
+                                ),
+                              ),
+                            _ResultsAndComments(
+                              setId: state.details.id,
+                              leaderboard: switch (state.selectedId) {
+                                final int id => _LeaderboardForSelection(
+                                  key: ValueKey<int>(id),
+                                  params: params,
+                                  state: state,
+                                  id: id,
+                                ),
+                                null => null,
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    };
+                  },
+                ),
+                UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+              ],
             ),
           ),
         ),
@@ -344,6 +346,11 @@ final class _DifficultyPicker extends StatelessWidget {
               lengthSeconds: difficulty.lengthSeconds,
               bpm: difficulty.bpm,
             ),
+            if (difficulty.stats case final BeatmapDifficultyStats stats)
+              BeatmapDifficultyStatsView(
+                stats: stats,
+                ruleset: difficulty.ruleset,
+              ),
           ],
         ),
       ),
@@ -415,7 +422,7 @@ final class _DifficultyPip extends StatelessWidget {
   }
 }
 
-final class _LeaderboardForSelection extends StatelessWidget {
+final class _LeaderboardForSelection extends StatefulWidget {
   const _LeaderboardForSelection({
     required this.params,
     required this.state,
@@ -425,22 +432,60 @@ final class _LeaderboardForSelection extends StatelessWidget {
   final BeatmapParams params;
   final BeatmapLoadedState state;
   final int id;
+
+  @override
+  State<_LeaderboardForSelection> createState() =>
+      _LeaderboardForSelectionState();
+}
+
+/// Leaderboard of the selected difficulty with its mod filter; the filter
+/// resets with the difficulty (the widget is keyed by it).
+final class _LeaderboardForSelectionState
+    extends State<_LeaderboardForSelection> {
+  List<String> _mods = const <String>[];
+
   @override
   Widget build(BuildContext context) {
+    final BeatmapLoadedState state = widget.state;
+    final int id = widget.id;
     final BeatmapDifficulty difficulty = state.details.difficulties.firstWhere(
       (BeatmapDifficulty d) => d.id == id,
     );
-    final ProfileRuleset ruleset = switch (params) {
-      BeatmapDifficultyParams(:final ruleset) when params.id == id =>
+    final ProfileRuleset ruleset = switch (widget.params) {
+      BeatmapDifficultyParams(:final ruleset) when widget.params.id == id =>
         ruleset ?? difficulty.ruleset,
       _ => difficulty.ruleset,
     };
-    return LeaderboardMain(
-      preview: state.details.preview,
-      coverUri:
-          state.details.metadata?.bannerUri ?? state.details.metadata?.coverUri,
-      key: ValueKey<(int, ProfileRuleset)>((id, ruleset)),
-      query: LeaderboardQuery(beatmapId: id, ruleset: ruleset),
+    return SliverMainAxisGroup(
+      slivers: <Widget>[
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(
+            UiSpace.lg,
+            UiSpace.md,
+            UiSpace.lg,
+            0,
+          ),
+          sliver: SliverToBoxAdapter(
+            child: LeaderboardModFilter(
+              ruleset: ruleset,
+              selected: _mods,
+              onChanged: (List<String> mods) => setState(() => _mods = mods),
+            ),
+          ),
+        ),
+        LeaderboardMain(
+          preview: state.details.preview,
+          coverUri:
+              state.details.metadata?.bannerUri ??
+              state.details.metadata?.coverUri,
+          key: ValueKey<(int, ProfileRuleset, String)>((
+            id,
+            ruleset,
+            _mods.join(','),
+          )),
+          query: LeaderboardQuery(beatmapId: id, ruleset: ruleset, mods: _mods),
+        ),
+      ],
     );
   }
 }
@@ -495,8 +540,7 @@ final class _ResultsAndCommentsState extends State<_ResultsAndComments> {
           ),
         ),
         switch (_tab) {
-          _LowerTab.results =>
-            widget.leaderboard ?? const SliverToBoxAdapter(),
+          _LowerTab.results => widget.leaderboard ?? const SliverToBoxAdapter(),
           _LowerTab.comments => const CommentsSection(showTitle: false),
         },
       ],

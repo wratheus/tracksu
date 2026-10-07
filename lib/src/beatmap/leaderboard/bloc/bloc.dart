@@ -39,6 +39,7 @@ final class LeaderboardBloc extends Bloc<LeaderboardEvent, LeaderboardState> {
       _query.beatmapId,
       _query.ruleset,
       _query.legacy,
+      _query.mods.join(','),
     );
     final int cacheRevision = _cache.revision;
     final List<LeaderboardEntry>? cached = _cache.read<List<LeaderboardEntry>>(

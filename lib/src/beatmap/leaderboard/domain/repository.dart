@@ -7,10 +7,16 @@ final class LeaderboardQuery {
     required this.beatmapId,
     required this.ruleset,
     this.legacy = false,
+    this.mods = const <String>[],
   });
   final int beatmapId;
   final ProfileRuleset ruleset;
   final bool legacy;
+
+  /// Mod acronyms to filter by (osu-web `mods[]`; `NM` = no mods). Empty
+  /// means all scores. osu-web allows the filter for API requests without
+  /// supporter (`assertSupporterOnlyOptions` skips mods when is_api_request).
+  final List<String> mods;
 }
 
 final class LeaderboardEntry {

@@ -27,6 +27,7 @@ final class BeatmapDifficulty {
     required this.stars,
     required this.lengthSeconds,
     this.bpm,
+    this.stats,
   });
   final int id;
   final String name;
@@ -34,6 +35,36 @@ final class BeatmapDifficulty {
   final double stars;
   final int lengthSeconds;
   final double? bpm;
+
+  /// Attributes and counts from BeatmapExtended; null when absent.
+  final BeatmapDifficultyStats? stats;
+}
+
+/// osu-web BeatmapExtended attributes of one difficulty. `cs` is the key
+/// count in mania; `accuracy` is OD and `drain` is HP.
+final class BeatmapDifficultyStats {
+  const BeatmapDifficultyStats({
+    required this.cs,
+    required this.ar,
+    required this.od,
+    required this.hp,
+    this.circles,
+    this.sliders,
+    this.spinners,
+    this.maxCombo,
+    this.playCount,
+    this.passCount,
+  });
+  final double cs;
+  final double ar;
+  final double od;
+  final double hp;
+  final int? circles;
+  final int? sliders;
+  final int? spinners;
+  final int? maxCombo;
+  final int? playCount;
+  final int? passCount;
 }
 
 final class BeatmapDetails {

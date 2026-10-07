@@ -21,10 +21,11 @@ final class LeaderboardMain extends StatelessWidget {
   final Uri? coverUri;
   @override
   Widget build(BuildContext context) => BlocProvider<LeaderboardBloc>(
-    key: ValueKey<(int, ProfileRuleset, bool)>((
+    key: ValueKey<(int, ProfileRuleset, bool, String)>((
       query.beatmapId,
       query.ruleset,
       query.legacy,
+      query.mods.join(','),
     )),
     create: (_) => LeaderboardBloc(
       cache: DepsScope.of(context).pageCache,

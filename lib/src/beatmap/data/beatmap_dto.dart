@@ -44,6 +44,7 @@ final class BeatmapDetailsDto {
           stars: stars,
           lengthSeconds: length,
           bpm: bpm != null && bpm.isFinite && bpm > 0 ? bpm : null,
+          stats: _stats(map),
         ),
       );
     }
@@ -75,4 +76,37 @@ final class BeatmapDetailsDto {
   }
 
   BeatmapDetails toDomain() => details;
+
+  /// Optional: a missing or out-of-range attribute hides the stats block
+  /// instead of failing the whole beatmap page.
+  static BeatmapDifficultyStats? _stats(JsonMapReader map) {
+    try {
+      final double? cs = map.optionalDouble('cs');
+      final double? ar = map.optionalDouble('ar');
+      final double? od = map.optionalDouble('accuracy');
+      final double? hp = map.optionalDouble('drain');
+      if (cs == null || ar == null || od == null || hp == null) return null;
+      for (final double value in <double>[cs, ar, od, hp]) {
+        if (!value.isFinite || value < 0 || value > 20) return null;
+      }
+      int? count(String key) => switch (map.optionalInt(key)) {
+        final int value when value >= 0 => value,
+        _ => null,
+      };
+      return BeatmapDifficultyStats(
+        cs: cs,
+        ar: ar,
+        od: od,
+        hp: hp,
+        circles: count('count_circles'),
+        sliders: count('count_sliders'),
+        spinners: count('count_spinners'),
+        maxCombo: count('max_combo'),
+        playCount: count('playcount'),
+        passCount: count('passcount'),
+      );
+    } on FormatException {
+      return null;
+    }
+  }
 }
