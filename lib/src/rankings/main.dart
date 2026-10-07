@@ -18,6 +18,10 @@ import 'package:tracksu/src/rankings/country_stats/data/remote_source.dart';
 import 'package:tracksu/src/rankings/country_stats/data/repository_impl.dart';
 import 'package:tracksu/src/rankings/country_stats/domain/country_ranking.dart';
 import 'package:tracksu/src/rankings/country_stats/widgets/country_section.dart';
+import 'package:tracksu/src/rankings/kudosu/bloc/bloc.dart';
+import 'package:tracksu/src/rankings/kudosu/data/repository_impl.dart';
+import 'package:tracksu/src/rankings/kudosu/data/remote_source.dart';
+import 'package:tracksu/src/rankings/kudosu/widgets/kudosu_section.dart';
 import 'package:tracksu/src/rankings/teams/bloc/bloc.dart';
 import 'package:tracksu/src/rankings/teams/data/remote_source.dart';
 import 'package:tracksu/src/rankings/teams/data/repository_impl.dart';
@@ -31,93 +35,122 @@ final class RankingsMain extends StatelessWidget {
   const RankingsMain({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      RepositoryProvider<RankingCountriesRepository>(
-        create: (_) => RankingCountriesRepositoryImpl(
-          source: const AssetRankingCountriesLocalSource(),
+  Widget build(
+    BuildContext context,
+  ) => RepositoryProvider<RankingCountriesRepository>(
+    create: (_) => RankingCountriesRepositoryImpl(
+      source: const AssetRankingCountriesLocalSource(),
+    ),
+    child: BlocProvider<KudosuRankingBloc>(
+      // The first request starts when the Kudosu page is first shown.
+      create: (_) => KudosuRankingBloc(
+        repository: KudosuRankingRepositoryImpl(
+          remoteSource: KudosuRankingRemoteSource(
+            restClient: DepsScope.of(context).publicRestClient,
+          ),
         ),
-        child: BlocProvider<CountryRankingsBloc>(
-          create: (_) => CountryRankingsBloc(
+      ),
+      child: BlocProvider<CountryRankingsBloc>(
+        create: (_) => CountryRankingsBloc(
+          cache: DepsScope.of(context).pageCache,
+          repository: CountryRankingsRepositoryImpl(
+            remoteSource: OsuCountryRankingsRemoteSource(
+              restClient: DepsScope.of(context).publicRestClient,
+            ),
+          ),
+        ),
+        child: BlocProvider<TeamRankingsBloc>(
+          create: (_) => TeamRankingsBloc(
             cache: DepsScope.of(context).pageCache,
-            repository: CountryRankingsRepositoryImpl(
-              remoteSource: OsuCountryRankingsRemoteSource(
+            repository: TeamRankingsRepositoryImpl(
+              remoteSource: OsuTeamRankingsRemoteSource(
                 restClient: DepsScope.of(context).publicRestClient,
               ),
             ),
           ),
-          child: BlocProvider<TeamRankingsBloc>(
-              create: (_) => TeamRankingsBloc(
-                cache: DepsScope.of(context).pageCache,
-                repository: TeamRankingsRepositoryImpl(
-                  remoteSource: OsuTeamRankingsRemoteSource(
-                    restClient: DepsScope.of(context).publicRestClient,
+          child: BlocProvider<RankingsBloc>(
+            create: (_) => RankingsBloc(
+              cache: DepsScope.of(context).pageCache,
+              repository: RankingsRepositoryImpl(
+                remoteSource: OsuRankingsRemoteSource(
+                  restClient: DepsScope.of(context).publicRestClient,
+                ),
+              ),
+            )..add(const RankingsStarted()),
+            child: Scaffold(
+              appBar: AppBar(
+                title: UiText.titleLarge(context.t.rankingsTitle),
+                actions: <Widget>[
+                  const SettingsButton(),
+                  BlocBuilder<RankingsBloc, RankingsState>(
+                    builder: (BuildContext context, RankingsState state) =>
+                        ShareButton.icon(
+                          target: ShareTarget.rankings(
+                            RankingsQuery(
+                              type: state.type,
+                              country: state.country,
+                              variant: state.variant,
+                            ),
+                            context.t.rankingsTitle,
+                          ),
+                        ),
+                  ),
+                ],
+                bottom: UiAppBarProgressSlot(
+                  child: BlocSelector<RankingsBloc, RankingsState, bool>(
+                    selector: (RankingsState state) =>
+                        state is RankingsLoadedState &&
+                        state.operation == RankingsOperation.refresh,
+                    builder: (BuildContext context, bool players) =>
+                        BlocSelector<TeamRankingsBloc, TeamRankingsState, bool>(
+                          selector: (TeamRankingsState state) =>
+                              state.items != null &&
+                              state.operation == TeamRankingsOperation.refresh,
+                          builder: (BuildContext context, bool teams) =>
+                              BlocSelector<
+                                CountryRankingsBloc,
+                                CountryRankingsState,
+                                bool
+                              >(
+                                selector: (CountryRankingsState state) =>
+                                    state.items != null &&
+                                    state.operation ==
+                                        CountryRankingsOperation.refresh,
+                                builder:
+                                    (BuildContext context, bool countries) =>
+                                        BlocSelector<
+                                          KudosuRankingBloc,
+                                          KudosuRankingState,
+                                          bool
+                                        >(
+                                          selector: (state) =>
+                                              state.items != null &&
+                                              state.operation ==
+                                                  KudosuRankingOperation
+                                                      .refresh,
+                                          builder: (context, kudosu) =>
+                                              UiAppBarProgress(
+                                                visible:
+                                                    players ||
+                                                    teams ||
+                                                    countries ||
+                                                    kudosu,
+                                                semanticsLabel:
+                                                    context.t.rankingsLoading,
+                                              ),
+                                        ),
+                              ),
+                        ),
                   ),
                 ),
               ),
-          child: BlocProvider<RankingsBloc>(
-          create: (_) => RankingsBloc(
-            cache: DepsScope.of(context).pageCache,
-            repository: RankingsRepositoryImpl(
-              remoteSource: OsuRankingsRemoteSource(
-                restClient: DepsScope.of(context).publicRestClient,
-              ),
+              body: const SafeArea(child: _RankingsBody()),
             ),
-          )..add(const RankingsStarted()),
-          child: Scaffold(
-            appBar: AppBar(
-              title: UiText.titleLarge(context.t.rankingsTitle),
-              actions: <Widget>[
-                const SettingsButton(),
-                BlocBuilder<RankingsBloc, RankingsState>(
-                  builder: (BuildContext context, RankingsState state) =>
-                      ShareButton.icon(
-                        target: ShareTarget.rankings(
-                          RankingsQuery(
-                            type: state.type,
-                            country: state.country,
-                            variant: state.variant,
-                          ),
-                          context.t.rankingsTitle,
-                        ),
-                      ),
-                ),
-              ],
-              bottom: UiAppBarProgressSlot(
-                child: BlocSelector<RankingsBloc, RankingsState, bool>(
-                  selector: (RankingsState state) =>
-                      state is RankingsLoadedState &&
-                      state.operation == RankingsOperation.refresh,
-                  builder: (BuildContext context, bool players) =>
-                      BlocSelector<TeamRankingsBloc, TeamRankingsState, bool>(
-                        selector: (TeamRankingsState state) =>
-                            state.items != null &&
-                            state.operation == TeamRankingsOperation.refresh,
-                        builder: (BuildContext context, bool teams) =>
-                            BlocSelector<
-                              CountryRankingsBloc,
-                              CountryRankingsState,
-                              bool
-                            >(
-                              selector: (CountryRankingsState state) =>
-                                  state.items != null &&
-                                  state.operation ==
-                                      CountryRankingsOperation.refresh,
-                              builder: (BuildContext context, bool countries) =>
-                                  UiAppBarProgress(
-                                    visible: players || teams || countries,
-                                    semanticsLabel: context.t.rankingsLoading,
-                                  ),
-                            ),
-                      ),
-                ),
-              ),
-            ),
-            body: const SafeArea(child: _RankingsBody()),
           ),
         ),
-        ),
-        ),
-      );
+      ),
+    ),
+  );
 }
 
 final class _RankingsBody extends StatefulWidget {
@@ -126,7 +159,7 @@ final class _RankingsBody extends StatefulWidget {
   State<_RankingsBody> createState() => _RankingsBodyState();
 }
 
-enum _RankingsTab { players, teams, countries }
+enum _RankingsTab { players, teams, countries, kudosu }
 
 /// Players / Teams / Countries as swipeable pages under one fixed header:
 /// the linked page switcher and the ruleset + PP/score filters all three
@@ -181,6 +214,8 @@ final class _RankingsBodyState extends State<_RankingsBody>
         _syncTeams(type);
       case _RankingsTab.countries:
         _syncCountries(type);
+      case _RankingsTab.kudosu:
+        break;
     }
   }
 
@@ -206,6 +241,8 @@ final class _RankingsBodyState extends State<_RankingsBody>
         context.read<CountryRankingsBloc>().add(
           const CountryRankingsRefreshRequested(),
         );
+      case _RankingsTab.kudosu:
+        context.read<KudosuRankingBloc>().add(const KudosuRankingRequested());
       case _RankingsTab.players:
         final RankingsBloc bloc = context.read<RankingsBloc>();
         if (bloc.state is RankingsLoadedState) {
@@ -215,7 +252,9 @@ final class _RankingsBodyState extends State<_RankingsBody>
   }
 
   @override
-  Widget build(BuildContext context) => BlocListener<RankingsBloc, RankingsState>(
+  Widget build(
+    BuildContext context,
+  ) => BlocListener<RankingsBloc, RankingsState>(
     listenWhen: (RankingsState before, RankingsState after) =>
         (before.type, before.country?.value, before.variant) !=
         (after.type, after.country?.value, after.variant),
@@ -252,18 +291,33 @@ final class _RankingsBodyState extends State<_RankingsBody>
                 label: context.t.rankingsCountries,
                 icon: const Icon(Icons.public),
               ),
+              UiSegment<int>(
+                value: _RankingsTab.kudosu.index,
+                label: context.t.rankingsKudosu,
+                icon: const Icon(Icons.volunteer_activism_outlined),
+              ),
             ],
             onChanged: _tabs.animateTo,
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(
-            UiSpace.lg,
-            UiSpace.sm,
-            UiSpace.lg,
-            UiSpace.xs,
-          ),
-          child: RankingsFilters(scope: RankingsFilterScope.shared),
+        // Kudosu has no ruleset or PP/score: the shared block folds away.
+        AnimatedSize(
+          duration: MediaQuery.disableAnimationsOf(context)
+              ? Duration.zero
+              : const Duration(milliseconds: 200),
+          curve: Curves.easeOutCubic,
+          alignment: Alignment.topCenter,
+          child: _tab == _RankingsTab.kudosu
+              ? const SizedBox(width: double.infinity)
+              : const Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    UiSpace.lg,
+                    UiSpace.sm,
+                    UiSpace.lg,
+                    UiSpace.xs,
+                  ),
+                  child: RankingsFilters(scope: RankingsFilterScope.shared),
+                ),
         ),
         Expanded(
           child: TabBarView(
@@ -283,6 +337,9 @@ final class _RankingsBodyState extends State<_RankingsBody>
                     _RankingsTab.teams => const <Widget>[
                       _PageTop(),
                       TeamRankingsSection(),
+                    ],
+                    _RankingsTab.kudosu => const <Widget>[
+                      KudosuRankingSection(),
                     ],
                     _RankingsTab.countries => <Widget>[
                       const _PageTop(),
