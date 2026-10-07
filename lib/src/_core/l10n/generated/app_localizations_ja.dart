@@ -1674,4 +1674,169 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get commentsVoteOnSite => '投票と返信は osu.ppy.sh で行えます';
+
+  @override
+  String get dailyHistory => '過去の日';
+
+  @override
+  String get dailyHistoryDescription => '過去のデイリーチャレンジと最終ランキング';
+
+  @override
+  String get dailyHistoryLimit => '直近の最大250日分を表示';
+
+  @override
+  String get dailyHistoryEmpty => '過去のチャレンジはありません';
+
+  @override
+  String get dailyPastUnavailable => 'この日のチャレンジは利用できません';
+
+  @override
+  String get leaderboardModsTitle => 'Modフィルター';
+
+  @override
+  String get leaderboardModsAll => 'すべてのMod';
+
+  @override
+  String get leaderboardModsReset => 'リセット';
+
+  @override
+  String get leaderboardModsApply => '適用';
+
+  @override
+  String get beatmapKeys => 'キー数';
+
+  @override
+  String get beatmapCircleSize => 'サークルサイズ (CS)';
+
+  @override
+  String get beatmapHpDrain => 'HP減少';
+
+  @override
+  String get beatmapAccuracy => '判定難易度 (OD)';
+
+  @override
+  String get beatmapApproachRate => 'アプローチレート (AR)';
+
+  @override
+  String get beatmapMaxCombo => '最大コンボ';
+
+  @override
+  String get beatmapObjects => 'オブジェクト数';
+
+  @override
+  String get beatmapPlays => 'プレイ回数';
+
+  @override
+  String get beatmapPassRate => 'クリア率';
+
+  @override
+  String get beatmapSearchAnyMode => 'すべて';
+
+  @override
+  String get beatmapSearchGenre => 'ジャンル';
+
+  @override
+  String get beatmapSearchAnyGenre => 'すべてのジャンル';
+
+  @override
+  String get beatmapSearchLanguage => '言語';
+
+  @override
+  String get beatmapSearchAnyLanguage => 'すべての言語';
+
+  @override
+  String get genreUnspecified => '未指定';
+
+  @override
+  String get genreVideoGame => 'ゲーム';
+
+  @override
+  String get genreAnime => 'アニメ';
+
+  @override
+  String get genreRock => 'ロック';
+
+  @override
+  String get genrePop => 'ポップ';
+
+  @override
+  String get genreOther => 'その他';
+
+  @override
+  String get genreNovelty => 'コミックソング';
+
+  @override
+  String get genreHipHop => 'ヒップホップ';
+
+  @override
+  String get genreElectronic => 'エレクトロニック';
+
+  @override
+  String get genreMetal => 'メタル';
+
+  @override
+  String get genreClassical => 'クラシック';
+
+  @override
+  String get genreFolk => 'フォーク';
+
+  @override
+  String get genreJazz => 'ジャズ';
+
+  @override
+  String get languageEnglish => '英語';
+
+  @override
+  String get languageJapanese => '日本語';
+
+  @override
+  String get languageChinese => '中国語';
+
+  @override
+  String get languageInstrumental => 'インストゥルメンタル';
+
+  @override
+  String get languageKorean => '韓国語';
+
+  @override
+  String get languageFrench => 'フランス語';
+
+  @override
+  String get languageGerman => 'ドイツ語';
+
+  @override
+  String get languageSwedish => 'スウェーデン語';
+
+  @override
+  String get languageSpanish => 'スペイン語';
+
+  @override
+  String get languageItalian => 'イタリア語';
+
+  @override
+  String get languageRussian => 'ロシア語';
+
+  @override
+  String get languagePolish => 'ポーランド語';
+
+  @override
+  String get languageOther => 'その他';
+
+  @override
+  String get languageUnspecified => '未指定';
+
+  @override
+  String get rankingsKudosu => 'Kudosu';
+
+  @override
+  String get rankingsKudosuHint => 'マッパーへの貢献で獲得したKudosuの合計ランキング。最大1,000人。';
+
+  @override
+  String rankingsKudosuAvailable(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '利用可能なKudosu: $countString';
+  }
 }

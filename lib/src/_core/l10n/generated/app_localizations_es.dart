@@ -1761,4 +1761,172 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get commentsVoteOnSite => 'Votar y responder se hace en osu.ppy.sh';
+
+  @override
+  String get dailyHistory => 'Días anteriores';
+
+  @override
+  String get dailyHistoryDescription =>
+      'Mapas del día anteriores y clasificaciones finales';
+
+  @override
+  String get dailyHistoryLimit => 'Hasta 250 días recientes';
+
+  @override
+  String get dailyHistoryEmpty => 'No hay días anteriores disponibles';
+
+  @override
+  String get dailyPastUnavailable =>
+      'El desafío de este día no está disponible';
+
+  @override
+  String get leaderboardModsTitle => 'Filtrar por mods';
+
+  @override
+  String get leaderboardModsAll => 'Todos los mods';
+
+  @override
+  String get leaderboardModsReset => 'Restablecer';
+
+  @override
+  String get leaderboardModsApply => 'Aplicar';
+
+  @override
+  String get beatmapKeys => 'Teclas';
+
+  @override
+  String get beatmapCircleSize => 'Tamaño de círculos (CS)';
+
+  @override
+  String get beatmapHpDrain => 'Pérdida de HP';
+
+  @override
+  String get beatmapAccuracy => 'Precisión (OD)';
+
+  @override
+  String get beatmapApproachRate => 'Velocidad de aparición (AR)';
+
+  @override
+  String get beatmapMaxCombo => 'Combo máximo';
+
+  @override
+  String get beatmapObjects => 'Objetos';
+
+  @override
+  String get beatmapPlays => 'Partidas';
+
+  @override
+  String get beatmapPassRate => 'Tasa de aprobación';
+
+  @override
+  String get beatmapSearchAnyMode => 'Todos';
+
+  @override
+  String get beatmapSearchGenre => 'Género';
+
+  @override
+  String get beatmapSearchAnyGenre => 'Cualquier género';
+
+  @override
+  String get beatmapSearchLanguage => 'Idioma';
+
+  @override
+  String get beatmapSearchAnyLanguage => 'Cualquier idioma';
+
+  @override
+  String get genreUnspecified => 'Sin especificar';
+
+  @override
+  String get genreVideoGame => 'Videojuego';
+
+  @override
+  String get genreAnime => 'Anime';
+
+  @override
+  String get genreRock => 'Rock';
+
+  @override
+  String get genrePop => 'Pop';
+
+  @override
+  String get genreOther => 'Otro';
+
+  @override
+  String get genreNovelty => 'Humorística';
+
+  @override
+  String get genreHipHop => 'Hip hop';
+
+  @override
+  String get genreElectronic => 'Electrónica';
+
+  @override
+  String get genreMetal => 'Metal';
+
+  @override
+  String get genreClassical => 'Clásica';
+
+  @override
+  String get genreFolk => 'Folk';
+
+  @override
+  String get genreJazz => 'Jazz';
+
+  @override
+  String get languageEnglish => 'Inglés';
+
+  @override
+  String get languageJapanese => 'Japonés';
+
+  @override
+  String get languageChinese => 'Chino';
+
+  @override
+  String get languageInstrumental => 'Instrumental';
+
+  @override
+  String get languageKorean => 'Coreano';
+
+  @override
+  String get languageFrench => 'Francés';
+
+  @override
+  String get languageGerman => 'Alemán';
+
+  @override
+  String get languageSwedish => 'Sueco';
+
+  @override
+  String get languageSpanish => 'Español';
+
+  @override
+  String get languageItalian => 'Italiano';
+
+  @override
+  String get languageRussian => 'Ruso';
+
+  @override
+  String get languagePolish => 'Polaco';
+
+  @override
+  String get languageOther => 'Otro';
+
+  @override
+  String get languageUnspecified => 'Sin especificar';
+
+  @override
+  String get rankingsKudosu => 'Kudosu';
+
+  @override
+  String get rankingsKudosuHint =>
+      'Clasificación por kudosu totales ganados ayudando a los mappers. Hasta 1000 jugadores.';
+
+  @override
+  String rankingsKudosuAvailable(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return 'Kudosu disponibles: $countString';
+  }
 }

@@ -1660,4 +1660,169 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get commentsVoteOnSite => '投票和回复请前往 osu.ppy.sh';
+
+  @override
+  String get dailyHistory => '往期挑战';
+
+  @override
+  String get dailyHistoryDescription => '往期每日谱面及最终排名';
+
+  @override
+  String get dailyHistoryLimit => '最多显示最近250天';
+
+  @override
+  String get dailyHistoryEmpty => '暂无往期挑战';
+
+  @override
+  String get dailyPastUnavailable => '当天的挑战暂不可用';
+
+  @override
+  String get leaderboardModsTitle => '模组筛选';
+
+  @override
+  String get leaderboardModsAll => '全部模组';
+
+  @override
+  String get leaderboardModsReset => '重置';
+
+  @override
+  String get leaderboardModsApply => '应用';
+
+  @override
+  String get beatmapKeys => '键数';
+
+  @override
+  String get beatmapCircleSize => '圆圈大小 (CS)';
+
+  @override
+  String get beatmapHpDrain => 'HP消耗';
+
+  @override
+  String get beatmapAccuracy => '判定难度 (OD)';
+
+  @override
+  String get beatmapApproachRate => '缩圈速度 (AR)';
+
+  @override
+  String get beatmapMaxCombo => '最大连击';
+
+  @override
+  String get beatmapObjects => '物件数';
+
+  @override
+  String get beatmapPlays => '游玩次数';
+
+  @override
+  String get beatmapPassRate => '通过率';
+
+  @override
+  String get beatmapSearchAnyMode => '全部';
+
+  @override
+  String get beatmapSearchGenre => '流派';
+
+  @override
+  String get beatmapSearchAnyGenre => '全部流派';
+
+  @override
+  String get beatmapSearchLanguage => '语言';
+
+  @override
+  String get beatmapSearchAnyLanguage => '全部语言';
+
+  @override
+  String get genreUnspecified => '未指定';
+
+  @override
+  String get genreVideoGame => '电子游戏';
+
+  @override
+  String get genreAnime => '动漫';
+
+  @override
+  String get genreRock => '摇滚';
+
+  @override
+  String get genrePop => '流行';
+
+  @override
+  String get genreOther => '其他';
+
+  @override
+  String get genreNovelty => '搞笑';
+
+  @override
+  String get genreHipHop => '嘻哈';
+
+  @override
+  String get genreElectronic => '电子';
+
+  @override
+  String get genreMetal => '金属';
+
+  @override
+  String get genreClassical => '古典';
+
+  @override
+  String get genreFolk => '民谣';
+
+  @override
+  String get genreJazz => '爵士';
+
+  @override
+  String get languageEnglish => '英语';
+
+  @override
+  String get languageJapanese => '日语';
+
+  @override
+  String get languageChinese => '中文';
+
+  @override
+  String get languageInstrumental => '纯音乐';
+
+  @override
+  String get languageKorean => '韩语';
+
+  @override
+  String get languageFrench => '法语';
+
+  @override
+  String get languageGerman => '德语';
+
+  @override
+  String get languageSwedish => '瑞典语';
+
+  @override
+  String get languageSpanish => '西班牙语';
+
+  @override
+  String get languageItalian => '意大利语';
+
+  @override
+  String get languageRussian => '俄语';
+
+  @override
+  String get languagePolish => '波兰语';
+
+  @override
+  String get languageOther => '其他';
+
+  @override
+  String get languageUnspecified => '未指定';
+
+  @override
+  String get rankingsKudosu => 'Kudosu';
+
+  @override
+  String get rankingsKudosuHint => '按帮助谱师获得的Kudosu总数排名，最多显示1,000名玩家。';
+
+  @override
+  String rankingsKudosuAvailable(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '可用Kudosu：$countString';
+  }
 }

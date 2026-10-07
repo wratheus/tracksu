@@ -2831,6 +2831,324 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Voting and replying happen on osu.ppy.sh'**
   String get commentsVoteOnSite;
+
+  /// Daily challenge history: Past days
+  ///
+  /// In en, this message translates to:
+  /// **'Past days'**
+  String get dailyHistory;
+
+  /// Daily challenge history: Previous maps of the day and final rankings
+  ///
+  /// In en, this message translates to:
+  /// **'Previous maps of the day and final rankings'**
+  String get dailyHistoryDescription;
+
+  /// Daily challenge history: Showing up to 250 recent days
+  ///
+  /// In en, this message translates to:
+  /// **'Showing up to 250 recent days'**
+  String get dailyHistoryLimit;
+
+  /// Daily challenge history: No past days available
+  ///
+  /// In en, this message translates to:
+  /// **'No past days available'**
+  String get dailyHistoryEmpty;
+
+  /// Daily challenge history: This day's challenge is unavailable
+  ///
+  /// In en, this message translates to:
+  /// **'This day\'s challenge is unavailable'**
+  String get dailyPastUnavailable;
+
+  /// Beatmap details or search control: Mod filter
+  ///
+  /// In en, this message translates to:
+  /// **'Mod filter'**
+  String get leaderboardModsTitle;
+
+  /// Beatmap details or search control: All mods
+  ///
+  /// In en, this message translates to:
+  /// **'All mods'**
+  String get leaderboardModsAll;
+
+  /// Beatmap details or search control: Reset
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get leaderboardModsReset;
+
+  /// Beatmap details or search control: Apply
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get leaderboardModsApply;
+
+  /// Beatmap details or search control: Keys
+  ///
+  /// In en, this message translates to:
+  /// **'Keys'**
+  String get beatmapKeys;
+
+  /// Beatmap details or search control: Circle size (CS)
+  ///
+  /// In en, this message translates to:
+  /// **'Circle size (CS)'**
+  String get beatmapCircleSize;
+
+  /// Beatmap details or search control: HP drain
+  ///
+  /// In en, this message translates to:
+  /// **'HP drain'**
+  String get beatmapHpDrain;
+
+  /// Beatmap details or search control: Accuracy (OD)
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy (OD)'**
+  String get beatmapAccuracy;
+
+  /// Beatmap details or search control: Approach rate (AR)
+  ///
+  /// In en, this message translates to:
+  /// **'Approach rate (AR)'**
+  String get beatmapApproachRate;
+
+  /// Beatmap details or search control: Max combo
+  ///
+  /// In en, this message translates to:
+  /// **'Max combo'**
+  String get beatmapMaxCombo;
+
+  /// Beatmap details or search control: Objects
+  ///
+  /// In en, this message translates to:
+  /// **'Objects'**
+  String get beatmapObjects;
+
+  /// Beatmap details or search control: Plays
+  ///
+  /// In en, this message translates to:
+  /// **'Plays'**
+  String get beatmapPlays;
+
+  /// Beatmap details or search control: Pass rate
+  ///
+  /// In en, this message translates to:
+  /// **'Pass rate'**
+  String get beatmapPassRate;
+
+  /// Beatmap details or search control: All
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get beatmapSearchAnyMode;
+
+  /// Beatmap details or search control: Genre
+  ///
+  /// In en, this message translates to:
+  /// **'Genre'**
+  String get beatmapSearchGenre;
+
+  /// Beatmap details or search control: Any genre
+  ///
+  /// In en, this message translates to:
+  /// **'Any genre'**
+  String get beatmapSearchAnyGenre;
+
+  /// Beatmap details or search control: Language
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get beatmapSearchLanguage;
+
+  /// Beatmap details or search control: Any language
+  ///
+  /// In en, this message translates to:
+  /// **'Any language'**
+  String get beatmapSearchAnyLanguage;
+
+  /// Beatmap search genre option: Unspecified
+  ///
+  /// In en, this message translates to:
+  /// **'Unspecified'**
+  String get genreUnspecified;
+
+  /// Beatmap search genre option: Video game
+  ///
+  /// In en, this message translates to:
+  /// **'Video game'**
+  String get genreVideoGame;
+
+  /// Beatmap search genre option: Anime
+  ///
+  /// In en, this message translates to:
+  /// **'Anime'**
+  String get genreAnime;
+
+  /// Beatmap search genre option: Rock
+  ///
+  /// In en, this message translates to:
+  /// **'Rock'**
+  String get genreRock;
+
+  /// Beatmap search genre option: Pop
+  ///
+  /// In en, this message translates to:
+  /// **'Pop'**
+  String get genrePop;
+
+  /// Beatmap search genre option: Other
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get genreOther;
+
+  /// Beatmap search genre option: Novelty
+  ///
+  /// In en, this message translates to:
+  /// **'Novelty'**
+  String get genreNovelty;
+
+  /// Beatmap search genre option: Hip hop
+  ///
+  /// In en, this message translates to:
+  /// **'Hip hop'**
+  String get genreHipHop;
+
+  /// Beatmap search genre option: Electronic
+  ///
+  /// In en, this message translates to:
+  /// **'Electronic'**
+  String get genreElectronic;
+
+  /// Beatmap search genre option: Metal
+  ///
+  /// In en, this message translates to:
+  /// **'Metal'**
+  String get genreMetal;
+
+  /// Beatmap search genre option: Classical
+  ///
+  /// In en, this message translates to:
+  /// **'Classical'**
+  String get genreClassical;
+
+  /// Beatmap search genre option: Folk
+  ///
+  /// In en, this message translates to:
+  /// **'Folk'**
+  String get genreFolk;
+
+  /// Beatmap search genre option: Jazz
+  ///
+  /// In en, this message translates to:
+  /// **'Jazz'**
+  String get genreJazz;
+
+  /// Beatmap search music language option: English
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// Beatmap search music language option: Japanese
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese'**
+  String get languageJapanese;
+
+  /// Beatmap search music language option: Chinese
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese'**
+  String get languageChinese;
+
+  /// Beatmap search music language option: Instrumental
+  ///
+  /// In en, this message translates to:
+  /// **'Instrumental'**
+  String get languageInstrumental;
+
+  /// Beatmap search music language option: Korean
+  ///
+  /// In en, this message translates to:
+  /// **'Korean'**
+  String get languageKorean;
+
+  /// Beatmap search music language option: French
+  ///
+  /// In en, this message translates to:
+  /// **'French'**
+  String get languageFrench;
+
+  /// Beatmap search music language option: German
+  ///
+  /// In en, this message translates to:
+  /// **'German'**
+  String get languageGerman;
+
+  /// Beatmap search music language option: Swedish
+  ///
+  /// In en, this message translates to:
+  /// **'Swedish'**
+  String get languageSwedish;
+
+  /// Beatmap search music language option: Spanish
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get languageSpanish;
+
+  /// Beatmap search music language option: Italian
+  ///
+  /// In en, this message translates to:
+  /// **'Italian'**
+  String get languageItalian;
+
+  /// Beatmap search music language option: Russian
+  ///
+  /// In en, this message translates to:
+  /// **'Russian'**
+  String get languageRussian;
+
+  /// Beatmap search music language option: Polish
+  ///
+  /// In en, this message translates to:
+  /// **'Polish'**
+  String get languagePolish;
+
+  /// Beatmap search music language option: Other
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get languageOther;
+
+  /// Beatmap search music language option: Unspecified
+  ///
+  /// In en, this message translates to:
+  /// **'Unspecified'**
+  String get languageUnspecified;
+
+  /// Kudosu ranking: Kudosu
+  ///
+  /// In en, this message translates to:
+  /// **'Kudosu'**
+  String get rankingsKudosu;
+
+  /// Kudosu ranking: Top contributors by total kudosu earned for helping mappers. Up to 1,000 players.
+  ///
+  /// In en, this message translates to:
+  /// **'Top contributors by total kudosu earned for helping mappers. Up to 1,000 players.'**
+  String get rankingsKudosuHint;
+
+  /// Kudosu ranking: Available kudosu: {count}
+  ///
+  /// In en, this message translates to:
+  /// **'Available kudosu: {count}'**
+  String rankingsKudosuAvailable(int count);
 }
 
 class _AppLocalizationsDelegate

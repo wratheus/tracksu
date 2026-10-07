@@ -1383,5 +1383,223 @@
   "commentsReply": "Reply",
   "@commentsReply": {"description":"Comment action that opens the comment on osu.ppy.sh to reply."},
   "commentsVoteOnSite": "Voting and replying happen on osu.ppy.sh",
-  "@commentsVoteOnSite": {"description":"Tooltip of the comment vote count: the osu! API lets only the official client vote or post."}
+  "@commentsVoteOnSite": {"description":"Tooltip of the comment vote count: the osu! API lets only the official client vote or post."},
+  "dailyHistory": "Past days",
+  "@dailyHistory": {
+    "description": "Daily challenge history: Past days"
+  },
+  "dailyHistoryDescription": "Previous maps of the day and final rankings",
+  "@dailyHistoryDescription": {
+    "description": "Daily challenge history: Previous maps of the day and final rankings"
+  },
+  "dailyHistoryLimit": "Showing up to 250 recent days",
+  "@dailyHistoryLimit": {
+    "description": "Daily challenge history: Showing up to 250 recent days"
+  },
+  "dailyHistoryEmpty": "No past days available",
+  "@dailyHistoryEmpty": {
+    "description": "Daily challenge history: No past days available"
+  },
+  "dailyPastUnavailable": "This day's challenge is unavailable",
+  "@dailyPastUnavailable": {
+    "description": "Daily challenge history: This day's challenge is unavailable"
+  },
+  "leaderboardModsTitle": "Mod filter",
+  "@leaderboardModsTitle": {
+    "description": "Beatmap details or search control: Mod filter"
+  },
+  "leaderboardModsAll": "All mods",
+  "@leaderboardModsAll": {
+    "description": "Beatmap details or search control: All mods"
+  },
+  "leaderboardModsReset": "Reset",
+  "@leaderboardModsReset": {
+    "description": "Beatmap details or search control: Reset"
+  },
+  "leaderboardModsApply": "Apply",
+  "@leaderboardModsApply": {
+    "description": "Beatmap details or search control: Apply"
+  },
+  "beatmapKeys": "Keys",
+  "@beatmapKeys": {
+    "description": "Beatmap details or search control: Keys"
+  },
+  "beatmapCircleSize": "Circle size (CS)",
+  "@beatmapCircleSize": {
+    "description": "Beatmap details or search control: Circle size (CS)"
+  },
+  "beatmapHpDrain": "HP drain",
+  "@beatmapHpDrain": {
+    "description": "Beatmap details or search control: HP drain"
+  },
+  "beatmapAccuracy": "Accuracy (OD)",
+  "@beatmapAccuracy": {
+    "description": "Beatmap details or search control: Accuracy (OD)"
+  },
+  "beatmapApproachRate": "Approach rate (AR)",
+  "@beatmapApproachRate": {
+    "description": "Beatmap details or search control: Approach rate (AR)"
+  },
+  "beatmapMaxCombo": "Max combo",
+  "@beatmapMaxCombo": {
+    "description": "Beatmap details or search control: Max combo"
+  },
+  "beatmapObjects": "Objects",
+  "@beatmapObjects": {
+    "description": "Beatmap details or search control: Objects"
+  },
+  "beatmapPlays": "Plays",
+  "@beatmapPlays": {
+    "description": "Beatmap details or search control: Plays"
+  },
+  "beatmapPassRate": "Pass rate",
+  "@beatmapPassRate": {
+    "description": "Beatmap details or search control: Pass rate"
+  },
+  "beatmapSearchAnyMode": "All",
+  "@beatmapSearchAnyMode": {
+    "description": "Beatmap details or search control: All"
+  },
+  "beatmapSearchGenre": "Genre",
+  "@beatmapSearchGenre": {
+    "description": "Beatmap details or search control: Genre"
+  },
+  "beatmapSearchAnyGenre": "Any genre",
+  "@beatmapSearchAnyGenre": {
+    "description": "Beatmap details or search control: Any genre"
+  },
+  "beatmapSearchLanguage": "Language",
+  "@beatmapSearchLanguage": {
+    "description": "Beatmap details or search control: Language"
+  },
+  "beatmapSearchAnyLanguage": "Any language",
+  "@beatmapSearchAnyLanguage": {
+    "description": "Beatmap details or search control: Any language"
+  },
+  "genreUnspecified": "Unspecified",
+  "@genreUnspecified": {
+    "description": "Beatmap search genre option: Unspecified"
+  },
+  "genreVideoGame": "Video game",
+  "@genreVideoGame": {
+    "description": "Beatmap search genre option: Video game"
+  },
+  "genreAnime": "Anime",
+  "@genreAnime": {
+    "description": "Beatmap search genre option: Anime"
+  },
+  "genreRock": "Rock",
+  "@genreRock": {
+    "description": "Beatmap search genre option: Rock"
+  },
+  "genrePop": "Pop",
+  "@genrePop": {
+    "description": "Beatmap search genre option: Pop"
+  },
+  "genreOther": "Other",
+  "@genreOther": {
+    "description": "Beatmap search genre option: Other"
+  },
+  "genreNovelty": "Novelty",
+  "@genreNovelty": {
+    "description": "Beatmap search genre option: Novelty"
+  },
+  "genreHipHop": "Hip hop",
+  "@genreHipHop": {
+    "description": "Beatmap search genre option: Hip hop"
+  },
+  "genreElectronic": "Electronic",
+  "@genreElectronic": {
+    "description": "Beatmap search genre option: Electronic"
+  },
+  "genreMetal": "Metal",
+  "@genreMetal": {
+    "description": "Beatmap search genre option: Metal"
+  },
+  "genreClassical": "Classical",
+  "@genreClassical": {
+    "description": "Beatmap search genre option: Classical"
+  },
+  "genreFolk": "Folk",
+  "@genreFolk": {
+    "description": "Beatmap search genre option: Folk"
+  },
+  "genreJazz": "Jazz",
+  "@genreJazz": {
+    "description": "Beatmap search genre option: Jazz"
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "Beatmap search music language option: English"
+  },
+  "languageJapanese": "Japanese",
+  "@languageJapanese": {
+    "description": "Beatmap search music language option: Japanese"
+  },
+  "languageChinese": "Chinese",
+  "@languageChinese": {
+    "description": "Beatmap search music language option: Chinese"
+  },
+  "languageInstrumental": "Instrumental",
+  "@languageInstrumental": {
+    "description": "Beatmap search music language option: Instrumental"
+  },
+  "languageKorean": "Korean",
+  "@languageKorean": {
+    "description": "Beatmap search music language option: Korean"
+  },
+  "languageFrench": "French",
+  "@languageFrench": {
+    "description": "Beatmap search music language option: French"
+  },
+  "languageGerman": "German",
+  "@languageGerman": {
+    "description": "Beatmap search music language option: German"
+  },
+  "languageSwedish": "Swedish",
+  "@languageSwedish": {
+    "description": "Beatmap search music language option: Swedish"
+  },
+  "languageSpanish": "Spanish",
+  "@languageSpanish": {
+    "description": "Beatmap search music language option: Spanish"
+  },
+  "languageItalian": "Italian",
+  "@languageItalian": {
+    "description": "Beatmap search music language option: Italian"
+  },
+  "languageRussian": "Russian",
+  "@languageRussian": {
+    "description": "Beatmap search music language option: Russian"
+  },
+  "languagePolish": "Polish",
+  "@languagePolish": {
+    "description": "Beatmap search music language option: Polish"
+  },
+  "languageOther": "Other",
+  "@languageOther": {
+    "description": "Beatmap search music language option: Other"
+  },
+  "languageUnspecified": "Unspecified",
+  "@languageUnspecified": {
+    "description": "Beatmap search music language option: Unspecified"
+  },
+  "rankingsKudosu": "Kudosu",
+  "@rankingsKudosu": {
+    "description": "Kudosu ranking: Kudosu"
+  },
+  "rankingsKudosuHint": "Top contributors by total kudosu earned for helping mappers. Up to 1,000 players.",
+  "@rankingsKudosuHint": {
+    "description": "Kudosu ranking: Top contributors by total kudosu earned for helping mappers. Up to 1,000 players."
+  },
+  "rankingsKudosuAvailable": "Available kudosu: {count}",
+  "@rankingsKudosuAvailable": {
+    "description": "Kudosu ranking: Available kudosu: {count}",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  }
 }
