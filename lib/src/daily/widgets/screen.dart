@@ -15,15 +15,33 @@ import 'package:tracksu/src/profile/domain/profile_params.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
-/// Today's challenge with its leaderboard. Pull to refresh; progress is the
-/// app-bar line.
+/// Today's challenge (or a past day) with its leaderboard. Pull to refresh;
+/// progress is the app-bar line.
 final class DailyChallengeScreen extends StatelessWidget {
-  const DailyChallengeScreen({super.key});
+  const DailyChallengeScreen({this.past = false, super.key});
+
+  /// A finished day opened from the history: no link to the history.
+  final bool past;
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: UiText.titleLarge(context.t.dailyTitle),
+      title: past
+          ? BlocSelector<DailyChallengeBloc, DailyChallengeState, DateTime?>(
+              selector: (DailyChallengeState state) => switch (state) {
+                DailyChallengeLoaded(challenge: final DailyChallenge day) =>
+                  day.startsAt,
+                _ => null,
+              },
+              builder: (BuildContext context, DateTime? day) =>
+                  UiText.titleLarge(
+                    day == null
+                        ? context.t.dailyTitle
+                        : DateFormat.yMMMMd(context.t.localeName)
+                              .format(day.toLocal()),
+                  ),
+            )
+          : UiText.titleLarge(context.t.dailyTitle),
       bottom: UiAppBarProgressSlot(
         child: BlocSelector<DailyChallengeBloc, DailyChallengeState, bool>(
           selector: (DailyChallengeState state) =>
@@ -47,13 +65,28 @@ final class DailyChallengeScreen extends StatelessWidget {
             primary: true,
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: <Widget>[
+              if (!past)
+                SliverPadding(
+                  padding: const EdgeInsets.all(UiSpace.lg),
+                  sliver: SliverToBoxAdapter(
+                    child: UiSurface.card(
+                      padding: EdgeInsets.zero,
+                      child: UiTile.navigation(
+                        leading: const Icon(Icons.history_rounded),
+                        title: context.t.dailyHistory,
+                        subtitle: context.t.dailyHistoryDescription,
+                        onTap: () =>
+                            DepsScope.of(context).appRouter
+                                .openDailyHistory(context),
+                      ),
+                    ),
+                  ),
+                ),
               BlocBuilder<DailyChallengeBloc, DailyChallengeState>(
                 builder: (BuildContext context, DailyChallengeState state) =>
                     switch (state) {
                       DailyChallengeLoading() => SliverToBoxAdapter(
-                        child: UiPageSkeleton.list(
-                          label: context.t.dailyTitle,
-                        ),
+                        child: UiPageSkeleton.list(label: context.t.dailyTitle),
                       ),
                       DailyChallengeFailed() => SliverToBoxAdapter(
                         child: DailyChallengeError(
@@ -65,13 +98,19 @@ final class DailyChallengeScreen extends StatelessWidget {
                       DailyChallengeLoaded(challenge: null) =>
                         SliverToBoxAdapter(
                           child: UiContentState.empty(
-                            title: context.t.dailyNone,
+                            title: past
+                                ? context.t.dailyPastUnavailable
+                                : context.t.dailyNone,
                           ),
                         ),
                       DailyChallengeLoaded(
                         challenge: final DailyChallenge challenge,
                       ) =>
-                        _Content(challenge: challenge, state: state),
+                        _Content(
+                          challenge: challenge,
+                          state: state,
+                          past: past,
+                        ),
                     },
               ),
               UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
@@ -84,9 +123,14 @@ final class DailyChallengeScreen extends StatelessWidget {
 }
 
 final class _Content extends StatelessWidget {
-  const _Content({required this.challenge, required this.state});
+  const _Content({
+    required this.challenge,
+    required this.state,
+    required this.past,
+  });
   final DailyChallenge challenge;
   final DailyChallengeLoaded state;
+  final bool past;
 
   @override
   Widget build(BuildContext context) {

@@ -21,6 +21,10 @@ final class DailyChallengeRepositoryImpl implements DailyChallengeRepository {
       _guard(() async => decodeRooms(await _source.activeRooms()));
 
   @override
+  Future<List<DailyChallenge>> history({required int limit}) =>
+      _guard(() async => decodeHistory(await _source.endedRooms(limit: limit)));
+
+  @override
   Future<List<DailyChallengeScore>> leaderboard(int roomId) =>
       _guard(() async => decodeLeaderboard(await _source.leaderboard(roomId)));
 
@@ -55,54 +59,78 @@ final class DailyChallengeRepositoryImpl implements DailyChallengeRepository {
 
   /// The rooms index is a JSON array for response versions before the
   /// cursor format; an object with `rooms` is accepted too.
+  static List<Map<String, dynamic>> _rooms(Object? raw) =>
+      <Map<String, dynamic>>[
+        for (final Object? item in switch (raw) {
+          final List<dynamic> list => list,
+          final Map<String, dynamic> map => JsonMapReader(
+            map,
+          ).requiredList('rooms'),
+          _ => throw const FormatException('Unexpected rooms payload.'),
+        })
+          JsonMapReader.asMap(item),
+      ];
+
+  /// First daily-challenge room with a playlist item, or null.
   static DailyChallenge? decodeRooms(Object? raw) {
-    final List<dynamic> rooms = switch (raw) {
-      final List<dynamic> list => list,
-      final Map<String, dynamic> map => JsonMapReader(map).requiredList(
-        'rooms',
-      ),
-      _ => throw const FormatException('Unexpected rooms payload.'),
-    };
-    for (final Object? item in rooms) {
-      final JsonMapReader room = JsonMapReader(JsonMapReader.asMap(item));
-      if (room.optionalString('category') != 'daily_challenge') continue;
-      final Map<String, dynamic>? current = room.optionalMap(
-        'current_playlist_item',
-      );
-      if (current == null) continue;
-      final JsonMapReader entry = JsonMapReader(current);
-      final JsonMapReader beatmap = JsonMapReader(
-        entry.optionalMap('beatmap') ??
-            (throw const FormatException('Missing daily beatmap.')),
-      );
-      final Map<String, dynamic>? set = beatmap.optionalMap('beatmapset');
-      final double stars = beatmap.requiredDouble('difficulty_rating');
-      if (!stars.isFinite || stars < 0) {
-        throw const FormatException('Invalid star rating.');
-      }
-      final int participants = room.optionalInt('participant_count') ?? 0;
-      return DailyChallenge(
-        roomId: room.requiredInt('id', positive: true),
-        beatmapId: entry.requiredInt('beatmap_id', positive: true),
-        ruleset: _ruleset(entry.requiredInt('ruleset_id')),
-        title: set == null
-            ? beatmap.requiredString('version')
-            : JsonMapReader(set).requiredString('title'),
-        artist: set == null ? '' : JsonMapReader(set).requiredString('artist'),
-        version: beatmap.requiredString('version'),
-        stars: stars,
-        requiredMods: <String>[
-          for (final Object? mod
-              in entry.optionalList('required_mods') ?? const <Object?>[])
-            JsonMapReader(JsonMapReader.asMap(mod)).requiredString('acronym'),
-        ],
-        startsAt: _date(room.optionalString('starts_at')),
-        endsAt: _date(room.optionalString('ends_at')),
-        participantCount: participants < 0 ? null : participants,
-        metadata: set == null ? null : BeatmapMetadataDto.fromJson(set).toDomain(),
-      );
+    for (final Map<String, dynamic> item in _rooms(raw)) {
+      if (_room(item) case final DailyChallenge challenge) return challenge;
     }
     return null;
+  }
+
+  /// Every daily-challenge room in order (past days, newest first), with
+  /// no duplicates.
+  static List<DailyChallenge> decodeHistory(Object? raw) {
+    final Map<int, DailyChallenge> rooms = <int, DailyChallenge>{};
+    for (final Map<String, dynamic> item in _rooms(raw)) {
+      if (_room(item) case final DailyChallenge challenge) {
+        rooms.putIfAbsent(challenge.roomId, () => challenge);
+      }
+    }
+    return rooms.values.toList(growable: false);
+  }
+
+  static DailyChallenge? _room(Map<String, dynamic> raw) {
+    final JsonMapReader room = JsonMapReader(raw);
+    if (room.optionalString('category') != 'daily_challenge') return null;
+    final Map<String, dynamic>? current = room.optionalMap(
+      'current_playlist_item',
+    );
+    if (current == null) return null;
+    final JsonMapReader entry = JsonMapReader(current);
+    final JsonMapReader beatmap = JsonMapReader(
+      entry.optionalMap('beatmap') ??
+          (throw const FormatException('Missing daily beatmap.')),
+    );
+    final Map<String, dynamic>? set = beatmap.optionalMap('beatmapset');
+    final double stars = beatmap.requiredDouble('difficulty_rating');
+    if (!stars.isFinite || stars < 0) {
+      throw const FormatException('Invalid star rating.');
+    }
+    final int participants = room.optionalInt('participant_count') ?? 0;
+    return DailyChallenge(
+      roomId: room.requiredInt('id', positive: true),
+      beatmapId: entry.requiredInt('beatmap_id', positive: true),
+      ruleset: _ruleset(entry.requiredInt('ruleset_id')),
+      title: set == null
+          ? beatmap.requiredString('version')
+          : JsonMapReader(set).requiredString('title'),
+      artist: set == null ? '' : JsonMapReader(set).requiredString('artist'),
+      version: beatmap.requiredString('version'),
+      stars: stars,
+      requiredMods: <String>[
+        for (final Object? mod
+            in entry.optionalList('required_mods') ?? const <Object?>[])
+          JsonMapReader(JsonMapReader.asMap(mod)).requiredString('acronym'),
+      ],
+      startsAt: _date(room.optionalString('starts_at')),
+      endsAt: _date(room.optionalString('ends_at')),
+      participantCount: participants < 0 ? null : participants,
+      metadata: set == null
+          ? null
+          : BeatmapMetadataDto.fromJson(set).toDomain(),
+    );
   }
 
   static List<DailyChallengeScore> decodeLeaderboard(Map<String, dynamic> raw) {

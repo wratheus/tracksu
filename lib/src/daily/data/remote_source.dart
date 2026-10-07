@@ -2,6 +2,11 @@ import 'package:tracksu_network/tracksu_network.dart';
 
 abstract interface class DailyChallengeRemoteSource {
   Future<Object?> activeRooms();
+
+  /// Past daily-challenge rooms, newest first (`mode=ended` sorts by
+  /// `ends_at` desc). The array response has no cursor, so callers page by
+  /// asking for a larger [limit] (osu-web caps it at 250).
+  Future<Object?> endedRooms({required int limit});
   Future<Map<String, dynamic>> leaderboard(int roomId);
 }
 
@@ -32,6 +37,23 @@ final class OsuDailyChallengeRemoteSource
         'category': 'daily_challenge',
         'mode': 'active',
         'limit': 1,
+      },
+    );
+    if (response.statusCode != 200) {
+      throw DailyChallengeRemoteException(response.statusCode);
+    }
+    return response.payload.value;
+  }
+
+  @override
+  Future<Object?> endedRooms({required int limit}) async {
+    final RestResponse response = await _client.get(
+      path: '/rooms',
+      headers: const <String, String>{'x-api-version': _roomsVersion},
+      queryParameters: <String, Object?>{
+        'category': 'daily_challenge',
+        'mode': 'ended',
+        'limit': limit.clamp(1, 250),
       },
     );
     if (response.statusCode != 200) {

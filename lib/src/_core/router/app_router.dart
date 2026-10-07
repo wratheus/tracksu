@@ -111,10 +111,7 @@ final class TracksuAppRouter {
     ),
     GoRoute(path: 'settings', builder: (_, _) => const SettingsMain()),
     GoRoute(path: 'about', builder: (_, _) => const AboutMain()),
-    GoRoute(
-      path: 'licenses',
-      builder: (_, _) => const LicensesScreen(),
-    ),
+    GoRoute(path: 'licenses', builder: (_, _) => const LicensesScreen()),
     GoRoute(
       path: 'medals/:user',
       redirect: (_, GoRouterState state) =>
@@ -147,11 +144,22 @@ final class TracksuAppRouter {
     ),
     GoRoute(path: 'spotlights', builder: (_, _) => const SpotlightsMain()),
     GoRoute(path: 'daily', builder: (_, _) => const DailyChallengeMain()),
+    GoRoute(path: 'daily/history', builder: (_, _) => const DailyHistoryMain()),
+    GoRoute(
+      path: 'daily/day/:room',
+      redirect: (_, GoRouterState state) =>
+          _positiveId(state.pathParameters['room']) == null ? '/search' : null,
+      builder: (_, GoRouterState state) => DailyChallengeMain(
+        pastRoomId: _positiveId(state.pathParameters['room'])!,
+      ),
+    ),
     GoRoute(
       path: 'beatmaps',
       builder: (_, GoRouterState state) => BeatmapSearchMain(
         // Bounded so a pasted deep link cannot carry an unbounded query.
-        text: (state.uri.queryParameters['q'] ?? '').trim().characters
+        text: (state.uri.queryParameters['q'] ?? '')
+            .trim()
+            .characters
             .take(200)
             .toString(),
       ),
@@ -203,6 +211,14 @@ final class TracksuAppRouter {
 
   Future<void> openDailyChallenge(BuildContext context) async =>
       config.push<void>('$_branchPath/daily');
+
+  Future<void> openDailyHistory(BuildContext context) async =>
+      config.push<void>('$_branchPath/daily/history');
+
+  Future<void> openPastDailyChallenge(BuildContext context, int roomId) async {
+    if (roomId <= 0) throw ArgumentError.value(roomId, 'roomId');
+    await config.push<void>('$_branchPath/daily/day/$roomId');
+  }
 
   Future<void> openBeatmapSearch(BuildContext context, {String text = ''}) =>
       config.push<void>(

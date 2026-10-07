@@ -58,9 +58,8 @@ Map<String, dynamic> _row(int id, {int score = 1000, double acc = .97}) =>
 void main() {
   group('decodeRooms', () {
     test('reads the active daily challenge', () {
-      final DailyChallenge? challenge = DailyChallengeRepositoryImpl.decodeRooms(
-        <Object?>[_room()],
-      );
+      final DailyChallenge? challenge =
+          DailyChallengeRepositoryImpl.decodeRooms(<Object?>[_room()]);
       expect(challenge, isNotNull);
       expect(challenge!.roomId, 1234567);
       expect(challenge.beatmapId, 42);
@@ -106,6 +105,17 @@ void main() {
         throwsFormatException,
       );
     });
+  });
+
+  test('history keeps order, deduplicates and skips non-daily rooms', () {
+    final days = DailyChallengeRepositoryImpl.decodeHistory([
+      {..._room(), 'id': 3},
+      {..._room(), 'id': 2},
+      {..._room(), 'id': 3},
+      _room(category: 'normal'),
+      _room(current: null),
+    ]);
+    expect(days.map((d) => d.roomId), [3, 2]);
   });
 
   group('decodeLeaderboard', () {

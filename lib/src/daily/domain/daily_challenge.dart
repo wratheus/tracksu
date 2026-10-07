@@ -74,5 +74,11 @@ final class DailyChallengeFailure implements Exception {
 abstract interface class DailyChallengeRepository {
   /// Null when osu! has no active daily challenge right now.
   Future<DailyChallenge?> today();
+
+  /// Past days, newest first; at most [limit] (≤ 250).
+  Future<List<DailyChallenge>> history({required int limit});
   Future<List<DailyChallengeScore>> leaderboard(int roomId);
 }
+
+/// Session-cache key of one day handed from the history list to its page.
+Object dailyRoomCacheKey(int roomId) => ('daily-room', roomId);
