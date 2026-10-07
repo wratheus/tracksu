@@ -10,8 +10,7 @@ import 'package:tracksu/src/profile/beatmaps/domain/beatmaps_query.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 
 final class BeatmapSearchRepositoryImpl implements BeatmapSearchRepository {
-  const BeatmapSearchRepositoryImpl({required BeatmapSearchRemoteSource source})
-    : _source = source;
+  const BeatmapSearchRepositoryImpl({required this._source});
   final BeatmapSearchRemoteSource _source;
 
   @override

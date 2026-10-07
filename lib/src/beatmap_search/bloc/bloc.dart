@@ -54,10 +54,9 @@ final class BeatmapSearchState {
 final class BeatmapSearchBloc
     extends Bloc<BeatmapSearchEvent, BeatmapSearchState> {
   BeatmapSearchBloc({
-    required BeatmapSearchRepository repository,
+    required this._repository,
     BeatmapSearchQuery initial = const BeatmapSearchQuery(),
-  }) : _repository = repository,
-       super(BeatmapSearchState(query: initial)) {
+  }) : super(BeatmapSearchState(query: initial)) {
     on<BeatmapSearchEvent>(_onEvent, transformer: concurrent());
   }
 

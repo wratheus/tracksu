@@ -9,7 +9,8 @@ final class BeatmapSearchRemoteException implements Exception {
 /// `GET /beatmapsets/search` — the beatmap listing endpoint
 /// (`BeatmapsetsController@search`, public scope). Without a signed-in
 /// user osu-web ignores `sort` and the advanced query syntax, so the app
-/// sends only text, ruleset, status and the cursor; NSFW sets stay hidden.
+/// sends only text, ruleset (or none = any), status, genre, language and the
+/// cursor; NSFW sets stay hidden.
 final class BeatmapSearchRemoteSource {
   const BeatmapSearchRemoteSource({required RestClient restClient})
     : _client = restClient;
@@ -23,9 +24,12 @@ final class BeatmapSearchRemoteSource {
       path: '/beatmapsets/search',
       queryParameters: <String, Object?>{
         if (query.text.trim().isNotEmpty) 'q': query.text.trim(),
-        // Ruleset ids: osu 0, taiko 1, fruits 2, mania 3 (enum order).
-        'm': query.ruleset.index,
+        // Ruleset ids: osu 0, taiko 1, fruits 2, mania 3 (enum order);
+        // absent = any mode.
+        'm': query.ruleset?.index,
         's': query.status.apiValue,
+        'g': query.genre.id,
+        'l': query.language.id,
         'nsfw': 'false',
         'cursor_string': ?cursor,
       },
