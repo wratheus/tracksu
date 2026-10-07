@@ -152,7 +152,7 @@ sealed class Pubspec {
   /// Think of the description as the sales pitch for your package.
   /// Users see it when they [browse for packages](https://pub.dev/packages).
   /// The description is plain text: no markdown or HTML.
-  static const String description = r'Flutter project disgned for tracking and analyzing osu! statisics provided by osu! API';
+  static const String description = r'Unofficial osu! companion app built with Flutter — player statistics, rankings, beatmaps and news from the osu! API.';
 
   /// Homepage
   ///
@@ -409,7 +409,9 @@ sealed class Pubspec {
     'tracksu_ui': r'^1.0.0',
     'http': r'^1.6.0',
     'just_audio': r'^0.10.6',
+    'video_player': r'^2.14.1',
     'audio_session': r'^0.2.4',
+    'audio_decode': r'1.3.5',
     'crypto': r'^3.0.7',
     'path_provider': r'^2.1.6',
     'html': r'^0.15.1',
@@ -499,8 +501,11 @@ sealed class Pubspec {
         r'assets/models/countries.json',
         r'assets/licenses/exo2.txt',
         r'assets/licenses/osu_legacy_flags.txt',
+        r'assets/licenses/osu_mod_icons.txt',
         r'assets/licenses/unicode_cldr.txt',
+        r'assets/licenses/audio_decode_codecs.txt',
         r'assets/icon_game_mods/',
+        r'assets/icon_mods/',
         r'assets/icon_country_flags/',
         r'assets/utils/painted_logo.png',
         r'assets/utils/1024x500_banner.png',

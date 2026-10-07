@@ -117,11 +117,9 @@ final class CommentsState {
 /// Top-level paging, refresh and per-comment replies never duplicate rows.
 final class CommentsBloc extends Bloc<CommentsEvent, CommentsState> {
   CommentsBloc({
-    required CommentsRepository repository,
-    required CommentTarget target,
-  }) : _repository = repository,
-       _target = target,
-       super(CommentsState(sort: CommentSort.newest)) {
+    required this._repository,
+    required this._target,
+  }) : super(CommentsState(sort: CommentSort.newest)) {
     on<CommentsEvent>(_onEvent, transformer: concurrent());
   }
 

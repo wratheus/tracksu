@@ -54,11 +54,9 @@ final class CountryRankingsState {
 /// stale pages, the first successful page is cached per query.
 final class CountryRankingsBloc extends Bloc<CountryRankingsEvent, CountryRankingsState> {
   CountryRankingsBloc({
-    required CountryRankingsRepository repository,
-    required PageCache cache,
-  }) : _repository = repository,
-       _cache = cache,
-       super(
+    required this._repository,
+    required this._cache,
+  }) : super(
          CountryRankingsState(ruleset: ProfileRuleset.osu),
        ) {
     on<CountryRankingsEvent>(_onEvent, transformer: concurrent());

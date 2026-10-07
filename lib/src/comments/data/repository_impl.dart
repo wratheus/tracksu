@@ -9,8 +9,7 @@ import 'package:tracksu/src/comments/domain/comment.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 
 final class CommentsRepositoryImpl implements CommentsRepository {
-  const CommentsRepositoryImpl({required CommentsRemoteSource source})
-    : _source = source;
+  const CommentsRepositoryImpl({required this._source});
   final CommentsRemoteSource _source;
 
   @override

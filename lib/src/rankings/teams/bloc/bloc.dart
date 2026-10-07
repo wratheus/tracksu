@@ -60,11 +60,9 @@ final class TeamRankingsState {
 /// stale pages, the first successful page is cached per query.
 final class TeamRankingsBloc extends Bloc<TeamRankingsEvent, TeamRankingsState> {
   TeamRankingsBloc({
-    required TeamRankingsRepository repository,
-    required PageCache cache,
-  }) : _repository = repository,
-       _cache = cache,
-       super(
+    required this._repository,
+    required this._cache,
+  }) : super(
          TeamRankingsState(ruleset: ProfileRuleset.osu, performance: true),
        ) {
     on<TeamRankingsEvent>(_onEvent, transformer: concurrent());
