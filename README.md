@@ -204,7 +204,11 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 - Open a beatmap set from a player score or profile collection.
 - Browse available difficulties, star rating, duration, mapper, and metadata.
-- View the public top scores for a selected difficulty.
+- View the public top scores for a selected difficulty and filter by mods.
+- Inspect difficulty attributes and available combo/object/play/pass statistics.
+- Search beatmaps across all rulesets, by status, genre and music language.
+- Browse up to 250 past daily challenges and their final leaderboards.
+- Browse the top 1,000 Kudosu contributors from Rankings.
 
 ### News, account, and experience
 
@@ -399,7 +403,7 @@ Android release and physical-device acceptance are separate work.
 
 ## Roadmap
 
-- Add beatmap mod filters and personal score tables.
+- Explore personal score tables and additional leaderboard scopes.
 - Complete the visual system and unified themes.
 - Move production-sensitive OAuth credentials behind a backend service.
 - Complete iOS device signing, OAuth callbacks and platform acceptance.

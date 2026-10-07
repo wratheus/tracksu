@@ -54,3 +54,5 @@ preference mods и не исключает из NM, если они не выб�
   автоматическая разблокировка не сработала, запрошена ручная разблокировка.
 - Skills: pavlenko-flutter-feature, pavlenko-dart-style,
   pavlenko-flutter-ui, pavlenko-flutter-quality.
+
+Коммит реализации: `f949ab7`; общие локализации: `837974f`.

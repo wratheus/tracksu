@@ -48,3 +48,5 @@ iOS build/GUI ещё не проверены. Новые социальные ф
   автоматическая разблокировка не сработала, запрошена ручная разблокировка.
 - Skills: pavlenko-flutter-feature, pavlenko-dart-style,
   pavlenko-flutter-ui, pavlenko-flutter-quality.
+
+Коммит реализации: `1e570c7`; общие локализации: `837974f`.

@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+### Daily history, search filters, beatmap details and Kudosu (P44–P47)
+
+- Map of the day links to past days with dates, difficulties, mods and final
+  leaderboards. History loads up to 250 recent days; failed refresh or paging
+  keeps visible rows and Retry repeats the failed request.
+- Beatmap search supports all rulesets, genre and music language, with filters
+  retained during pagination.
+- Beatmap leaderboards can filter by mods, including No Mod and reset to all;
+  incompatible choices are exclusive and cached results are scoped by filter.
+- Selected difficulties show CS/keys, HP, OD and AR as applicable, plus available
+  combo, object, play and pass statistics. Missing optional data stays absent.
+- Rankings add a Kudosu tab with up to 1,000 contributors, profile links and
+  available kudosu in a tooltip. Ruleset and PP/Score controls hide on this tab.
+- Added complete English, Russian, German, French, Spanish, Japanese and
+  Simplified Chinese strings for these features.
+
 ### Rankings pages, countries, comments polish
 
 - Players / Teams / Countries are swipeable pages under a fixed header with
