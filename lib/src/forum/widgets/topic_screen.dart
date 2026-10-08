@@ -34,11 +34,8 @@ final class ForumTopicScreen extends StatelessWidget {
           final ForumTopicBloc bloc = context.read<ForumTopicBloc>();
           return Scaffold(
             appBar: UiAppBar(
-              title: UiText.titleLarge(
-                topic?.title ?? context.t.forumTitle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+              // Where we are; the topic title heads the page once.
+              title: UiText.titleLarge(context.t.forumTitle),
               actions: <Widget>[
                 AppBarActions(
                   share: topic == null

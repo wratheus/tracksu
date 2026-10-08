@@ -28,22 +28,12 @@ final class DailyChallengeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: UiAppBar(
-      title: past
-          ? BlocSelector<DailyChallengeBloc, DailyChallengeState, DateTime?>(
-              selector: (DailyChallengeState state) => switch (state) {
-                DailyChallengeLoaded(challenge: final DailyChallenge day) =>
-                  day.startsAt,
-                _ => null,
-              },
-              builder: (BuildContext context, DateTime? day) =>
-                  UiText.titleLarge(
-                    day == null
-                        ? context.t.dailyTitle
-                        : DateFormat.yMMMMd(context.t.localeName)
-                              .format(day.toLocal()),
-                  ),
-            )
-          : UiText.titleLarge(context.t.dailyTitle),
+      // Where we are, not what: a past day's date sits on its card.
+      title: UiText.titleLarge(
+        context.t.dailyTitle,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       actions: <Widget>[
         BlocSelector<DailyChallengeBloc, DailyChallengeState, DailyChallenge?>(
           selector: (DailyChallengeState state) => switch (state) {
@@ -158,7 +148,7 @@ final class _Content extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: UiSpace.md,
               children: <Widget>[
-                DailyChallengeCard(challenge: challenge),
+                DailyChallengeCard(challenge: challenge, showDate: past),
                 UiButton.secondary(
                   label: context.t.dailyOpenMap,
                   icon: Icons.library_music_outlined,

@@ -40,7 +40,7 @@ final class WikiRepository {
         ContentDocument? document;
         try {
           document = ContentParser.parse(
-            reader.optionalString('markdown') ?? '',
+            _withoutTitle(reader.optionalString('markdown') ?? ''),
             format: ContentFormat.markdown,
             base: WikiLinks.base(path, returned),
           );
@@ -145,4 +145,11 @@ final class WikiRepository {
     429 => WikiFailureKind.rateLimited,
     _ => WikiFailureKind.unavailable,
   });
+
+  /// Articles open with `# Title`; the screen shows the title once in its
+  /// header, so the first level-1 heading before any text is dropped.
+  static String _withoutTitle(String markdown) => markdown.replaceFirstMapped(
+    RegExp(r'^(---\r?\n[\s\S]*?\r?\n---\r?\n)?\s*# [^\n]*\n'),
+    (Match match) => match.group(1) ?? '',
+  );
 }

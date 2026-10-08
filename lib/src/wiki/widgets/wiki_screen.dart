@@ -38,11 +38,8 @@ final class WikiScreen extends StatelessWidget {
       final WikiArticle? article = state.article;
       return Scaffold(
         appBar: UiAppBar(
-          title: UiText.titleLarge(
-            article?.title ?? context.t.wikiTitle,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          // Where we are; the article's own title heads the page once.
+          title: UiText.titleLarge(context.t.wikiTitle),
           actions: <Widget>[
             AppBarActions(
               share: article == null

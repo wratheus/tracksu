@@ -13,10 +13,15 @@ final class DailyChallengeCard extends StatelessWidget {
     required this.challenge,
     this.onTap,
     this.now,
+    this.showDate = false,
     super.key,
   });
   final DailyChallenge challenge;
   final VoidCallback? onTap;
+
+  /// A finished day: the label reads its date instead of "Map of the day"
+  /// (the date is too long for the app bar).
+  final bool showDate;
 
   /// For tests; defaults to the current time.
   final DateTime? now;
@@ -50,7 +55,11 @@ final class DailyChallengeCard extends StatelessWidget {
                     Icon(Icons.today_rounded, size: 18, color: colors.primary),
                     Expanded(
                       child: UiText.labelLarge(
-                        context.t.dailyTitle,
+                        switch (challenge.startsAt) {
+                          final DateTime day when showDate =>
+                            DateFormat.yMMMMd(locale).format(day.toLocal()),
+                          _ => context.t.dailyTitle,
+                        },
                         color: colors.primary,
                       ),
                     ),
@@ -80,8 +89,13 @@ final class DailyChallengeCard extends StatelessWidget {
                         decimalDigits: 2,
                       ).format(challenge.stars),
                     ),
+                    // Long difficulty names take a second line, not "…".
                     Expanded(
-                      child: UiText.bodyMedium(challenge.version, maxLines: 1),
+                      child: UiText.bodyMedium(
+                        challenge.version,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),
