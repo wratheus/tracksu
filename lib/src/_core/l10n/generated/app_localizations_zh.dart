@@ -2053,4 +2053,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get webPageOpenInBrowser => '在浏览器中打开';
+
+  @override
+  String get eventsGroupEmpty => '已加载的事件中没有此类';
+
+  @override
+  String get eventsGroupHint => '筛选仅作用于已加载的事件。加载更早的事件以查看更多。';
 }

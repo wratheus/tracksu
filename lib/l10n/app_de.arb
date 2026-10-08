@@ -571,5 +571,7 @@
   "changelogShowText": "Text anzeigen",
   "webPageLoading": "Seite wird geladen",
   "webPageFailed": "Seite konnte nicht geladen werden",
-  "webPageOpenInBrowser": "Im Browser öffnen"
+  "webPageOpenInBrowser": "Im Browser öffnen",
+  "eventsGroupEmpty": "Keine unter den geladenen Ereignissen",
+  "eventsGroupHint": "Der Filter gilt nur für geladene Ereignisse. Lade ältere, um weiter zurückzusehen."
 }

@@ -1937,5 +1937,13 @@
   "webPageOpenInBrowser": "Open in browser",
   "@webPageOpenInBrowser": {
     "description": "Open the linked page in the system browser."
+  },
+  "eventsGroupEmpty": "None among the loaded events",
+  "@eventsGroupEmpty": {
+    "description": "Selected event group has no rows among the loaded events."
+  },
+  "eventsGroupHint": "The feed only filters what is loaded. Load older events to look further back.",
+  "@eventsGroupHint": {
+    "description": "Why a group can be empty: the feed has no type filter."
   }
 }

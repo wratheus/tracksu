@@ -3527,6 +3527,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open in browser'**
   String get webPageOpenInBrowser;
+
+  /// Selected event group has no rows among the loaded events.
+  ///
+  /// In en, this message translates to:
+  /// **'None among the loaded events'**
+  String get eventsGroupEmpty;
+
+  /// Why a group can be empty: the feed has no type filter.
+  ///
+  /// In en, this message translates to:
+  /// **'The feed only filters what is loaded. Load older events to look further back.'**
+  String get eventsGroupHint;
 }
 
 class _AppLocalizationsDelegate

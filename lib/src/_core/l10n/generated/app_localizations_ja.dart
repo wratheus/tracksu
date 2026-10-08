@@ -2067,4 +2067,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get webPageOpenInBrowser => 'ブラウザで開く';
+
+  @override
+  String get eventsGroupEmpty => '読み込んだイベントには該当なし';
+
+  @override
+  String get eventsGroupHint =>
+      'フィルターは読み込み済みのイベントにのみ適用されます。さらに遡るには古いイベントを読み込んでください。';
 }

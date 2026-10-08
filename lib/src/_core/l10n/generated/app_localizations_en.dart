@@ -2136,4 +2136,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get webPageOpenInBrowser => 'Open in browser';
+
+  @override
+  String get eventsGroupEmpty => 'None among the loaded events';
+
+  @override
+  String get eventsGroupHint =>
+      'The feed only filters what is loaded. Load older events to look further back.';
 }

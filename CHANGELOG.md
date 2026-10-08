@@ -19,9 +19,10 @@
   country and team flags below.
 - Opening a player from search no longer waits for an extra lookup: the
   profile loads in the player's default mode in one request.
-- Events no longer hammer the API: automatic paging only for "All" or a
-  group with 15+ rows, otherwise a "Load older" button; at most one page
-  request per second.
+- Events no longer hammer the API: a group (Ranks, Medals, …) only
+  filters the loaded feed and never pages by itself; "Load older" fetches
+  one page per tap, and an empty group says so. Only "All" pages
+  automatically; at most one page request per second.
 - Wiki `::: Infobox` / `::: Notice` blocks render as framed boxes.
 
 ### osu! wiki (P52, wave 2 step 3)
@@ -50,8 +51,8 @@
 - Rows open the beatmap, the beatmapset or the player's profile; older events
   load at the end. Profile activity shares the same rows.
 - Events can be narrowed to Ranks, Medals, Beatmaps or Supporters and names.
-  The API has no type filter, so the app groups loaded events and keeps
-  loading older ones while the chosen group is still short.
+  The API has no type filter, so the app groups the loaded events; older
+  ones load on request.
 
 ### osu! tab and changelog (P50, wave 2 step 1)
 

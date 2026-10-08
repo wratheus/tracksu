@@ -2153,4 +2153,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get webPageOpenInBrowser => 'Ouvrir dans le navigateur';
+
+  @override
+  String get eventsGroupEmpty => 'Aucun parmi les événements chargés';
+
+  @override
+  String get eventsGroupHint =>
+      'Le filtre ne porte que sur les événements chargés. Chargez-en de plus anciens pour remonter plus loin.';
 }

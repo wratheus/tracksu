@@ -571,5 +571,7 @@
   "changelogShowText": "Показать текст",
   "webPageLoading": "Загружаем страницу",
   "webPageFailed": "Не удалось загрузить страницу",
-  "webPageOpenInBrowser": "Открыть в браузере"
+  "webPageOpenInBrowser": "Открыть в браузере",
+  "eventsGroupEmpty": "Среди загруженных событий таких нет",
+  "eventsGroupHint": "Фильтр работает по уже загруженной ленте. Загрузите более старые события, чтобы посмотреть дальше."
 }

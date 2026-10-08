@@ -2166,4 +2166,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get webPageOpenInBrowser => 'Открыть в браузере';
+
+  @override
+  String get eventsGroupEmpty => 'Среди загруженных событий таких нет';
+
+  @override
+  String get eventsGroupHint =>
+      'Фильтр работает по уже загруженной ленте. Загрузите более старые события, чтобы посмотреть дальше.';
 }

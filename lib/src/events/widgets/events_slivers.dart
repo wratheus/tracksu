@@ -8,13 +8,12 @@ import 'package:tracksu/src/events/bloc/bloc.dart';
 import 'package:tracksu/src/events/data/events_repository.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
-/// Global osu! feed as slivers: player name, action, time; older events
-/// load at the end.
+/// Global osu! feed as slivers: player name, action, time. The full feed
+/// pages automatically at the end; a group only filters the loaded events
+/// and never pages by itself (the API has no type filter, so automatic
+/// paging would walk the feed looking for matches).
 final class OsuEventsSlivers extends StatelessWidget {
   const OsuEventsSlivers({super.key});
-
-  /// A filtered group pages automatically only once it fills a screen.
-  static const int _autoPageMinimum = 15;
 
   @override
   Widget build(BuildContext context) =>
@@ -70,17 +69,28 @@ final class OsuEventsSlivers extends StatelessWidget {
               ],
             );
           }
-          // A rare group may be absent from the newest page: the auto-load
-          // at the end stays visible and keeps fetching older events.
+          final bool grouped = state.filter != OsuEventFilter.all;
+          final bool idle = state.operation == null;
+          void loadOlder() =>
+              context.read<OsuEventsBloc>().add(const OsuEventsMoreRequested());
           return SliverMainAxisGroup(
             slivers: <Widget>[
               filter,
               if (state.failure case final OsuEventsFailureKind failure
                   when state.failedOperation == OsuEventsOperation.refresh)
                 SliverToBoxAdapter(child: _Failure(failure, keeping: true)),
-              if (items.isEmpty && state.cursor == null)
+              if (items.isEmpty && (state.cursor == null || !grouped))
                 SliverToBoxAdapter(
                   child: UiContentState.empty(title: context.t.eventsEmpty),
+                )
+              else if (items.isEmpty)
+                SliverToBoxAdapter(
+                  child: UiContentState.empty(
+                    title: context.t.eventsGroupEmpty,
+                    message: context.t.eventsGroupHint,
+                    actionLabel: idle ? context.t.eventsLoadOlder : null,
+                    onAction: idle ? loadOlder : null,
+                  ),
                 )
               else if (items.isNotEmpty)
                 SliverPadding(
@@ -111,30 +121,22 @@ final class OsuEventsSlivers extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: _Failure(failure, keeping: true, more: true),
                 )
-              // Auto-paging only while the list itself reaches the end: a
-              // short filtered group would otherwise page the whole feed in a
-              // loop. Then older events load on request.
               else if (state.cursor case final String cursor
-                  when state.operation == null &&
-                      (state.filter == OsuEventFilter.all ||
-                          items.length >= _autoPageMinimum))
+                  when idle && !grouped)
                 UiSliverAutoLoad(
                   pageKey: cursor,
                   label: context.t.eventsLoading,
-                  onLoad: () => context.read<OsuEventsBloc>().add(
-                    const OsuEventsMoreRequested(),
-                  ),
+                  onLoad: loadOlder,
                 )
-              else if (state.cursor != null && state.operation == null)
+              // One page per tap: a group never walks the feed by itself.
+              else if (state.cursor != null && idle && items.isNotEmpty)
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.all(UiSpace.lg),
                     child: UiButton.secondary(
                       label: context.t.eventsLoadOlder,
                       icon: Icons.expand_more_rounded,
-                      onPressed: () => context.read<OsuEventsBloc>().add(
-                        const OsuEventsMoreRequested(),
-                      ),
+                      onPressed: loadOlder,
                     ),
                   ),
                 ),

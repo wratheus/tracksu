@@ -571,5 +571,7 @@
   "changelogShowText": "Mostrar texto",
   "webPageLoading": "Cargando página",
   "webPageFailed": "No se pudo cargar la página",
-  "webPageOpenInBrowser": "Abrir en el navegador"
+  "webPageOpenInBrowser": "Abrir en el navegador",
+  "eventsGroupEmpty": "Ninguno entre los eventos cargados",
+  "eventsGroupHint": "El filtro solo se aplica a lo cargado. Carga eventos anteriores para ver más atrás."
 }
