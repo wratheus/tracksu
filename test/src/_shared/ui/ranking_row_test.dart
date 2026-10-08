@@ -62,7 +62,9 @@ void main() {
     // corner; flags end on the avatar's bottom edge.
     final Rect avatar = tester.getRect(find.byType(UiAvatar));
     final Rect card = tester.getRect(find.byType(OsuAvatarBands));
-    final Rect value = tester.getRect(find.text('32 256 PP', findRichText: true));
+    final Rect value = tester.getRect(
+      find.text('32 256 PP', findRichText: true),
+    );
     expect(value.top, closeTo(avatar.top, .5));
     expect(value.right, closeTo(card.right, .5));
     expect(
@@ -71,10 +73,12 @@ void main() {
     );
     // The team flag's 44 px target grows upward; its visible flag does not.
     final Rect team = tester.getRect(
-      find.descendant(
-        of: find.byType(OsuTeamFlag),
-        matching: find.byType(ClipRRect),
-      ).first,
+      find
+          .descendant(
+            of: find.byType(OsuTeamFlag),
+            matching: find.byType(ClipRRect),
+          )
+          .first,
     );
     expect(team.bottom, closeTo(avatar.bottom, .5));
     expect(tester.takeException(), isNull);

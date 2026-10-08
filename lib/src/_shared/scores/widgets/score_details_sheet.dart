@@ -70,28 +70,29 @@ final class ScoreDetailsSheet extends StatelessWidget {
                         enabled: canOpenPlayer,
                         label: context.t.profileOpen,
                         child: Row(
-                        spacing: UiSpace.md,
-                        children: <Widget>[
-                          UiAvatar.medium(
-                            name: name,
-                            image: playerAvatar == null
-                                ? null
-                                : AppMedia.image(context, playerAvatar),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              spacing: UiSpace.sm,
-                              children: <Widget>[
-                                UiText.titleMedium(name),
-                                if (playerFlags case final Widget flags) flags,
-                              ],
+                          spacing: UiSpace.md,
+                          children: <Widget>[
+                            UiAvatar.medium(
+                              name: name,
+                              image: playerAvatar == null
+                                  ? null
+                                  : AppMedia.image(context, playerAvatar),
                             ),
-                          ),
-                          if (canOpenPlayer)
-                            const Icon(Icons.chevron_right, size: 20),
-                        ],
-                      ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                spacing: UiSpace.sm,
+                                children: <Widget>[
+                                  UiText.titleMedium(name),
+                                  if (playerFlags case final Widget flags)
+                                    flags,
+                                ],
+                              ),
+                            ),
+                            if (canOpenPlayer)
+                              const Icon(Icons.chevron_right, size: 20),
+                          ],
+                        ),
                       ),
                     UiText.titleLarge(
                       score.beatmapTitle ??

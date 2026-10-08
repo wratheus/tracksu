@@ -42,7 +42,10 @@ final class RankingsFilters extends StatelessWidget {
                 onChanged: (ProfileRuleset ruleset) =>
                     context.read<RankingsBloc>().add(
                       RankingsTypeSelected(
-                        RankingsType.select(ruleset, type.sort == 'performance'),
+                        RankingsType.select(
+                          ruleset,
+                          type.sort == 'performance',
+                        ),
                       ),
                     ),
               ),
@@ -62,11 +65,12 @@ final class RankingsFilters extends StatelessWidget {
                     icon: const Icon(Icons.leaderboard_outlined),
                   ),
                 ],
-                onChanged: (bool performance) => context.read<RankingsBloc>().add(
-                  RankingsTypeSelected(
-                    RankingsType.select(type.ruleset, performance),
-                  ),
-                ),
+                onChanged: (bool performance) =>
+                    context.read<RankingsBloc>().add(
+                      RankingsTypeSelected(
+                        RankingsType.select(type.ruleset, performance),
+                      ),
+                    ),
               ),
             ],
           ),

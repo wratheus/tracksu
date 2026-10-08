@@ -35,8 +35,7 @@ final class DailyChallengeCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           BeatmapCover(
-            uri:
-                challenge.metadata?.bannerUri ?? challenge.metadata?.coverUri,
+            uri: challenge.metadata?.bannerUri ?? challenge.metadata?.coverUri,
             preview: challenge.metadata?.preview,
           ),
           Padding(

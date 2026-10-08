@@ -74,7 +74,11 @@ final class _OsuCategoryPickerState<T extends Object>
           child: Row(
             spacing: UiSpace.sm,
             children: <Widget>[
-              Icon(widget.icon(widget.selected), size: 20, color: colors.primary),
+              Icon(
+                widget.icon(widget.selected),
+                size: 20,
+                color: colors.primary,
+              ),
               Expanded(
                 child: UiText.labelLarge(
                   widget.label(context, widget.selected),

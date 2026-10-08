@@ -66,7 +66,8 @@ final class _CountryRankingsSectionState extends State<CountryRankingsSection> {
           return SliverMainAxisGroup(
             slivers: <Widget>[
               if (state.failure case final RankingsFailureKind failure
-                  when state.failedOperation == CountryRankingsOperation.refresh)
+                  when state.failedOperation ==
+                      CountryRankingsOperation.refresh)
                 SliverToBoxAdapter(
                   child: _Error(failure: failure, keepingContent: true),
                 ),

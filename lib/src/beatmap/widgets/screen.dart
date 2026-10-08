@@ -43,7 +43,8 @@ final class BeatmapScreen extends StatelessWidget {
         BlocBuilder<BeatmapBloc, BeatmapState>(
           builder: (BuildContext context, BeatmapState state) => AppBarActions(
             share: switch (state) {
-              BeatmapLoadedState(:final int? selectedId) when selectedId != null =>
+              BeatmapLoadedState(:final int? selectedId)
+                  when selectedId != null =>
                 ShareTarget.beatmap(selectedId, state.details.title),
               BeatmapLoadedState() => ShareTarget.beatmapset(
                 state.details.id,

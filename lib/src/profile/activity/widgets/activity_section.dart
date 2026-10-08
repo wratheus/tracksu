@@ -40,10 +40,10 @@ final class ProfileActivitySection extends StatelessWidget {
 
   Widget _body(BuildContext context, ProfileActivityState state) =>
       switch (state) {
-        ProfileActivityInitialState() || ProfileActivityLoadingState() =>
-          SliverToBoxAdapter(
-            child: UiPageSkeleton.list(label: context.t.activityLoading),
-          ),
+        ProfileActivityInitialState() ||
+        ProfileActivityLoadingState() => SliverToBoxAdapter(
+          child: UiPageSkeleton.list(label: context.t.activityLoading),
+        ),
         ProfileActivityFailureState() => SliverToBoxAdapter(
           child: _Failure(
             onRetry: () => context.read<ProfileActivityBloc>().add(
@@ -65,7 +65,11 @@ final class ProfileActivitySection extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: UiSpace.xs),
                     child: Column(
                       children: <Widget>[
-                        for (int i = 0; i < loaded.items.length; i++) ...<Widget>[
+                        for (
+                          int i = 0;
+                          i < loaded.items.length;
+                          i++
+                        ) ...<Widget>[
                           if (i > 0) const Divider(height: 1, indent: 64),
                           _ActivityRow(item: loaded.items[i], userId: userId),
                         ],

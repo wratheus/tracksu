@@ -6,9 +6,7 @@ import 'package:tracksu_network/tracksu_network.dart';
 
 /// One instance per profile; a newer read cancels the previous one.
 final class ProfileActivityRepositoryImpl implements ProfileActivityRepository {
-  ProfileActivityRepositoryImpl({
-    required ProfileActivityRemoteSource remoteSource,
-  }) : _remoteSource = remoteSource;
+  ProfileActivityRepositoryImpl({required this._remoteSource});
 
   /// osu-web returns nothing past this offset.
   static const int maxResults = 100;

@@ -122,10 +122,11 @@ final class TeamRankingsRepositoryImpl implements TeamRankingsRepository {
     return TeamRankingsPage(items: items, nextPage: next);
   }
 
-  static RankingsFailure _status(int status) => RankingsFailure(switch (status) {
-    404 => RankingsFailureKind.notFound,
-    401 || 403 => RankingsFailureKind.accessDenied,
-    429 => RankingsFailureKind.rateLimited,
-    _ => RankingsFailureKind.unavailable,
-  });
+  static RankingsFailure _status(int status) =>
+      RankingsFailure(switch (status) {
+        404 => RankingsFailureKind.notFound,
+        401 || 403 => RankingsFailureKind.accessDenied,
+        429 => RankingsFailureKind.rateLimited,
+        _ => RankingsFailureKind.unavailable,
+      });
 }

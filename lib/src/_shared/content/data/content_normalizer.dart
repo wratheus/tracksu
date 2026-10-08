@@ -247,7 +247,10 @@ final class ContentNormalizer {
         result.add(
           ContentEmbed.resolve(
                 ++_id,
-                PublicWebLink.resolve(node.attributes['src'] ?? '', base: _base),
+                PublicWebLink.resolve(
+                  node.attributes['src'] ?? '',
+                  base: _base,
+                ),
               ) ??
               ContentUnsupported(_id),
         );

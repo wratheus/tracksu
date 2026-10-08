@@ -9,12 +9,8 @@ part 'state.dart';
 /// Changelog builds for all streams or one stream. The first page per stream
 /// is session-cached; switching streams supersedes an in-flight read.
 final class ChangelogBloc extends Bloc<ChangelogEvent, ChangelogState> {
-  ChangelogBloc({
-    required ChangelogRepository repository,
-    required PageCache cache,
-  }) : _repository = repository,
-       _cache = cache,
-       super(const ChangelogInitialState()) {
+  ChangelogBloc({required this._repository, required this._cache})
+    : super(const ChangelogInitialState()) {
     on<ChangelogEvent>(_onEvent, transformer: concurrent());
   }
 

@@ -64,7 +64,9 @@ final class MedalsScreen extends StatelessWidget {
                   physics: const AlwaysScrollableScrollPhysics(),
                   slivers: <Widget>[
                     if (loaded.refreshing)
-                      const SliverToBoxAdapter(child: LinearProgressIndicator()),
+                      const SliverToBoxAdapter(
+                        child: LinearProgressIndicator(),
+                      ),
                     if (loaded.refreshFailed)
                       SliverToBoxAdapter(
                         child: Padding(
@@ -121,7 +123,9 @@ final class MedalsScreen extends StatelessWidget {
                                       children: <Widget>[
                                         UiText.titleMedium(
                                           medal.name ??
-                                              context.t.profileMedalId(medal.id),
+                                              context.t.profileMedalId(
+                                                medal.id,
+                                              ),
                                         ),
                                         if (medal.description
                                             case final String description)

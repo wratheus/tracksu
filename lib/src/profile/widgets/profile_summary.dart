@@ -146,14 +146,13 @@ final class ProfileSummary extends StatelessWidget {
                   label: context.t.profileGradesTitle,
                   child: Row(
                     children: <Widget>[
-                      for (final (String grade, int count)
-                          in <(String, int)>[
-                            ('SSH', grades.ssh),
-                            ('SS', grades.ss),
-                            ('SH', grades.sh),
-                            ('S', grades.s),
-                            ('A', grades.a),
-                          ])
+                      for (final (String grade, int count) in <(String, int)>[
+                        ('SSH', grades.ssh),
+                        ('SS', grades.ss),
+                        ('SH', grades.sh),
+                        ('S', grades.s),
+                        ('A', grades.a),
+                      ])
                         Expanded(
                           child: Column(
                             spacing: UiSpace.xs,
@@ -276,7 +275,12 @@ final class ProfileSummary extends StatelessWidget {
             parts: const <ProfileDetailsPart>{ProfileDetailsPart.achievements},
           ),
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(UiSpace.lg, 0, UiSpace.lg, UiSpace.lg),
+          padding: const EdgeInsets.fromLTRB(
+            UiSpace.lg,
+            0,
+            UiSpace.lg,
+            UiSpace.lg,
+          ),
           sliver: SliverList.list(
             children: <Widget>[
               if (profile.playHistory case final ProfileMonthlyHistory history
@@ -361,10 +365,7 @@ final class _CountPill extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             spacing: UiSpace.sm,
-            children: <Widget>[
-              Icon(icon, size: 18),
-              UiText.labelLarge(value),
-            ],
+            children: <Widget>[Icon(icon, size: 18), UiText.labelLarge(value)],
           ),
         ),
       ),
@@ -390,9 +391,8 @@ final class _LevelLine extends StatelessWidget {
             value: level.progress / 100,
             minHeight: 3,
             semanticsLabel: context.t.profileLevel(level.current),
-            semanticsValue: NumberFormat.percentPattern(
-              locale,
-            ).format(level.progress / 100),
+            semanticsValue: NumberFormat.percentPattern(locale)
+                .format(level.progress / 100),
           ),
         ),
       ),

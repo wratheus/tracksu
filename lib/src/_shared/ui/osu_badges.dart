@@ -310,9 +310,7 @@ final class OsuStarBadge extends StatelessWidget {
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: foreground,
                 fontWeight: FontWeight.w700,
-                fontFeatures: const <FontFeature>[
-                  FontFeature.tabularFigures(),
-                ],
+                fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
               ),
             ),
           ],

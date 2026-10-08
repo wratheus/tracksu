@@ -52,13 +52,10 @@ final class CountryRankingsState {
 
 /// Mirrors RankingsBloc: latest query wins, paging and refresh never append
 /// stale pages, the first successful page is cached per query.
-final class CountryRankingsBloc extends Bloc<CountryRankingsEvent, CountryRankingsState> {
-  CountryRankingsBloc({
-    required this._repository,
-    required this._cache,
-  }) : super(
-         CountryRankingsState(ruleset: ProfileRuleset.osu),
-       ) {
+final class CountryRankingsBloc
+    extends Bloc<CountryRankingsEvent, CountryRankingsState> {
+  CountryRankingsBloc({required this._repository, required this._cache})
+    : super(CountryRankingsState(ruleset: ProfileRuleset.osu)) {
     on<CountryRankingsEvent>(_onEvent, transformer: concurrent());
   }
 
@@ -112,20 +109,19 @@ final class CountryRankingsBloc extends Bloc<CountryRankingsEvent, CountryRankin
     );
     try {
       final CountryRankingsPage result = await _repository.load(
-        CountryRankingsQuery(
-          ruleset: ruleset,
-          page: page,
-        ),
+        CountryRankingsQuery(ruleset: ruleset, page: page),
       );
       if (generation != _generation || emit.isDone || isClosed) return;
       if (operation == CountryRankingsOperation.refresh) {
         _cache.write(key, result, revision: revision);
       }
-      final Map<String, CountryRankingEntry> unique = <String, CountryRankingEntry>{
-        if (operation == CountryRankingsOperation.loadMore)
-          for (final CountryRankingEntry e in previous ?? const <CountryRankingEntry>[])
-            e.country.value: e,
-      };
+      final Map<String, CountryRankingEntry> unique =
+          <String, CountryRankingEntry>{
+            if (operation == CountryRankingsOperation.loadMore)
+              for (final CountryRankingEntry e
+                  in previous ?? const <CountryRankingEntry>[])
+                e.country.value: e,
+          };
       final int before = unique.length;
       for (final CountryRankingEntry e in result.items) {
         unique.putIfAbsent(e.country.value, () => e);
@@ -138,7 +134,7 @@ final class CountryRankingsBloc extends Bloc<CountryRankingsEvent, CountryRankin
       emit(
         CountryRankingsState(
           ruleset: ruleset,
-            items: unique.values.toList(growable: false),
+          items: unique.values.toList(growable: false),
           nextPage: result.nextPage,
           started: true,
         ),
@@ -152,7 +148,7 @@ final class CountryRankingsBloc extends Bloc<CountryRankingsEvent, CountryRankin
       emit(
         CountryRankingsState(
           ruleset: ruleset,
-            items: previous,
+          items: previous,
           nextPage: previousNext,
           failure: kind,
           failedOperation: operation,

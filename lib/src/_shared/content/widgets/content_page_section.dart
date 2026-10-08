@@ -37,8 +37,7 @@ final class _ContentPageSectionState extends State<ContentPageSection> {
     final Uri? uri = PublicWebLink.resolve(value, base: widget.page.uri);
     setState(() => _opening = true);
     try {
-      if (uri == null ||
-          !await ExternalLinks.open(uri)) {
+      if (uri == null || !await ExternalLinks.open(uri)) {
         if (mounted) {
           UiFeedback.snack(context, message: context.t.contentLinkFailed);
         }

@@ -97,12 +97,13 @@ final class ShareTarget {
     title,
   );
 
-  factory ShareTarget.beatmapSearch(String query, String title) => ShareTarget._(
-    Uri.https('osu.ppy.sh', '/beatmapsets', <String, String>{
-      if (query.trim().isNotEmpty) 'q': query.trim(),
-    }),
-    title,
-  );
+  factory ShareTarget.beatmapSearch(String query, String title) =>
+      ShareTarget._(
+        Uri.https('osu.ppy.sh', '/beatmapsets', <String, String>{
+          if (query.trim().isNotEmpty) 'q': query.trim(),
+        }),
+        title,
+      );
 
   /// osu.ppy.sh/home/changelog, optionally filtered to one update stream.
   factory ShareTarget.changelog(String? stream, String title) => ShareTarget._(
@@ -118,8 +119,10 @@ final class ShareTarget {
     title,
   );
 
-  factory ShareTarget.dailyHistory(String title) =>
-      ShareTarget._(Uri.https('osu.ppy.sh', '/rankings/daily-challenge'), title);
+  factory ShareTarget.dailyHistory(String title) => ShareTarget._(
+    Uri.https('osu.ppy.sh', '/rankings/daily-challenge'),
+    title,
+  );
 
   factory ShareTarget.news(Uri uri, String title) {
     if (uri.scheme != 'https' ||

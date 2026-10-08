@@ -37,9 +37,7 @@ final class OsuGradeBadge extends StatelessWidget {
   /// Spoken form for accessibility, e.g. "Grade: Silver SS".
   static String semanticLabel(BuildContext context, String grade) =>
       context.t.scoresGrade(
-        isSilver(grade)
-            ? context.t.gradeSilver(letter(grade))
-            : letter(grade),
+        isSilver(grade) ? context.t.gradeSilver(letter(grade)) : letter(grade),
       );
 
   static String _normal(String grade) => switch (grade.trim().toUpperCase()) {
@@ -48,8 +46,9 @@ final class OsuGradeBadge extends StatelessWidget {
     final String other => other,
   };
 
-  static Color _background(String grade) =>
-      _normal(grade) == 'F' ? const Color(0xFF3F3F3F) : OsuColors.forRank(grade);
+  static Color _background(String grade) => _normal(grade) == 'F'
+      ? const Color(0xFF3F3F3F)
+      : OsuColors.forRank(grade);
 
   /// `DrawableRank.GetRankLetterColour`: gradients top → bottom.
   static List<Color> _letterColours(String grade) => switch (_normal(grade)) {
@@ -121,7 +120,10 @@ final class _GradePainter extends CustomPainter {
     );
     canvas.save();
     canvas.clipRRect(pill);
-    canvas.drawRect(Offset.zero & size, Paint()..color = _shade(background, -.04));
+    canvas.drawRect(
+      Offset.zero & size,
+      Paint()..color = _shade(background, -.04),
+    );
     void triangle(double cx, double top, double side, Color colour) {
       final double half = side / 1.732;
       canvas.drawPath(
@@ -170,13 +172,14 @@ final class _GradePainter extends CustomPainter {
     final double top = h * .48 - (capTop + fontSize * _capHeight / 2);
     final double inkWidth = probe.width - spacing;
     final Paint fill = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: letterColours,
-      ).createShader(
-        Rect.fromLTRB(0, capTop - h * .08, probe.width, capTop + h * .79),
-      );
+      ..shader =
+          LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: letterColours,
+          ).createShader(
+            Rect.fromLTRB(0, capTop - h * .08, probe.width, capTop + h * .79),
+          );
 
     canvas.save();
     canvas.translate(w / 2, top);

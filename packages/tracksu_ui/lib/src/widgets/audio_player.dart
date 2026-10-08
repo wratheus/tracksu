@@ -299,9 +299,7 @@ final class _Timeline extends StatelessWidget {
             '$positionLabel / $durationLabel',
             style: theme.textTheme.labelMedium?.copyWith(
               color: content,
-              fontFeatures: const <FontFeature>[
-                FontFeature.tabularFigures(),
-              ],
+              fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
             ),
           ),
         ),

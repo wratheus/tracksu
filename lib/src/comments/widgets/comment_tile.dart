@@ -110,18 +110,12 @@ final class CommentTile extends StatelessWidget {
                     ),
                   )
                 else
-                  UiText.bodyMedium(
-                    context.t.commentsDeleted,
-                    secondary: true,
-                  ),
+                  UiText.bodyMedium(context.t.commentsDeleted, secondary: true),
                 Wrap(
                   spacing: UiSpace.xs,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: <Widget>[
-                    _VotePill(
-                      votes: comment.votes,
-                      onPressed: onOpenOnSite,
-                    ),
+                    _VotePill(votes: comment.votes, onPressed: onOpenOnSite),
                     if (onOpenOnSite != null)
                       _Action(
                         icon: Icons.reply_rounded,
@@ -185,14 +179,15 @@ final class _VotePill extends StatelessWidget {
                 spacing: UiSpace.xs,
                 children: <Widget>[
                   Icon(
-                    liked ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                    liked
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
                     size: 15,
                     color: ink,
                   ),
                   UiText.labelMedium(
-                    NumberFormat.decimalPattern(
-                      context.t.localeName,
-                    ).format(votes),
+                    NumberFormat.decimalPattern(context.t.localeName)
+                        .format(votes),
                     color: ink,
                   ),
                 ],

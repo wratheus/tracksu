@@ -82,88 +82,82 @@ final class _LicensesViewState extends State<LicensesView> {
 
   @override
   Widget build(BuildContext context) => FutureBuilder<List<_PackageLicenses>>(
-      future: _packages,
-      builder:
-          (BuildContext context, AsyncSnapshot<List<_PackageLicenses>> snap) {
-            final List<_PackageLicenses> all =
-                snap.data ?? const <_PackageLicenses>[];
-            final List<_PackageLicenses> visible = all
-                .where(
-                  (_PackageLicenses item) =>
-                      item.name.toLowerCase().contains(_query),
-                )
-                .toList(growable: false);
-            return UiFrame.scroll(
-              slivers: <Widget>[
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: UiSpace.lg,
-                    children: <Widget>[
-                      UiSurface.tonal(
-                        padding: const EdgeInsets.all(UiSpace.xl),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: UiSpace.sm,
-                          children: <Widget>[
-                            UiText.headlineSmall(context.t.appTitle),
-                            UiText.bodyMedium(
-                              context.t.licensesIntro,
-                              secondary: true,
+    future: _packages,
+    builder:
+        (BuildContext context, AsyncSnapshot<List<_PackageLicenses>> snap) {
+          final List<_PackageLicenses> all =
+              snap.data ?? const <_PackageLicenses>[];
+          final List<_PackageLicenses> visible = all
+              .where(
+                (_PackageLicenses item) =>
+                    item.name.toLowerCase().contains(_query),
+              )
+              .toList(growable: false);
+          return UiFrame.scroll(
+            slivers: <Widget>[
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  spacing: UiSpace.lg,
+                  children: <Widget>[
+                    UiSurface.tonal(
+                      padding: const EdgeInsets.all(UiSpace.xl),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: UiSpace.sm,
+                        children: <Widget>[
+                          UiText.headlineSmall(context.t.appTitle),
+                          UiText.bodyMedium(
+                            context.t.licensesIntro,
+                            secondary: true,
+                          ),
+                          if (snap.hasData)
+                            UiBadge.neutral(
+                              context.t.licensesPackageCount(all.length),
+                              icon: Icons.inventory_2_outlined,
                             ),
-                            if (snap.hasData)
-                              UiBadge.neutral(
-                                context.t.licensesPackageCount(all.length),
-                                icon: Icons.inventory_2_outlined,
-                              ),
-                          ],
-                        ),
+                        ],
                       ),
-                      UiSearchField(
-                        controller: _search,
-                        label: context.t.licensesSearch,
-                        clearLabel: context.t.searchClear,
-                        onChanged: (String value) => setState(
-                          () => _query = value.trim().toLowerCase(),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                    UiSearchField(
+                      controller: _search,
+                      label: context.t.licensesSearch,
+                      clearLabel: context.t.searchClear,
+                      onChanged: (String value) =>
+                          setState(() => _query = value.trim().toLowerCase()),
+                    ),
+                  ],
                 ),
-                const SliverToBoxAdapter(child: SizedBox(height: UiSpace.md)),
-                if (!snap.hasData)
-                  SliverToBoxAdapter(
-                    child: UiPageSkeleton.list(
-                      label: MaterialLocalizations.of(
-                        context,
-                      ).licensesPageTitle,
-                    ),
-                  )
-                else if (visible.isEmpty)
-                  SliverToBoxAdapter(
-                    child: UiContentState.empty(
-                      title: context.t.licensesNoMatch,
-                    ),
-                  )
-                else
-                  SliverList.separated(
-                    itemCount: visible.length,
-                    separatorBuilder: (_, _) => const Divider(height: 1),
-                    itemBuilder: (BuildContext context, int index) {
-                      final _PackageLicenses item = visible[index];
-                      return UiTile.navigation(
-                        key: ValueKey<String>(item.name),
-                        title: item.name,
-                        subtitle: MaterialLocalizations.of(
-                          context,
-                        ).licensesPackageDetailText(item.entries.length),
-                        onTap: _opening ? null : () => _open(item),
-                      );
-                    },
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: UiSpace.md)),
+              if (!snap.hasData)
+                SliverToBoxAdapter(
+                  child: UiPageSkeleton.list(
+                    label: MaterialLocalizations.of(context).licensesPageTitle,
                   ),
-              ],
-            );
-          },
+                )
+              else if (visible.isEmpty)
+                SliverToBoxAdapter(
+                  child: UiContentState.empty(title: context.t.licensesNoMatch),
+                )
+              else
+                SliverList.separated(
+                  itemCount: visible.length,
+                  separatorBuilder: (_, _) => const Divider(height: 1),
+                  itemBuilder: (BuildContext context, int index) {
+                    final _PackageLicenses item = visible[index];
+                    return UiTile.navigation(
+                      key: ValueKey<String>(item.name),
+                      title: item.name,
+                      subtitle: MaterialLocalizations.of(context)
+                          .licensesPackageDetailText(item.entries.length),
+                      onTap: _opening ? null : () => _open(item),
+                    );
+                  },
+                ),
+            ],
+          );
+        },
   );
 }
 
@@ -173,9 +167,8 @@ final class _LicenseText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? style = Theme.of(
-      context,
-    ).textTheme.bodySmall?.copyWith(height: 1.5);
+    final TextStyle? style = Theme.of(context).textTheme.bodySmall
+        ?.copyWith(height: 1.5);
     final List<Widget> blocks = <Widget>[];
     for (int i = 0; i < package.entries.length; i++) {
       if (i > 0) blocks.add(const Divider(height: UiSpace.xxl));

@@ -85,7 +85,9 @@ final class CountryRankingsRepositoryImpl implements CountryRankingsRepository {
     final List<CountryRankingEntry> items = <CountryRankingEntry>[];
     for (final Object? row in rows) {
       final JsonMapReader item = JsonMapReader(JsonMapReader.asMap(row));
-      final RankingCountry country = RankingCountry(item.requiredString('code'));
+      final RankingCountry country = RankingCountry(
+        item.requiredString('code'),
+      );
       final double performance = item.requiredDouble('performance');
       final int score = item.requiredInt('ranked_score');
       final int plays = item.requiredInt('play_count');
@@ -108,20 +110,18 @@ final class CountryRankingsRepositoryImpl implements CountryRankingsRepository {
         ),
       );
     }
-    if (items
-            .map((CountryRankingEntry e) => e.country.value)
-            .toSet()
-            .length !=
+    if (items.map((CountryRankingEntry e) => e.country.value).toSet().length !=
         items.length) {
       throw const FormatException('Duplicate country row.');
     }
     return CountryRankingsPage(items: items, nextPage: next);
   }
 
-  static RankingsFailure _status(int status) => RankingsFailure(switch (status) {
-    404 => RankingsFailureKind.notFound,
-    401 || 403 => RankingsFailureKind.accessDenied,
-    429 => RankingsFailureKind.rateLimited,
-    _ => RankingsFailureKind.unavailable,
-  });
+  static RankingsFailure _status(int status) =>
+      RankingsFailure(switch (status) {
+        404 => RankingsFailureKind.notFound,
+        401 || 403 => RankingsFailureKind.accessDenied,
+        429 => RankingsFailureKind.rateLimited,
+        _ => RankingsFailureKind.unavailable,
+      });
 }

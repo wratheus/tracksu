@@ -20,9 +20,8 @@ final class PageActivityHost extends StatefulWidget {
   final Widget child;
 
   /// Without a dependency: reporters must not rebuild when others report.
-  static PageActivity? maybeOf(BuildContext context) => context
-      .getInheritedWidgetOfExactType<_PageActivityScope>()
-      ?.notifier;
+  static PageActivity? maybeOf(BuildContext context) =>
+      context.getInheritedWidgetOfExactType<_PageActivityScope>()?.notifier;
 
   @override
   State<PageActivityHost> createState() => _PageActivityHostState();

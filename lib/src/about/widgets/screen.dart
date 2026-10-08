@@ -88,8 +88,7 @@ final class _AboutTabs extends StatelessWidget {
 
 Future<void> _openLink(BuildContext context, Uri uri) async {
   try {
-    if (!await ExternalLinks.open(uri) &&
-        context.mounted) {
+    if (!await ExternalLinks.open(uri) && context.mounted) {
       UiFeedback.snack(context, message: context.t.aboutLinkFailed);
     }
   } on Object {
@@ -120,7 +119,10 @@ final class _AppTab extends StatelessWidget {
                 children: <Widget>[
                   UiText.headlineLarge(context.t.appTitle),
                   UiText.bodyLarge(context.t.aboutDescription),
-                  UiText.bodyMedium(context.t.aboutHistoryShort, secondary: true),
+                  UiText.bodyMedium(
+                    context.t.aboutHistoryShort,
+                    secondary: true,
+                  ),
                   Row(
                     spacing: UiSpace.sm,
                     children: <Widget>[

@@ -111,9 +111,7 @@ final class ProfileContent extends StatelessWidget {
                       ),
                       _ProfileSection(
                         key: ValueKey<ProfileRuleset>(state.ruleset),
-                        slivers: <Widget>[
-                          const ProfileScoresSection(),
-                        ],
+                        slivers: <Widget>[const ProfileScoresSection()],
                       ),
                       _ProfileSection(
                         key: const ValueKey<String>('activity'),
@@ -123,9 +121,7 @@ final class ProfileContent extends StatelessWidget {
                       ),
                       _ProfileSection(
                         key: const ValueKey<String>('maps'),
-                        slivers: <Widget>[
-                          const ProfileBeatmapsSection(),
-                        ],
+                        slivers: <Widget>[const ProfileBeatmapsSection()],
                       ),
                     ],
                   ),

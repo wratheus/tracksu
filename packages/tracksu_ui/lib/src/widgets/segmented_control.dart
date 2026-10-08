@@ -73,10 +73,8 @@ final class _UiSegmentedControlState<T extends Object>
     super.dispose();
   }
 
-  int? _nearest() => widget.position?.value.round().clamp(
-    0,
-    widget.segments.length - 1,
-  );
+  int? _nearest() =>
+      widget.position?.value.round().clamp(0, widget.segments.length - 1);
 
   void _positionChanged() {
     final int? index = _nearest();

@@ -45,7 +45,17 @@ abstract final class OsuColors {
 
   // Star rating spectrum used by osu-web (`getDiffColour`): stops in stars.
   static const List<double> _starStops = <double>[
-    0.1, 1.25, 2, 2.5, 3.3, 4.2, 4.9, 5.8, 6.7, 7.7, 9,
+    0.1,
+    1.25,
+    2,
+    2.5,
+    3.3,
+    4.2,
+    4.9,
+    5.8,
+    6.7,
+    7.7,
+    9,
   ];
   static const List<Color> _starColors = <Color>[
     Color(0xFF4290FB),

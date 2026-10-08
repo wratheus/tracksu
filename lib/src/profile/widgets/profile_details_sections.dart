@@ -42,8 +42,7 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
     if (_opening) return;
     setState(() => _opening = true);
     try {
-      if (!await ExternalLinks.open(uri) &&
-          mounted) {
+      if (!await ExternalLinks.open(uri) && mounted) {
         UiFeedback.snack(context, message: context.t.contentLinkFailed);
       }
     } on Object {

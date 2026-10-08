@@ -198,27 +198,28 @@ final class _ContentFrameState extends State<ContentFrame>
               ),
             ),
           ),
-          ContentUnsupported() || ContentAudio() || ContentVideo() =>
-            UiSurface.inset(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                spacing: UiSpace.sm,
-                children: <Widget>[
-                  UiText.bodySmall(
-                    block is ContentVideo
-                        ? context.t.contentMediaDisabled
-                        : context.t.contentUnsupported,
-                    secondary: true,
-                  ),
-                  UiButton.text(
-                    label: context.t.contentOriginal,
-                    icon: Icons.open_in_new,
-                    onPressed: () =>
-                        widget.onOpenLink(widget.document.uri.toString()),
-                  ),
-                ],
-              ),
+          ContentUnsupported() ||
+          ContentAudio() ||
+          ContentVideo() => UiSurface.inset(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: UiSpace.sm,
+              children: <Widget>[
+                UiText.bodySmall(
+                  block is ContentVideo
+                      ? context.t.contentMediaDisabled
+                      : context.t.contentUnsupported,
+                  secondary: true,
+                ),
+                UiButton.text(
+                  label: context.t.contentOriginal,
+                  icon: Icons.open_in_new,
+                  onPressed: () =>
+                      widget.onOpenLink(widget.document.uri.toString()),
+                ),
+              ],
             ),
+          ),
         },
       );
     },

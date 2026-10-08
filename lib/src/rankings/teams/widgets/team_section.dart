@@ -47,9 +47,9 @@ final class TeamRankingsSection extends StatelessWidget {
                         key: ValueKey<int>(items[index].team.id),
                         entry: items[index],
                         performance: state.performance,
-                        onTap: () => DepsScope.of(
-                          context,
-                        ).appRouter.openTeam(context, items[index].team.id),
+                        onTap: () =>
+                            DepsScope.of(context).appRouter
+                                .openTeam(context, items[index].team.id),
                       ),
                 ),
               ),

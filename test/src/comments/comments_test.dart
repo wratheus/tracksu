@@ -94,7 +94,10 @@ void main() {
     expect(page.total, 12);
     // Comment images become links; nothing is fetched from a comment.
     expect(page.comments.single.messageHtml, isNot(contains('<img')));
-    expect(page.comments.single.messageHtml, contains('href="https://x.test/a.png"'));
+    expect(
+      page.comments.single.messageHtml,
+      contains('href="https://x.test/a.png"'),
+    );
   });
 
   test('deleted comments keep their place without text', () {

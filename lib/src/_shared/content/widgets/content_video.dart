@@ -299,85 +299,82 @@ final class _Controls extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      ValueListenableBuilder<VideoPlayerValue>(
-        valueListenable: controller,
-        builder: (BuildContext context, VideoPlayerValue value, _) {
-          final TextStyle? time = Theme.of(context).textTheme.labelSmall
-              ?.copyWith(
-                color: UiGlass.onGlass,
-                fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
-              );
-          return DecoratedBox(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Colors.transparent, Color(0x99000000)],
-                stops: <double>[.55, 1],
+  Widget build(
+    BuildContext context,
+  ) => ValueListenableBuilder<VideoPlayerValue>(
+    valueListenable: controller,
+    builder: (BuildContext context, VideoPlayerValue value, _) {
+      final TextStyle? time = Theme.of(context).textTheme.labelSmall?.copyWith(
+        color: UiGlass.onGlass,
+        fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+      );
+      return DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[Colors.transparent, Color(0x99000000)],
+            stops: <double>[.55, 1],
+          ),
+        ),
+        child: Stack(
+          children: <Widget>[
+            Center(
+              child: _GlassButton(
+                icon: value.isPlaying
+                    ? Icons.pause_rounded
+                    : Icons.play_arrow_rounded,
+                label: value.isPlaying
+                    ? context.t.contentVideoPause
+                    : context.t.contentVideoPlay,
+                onPressed: onTogglePlay,
+                large: true,
               ),
             ),
-            child: Stack(
-              children: <Widget>[
-                Center(
-                  child: _GlassButton(
-                    icon: value.isPlaying
-                        ? Icons.pause_rounded
-                        : Icons.play_arrow_rounded,
-                    label: value.isPlaying
-                        ? context.t.contentVideoPause
-                        : context.t.contentVideoPlay,
-                    onPressed: onTogglePlay,
-                    large: true,
+            Positioned(
+              left: UiSpace.sm,
+              right: UiSpace.xs,
+              bottom: 0,
+              child: Row(
+                spacing: UiSpace.sm,
+                children: <Widget>[
+                  Text(
+                    '${_time(value.position)} / ${_time(value.duration)}',
+                    style: time,
                   ),
-                ),
-                Positioned(
-                  left: UiSpace.sm,
-                  right: UiSpace.xs,
-                  bottom: 0,
-                  child: Row(
-                    spacing: UiSpace.sm,
-                    children: <Widget>[
-                      Text(
-                        '${_time(value.position)} / ${_time(value.duration)}',
-                        style: time,
+                  Expanded(
+                    child: VideoProgressIndicator(
+                      controller,
+                      allowScrubbing: true,
+                      padding: const EdgeInsets.symmetric(vertical: UiSpace.md),
+                      colors: VideoProgressColors(
+                        playedColor: Theme.of(context).colorScheme.primary,
+                        bufferedColor: const Color(0x66FFFFFF),
+                        backgroundColor: const Color(0x33FFFFFF),
                       ),
-                      Expanded(
-                        child: VideoProgressIndicator(
-                          controller,
-                          allowScrubbing: true,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: UiSpace.md,
-                          ),
-                          colors: VideoProgressColors(
-                            playedColor: Theme.of(context).colorScheme.primary,
-                            bufferedColor: const Color(0x66FFFFFF),
-                            backgroundColor: const Color(0x33FFFFFF),
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        tooltip: onFullscreen == null
-                            ? context.t.contentVideoExitFullscreen
-                            : context.t.contentVideoFullscreen,
-                        color: UiGlass.onGlass,
-                        icon: Icon(
-                          onFullscreen == null
-                              ? Icons.fullscreen_exit_rounded
-                              : Icons.fullscreen_rounded,
-                        ),
-                        onPressed:
-                            onFullscreen ??
-                            () => Navigator.of(context).maybePop(),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                  IconButton(
+                    tooltip: onFullscreen == null
+                        ? context.t.contentVideoExitFullscreen
+                        : context.t.contentVideoFullscreen,
+                    color: UiGlass.onGlass,
+                    icon: Icon(
+                      onFullscreen == null
+                          ? Icons.fullscreen_exit_rounded
+                          : Icons.fullscreen_rounded,
+                    ),
+                    onPressed:
+                        onFullscreen ?? () => Navigator.of(context).maybePop(),
+                  ),
+                ],
+              ),
             ),
-          );
-        },
+          ],
+        ),
       );
+    },
+  );
 }
 
 final class _GlassButton extends StatelessWidget {

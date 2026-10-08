@@ -12,8 +12,7 @@ abstract interface class ProfileActivityRemoteSource {
 /// osu-web stops paging after 100 events.
 final class OsuProfileActivityRemoteSource
     implements ProfileActivityRemoteSource {
-  const OsuProfileActivityRemoteSource({required RestClient restClient})
-    : _restClient = restClient;
+  const OsuProfileActivityRemoteSource({required this._restClient});
   final RestClient _restClient;
 
   @override

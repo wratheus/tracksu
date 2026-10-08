@@ -172,42 +172,35 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                               ValueListenableBuilder<Locale?>(
                                 valueListenable: deps.localeController,
                                 builder:
-                                    (
-                                      BuildContext context,
-                                      Locale? locale,
-                                      _,
-                                    ) => UiTile.value(
-                                      title: context.t.languageSelection,
-                                      value: AppLanguage.fromLocale(
-                                        locale,
-                                      ).label(context.t),
-                                      leading: const UiTileIcon(
-                                        Icons.translate,
-                                      ),
-                                      onTap: _busy
-                                          ? null
-                                          : () => _run(
-                                              () => LanguagePicker.show(
-                                                context,
-                                              ),
-                                            ),
-                                    ),
+                                    (BuildContext context, Locale? locale, _) =>
+                                        UiTile.value(
+                                          title: context.t.languageSelection,
+                                          value: AppLanguage.fromLocale(locale)
+                                              .label(context.t),
+                                          leading: const UiTileIcon(
+                                            Icons.translate,
+                                          ),
+                                          onTap: _busy
+                                              ? null
+                                              : () => _run(
+                                                  () => LanguagePicker.show(
+                                                    context,
+                                                  ),
+                                                ),
+                                        ),
                               ),
                               ValueListenableBuilder<ThemeMode>(
                                 valueListenable: deps.themeController,
                                 builder:
-                                    (
-                                      BuildContext context,
-                                      ThemeMode mode,
-                                      _,
-                                    ) => UiTile.value(
-                                      title: context.t.settingsTheme,
-                                      value: _themeLabel(context, mode),
-                                      leading: UiTileIcon(_themeIcon(mode)),
-                                      onTap: _busy
-                                          ? null
-                                          : () => _run(_selectTheme),
-                                    ),
+                                    (BuildContext context, ThemeMode mode, _) =>
+                                        UiTile.value(
+                                          title: context.t.settingsTheme,
+                                          value: _themeLabel(context, mode),
+                                          leading: UiTileIcon(_themeIcon(mode)),
+                                          onTap: _busy
+                                              ? null
+                                              : () => _run(_selectTheme),
+                                        ),
                               ),
                             ],
                           ),
@@ -279,9 +272,8 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                               label: context.t.signOut,
                               onPressed: _busy
                                   ? null
-                                  : () => _run(
-                                      () => SignOutAction.show(context),
-                                    ),
+                                  : () =>
+                                        _run(() => SignOutAction.show(context)),
                             ),
                         ],
                       );

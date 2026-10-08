@@ -56,8 +56,7 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
     );
     setState(() => _opening = true);
     try {
-      if (uri == null ||
-          !await ExternalLinks.open(uri)) {
+      if (uri == null || !await ExternalLinks.open(uri)) {
         if (mounted) _showFailure();
       }
     } on Object {
@@ -113,10 +112,7 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
               ),
       ),
       CommentsScope(
-        target: CommentTarget(
-          CommentableType.newsPost,
-          widget.article.post.id,
-        ),
+        target: CommentTarget(CommentableType.newsPost, widget.article.post.id),
         child: const CommentsSection(),
       ),
     ],

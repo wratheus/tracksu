@@ -58,13 +58,10 @@ final class TeamRankingsState {
 
 /// Mirrors RankingsBloc: latest query wins, paging and refresh never append
 /// stale pages, the first successful page is cached per query.
-final class TeamRankingsBloc extends Bloc<TeamRankingsEvent, TeamRankingsState> {
-  TeamRankingsBloc({
-    required this._repository,
-    required this._cache,
-  }) : super(
-         TeamRankingsState(ruleset: ProfileRuleset.osu, performance: true),
-       ) {
+final class TeamRankingsBloc
+    extends Bloc<TeamRankingsEvent, TeamRankingsState> {
+  TeamRankingsBloc({required this._repository, required this._cache})
+    : super(TeamRankingsState(ruleset: ProfileRuleset.osu, performance: true)) {
     on<TeamRankingsEvent>(_onEvent, transformer: concurrent());
   }
 
@@ -137,7 +134,8 @@ final class TeamRankingsBloc extends Bloc<TeamRankingsEvent, TeamRankingsState> 
       }
       final Map<int, TeamRankingEntry> unique = <int, TeamRankingEntry>{
         if (operation == TeamRankingsOperation.loadMore)
-          for (final TeamRankingEntry e in previous ?? const <TeamRankingEntry>[])
+          for (final TeamRankingEntry e
+              in previous ?? const <TeamRankingEntry>[])
             e.team.id: e,
       };
       final int before = unique.length;

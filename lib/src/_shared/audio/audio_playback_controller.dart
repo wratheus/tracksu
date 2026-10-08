@@ -196,11 +196,7 @@ final class AudioPlaybackController extends ChangeNotifier {
       if (!_current(generation)) return;
       _activation = null;
       if (!activated) {
-        _fail(
-          generation,
-          'focus denied',
-          failure: AudioPlaybackFailure.focus,
-        );
+        _fail(generation, 'focus denied', failure: AudioPlaybackFailure.focus);
         return;
       }
       // play's future completes on pause/end, not on start.

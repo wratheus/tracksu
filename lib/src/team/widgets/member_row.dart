@@ -47,9 +47,8 @@ final class _TeamMemberRowState extends State<TeamMemberRow> {
         : member.lastVisit == null
         ? context.t.profileOffline
         : context.t.teamLastVisit(
-            DateFormat.yMMMd(
-              context.t.localeName,
-            ).format(member.lastVisit!.toLocal()),
+            DateFormat.yMMMd(context.t.localeName)
+                .format(member.lastVisit!.toLocal()),
           );
     return UiSurface.card(
       padding: const EdgeInsets.all(UiSpace.md),
@@ -93,10 +92,7 @@ final class _TeamMemberRowState extends State<TeamMemberRow> {
                     label: context.t.profileCountry(member.country),
                   ),
                   Flexible(
-                    child: OsuPresence(
-                      online: member.online,
-                      label: presence,
-                    ),
+                    child: OsuPresence(online: member.online, label: presence),
                   ),
                 ],
               ),

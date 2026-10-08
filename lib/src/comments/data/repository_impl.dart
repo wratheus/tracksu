@@ -57,8 +57,7 @@ final class CommentsRepositoryImpl implements CommentsRepository {
   static CommentsPage decode(Map<String, dynamic> raw) {
     final JsonMapReader bundle = JsonMapReader(raw);
     List<Comment> list(String key) => <Comment>[
-      for (final Object? item
-          in bundle.optionalList(key) ?? const <Object?>[])
+      for (final Object? item in bundle.optionalList(key) ?? const <Object?>[])
         _comment(JsonMapReader.asMap(item)),
     ];
     final Map<int, CommentAuthor> users = <int, CommentAuthor>{

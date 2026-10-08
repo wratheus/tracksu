@@ -40,72 +40,70 @@ final class TeamRankingCard extends StatelessWidget {
           ).format(entry.performance)
         : score.compact;
     final Widget card = UiSurface.card(
-        onTap: onTap,
-        padding: const EdgeInsets.all(UiSpace.md),
-        child: OsuAvatarBands(
-          avatar: ClipRRect(
-            borderRadius: BorderRadius.circular(UiSpace.sm),
-            child: UiImage(
-              image: entry.team.flagUri == null
-                  ? null
-                  : AppMedia.image(context, entry.team.flagUri),
-              width: _flagWidth,
-              height: _flagHeight,
-              semanticLabel: entry.team.name,
-              fallbackIcon: Icons.groups_outlined,
-            ),
-          ),
-          top: Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            spacing: UiSpace.sm,
-            children: <Widget>[
-              UiText.titleMedium(
-                '#${NumberFormat.decimalPattern(locale).format(entry.position)}',
-                color: colors.tertiary,
-                maxLines: 1,
-              ),
-              Expanded(child: UiText.titleMedium(entry.team.name, maxLines: 1)),
-              Text.rich(
-                TextSpan(
-                  children: <InlineSpan>[
-                    TextSpan(text: value),
-                    // Only PP carries a unit; a score needs no caption.
-                    if (performance)
-                      TextSpan(
-                        text: ' PP',
-                        style: theme.textTheme.labelMedium?.copyWith(
-                          color: colors.primary,
-                        ),
-                      ),
-                  ],
-                ),
-                maxLines: 1,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: colors.primary,
-                  fontWeight: FontWeight.w700,
-                  fontFeatures: const <FontFeature>[
-                    FontFeature.tabularFigures(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          bottom: Row(
-            spacing: UiSpace.sm,
-            children: <Widget>[
-              UiBadge.neutral(entry.team.shortName),
-              Flexible(
-                child: UiText.bodySmall(
-                  context.t.teamMembers(entry.memberCount),
-                  secondary: true,
-                  maxLines: 1,
-                ),
-              ),
-            ],
+      onTap: onTap,
+      padding: const EdgeInsets.all(UiSpace.md),
+      child: OsuAvatarBands(
+        avatar: ClipRRect(
+          borderRadius: BorderRadius.circular(UiSpace.sm),
+          child: UiImage(
+            image: entry.team.flagUri == null
+                ? null
+                : AppMedia.image(context, entry.team.flagUri),
+            width: _flagWidth,
+            height: _flagHeight,
+            semanticLabel: entry.team.name,
+            fallbackIcon: Icons.groups_outlined,
           ),
         ),
-      );
+        top: Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          spacing: UiSpace.sm,
+          children: <Widget>[
+            UiText.titleMedium(
+              '#${NumberFormat.decimalPattern(locale).format(entry.position)}',
+              color: colors.tertiary,
+              maxLines: 1,
+            ),
+            Expanded(child: UiText.titleMedium(entry.team.name, maxLines: 1)),
+            Text.rich(
+              TextSpan(
+                children: <InlineSpan>[
+                  TextSpan(text: value),
+                  // Only PP carries a unit; a score needs no caption.
+                  if (performance)
+                    TextSpan(
+                      text: ' PP',
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: colors.primary,
+                      ),
+                    ),
+                ],
+              ),
+              maxLines: 1,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: colors.primary,
+                fontWeight: FontWeight.w700,
+                fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
+              ),
+            ),
+          ],
+        ),
+        bottom: Row(
+          spacing: UiSpace.sm,
+          children: <Widget>[
+            UiBadge.neutral(entry.team.shortName),
+            Flexible(
+              child: UiText.bodySmall(
+                context.t.teamMembers(entry.memberCount),
+                secondary: true,
+                maxLines: 1,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
     return performance
         ? card
         : Tooltip(

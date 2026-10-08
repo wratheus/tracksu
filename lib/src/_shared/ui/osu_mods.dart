@@ -54,7 +54,11 @@ final class OsuModInfo {
     ),
     'TC': OsuModInfo('Traceable', OsuModType.increase, 'traceable'),
     // Conversion
-    'TP': OsuModInfo('Target Practice', OsuModType.conversion, 'target-practice'),
+    'TP': OsuModInfo(
+      'Target Practice',
+      OsuModType.conversion,
+      'target-practice',
+    ),
     'DA': OsuModInfo(
       'Difficulty Adjust',
       OsuModType.conversion,
@@ -70,7 +74,11 @@ final class OsuModInfo {
     'HO': OsuModInfo('Hold Off', OsuModType.conversion, 'hold-off'),
     'DS': OsuModInfo('Dual Stages', OsuModType.conversion, 'dual-stages'),
     'SW': OsuModInfo('Swap', OsuModType.conversion, 'swap'),
-    'FF': OsuModInfo('Floating Fruits', OsuModType.conversion, 'floating-fruits'),
+    'FF': OsuModInfo(
+      'Floating Fruits',
+      OsuModType.conversion,
+      'floating-fruits',
+    ),
     'SR': OsuModInfo(
       'Simplified Rhythm',
       OsuModType.conversion,
@@ -193,9 +201,7 @@ final class OsuMods extends StatelessWidget {
     spacing: UiSpace.xs,
     runSpacing: UiSpace.xs,
     children: mods.isEmpty
-        ? <Widget>[
-            _ModChip(icon: const OsuModIcon.none(), label: emptyLabel),
-          ]
+        ? <Widget>[_ModChip(icon: const OsuModIcon.none(), label: emptyLabel)]
         : <Widget>[
             for (final String mod in mods)
               Tooltip(
@@ -227,12 +233,7 @@ final class _ModChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(UiSpace.sm),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(
-          UiSpace.xs,
-          3,
-          UiSpace.sm,
-          3,
-        ),
+        padding: const EdgeInsets.fromLTRB(UiSpace.xs, 3, UiSpace.sm, 3),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           spacing: UiSpace.xs,

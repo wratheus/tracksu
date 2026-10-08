@@ -6,8 +6,7 @@ import 'package:tracksu_network/tracksu_network.dart';
 
 /// One instance per changelog page; a newer read cancels the previous one.
 final class ChangelogRepositoryImpl implements ChangelogRepository {
-  ChangelogRepositoryImpl({required ChangelogRemoteSource remoteSource})
-    : _remoteSource = remoteSource;
+  ChangelogRepositoryImpl({required this._remoteSource});
   final ChangelogRemoteSource _remoteSource;
   RestCancellationToken? _pending;
 

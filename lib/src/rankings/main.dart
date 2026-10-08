@@ -187,30 +187,27 @@ final class _RankingsBodyState extends State<_RankingsBody>
       title: UiText.titleLarge(context.t.rankingsTitle),
       actions: <Widget>[
         BlocBuilder<RankingsBloc, RankingsState>(
-          builder: (BuildContext context, RankingsState state) =>
-              AppBarActions(
-                share: _tab == _RankingsTab.players
-                    ? ShareTarget.rankings(
-                        RankingsQuery(
-                          type: state.type,
-                          country: state.country,
-                          variant: state.variant,
-                        ),
-                        context.t.rankingsTitle,
-                      )
-                    : ShareTarget.rankingCategory(
-                        state.type.ruleset,
-                        switch (_tab) {
-                          _RankingsTab.teams => 'team',
-                          _RankingsTab.countries => 'country',
-                          _RankingsTab.kudosu => 'kudosu',
-                          _RankingsTab.players => throw StateError(
-                            'Handled above',
-                          ),
-                        },
-                        context.t.rankingsTitle,
-                      ),
-              ),
+          builder: (BuildContext context, RankingsState state) => AppBarActions(
+            share: _tab == _RankingsTab.players
+                ? ShareTarget.rankings(
+                    RankingsQuery(
+                      type: state.type,
+                      country: state.country,
+                      variant: state.variant,
+                    ),
+                    context.t.rankingsTitle,
+                  )
+                : ShareTarget.rankingCategory(
+                    state.type.ruleset,
+                    switch (_tab) {
+                      _RankingsTab.teams => 'team',
+                      _RankingsTab.countries => 'country',
+                      _RankingsTab.kudosu => 'kudosu',
+                      _RankingsTab.players => throw StateError('Handled above'),
+                    },
+                    context.t.rankingsTitle,
+                  ),
+          ),
         ),
       ],
       bottom: PreferredSize(

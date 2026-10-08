@@ -12,13 +12,10 @@ part 'state.dart';
 final class ProfileActivityBloc
     extends Bloc<ProfileActivityEvent, ProfileActivityState> {
   ProfileActivityBloc({
-    required ProfileActivityRepository repository,
-    required PageCache cache,
-    required ProfileUserId user,
-  }) : _repository = repository,
-       _cache = cache,
-       _user = user,
-       super(const ProfileActivityInitialState()) {
+    required this._repository,
+    required this._cache,
+    required this._user,
+  }) : super(const ProfileActivityInitialState()) {
     // Refresh/paging are ignored while busy; stale completions never emit.
     on<ProfileActivityEvent>(_onEvent, transformer: sequential());
   }

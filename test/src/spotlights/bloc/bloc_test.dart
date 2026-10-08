@@ -34,10 +34,9 @@ final class _Repository implements SpotlightsRepository {
 
 Future<SpotlightsLoadedState> _settled(SpotlightsBloc bloc) async =>
     await bloc.stream.firstWhere(
-          (SpotlightsState state) =>
-              state is SpotlightsLoadedState && !state.loading,
-        )
-        as SpotlightsLoadedState;
+      (SpotlightsState state) =>
+          state is SpotlightsLoadedState && !state.loading,
+    ) as SpotlightsLoadedState;
 
 void main() {
   test('a ruleset without a chart is an empty state, not an error', () async {

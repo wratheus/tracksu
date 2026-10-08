@@ -119,7 +119,8 @@ final class _AccountAvatar {
 
   factory _AccountAvatar.of(DepsContainer deps) {
     final _AccountAvatar? current = _instance;
-    if (current != null && identical(current._session, deps.sessionController)) {
+    if (current != null &&
+        identical(current._session, deps.sessionController)) {
       return current;
     }
     current?._dispose();

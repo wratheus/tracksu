@@ -29,68 +29,73 @@ final class ChangelogSlivers extends StatelessWidget {
   const ChangelogSlivers({super.key});
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<ChangelogBloc, ChangelogState>(
-    builder: (BuildContext context, ChangelogState state) => SliverMainAxisGroup(
-      slivers: <Widget>[
-        if (state.streams.isNotEmpty)
-          SliverToBoxAdapter(
-            child: _StreamTiles(
-              streams: state.streams,
-              selected: state.stream,
-            ),
-          ),
-        ...switch (state) {
-          ChangelogInitialState() || ChangelogLoadingState() => <Widget>[
-            SliverToBoxAdapter(
-              child: UiPageSkeleton.list(label: context.t.changelogLoading),
-            ),
-          ],
-          ChangelogFailureState(:final failure) => <Widget>[
-            SliverToBoxAdapter(child: _Failure(failure)),
-          ],
-          final ChangelogLoadedState loaded => <Widget>[
-            if (loaded.failure case final ChangelogFailureKind failure
-                when loaded.failedOperation == ChangelogOperation.refresh)
-              SliverToBoxAdapter(child: _Failure(failure, keeping: true)),
-            if (loaded.builds.isEmpty)
+  Widget build(
+    BuildContext context,
+  ) => BlocBuilder<ChangelogBloc, ChangelogState>(
+    builder: (BuildContext context, ChangelogState state) =>
+        SliverMainAxisGroup(
+          slivers: <Widget>[
+            if (state.streams.isNotEmpty)
               SliverToBoxAdapter(
-                child: UiContentState.empty(title: context.t.changelogEmpty),
-              ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
-              sliver: SliverList.builder(
-                itemCount: loaded.builds.length,
-                itemBuilder: (BuildContext context, int index) => Padding(
-                  key: ValueKey<int>(loaded.builds[index].id),
-                  padding: const EdgeInsets.only(bottom: UiSpace.md),
-                  child: _BuildCard(item: loaded.builds[index]),
+                child: _StreamTiles(
+                  streams: state.streams,
+                  selected: state.stream,
                 ),
               ),
-            ),
-            if (loaded.operation == ChangelogOperation.loadMore)
-              SliverToBoxAdapter(
-                child: UiContentState.loading(
-                  title: context.t.changelogLoading,
+            ...switch (state) {
+              ChangelogInitialState() || ChangelogLoadingState() => <Widget>[
+                SliverToBoxAdapter(
+                  child: UiPageSkeleton.list(label: context.t.changelogLoading),
                 ),
-              )
-            else if (loaded.failure case final ChangelogFailureKind failure
-                when loaded.failedOperation == ChangelogOperation.loadMore)
-              SliverToBoxAdapter(
-                child: _Failure(failure, keeping: true, more: true),
-              )
-            else if (loaded.nextMaxId case final int next
-                when loaded.operation == null)
-              UiSliverAutoLoad(
-                pageKey: (loaded.stream, next),
-                label: context.t.changelogLoading,
-                onLoad: () => context.read<ChangelogBloc>().add(
-                  const ChangelogMoreRequested(),
+              ],
+              ChangelogFailureState(:final failure) => <Widget>[
+                SliverToBoxAdapter(child: _Failure(failure)),
+              ],
+              final ChangelogLoadedState loaded => <Widget>[
+                if (loaded.failure case final ChangelogFailureKind failure
+                    when loaded.failedOperation == ChangelogOperation.refresh)
+                  SliverToBoxAdapter(child: _Failure(failure, keeping: true)),
+                if (loaded.builds.isEmpty)
+                  SliverToBoxAdapter(
+                    child: UiContentState.empty(
+                      title: context.t.changelogEmpty,
+                    ),
+                  ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
+                  sliver: SliverList.builder(
+                    itemCount: loaded.builds.length,
+                    itemBuilder: (BuildContext context, int index) => Padding(
+                      key: ValueKey<int>(loaded.builds[index].id),
+                      padding: const EdgeInsets.only(bottom: UiSpace.md),
+                      child: _BuildCard(item: loaded.builds[index]),
+                    ),
+                  ),
                 ),
-              ),
+                if (loaded.operation == ChangelogOperation.loadMore)
+                  SliverToBoxAdapter(
+                    child: UiContentState.loading(
+                      title: context.t.changelogLoading,
+                    ),
+                  )
+                else if (loaded.failure case final ChangelogFailureKind failure
+                    when loaded.failedOperation == ChangelogOperation.loadMore)
+                  SliverToBoxAdapter(
+                    child: _Failure(failure, keeping: true, more: true),
+                  )
+                else if (loaded.nextMaxId case final int next
+                    when loaded.operation == null)
+                  UiSliverAutoLoad(
+                    pageKey: (loaded.stream, next),
+                    label: context.t.changelogLoading,
+                    onLoad: () => context.read<ChangelogBloc>().add(
+                      const ChangelogMoreRequested(),
+                    ),
+                  ),
+              ],
+            },
           ],
-        },
-      ],
-    ),
+        ),
   );
 }
 
@@ -152,9 +157,7 @@ final class _StreamTiles extends StatelessWidget {
               version: stream.latestVersion,
               users: stream.userCount == null
                   ? null
-                  : context.t.changelogUsers(
-                      compact.format(stream.userCount),
-                    ),
+                  : context.t.changelogUsers(compact.format(stream.userCount)),
               colour: changelogStreamColour(stream.name),
               selected: selected == stream.name,
               onTap: () => context.read<ChangelogBloc>().add(
@@ -304,8 +307,7 @@ final class _EntryRowState extends State<_EntryRow> {
 
   Future<void> _open(Uri uri) async {
     try {
-      if (!await ExternalLinks.open(uri) &&
-          mounted) {
+      if (!await ExternalLinks.open(uri) && mounted) {
         UiFeedback.snack(context, message: context.t.contentLinkFailed);
       }
     } on Object {
