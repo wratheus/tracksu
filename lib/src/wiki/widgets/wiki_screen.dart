@@ -80,7 +80,11 @@ final class WikiScreen extends StatelessWidget {
                                   .add(const WikiArticleRequested()),
                             ),
                     )
-                  else ...<Widget>[
+                  else
+                    // Content fades in over the placeholder instead of popping.
+                    UiSliverReveal(
+                      sliver: SliverMainAxisGroup(
+                        slivers: <Widget>[
                     SliverPadding(
                       padding: const EdgeInsets.fromLTRB(
                         UiSpace.lg,
@@ -131,7 +135,9 @@ final class WikiScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                  ],
+                        ],
+                      ),
+                    ),
                   UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
                 ],
               ),

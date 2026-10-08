@@ -20,6 +20,9 @@ abstract final class UiMotion {
   /// One full dim-and-restore cycle of a page skeleton.
   static const Duration skeletonPulse = Duration(milliseconds: 1400);
 
+  /// Placeholders wait ~130 ms, then fade in over ~200 ms.
+  static const Duration skeletonEntry = Duration(milliseconds: 330);
+
   /// Progress lines wait this long before appearing: most API answers come
   /// back sooner, and a line that flashes for a moment is noise.
   static const Duration progressDelay = Duration(milliseconds: 600);

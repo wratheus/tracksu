@@ -26,130 +26,128 @@ final class ForumTopicScreen extends StatelessWidget {
   const ForumTopicScreen({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<ForumTopicBloc, ForumTopicState>(
-        builder: (BuildContext context, ForumTopicState state) {
-          final ForumTopic? topic = state.topic;
-          final List<ForumPost>? posts = state.posts;
-          final ForumTopicBloc bloc = context.read<ForumTopicBloc>();
-          return Scaffold(
-            appBar: UiAppBar(
-              // Where we are; the topic title heads the page once.
-              title: UiText.titleLarge(context.t.forumTitle),
-              actions: <Widget>[
-                AppBarActions(
-                  share: topic == null
-                      ? null
-                      : ShareTarget.forumTopic(topic.id, topic.title),
-                ),
-              ],
-              bottom: UiAppBarProgressSlot(
-                child: UiAppBarProgress(
-                  visible:
-                      topic != null &&
-                      state.operation == ForumTopicOperation.refresh,
-                  semanticsLabel: context.t.forumLoading,
-                ),
-              ),
+  Widget build(
+    BuildContext context,
+  ) => BlocBuilder<ForumTopicBloc, ForumTopicState>(
+    builder: (BuildContext context, ForumTopicState state) {
+      final ForumTopic? topic = state.topic;
+      final List<ForumPost>? posts = state.posts;
+      final ForumTopicBloc bloc = context.read<ForumTopicBloc>();
+      return Scaffold(
+        appBar: UiAppBar(
+          // Where we are; the topic title heads the page once.
+          title: UiText.titleLarge(context.t.forumTitle),
+          actions: <Widget>[
+            AppBarActions(
+              share: topic == null
+                  ? null
+                  : ShareTarget.forumTopic(topic.id, topic.title),
             ),
-            body: UiScrollToTop(
-              tooltip: context.t.scrollToTop,
-              child: SafeArea(
-                top: false,
-                child: RefreshIndicator(
-                  onRefresh: () async =>
-                      bloc.add(const ForumTopicRefreshRequested()),
-                  child: CustomScrollView(
-                    primary: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    slivers: <Widget>[
-                      if (topic == null || posts == null)
-                        SliverToBoxAdapter(
-                          child: state.failure == null
-                              ? UiPageSkeleton.article(
-                                  label: context.t.forumLoading,
-                                )
-                              : UiContentState.error(
-                                  title: forumFailureTitle(
-                                    context,
-                                    state.failure!,
-                                  ),
-                                  actionLabel: context.t.retry,
-                                  onAction: () => bloc.add(
-                                    const ForumTopicRefreshRequested(),
-                                  ),
-                                ),
-                        )
-                      else ...<Widget>[
-                        if (state.failure case final ForumFailureKind failure
-                            when state.failedOperation ==
-                                ForumTopicOperation.refresh)
-                          SliverToBoxAdapter(
-                            child: UiContentState.error(
-                              title: forumFailureTitle(context, failure),
-                              message: context.t.newsKeepingContent,
-                              actionLabel: context.t.retry,
-                              onAction: () => bloc.add(
-                                const ForumTopicRefreshRequested(),
-                              ),
-                            ),
-                          ),
-                        SliverPadding(
-                          padding: const EdgeInsets.fromLTRB(
-                            UiSpace.lg,
-                            UiSpace.lg,
-                            UiSpace.lg,
-                            UiSpace.sm,
-                          ),
-                          sliver: SliverToBoxAdapter(
-                            child: _TopicHeader(topic: topic),
-                          ),
-                        ),
-                        for (final ForumPost post in posts)
-                          _PostSlivers(
-                            key: ValueKey<int>(post.id),
-                            topic: topic,
-                            post: post,
-                            author: state.authors[post.userId],
-                          ),
-                        if (state.operation == ForumTopicOperation.loadMore)
-                          SliverToBoxAdapter(
-                            child: UiContentState.loading(
-                              title: context.t.forumLoading,
-                            ),
-                          )
-                        else if (state.failure
-                            case final ForumFailureKind failure
-                            when state.failedOperation ==
-                                ForumTopicOperation.loadMore)
-                          SliverToBoxAdapter(
-                            child: UiContentState.error(
-                              title: forumFailureTitle(context, failure),
+          ],
+          bottom: UiAppBarProgressSlot(
+            child: UiAppBarProgress(
+              visible:
+                  topic != null &&
+                  state.operation == ForumTopicOperation.refresh,
+              semanticsLabel: context.t.forumLoading,
+            ),
+          ),
+        ),
+        body: UiScrollToTop(
+          tooltip: context.t.scrollToTop,
+          child: SafeArea(
+            top: false,
+            child: RefreshIndicator(
+              onRefresh: () async =>
+                  bloc.add(const ForumTopicRefreshRequested()),
+              child: CustomScrollView(
+                primary: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: <Widget>[
+                  if (topic == null || posts == null)
+                    SliverToBoxAdapter(
+                      child: state.failure == null
+                          ? UiPageSkeleton.article(
+                              label: context.t.forumLoading,
+                            )
+                          : UiContentState.error(
+                              title: forumFailureTitle(context, state.failure!),
                               actionLabel: context.t.retry,
                               onAction: () =>
-                                  bloc.add(const ForumTopicMoreRequested()),
+                                  bloc.add(const ForumTopicRefreshRequested()),
                             ),
-                          )
-                        else if (state.cursor case final String cursor
-                            when state.operation == null)
-                          UiSliverAutoLoad(
-                            pageKey: cursor,
-                            label: context.t.forumLoading,
-                            onLoad: () =>
-                                bloc.add(const ForumTopicMoreRequested()),
-                          ),
-                      ],
-                      UiSliverScrollToTopSpace(
-                        tooltip: context.t.scrollToTop,
+                    )
+                  else
+                    // Content fades in over the placeholder instead of popping.
+                    UiSliverReveal(
+                      sliver: SliverMainAxisGroup(
+                        slivers: <Widget>[
+                    if (state.failure case final ForumFailureKind failure
+                        when state.failedOperation ==
+                            ForumTopicOperation.refresh)
+                      SliverToBoxAdapter(
+                        child: UiContentState.error(
+                          title: forumFailureTitle(context, failure),
+                          message: context.t.newsKeepingContent,
+                          actionLabel: context.t.retry,
+                          onAction: () =>
+                              bloc.add(const ForumTopicRefreshRequested()),
+                        ),
                       ),
-                    ],
-                  ),
-                ),
+                    SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(
+                        UiSpace.lg,
+                        UiSpace.lg,
+                        UiSpace.lg,
+                        UiSpace.sm,
+                      ),
+                      sliver: SliverToBoxAdapter(
+                        child: _TopicHeader(topic: topic),
+                      ),
+                    ),
+                    for (final ForumPost post in posts)
+                      _PostSlivers(
+                        key: ValueKey<int>(post.id),
+                        topic: topic,
+                        post: post,
+                        author: state.authors[post.userId],
+                      ),
+                    if (state.operation == ForumTopicOperation.loadMore)
+                      SliverToBoxAdapter(
+                        child: UiContentState.loading(
+                          title: context.t.forumLoading,
+                        ),
+                      )
+                    else if (state.failure case final ForumFailureKind failure
+                        when state.failedOperation ==
+                            ForumTopicOperation.loadMore)
+                      SliverToBoxAdapter(
+                        child: UiContentState.error(
+                          title: forumFailureTitle(context, failure),
+                          actionLabel: context.t.retry,
+                          onAction: () =>
+                              bloc.add(const ForumTopicMoreRequested()),
+                        ),
+                      )
+                    else if (state.cursor case final String cursor
+                        when state.operation == null)
+                      UiSliverAutoLoad(
+                        pageKey: cursor,
+                        label: context.t.forumLoading,
+                        onLoad: () => bloc.add(const ForumTopicMoreRequested()),
+                      ),
+                        ],
+                      ),
+                    ),
+                  UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+                ],
               ),
             ),
-          );
-        },
+          ),
+        ),
       );
+    },
+  );
 }
 
 final class _TopicHeader extends StatelessWidget {

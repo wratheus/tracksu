@@ -109,10 +109,12 @@ final class DailyChallengeScreen extends StatelessWidget {
                       DailyChallengeLoaded(
                         challenge: final DailyChallenge challenge,
                       ) =>
-                        _Content(
-                          challenge: challenge,
-                          state: state,
-                          past: past,
+                        UiSliverReveal(
+                          sliver: _Content(
+                            challenge: challenge,
+                            state: state,
+                            past: past,
+                          ),
                         ),
                     },
               ),

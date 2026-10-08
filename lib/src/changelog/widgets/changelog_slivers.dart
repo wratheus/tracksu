@@ -61,7 +61,8 @@ final class ChangelogSlivers extends StatelessWidget {
                       title: context.t.changelogEmpty,
                     ),
                   ),
-                SliverPadding(
+                UiSliverReveal(
+                  sliver: SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
                   sliver: SliverList.builder(
                     itemCount: loaded.builds.length,
@@ -71,6 +72,7 @@ final class ChangelogSlivers extends StatelessWidget {
                       child: _BuildCard(item: loaded.builds[index]),
                     ),
                   ),
+                ),
                 ),
                 if (loaded.operation == ChangelogOperation.loadMore)
                   SliverToBoxAdapter(

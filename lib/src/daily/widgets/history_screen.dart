@@ -188,77 +188,75 @@ final class _DayCard extends StatelessWidget {
     String locale,
     DateTime? date,
   ) => Row(
-        spacing: UiSpace.md,
-        children: <Widget>[
-          SizedBox(
-            width: 52,
-            child: Column(
+    spacing: UiSpace.md,
+    children: <Widget>[
+      SizedBox(
+        width: 52,
+        child: Column(
+          children: <Widget>[
+            UiText.headlineSmall(
+              date == null ? '—' : DateFormat.d(locale).format(date),
+              color: colors.primary,
+            ),
+            UiText.labelSmall(
+              date == null ? '' : DateFormat.MMM(locale).format(date),
+              secondary: true,
+              maxLines: 1,
+            ),
+          ],
+        ),
+      ),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: UiSpace.xs,
+          children: <Widget>[
+            UiText.titleSmall(
+              day.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            UiText.bodySmall(
+              <String>[
+                if (day.artist.isNotEmpty) day.artist,
+                day.version,
+              ].join(' · '),
+              secondary: true,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Wrap(
+              spacing: UiSpace.sm,
+              runSpacing: UiSpace.xs,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: <Widget>[
-                UiText.headlineSmall(
-                  date == null ? '—' : DateFormat.d(locale).format(date),
-                  color: colors.primary,
+                SizedBox.square(
+                  dimension: 20,
+                  child: FittedBox(child: OsuRulesetIcon(ruleset: day.ruleset)),
                 ),
-                UiText.labelSmall(
-                  date == null ? '' : DateFormat.MMM(locale).format(date),
-                  secondary: true,
-                  maxLines: 1,
+                OsuStarBadge(
+                  stars: day.stars,
+                  label: NumberFormat.decimalPatternDigits(
+                    locale: locale,
+                    decimalDigits: 2,
+                  ).format(day.stars),
                 ),
+                if (day.requiredMods.isNotEmpty)
+                  OsuMods(
+                    mods: day.requiredMods,
+                    emptyLabel: context.t.scoresNoMods,
+                  ),
+                if (day.participantCount case final int count)
+                  UiText.labelSmall(
+                    context.t.dailyParticipants(count),
+                    secondary: true,
+                  ),
               ],
             ),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: UiSpace.xs,
-              children: <Widget>[
-                UiText.titleSmall(
-                  day.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                UiText.bodySmall(
-                  <String>[
-                    if (day.artist.isNotEmpty) day.artist,
-                    day.version,
-                  ].join(' · '),
-                  secondary: true,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Wrap(
-                  spacing: UiSpace.sm,
-                  runSpacing: UiSpace.xs,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: <Widget>[
-                    SizedBox.square(
-                      dimension: 20,
-                      child: FittedBox(
-                        child: OsuRulesetIcon(ruleset: day.ruleset),
-                      ),
-                    ),
-                    OsuStarBadge(
-                      stars: day.stars,
-                      label: NumberFormat.decimalPatternDigits(
-                        locale: locale,
-                        decimalDigits: 2,
-                      ).format(day.stars),
-                    ),
-                    if (day.requiredMods.isNotEmpty)
-                      OsuMods(
-                        mods: day.requiredMods,
-                        emptyLabel: context.t.scoresNoMods,
-                      ),
-                    if (day.participantCount case final int count)
-                      UiText.labelSmall(
-                        context.t.dailyParticipants(count),
-                        secondary: true,
-                      ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Icon(Icons.chevron_right_rounded, color: colors.onSurfaceVariant),
-        ],
-      );
+          ],
+        ),
+      ),
+      Icon(Icons.chevron_right_rounded, color: colors.onSurfaceVariant),
+    ],
+  );
 }

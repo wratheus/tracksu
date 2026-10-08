@@ -37,7 +37,8 @@ final class ForumIndexSlivers extends StatelessWidget {
               child: UiContentState.empty(title: context.t.forumEmpty),
             );
           }
-          return SliverPadding(
+          return UiSliverReveal(
+            sliver: SliverPadding(
             padding: const EdgeInsets.all(UiSpace.lg),
             sliver: SliverList.separated(
               itemCount: forums.length,
@@ -56,6 +57,7 @@ final class ForumIndexSlivers extends StatelessWidget {
                 );
               },
             ),
+            ),
           );
         },
       );
@@ -71,8 +73,7 @@ final class ForumNodeTile extends StatelessWidget {
     title: forum.name,
     subtitle: forum.description.isEmpty ? null : forum.description,
     leading: const UiTileIcon(Icons.forum_outlined),
-    onTap: () => unawaited(
-      DepsScope.of(context).appRouter.openForum(context, forum.id),
-    ),
+    onTap: () =>
+        unawaited(DepsScope.of(context).appRouter.openForum(context, forum.id)),
   );
 }

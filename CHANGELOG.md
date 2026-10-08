@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Smoother loading
+
+- Placeholders wait a beat before fading in, so quick loads (cache, fast
+  network) never flash them; content fades in over them instead of
+  popping (lists, wiki, forum, events, changelog, map of the day).
+- Sheets lose their close button: swipe down or tap outside.
+- The search field is a floating capsule with a focus ring and an inline
+  clear button.
+
 ### Map of the day, dressed up
 
 - The map of the day is a poster: the cover fills the card with the title
@@ -10,8 +19,8 @@
 - The top three stand on a podium (gold, silver, bronze); a past day reads
   "Final leaderboard" instead of "Today's leaderboard".
 - History rows show each day's cover fading in behind the text.
-- Home drops the search card (search is a tab) and the Spotlights archive,
-  which moved to Rankings → Players under the country filter.
+- Home drops the search card (search is a tab); the Spotlights archive
+  stays at the bottom of Home (Rankings is crowded enough).
 
 ### Navigation by the iOS guidelines (ADR-010)
 

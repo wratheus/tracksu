@@ -16,66 +16,69 @@ final class OsuEventsSlivers extends StatelessWidget {
   const OsuEventsSlivers({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<OsuEventsBloc, OsuEventsState>(
-        builder: (BuildContext context, OsuEventsState state) {
-          final items = state.visible;
-          final Widget filter = SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                UiSpace.lg,
-                UiSpace.lg,
-                UiSpace.lg,
-                0,
-              ),
-              child: OsuCategoryPicker<OsuEventFilter>(
-                title: context.t.eventsFilter,
-                selected: state.filter,
-                groups: const <OsuCategoryGroup<OsuEventFilter>>[
-                  OsuCategoryGroup<OsuEventFilter>(
-                    options: OsuEventFilter.values,
-                  ),
-                ],
-                icon: (OsuEventFilter filter) => switch (filter) {
-                  OsuEventFilter.all => Icons.bolt_rounded,
-                  OsuEventFilter.ranks => Icons.emoji_events_outlined,
-                  OsuEventFilter.medals => Icons.military_tech_outlined,
-                  OsuEventFilter.beatmaps => Icons.library_music_outlined,
-                  OsuEventFilter.supporters => Icons.favorite_border_rounded,
+  Widget build(
+    BuildContext context,
+  ) => BlocBuilder<OsuEventsBloc, OsuEventsState>(
+    builder: (BuildContext context, OsuEventsState state) {
+      final items = state.visible;
+      final Widget filter = SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            UiSpace.lg,
+            UiSpace.lg,
+            UiSpace.lg,
+            0,
+          ),
+          child: OsuCategoryPicker<OsuEventFilter>(
+            title: context.t.eventsFilter,
+            selected: state.filter,
+            groups: const <OsuCategoryGroup<OsuEventFilter>>[
+              OsuCategoryGroup<OsuEventFilter>(options: OsuEventFilter.values),
+            ],
+            icon: (OsuEventFilter filter) => switch (filter) {
+              OsuEventFilter.all => Icons.bolt_rounded,
+              OsuEventFilter.ranks => Icons.emoji_events_outlined,
+              OsuEventFilter.medals => Icons.military_tech_outlined,
+              OsuEventFilter.beatmaps => Icons.library_music_outlined,
+              OsuEventFilter.supporters => Icons.favorite_border_rounded,
+            },
+            label: (BuildContext context, OsuEventFilter filter) =>
+                switch (filter) {
+                  OsuEventFilter.all => context.t.eventsAll,
+                  OsuEventFilter.ranks => context.t.eventsRanks,
+                  OsuEventFilter.medals => context.t.eventsMedals,
+                  OsuEventFilter.beatmaps => context.t.eventsBeatmaps,
+                  OsuEventFilter.supporters => context.t.eventsSupporters,
                 },
-                label: (BuildContext context, OsuEventFilter filter) =>
-                    switch (filter) {
-                      OsuEventFilter.all => context.t.eventsAll,
-                      OsuEventFilter.ranks => context.t.eventsRanks,
-                      OsuEventFilter.medals => context.t.eventsMedals,
-                      OsuEventFilter.beatmaps => context.t.eventsBeatmaps,
-                      OsuEventFilter.supporters => context.t.eventsSupporters,
-                    },
-                onSelected: (OsuEventFilter filter) => context
-                    .read<OsuEventsBloc>()
-                    .add(OsuEventsFilterSelected(filter)),
-              ),
+            onSelected: (OsuEventFilter filter) => context
+                .read<OsuEventsBloc>()
+                .add(OsuEventsFilterSelected(filter)),
+          ),
+        ),
+      );
+      if (items == null) {
+        return SliverMainAxisGroup(
+          slivers: <Widget>[
+            filter,
+            SliverToBoxAdapter(
+              child: state.failure == null
+                  ? UiPageSkeleton.list(label: context.t.eventsLoading)
+                  : _Failure(state.failure!),
             ),
-          );
-          if (items == null) {
-            return SliverMainAxisGroup(
+          ],
+        );
+      }
+      final bool grouped = state.filter != OsuEventFilter.all;
+      final bool idle = state.operation == null;
+      void loadOlder() =>
+          context.read<OsuEventsBloc>().add(const OsuEventsMoreRequested());
+      return SliverMainAxisGroup(
+        slivers: <Widget>[
+          filter,
+          // Rows fade in over the placeholder instead of popping.
+          UiSliverReveal(
+            sliver: SliverMainAxisGroup(
               slivers: <Widget>[
-                filter,
-                SliverToBoxAdapter(
-                  child: state.failure == null
-                      ? UiPageSkeleton.list(label: context.t.eventsLoading)
-                      : _Failure(state.failure!),
-                ),
-              ],
-            );
-          }
-          final bool grouped = state.filter != OsuEventFilter.all;
-          final bool idle = state.operation == null;
-          void loadOlder() =>
-              context.read<OsuEventsBloc>().add(const OsuEventsMoreRequested());
-          return SliverMainAxisGroup(
-            slivers: <Widget>[
-              filter,
               if (state.failure case final OsuEventsFailureKind failure
                   when state.failedOperation == OsuEventsOperation.refresh)
                 SliverToBoxAdapter(child: _Failure(failure, keeping: true)),
@@ -121,8 +124,7 @@ final class OsuEventsSlivers extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: _Failure(failure, keeping: true, more: true),
                 )
-              else if (state.cursor case final String cursor
-                  when idle && !grouped)
+              else if (state.cursor case final String cursor when idle && !grouped)
                 UiSliverAutoLoad(
                   pageKey: cursor,
                   label: context.t.eventsLoading,
@@ -140,10 +142,13 @@ final class OsuEventsSlivers extends StatelessWidget {
                     ),
                   ),
                 ),
-            ],
-          );
-        },
+              ],
+            ),
+          ),
+        ],
       );
+    },
+  );
 }
 
 final class _Failure extends StatelessWidget {

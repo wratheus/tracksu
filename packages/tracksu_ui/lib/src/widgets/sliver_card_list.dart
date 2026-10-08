@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
+import 'package:tracksu_ui/src/widgets/reveal.dart';
 
 /// Lazy card lists share one rhythm without imposing margins on every surface.
 final class UiSliverCardList extends StatelessWidget {
@@ -11,12 +12,18 @@ final class UiSliverCardList extends StatelessWidget {
   final int itemCount;
   final IndexedWidgetBuilder itemBuilder;
 
+  /// The list fades in once when it replaces a placeholder; later pages
+  /// and refreshes append without replaying it.
   @override
-  Widget build(BuildContext context) => SliverList.builder(
-    itemCount: itemCount,
-    itemBuilder: (BuildContext context, int index) => Padding(
-      padding: EdgeInsets.only(bottom: index + 1 < itemCount ? UiSpace.md : 0),
-      child: itemBuilder(context, index),
+  Widget build(BuildContext context) => UiSliverReveal(
+    sliver: SliverList.builder(
+      itemCount: itemCount,
+      itemBuilder: (BuildContext context, int index) => Padding(
+        padding: EdgeInsets.only(
+          bottom: index + 1 < itemCount ? UiSpace.md : 0,
+        ),
+        child: itemBuilder(context, index),
+      ),
     ),
   );
 }

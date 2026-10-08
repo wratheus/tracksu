@@ -30,7 +30,16 @@ final class UiPageSkeleton extends StatefulWidget {
 }
 
 final class _UiPageSkeletonState extends State<UiPageSkeleton>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
+  // Enters after a beat: a load that finishes quickly (cache, fast network)
+  // never flashes placeholders, and a slow one fades them in softly.
+  late final AnimationController _entry = AnimationController(
+    vsync: this,
+    duration: UiMotion.skeletonEntry,
+  );
+  late final Animation<double> _entryOpacity = _entry.drive(
+    CurveTween(curve: const Interval(0.4, 1, curve: Curves.easeOut)),
+  );
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: UiMotion.skeletonPulse,
@@ -49,13 +58,16 @@ final class _UiPageSkeletonState extends State<UiPageSkeleton>
       _controller
         ..stop()
         ..value = 0;
-    } else if (!_controller.isAnimating) {
-      _controller.repeat(reverse: true);
+      _entry.value = 1;
+    } else {
+      if (!_controller.isAnimating) _controller.repeat(reverse: true);
+      if (_entry.isDismissed) _entry.forward();
     }
   }
 
   @override
   void dispose() {
+    _entry.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -65,23 +77,26 @@ final class _UiPageSkeletonState extends State<UiPageSkeleton>
     label: widget.label,
     liveRegion: true,
     child: FadeTransition(
-      opacity: _opacity,
-      child: Padding(
-        padding: const EdgeInsets.all(UiSpace.lg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          spacing: UiSpace.md,
-          children: switch (widget._shape) {
-            _SkeletonShape.profile || _SkeletonShape.list => <Widget>[
-              if (widget._shape == _SkeletonShape.profile)
-                const UiSkeleton.block(height: 160),
-              for (int i = 0; i < 3; i++) const _RowSkeleton(),
-            ],
-            _SkeletonShape.news => <Widget>[
-              for (int i = 0; i < 2; i++) const _NewsCardSkeleton(),
-            ],
-            _SkeletonShape.article => const <Widget>[_ArticleSkeleton()],
-          },
+      opacity: _entryOpacity,
+      child: FadeTransition(
+        opacity: _opacity,
+        child: Padding(
+          padding: const EdgeInsets.all(UiSpace.lg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: UiSpace.md,
+            children: switch (widget._shape) {
+              _SkeletonShape.profile || _SkeletonShape.list => <Widget>[
+                if (widget._shape == _SkeletonShape.profile)
+                  const UiSkeleton.block(height: 160),
+                for (int i = 0; i < 3; i++) const _RowSkeleton(),
+              ],
+              _SkeletonShape.news => <Widget>[
+                for (int i = 0; i < 2; i++) const _NewsCardSkeleton(),
+              ],
+              _SkeletonShape.article => const <Widget>[_ArticleSkeleton()],
+            },
+          ),
         ),
       ),
     ),
