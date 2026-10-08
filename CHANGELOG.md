@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### Polish
+
+- App bars name the place, not the item: Wiki, Forum, Map of the day. Wiki
+  articles show their title once (the article's own `# Title` is
+  dropped); a past day's date moves onto its card, and long difficulty
+  names take two lines.
+- Settings: images is one switch row with the explanation below, like the
+  cache group; switches are the app's own chamfered, animated control.
+- The search pill, search field and back button lose their outline; the
+  field no longer draws the theme's focus border inside the bar.
+
 ### Search from every app bar
 
 - A search pill sits first in every app bar ("Search" on tab roots, icon

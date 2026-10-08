@@ -131,7 +131,14 @@ final class UiAppBarSearchField extends StatelessWidget {
                 autocorrect: false,
                 maxLines: 1,
                 style: theme.textTheme.bodyLarge,
-                decoration: InputDecoration.collapsed(
+                // The glass is the field: no theme fill or focus outline.
+                decoration: InputDecoration(
+                  isCollapsed: true,
+                  filled: false,
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
                   hintText: hint,
                   hintStyle: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
@@ -193,9 +200,8 @@ final class _Glass extends StatelessWidget {
     final bool solid = MediaQuery.highContrastOf(context);
     return Material(
       color: colors.surfaceContainerHighest.withValues(alpha: solid ? 1 : 0.72),
-      shape: UiAppBarSearch.shape.copyWith(
-        side: BorderSide(color: colors.onSurface.withValues(alpha: 0.12)),
-      ),
+      // Fill only, no outline: quiet next to the plain action icons.
+      shape: UiAppBarSearch.shape,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         customBorder: UiAppBarSearch.shape,

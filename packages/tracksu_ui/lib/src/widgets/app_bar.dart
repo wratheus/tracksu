@@ -138,11 +138,7 @@ final class UiBackButton extends StatelessWidget {
                 color: colors.surfaceContainerHighest.withValues(
                   alpha: solid ? 1 : 0.72,
                 ),
-                shape: _shape.copyWith(
-                  side: BorderSide(
-                    color: colors.onSurface.withValues(alpha: 0.12),
-                  ),
-                ),
+                shape: _shape,
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
                   customBorder: _shape,
