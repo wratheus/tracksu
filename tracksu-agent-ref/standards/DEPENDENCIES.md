@@ -12,6 +12,7 @@
 
 | Зависимость | Решение и замена | Когда |
 | --- | --- | --- |
+| `markdown: ^7.3.1` | Добавлен: Markdown → HTML для единого конвейера контента (wiki, Markdown в «О себе»). dart-lang, BSD-3, без нативного кода. [ADR-008](../decisions/ADR-008-unified-rich-content.md) | P52 |
 | `curved_navigation_bar: ^1.0.3` | Удалить. Навигационный компонент своего UI kit на Flutter primitives; штатный NavigationBar — кандидат, дизайн решаем на P07. Сохранить tab/back behavior, состояние вкладок и accessibility, не воспроизводить старую анимацию автоматически | P07, при переносе app shell/navigation |
 | `fluttericon: ^2.0.0` | Удалить. Единый semantic icon API в UI kit, небольшой согласованный набор SDK icons/собственных разрешённых assets вместо зависимости на весь каталог | API — P07; profile consumers — P09/P10; удаление после последнего consumer |
 | `cupertino_icons: ^1.0.5` | Прямую dependency удалить — usages не найдены. Транзитивное присутствие не является API приложения; не добавлять обратно ради одного значка | Выполнено P02.3 |

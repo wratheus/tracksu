@@ -3,7 +3,7 @@ import 'package:tracksu/src/auth/data/oauth_remote_source_exception.dart';
 import 'package:tracksu/src/news/domain/news.dart';
 import 'package:tracksu/src/news/data/remote_source.dart';
 import 'package:tracksu/src/news/data/news_dto.dart';
-import 'package:tracksu/src/_shared/content/data/content_normalizer.dart';
+import 'package:tracksu/src/_shared/content/data/content_parser.dart';
 import 'package:tracksu/src/_shared/content/domain/content_document.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 
@@ -54,7 +54,11 @@ final class NewsRepositoryImpl implements NewsRepository {
       }
       ContentDocument? document;
       try {
-        document = ContentNormalizer.html(content, post.uri);
+        document = ContentParser.parse(
+          content,
+          format: ContentFormat.html,
+          base: post.uri,
+        );
       } on FormatException {
         // A malformed/huge optional body still leaves the original article link.
       }

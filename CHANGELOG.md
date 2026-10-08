@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### Unified rich content and Markdown (ADR-008)
+
+- All rich text goes through one pipeline: HTML, BBCode and Markdown are
+  adapted to HTML, filtered by the same allowlist and shown by the same
+  reader with images, audio, video, links and spoilers.
+- Profile "About me" renders the Markdown players type as plain text:
+  headings, quotes, bullet and numbered lists, rules, bold, italic, code,
+  strikethrough and links. Pages without Markdown look exactly as before.
+- Added the `markdown` package (dart-lang, BSD-3) for the wiki and these pages.
+
 ### Global osu! events (P51, wave 2 step 2)
 
 - The osu! tab gains an Events page between News and Changelog: the live

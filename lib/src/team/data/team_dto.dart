@@ -1,5 +1,5 @@
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
-import 'package:tracksu/src/_shared/content/data/bbcode_content.dart';
+import 'package:tracksu/src/_shared/content/data/content_parser.dart';
 import 'package:tracksu/src/_shared/content/domain/content_page.dart';
 import 'package:tracksu/src/profile/data/profile_details_dto.dart';
 import 'package:tracksu/src/profile/data/profile_details_mapper.dart';
@@ -61,7 +61,11 @@ final class TeamDto {
       try {
         description = ContentPage(
           uri: uri,
-          document: BbcodeContent.parse(raw, uri),
+          document: ContentParser.parse(
+            raw,
+            format: ContentFormat.bbcode,
+            base: uri,
+          ),
         );
       } on FormatException {
         description = ContentPage(uri: uri, document: null);
