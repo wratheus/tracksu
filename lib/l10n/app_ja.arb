@@ -566,5 +566,6 @@
   "wikiShownInEnglish": "未翻訳のため英語版を表示しています。",
   "wikiSearchHint": "Wiki記事",
   "wikiSearchHelp": "ガイド、ルール、ゲームモードなどosu!のすべて。",
-  "wikiNoResults": "記事が見つかりません"
+  "wikiNoResults": "記事が見つかりません",
+  "eventsLoadOlder": "さらに読み込む"
 }

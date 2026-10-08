@@ -4,69 +4,8 @@ import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/_shared/events/domain/osu_event.dart';
 import 'package:tracksu/src/events/data/events_repository.dart';
 
-sealed class OsuEventsEvent {
-  const OsuEventsEvent();
-}
-
-/// Requests that read the API; handled one at a time.
-sealed class OsuEventsLoadEvent extends OsuEventsEvent {
-  const OsuEventsLoadEvent();
-}
-
-final class OsuEventsStarted extends OsuEventsLoadEvent {
-  const OsuEventsStarted();
-}
-
-final class OsuEventsRefreshRequested extends OsuEventsLoadEvent {
-  const OsuEventsRefreshRequested();
-}
-
-final class OsuEventsMoreRequested extends OsuEventsLoadEvent {
-  const OsuEventsMoreRequested();
-}
-
-/// Client-side grouping; the loaded feed is kept, only the view changes.
-final class OsuEventsFilterSelected extends OsuEventsEvent {
-  const OsuEventsFilterSelected(this.filter);
-  final OsuEventFilter filter;
-}
-
-enum OsuEventsOperation { refresh, loadMore }
-
-/// [items] null until the first page arrives; a failed refresh or page keeps
-/// the visible rows and records [failure] with its [failedOperation].
-final class OsuEventsState {
-  const OsuEventsState({
-    this.filter = OsuEventFilter.all,
-    this.items,
-    this.cursor,
-    this.operation,
-    this.failure,
-    this.failedOperation,
-  });
-  final OsuEventFilter filter;
-  final List<OsuEvent>? items;
-  final String? cursor;
-  final OsuEventsOperation? operation;
-  final OsuEventsFailureKind? failure;
-  final OsuEventsOperation? failedOperation;
-
-  bool get busy => operation != null;
-
-  /// Rows of the selected group, in feed order.
-  List<OsuEvent>? get visible => items
-      ?.where((OsuEvent event) => filter.matches(event.kind))
-      .toList(growable: false);
-
-  OsuEventsState copyWith({OsuEventFilter? filter}) => OsuEventsState(
-    filter: filter ?? this.filter,
-    items: items,
-    cursor: cursor,
-    operation: operation,
-    failure: failure,
-    failedOperation: failedOperation,
-  );
-}
+part 'event.dart';
+part 'state.dart';
 
 /// Global osu! feed: first page cached for the session, cursor paging.
 final class OsuEventsBloc extends Bloc<OsuEventsEvent, OsuEventsState> {
@@ -87,6 +26,8 @@ final class OsuEventsBloc extends Bloc<OsuEventsEvent, OsuEventsState> {
   final OsuEventsRepository _repository;
   final PageCache _cache;
   static const Object _cacheKey = 'osu-events';
+  static const Duration _minPageInterval = Duration(seconds: 1);
+  DateTime _lastPage = DateTime.fromMillisecondsSinceEpoch(0);
 
   Future<void> _onLoad(
     OsuEventsLoadEvent event,
@@ -111,6 +52,14 @@ final class OsuEventsBloc extends Bloc<OsuEventsEvent, OsuEventsState> {
     final int revision = _cache.revision;
     List<OsuEvent>? items = state.items;
     String? cursor = state.cursor;
+    if (operation == OsuEventsOperation.loadMore) {
+      // Paging is user-driven, but never faster than one page per second.
+      final Duration wait =
+          _minPageInterval - DateTime.now().difference(_lastPage);
+      if (wait > Duration.zero) await Future<void>.delayed(wait);
+      if (isClosed) return;
+      _lastPage = DateTime.now();
+    }
     if (items == null) {
       if (_cache.read<OsuEventsPage>(_cacheKey) case final cached?) {
         items = cached.items;

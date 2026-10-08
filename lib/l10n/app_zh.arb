@@ -566,5 +566,6 @@
   "wikiShownInEnglish": "尚未翻译，显示英文文章。",
   "wikiSearchHint": "Wiki 文章",
   "wikiSearchHelp": "指南、规则、游戏模式以及 osu! 的一切。",
-  "wikiNoResults": "未找到文章"
+  "wikiNoResults": "未找到文章",
+  "eventsLoadOlder": "加载更早的"
 }

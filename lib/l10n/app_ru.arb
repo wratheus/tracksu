@@ -566,5 +566,6 @@
   "wikiShownInEnglish": "Перевода пока нет — показана английская статья.",
   "wikiSearchHint": "Статья вики",
   "wikiSearchHelp": "Гайды, правила, режимы игры и всё об osu!.",
-  "wikiNoResults": "Статьи не найдены"
+  "wikiNoResults": "Статьи не найдены",
+  "eventsLoadOlder": "Загрузить ещё"
 }

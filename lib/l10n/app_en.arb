@@ -1917,5 +1917,9 @@
   "wikiNoResults": "No articles found",
   "@wikiNoResults": {
     "description": "Wiki search found nothing."
+  },
+  "eventsLoadOlder": "Load older",
+  "@eventsLoadOlder": {
+    "description": "Button that loads older events when a filter matches few of them."
   }
 }

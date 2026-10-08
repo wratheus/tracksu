@@ -4,7 +4,7 @@ import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/events/domain/osu_event.dart';
 import 'package:tracksu/src/_shared/events/widgets/osu_event_row.dart';
 import 'package:tracksu/src/_shared/ui/category_picker.dart';
-import 'package:tracksu/src/events/bloc/events_bloc.dart';
+import 'package:tracksu/src/events/bloc/bloc.dart';
 import 'package:tracksu/src/events/data/events_repository.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -12,6 +12,9 @@ import 'package:tracksu_ui/tracksu_ui.dart';
 /// load at the end.
 final class OsuEventsSlivers extends StatelessWidget {
   const OsuEventsSlivers({super.key});
+
+  /// A filtered group pages automatically only once it fills a screen.
+  static const int _autoPageMinimum = 15;
 
   @override
   Widget build(BuildContext context) =>
@@ -108,13 +111,31 @@ final class OsuEventsSlivers extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: _Failure(failure, keeping: true, more: true),
                 )
+              // Auto-paging only while the list itself reaches the end: a
+              // short filtered group would otherwise page the whole feed in a
+              // loop. Then older events load on request.
               else if (state.cursor case final String cursor
-                  when state.operation == null)
+                  when state.operation == null &&
+                      (state.filter == OsuEventFilter.all ||
+                          items.length >= _autoPageMinimum))
                 UiSliverAutoLoad(
                   pageKey: cursor,
                   label: context.t.eventsLoading,
                   onLoad: () => context.read<OsuEventsBloc>().add(
                     const OsuEventsMoreRequested(),
+                  ),
+                )
+              else if (state.cursor != null && state.operation == null)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(UiSpace.lg),
+                    child: UiButton.secondary(
+                      label: context.t.eventsLoadOlder,
+                      icon: Icons.expand_more_rounded,
+                      onPressed: () => context.read<OsuEventsBloc>().add(
+                        const OsuEventsMoreRequested(),
+                      ),
+                    ),
                   ),
                 ),
             ],

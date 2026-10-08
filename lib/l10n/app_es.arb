@@ -566,5 +566,6 @@
   "wikiShownInEnglish": "Aún sin traducir; se muestra el artículo en inglés.",
   "wikiSearchHint": "Artículo de la wiki",
   "wikiSearchHelp": "Guías, reglas, modos de juego y todo sobre osu!.",
-  "wikiNoResults": "No se encontraron artículos"
+  "wikiNoResults": "No se encontraron artículos",
+  "eventsLoadOlder": "Cargar anteriores"
 }

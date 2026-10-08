@@ -4,7 +4,7 @@ import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/changelog/bloc/bloc.dart';
 import 'package:tracksu/src/changelog/data/remote_source.dart';
 import 'package:tracksu/src/changelog/data/repository_impl.dart';
-import 'package:tracksu/src/events/bloc/events_bloc.dart';
+import 'package:tracksu/src/events/bloc/bloc.dart';
 import 'package:tracksu/src/events/data/events_repository.dart';
 import 'package:tracksu/src/news/bloc/bloc.dart';
 import 'package:tracksu/src/news/data/remote_source.dart';

@@ -88,6 +88,21 @@ lint rules. Formatter не заменяет analyzer и не сортирует 
 - Отсутствие lint на DDD, границы rebuild, локализацию или аналитику не отменяет
   требования регламента. Эти ограничения проверяются при review выбранной части.
 
+## Структура Bloc (обязательно)
+
+2026-10-08 · требование пользователя. Каждый Bloc — папка `bloc/` из трёх
+файлов, без исключений для «маленьких» Bloc:
+
+```
+<feature>/bloc/bloc.dart   // класс Bloc, imports, part 'event.dart'; part 'state.dart';
+<feature>/bloc/event.dart  // part of 'bloc.dart'; все события
+<feature>/bloc/state.dart  // part of 'bloc.dart'; состояния, enum операций
+```
+
+Несколько Bloc в одной фиче — подпапки (`wiki/article/bloc/`,
+`wiki/search/bloc/`), а не `*_bloc.dart` рядом. Импортируется только
+`bloc.dart`. Проверка перед коммитом: `find lib -name '*_bloc.dart'` пусто.
+
 ## Подключение в P02 небольшими частями
 
 1. Зафиксировать SDK/Flutter и совместимую версию `flutter_lints` в

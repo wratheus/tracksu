@@ -6,7 +6,7 @@ import 'package:tracksu/src/_shared/navigation/shell_reselect.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/changelog/bloc/bloc.dart';
 import 'package:tracksu/src/changelog/widgets/changelog_slivers.dart';
-import 'package:tracksu/src/events/bloc/events_bloc.dart';
+import 'package:tracksu/src/events/bloc/bloc.dart';
 import 'package:tracksu/src/events/widgets/events_slivers.dart';
 import 'package:tracksu/src/news/bloc/bloc.dart';
 import 'package:tracksu/src/news/widgets/screen.dart';
