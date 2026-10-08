@@ -8,6 +8,8 @@
   only on pages) and grows into the search field when tapped.
 - The search screen keeps the field in the bar, tabs below; the 2 pt
   overflow under the tabs is gone.
+- Wiki flags (`::{ flag=NL }::`) show as flag emoji and user markers as
+  profile links instead of raw syntax.
 
 ### osu! forum (P54, wave 3 step 1)
 

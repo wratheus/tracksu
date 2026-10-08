@@ -49,9 +49,52 @@ abstract final class MarkdownContent {
         continue;
       }
       if (_fence.hasMatch(line)) code = !code;
-      output.writeln(depth > 0 ? '${'> ' * depth}$line' : line);
+      final String text = code ? line : _osuInline(line);
+      output.writeln(depth > 0 ? '${'> ' * depth}$text' : text);
     }
     return output.toString();
+  }
+
+  // osu! inline containers (osu-web CustomContainerInline):
+  // `::{ flag=NL }::`, `::{ user=2 }peppy::` or `::peppy::{ user=2 }`;
+  // other attributes keep only the text.
+  static final RegExp _inlineBefore = RegExp(r'::\{([^}\n]*)\}(.*?)::');
+  static final RegExp _inlineAfter = RegExp(r'::([^:\n]+?)::\{([^}\n]*)\}');
+  static final RegExp _attribute = RegExp(r'([a-z]+)=([^\s}]+)');
+
+  static String _osuInline(String line) {
+    if (!line.contains('::')) return line;
+    return line
+        .replaceAllMapped(
+          _inlineBefore,
+          (Match match) => _inlineContainer(match.group(1)!, match.group(2)!),
+        )
+        .replaceAllMapped(
+          _inlineAfter,
+          (Match match) => _inlineContainer(match.group(2)!, match.group(1)!),
+        );
+  }
+
+  /// A flag becomes its emoji (regional indicators, no image request); a
+  /// user becomes a profile link the app opens natively.
+  static String _inlineContainer(String attributes, String text) {
+    final Map<String, String> values = <String, String>{
+      for (final RegExpMatch match in _attribute.allMatches(attributes))
+        match.group(1)!: match.group(2)!,
+    };
+    final String? flag = values['flag']?.toUpperCase();
+    if (flag != null && RegExp(r'^[A-Z]{2}$').hasMatch(flag)) {
+      final String emoji = String.fromCharCodes(<int>[
+        for (final int unit in flag.codeUnits) 0x1F1E6 + unit - 0x41,
+      ]);
+      return text.trim().isEmpty ? emoji : '$emoji $text';
+    }
+    final String? user = values['user'];
+    if (user != null && RegExp(r'^[1-9][0-9]{0,11}$').hasMatch(user)) {
+      return '[${text.trim().isEmpty ? user : text}]'
+          '(https://osu.ppy.sh/users/$user)';
+    }
+    return text;
   }
 
   static final RegExp _hint = RegExp(
