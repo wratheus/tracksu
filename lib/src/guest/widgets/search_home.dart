@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/packs/widgets/packs_shelf.dart';
 import 'package:tracksu/src/_core/router/app_router.dart';
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/navigation/shell_reselect.dart';
@@ -113,6 +114,8 @@ final class _SearchHomeState extends State<SearchHome> {
                   ),
                 ),
               ),
+              // Pack types, swiped sideways edge to edge (P55).
+              const SliverToBoxAdapter(child: BeatmapPacksShelf()),
               // Discontinued osu! feature kept as a quiet archive at the very
               // bottom, under everything current; see P32.
               SliverFillRemaining(

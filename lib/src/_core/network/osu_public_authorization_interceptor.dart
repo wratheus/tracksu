@@ -46,6 +46,9 @@ final class OsuPublicAuthorizationInterceptor
           // Forum, read only (P54): index, one forum, topic list, topic.
           RegExp(r'^/api/v2/forums(/[1-9][0-9]*|/topics(/[1-9][0-9]*)?)?$')
               .hasMatch(request.uri.path) ||
+          // Beatmap packs: list by type, one pack by tag (P55).
+          RegExp(r'^/api/v2/beatmaps/packs(/[A-Za-z0-9_-]{1,40})?$')
+              .hasMatch(request.uri.path) ||
           // Several users by id (`ids[]`, up to 50), e.g. forum authors.
           request.uri.path == '/api/v2/users');
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/packs/domain/packs.dart';
+import 'package:tracksu/src/packs/main.dart';
 import 'package:tracksu/src/forum/main.dart';
 import 'package:tracksu/src/web_page/screen.dart';
 import 'package:tracksu/src/wiki/domain/wiki.dart';
@@ -188,6 +190,25 @@ final class TracksuAppRouter {
       builder: (_, GoRouterState state) =>
           ForumTopicMain(topicId: _positiveId(state.pathParameters['id'])!),
     ),
+    GoRoute(
+      path: 'packs',
+      builder: (_, GoRouterState state) => BeatmapPacksMain(
+        type:
+            BeatmapPackType.fromApi(state.uri.queryParameters['type']) ??
+            BeatmapPackType.standard,
+      ),
+    ),
+    GoRoute(
+      path: 'pack/:tag',
+      redirect: (_, GoRouterState state) =>
+          BeatmapPackLinks.tagPattern.hasMatch(
+            state.pathParameters['tag'] ?? '',
+          )
+          ? null
+          : '/search',
+      builder: (_, GoRouterState state) =>
+          BeatmapPackMain(tag: state.pathParameters['tag']!),
+    ),
     GoRoute(path: 'spotlights', builder: (_, _) => const SpotlightsMain()),
     GoRoute(path: 'daily', builder: (_, _) => const DailyChallengeMain()),
     GoRoute(path: 'daily/history', builder: (_, _) => const DailyHistoryMain()),
@@ -293,6 +314,23 @@ final class TracksuAppRouter {
   Future<void> openForumTopic(BuildContext context, int id) async {
     if (id <= 0) throw ArgumentError.value(id, 'id');
     await config.push<void>('$_branchPath/topic/$id');
+  }
+
+  /// Beatmap packs of one type (P55).
+  Future<void> openPacks(BuildContext context, BeatmapPackType type) async =>
+      config.push<void>(
+        Uri(
+          path: '$_branchPath/packs',
+          queryParameters: <String, String>{'type': type.apiValue},
+        ).toString(),
+      );
+
+  /// One beatmap pack by tag.
+  Future<void> openPack(BuildContext context, String tag) async {
+    if (!BeatmapPackLinks.tagPattern.hasMatch(tag)) {
+      throw ArgumentError.value(tag, 'tag');
+    }
+    await config.push<void>('$_branchPath/pack/$tag');
   }
 
   Future<void> openSpotlights(BuildContext context) async =>

@@ -2131,4 +2131,87 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dailyLeaderboardFinal => '最终排行榜';
+
+  @override
+  String get packsTitle => '谱面包';
+
+  @override
+  String get packTitle => '谱面包';
+
+  @override
+  String get packsLoading => '正在加载谱面包';
+
+  @override
+  String get packsFailed => '无法加载谱面包';
+
+  @override
+  String get packsNotFound => '此谱面包不可用';
+
+  @override
+  String get packsEmpty => '暂无谱面包';
+
+  @override
+  String get packsType => '谱面包类型';
+
+  @override
+  String get packsAllModes => '所有模式';
+
+  @override
+  String get packsNoDiffReduction => '降低难度的模组不计入';
+
+  @override
+  String packsSets(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 个谱面集',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get packsTypeStandard => '标准';
+
+  @override
+  String get packsTypeFeatured => '精选艺术家';
+
+  @override
+  String get packsTypeTournament => '比赛';
+
+  @override
+  String get packsTypeLoved => 'Project Loved';
+
+  @override
+  String get packsTypeChart => 'Spotlights';
+
+  @override
+  String get packsTypeTheme => '主题';
+
+  @override
+  String get packsTypeArtist => '艺术家/专辑';
+
+  @override
+  String get packsHintStandard => '按发布顺序的上架谱面';
+
+  @override
+  String get packsHintFeatured => 'osu! 授权艺术家的音乐';
+
+  @override
+  String get packsHintTournament => '官方比赛的图池';
+
+  @override
+  String get packsHintLoved => '社区票选的经典';
+
+  @override
+  String get packsHintChart => '赛季排行的谱面';
+
+  @override
+  String get packsHintTheme => '同一主题的谱面';
+
+  @override
+  String get packsHintArtist => '单一艺术家或专辑';
 }

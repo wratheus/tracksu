@@ -2021,5 +2021,107 @@
   "dailyLeaderboardFinal": "Final leaderboard",
   "@dailyLeaderboardFinal": {
     "description": "Heading above the final leaderboard of a past map of the day."
+  },
+  "packsTitle": "Beatmap packs",
+  "@packsTitle": {
+    "description": "Beatmap packs section and screen title."
+  },
+  "packTitle": "Beatmap pack",
+  "@packTitle": {
+    "description": "Single beatmap pack screen title."
+  },
+  "packsLoading": "Loading packs",
+  "@packsLoading": {
+    "description": "Beatmap packs are loading."
+  },
+  "packsFailed": "Couldn't load packs",
+  "@packsFailed": {
+    "description": "Beatmap packs could not be loaded."
+  },
+  "packsNotFound": "This pack is not available",
+  "@packsNotFound": {
+    "description": "Beatmap pack does not exist."
+  },
+  "packsEmpty": "No packs yet",
+  "@packsEmpty": {
+    "description": "No packs of this type."
+  },
+  "packsType": "Pack type",
+  "@packsType": {
+    "description": "Picker title for the pack type."
+  },
+  "packsAllModes": "All modes",
+  "@packsAllModes": {
+    "description": "Pack counts for every ruleset."
+  },
+  "packsNoDiffReduction": "Difficulty reduction mods don't count",
+  "@packsNoDiffReduction": {
+    "description": "Pack completion ignores difficulty reduction mods."
+  },
+  "packsSets": "{count, plural, one{{count} beatmapset} other{{count} beatmapsets}}",
+  "@packsSets": {
+    "description": "Number of beatmapsets in a pack.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "packsTypeStandard": "Standard",
+  "@packsTypeStandard": {
+    "description": "Pack type: standard."
+  },
+  "packsTypeFeatured": "Featured Artist",
+  "@packsTypeFeatured": {
+    "description": "Pack type: featured artist."
+  },
+  "packsTypeTournament": "Tournament",
+  "@packsTypeTournament": {
+    "description": "Pack type: tournament."
+  },
+  "packsTypeLoved": "Project Loved",
+  "@packsTypeLoved": {
+    "description": "Pack type: Project Loved."
+  },
+  "packsTypeChart": "Spotlights",
+  "@packsTypeChart": {
+    "description": "Pack type: spotlights."
+  },
+  "packsTypeTheme": "Theme",
+  "@packsTypeTheme": {
+    "description": "Pack type: theme."
+  },
+  "packsTypeArtist": "Artist/Album",
+  "@packsTypeArtist": {
+    "description": "Pack type: artist or album."
+  },
+  "packsHintStandard": "Ranked maps in release order",
+  "@packsHintStandard": {
+    "description": "Short description of standard packs."
+  },
+  "packsHintFeatured": "Licensed music from osu!'s artists",
+  "@packsHintFeatured": {
+    "description": "Short description of featured artist packs."
+  },
+  "packsHintTournament": "Mappools of official tournaments",
+  "@packsHintTournament": {
+    "description": "Short description of tournament packs."
+  },
+  "packsHintLoved": "Classics loved by the community",
+  "@packsHintLoved": {
+    "description": "Short description of Project Loved packs."
+  },
+  "packsHintChart": "Maps of seasonal charts",
+  "@packsHintChart": {
+    "description": "Short description of spotlight packs."
+  },
+  "packsHintTheme": "Maps on one theme",
+  "@packsHintTheme": {
+    "description": "Short description of theme packs."
+  },
+  "packsHintArtist": "One artist or album",
+  "@packsHintArtist": {
+    "description": "Short description of artist/album packs."
   }
 }

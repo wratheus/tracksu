@@ -2217,4 +2217,88 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dailyLeaderboardFinal => 'Final leaderboard';
+
+  @override
+  String get packsTitle => 'Beatmap packs';
+
+  @override
+  String get packTitle => 'Beatmap pack';
+
+  @override
+  String get packsLoading => 'Loading packs';
+
+  @override
+  String get packsFailed => 'Couldn\'t load packs';
+
+  @override
+  String get packsNotFound => 'This pack is not available';
+
+  @override
+  String get packsEmpty => 'No packs yet';
+
+  @override
+  String get packsType => 'Pack type';
+
+  @override
+  String get packsAllModes => 'All modes';
+
+  @override
+  String get packsNoDiffReduction => 'Difficulty reduction mods don\'t count';
+
+  @override
+  String packsSets(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString beatmapsets',
+      one: '$countString beatmapset',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get packsTypeStandard => 'Standard';
+
+  @override
+  String get packsTypeFeatured => 'Featured Artist';
+
+  @override
+  String get packsTypeTournament => 'Tournament';
+
+  @override
+  String get packsTypeLoved => 'Project Loved';
+
+  @override
+  String get packsTypeChart => 'Spotlights';
+
+  @override
+  String get packsTypeTheme => 'Theme';
+
+  @override
+  String get packsTypeArtist => 'Artist/Album';
+
+  @override
+  String get packsHintStandard => 'Ranked maps in release order';
+
+  @override
+  String get packsHintFeatured => 'Licensed music from osu!\'s artists';
+
+  @override
+  String get packsHintTournament => 'Mappools of official tournaments';
+
+  @override
+  String get packsHintLoved => 'Classics loved by the community';
+
+  @override
+  String get packsHintChart => 'Maps of seasonal charts';
+
+  @override
+  String get packsHintTheme => 'Maps on one theme';
+
+  @override
+  String get packsHintArtist => 'One artist or album';
 }

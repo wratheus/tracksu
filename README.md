@@ -170,6 +170,11 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Search, rankings and profile use the shared UI kit AppBar. Ranking share links
   follow the selected Players / Teams / Countries / Kudosu page.
 
+### Beatmap packs
+
+- Home shows the pack types; each opens its packs, and a pack lists its
+  beatmapsets with a header (type, tag, date, author, ruleset, rules).
+
 ### Wiki
 
 - Search has a Wiki tab: osu! wiki articles open in the app's reader in your

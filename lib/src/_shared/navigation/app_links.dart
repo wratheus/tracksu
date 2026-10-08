@@ -5,6 +5,7 @@ import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_shared/navigation/external_links.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/forum/domain/forum.dart';
+import 'package:tracksu/src/packs/domain/packs.dart';
 import 'package:tracksu/src/profile/domain/profile_params.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
@@ -13,7 +14,8 @@ import 'package:tracksu/src/wiki/domain/wiki.dart';
 /// One place that decides where a tapped link goes (ADR-009):
 ///
 /// 1. osu.ppy.sh pages the app has natively — wiki articles, players,
-///    beatmaps and sets, teams, forums and topics — open as app screens.
+///    beatmaps and sets, packs, teams, forums and topics — open as app
+///    screens.
 /// 2. Video sites open in their own app.
 /// 3. Any other https page opens in the single-page viewer: no address bar,
 ///    links inside it leave for the system browser.
@@ -89,6 +91,14 @@ abstract final class AppLinks {
             BeatmapDifficultyParams(int.parse(match.group(1)!)),
           ),
         );
+        return true;
+      }
+      if (BeatmapPackLinks.tag(uri) case final String tag) {
+        unawaited(router.openPack(context, tag));
+        return true;
+      }
+      if (BeatmapPackLinks.list(uri) case final BeatmapPackType type) {
+        unawaited(router.openPacks(context, type));
         return true;
       }
       if (ForumLinks.topicId(uri) case final int topic) {

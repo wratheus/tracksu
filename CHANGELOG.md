@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Beatmap packs (P55, wave 3 step 2)
+
+- Home gains a Beatmap packs shelf: a tile per type (Standard, Featured
+  Artist, Tournament, Project Loved, Spotlights, Theme, Artist/Album),
+  each with its own colour and a one-line description.
+- A type opens its packs: tag, name, date and author, ruleset; older packs
+  load at the end. A pack shows its header and its beatmapsets.
+- osu! pack links open in the app.
+
 ### Smoother loading
 
 - Placeholders wait a beat before fading in, so quick loads (cache, fast

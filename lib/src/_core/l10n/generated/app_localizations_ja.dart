@@ -2146,4 +2146,87 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dailyLeaderboardFinal => '最終ランキング';
+
+  @override
+  String get packsTitle => 'ビートマップパック';
+
+  @override
+  String get packTitle => 'ビートマップパック';
+
+  @override
+  String get packsLoading => 'パックを読み込み中';
+
+  @override
+  String get packsFailed => 'パックを読み込めませんでした';
+
+  @override
+  String get packsNotFound => 'このパックは利用できません';
+
+  @override
+  String get packsEmpty => 'パックはまだありません';
+
+  @override
+  String get packsType => 'パックの種類';
+
+  @override
+  String get packsAllModes => '全モード';
+
+  @override
+  String get packsNoDiffReduction => '難易度を下げるMODはカウントされません';
+
+  @override
+  String packsSets(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 譜面セット',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get packsTypeStandard => 'スタンダード';
+
+  @override
+  String get packsTypeFeatured => 'Featured Artist';
+
+  @override
+  String get packsTypeTournament => 'トーナメント';
+
+  @override
+  String get packsTypeLoved => 'Project Loved';
+
+  @override
+  String get packsTypeChart => 'Spotlights';
+
+  @override
+  String get packsTypeTheme => 'テーマ';
+
+  @override
+  String get packsTypeArtist => 'アーティスト/アルバム';
+
+  @override
+  String get packsHintStandard => 'ランク譜面をリリース順に';
+
+  @override
+  String get packsHintFeatured => 'osu!公式アーティストの楽曲';
+
+  @override
+  String get packsHintTournament => '公式大会のマッププール';
+
+  @override
+  String get packsHintLoved => 'コミュニティが選んだ名作';
+
+  @override
+  String get packsHintChart => 'シーズンチャートの譜面';
+
+  @override
+  String get packsHintTheme => 'ひとつのテーマの譜面';
+
+  @override
+  String get packsHintArtist => 'ひとりのアーティストまたはアルバム';
 }

@@ -3635,6 +3635,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Final leaderboard'**
   String get dailyLeaderboardFinal;
+
+  /// Beatmap packs section and screen title.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmap packs'**
+  String get packsTitle;
+
+  /// Single beatmap pack screen title.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmap pack'**
+  String get packTitle;
+
+  /// Beatmap packs are loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading packs'**
+  String get packsLoading;
+
+  /// Beatmap packs could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load packs'**
+  String get packsFailed;
+
+  /// Beatmap pack does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'This pack is not available'**
+  String get packsNotFound;
+
+  /// No packs of this type.
+  ///
+  /// In en, this message translates to:
+  /// **'No packs yet'**
+  String get packsEmpty;
+
+  /// Picker title for the pack type.
+  ///
+  /// In en, this message translates to:
+  /// **'Pack type'**
+  String get packsType;
+
+  /// Pack counts for every ruleset.
+  ///
+  /// In en, this message translates to:
+  /// **'All modes'**
+  String get packsAllModes;
+
+  /// Pack completion ignores difficulty reduction mods.
+  ///
+  /// In en, this message translates to:
+  /// **'Difficulty reduction mods don\'t count'**
+  String get packsNoDiffReduction;
+
+  /// Number of beatmapsets in a pack.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} beatmapset} other{{count} beatmapsets}}'**
+  String packsSets(int count);
+
+  /// Pack type: standard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get packsTypeStandard;
+
+  /// Pack type: featured artist.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured Artist'**
+  String get packsTypeFeatured;
+
+  /// Pack type: tournament.
+  ///
+  /// In en, this message translates to:
+  /// **'Tournament'**
+  String get packsTypeTournament;
+
+  /// Pack type: Project Loved.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Loved'**
+  String get packsTypeLoved;
+
+  /// Pack type: spotlights.
+  ///
+  /// In en, this message translates to:
+  /// **'Spotlights'**
+  String get packsTypeChart;
+
+  /// Pack type: theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get packsTypeTheme;
+
+  /// Pack type: artist or album.
+  ///
+  /// In en, this message translates to:
+  /// **'Artist/Album'**
+  String get packsTypeArtist;
+
+  /// Short description of standard packs.
+  ///
+  /// In en, this message translates to:
+  /// **'Ranked maps in release order'**
+  String get packsHintStandard;
+
+  /// Short description of featured artist packs.
+  ///
+  /// In en, this message translates to:
+  /// **'Licensed music from osu!\'s artists'**
+  String get packsHintFeatured;
+
+  /// Short description of tournament packs.
+  ///
+  /// In en, this message translates to:
+  /// **'Mappools of official tournaments'**
+  String get packsHintTournament;
+
+  /// Short description of Project Loved packs.
+  ///
+  /// In en, this message translates to:
+  /// **'Classics loved by the community'**
+  String get packsHintLoved;
+
+  /// Short description of spotlight packs.
+  ///
+  /// In en, this message translates to:
+  /// **'Maps of seasonal charts'**
+  String get packsHintChart;
+
+  /// Short description of theme packs.
+  ///
+  /// In en, this message translates to:
+  /// **'Maps on one theme'**
+  String get packsHintTheme;
+
+  /// Short description of artist/album packs.
+  ///
+  /// In en, this message translates to:
+  /// **'One artist or album'**
+  String get packsHintArtist;
 }
 
 class _AppLocalizationsDelegate

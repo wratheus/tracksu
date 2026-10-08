@@ -199,6 +199,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Сейчас · [P50](work/P50-osu-hub-changelog.md) | Вкладка «osu!»: Новости / Изменения; changelog по потокам | awaiting_manual_check |
 | Сейчас · [P51](work/P51-global-events.md) | Лента событий osu! третьей страницей вкладки «osu!» | awaiting_manual_check |
 | Сейчас · [P52](work/P52-wiki.md) | Wiki: вкладка поиска и читалка статей (Markdown, ADR-008) | awaiting_manual_check |
+| Сейчас · [P55](work/P55-beatmap-packs.md) | Паки карт: полка типов на Главной, список по типу, страница пака | awaiting_manual_check |
 | Сейчас · [P54](work/P54-forum.md) | Форум osu! во вкладке «osu!»: разделы, темы, посты (только чтение) | awaiting_manual_check |
 | Сейчас · [P53](work/P53-in-app-links.md) | Ссылки osu! открываются в приложении; внешние — одной страницей без свободной навигации (ADR-009) | awaiting_manual_check |
 | На будущее · [P43](work/P43-tablet-and-ipad-plan.md) | Планшеты и iPad: брейкпоинты, ширина контента, NavigationRail, сетки, master-detail; решение по iPad до релиза | backlog |

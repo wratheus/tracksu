@@ -2251,4 +2251,90 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dailyLeaderboardFinal => 'Итоговая таблица';
+
+  @override
+  String get packsTitle => 'Паки карт';
+
+  @override
+  String get packTitle => 'Пак карт';
+
+  @override
+  String get packsLoading => 'Загружаем паки';
+
+  @override
+  String get packsFailed => 'Не удалось загрузить паки';
+
+  @override
+  String get packsNotFound => 'Этот пак недоступен';
+
+  @override
+  String get packsEmpty => 'Паков пока нет';
+
+  @override
+  String get packsType => 'Тип паков';
+
+  @override
+  String get packsAllModes => 'Все режимы';
+
+  @override
+  String get packsNoDiffReduction => 'Моды на упрощение не засчитываются';
+
+  @override
+  String packsSets(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString карты',
+      many: '$countString карт',
+      few: '$countString карты',
+      one: '$countString карта',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get packsTypeStandard => 'Стандартные';
+
+  @override
+  String get packsTypeFeatured => 'Featured Artist';
+
+  @override
+  String get packsTypeTournament => 'Турнирные';
+
+  @override
+  String get packsTypeLoved => 'Project Loved';
+
+  @override
+  String get packsTypeChart => 'Spotlights';
+
+  @override
+  String get packsTypeTheme => 'Тематические';
+
+  @override
+  String get packsTypeArtist => 'Артист/альбом';
+
+  @override
+  String get packsHintStandard => 'Рейтинговые карты по порядку выхода';
+
+  @override
+  String get packsHintFeatured => 'Лицензированная музыка артистов osu!';
+
+  @override
+  String get packsHintTournament => 'Маппулы официальных турниров';
+
+  @override
+  String get packsHintLoved => 'Классика по выбору сообщества';
+
+  @override
+  String get packsHintChart => 'Карты сезонных чартов';
+
+  @override
+  String get packsHintTheme => 'Карты на одну тему';
+
+  @override
+  String get packsHintArtist => 'Один артист или альбом';
 }

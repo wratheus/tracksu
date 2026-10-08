@@ -36,7 +36,7 @@ callback, скрытый secret, кэш и собственные функции
 | Me | `me/beatmapset-favourites`, `friends` | identify / friends.read | после P37 |
 | Rankings | performance/score/country/team/charts, kudosu, spotlights | public | есть |
 | Beatmaps | `beatmaps/{id}`, `scores`, `beatmapsets/{id}`, `search` | public | есть |
-| Beatmaps | `scores/users/{user}[/all]`, `lookup`, `attributes` (SR с модами), `packs` | public | волна 4 / 3 |
+| Beatmaps | `scores/users/{user}[/all]`, `lookup`, `attributes` (SR с модами), `packs` | public | волна 4; packs — готово ([P55](P55-beatmap-packs.md)) |
 | Discussions | `beatmapsets/discussions`, `posts`, `votes`, `events` (моддинг) | public | волна 3 |
 | Scores | `scores/{id}`, `scores` (лента последних, cursor) | public | частично / волна 4 |
 | Comments | чтение | без токена | есть |

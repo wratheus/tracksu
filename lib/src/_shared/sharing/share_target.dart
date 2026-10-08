@@ -113,6 +113,18 @@ final class ShareTarget {
     title,
   );
 
+  /// Beatmap packs of a type, or one pack (P55).
+  factory ShareTarget.packs(String type, String title) => ShareTarget._(
+    Uri.https('osu.ppy.sh', '/beatmaps/packs', <String, String>{
+      'type': type,
+    }),
+    title,
+  );
+  factory ShareTarget.pack(String tag, String title) => ShareTarget._(
+    Uri.https('osu.ppy.sh', '/beatmaps/packs/${Uri.encodeComponent(tag)}'),
+    title,
+  );
+
   /// osu! forum index, one forum or one topic (P54).
   factory ShareTarget.forums(String title) =>
       ShareTarget._(Uri.https('osu.ppy.sh', '/community/forums'), title);

@@ -2243,4 +2243,89 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dailyLeaderboardFinal => 'Clasificación final';
+
+  @override
+  String get packsTitle => 'Paquetes de beatmaps';
+
+  @override
+  String get packTitle => 'Paquete de beatmaps';
+
+  @override
+  String get packsLoading => 'Cargando paquetes';
+
+  @override
+  String get packsFailed => 'No se pudieron cargar los paquetes';
+
+  @override
+  String get packsNotFound => 'Este paquete no está disponible';
+
+  @override
+  String get packsEmpty => 'Aún no hay paquetes';
+
+  @override
+  String get packsType => 'Tipo de paquete';
+
+  @override
+  String get packsAllModes => 'Todos los modos';
+
+  @override
+  String get packsNoDiffReduction =>
+      'Los mods de reducción de dificultad no cuentan';
+
+  @override
+  String packsSets(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString beatmapsets',
+      one: '$countString beatmapset',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get packsTypeStandard => 'Estándar';
+
+  @override
+  String get packsTypeFeatured => 'Featured Artist';
+
+  @override
+  String get packsTypeTournament => 'Torneo';
+
+  @override
+  String get packsTypeLoved => 'Project Loved';
+
+  @override
+  String get packsTypeChart => 'Spotlights';
+
+  @override
+  String get packsTypeTheme => 'Temáticos';
+
+  @override
+  String get packsTypeArtist => 'Artista/Álbum';
+
+  @override
+  String get packsHintStandard => 'Mapas rankeados por orden de salida';
+
+  @override
+  String get packsHintFeatured => 'Música con licencia de los artistas de osu!';
+
+  @override
+  String get packsHintTournament => 'Mappools de torneos oficiales';
+
+  @override
+  String get packsHintLoved => 'Clásicos elegidos por la comunidad';
+
+  @override
+  String get packsHintChart => 'Mapas de rankings de temporada';
+
+  @override
+  String get packsHintTheme => 'Mapas de un mismo tema';
+
+  @override
+  String get packsHintArtist => 'Un artista o álbum';
 }
