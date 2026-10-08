@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### Profile activity and lazer grades (P49, wave 1)
+
+- Grades SS/S/A/B/C/D/F are drawn like osu!lazer: a pill in the grade colour
+  with soft triangles, gold SS/S, silver for Hidden/Flashlight variants and
+  dark letters for A–D. Screen readers say "Silver S" instead of "SH".
+- Profile results add Pinned and First places next to Best and Recent.
+- New profile Activity tab: ranks, lost first places, medals, beatmap uploads
+  and status changes, supporter and name changes, with links to the map, set
+  or medals. Pull to refresh; older events load at the end (up to 100).
+
 ### Unified AppBar search (P48)
 
 - Replaced the large player lookup form with a compact entry to Players / Maps.

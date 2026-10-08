@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/profile/activity/main.dart';
+import 'package:tracksu/src/profile/activity/widgets/activity_section.dart';
 import 'package:tracksu/src/profile/bloc/bloc.dart';
 import 'package:tracksu/src/profile/beatmaps/main.dart';
 import 'package:tracksu/src/profile/beatmaps/widgets/beatmaps_section.dart';
@@ -15,7 +17,7 @@ import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Section Blocs live above the tabs and start with the profile, so Results
 /// and Maps load in the background while the overview is read; switching to
-/// a tab shows ready data. TabBarView still builds section widgets lazily and
+/// a tab shows ready data. Activity is lazy and loads on its first visit. TabBarView still builds section widgets lazily and
 /// keep-alive retains their scroll. Only scores are recreated (new provider
 /// key) when the ruleset changes. See P42.
 final class ProfileContent extends StatelessWidget {
@@ -43,12 +45,15 @@ final class ProfileContent extends StatelessWidget {
     ruleset: state.ruleset,
     child: ProfileBeatmapsProvider(
       userId: state.profile.id,
-      child: _tabs(context),
+      child: ProfileActivityProvider(
+        userId: state.profile.id,
+        child: _tabs(context),
+      ),
     ),
   );
 
   Widget _tabs(BuildContext context) => DefaultTabController(
-    length: 3,
+    length: 4,
     child: Column(
       children: <Widget>[
         // Refresh and ruleset switches show the line under the app bar
@@ -73,6 +78,7 @@ final class ProfileContent extends StatelessWidget {
                     (Icons.person_outline_rounded, context.t.profileOverview),
                     (Icons.emoji_events_outlined, context.t.scoresTitle),
                     (Icons.library_music_outlined, context.t.beatmapsTitle),
+                    (Icons.timeline_rounded, context.t.profileActivity),
                   ],
                 ),
                 Expanded(
@@ -111,6 +117,12 @@ final class ProfileContent extends StatelessWidget {
                         key: const ValueKey<String>('maps'),
                         slivers: <Widget>[
                           const ProfileBeatmapsSection(),
+                        ],
+                      ),
+                      _ProfileSection(
+                        key: const ValueKey<String>('activity'),
+                        slivers: <Widget>[
+                          ProfileActivitySection(userId: state.profile.id),
                         ],
                       ),
                     ],

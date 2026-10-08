@@ -90,3 +90,15 @@ AGPL-3.0 — не берём без решения о лицензии прое�
 на страницу. `recent_activity` — Event[] (achievement, beatmapPlaycount,
 beatmapset*, rank, rankLost, userSupport*, usernameChange), limit/offset, не
 более 100 записей; `url` у событий относительные (`/b/…`, `/s/…`, `/u/…`).
+
+### Реализация волны 1 (2026-10-08)
+
+- `lib/src/_shared/ui/osu_grade.dart` — `OsuGradeBadge` (высота задаётся,
+  ширина 2×), статический фон из треугольников, семантика «Оценка: Серебряная S»
+  (`gradeSilver`). Профиль (счётчики оценок) 28, карточки 24, детали 32.
+- `ProfileScoresType` += `pinned`, `firsts`; тот же Bloc/cache/пагинация.
+- `lib/src/profile/activity/` — source/DTO/repository/Bloc/section; вкладка
+  «Активность» в профиле, ленивая загрузка при первом открытии. Неизвестный
+  тип события пропускается (не ломает список). `relativeTime` вынесен в
+  `_shared/ui/relative_time.dart` (общий с комментариями).
+- Сборка Xcode → Tracksu iPhone 17: успешно. GUI-проверка — пользователем.

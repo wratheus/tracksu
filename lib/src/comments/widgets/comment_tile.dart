@@ -4,6 +4,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart'
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
+import 'package:tracksu/src/_shared/ui/relative_time.dart';
 import 'package:tracksu/src/comments/domain/comment.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
@@ -89,7 +90,7 @@ final class CommentTile extends StatelessWidget {
                         ),
                       ),
                     UiText.bodySmall(
-                      commentTime(context, comment.createdAt),
+                      relativeTime(context, comment.createdAt),
                       secondary: true,
                     ),
                     if (comment.editedAt != null)
@@ -226,14 +227,4 @@ final class _Action extends StatelessWidget {
     icon: Icon(icon, size: 18),
     label: Text(label),
   );
-}
-
-/// "5 min ago" up to a week, then the date.
-String commentTime(BuildContext context, DateTime at, {DateTime? now}) {
-  final Duration age = (now ?? DateTime.now()).toUtc().difference(at);
-  if (age.inMinutes < 1) return context.t.commentsJustNow;
-  if (age.inHours < 1) return context.t.commentsMinutesAgo(age.inMinutes);
-  if (age.inDays < 1) return context.t.commentsHoursAgo(age.inHours);
-  if (age.inDays < 7) return context.t.commentsDaysAgo(age.inDays);
-  return DateFormat.yMMMd(context.t.localeName).format(at.toLocal());
 }
