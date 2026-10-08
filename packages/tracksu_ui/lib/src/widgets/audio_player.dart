@@ -105,6 +105,7 @@ final class _UiAudioPlayerState extends State<UiAudioPlayer> {
                       progress: widget.loading
                           ? null
                           : _scrub ?? widget.progress.clamp(0, 1),
+                      scrubbing: _scrub != null,
                       positionLabel: widget.positionLabel,
                       durationLabel: widget.durationLabel,
                       seekLabel: widget.seekLabel,
@@ -179,17 +180,25 @@ final class _PlayButton extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          if (loading)
-            SizedBox.square(
+          // The ring fades in and out instead of popping.
+          AnimatedOpacity(
+            opacity: loading ? 1 : 0,
+            duration: _motion(context),
+            child: SizedBox.square(
               dimension: _size,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
-                value: MediaQuery.disableAnimationsOf(context) ? .3 : null,
-                color: onGlass ? Colors.white : colors.primary,
-                backgroundColor: (onGlass ? Colors.white : colors.primary)
-                    .withValues(alpha: .24),
-              ),
+              child: loading
+                  ? CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                      value: MediaQuery.disableAnimationsOf(context)
+                          ? .3
+                          : null,
+                      color: onGlass ? Colors.white : colors.primary,
+                      backgroundColor: (onGlass ? Colors.white : colors.primary)
+                          .withValues(alpha: .24),
+                    )
+                  : null,
             ),
+          ),
           Tooltip(
             message: tooltip,
             child: Semantics(
@@ -205,13 +214,27 @@ final class _PlayButton extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
                   onTap: onPressed,
-                  child: SizedBox.square(
-                    // While loading the disc shrinks inside the spinning ring.
-                    dimension: loading ? _size - 10 : _size,
-                    child: Icon(
-                      icon,
-                      size: loading ? 18 : 24,
-                      color: onGlass ? UiGlass.onGlass : colors.onPrimary,
+                  // While loading the disc shrinks inside the spinning ring;
+                  // size and icon change smoothly.
+                  child: AnimatedContainer(
+                    duration: _motion(context),
+                    curve: Curves.easeOutCubic,
+                    width: loading ? _size - 10 : _size,
+                    height: loading ? _size - 10 : _size,
+                    alignment: Alignment.center,
+                    child: AnimatedSwitcher(
+                      duration: _motion(context),
+                      transitionBuilder: (Widget child, Animation<double> a) =>
+                          ScaleTransition(
+                            scale: Tween<double>(begin: .6, end: 1).animate(a),
+                            child: FadeTransition(opacity: a, child: child),
+                          ),
+                      child: Icon(
+                        icon,
+                        key: ValueKey<IconData>(icon),
+                        size: loading ? 18 : 24,
+                        color: onGlass ? UiGlass.onGlass : colors.onPrimary,
+                      ),
                     ),
                   ),
                 ),
@@ -225,6 +248,11 @@ final class _PlayButton extends StatelessWidget {
 
   /// iOS minimum touch target.
   static const double _size = 44;
+
+  static Duration _motion(BuildContext context) =>
+      MediaQuery.disableAnimationsOf(context)
+      ? Duration.zero
+      : const Duration(milliseconds: 220);
 }
 
 /// Slim rounded track; the thumb only appears while it can be dragged.
@@ -237,9 +265,13 @@ final class _Timeline extends StatelessWidget {
     required this.seekLabel,
     required this.onChanged,
     required this.onChangeEnd,
+    this.scrubbing = false,
   });
 
   final bool onGlass;
+
+  /// The finger owns the thumb: no easing.
+  final bool scrubbing;
 
   /// Null while loading: an indeterminate bar.
   final double? progress;
@@ -255,8 +287,10 @@ final class _Timeline extends StatelessWidget {
     final ColorScheme colors = theme.colorScheme;
     final Color content = onGlass ? Colors.white : colors.onSurface;
     final Color inactive = content.withValues(alpha: onGlass ? .3 : .18);
+    final bool reduceMotion = MediaQuery.disableAnimationsOf(context);
     final Widget track = progress == null
         ? ClipRRect(
+            key: const ValueKey<String>('loading'),
             borderRadius: BorderRadius.circular(2),
             child: LinearProgressIndicator(
               minHeight: 4,
@@ -266,6 +300,7 @@ final class _Timeline extends StatelessWidget {
             ),
           )
         : Semantics(
+            key: const ValueKey<String>('timeline'),
             label: seekLabel,
             child: SliderTheme(
               data: SliderTheme.of(context).copyWith(
@@ -283,17 +318,32 @@ final class _Timeline extends StatelessWidget {
                 overlayShape: const RoundSliderOverlayShape(overlayRadius: 14),
                 trackShape: const _FlushTrackShape(),
               ),
-              child: Slider(
-                value: progress!,
-                onChanged: onChanged,
-                onChangeEnd: onChangeEnd,
+              // Position arrives every 250–500 ms; the thumb glides between
+              // reports instead of stepping. A drag follows the finger.
+              child: TweenAnimationBuilder<double>(
+                tween: Tween<double>(end: progress!),
+                duration: reduceMotion || scrubbing
+                    ? Duration.zero
+                    : const Duration(milliseconds: 480),
+                builder: (BuildContext context, double value, _) => Slider(
+                  value: value.clamp(0, 1),
+                  onChanged: onChanged,
+                  onChangeEnd: onChangeEnd,
+                ),
               ),
             ),
           );
     return Row(
       spacing: UiSpace.sm,
       children: <Widget>[
-        Expanded(child: track),
+        Expanded(
+          child: AnimatedSwitcher(
+            duration: reduceMotion
+                ? Duration.zero
+                : const Duration(milliseconds: 200),
+            child: track,
+          ),
+        ),
         ExcludeSemantics(
           child: Text(
             '$positionLabel / $durationLabel',

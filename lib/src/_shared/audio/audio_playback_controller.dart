@@ -72,6 +72,11 @@ final class AudioPlaybackController extends ChangeNotifier {
   Future<void> _retiring = Future<void>.value();
   Future<bool>? _activation;
   Timer? _loadingTimeout;
+
+  /// Rebuffering mid-play shows as loading only after this long, so a short
+  /// network hiccup doesn't flip the player to a spinner and back.
+  Timer? _bufferHold;
+  static const Duration _bufferGrace = Duration(milliseconds: 600);
   final List<StreamSubscription<Object?>> _subscriptions = [];
   final List<StreamSubscription<Object?>> _sessionSubscriptions = [];
   bool _configured = false;
@@ -159,9 +164,25 @@ final class AudioPlaybackController extends ChangeNotifier {
               _retire();
             case ProcessingState.loading:
             case ProcessingState.buffering:
-              _phase = AudioPlaybackPhase.loading;
-              _watchLoading(generation);
+              if (_phase == AudioPlaybackPhase.playing) {
+                _bufferHold ??= Timer(_bufferGrace, () {
+                  _bufferHold = null;
+                  if (!_current(generation)) return;
+                  final ProcessingState now = player.processingState;
+                  if (now == ProcessingState.buffering ||
+                      now == ProcessingState.loading) {
+                    _phase = AudioPlaybackPhase.loading;
+                    _watchLoading(generation);
+                    _changed();
+                  }
+                });
+              } else {
+                _phase = AudioPlaybackPhase.loading;
+                _watchLoading(generation);
+              }
             case ProcessingState.ready:
+              _bufferHold?.cancel();
+              _bufferHold = null;
               if (state.playing) {
                 _phase = AudioPlaybackPhase.playing;
                 _loadingTimeout?.cancel();
@@ -319,6 +340,8 @@ final class AudioPlaybackController extends ChangeNotifier {
     _generation++;
     _loadingTimeout?.cancel();
     _loadingTimeout = null;
+    _bufferHold?.cancel();
+    _bufferHold = null;
     final AudioPlayer? player = _player;
     _player = null;
     final CachedAudio? cachedAudio = _cachedAudio;
