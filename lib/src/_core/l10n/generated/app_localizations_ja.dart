@@ -1960,4 +1960,39 @@ class AppLocalizationsJa extends AppLocalizations {
   String profileMappingFollowers(int count) {
     return 'マッピング購読者: $count';
   }
+
+  @override
+  String get hubTitle => 'osu!';
+
+  @override
+  String get changelogTitle => '変更履歴';
+
+  @override
+  String get changelogLoading => '変更履歴を読み込み中';
+
+  @override
+  String get changelogEmpty => '変更はまだありません';
+
+  @override
+  String get changelogFailed => '変更履歴を読み込めませんでした';
+
+  @override
+  String get changelogAllStreams => 'すべて';
+
+  @override
+  String changelogUsers(String count) {
+    return '$count人';
+  }
+
+  @override
+  String get changelogTypeAdd => '追加';
+
+  @override
+  String get changelogTypeFix => '修正';
+
+  @override
+  String get changelogTypeMisc => '変更';
+
+  @override
+  String get changelogOpenLink => 'ブラウザで開く';
 }

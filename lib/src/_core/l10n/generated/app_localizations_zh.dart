@@ -1946,4 +1946,39 @@ class AppLocalizationsZh extends AppLocalizations {
   String profileMappingFollowers(int count) {
     return '谱面订阅者：$count';
   }
+
+  @override
+  String get hubTitle => 'osu!';
+
+  @override
+  String get changelogTitle => '更新日志';
+
+  @override
+  String get changelogLoading => '正在加载更新日志';
+
+  @override
+  String get changelogEmpty => '暂无更新';
+
+  @override
+  String get changelogFailed => '无法加载更新日志';
+
+  @override
+  String get changelogAllStreams => '全部';
+
+  @override
+  String changelogUsers(String count) {
+    return '$count 名玩家';
+  }
+
+  @override
+  String get changelogTypeAdd => '新增';
+
+  @override
+  String get changelogTypeFix => '修复';
+
+  @override
+  String get changelogTypeMisc => '变更';
+
+  @override
+  String get changelogOpenLink => '在浏览器中打开';
 }

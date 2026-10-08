@@ -104,6 +104,14 @@ final class ShareTarget {
     title,
   );
 
+  /// osu.ppy.sh/home/changelog, optionally filtered to one update stream.
+  factory ShareTarget.changelog(String? stream, String title) => ShareTarget._(
+    Uri.https('osu.ppy.sh', '/home/changelog', <String, String>{
+      'stream': ?stream,
+    }),
+    title,
+  );
+
   /// Daily challenges are multiplayer rooms on the website.
   factory ShareTarget.room(int id, String title) => ShareTarget._(
     Uri.https('osu.ppy.sh', '/multiplayer/rooms/${_id(id)}'),

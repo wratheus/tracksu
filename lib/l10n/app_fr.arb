@@ -536,5 +536,16 @@
   "activitySupportGift": "osu!supporter reçu en cadeau",
   "activityUsernameChange": "Pseudo changé : {previous} → {current}",
   "profileFollowers": "Abonnés : {count}",
-  "profileMappingFollowers": "Abonnés aux beatmaps : {count}"
+  "profileMappingFollowers": "Abonnés aux beatmaps : {count}",
+  "hubTitle": "osu!",
+  "changelogTitle": "Changements",
+  "changelogLoading": "Chargement des changements",
+  "changelogEmpty": "Aucun changement pour le moment",
+  "changelogFailed": "Impossible de charger les changements",
+  "changelogAllStreams": "Tous",
+  "changelogUsers": "{count} joueurs",
+  "changelogTypeAdd": "Ajouté",
+  "changelogTypeFix": "Corrigé",
+  "changelogTypeMisc": "Modifié",
+  "changelogOpenLink": "Ouvrir dans le navigateur"
 }

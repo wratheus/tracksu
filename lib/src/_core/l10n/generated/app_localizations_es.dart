@@ -2052,4 +2052,39 @@ class AppLocalizationsEs extends AppLocalizations {
   String profileMappingFollowers(int count) {
     return 'Suscriptores de mapas: $count';
   }
+
+  @override
+  String get hubTitle => 'osu!';
+
+  @override
+  String get changelogTitle => 'Cambios';
+
+  @override
+  String get changelogLoading => 'Cargando cambios';
+
+  @override
+  String get changelogEmpty => 'Aún no hay cambios';
+
+  @override
+  String get changelogFailed => 'No se pudieron cargar los cambios';
+
+  @override
+  String get changelogAllStreams => 'Todos';
+
+  @override
+  String changelogUsers(String count) {
+    return '$count jugadores';
+  }
+
+  @override
+  String get changelogTypeAdd => 'Añadido';
+
+  @override
+  String get changelogTypeFix => 'Corregido';
+
+  @override
+  String get changelogTypeMisc => 'Cambiado';
+
+  @override
+  String get changelogOpenLink => 'Abrir en el navegador';
 }

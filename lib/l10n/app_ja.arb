@@ -536,5 +536,16 @@
   "activitySupportGift": "osu!supporterをプレゼントされました",
   "activityUsernameChange": "ユーザー名を変更：{previous} → {current}",
   "profileFollowers": "フォロワー: {count}",
-  "profileMappingFollowers": "マッピング購読者: {count}"
+  "profileMappingFollowers": "マッピング購読者: {count}",
+  "hubTitle": "osu!",
+  "changelogTitle": "変更履歴",
+  "changelogLoading": "変更履歴を読み込み中",
+  "changelogEmpty": "変更はまだありません",
+  "changelogFailed": "変更履歴を読み込めませんでした",
+  "changelogAllStreams": "すべて",
+  "changelogUsers": "{count}人",
+  "changelogTypeAdd": "追加",
+  "changelogTypeFix": "修正",
+  "changelogTypeMisc": "変更",
+  "changelogOpenLink": "ブラウザで開く"
 }

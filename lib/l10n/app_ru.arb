@@ -536,5 +536,16 @@
   "activitySupportGift": "Получен osu!supporter в подарок",
   "activityUsernameChange": "Ник изменён: {previous} → {current}",
   "profileFollowers": "Подписчики: {count}",
-  "profileMappingFollowers": "Подписчики на карты: {count}"
+  "profileMappingFollowers": "Подписчики на карты: {count}",
+  "hubTitle": "osu!",
+  "changelogTitle": "Изменения",
+  "changelogLoading": "Загружаем изменения",
+  "changelogEmpty": "Изменений пока нет",
+  "changelogFailed": "Не удалось загрузить изменения",
+  "changelogAllStreams": "Все",
+  "changelogUsers": "{count} игроков",
+  "changelogTypeAdd": "Добавлено",
+  "changelogTypeFix": "Исправлено",
+  "changelogTypeMisc": "Изменено",
+  "changelogOpenLink": "Открыть в браузере"
 }

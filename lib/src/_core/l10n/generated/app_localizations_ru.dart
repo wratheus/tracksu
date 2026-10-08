@@ -2058,4 +2058,39 @@ class AppLocalizationsRu extends AppLocalizations {
   String profileMappingFollowers(int count) {
     return 'Подписчики на карты: $count';
   }
+
+  @override
+  String get hubTitle => 'osu!';
+
+  @override
+  String get changelogTitle => 'Изменения';
+
+  @override
+  String get changelogLoading => 'Загружаем изменения';
+
+  @override
+  String get changelogEmpty => 'Изменений пока нет';
+
+  @override
+  String get changelogFailed => 'Не удалось загрузить изменения';
+
+  @override
+  String get changelogAllStreams => 'Все';
+
+  @override
+  String changelogUsers(String count) {
+    return '$count игроков';
+  }
+
+  @override
+  String get changelogTypeAdd => 'Добавлено';
+
+  @override
+  String get changelogTypeFix => 'Исправлено';
+
+  @override
+  String get changelogTypeMisc => 'Изменено';
+
+  @override
+  String get changelogOpenLink => 'Открыть в браузере';
 }

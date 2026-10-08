@@ -2027,4 +2027,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String profileMappingFollowers(int count) {
     return 'Mapping subscribers: $count';
   }
+
+  @override
+  String get hubTitle => 'osu!';
+
+  @override
+  String get changelogTitle => 'Changelog';
+
+  @override
+  String get changelogLoading => 'Loading changes';
+
+  @override
+  String get changelogEmpty => 'No changes yet';
+
+  @override
+  String get changelogFailed => 'Couldn\'t load changes';
+
+  @override
+  String get changelogAllStreams => 'All';
+
+  @override
+  String changelogUsers(String count) {
+    return '$count users';
+  }
+
+  @override
+  String get changelogTypeAdd => 'Added';
+
+  @override
+  String get changelogTypeFix => 'Fixed';
+
+  @override
+  String get changelogTypeMisc => 'Changed';
+
+  @override
+  String get changelogOpenLink => 'Open in browser';
 }

@@ -536,5 +536,16 @@
   "activitySupportGift": "获赠 osu!supporter",
   "activityUsernameChange": "更改了用户名：{previous} → {current}",
   "profileFollowers": "关注者：{count}",
-  "profileMappingFollowers": "谱面订阅者：{count}"
+  "profileMappingFollowers": "谱面订阅者：{count}",
+  "hubTitle": "osu!",
+  "changelogTitle": "更新日志",
+  "changelogLoading": "正在加载更新日志",
+  "changelogEmpty": "暂无更新",
+  "changelogFailed": "无法加载更新日志",
+  "changelogAllStreams": "全部",
+  "changelogUsers": "{count} 名玩家",
+  "changelogTypeAdd": "新增",
+  "changelogTypeFix": "修复",
+  "changelogTypeMisc": "变更",
+  "changelogOpenLink": "在浏览器中打开"
 }

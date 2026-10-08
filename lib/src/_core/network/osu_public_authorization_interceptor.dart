@@ -35,7 +35,9 @@ final class OsuPublicAuthorizationInterceptor
           // Comments of news posts and beatmapsets (P39).
           request.uri.path == '/api/v2/comments' ||
           // Beatmap listing search (P41).
-          request.uri.path == '/api/v2/beatmapsets/search');
+          request.uri.path == '/api/v2/beatmapsets/search' ||
+          // osu! changelog (P50); public without a token, sent like the rest.
+          request.uri.path == '/api/v2/changelog');
 
   @override
   Future<RestRequest> onRequest(RestRequest request) async {

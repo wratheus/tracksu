@@ -2054,4 +2054,39 @@ class AppLocalizationsDe extends AppLocalizations {
   String profileMappingFollowers(int count) {
     return 'Mapping-Abonnenten: $count';
   }
+
+  @override
+  String get hubTitle => 'osu!';
+
+  @override
+  String get changelogTitle => 'Änderungen';
+
+  @override
+  String get changelogLoading => 'Änderungen werden geladen';
+
+  @override
+  String get changelogEmpty => 'Noch keine Änderungen';
+
+  @override
+  String get changelogFailed => 'Änderungen konnten nicht geladen werden';
+
+  @override
+  String get changelogAllStreams => 'Alle';
+
+  @override
+  String changelogUsers(String count) {
+    return '$count Spieler';
+  }
+
+  @override
+  String get changelogTypeAdd => 'Hinzugefügt';
+
+  @override
+  String get changelogTypeFix => 'Behoben';
+
+  @override
+  String get changelogTypeMisc => 'Geändert';
+
+  @override
+  String get changelogOpenLink => 'Im Browser öffnen';
 }

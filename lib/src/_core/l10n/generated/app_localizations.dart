@@ -3317,6 +3317,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Mapping subscribers: {count}'**
   String profileMappingFollowers(int count);
+
+  /// Third navbar tab and its title: osu! news and changelog.
+  ///
+  /// In en, this message translates to:
+  /// **'osu!'**
+  String get hubTitle;
+
+  /// osu! hub page with game and website changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Changelog'**
+  String get changelogTitle;
+
+  /// Changelog loading label.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading changes'**
+  String get changelogLoading;
+
+  /// Changelog: no builds for this stream.
+  ///
+  /// In en, this message translates to:
+  /// **'No changes yet'**
+  String get changelogEmpty;
+
+  /// Changelog could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load changes'**
+  String get changelogFailed;
+
+  /// Changelog stream filter: every stream.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get changelogAllStreams;
+
+  /// Changelog stream tile: active users of the latest build; the parameter is already formatted.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} users'**
+  String changelogUsers(String count);
+
+  /// Changelog entry type: something added.
+  ///
+  /// In en, this message translates to:
+  /// **'Added'**
+  String get changelogTypeAdd;
+
+  /// Changelog entry type: a fix.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed'**
+  String get changelogTypeFix;
+
+  /// Changelog entry type: other change.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed'**
+  String get changelogTypeMisc;
+
+  /// Changelog entry: open the pull request or post in the browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in browser'**
+  String get changelogOpenLink;
 }
 
 class _AppLocalizationsDelegate

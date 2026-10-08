@@ -536,5 +536,16 @@
   "activitySupportGift": "Recibió osu!supporter como regalo",
   "activityUsernameChange": "Cambió su nombre: {previous} → {current}",
   "profileFollowers": "Seguidores: {count}",
-  "profileMappingFollowers": "Suscriptores de mapas: {count}"
+  "profileMappingFollowers": "Suscriptores de mapas: {count}",
+  "hubTitle": "osu!",
+  "changelogTitle": "Cambios",
+  "changelogLoading": "Cargando cambios",
+  "changelogEmpty": "Aún no hay cambios",
+  "changelogFailed": "No se pudieron cargar los cambios",
+  "changelogAllStreams": "Todos",
+  "changelogUsers": "{count} jugadores",
+  "changelogTypeAdd": "Añadido",
+  "changelogTypeFix": "Corregido",
+  "changelogTypeMisc": "Cambiado",
+  "changelogOpenLink": "Abrir en el navegador"
 }

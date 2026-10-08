@@ -1792,5 +1792,54 @@
         "type": "int"
       }
     }
+  },
+  "hubTitle": "osu!",
+  "@hubTitle": {
+    "description": "Third navbar tab and its title: osu! news and changelog."
+  },
+  "changelogTitle": "Changelog",
+  "@changelogTitle": {
+    "description": "osu! hub page with game and website changes."
+  },
+  "changelogLoading": "Loading changes",
+  "@changelogLoading": {
+    "description": "Changelog loading label."
+  },
+  "changelogEmpty": "No changes yet",
+  "@changelogEmpty": {
+    "description": "Changelog: no builds for this stream."
+  },
+  "changelogFailed": "Couldn't load changes",
+  "@changelogFailed": {
+    "description": "Changelog could not be loaded."
+  },
+  "changelogAllStreams": "All",
+  "@changelogAllStreams": {
+    "description": "Changelog stream filter: every stream."
+  },
+  "changelogUsers": "{count} users",
+  "@changelogUsers": {
+    "description": "Changelog stream tile: active users of the latest build; the parameter is already formatted.",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "changelogTypeAdd": "Added",
+  "@changelogTypeAdd": {
+    "description": "Changelog entry type: something added."
+  },
+  "changelogTypeFix": "Fixed",
+  "@changelogTypeFix": {
+    "description": "Changelog entry type: a fix."
+  },
+  "changelogTypeMisc": "Changed",
+  "@changelogTypeMisc": {
+    "description": "Changelog entry type: other change."
+  },
+  "changelogOpenLink": "Open in browser",
+  "@changelogOpenLink": {
+    "description": "Changelog entry: open the pull request or post in the browser."
   }
 }

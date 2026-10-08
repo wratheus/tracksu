@@ -10,6 +10,12 @@ final class JsonMapReader {
     };
   }
 
+  bool? optionalBool(String key) => switch (_json[key]) {
+    null => null,
+    final bool value => value,
+    _ => throw FormatException('$key must be a boolean or null.'),
+  };
+
   double requiredDouble(String key) {
     return switch (_json[key]) {
       final num value => value.toDouble(),

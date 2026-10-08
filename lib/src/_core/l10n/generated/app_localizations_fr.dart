@@ -2045,4 +2045,39 @@ class AppLocalizationsFr extends AppLocalizations {
   String profileMappingFollowers(int count) {
     return 'Abonnés aux beatmaps : $count';
   }
+
+  @override
+  String get hubTitle => 'osu!';
+
+  @override
+  String get changelogTitle => 'Changements';
+
+  @override
+  String get changelogLoading => 'Chargement des changements';
+
+  @override
+  String get changelogEmpty => 'Aucun changement pour le moment';
+
+  @override
+  String get changelogFailed => 'Impossible de charger les changements';
+
+  @override
+  String get changelogAllStreams => 'Tous';
+
+  @override
+  String changelogUsers(String count) {
+    return '$count joueurs';
+  }
+
+  @override
+  String get changelogTypeAdd => 'Ajouté';
+
+  @override
+  String get changelogTypeFix => 'Corrigé';
+
+  @override
+  String get changelogTypeMisc => 'Modifié';
+
+  @override
+  String get changelogOpenLink => 'Ouvrir dans le navigateur';
 }
