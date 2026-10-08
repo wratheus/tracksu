@@ -31,22 +31,11 @@ final class NewsScreen extends StatelessWidget {
         BlocBuilder<NewsBloc, NewsState>(
           builder: (BuildContext context, NewsState state) => AppBarActions(
             share: state is NewsArticleState
-                ? ShareTarget.news(state.article.post.uri, state.article.post.title)
+                ? ShareTarget.news(
+                    state.article.post.uri,
+                    state.article.post.title,
+                  )
                 : ShareTarget.newsList(context.t.newsTitle),
-            tools: <Widget>[
-              UiIconButton.standard(
-                tooltip: context.t.newsRefresh,
-                icon: Icons.refresh,
-                onPressed:
-                    state is NewsInitialState ||
-                        state is NewsLoadingState ||
-                        (state is NewsContentState && state.operation != null)
-                    ? null
-                    : () => context.read<NewsBloc>().add(
-                        const NewsRefreshRequested(),
-                      ),
-              ),
-            ],
           ),
         ),
       ],

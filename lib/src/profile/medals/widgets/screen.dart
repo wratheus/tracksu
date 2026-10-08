@@ -21,21 +21,8 @@ final class MedalsScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.profileMedals),
       actions: <Widget>[
-        BlocBuilder<MedalsBloc, MedalsState>(
-          builder: (BuildContext context, MedalsState state) => AppBarActions(
-            share: ShareTarget.medals(userId, context.t.profileMedals),
-            tools: <Widget>[
-              UiIconButton.standard(
-                tooltip: context.t.profileRefresh,
-                icon: Icons.refresh,
-                onPressed:
-                    state is MedalsLoading ||
-                        (state is MedalsLoaded && state.refreshing)
-                    ? null
-                    : () => _refresh(context),
-              ),
-            ],
-          ),
+        AppBarActions(
+          share: ShareTarget.medals(userId, context.t.profileMedals),
         ),
       ],
     ),
@@ -66,91 +53,98 @@ final class MedalsScreen extends StatelessWidget {
             final MedalsLoaded loaded = state as MedalsLoaded;
             final List<EarnedMedal> medals = loaded.medals;
             return UiReveal(
-              child: CustomScrollView(
-                // Desktop does not inherit the route controller implicitly.
-                primary: true,
-                slivers: <Widget>[
-                  if (loaded.refreshing)
-                    const SliverToBoxAdapter(child: LinearProgressIndicator()),
-                  if (loaded.refreshFailed)
-                    SliverToBoxAdapter(
-                      child: Padding(
+              // Pull down to refresh; progress shows at the top of the list.
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  if (!loaded.refreshing) _refresh(context);
+                },
+                child: CustomScrollView(
+                  // Desktop does not inherit the route controller implicitly.
+                  primary: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  slivers: <Widget>[
+                    if (loaded.refreshing)
+                      const SliverToBoxAdapter(child: LinearProgressIndicator()),
+                    if (loaded.refreshFailed)
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.all(UiSpace.lg),
+                          child: UiNotice(
+                            message: context.t.profileShowingPreviousData,
+                            tone: UiNoticeTone.warning,
+                            actionLabel: context.t.retry,
+                            onAction: () => _refresh(context),
+                          ),
+                        ),
+                      ),
+                    if (medals.isEmpty)
+                      SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Center(
+                          child: UiContentState.empty(
+                            title: context.t.medalsEmpty,
+                          ),
+                        ),
+                      )
+                    else
+                      SliverPadding(
                         padding: const EdgeInsets.all(UiSpace.lg),
-                        child: UiNotice(
-                          message: context.t.profileShowingPreviousData,
-                          tone: UiNoticeTone.warning,
-                          actionLabel: context.t.retry,
-                          onAction: () => _refresh(context),
-                        ),
-                      ),
-                    ),
-                  if (medals.isEmpty)
-                    SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Center(
-                        child: UiContentState.empty(
-                          title: context.t.medalsEmpty,
-                        ),
-                      ),
-                    )
-                  else
-                    SliverPadding(
-                      padding: const EdgeInsets.all(UiSpace.lg),
-                      sliver: UiSliverCardList(
-                        itemCount: medals.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final EarnedMedal medal = medals[index];
-                          return UiSurface.card(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              spacing: UiSpace.md,
-                              children: <Widget>[
-                                if (medal.imageUri != null)
-                                  UiImage(
-                                    image: AppMedia.image(
-                                      context,
-                                      medal.imageUri,
+                        sliver: UiSliverCardList(
+                          itemCount: medals.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final EarnedMedal medal = medals[index];
+                            return UiSurface.card(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                spacing: UiSpace.md,
+                                children: <Widget>[
+                                  if (medal.imageUri != null)
+                                    UiImage(
+                                      image: AppMedia.image(
+                                        context,
+                                        medal.imageUri,
+                                      ),
+                                      width: 64,
+                                      height: 64,
+                                      fit: BoxFit.contain,
+                                    )
+                                  else
+                                    const Icon(
+                                      Icons.workspace_premium_outlined,
+                                      size: 48,
                                     ),
-                                    width: 64,
-                                    height: 64,
-                                    fit: BoxFit.contain,
-                                  )
-                                else
-                                  const Icon(
-                                    Icons.workspace_premium_outlined,
-                                    size: 48,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      spacing: UiSpace.sm,
+                                      children: <Widget>[
+                                        UiText.titleMedium(
+                                          medal.name ??
+                                              context.t.profileMedalId(medal.id),
+                                        ),
+                                        if (medal.description
+                                            case final String description)
+                                          UiText.bodyMedium(description),
+                                        UiText.bodySmall(
+                                          DateFormat.yMMMd(
+                                            Localizations.localeOf(context)
+                                                .toLanguageTag(),
+                                          ).format(medal.earnedAt.toLocal()),
+                                          secondary: true,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    spacing: UiSpace.sm,
-                                    children: <Widget>[
-                                      UiText.titleMedium(
-                                        medal.name ??
-                                            context.t.profileMedalId(medal.id),
-                                      ),
-                                      if (medal.description
-                                          case final String description)
-                                        UiText.bodyMedium(description),
-                                      UiText.bodySmall(
-                                        DateFormat.yMMMd(
-                                          Localizations.localeOf(context)
-                                              .toLanguageTag(),
-                                        ).format(medal.earnedAt.toLocal()),
-                                        secondary: true,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
-                ],
+                    UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+                  ],
+                ),
               ),
             );
           },

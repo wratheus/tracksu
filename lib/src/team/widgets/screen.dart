@@ -30,64 +30,62 @@ final class TeamScreen extends StatelessWidget {
                 data?.ruleset,
                 data?.identity.name ?? context.t.teamTitle,
               ),
-              tools: <Widget>[
-                UiIconButton.standard(
-                  icon: Icons.refresh,
-                  tooltip: context.t.retry,
-                  onPressed: busy
-                      ? null
-                      : () => context.read<TeamBloc>().add(
-                          const TeamRefreshRequested(),
-                        ),
-                ),
-              ],
             ),
           ],
         ),
         body: UiScrollToTop(
           tooltip: context.t.scrollToTop,
           child: SafeArea(
-            child: CustomScrollView(
-              // Desktop does not inherit the route controller implicitly.
-              primary: true,
-              slivers: <Widget>[
-                if (data == null)
-                  if (state case TeamError(:final failure))
-                    SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Center(child: _Failure(failure)),
-                    )
-                  else
-                    SliverToBoxAdapter(
-                      child: UiPageSkeleton.profile(
-                        label: context.t.teamLoading,
-                      ),
-                    )
-                else
-                  UiSliverReveal(
-                    sliver: SliverMainAxisGroup(
-                      slivers: <Widget>[
-                        if (busy)
-                          const SliverToBoxAdapter(
-                            child: LinearProgressIndicator(),
-                          ),
-                        if (state case TeamLoaded(
-                          failure: final TeamFailureKind failure,
-                        ))
-                          SliverToBoxAdapter(child: _Failure(failure)),
-                        TeamContent(
-                          data: data,
-                          selectedMode: state is TeamLoaded
-                              ? (state.requestedMode ?? data.ruleset)
-                              : data.ruleset,
-                          mediaPermission: DepsScope.of(context)
-                              .contentMediaController,
+            // Pull down to refresh; progress shows at the top of the content.
+            child: RefreshIndicator(
+              onRefresh: () async {
+                if (!busy) {
+                  context.read<TeamBloc>().add(const TeamRefreshRequested());
+                }
+              },
+              child: CustomScrollView(
+                // Desktop does not inherit the route controller implicitly.
+                primary: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: <Widget>[
+                  if (data == null)
+                    if (state case TeamError(:final failure))
+                      SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Center(child: _Failure(failure)),
+                      )
+                    else
+                      SliverToBoxAdapter(
+                        child: UiPageSkeleton.profile(
+                          label: context.t.teamLoading,
                         ),
-                      ],
+                      )
+                  else
+                    UiSliverReveal(
+                      sliver: SliverMainAxisGroup(
+                        slivers: <Widget>[
+                          if (busy)
+                            const SliverToBoxAdapter(
+                              child: LinearProgressIndicator(),
+                            ),
+                          if (state case TeamLoaded(
+                            failure: final TeamFailureKind failure,
+                          ))
+                            SliverToBoxAdapter(child: _Failure(failure)),
+                          TeamContent(
+                            data: data,
+                            selectedMode: state is TeamLoaded
+                                ? (state.requestedMode ?? data.ruleset)
+                                : data.ruleset,
+                            mediaPermission: DepsScope.of(context)
+                                .contentMediaController,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
-              ],
+                  UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+                ],
+              ),
             ),
           ),
         ),

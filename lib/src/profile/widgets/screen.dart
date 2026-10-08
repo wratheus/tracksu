@@ -39,20 +39,6 @@ final class ProfileScreen extends StatelessWidget {
                     state.profile.username,
                   )
                 : null,
-            tools: <Widget>[
-              UiIconButton.standard(
-                tooltip: context.t.profileRefresh,
-                icon: Icons.refresh,
-                onPressed:
-                    state is ProfileInitialState ||
-                        state is ProfileLoadingState ||
-                        (state is ProfileLoadedState && state.isBusy)
-                    ? null
-                    : () => context.read<ProfileBloc>().add(
-                        const ProfileRefreshRequested(),
-                      ),
-              ),
-            ],
           ),
         ),
       ],

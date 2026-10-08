@@ -51,17 +51,6 @@ final class BeatmapScreen extends StatelessWidget {
               ),
               _ => null,
             },
-            tools: <Widget>[
-              UiIconButton.standard(
-                tooltip: context.t.beatmapRefresh,
-                icon: Icons.refresh,
-                onPressed: state is BeatmapLoadedState && !state.refreshing
-                    ? () => context.read<BeatmapBloc>().add(
-                        const BeatmapLoadRequested(),
-                      )
-                    : null,
-              ),
-            ],
           ),
         ),
       ],

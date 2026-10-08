@@ -39,19 +39,6 @@ final class SpotlightsScreen extends StatelessWidget {
                   ? state.details?.spotlight.name ?? context.t.spotlightsTitle
                   : context.t.spotlightsTitle,
             ),
-            tools: <Widget>[
-              UiIconButton.standard(
-                tooltip: context.t.rankingsRefresh,
-                icon: Icons.refresh,
-                onPressed:
-                    state is SpotlightsLoadingState ||
-                        (state is SpotlightsLoadedState && state.loading)
-                    ? null
-                    : () => context.read<SpotlightsBloc>().add(
-                        const SpotlightsRefreshRequested(),
-                      ),
-              ),
-            ],
           ),
         ),
       ],
@@ -96,175 +83,187 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
   Widget build(
     BuildContext context,
   ) => BlocBuilder<SpotlightsBloc, SpotlightsState>(
-    builder: (BuildContext context, SpotlightsState state) => CustomScrollView(
-      // Desktop does not inherit the route controller implicitly.
-      primary: true,
-      // Opening a picker does not replace the viewport or discard its offset.
-      key: ValueKey<Object>(
-        state is SpotlightsLoadedState
-            ? (state.selectedId, state.ruleset)
-            : 'spotlights-loading',
-      ),
-      slivers: <Widget>[
-        if (state is SpotlightsInitialState || state is SpotlightsLoadingState)
-          SliverToBoxAdapter(
-            child: UiPageSkeleton.list(label: context.t.rankingsLoading),
-          ),
-        if (state case SpotlightsFailureState(:final failure))
-          SliverToBoxAdapter(child: _Failure(failure)),
-        if (state is SpotlightsLoadedState) ...<Widget>[
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(UiSpace.lg),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                spacing: UiSpace.lg,
-                children: <Widget>[
-                  // Archive only: osu! stopped running Spotlights in 2020.
-                  UiNotice(message: context.t.spotlightsHomeDescription),
-                  if (state.catalog.isEmpty)
-                    UiContentState.empty(title: context.t.spotlightsEmpty)
-                  else ...<Widget>[
-                    if ((state.details?.spotlight ??
-                            state.catalog
-                                .where(
-                                  (Spotlight item) =>
-                                      item.id == state.selectedId,
-                                )
-                                .firstOrNull)
-                        case final Spotlight selected)
-                      _SpotlightSummary(spotlight: selected),
-                    UiButton.secondary(
-                      label: context.t.spotlightsChoose,
-                      icon: Icons.filter_list,
-                      onPressed: _choosing ? null : () => _choose(state),
-                    ),
-                    OsuRulesetSelector(
-                      selected: state.ruleset,
-                      onChanged: (ProfileRuleset ruleset) => context
-                          .read<SpotlightsBloc>()
-                          .add(SpotlightRulesetSelected(ruleset)),
-                    ),
-                  ],
-                ],
-              ),
+    builder: (BuildContext context, SpotlightsState state) =>
+        // Pull down to refresh; progress shows at the top of the list.
+        RefreshIndicator(
+          onRefresh: () async {
+            if (state is SpotlightsLoadedState && !state.loading) {
+              context.read<SpotlightsBloc>().add(
+                const SpotlightsRefreshRequested(),
+              );
+            }
+          },
+          child: CustomScrollView(
+            // Desktop does not inherit the route controller implicitly.
+            primary: true,
+            physics: const AlwaysScrollableScrollPhysics(),
+            // Opening a picker keeps the viewport and its scroll offset.
+            key: ValueKey<Object>(
+              state is SpotlightsLoadedState
+                  ? (state.selectedId, state.ruleset)
+                  : 'spotlights-loading',
             ),
-          ),
-          if (state.loading && state.details != null)
-            const SliverToBoxAdapter(child: LinearProgressIndicator()),
-          if (state.loading && state.details == null)
-            SliverToBoxAdapter(
-              child: UiPageSkeleton.list(label: context.t.rankingsLoading),
-            ),
-          if (state.rulesetUnavailable)
-            SliverToBoxAdapter(
-              child: UiContentState.empty(
-                title: context.t.spotlightsRulesetUnavailable,
-                message: context.t.spotlightsRulesetUnavailableHint,
-              ),
-            ),
-          if (state.failure case final RankingsFailureKind failure)
-            SliverToBoxAdapter(
-              child: _Failure(failure, keepingContent: state.details != null),
-            ),
-          if (state.details case final SpotlightDetails details) ...<Widget>[
-            SliverToBoxAdapter(child: _Heading(context.t.spotlightsMaps)),
-            if (details.maps.isEmpty)
-              SliverToBoxAdapter(
-                child: UiContentState.empty(title: context.t.spotlightsNoMaps),
-              ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
-              sliver: UiSliverCardList(
-                itemCount: details.maps.length,
-                itemBuilder: (_, int index) {
-                  final SpotlightMap map = details.maps[index];
-                  return SpotlightNavigationCard(
-                    key: ValueKey<String>('map-${map.id}'),
-                    onOpen: () =>
-                        DepsScope.of(context).appRouter
-                            .openBeatmap(context, BeatmapsetParams(map.id)),
-                    builder: (VoidCallback? open) => OsuBeatmapCard.compact(
-                      title: map.title,
-                      artist: map.artist,
-                      banner: BeatmapCover(
-                        uri: map.metadata?.bannerUri ?? map.metadata?.coverUri,
-                        preview: map.metadata?.preview,
-                      ),
-                      facts: BeatmapFacts(metadata: map.metadata),
-                      badges: <Widget>[
-                        if (map.difficultyCount case final int count)
-                          UiBadge.neutral(
-                            context.t.spotlightsDifficultyCount(count),
-                            icon: Icons.layers_outlined,
+            slivers: <Widget>[
+              if (state is SpotlightsInitialState || state is SpotlightsLoadingState)
+                SliverToBoxAdapter(
+                  child: UiPageSkeleton.list(label: context.t.rankingsLoading),
+                ),
+              if (state case SpotlightsFailureState(:final failure))
+                SliverToBoxAdapter(child: _Failure(failure)),
+              if (state is SpotlightsLoadedState) ...<Widget>[
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(UiSpace.lg),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      spacing: UiSpace.lg,
+                      children: <Widget>[
+                        // Archive only: osu! stopped running Spotlights in 2020.
+                        UiNotice(message: context.t.spotlightsHomeDescription),
+                        if (state.catalog.isEmpty)
+                          UiContentState.empty(title: context.t.spotlightsEmpty)
+                        else ...<Widget>[
+                          if ((state.details?.spotlight ??
+                                  state.catalog
+                                      .where(
+                                        (Spotlight item) =>
+                                            item.id == state.selectedId,
+                                      )
+                                      .firstOrNull)
+                              case final Spotlight selected)
+                            _SpotlightSummary(spotlight: selected),
+                          UiButton.secondary(
+                            label: context.t.spotlightsChoose,
+                            icon: Icons.filter_list,
+                            onPressed: _choosing ? null : () => _choose(state),
                           ),
+                          OsuRulesetSelector(
+                            selected: state.ruleset,
+                            onChanged: (ProfileRuleset ruleset) => context
+                                .read<SpotlightsBloc>()
+                                .add(SpotlightRulesetSelected(ruleset)),
+                          ),
+                        ],
                       ],
-                      onTap: open,
                     ),
-                  );
-                },
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: _Heading(context.t.spotlightsRankingLimit),
-            ),
-            if (details.players.isEmpty)
-              SliverToBoxAdapter(
-                child: UiContentState.empty(title: context.t.rankingsEmpty),
-              ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(
-                UiSpace.lg,
-                0,
-                UiSpace.lg,
-                UiSpace.lg,
-              ),
-              sliver: UiSliverCardList(
-                itemCount: details.players.length,
-                itemBuilder: (_, int index) {
-                  final SpotlightPlayer player = details.players[index];
-                  final LocalizedCount score = LocalizedCount(
-                    player.score,
-                    locale: Localizations.localeOf(context).toLanguageTag(),
-                  );
-                  return SpotlightNavigationCard(
-                    key: ValueKey<String>('player-${player.id}'),
-                    onOpen: () => DepsScope.of(context).appRouter.openProfile(
-                      context,
-                      ProfileParams(
-                        user: ProfileUserId(player.id),
-                        ruleset: state.ruleset,
-                      ),
+                  ),
+                ),
+                if (state.loading && state.details != null)
+                  const SliverToBoxAdapter(child: LinearProgressIndicator()),
+                if (state.loading && state.details == null)
+                  SliverToBoxAdapter(
+                    child: UiPageSkeleton.list(label: context.t.rankingsLoading),
+                  ),
+                if (state.rulesetUnavailable)
+                  SliverToBoxAdapter(
+                    child: UiContentState.empty(
+                      title: context.t.spotlightsRulesetUnavailable,
+                      message: context.t.spotlightsRulesetUnavailableHint,
                     ),
-                    builder: (VoidCallback? open) => Tooltip(
-                      message: context.t.rankingsRankedScore(player.score),
-                      child: TeamNavigation(
-                        teamId: player.team?.id,
-                        builder: (VoidCallback? openTeam) => OsuRankingRow(
-                          username: player.name,
-                          country: player.country,
-                          avatar: player.avatarUri == null
-                              ? null
-                              : AppMedia.image(context, player.avatarUri),
-                          team: player.team,
-                          onTeamTap: openTeam,
-                          position:
-                              '#${NumberFormat.decimalPattern(context.t.localeName).format(index + 1)}',
-                          value: score.compact,
-                          valueLabel: '',
-                          onTap: open,
-                        ),
-                      ),
+                  ),
+                if (state.failure case final RankingsFailureKind failure)
+                  SliverToBoxAdapter(
+                    child: _Failure(failure, keepingContent: state.details != null),
+                  ),
+                if (state.details case final SpotlightDetails details) ...<Widget>[
+                  SliverToBoxAdapter(child: _Heading(context.t.spotlightsMaps)),
+                  if (details.maps.isEmpty)
+                    SliverToBoxAdapter(
+                      child: UiContentState.empty(title: context.t.spotlightsNoMaps),
                     ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ],
-        UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
-      ],
-    ),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
+                    sliver: UiSliverCardList(
+                      itemCount: details.maps.length,
+                      itemBuilder: (_, int index) {
+                        final SpotlightMap map = details.maps[index];
+                        return SpotlightNavigationCard(
+                          key: ValueKey<String>('map-${map.id}'),
+                          onOpen: () =>
+                              DepsScope.of(context).appRouter
+                                  .openBeatmap(context, BeatmapsetParams(map.id)),
+                          builder: (VoidCallback? open) => OsuBeatmapCard.compact(
+                            title: map.title,
+                            artist: map.artist,
+                            banner: BeatmapCover(
+                              uri: map.metadata?.bannerUri ?? map.metadata?.coverUri,
+                              preview: map.metadata?.preview,
+                            ),
+                            facts: BeatmapFacts(metadata: map.metadata),
+                            badges: <Widget>[
+                              if (map.difficultyCount case final int count)
+                                UiBadge.neutral(
+                                  context.t.spotlightsDifficultyCount(count),
+                                  icon: Icons.layers_outlined,
+                                ),
+                            ],
+                            onTap: open,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: _Heading(context.t.spotlightsRankingLimit),
+                  ),
+                  if (details.players.isEmpty)
+                    SliverToBoxAdapter(
+                      child: UiContentState.empty(title: context.t.rankingsEmpty),
+                    ),
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(
+                      UiSpace.lg,
+                      0,
+                      UiSpace.lg,
+                      UiSpace.lg,
+                    ),
+                    sliver: UiSliverCardList(
+                      itemCount: details.players.length,
+                      itemBuilder: (_, int index) {
+                        final SpotlightPlayer player = details.players[index];
+                        final LocalizedCount score = LocalizedCount(
+                          player.score,
+                          locale: Localizations.localeOf(context).toLanguageTag(),
+                        );
+                        return SpotlightNavigationCard(
+                          key: ValueKey<String>('player-${player.id}'),
+                          onOpen: () => DepsScope.of(context).appRouter.openProfile(
+                            context,
+                            ProfileParams(
+                              user: ProfileUserId(player.id),
+                              ruleset: state.ruleset,
+                            ),
+                          ),
+                          builder: (VoidCallback? open) => Tooltip(
+                            message: context.t.rankingsRankedScore(player.score),
+                            child: TeamNavigation(
+                              teamId: player.team?.id,
+                              builder: (VoidCallback? openTeam) => OsuRankingRow(
+                                username: player.name,
+                                country: player.country,
+                                avatar: player.avatarUri == null
+                                    ? null
+                                    : AppMedia.image(context, player.avatarUri),
+                                team: player.team,
+                                onTeamTap: openTeam,
+                                position:
+                                    '#${NumberFormat.decimalPattern(context.t.localeName).format(index + 1)}',
+                                value: score.compact,
+                                valueLabel: '',
+                                onTap: open,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ],
+              UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+            ],
+          ),
+        ),
   );
 }
 
