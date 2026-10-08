@@ -17,15 +17,52 @@ import 'package:tracksu_ui/tracksu_ui.dart';
 /// Packs of one type: the type picker on top (with the type's description),
 /// then pack rows — tag, name, date and author, ruleset; older packs load at
 /// the end. Pull down to refresh.
-final class BeatmapPacksScreen extends StatelessWidget {
+///
+/// The API has no pack search, so the field does two cheap things: a tag
+/// (`S1500`, `P345`…) opens that pack directly (one request), and any text
+/// filters the packs already loaded. While filtering, older pages load only
+/// on request — never in a loop looking for matches.
+final class BeatmapPacksScreen extends StatefulWidget {
   const BeatmapPacksScreen({super.key});
+
+  @override
+  State<BeatmapPacksScreen> createState() => _BeatmapPacksScreenState();
+}
+
+final class _BeatmapPacksScreenState extends State<BeatmapPacksScreen> {
+  final TextEditingController _filter = TextEditingController();
+  String _query = '';
+
+  static final RegExp _tag = RegExp(r'^[SFPLRTA][0-9]{1,6}$');
+
+  @override
+  void dispose() {
+    _filter.dispose();
+    super.dispose();
+  }
+
+  String? get _tagQuery {
+    final String tag = _query.toUpperCase();
+    return _tag.hasMatch(tag) ? tag : null;
+  }
 
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<BeatmapPacksBloc, BeatmapPacksState>(
         builder: (BuildContext context, BeatmapPacksState state) {
           final BeatmapPacksBloc bloc = context.read<BeatmapPacksBloc>();
-          final List<BeatmapPack>? items = state.items;
+          final String needle = _query.toLowerCase();
+          final List<BeatmapPack>? items = needle.isEmpty
+              ? state.items
+              : state.items
+                    ?.where(
+                      (BeatmapPack pack) =>
+                          pack.name.toLowerCase().contains(needle) ||
+                          pack.tag.toLowerCase().contains(needle),
+                    )
+                    .toList(growable: false);
+          final bool filtering = needle.isNotEmpty;
+          final String? tag = _tagQuery;
           return Scaffold(
             appBar: UiAppBar(
               title: UiText.titleLarge(context.t.packsTitle),
@@ -85,6 +122,38 @@ final class BeatmapPacksScreen extends StatelessWidget {
                                 state.type.hint(context),
                                 secondary: true,
                               ),
+                              const SizedBox(height: UiSpace.xs),
+                              UiSearchField(
+                                controller: _filter,
+                                label: context.t.packsFilter,
+                                clearLabel: context.t.searchClear,
+                                onChanged: (String value) =>
+                                    setState(() => _query = value.trim()),
+                                onSubmitted: (_) {
+                                  if (_tagQuery case final String tag) {
+                                    unawaited(
+                                      DepsScope.of(
+                                        context,
+                                      ).appRouter.openPack(context, tag),
+                                    );
+                                  }
+                                },
+                              ),
+                              if (tag != null)
+                                UiSurface.tonal(
+                                  padding: EdgeInsets.zero,
+                                  child: UiTile.navigation(
+                                    leading: const Icon(
+                                      Icons.arrow_forward_rounded,
+                                    ),
+                                    title: context.t.packsOpenTag(tag),
+                                    onTap: () => unawaited(
+                                      DepsScope.of(
+                                        context,
+                                      ).appRouter.openPack(context, tag),
+                                    ),
+                                  ),
+                                ),
                             ],
                           ),
                         ),
@@ -105,7 +174,9 @@ final class BeatmapPacksScreen extends StatelessWidget {
                       else if (items.isEmpty)
                         SliverToBoxAdapter(
                           child: UiContentState.empty(
-                            title: context.t.packsEmpty,
+                            title: filtering
+                                ? context.t.packsFilterEmpty
+                                : context.t.packsEmpty,
                           ),
                         )
                       else
@@ -140,12 +211,27 @@ final class BeatmapPacksScreen extends StatelessWidget {
                             ),
                           )
                         else if (state.cursor case final String cursor
-                            when state.failure == null)
+                            when state.failure == null && !filtering)
                           UiSliverAutoLoad(
                             pageKey: (state.type, cursor),
                             label: context.t.packsLoading,
                             onLoad: () =>
                                 bloc.add(const BeatmapPacksMoreRequested()),
+                          )
+                        // Filtering: one page per tap, never a search loop.
+                        else if (state.cursor != null &&
+                            state.failure == null)
+                          SliverToBoxAdapter(
+                            child: Padding(
+                              padding: const EdgeInsets.all(UiSpace.lg),
+                              child: UiButton.secondary(
+                                label: context.t.packsLoadMore,
+                                icon: Icons.expand_more_rounded,
+                                onPressed: () => bloc.add(
+                                  const BeatmapPacksMoreRequested(),
+                                ),
+                              ),
+                            ),
                           ),
                       UiSliverScrollToTopSpace(
                         tooltip: context.t.scrollToTop,
@@ -160,7 +246,10 @@ final class BeatmapPacksScreen extends StatelessWidget {
       );
 }
 
-/// Tag chip, name, then date · author and the ruleset; opens the pack.
+/// Tag chip, name, then date · author and the ruleset; opens the pack. The
+/// list API has no covers (one request per pack would be needed), so the
+/// row carries its type instead: a faint accent wash from the right and the
+/// type's icon as a large watermark.
 final class BeatmapPackRow extends StatelessWidget {
   const BeatmapPackRow({required this.pack, super.key});
   final BeatmapPack pack;
@@ -172,12 +261,53 @@ final class BeatmapPackRow extends StatelessWidget {
         DateFormat.yMMMd(context.t.localeName).format(date.toLocal()),
       if (pack.author.isNotEmpty) pack.author,
     ].join(' · ');
+    final BeatmapPackType? type = BeatmapPackTypeStyle.ofTag(pack.tag);
+    final Color accent =
+        type?.accent ?? Theme.of(context).colorScheme.primary;
     return UiSurface.card(
-      padding: const EdgeInsets.all(UiSpace.md),
+      padding: EdgeInsets.zero,
       onTap: () => unawaited(
         DepsScope.of(context).appRouter.openPack(context, pack.tag),
       ),
-      child: Row(
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: <Color>[
+                    accent.withValues(alpha: 0),
+                    accent.withValues(alpha: 0.14),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          if (type != null)
+            PositionedDirectional(
+              end: -UiSpace.md,
+              top: -UiSpace.sm,
+              bottom: -UiSpace.sm,
+              child: ExcludeSemantics(
+                child: Icon(
+                  type.icon,
+                  size: 88,
+                  color: accent.withValues(alpha: 0.12),
+                ),
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(UiSpace.md),
+            child: _content(context, meta),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _content(BuildContext context, String meta) => Row(
         spacing: UiSpace.md,
         children: <Widget>[
           Expanded(
@@ -208,9 +338,7 @@ final class BeatmapPackRow extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ],
-      ),
-    );
-  }
+      );
 }
 
 final class _Failure extends StatelessWidget {

@@ -2229,4 +2229,21 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get packsHintArtist => 'ひとりのアーティストまたはアルバム';
+
+  @override
+  String get commentsSortTitle => 'コメントの並び順';
+
+  @override
+  String get packsFilter => '名前またはタグ（例: S1500）';
+
+  @override
+  String packsOpenTag(String tag) {
+    return 'パック $tag を開く';
+  }
+
+  @override
+  String get packsFilterEmpty => '読み込んだパックに一致なし';
+
+  @override
+  String get packsLoadMore => 'パックをさらに読み込む';
 }

@@ -3779,6 +3779,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'One artist or album'**
   String get packsHintArtist;
+
+  /// Title of the comment sort picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort comments'**
+  String get commentsSortTitle;
+
+  /// Field on the packs list: filter loaded packs or type a tag.
+  ///
+  /// In en, this message translates to:
+  /// **'Name or tag, e.g. S1500'**
+  String get packsFilter;
+
+  /// Opens the pack whose tag was typed.
+  ///
+  /// In en, this message translates to:
+  /// **'Open pack {tag}'**
+  String packsOpenTag(String tag);
+
+  /// Filter text matches none of the loaded packs.
+  ///
+  /// In en, this message translates to:
+  /// **'No match among loaded packs'**
+  String get packsFilterEmpty;
+
+  /// Loads the next page of packs while filtering.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more packs'**
+  String get packsLoadMore;
 }
 
 class _AppLocalizationsDelegate

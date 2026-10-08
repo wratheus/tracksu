@@ -613,5 +613,10 @@
   "packsHintLoved": "Классика по выбору сообщества",
   "packsHintChart": "Карты сезонных чартов",
   "packsHintTheme": "Карты на одну тему",
-  "packsHintArtist": "Один артист или альбом"
+  "packsHintArtist": "Один артист или альбом",
+  "commentsSortTitle": "Сортировка комментариев",
+  "packsFilter": "Название или тег, например S1500",
+  "packsOpenTag": "Открыть пак {tag}",
+  "packsFilterEmpty": "Среди загруженных паков совпадений нет",
+  "packsLoadMore": "Загрузить ещё паки"
 }

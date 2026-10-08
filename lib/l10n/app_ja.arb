@@ -613,5 +613,10 @@
   "packsHintLoved": "コミュニティが選んだ名作",
   "packsHintChart": "シーズンチャートの譜面",
   "packsHintTheme": "ひとつのテーマの譜面",
-  "packsHintArtist": "ひとりのアーティストまたはアルバム"
+  "packsHintArtist": "ひとりのアーティストまたはアルバム",
+  "commentsSortTitle": "コメントの並び順",
+  "packsFilter": "名前またはタグ（例: S1500）",
+  "packsOpenTag": "パック {tag} を開く",
+  "packsFilterEmpty": "読み込んだパックに一致なし",
+  "packsLoadMore": "パックをさらに読み込む"
 }

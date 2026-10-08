@@ -2319,4 +2319,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get packsHintArtist => 'Un artiste ou un album';
+
+  @override
+  String get commentsSortTitle => 'Trier les commentaires';
+
+  @override
+  String get packsFilter => 'Nom ou tag, ex. S1500';
+
+  @override
+  String packsOpenTag(String tag) {
+    return 'Ouvrir le pack $tag';
+  }
+
+  @override
+  String get packsFilterEmpty => 'Aucun résultat parmi les packs chargés';
+
+  @override
+  String get packsLoadMore => 'Charger plus de packs';
 }

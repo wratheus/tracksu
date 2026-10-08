@@ -613,5 +613,10 @@
   "packsHintLoved": "Classiques choisis par la communauté",
   "packsHintChart": "Maps des classements saisonniers",
   "packsHintTheme": "Maps sur un même thème",
-  "packsHintArtist": "Un artiste ou un album"
+  "packsHintArtist": "Un artiste ou un album",
+  "commentsSortTitle": "Trier les commentaires",
+  "packsFilter": "Nom ou tag, ex. S1500",
+  "packsOpenTag": "Ouvrir le pack {tag}",
+  "packsFilterEmpty": "Aucun résultat parmi les packs chargés",
+  "packsLoadMore": "Charger plus de packs"
 }

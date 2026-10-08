@@ -2337,4 +2337,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get packsHintArtist => 'Один артист или альбом';
+
+  @override
+  String get commentsSortTitle => 'Сортировка комментариев';
+
+  @override
+  String get packsFilter => 'Название или тег, например S1500';
+
+  @override
+  String packsOpenTag(String tag) {
+    return 'Открыть пак $tag';
+  }
+
+  @override
+  String get packsFilterEmpty => 'Среди загруженных паков совпадений нет';
+
+  @override
+  String get packsLoadMore => 'Загрузить ещё паки';
 }

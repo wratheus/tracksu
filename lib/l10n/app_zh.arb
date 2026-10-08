@@ -613,5 +613,10 @@
   "packsHintLoved": "社区票选的经典",
   "packsHintChart": "赛季排行的谱面",
   "packsHintTheme": "同一主题的谱面",
-  "packsHintArtist": "单一艺术家或专辑"
+  "packsHintArtist": "单一艺术家或专辑",
+  "commentsSortTitle": "评论排序",
+  "packsFilter": "名称或标签，例如 S1500",
+  "packsOpenTag": "打开谱面包 {tag}",
+  "packsFilterEmpty": "已加载的谱面包中无匹配",
+  "packsLoadMore": "加载更多谱面包"
 }

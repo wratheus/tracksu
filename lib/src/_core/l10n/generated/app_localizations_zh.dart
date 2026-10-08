@@ -2214,4 +2214,21 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get packsHintArtist => '单一艺术家或专辑';
+
+  @override
+  String get commentsSortTitle => '评论排序';
+
+  @override
+  String get packsFilter => '名称或标签，例如 S1500';
+
+  @override
+  String packsOpenTag(String tag) {
+    return '打开谱面包 $tag';
+  }
+
+  @override
+  String get packsFilterEmpty => '已加载的谱面包中无匹配';
+
+  @override
+  String get packsLoadMore => '加载更多谱面包';
 }

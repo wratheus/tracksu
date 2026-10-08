@@ -2123,5 +2123,30 @@
   "packsHintArtist": "One artist or album",
   "@packsHintArtist": {
     "description": "Short description of artist/album packs."
+  },
+  "commentsSortTitle": "Sort comments",
+  "@commentsSortTitle": {
+    "description": "Title of the comment sort picker."
+  },
+  "packsFilter": "Name or tag, e.g. S1500",
+  "@packsFilter": {
+    "description": "Field on the packs list: filter loaded packs or type a tag."
+  },
+  "packsOpenTag": "Open pack {tag}",
+  "@packsOpenTag": {
+    "description": "Opens the pack whose tag was typed.",
+    "placeholders": {
+      "tag": {
+        "type": "String"
+      }
+    }
+  },
+  "packsFilterEmpty": "No match among loaded packs",
+  "@packsFilterEmpty": {
+    "description": "Filter text matches none of the loaded packs."
+  },
+  "packsLoadMore": "Load more packs",
+  "@packsLoadMore": {
+    "description": "Loads the next page of packs while filtering."
   }
 }
