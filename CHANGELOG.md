@@ -14,6 +14,12 @@
   in-app browser sheet instead of leaving the app; YouTube opens its own app.
 - API requests carry the app language, and changing the language clears
   cached pages so the next visit loads localized data.
+- Player search rows show the country flag after the name instead of the
+  country code.
+- Audio previews play at 35 % player gain; full gain was harsh even at low
+  system volume.
+- Cached audio lives 12 hours with its own 24 MB budget (oldest first);
+  images keep 7 days within the shared 128 MB.
 
 ### Profile activity and lazer grades (P49, wave 1)
 

@@ -20,6 +20,26 @@ final class MediaCacheRepository extends ChangeNotifier {
   static const int capacityBytes = 128 * 1024 * 1024;
   static const Duration maxAge = Duration(days: 7);
 
+  /// Previews are replayed within a session, rarely days later, and decoded
+  /// Ogg → WAV files are large: audio keeps a short life and its own budget.
+  static const int audioCapacityBytes = 24 * 1024 * 1024;
+  static const Duration audioMaxAge = Duration(hours: 12);
+
+  static bool _isAudioFile(String name) => _audioSuffix.hasMatch(name);
+
+  static bool _expired(String name, DateTime modified) =>
+      DateTime.now().difference(modified) >
+      (_isAudioFile(name) ? audioMaxAge : maxAge);
+
+  int get _audioBytes => _entries.entries
+      .where((e) => _isAudioFile(e.key))
+      .fold<int>(0, (int sum, e) => sum + e.value.size);
+
+  bool get _overBudget =>
+      _bytes > capacityBytes ||
+      _entries.length > 500 ||
+      _audioBytes > audioCapacityBytes;
+
   /// iOS AVFoundation has no Vorbis decoder: there an Ogg payload is stored as
   /// locally decoded PCM WAV. Other platforms play Ogg natively.
   static final bool _decodesVorbis = Platform.isIOS;
@@ -70,7 +90,7 @@ final class MediaCacheRepository extends ChangeNotifier {
           final FileStat stat = await entity.stat();
           if (name.endsWith('.part') ||
               stat.size == 0 ||
-              DateTime.now().difference(stat.modified) > maxAge) {
+              _expired(name, stat.modified)) {
             await entity.delete();
           } else {
             files.add((file: entity, stat: stat));
@@ -159,9 +179,7 @@ final class MediaCacheRepository extends ChangeNotifier {
     } else {
       _pins[key] = count;
     }
-    if (!_closed &&
-        !_clearing &&
-        (_bytes > capacityBytes || _entries.length > 500)) {
+    if (!_closed && !_clearing && _overBudget) {
       unawaited(
         _serial(() async {
           try {
@@ -215,7 +233,7 @@ final class MediaCacheRepository extends ChangeNotifier {
             if (name == null || entry == null) return null;
             final FileStat stat = await entry.file.stat();
             if (stat.type != FileSystemEntityType.file ||
-                DateTime.now().difference(stat.modified) > maxAge) {
+                _expired(name, stat.modified)) {
               await _remove(name);
               _changed();
               return null;
@@ -437,6 +455,20 @@ final class MediaCacheRepository extends ChangeNotifier {
   }
 
   Future<void> _trim({String? protect}) async {
+    // Oldest audio first while audio alone exceeds its budget.
+    int audioBytes = _audioBytes;
+    for (final String key in _entries.keys.toList()) {
+      if (audioBytes <= audioCapacityBytes) break;
+      if (!_isAudioFile(key)) continue;
+      final String logical = _logical(key);
+      if (logical == protect ||
+          _pins.containsKey(logical) ||
+          _pending.containsKey(logical)) {
+        continue;
+      }
+      audioBytes -= _entries[key]!.size;
+      await _remove(key);
+    }
     for (final String key in _entries.keys.toList()) {
       if (_bytes <= capacityBytes && _entries.length <= 500) break;
       final String logical = _logical(key);
