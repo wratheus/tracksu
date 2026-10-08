@@ -15,6 +15,7 @@ import 'package:tracksu/src/guest/widgets/guest_shell.dart';
 import 'package:tracksu/src/guest/widgets/search_home.dart';
 import 'package:tracksu/src/news/domain/news.dart';
 import 'package:tracksu/src/news/main.dart';
+import 'package:tracksu/src/osu_hub/main.dart';
 import 'package:tracksu/src/profile/domain/profile_params.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
@@ -50,7 +51,7 @@ final class TracksuAppRouter {
             for (final (String path, Widget screen) in <(String, Widget)>[
               ('search', const SearchHome()),
               ('rankings', const RankingsMain()),
-              ('news', const NewsMain()),
+              ('news', const OsuHubMain()),
             ])
               StatefulShellBranch(
                 restorationScopeId: '${path}_branch',

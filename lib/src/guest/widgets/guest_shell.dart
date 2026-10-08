@@ -67,9 +67,9 @@ final class _GuestShellState extends State<GuestShell> {
                   selectedIcon: Icons.leaderboard,
                 ),
                 UiNavigationItem(
-                  label: context.t.newsTitle,
-                  icon: Icons.newspaper_outlined,
-                  selectedIcon: Icons.newspaper,
+                  label: context.t.hubTitle,
+                  icon: Icons.explore_outlined,
+                  selectedIcon: Icons.explore,
                 ),
               ],
             ),

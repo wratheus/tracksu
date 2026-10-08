@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### osu! tab and changelog (P50, wave 2 step 1)
+
+- The News tab becomes **osu!** with News and Changelog pages switched by the
+  segmented control or a swipe; each page keeps its scroll and refreshes by
+  pulling down.
+- Changelog shows every update stream (latest version, active players) and
+  builds with entries grouped by category, add/fix/misc markers, authors and
+  pull requests. Entries expand to their full text and open on GitHub.
+
 ### Profile activity and lazer grades (P49, wave 1)
 
 - Grades SS/S/A/B/C/D/F are drawn like osu!lazer: a pill in the grade colour

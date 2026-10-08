@@ -138,7 +138,7 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   opening your profile, switching accounts and signing out.
 - List/detail sheets fit content initially and can expand by dragging, without
   eagerly laying out full API-backed lists.
-- Search / Rankings / News have independent retained stacks. The bottom bar
+- Search / Rankings / osu! have independent retained stacks. The bottom bar
   stays visible on profile, beatmap and article details.
 - Switching tabs preserves the destination's stack. Tapping the active tab
   returns to its root and scrolls to the top without refreshing or resetting filters.
@@ -165,6 +165,14 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   Without a signed-in user osu! ignores sorting and advanced query syntax.
 - Search, rankings and profile use the shared UI kit AppBar. Ranking share links
   follow the selected Players / Teams / Countries / Kudosu page.
+
+### osu! tab: news and changelog
+
+- The third tab, **osu!**, holds News and Changelog pages: tap the switch or
+  swipe between them; each keeps its scroll and refreshes by pulling down.
+- Changelog lists builds of every update stream (Stable, Beta, Cutting Edge,
+  Lazer, Web) with entries grouped by category, authors and pull requests,
+  filterable by stream and paged to older builds.
 
 ### News and comments
 
