@@ -56,6 +56,9 @@ enum AudioPlaybackFailure {
 /// prepares a fresh decoder at the saved position; pause frees decoder buffers.
 /// Already requested public media may finish caching after its view is released.
 final class AudioPlaybackController extends ChangeNotifier {
+  /// Player gain for previews (0..1); the system volume still applies on top.
+  static const double previewVolume = .35;
+
   factory AudioPlaybackController({required MediaCacheRepository repository}) =>
       AudioPlaybackController._(repository);
   AudioPlaybackController._(this._repository);
@@ -143,6 +146,9 @@ final class AudioPlaybackController extends ChangeNotifier {
         useProxyForRequestHeaders: false,
       );
       _player = player;
+      // osu! previews are mastered loud; full gain is harsh even at low
+      // system volume, so previews play at a fixed, quieter level.
+      unawaited(player.setVolume(previewVolume));
       _subscriptions.addAll([
         player.playerStateStream.listen((PlayerState state) {
           if (!_current(generation)) return;
