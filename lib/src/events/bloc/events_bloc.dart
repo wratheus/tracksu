@@ -8,16 +8,27 @@ sealed class OsuEventsEvent {
   const OsuEventsEvent();
 }
 
-final class OsuEventsStarted extends OsuEventsEvent {
+/// Requests that read the API; handled one at a time.
+sealed class OsuEventsLoadEvent extends OsuEventsEvent {
+  const OsuEventsLoadEvent();
+}
+
+final class OsuEventsStarted extends OsuEventsLoadEvent {
   const OsuEventsStarted();
 }
 
-final class OsuEventsRefreshRequested extends OsuEventsEvent {
+final class OsuEventsRefreshRequested extends OsuEventsLoadEvent {
   const OsuEventsRefreshRequested();
 }
 
-final class OsuEventsMoreRequested extends OsuEventsEvent {
+final class OsuEventsMoreRequested extends OsuEventsLoadEvent {
   const OsuEventsMoreRequested();
+}
+
+/// Client-side grouping; the loaded feed is kept, only the view changes.
+final class OsuEventsFilterSelected extends OsuEventsEvent {
+  const OsuEventsFilterSelected(this.filter);
+  final OsuEventFilter filter;
 }
 
 enum OsuEventsOperation { refresh, loadMore }
@@ -26,12 +37,14 @@ enum OsuEventsOperation { refresh, loadMore }
 /// the visible rows and records [failure] with its [failedOperation].
 final class OsuEventsState {
   const OsuEventsState({
+    this.filter = OsuEventFilter.all,
     this.items,
     this.cursor,
     this.operation,
     this.failure,
     this.failedOperation,
   });
+  final OsuEventFilter filter;
   final List<OsuEvent>? items;
   final String? cursor;
   final OsuEventsOperation? operation;
@@ -39,6 +52,20 @@ final class OsuEventsState {
   final OsuEventsOperation? failedOperation;
 
   bool get busy => operation != null;
+
+  /// Rows of the selected group, in feed order.
+  List<OsuEvent>? get visible => items
+      ?.where((OsuEvent event) => filter.matches(event.kind))
+      .toList(growable: false);
+
+  OsuEventsState copyWith({OsuEventFilter? filter}) => OsuEventsState(
+    filter: filter ?? this.filter,
+    items: items,
+    cursor: cursor,
+    operation: operation,
+    failure: failure,
+    failedOperation: failedOperation,
+  );
 }
 
 /// Global osu! feed: first page cached for the session, cursor paging.
@@ -49,15 +76,23 @@ final class OsuEventsBloc extends Bloc<OsuEventsEvent, OsuEventsState> {
   }) : _repository = repository,
        _cache = cache,
        super(const OsuEventsState()) {
-    on<OsuEventsEvent>(_onEvent, transformer: sequential());
+    on<OsuEventsLoadEvent>(_onLoad, transformer: sequential());
+    // Switching the group never waits for a request in flight.
+    on<OsuEventsFilterSelected>(
+      (OsuEventsFilterSelected event, Emitter<OsuEventsState> emit) {
+        if (event.filter != state.filter) {
+          emit(state.copyWith(filter: event.filter));
+        }
+      },
+    );
   }
 
   final OsuEventsRepository _repository;
   final PageCache _cache;
   static const Object _cacheKey = 'osu-events';
 
-  Future<void> _onEvent(
-    OsuEventsEvent event,
+  Future<void> _onLoad(
+    OsuEventsLoadEvent event,
     Emitter<OsuEventsState> emit,
   ) async {
     final OsuEventsOperation operation;
@@ -85,7 +120,14 @@ final class OsuEventsBloc extends Bloc<OsuEventsEvent, OsuEventsState> {
         cursor = cached.cursor;
       }
     }
-    emit(OsuEventsState(items: items, cursor: cursor, operation: operation));
+    emit(
+      OsuEventsState(
+        filter: state.filter,
+        items: items,
+        cursor: cursor,
+        operation: operation,
+      ),
+    );
     try {
       final OsuEventsPage page = await _repository.load(
         cursor: operation == OsuEventsOperation.loadMore ? cursor : null,
@@ -102,6 +144,7 @@ final class OsuEventsBloc extends Bloc<OsuEventsEvent, OsuEventsState> {
       };
       emit(
         OsuEventsState(
+          filter: state.filter,
           items: unique.values.toList(growable: false),
           cursor: page.cursor,
         ),
@@ -114,6 +157,7 @@ final class OsuEventsBloc extends Bloc<OsuEventsEvent, OsuEventsState> {
       addError(OsuEventsFailure(kind), stackTrace);
       emit(
         OsuEventsState(
+          filter: state.filter,
           items: items,
           cursor: cursor,
           failure: kind,

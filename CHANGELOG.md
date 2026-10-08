@@ -9,6 +9,9 @@
   supporter tags and name changes, with the player's name on each row.
 - Rows open the beatmap, the beatmapset or the player's profile; older events
   load at the end. Profile activity shares the same rows.
+- Events can be narrowed to Ranks, Medals, Beatmaps or Supporters and names.
+  The API has no type filter, so the app groups loaded events and keeps
+  loading older ones while the chosen group is still short.
 
 ### osu! tab and changelog (P50, wave 2 step 1)
 

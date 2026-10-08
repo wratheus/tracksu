@@ -2010,4 +2010,22 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get eventsFailed => 'イベントを読み込めませんでした';
+
+  @override
+  String get eventsFilter => 'イベントの種類';
+
+  @override
+  String get eventsAll => 'すべてのイベント';
+
+  @override
+  String get eventsRanks => 'ランク';
+
+  @override
+  String get eventsMedals => 'メダル';
+
+  @override
+  String get eventsBeatmaps => 'ビートマップ';
+
+  @override
+  String get eventsSupporters => 'サポーターと名前';
 }

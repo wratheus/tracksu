@@ -2108,4 +2108,22 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get eventsFailed => 'Не удалось загрузить события';
+
+  @override
+  String get eventsFilter => 'Тип событий';
+
+  @override
+  String get eventsAll => 'Все события';
+
+  @override
+  String get eventsRanks => 'Рекорды';
+
+  @override
+  String get eventsMedals => 'Медали';
+
+  @override
+  String get eventsBeatmaps => 'Карты';
+
+  @override
+  String get eventsSupporters => 'Supporter и ники';
 }

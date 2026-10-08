@@ -552,5 +552,11 @@
   "eventsTitle": "Eventos",
   "eventsLoading": "Cargando eventos",
   "eventsEmpty": "Aún no hay eventos",
-  "eventsFailed": "No se pudieron cargar los eventos"
+  "eventsFailed": "No se pudieron cargar los eventos",
+  "eventsFilter": "Tipo de evento",
+  "eventsAll": "Todos los eventos",
+  "eventsRanks": "Puestos",
+  "eventsMedals": "Medallas",
+  "eventsBeatmaps": "Mapas",
+  "eventsSupporters": "Supporters y nombres"
 }

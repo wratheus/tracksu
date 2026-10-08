@@ -1861,5 +1861,29 @@
   "eventsFailed": "Couldn't load events",
   "@eventsFailed": {
     "description": "Global events could not be loaded."
+  },
+  "eventsFilter": "Event type",
+  "@eventsFilter": {
+    "description": "Global events: picker title for the event group."
+  },
+  "eventsAll": "All events",
+  "@eventsAll": {
+    "description": "Global events group: everything."
+  },
+  "eventsRanks": "Ranks",
+  "@eventsRanks": {
+    "description": "Global events group: leaderboard ranks and lost first places."
+  },
+  "eventsMedals": "Medals",
+  "@eventsMedals": {
+    "description": "Global events group: unlocked medals."
+  },
+  "eventsBeatmaps": "Beatmaps",
+  "@eventsBeatmaps": {
+    "description": "Global events group: beatmap uploads, updates and status changes."
+  },
+  "eventsSupporters": "Supporters and names",
+  "@eventsSupporters": {
+    "description": "Global events group: osu!supporter tags and username changes."
   }
 }

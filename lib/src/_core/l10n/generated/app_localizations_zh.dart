@@ -1996,4 +1996,22 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get eventsFailed => '无法加载动态';
+
+  @override
+  String get eventsFilter => '动态类型';
+
+  @override
+  String get eventsAll => '全部动态';
+
+  @override
+  String get eventsRanks => '排名';
+
+  @override
+  String get eventsMedals => '奖章';
+
+  @override
+  String get eventsBeatmaps => '谱面';
+
+  @override
+  String get eventsSupporters => '支持者与改名';
 }

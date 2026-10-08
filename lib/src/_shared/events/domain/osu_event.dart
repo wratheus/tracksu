@@ -67,3 +67,36 @@ final class OsuEvent {
   final String? username;
   final String? previousUsername;
 }
+
+/// Feed filters: the API has no type filter, so the client groups the
+/// event types it already parses.
+enum OsuEventFilter {
+  all,
+  ranks,
+  medals,
+  beatmaps,
+  supporters;
+
+  bool matches(OsuEventKind kind) => switch (this) {
+    OsuEventFilter.all => true,
+    OsuEventFilter.ranks =>
+      kind == OsuEventKind.rank || kind == OsuEventKind.rankLost,
+    OsuEventFilter.medals => kind == OsuEventKind.achievement,
+    OsuEventFilter.beatmaps => switch (kind) {
+      OsuEventKind.beatmapPlaycount ||
+      OsuEventKind.beatmapsetApprove ||
+      OsuEventKind.beatmapsetDelete ||
+      OsuEventKind.beatmapsetRevive ||
+      OsuEventKind.beatmapsetUpdate ||
+      OsuEventKind.beatmapsetUpload => true,
+      _ => false,
+    },
+    OsuEventFilter.supporters => switch (kind) {
+      OsuEventKind.userSupportAgain ||
+      OsuEventKind.userSupportFirst ||
+      OsuEventKind.userSupportGift ||
+      OsuEventKind.usernameChange => true,
+      _ => false,
+    },
+  };
+}

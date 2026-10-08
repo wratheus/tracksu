@@ -552,5 +552,11 @@
   "eventsTitle": "イベント",
   "eventsLoading": "イベントを読み込み中",
   "eventsEmpty": "イベントはまだありません",
-  "eventsFailed": "イベントを読み込めませんでした"
+  "eventsFailed": "イベントを読み込めませんでした",
+  "eventsFilter": "イベントの種類",
+  "eventsAll": "すべてのイベント",
+  "eventsRanks": "ランク",
+  "eventsMedals": "メダル",
+  "eventsBeatmaps": "ビートマップ",
+  "eventsSupporters": "サポーターと名前"
 }

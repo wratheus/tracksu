@@ -2102,4 +2102,22 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eventsFailed => 'No se pudieron cargar los eventos';
+
+  @override
+  String get eventsFilter => 'Tipo de evento';
+
+  @override
+  String get eventsAll => 'Todos los eventos';
+
+  @override
+  String get eventsRanks => 'Puestos';
+
+  @override
+  String get eventsMedals => 'Medallas';
+
+  @override
+  String get eventsBeatmaps => 'Mapas';
+
+  @override
+  String get eventsSupporters => 'Supporters y nombres';
 }

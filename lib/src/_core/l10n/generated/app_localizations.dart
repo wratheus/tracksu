@@ -3413,6 +3413,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t load events'**
   String get eventsFailed;
+
+  /// Global events: picker title for the event group.
+  ///
+  /// In en, this message translates to:
+  /// **'Event type'**
+  String get eventsFilter;
+
+  /// Global events group: everything.
+  ///
+  /// In en, this message translates to:
+  /// **'All events'**
+  String get eventsAll;
+
+  /// Global events group: leaderboard ranks and lost first places.
+  ///
+  /// In en, this message translates to:
+  /// **'Ranks'**
+  String get eventsRanks;
+
+  /// Global events group: unlocked medals.
+  ///
+  /// In en, this message translates to:
+  /// **'Medals'**
+  String get eventsMedals;
+
+  /// Global events group: beatmap uploads, updates and status changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Beatmaps'**
+  String get eventsBeatmaps;
+
+  /// Global events group: osu!supporter tags and username changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Supporters and names'**
+  String get eventsSupporters;
 }
 
 class _AppLocalizationsDelegate

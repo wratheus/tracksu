@@ -552,5 +552,11 @@
   "eventsTitle": "动态",
   "eventsLoading": "正在加载动态",
   "eventsEmpty": "暂无动态",
-  "eventsFailed": "无法加载动态"
+  "eventsFailed": "无法加载动态",
+  "eventsFilter": "动态类型",
+  "eventsAll": "全部动态",
+  "eventsRanks": "排名",
+  "eventsMedals": "奖章",
+  "eventsBeatmaps": "谱面",
+  "eventsSupporters": "支持者与改名"
 }

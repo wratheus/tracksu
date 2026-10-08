@@ -552,5 +552,11 @@
   "eventsTitle": "События",
   "eventsLoading": "Загружаем события",
   "eventsEmpty": "Событий пока нет",
-  "eventsFailed": "Не удалось загрузить события"
+  "eventsFailed": "Не удалось загрузить события",
+  "eventsFilter": "Тип событий",
+  "eventsAll": "Все события",
+  "eventsRanks": "Рекорды",
+  "eventsMedals": "Медали",
+  "eventsBeatmaps": "Карты",
+  "eventsSupporters": "Supporter и ники"
 }
