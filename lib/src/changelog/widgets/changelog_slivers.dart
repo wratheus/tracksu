@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart'
     show HtmlWidget;
 import 'package:intl/intl.dart';
+import 'package:tracksu/src/_shared/navigation/external_links.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/relative_time.dart';
 import 'package:tracksu/src/changelog/bloc/bloc.dart';
 import 'package:tracksu/src/changelog/domain/changelog.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Stream colours of osu.ppy.sh/home/changelog (osu-web `variables.less`).
 Color changelogStreamColour(String? stream) => switch (stream) {
@@ -304,7 +304,7 @@ final class _EntryRowState extends State<_EntryRow> {
 
   Future<void> _open(Uri uri) async {
     try {
-      if (!await launchUrl(uri, mode: LaunchMode.externalApplication) &&
+      if (!await ExternalLinks.open(uri) &&
           mounted) {
         UiFeedback.snack(context, message: context.t.contentLinkFailed);
       }

@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/navigation/external_links.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
@@ -6,7 +7,6 @@ import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Groups of profile detail cards, placed separately in the overview so the
 /// page follows osu.ppy.sh order.
@@ -42,7 +42,7 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
     if (_opening) return;
     setState(() => _opening = true);
     try {
-      if (!await launchUrl(uri, mode: LaunchMode.externalApplication) &&
+      if (!await ExternalLinks.open(uri) &&
           mounted) {
         UiFeedback.snack(context, message: context.t.contentLinkFailed);
       }

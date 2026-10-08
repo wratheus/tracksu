@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/navigation/external_links.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
 import 'package:tracksu/src/_shared/content/domain/content_page.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// Optional rich content stays collapsed until requested; large content uses
 /// the renderer's sliver mode rather than a shrink-wrapped page column.
@@ -38,7 +38,7 @@ final class _ContentPageSectionState extends State<ContentPageSection> {
     setState(() => _opening = true);
     try {
       if (uri == null ||
-          !await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+          !await ExternalLinks.open(uri)) {
         if (mounted) {
           UiFeedback.snack(context, message: context.t.contentLinkFailed);
         }

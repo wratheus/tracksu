@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/navigation/external_links.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +9,6 @@ import 'package:tracksu/src/comments/domain/comment.dart';
 import 'package:tracksu/src/comments/main.dart';
 import 'package:tracksu/src/comments/widgets/comments_section.dart';
 import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 final class NewsPostHeading extends StatelessWidget {
@@ -57,7 +57,7 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
     setState(() => _opening = true);
     try {
       if (uri == null ||
-          !await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+          !await ExternalLinks.open(uri)) {
         if (mounted) _showFailure();
       }
     } on Object {

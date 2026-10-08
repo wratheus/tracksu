@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/navigation/external_links.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
@@ -13,7 +14,6 @@ import 'package:tracksu/src/team/bloc/bloc.dart';
 import 'package:tracksu/src/team/domain/team.dart';
 import 'package:tracksu/src/team/widgets/member_row.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 final class TeamContent extends StatelessWidget {
   const TeamContent({
@@ -30,7 +30,7 @@ final class TeamContent extends StatelessWidget {
     final Uri? uri = PublicWebLink.resolve(url, base: data.uri);
     if (uri == null) return false;
     try {
-      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+      return await ExternalLinks.open(uri);
     } on Object {
       return false;
     }

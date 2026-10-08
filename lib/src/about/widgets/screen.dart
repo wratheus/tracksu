@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/navigation/external_links.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
@@ -8,7 +9,6 @@ import 'package:tracksu/src/profile/domain/profile_params.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 /// osu! accounts of the people behind Tracksu, in display order.
 const List<({int id, String name, bool author})> _people =
@@ -88,7 +88,7 @@ final class _AboutTabs extends StatelessWidget {
 
 Future<void> _openLink(BuildContext context, Uri uri) async {
   try {
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication) &&
+    if (!await ExternalLinks.open(uri) &&
         context.mounted) {
       UiFeedback.snack(context, message: context.t.aboutLinkFailed);
     }
