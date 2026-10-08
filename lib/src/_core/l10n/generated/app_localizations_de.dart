@@ -2239,4 +2239,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get settingsImages => 'Bilder';
+
+  @override
+  String get navigationHome => 'Start';
 }

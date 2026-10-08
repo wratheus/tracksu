@@ -587,5 +587,6 @@
   "forumReplies": "{count, plural, other{返信 {count} 件}}",
   "forumViews": "{count, plural, other{閲覧 {count} 回}}",
   "forumPostUnavailable": "この投稿はここでは表示できません",
-  "settingsImages": "画像"
+  "settingsImages": "画像",
+  "navigationHome": "ホーム"
 }

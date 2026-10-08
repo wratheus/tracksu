@@ -52,17 +52,30 @@ final class TracksuAppRouter {
                     child: GuestShell(navigationShell: shell),
                   ),
           branches: <StatefulShellBranch>[
-            for (final (String path, Widget screen) in <(String, Widget)>[
-              ('search', const SearchHome()),
-              ('rankings', const RankingsMain()),
-              ('news', const OsuHubMain()),
+            // Order = ShellTab: home (kept at /search for old links),
+            // rankings, osu!, and the separate search tab.
+            for (final String path in <String>[
+              'search',
+              'rankings',
+              'news',
+              'find',
             ])
               StatefulShellBranch(
                 restorationScopeId: '${path}_branch',
                 routes: <RouteBase>[
                   GoRoute(
                     path: '/$path',
-                    builder: (_, _) => screen,
+                    builder: (_, GoRouterState state) => switch (path) {
+                      'rankings' => const RankingsMain(),
+                      'news' => const OsuHubMain(),
+                      // A new query (deep link, "search maps") starts fresh;
+                      // returning to the tab keeps the same screen.
+                      'find' => SearchMain(
+                        key: ValueKey<String>(state.uri.query),
+                        params: _searchParams(state),
+                      ),
+                      _ => const SearchHome(),
+                    },
                     routes: <RouteBase>[
                       ..._detailRoutes(),
                       GoRoute(
@@ -190,29 +203,25 @@ final class TracksuAppRouter {
     GoRoute(
       path: 'beatmaps',
       redirect: (_, GoRouterState state) => Uri(
-        path: state.uri.path.replaceFirst(RegExp(r'/beatmaps$'), '/find'),
+        path: '/find',
         queryParameters: {...state.uri.queryParameters, 'tab': 'maps'},
       ).toString(),
     ),
-    GoRoute(
-      path: 'find',
-      builder: (_, GoRouterState state) => SearchMain(
-        params: SearchParams(
-          tab: switch (state.uri.queryParameters['tab']) {
-            'maps' => SearchTab.maps,
-            'wiki' => SearchTab.wiki,
-            _ => SearchTab.players,
-          },
-          // Bounded so a pasted deep link cannot carry an unbounded query.
-          text: (state.uri.queryParameters['q'] ?? '')
-              .trim()
-              .characters
-              .take(200)
-              .toString(),
-        ),
-      ),
-    ),
   ];
+
+  static SearchParams _searchParams(GoRouterState state) => SearchParams(
+    tab: switch (state.uri.queryParameters['tab']) {
+      'maps' => SearchTab.maps,
+      'wiki' => SearchTab.wiki,
+      _ => SearchTab.players,
+    },
+    // Bounded so a pasted deep link cannot carry an unbounded query.
+    text: (state.uri.queryParameters['q'] ?? '')
+        .trim()
+        .characters
+        .take(200)
+        .toString(),
+  );
 
   String get _branchPath =>
       '/${config.routerDelegate.currentConfiguration.uri.pathSegments.first}';
@@ -305,9 +314,10 @@ final class TracksuAppRouter {
     BuildContext context, {
     String text = '',
     SearchTab tab = SearchTab.players,
-  }) => config.push<void>(
+  }) async => config.go(
+    // The search tab of the bottom bar, not a page on the current stack.
     Uri(
-      path: '$_branchPath/find',
+      path: '/find',
       queryParameters: {
         if (text.trim().isNotEmpty) 'q': text.trim(),
         'tab': tab.name,

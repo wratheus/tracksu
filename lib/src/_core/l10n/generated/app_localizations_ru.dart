@@ -2245,4 +2245,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsImages => 'Изображения';
+
+  @override
+  String get navigationHome => 'Главная';
 }

@@ -132,14 +132,15 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 ### Navigation
 
-- Start in Search as a guest; login is optional in the account menu.
-- Settings is a separate page for external-image permission and account actions.
-  The top account menu shows your avatar after authentication and supports
-  opening your profile, switching accounts and signing out.
+- Start on Home as a guest; login is optional in the account menu.
+- Every app bar carries at most two actions, share and account (iOS
+  guidelines). The account menu shows your avatar after authentication and
+  opens your profile, switches accounts, signs out and opens Settings.
 - List/detail sheets fit content initially and can expand by dragging, without
   eagerly laying out full API-backed lists.
-- Search / Rankings / osu! have independent retained stacks. The bottom bar
-  stays visible on profile, beatmap and article details.
+- Home / Rankings / osu! and the separate round Search tab (iOS 26 search
+  tab) have independent retained stacks. The bottom bar stays visible on
+  profile, beatmap and article details.
 - Switching tabs preserves the destination's stack. Tapping the active tab
   returns to its root and scrolls to the top without refreshing or resetting filters.
 - Long browsing pages also offer a return-to-top button. Scrollable clearance
@@ -154,8 +155,9 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 ### Unified search
 
-- A search pill in every app bar opens search; the field sits in the bar
-  with Players / Maps / Wiki tabs below, available without signing in.
+- The round search button in the bottom bar opens the Search tab: Players /
+  Maps / Wiki tabs under the bar, the field at the bottom above the keyboard;
+  tapping the tab again brings the keyboard back. No sign-in needed.
   Typing two or more characters searches after 400 ms; Enter searches immediately.
   Switching tabs keeps the text and queries only the active tab. Empty input
   makes no search request. Old requests are cancelled and results cache for two minutes.

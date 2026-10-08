@@ -14,7 +14,8 @@ import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Account entry point shown on every AppBar: sign in as a guest, or open the
-/// own profile, switch account and sign out when authenticated.
+/// own profile, switch account and sign out when authenticated; settings are
+/// always the last item (the bar keeps two actions).
 final class AccountButton extends StatefulWidget {
   const AccountButton({super.key});
 
@@ -37,6 +38,8 @@ final class _AccountButtonState extends State<AccountButton> {
           await deps.appRouter.openCurrentProfile(context);
         case _AccountSelection.signOut:
           await SignOutAction.show(context);
+        case _AccountSelection.settings:
+          await deps.appRouter.openSettings(context);
       }
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -103,6 +106,14 @@ final class _AccountButtonState extends State<AccountButton> {
             icon: Icons.logout,
           ),
         ),
+      const PopupMenuDivider(),
+      PopupMenuItem<_AccountSelection>(
+        value: _AccountSelection.settings,
+        child: _AccountMenuLabel(
+          label: context.t.settingsTitle,
+          icon: Icons.settings_outlined,
+        ),
+      ),
     ],
   );
 }
@@ -165,7 +176,7 @@ final class _AccountAvatar {
   }
 }
 
-enum _AccountSelection { signIn, myProfile, signOut }
+enum _AccountSelection { signIn, myProfile, signOut, settings }
 
 final class _AccountMenuLabel extends StatelessWidget {
   const _AccountMenuLabel({required this.label, required this.icon});

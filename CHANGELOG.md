@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Navigation by the iOS guidelines (ADR-010)
+
+- App bars keep two actions, share and account; Settings moved into the
+  account menu. The search pill left the bar.
+- The bottom bar is Home / Rankings / osu! plus a separate round Search
+  button (iOS 26 search tab). Search shows its tabs under the bar and the
+  field at the bottom above the keyboard.
+
 ### Polish
 
 - App bars name the place, not the item: Wiki, Forum, Map of the day. Wiki
@@ -10,8 +18,7 @@
   names take two lines.
 - Settings: images is one switch row with the explanation below, like the
   cache group; switches are the app's own chamfered, animated control.
-- The search pill, search field and back button lose their outline; the
-  field no longer draws the theme's focus border inside the bar.
+- The back button loses its outline.
 
 ### Search from every app bar
 

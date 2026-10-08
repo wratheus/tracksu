@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
 
 /// Shell destinations in StatefulShellRoute branch order.
-enum ShellTab { search, rankings, news }
+/// `home` is the landing page (route `/search` for old links), `find` the
+/// separate search tab.
+enum ShellTab { home, rankings, news, find }
 
 final class _ReselectNotifier extends ChangeNotifier {
   void request() => notifyListeners();

@@ -3623,6 +3623,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Images'**
   String get settingsImages;
+
+  /// Bottom tab: the landing page (map of the day, spotlights).
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navigationHome;
 }
 
 class _AppLocalizationsDelegate

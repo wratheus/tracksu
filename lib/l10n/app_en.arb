@@ -2013,5 +2013,9 @@
   "settingsImages": "Images",
   "@settingsImages": {
     "description": "Settings group with the image loading switch."
+  },
+  "navigationHome": "Home",
+  "@navigationHome": {
+    "description": "Bottom tab: the landing page (map of the day, spotlights)."
   }
 }

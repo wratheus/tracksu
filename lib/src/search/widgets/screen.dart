@@ -7,6 +7,7 @@ import 'package:tracksu/src/wiki/widgets/wiki_search_results.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
+import 'package:tracksu/src/_shared/navigation/shell_reselect.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:tracksu/src/_shared/ui/avatar_bands.dart';
@@ -51,8 +52,29 @@ final class _SearchScreenState extends State<SearchScreen> {
     _submit();
   }
 
+  /// Tapping the search tab again brings the keyboard back.
+  final FocusNode _focus = FocusNode();
+  Listenable? _reselect;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final Listenable? reselect = ShellReselectScope.maybeOf(
+      context,
+      ShellTab.find,
+    );
+    if (!identical(reselect, _reselect)) {
+      _reselect?.removeListener(_focusField);
+      _reselect = reselect?..addListener(_focusField);
+    }
+  }
+
+  void _focusField() => _focus.requestFocus();
+
   @override
   void dispose() {
+    _reselect?.removeListener(_focusField);
+    _focus.dispose();
     _debounce?.cancel();
     _text.dispose();
     super.dispose();
@@ -160,26 +182,12 @@ final class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: UiAppBar(
-      // The field takes the title's place; the pill on other screens grows
-      // into it (shared hero).
-      title: UiAppBarSearchField(
-        controller: _text,
-        hint: switch (_tab) {
-          SearchTab.players => context.t.profileSearchHint,
-          SearchTab.maps => context.t.beatmapSearchHint,
-          SearchTab.wiki => context.t.wikiSearchHint,
-        },
-        clearLabel: context.t.searchClear,
-        // Opening search means typing: the keyboard comes up at once.
-        autofocus: true,
-        onSubmitted: (_) => _submit(),
-      ),
+      title: UiText.titleLarge(context.t.navigationSearch),
       actions: <Widget>[
         ValueListenableBuilder<TextEditingValue>(
           valueListenable: _text,
           builder: (BuildContext context, TextEditingValue value, _) =>
               AppBarActions(
-                search: false,
                 share: switch (_tab) {
                   SearchTab.players => ShareTarget.playerSearch(
                     value.text,
@@ -251,16 +259,45 @@ final class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     ),
+    // iOS 26 search tab: results above, the field at the bottom within
+    // thumb reach and right above the keyboard (the bottom bar hides then).
     body: SafeArea(
       top: false,
-      child: switch (_tab) {
-        SearchTab.maps => const BeatmapSearchResults(),
-        SearchTab.wiki => const WikiSearchResults(),
-        SearchTab.players => _Players(
-          onOpen: _opening ? null : _open,
-          openFailure: _openFailure,
-        ),
-      },
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: switch (_tab) {
+              SearchTab.maps => const BeatmapSearchResults(),
+              SearchTab.wiki => const WikiSearchResults(),
+              SearchTab.players => _Players(
+                onOpen: _opening ? null : _open,
+                openFailure: _openFailure,
+              ),
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              UiSpace.lg,
+              UiSpace.sm,
+              UiSpace.lg,
+              UiSpace.sm,
+            ),
+            child: UiSearchBar(
+              controller: _text,
+              focusNode: _focus,
+              hint: switch (_tab) {
+                SearchTab.players => context.t.profileSearchHint,
+                SearchTab.maps => context.t.beatmapSearchHint,
+                SearchTab.wiki => context.t.wikiSearchHint,
+              },
+              clearLabel: context.t.searchClear,
+              // Opening search means typing: the keyboard comes up at once.
+              autofocus: true,
+              onSubmitted: (_) => _submit(),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

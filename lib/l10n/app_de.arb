@@ -587,5 +587,6 @@
   "forumReplies": "{count, plural, one{{count} Antwort} other{{count} Antworten}}",
   "forumViews": "{count, plural, one{{count} Aufruf} other{{count} Aufrufe}}",
   "forumPostUnavailable": "Dieser Beitrag kann hier nicht angezeigt werden",
-  "settingsImages": "Bilder"
+  "settingsImages": "Bilder",
+  "navigationHome": "Start"
 }

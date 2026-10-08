@@ -2140,4 +2140,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get settingsImages => '画像';
+
+  @override
+  String get navigationHome => 'ホーム';
 }

@@ -18,6 +18,7 @@ final class _GuestShellState extends State<GuestShell> {
   final ShellReselectController _reselect = ShellReselectController();
 
   StatefulNavigationShell get _shell => widget.navigationShell;
+  static final int _searchIndex = ShellTab.find.index;
 
   @override
   void dispose() {
@@ -54,12 +55,19 @@ final class _GuestShellState extends State<GuestShell> {
       bottomNavigationBar: MediaQuery.viewInsetsOf(context).bottom > 0
           ? null
           : UiNavigationBar(
-              selectedIndex: _shell.currentIndex,
+              // The last branch is search: its own round button.
+              selectedIndex: _shell.currentIndex == _searchIndex
+                  ? null
+                  : _shell.currentIndex,
               onSelected: _select,
+              search: context.t.navigationSearch,
+              searchSelected: _shell.currentIndex == _searchIndex,
+              onSearch: () => _select(_searchIndex),
               items: <UiNavigationItem>[
                 UiNavigationItem(
-                  label: context.t.navigationSearch,
-                  icon: Icons.search,
+                  label: context.t.navigationHome,
+                  icon: Icons.home_outlined,
+                  selectedIcon: Icons.home_rounded,
                 ),
                 UiNavigationItem(
                   label: context.t.rankingsTitle,

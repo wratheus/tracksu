@@ -2228,4 +2228,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsImages => 'Images';
+
+  @override
+  String get navigationHome => 'Accueil';
 }

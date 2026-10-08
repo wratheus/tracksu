@@ -91,7 +91,7 @@ final class _SearchHomeState extends State<SearchHome> {
     ),
     body: UiScrollToTop(
       tooltip: context.t.scrollToTop,
-      scrollRequests: ShellReselectScope.maybeOf(context, ShellTab.search),
+      scrollRequests: ShellReselectScope.maybeOf(context, ShellTab.home),
       child: SafeArea(
         top: false,
         child: RefreshIndicator(

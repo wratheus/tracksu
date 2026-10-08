@@ -2125,4 +2125,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsImages => '图片';
+
+  @override
+  String get navigationHome => '首页';
 }
