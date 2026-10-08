@@ -71,8 +71,9 @@ final class _SearchScreenState extends State<SearchScreen> {
   void _edited() {
     final TextEditingValue value = _text.value;
     if (value.text == _previousValue.text &&
-        value.composing == _previousValue.composing)
+        value.composing == _previousValue.composing) {
       return;
+    }
     _previousValue = value;
     _typed();
   }
