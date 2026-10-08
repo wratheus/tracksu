@@ -22,11 +22,10 @@ final class ForumBoardState {
 
   bool get busy => operation != null;
 
-  ForumBoardState copyWith({ForumBoardOperation? operation}) =>
-      ForumBoardState(
-        board: board,
-        topics: topics,
-        cursor: cursor,
-        operation: operation,
-      );
+  ForumBoardState copyWith({ForumBoardOperation? operation}) => ForumBoardState(
+    board: board,
+    topics: topics,
+    cursor: cursor,
+    operation: operation,
+  );
 }

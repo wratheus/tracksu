@@ -15,8 +15,10 @@ abstract final class MarkdownContent {
     if (source.length > _maxSource) {
       throw const FormatException('Markdown too large.');
     }
-    final String body = source
-        .replaceFirst(RegExp(r'^---\r?\n[\s\S]*?\r?\n---\r?\n'), '');
+    final String body = source.replaceFirst(
+      RegExp(r'^---\r?\n[\s\S]*?\r?\n---\r?\n'),
+      '',
+    );
     return md.markdownToHtml(
       _containers(body),
       extensionSet: md.ExtensionSet.gitHubFlavored,

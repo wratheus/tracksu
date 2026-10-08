@@ -135,8 +135,8 @@ abstract final class ForumLinks {
   static int? boardId(Uri uri) => switch (uri.pathSegments
       .where((String part) => part.isNotEmpty)
       .toList()) {
-    ['community', 'forums', final String id] || ['forum', final String id] =>
-      _id(id),
+    ['community', 'forums', final String id] ||
+    ['forum', final String id] => _id(id),
     _ => null,
   };
 

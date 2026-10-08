@@ -24,12 +24,11 @@ final class ForumTopicState {
 
   bool get busy => operation != null;
 
-  ForumTopicState copyWith({ForumTopicOperation? operation}) =>
-      ForumTopicState(
-        topic: topic,
-        posts: posts,
-        authors: authors,
-        cursor: cursor,
-        operation: operation,
-      );
+  ForumTopicState copyWith({ForumTopicOperation? operation}) => ForumTopicState(
+    topic: topic,
+    posts: posts,
+    authors: authors,
+    cursor: cursor,
+    operation: operation,
+  );
 }

@@ -172,8 +172,7 @@ final class TracksuAppRouter {
       path: 'web',
       redirect: (_, GoRouterState state) =>
           _webUri(state) == null ? '/search' : null,
-      builder: (_, GoRouterState state) =>
-          WebPageScreen(uri: _webUri(state)!),
+      builder: (_, GoRouterState state) => WebPageScreen(uri: _webUri(state)!),
     ),
     GoRoute(
       path: 'forums/:id',

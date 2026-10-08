@@ -82,8 +82,9 @@ final class _AuthorizationScreenState extends State<AuthorizationScreen>
                                 ? context.t.signingIn
                                 : context.t.openingOsu,
                           ),
-                        if (state
-                            case AuthorizationFailureState(:final failure))
+                        if (state case AuthorizationFailureState(
+                          :final failure,
+                        ))
                           UiContentState.error(
                             title: switch (failure) {
                               AuthorizationFailure.expired =>
