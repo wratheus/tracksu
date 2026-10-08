@@ -548,5 +548,9 @@
   "changelogTypeFix": "Corregido",
   "changelogTypeMisc": "Cambiado",
   "changelogOpenLink": "Abrir en el navegador",
-  "settingsCacheEnabled": "Usar caché"
+  "settingsCacheEnabled": "Usar caché",
+  "eventsTitle": "Eventos",
+  "eventsLoading": "Cargando eventos",
+  "eventsEmpty": "Aún no hay eventos",
+  "eventsFailed": "No se pudieron cargar los eventos"
 }

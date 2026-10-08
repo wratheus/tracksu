@@ -6,11 +6,13 @@ import 'package:tracksu/src/_shared/navigation/shell_reselect.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/changelog/bloc/bloc.dart';
 import 'package:tracksu/src/changelog/widgets/changelog_slivers.dart';
+import 'package:tracksu/src/events/bloc/events_bloc.dart';
+import 'package:tracksu/src/events/widgets/events_slivers.dart';
 import 'package:tracksu/src/news/bloc/bloc.dart';
 import 'package:tracksu/src/news/widgets/screen.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
-enum _HubTab { news, changelog }
+enum _HubTab { news, events, changelog }
 
 /// "osu!" tab: News / Changelog pages under one AppBar, switched by the
 /// segmented control or a swipe (snaps past halfway, as in Rankings). Each
@@ -55,6 +57,8 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
         if (bloc.state case NewsContentState(operation: null)) {
           bloc.add(const NewsRefreshRequested());
         }
+      case _HubTab.events:
+        context.read<OsuEventsBloc>().add(const OsuEventsRefreshRequested());
       case _HubTab.changelog:
         context.read<ChangelogBloc>().add(const ChangelogRefreshRequested());
     }
@@ -70,6 +74,8 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
           builder: (BuildContext context, String? stream) => AppBarActions(
             share: switch (_tab) {
               _HubTab.news => ShareTarget.newsList(context.t.newsTitle),
+              // The website has no page for the global feed.
+              _HubTab.events => null,
               _HubTab.changelog => ShareTarget.changelog(
                 stream,
                 context.t.changelogTitle,
@@ -100,6 +106,11 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
                     icon: const Icon(Icons.newspaper_rounded),
                   ),
                   UiSegment<int>(
+                    value: _HubTab.events.index,
+                    label: context.t.eventsTitle,
+                    icon: const Icon(Icons.bolt_rounded),
+                  ),
+                  UiSegment<int>(
                     value: _HubTab.changelog.index,
                     label: context.t.changelogTitle,
                     icon: const Icon(Icons.update_rounded),
@@ -118,12 +129,19 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
                         state is ChangelogLoadedState &&
                         state.operation == ChangelogOperation.refresh,
                     builder: (BuildContext context, bool changelog) =>
-                        UiAppBarProgress(
-                          visible: switch (_tab) {
-                            _HubTab.news => news,
-                            _HubTab.changelog => changelog,
-                          },
-                          semanticsLabel: context.t.hubTitle,
+                        BlocSelector<OsuEventsBloc, OsuEventsState, bool>(
+                          selector: (OsuEventsState state) =>
+                              state.items != null &&
+                              state.operation == OsuEventsOperation.refresh,
+                          builder: (BuildContext context, bool events) =>
+                              UiAppBarProgress(
+                                visible: switch (_tab) {
+                                  _HubTab.news => news,
+                                  _HubTab.events => events,
+                                  _HubTab.changelog => changelog,
+                                },
+                                semanticsLabel: context.t.hubTitle,
+                              ),
                         ),
                   ),
             ),
@@ -147,6 +165,7 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
               onRefresh: () => _refresh(tab),
               slivers: switch (tab) {
                 _HubTab.news => const <Widget>[NewsSlivers(article: false)],
+                _HubTab.events => const <Widget>[OsuEventsSlivers()],
                 _HubTab.changelog => const <Widget>[ChangelogSlivers()],
               },
             ),

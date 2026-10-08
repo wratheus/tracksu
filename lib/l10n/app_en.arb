@@ -1845,5 +1845,21 @@
   "settingsCacheEnabled": "Keep cache",
   "@settingsCacheEnabled": {
     "description": "Settings switch: keep cached pages, images and audio. Off loads everything anew."
+  },
+  "eventsTitle": "Events",
+  "@eventsTitle": {
+    "description": "osu! hub page: global feed of player events."
+  },
+  "eventsLoading": "Loading events",
+  "@eventsLoading": {
+    "description": "Global events loading label."
+  },
+  "eventsEmpty": "No events yet",
+  "@eventsEmpty": {
+    "description": "Global events: nothing to show."
+  },
+  "eventsFailed": "Couldn't load events",
+  "@eventsFailed": {
+    "description": "Global events could not be loaded."
   }
 }

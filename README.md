@@ -168,8 +168,10 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 ### osu! tab: news and changelog
 
-- The third tab, **osu!**, holds News and Changelog pages: tap the switch or
+- The third tab, **osu!**, holds News, Events and Changelog pages: tap the switch or
   swipe between them; each keeps its scroll and refreshes by pulling down.
+- Events is the live osu! feed: ranks, medals, new and ranked maps,
+  supporter tags and name changes, each opening the map or player.
 - Changelog lists builds of every update stream (Stable, Beta, Cutting Edge,
   Lazer, Web) with entries grouped by category, authors and pull requests,
   filterable by stream and paged to older builds.

@@ -1998,4 +1998,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get settingsCacheEnabled => 'キャッシュを使用';
+
+  @override
+  String get eventsTitle => 'イベント';
+
+  @override
+  String get eventsLoading => 'イベントを読み込み中';
+
+  @override
+  String get eventsEmpty => 'イベントはまだありません';
+
+  @override
+  String get eventsFailed => 'イベントを読み込めませんでした';
 }

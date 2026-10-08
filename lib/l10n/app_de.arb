@@ -548,5 +548,9 @@
   "changelogTypeFix": "Behoben",
   "changelogTypeMisc": "Geändert",
   "changelogOpenLink": "Im Browser öffnen",
-  "settingsCacheEnabled": "Daten zwischenspeichern"
+  "settingsCacheEnabled": "Daten zwischenspeichern",
+  "eventsTitle": "Ereignisse",
+  "eventsLoading": "Ereignisse werden geladen",
+  "eventsEmpty": "Noch keine Ereignisse",
+  "eventsFailed": "Ereignisse konnten nicht geladen werden"
 }

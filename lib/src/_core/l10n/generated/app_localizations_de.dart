@@ -2092,4 +2092,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get settingsCacheEnabled => 'Daten zwischenspeichern';
+
+  @override
+  String get eventsTitle => 'Ereignisse';
+
+  @override
+  String get eventsLoading => 'Ereignisse werden geladen';
+
+  @override
+  String get eventsEmpty => 'Noch keine Ereignisse';
+
+  @override
+  String get eventsFailed => 'Ereignisse konnten nicht geladen werden';
 }

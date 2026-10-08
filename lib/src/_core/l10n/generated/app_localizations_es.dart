@@ -2090,4 +2090,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsCacheEnabled => 'Usar caché';
+
+  @override
+  String get eventsTitle => 'Eventos';
+
+  @override
+  String get eventsLoading => 'Cargando eventos';
+
+  @override
+  String get eventsEmpty => 'Aún no hay eventos';
+
+  @override
+  String get eventsFailed => 'No se pudieron cargar los eventos';
 }

@@ -37,7 +37,9 @@ final class OsuPublicAuthorizationInterceptor
           // Beatmap listing search (P41).
           request.uri.path == '/api/v2/beatmapsets/search' ||
           // osu! changelog (P50); public without a token, sent like the rest.
-          request.uri.path == '/api/v2/changelog');
+          request.uri.path == '/api/v2/changelog' ||
+          // Global osu! event feed (P51).
+          request.uri.path == '/api/v2/events');
 
   @override
   Future<RestRequest> onRequest(RestRequest request) async {

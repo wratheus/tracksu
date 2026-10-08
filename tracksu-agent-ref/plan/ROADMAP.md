@@ -197,6 +197,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Сейчас · [P48](work/P48-appbar-unified-search.md) | Единый поиск «Игроки / Карты», общий AppBar и одинаковые действия шапки на всех экранах | awaiting_manual_check |
 | Сейчас · [P49](work/P49-api-coverage.md) | Покрытие API волнами; волна 1 — профиль и оценки (готово) | in_progress |
 | Сейчас · [P50](work/P50-osu-hub-changelog.md) | Вкладка «osu!»: Новости / Изменения; changelog по потокам | awaiting_manual_check |
+| Сейчас · [P51](work/P51-global-events.md) | Лента событий osu! третьей страницей вкладки «osu!» | awaiting_manual_check |
 | На будущее · [P43](work/P43-tablet-and-ipad-plan.md) | Планшеты и iPad: брейкпоинты, ширина контента, NavigationRail, сетки, master-detail; решение по iPad до релиза | backlog |
 | До analytics/release · [P01.3](work/P01.3-privacy-and-terms.md) | Data inventory, privacy notice/policy, условия, About/атрибуции, ссылки из guest/OAuth/settings и store disclosures | backlog |
 | Сейчас · [P07.1](work/P07.1-languages.md) | en/ru/de/fr/es/ja/zh, стандартный ARB template, language persistence и fallback подключены; ручная языковая проверка | awaiting_manual_check |

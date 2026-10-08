@@ -548,5 +548,9 @@
   "changelogTypeFix": "Исправлено",
   "changelogTypeMisc": "Изменено",
   "changelogOpenLink": "Открыть в браузере",
-  "settingsCacheEnabled": "Кэшировать данные"
+  "settingsCacheEnabled": "Кэшировать данные",
+  "eventsTitle": "События",
+  "eventsLoading": "Загружаем события",
+  "eventsEmpty": "Событий пока нет",
+  "eventsFailed": "Не удалось загрузить события"
 }

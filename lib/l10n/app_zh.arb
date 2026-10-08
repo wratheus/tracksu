@@ -548,5 +548,9 @@
   "changelogTypeFix": "修复",
   "changelogTypeMisc": "变更",
   "changelogOpenLink": "在浏览器中打开",
-  "settingsCacheEnabled": "启用缓存"
+  "settingsCacheEnabled": "启用缓存",
+  "eventsTitle": "动态",
+  "eventsLoading": "正在加载动态",
+  "eventsEmpty": "暂无动态",
+  "eventsFailed": "无法加载动态"
 }

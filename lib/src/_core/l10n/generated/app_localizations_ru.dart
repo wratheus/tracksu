@@ -2096,4 +2096,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsCacheEnabled => 'Кэшировать данные';
+
+  @override
+  String get eventsTitle => 'События';
+
+  @override
+  String get eventsLoading => 'Загружаем события';
+
+  @override
+  String get eventsEmpty => 'Событий пока нет';
+
+  @override
+  String get eventsFailed => 'Не удалось загрузить события';
 }

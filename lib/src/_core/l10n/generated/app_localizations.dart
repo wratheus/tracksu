@@ -3389,6 +3389,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Keep cache'**
   String get settingsCacheEnabled;
+
+  /// osu! hub page: global feed of player events.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get eventsTitle;
+
+  /// Global events loading label.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading events'**
+  String get eventsLoading;
+
+  /// Global events: nothing to show.
+  ///
+  /// In en, this message translates to:
+  /// **'No events yet'**
+  String get eventsEmpty;
+
+  /// Global events could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load events'**
+  String get eventsFailed;
 }
 
 class _AppLocalizationsDelegate

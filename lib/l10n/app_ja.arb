@@ -548,5 +548,9 @@
   "changelogTypeFix": "修正",
   "changelogTypeMisc": "変更",
   "changelogOpenLink": "ブラウザで開く",
-  "settingsCacheEnabled": "キャッシュを使用"
+  "settingsCacheEnabled": "キャッシュを使用",
+  "eventsTitle": "イベント",
+  "eventsLoading": "イベントを読み込み中",
+  "eventsEmpty": "イベントはまだありません",
+  "eventsFailed": "イベントを読み込めませんでした"
 }

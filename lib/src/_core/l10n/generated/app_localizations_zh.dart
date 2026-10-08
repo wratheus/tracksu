@@ -1984,4 +1984,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsCacheEnabled => '启用缓存';
+
+  @override
+  String get eventsTitle => '动态';
+
+  @override
+  String get eventsLoading => '正在加载动态';
+
+  @override
+  String get eventsEmpty => '暂无动态';
+
+  @override
+  String get eventsFailed => '无法加载动态';
 }

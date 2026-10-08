@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Global osu! events (P51, wave 2 step 2)
+
+- The osu! tab gains an Events page between News and Changelog: the live
+  feed of ranks, lost first places, medals, map uploads and status changes,
+  supporter tags and name changes, with the player's name on each row.
+- Rows open the beatmap, the beatmapset or the player's profile; older events
+  load at the end. Profile activity shares the same rows.
+
 ### osu! tab and changelog (P50, wave 2 step 1)
 
 - The News tab becomes **osu!** with News and Changelog pages switched by the
