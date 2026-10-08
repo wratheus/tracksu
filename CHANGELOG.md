@@ -18,6 +18,9 @@
   country code.
 - Audio previews play at 35 % player gain; full gain was harsh even at low
   system volume.
+- Progress lines under the app bar appear only after 600 ms of work and then
+  stay at least 400 ms, so quick loads show nothing and the line never
+  blinks. Medals, teams and spotlights moved their in-list strips there too.
 - Cached audio lives 12 hours with its own 24 MB budget (oldest first);
   images keep 7 days within the shared 128 MB.
 

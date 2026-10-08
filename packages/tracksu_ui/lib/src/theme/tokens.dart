@@ -19,6 +19,14 @@ abstract final class UiMotion {
 
   /// One full dim-and-restore cycle of a page skeleton.
   static const Duration skeletonPulse = Duration(milliseconds: 1400);
+
+  /// Progress lines wait this long before appearing: most API answers come
+  /// back sooner, and a line that flashes for a moment is noise.
+  static const Duration progressDelay = Duration(milliseconds: 600);
+
+  /// Once shown, a progress line stays at least this long so it never
+  /// blinks on and off.
+  static const Duration progressMinVisible = Duration(milliseconds: 400);
 }
 
 abstract final class UiShape {

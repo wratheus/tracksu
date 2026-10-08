@@ -32,11 +32,17 @@ final class TeamScreen extends StatelessWidget {
               ),
             ),
           ],
+          bottom: UiAppBarProgressSlot(
+            child: UiAppBarProgress(
+              visible: state is TeamLoaded && state.refreshing,
+              semanticsLabel: context.t.teamLoading,
+            ),
+          ),
         ),
         body: UiScrollToTop(
           tooltip: context.t.scrollToTop,
           child: SafeArea(
-            // Pull down to refresh; progress shows at the top of the content.
+            // Pull down to refresh; progress is the line under the app bar.
             child: RefreshIndicator(
               onRefresh: () async {
                 if (!busy) {
@@ -64,10 +70,6 @@ final class TeamScreen extends StatelessWidget {
                     UiSliverReveal(
                       sliver: SliverMainAxisGroup(
                         slivers: <Widget>[
-                          if (busy)
-                            const SliverToBoxAdapter(
-                              child: LinearProgressIndicator(),
-                            ),
                           if (state case TeamLoaded(
                             failure: final TeamFailureKind failure,
                           ))

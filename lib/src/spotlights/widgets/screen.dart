@@ -46,6 +46,18 @@ final class SpotlightsScreen extends StatelessWidget {
               ),
         ),
       ],
+      bottom: UiAppBarProgressSlot(
+        child: BlocSelector<SpotlightsBloc, SpotlightsState, bool>(
+          selector: (SpotlightsState state) =>
+              state is SpotlightsLoadedState &&
+              state.loading &&
+              state.details != null,
+          builder: (BuildContext context, bool busy) => UiAppBarProgress(
+            visible: busy,
+            semanticsLabel: context.t.spotlightsTitle,
+          ),
+        ),
+      ),
     ),
     body: UiScrollToTop(
       tooltip: context.t.scrollToTop,
@@ -88,7 +100,7 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
     BuildContext context,
   ) => BlocBuilder<SpotlightsBloc, SpotlightsState>(
     builder: (BuildContext context, SpotlightsState state) =>
-        // Pull down to refresh; progress shows at the top of the list.
+        // Pull down to refresh; progress is the line under the app bar.
         RefreshIndicator(
           onRefresh: () async {
             if (state is SpotlightsLoadedState && !state.loading) {
@@ -153,8 +165,6 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
                     ),
                   ),
                 ),
-                if (state.loading && state.details != null)
-                  const SliverToBoxAdapter(child: LinearProgressIndicator()),
                 if (state.loading && state.details == null)
                   SliverToBoxAdapter(
                     child: UiPageSkeleton.list(

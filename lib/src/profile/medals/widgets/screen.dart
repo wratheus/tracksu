@@ -25,6 +25,16 @@ final class MedalsScreen extends StatelessWidget {
           share: ShareTarget.medals(userId, context.t.profileMedals),
         ),
       ],
+      bottom: UiAppBarProgressSlot(
+        child: BlocSelector<MedalsBloc, MedalsState, bool>(
+          selector: (MedalsState state) =>
+              state is MedalsLoaded && state.refreshing,
+          builder: (BuildContext context, bool busy) => UiAppBarProgress(
+            visible: busy,
+            semanticsLabel: context.t.profileMedals,
+          ),
+        ),
+      ),
     ),
     body: UiScrollToTop(
       tooltip: context.t.scrollToTop,
@@ -53,7 +63,7 @@ final class MedalsScreen extends StatelessWidget {
             final MedalsLoaded loaded = state as MedalsLoaded;
             final List<EarnedMedal> medals = loaded.medals;
             return UiReveal(
-              // Pull down to refresh; progress shows at the top of the list.
+              // Pull down to refresh; progress is the line under the app bar.
               child: RefreshIndicator(
                 onRefresh: () async {
                   if (!loaded.refreshing) _refresh(context);
@@ -63,10 +73,6 @@ final class MedalsScreen extends StatelessWidget {
                   primary: true,
                   physics: const AlwaysScrollableScrollPhysics(),
                   slivers: <Widget>[
-                    if (loaded.refreshing)
-                      const SliverToBoxAdapter(
-                        child: LinearProgressIndicator(),
-                      ),
                     if (loaded.refreshFailed)
                       SliverToBoxAdapter(
                         child: Padding(
