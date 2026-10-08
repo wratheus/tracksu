@@ -1,3 +1,4 @@
+import 'package:tracksu/src/_shared/media/cache_preference_controller.dart';
 import 'package:tracksu/src/auth/data/oauth_client_credentials.dart';
 import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/auth/domain/auth_repository.dart';
@@ -22,6 +23,7 @@ final class DepsContainer {
     required this.localeController,
     required this.themeController,
     required this.contentMediaController,
+    required this.cachePreference,
     required this.shareService,
     required this.authRepository,
     required this.oauthClientCredentials,
@@ -41,6 +43,7 @@ final class DepsContainer {
   final LocaleController localeController;
   final ThemeController themeController;
   final ContentMediaController contentMediaController;
+  final CachePreferenceController cachePreference;
   final ShareService shareService;
   final AuthRepository authRepository;
   final OAuthClientCredentials oauthClientCredentials;

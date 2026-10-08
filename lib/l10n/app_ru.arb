@@ -547,5 +547,6 @@
   "changelogTypeAdd": "Добавлено",
   "changelogTypeFix": "Исправлено",
   "changelogTypeMisc": "Изменено",
-  "changelogOpenLink": "Открыть в браузере"
+  "changelogOpenLink": "Открыть в браузере",
+  "settingsCacheEnabled": "Кэшировать данные"
 }

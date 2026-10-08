@@ -2089,4 +2089,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get changelogOpenLink => 'Im Browser öffnen';
+
+  @override
+  String get settingsCacheEnabled => 'Daten zwischenspeichern';
 }

@@ -1841,5 +1841,9 @@
   "changelogOpenLink": "Open in browser",
   "@changelogOpenLink": {
     "description": "Changelog entry: open the pull request or post in the browser."
+  },
+  "settingsCacheEnabled": "Keep cache",
+  "@settingsCacheEnabled": {
+    "description": "Settings switch: keep cached pages, images and audio. Off loads everything anew."
   }
 }

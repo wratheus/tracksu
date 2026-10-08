@@ -547,5 +547,6 @@
   "changelogTypeAdd": "新增",
   "changelogTypeFix": "修复",
   "changelogTypeMisc": "变更",
-  "changelogOpenLink": "在浏览器中打开"
+  "changelogOpenLink": "在浏览器中打开",
+  "settingsCacheEnabled": "启用缓存"
 }

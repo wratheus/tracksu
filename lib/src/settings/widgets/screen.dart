@@ -219,6 +219,25 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                             title: context.t.settingsCache,
                             footer: context.t.settingsCacheDescription,
                             children: <Widget>[
+                              ListenableBuilder(
+                                listenable: deps.cachePreference,
+                                builder: (BuildContext context, _) =>
+                                    SwitchListTile.adaptive(
+                                      secondary: const UiTileIcon(
+                                        Icons.storage_rounded,
+                                      ),
+                                      title: Text(
+                                        context.t.settingsCacheEnabled,
+                                      ),
+                                      value: deps.cachePreference.enabled,
+                                      onChanged: deps.cachePreference.saving
+                                          ? null
+                                          : (bool value) => _run(
+                                              () => deps.cachePreference
+                                                  .select(value),
+                                            ),
+                                    ),
+                              ),
                               FutureBuilder<void>(
                                 future: _cacheReady,
                                 builder:

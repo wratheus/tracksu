@@ -2087,4 +2087,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get changelogOpenLink => 'Abrir en el navegador';
+
+  @override
+  String get settingsCacheEnabled => 'Usar caché';
 }

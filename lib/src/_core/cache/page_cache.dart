@@ -11,6 +11,15 @@ final class PageCache {
       LinkedHashMap<Object, ({Object value, DateTime saved})>();
   int _identity;
   int _revision = 0;
+  bool _enabled = true;
+
+  /// Off: nothing is kept between screens; every visit loads from the API.
+  bool get enabled => _enabled;
+  set enabled(bool value) {
+    if (value == _enabled) return;
+    _enabled = value;
+    if (!value) clear();
+  }
 
   int get revision {
     final int identity = _identityRevision();
@@ -22,6 +31,7 @@ final class PageCache {
   }
 
   T? read<T extends Object>(Object key) {
+    if (!_enabled) return null;
     final int current = revision;
     final entry = _entries.remove(key);
     if (entry == null ||
@@ -35,7 +45,7 @@ final class PageCache {
 
   void write(Object key, Object value, {required int revision}) {
     // Clearing during an in-flight request must not silently repopulate cache.
-    if (revision != this.revision) return;
+    if (!_enabled || revision != this.revision) return;
     _entries.remove(key);
     _entries[key] = (value: value, saved: DateTime.now());
     while (_entries.length > 40) {

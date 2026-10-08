@@ -547,5 +547,6 @@
   "changelogTypeAdd": "追加",
   "changelogTypeFix": "修正",
   "changelogTypeMisc": "変更",
-  "changelogOpenLink": "ブラウザで開く"
+  "changelogOpenLink": "ブラウザで開く",
+  "settingsCacheEnabled": "キャッシュを使用"
 }

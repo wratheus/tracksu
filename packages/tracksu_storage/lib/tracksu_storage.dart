@@ -1,5 +1,6 @@
 library;
 
+export 'src/cache_preference_store.dart';
 export 'src/content_media_store.dart';
 
 export 'src/flutter_secure_locale_store.dart';

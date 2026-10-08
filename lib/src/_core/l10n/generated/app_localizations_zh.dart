@@ -1981,4 +1981,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get changelogOpenLink => '在浏览器中打开';
+
+  @override
+  String get settingsCacheEnabled => '启用缓存';
 }

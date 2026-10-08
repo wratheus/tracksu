@@ -21,6 +21,9 @@
 - Progress lines under the app bar appear only after 600 ms of work and then
   stay at least 400 ms, so quick loads show nothing and the line never
   blinks. Medals, teams and spotlights moved their in-list strips there too.
+- Settings → Cache has one switch to turn all caching off: page snapshots are
+  not kept, images stay in memory only, and an audio preview's file is deleted
+  after it plays. Turning it off deletes what was stored.
 - Cached audio lives 12 hours with its own 24 MB budget (oldest first);
   images keep 7 days within the shared 128 MB.
 

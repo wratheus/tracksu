@@ -2062,4 +2062,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changelogOpenLink => 'Open in browser';
+
+  @override
+  String get settingsCacheEnabled => 'Keep cache';
 }

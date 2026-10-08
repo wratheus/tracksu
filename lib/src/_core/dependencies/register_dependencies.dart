@@ -22,6 +22,7 @@ import 'package:tracksu_storage/tracksu_storage.dart';
 import 'package:tracksu/src/_shared/sharing/share_service.dart';
 import 'package:tracksu/src/_shared/content/content_media_controller.dart';
 import 'package:tracksu/src/_shared/audio/audio_playback_controller.dart';
+import 'package:tracksu/src/_shared/media/cache_preference_controller.dart';
 import 'package:tracksu/src/_shared/media/data/media_cache_repository.dart';
 
 Future<DepsContainer> registerDependencies() async {
@@ -104,10 +105,20 @@ Future<DepsContainer> registerDependencies() async {
   // Cached pages hold API text in the previous language: drop them when the
   // language changes so the next visit loads localized data.
   localeController.addListener(pageCache.clear);
+  final AudioPlaybackController audioPlaybackController =
+      AudioPlaybackController(repository: mediaCache);
+  final CachePreferenceController cachePreference = CachePreferenceController(
+    store: FlutterSecureCachePreferenceStore(storage: storage),
+    pageCache: pageCache,
+    mediaCache: mediaCache,
+    audio: audioPlaybackController,
+  );
+  await cachePreference.restore();
 
   return DepsContainer(
     mediaCache: mediaCache,
-    audioPlaybackController: AudioPlaybackController(repository: mediaCache),
+    audioPlaybackController: audioPlaybackController,
+    cachePreference: cachePreference,
     pageCache: pageCache,
     appRouter: TracksuAppRouter(
       initialOAuthCallbackUri: initialOAuthCallbackUri,

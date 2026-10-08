@@ -547,5 +547,6 @@
   "changelogTypeAdd": "Hinzugefügt",
   "changelogTypeFix": "Behoben",
   "changelogTypeMisc": "Geändert",
-  "changelogOpenLink": "Im Browser öffnen"
+  "changelogOpenLink": "Im Browser öffnen",
+  "settingsCacheEnabled": "Daten zwischenspeichern"
 }

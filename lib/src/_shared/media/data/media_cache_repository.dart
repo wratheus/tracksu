@@ -60,6 +60,20 @@ final class MediaCacheRepository extends ChangeNotifier {
   Future<void> _operations = Future<void>.value();
   Future<void> _decoding = Future<void>.value();
   int get sizeBytes => _bytes;
+
+  /// Off: images stay in memory only, and an audio file lives on disk just
+  /// while it plays (decoded Ogg needs a file) and is deleted afterwards.
+  bool _diskCacheEnabled = true;
+  bool get diskCacheEnabled => _diskCacheEnabled;
+
+  /// Turning the cache off deletes what is stored; the caller stops playback
+  /// first, as for [clear].
+  Future<void> setDiskCacheEnabled(bool enabled) async {
+    if (enabled == _diskCacheEnabled) return;
+    _diskCacheEnabled = enabled;
+    if (!enabled) await clear();
+    _changed();
+  }
   int get revision => _revision;
 
   Future<T> _serial<T>(Future<T> Function() action) {
@@ -90,6 +104,7 @@ final class MediaCacheRepository extends ChangeNotifier {
           final FileStat stat = await entity.stat();
           if (name.endsWith('.part') ||
               stat.size == 0 ||
+              !_diskCacheEnabled ||
               _expired(name, stat.modified)) {
             await entity.delete();
           } else {
@@ -178,6 +193,22 @@ final class MediaCacheRepository extends ChangeNotifier {
       _pins.remove(key);
     } else {
       _pins[key] = count;
+    }
+    if (!_diskCacheEnabled && count <= 0 && !_closed && !_clearing) {
+      unawaited(
+        _serial(() async {
+          final String? name = _audioEntry(key);
+          if (name == null || _pins.containsKey(key)) return;
+          try {
+            await _remove(name);
+          } on FileSystemException {
+            // Startup cleanup deletes leftovers while the cache is off.
+          } finally {
+            _changed();
+          }
+        }),
+      );
+      return;
     }
     if (!_closed && !_clearing && _overBudget) {
       unawaited(
@@ -323,7 +354,9 @@ final class MediaCacheRepository extends ChangeNotifier {
       bytes = await _decodeVorbis(bytes, check);
       check();
     }
-    if (!diskAvailable) return _MediaData.memory(bytes);
+    if (!diskAvailable || !audio && !_diskCacheEnabled) {
+      return _MediaData.memory(bytes);
+    }
     // The file suffix follows the validated payload, never the URL.
     final String name = format == null
         ? key

@@ -547,5 +547,6 @@
   "changelogTypeAdd": "Ajouté",
   "changelogTypeFix": "Corrigé",
   "changelogTypeMisc": "Modifié",
-  "changelogOpenLink": "Ouvrir dans le navigateur"
+  "changelogOpenLink": "Ouvrir dans le navigateur",
+  "settingsCacheEnabled": "Utiliser le cache"
 }

@@ -1995,4 +1995,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get changelogOpenLink => 'ブラウザで開く';
+
+  @override
+  String get settingsCacheEnabled => 'キャッシュを使用';
 }

@@ -2093,4 +2093,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get changelogOpenLink => 'Открыть в браузере';
+
+  @override
+  String get settingsCacheEnabled => 'Кэшировать данные';
 }

@@ -2080,4 +2080,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get changelogOpenLink => 'Ouvrir dans le navigateur';
+
+  @override
+  String get settingsCacheEnabled => 'Utiliser le cache';
 }

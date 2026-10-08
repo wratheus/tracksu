@@ -3383,6 +3383,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open in browser'**
   String get changelogOpenLink;
+
+  /// Settings switch: keep cached pages, images and audio. Off loads everything anew.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep cache'**
+  String get settingsCacheEnabled;
 }
 
 class _AppLocalizationsDelegate
