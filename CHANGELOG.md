@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### osu! wiki (P52, wave 2 step 3)
+
+- Search gains a Wiki tab: find guides, rules and game mode articles; results
+  page as you scroll.
+- Articles open in the shared reader with images, tables, code and quotes,
+  in the app language with an English fallback. Links to other wiki articles
+  stay in the app; others open in the in-app browser.
+
 ### Unified rich content and Markdown (ADR-008)
 
 - All rich text goes through one pipeline: HTML, BBCode and Markdown are

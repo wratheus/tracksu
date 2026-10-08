@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tracksu/src/wiki/bloc/wiki_search_bloc.dart';
+import 'package:tracksu/src/wiki/widgets/wiki_search_results.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
@@ -103,6 +105,8 @@ final class _SearchScreenState extends State<SearchScreen> {
         bloc.add(
           BeatmapSearchQueryChanged(bloc.state.query.copyWith(text: query)),
         );
+      case SearchTab.wiki:
+        context.read<WikiSearchBloc>().add(WikiSearchChanged(query));
     }
   }
 
@@ -162,15 +166,20 @@ final class _SearchScreenState extends State<SearchScreen> {
           valueListenable: _text,
           builder: (BuildContext context, TextEditingValue value, _) =>
               AppBarActions(
-                share: _tab == SearchTab.players
-                    ? ShareTarget.playerSearch(
-                        value.text,
-                        context.t.navigationSearch,
-                      )
-                    : ShareTarget.beatmapSearch(
-                        value.text,
-                        context.t.navigationSearch,
-                      ),
+                share: switch (_tab) {
+                  SearchTab.players => ShareTarget.playerSearch(
+                    value.text,
+                    context.t.navigationSearch,
+                  ),
+                  SearchTab.maps => ShareTarget.beatmapSearch(
+                    value.text,
+                    context.t.navigationSearch,
+                  ),
+                  SearchTab.wiki => ShareTarget.wikiSearch(
+                    value.text,
+                    context.t.navigationSearch,
+                  ),
+                },
               ),
         ),
       ],
@@ -189,9 +198,11 @@ final class _SearchScreenState extends State<SearchScreen> {
               ),
               child: UiSearchField(
                 controller: _text,
-                label: _tab == SearchTab.players
-                    ? context.t.profileSearchHint
-                    : context.t.beatmapSearchHint,
+                label: switch (_tab) {
+                  SearchTab.players => context.t.profileSearchHint,
+                  SearchTab.maps => context.t.beatmapSearchHint,
+                  SearchTab.wiki => context.t.wikiSearchHint,
+                },
                 clearLabel: context.t.searchClear,
                 onSubmitted: (_) => _submit(),
               ),
@@ -217,18 +228,31 @@ final class _SearchScreenState extends State<SearchScreen> {
                     label: context.t.unifiedSearchMaps,
                     icon: const Icon(Icons.library_music_outlined),
                   ),
+                  UiSegment(
+                    value: SearchTab.wiki,
+                    label: context.t.wikiTitle,
+                    icon: const Icon(Icons.menu_book_outlined),
+                  ),
                 ],
               ),
             ),
             BlocBuilder<UserSearchBloc, UserSearchState>(
               builder: (context, users) =>
                   BlocBuilder<BeatmapSearchBloc, BeatmapSearchState>(
-                    builder: (context, maps) => UiAppBarProgress(
-                      visible:
-                          _opening ||
-                          (_tab == SearchTab.players ? users.busy : maps.busy),
-                      semanticsLabel: context.t.unifiedSearchTitle,
-                    ),
+                    builder: (context, maps) =>
+                        BlocSelector<WikiSearchBloc, WikiSearchState, bool>(
+                          selector: (WikiSearchState state) => state.busy,
+                          builder: (context, wiki) => UiAppBarProgress(
+                            visible:
+                                _opening ||
+                                switch (_tab) {
+                                  SearchTab.players => users.busy,
+                                  SearchTab.maps => maps.busy,
+                                  SearchTab.wiki => wiki,
+                                },
+                            semanticsLabel: context.t.unifiedSearchTitle,
+                          ),
+                        ),
                   ),
             ),
           ],
@@ -237,12 +261,14 @@ final class _SearchScreenState extends State<SearchScreen> {
     ),
     body: SafeArea(
       top: false,
-      child: _tab == SearchTab.maps
-          ? const BeatmapSearchResults()
-          : _Players(
-              onOpen: _opening ? null : _open,
-              openFailure: _openFailure,
-            ),
+      child: switch (_tab) {
+        SearchTab.maps => const BeatmapSearchResults(),
+        SearchTab.wiki => const WikiSearchResults(),
+        SearchTab.players => _Players(
+          onOpen: _opening ? null : _open,
+          openFailure: _openFailure,
+        ),
+      },
     ),
   );
 }

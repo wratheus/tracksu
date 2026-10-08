@@ -113,6 +113,24 @@ final class ShareTarget {
     title,
   );
 
+  factory ShareTarget.wikiSearch(String query, String title) => ShareTarget._(
+    Uri.https('osu.ppy.sh', '/home/search', <String, String>{
+      'mode': 'wiki_page',
+      if (query.trim().isNotEmpty) 'query': query.trim(),
+    }),
+    title,
+  );
+
+  /// An osu! wiki article on the website.
+  factory ShareTarget.wiki(Uri uri, String title) {
+    if (uri.scheme != 'https' ||
+        uri.host != 'osu.ppy.sh' ||
+        !uri.path.startsWith('/wiki/')) {
+      throw ArgumentError('Expected an osu! wiki page.');
+    }
+    return ShareTarget._(Uri.https('osu.ppy.sh', uri.path), title);
+  }
+
   /// Daily challenges are multiplayer rooms on the website.
   factory ShareTarget.room(int id, String title) => ShareTarget._(
     Uri.https('osu.ppy.sh', '/multiplayer/rooms/${_id(id)}'),

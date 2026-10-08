@@ -2014,4 +2014,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get eventsSupporters => '支持者与改名';
+
+  @override
+  String get wikiTitle => 'Wiki';
+
+  @override
+  String get wikiLoading => '正在加载 Wiki';
+
+  @override
+  String get wikiFailed => '无法加载 Wiki';
+
+  @override
+  String get wikiNotFound => '未找到文章';
+
+  @override
+  String get wikiShownInEnglish => '尚未翻译，显示英文文章。';
+
+  @override
+  String get wikiSearchHint => 'Wiki 文章';
+
+  @override
+  String get wikiSearchHelp => '指南、规则、游戏模式以及 osu! 的一切。';
+
+  @override
+  String get wikiNoResults => '未找到文章';
 }

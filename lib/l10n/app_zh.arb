@@ -558,5 +558,13 @@
   "eventsRanks": "排名",
   "eventsMedals": "奖章",
   "eventsBeatmaps": "谱面",
-  "eventsSupporters": "支持者与改名"
+  "eventsSupporters": "支持者与改名",
+  "wikiTitle": "Wiki",
+  "wikiLoading": "正在加载 Wiki",
+  "wikiFailed": "无法加载 Wiki",
+  "wikiNotFound": "未找到文章",
+  "wikiShownInEnglish": "尚未翻译，显示英文文章。",
+  "wikiSearchHint": "Wiki 文章",
+  "wikiSearchHelp": "指南、规则、游戏模式以及 osu! 的一切。",
+  "wikiNoResults": "未找到文章"
 }

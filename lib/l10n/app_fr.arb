@@ -558,5 +558,13 @@
   "eventsRanks": "Classements",
   "eventsMedals": "Médailles",
   "eventsBeatmaps": "Beatmaps",
-  "eventsSupporters": "Supporters et pseudos"
+  "eventsSupporters": "Supporters et pseudos",
+  "wikiTitle": "Wiki",
+  "wikiLoading": "Chargement du wiki",
+  "wikiFailed": "Impossible de charger le wiki",
+  "wikiNotFound": "Article introuvable",
+  "wikiShownInEnglish": "Pas encore traduit ; l'article anglais est affiché.",
+  "wikiSearchHint": "Article du wiki",
+  "wikiSearchHelp": "Guides, règles, modes de jeu et tout sur osu!.",
+  "wikiNoResults": "Aucun article trouvé"
 }

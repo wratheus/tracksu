@@ -166,6 +166,11 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Search, rankings and profile use the shared UI kit AppBar. Ranking share links
   follow the selected Players / Teams / Countries / Kudosu page.
 
+### Wiki
+
+- Search has a Wiki tab: osu! wiki articles open in the app's reader in your
+  language (English when not translated); article links stay in the app.
+
 ### osu! tab: news and changelog
 
 - The third tab, **osu!**, holds News, Events and Changelog pages: tap the switch or

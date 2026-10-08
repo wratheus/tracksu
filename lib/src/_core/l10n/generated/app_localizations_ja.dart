@@ -2028,4 +2028,28 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get eventsSupporters => 'サポーターと名前';
+
+  @override
+  String get wikiTitle => 'Wiki';
+
+  @override
+  String get wikiLoading => 'Wikiを読み込み中';
+
+  @override
+  String get wikiFailed => 'Wikiを読み込めませんでした';
+
+  @override
+  String get wikiNotFound => '記事が見つかりません';
+
+  @override
+  String get wikiShownInEnglish => '未翻訳のため英語版を表示しています。';
+
+  @override
+  String get wikiSearchHint => 'Wiki記事';
+
+  @override
+  String get wikiSearchHelp => 'ガイド、ルール、ゲームモードなどosu!のすべて。';
+
+  @override
+  String get wikiNoResults => '記事が見つかりません';
 }

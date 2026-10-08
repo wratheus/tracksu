@@ -1,4 +1,4 @@
-enum SearchTab { players, maps }
+enum SearchTab { players, maps, wiki }
 
 final class SearchParams {
   const SearchParams({this.text = '', this.tab = SearchTab.players});

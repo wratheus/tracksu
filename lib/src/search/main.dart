@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tracksu/src/wiki/bloc/wiki_search_bloc.dart';
+import 'package:tracksu/src/wiki/data/wiki_repository.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/beatmap_search/bloc/bloc.dart';
 import 'package:tracksu/src/beatmap_search/data/remote_source.dart';
@@ -28,6 +30,12 @@ final class SearchMain extends StatelessWidget {
           BlocProvider<UserSearchBloc>(
             create: (context) => UserSearchBloc(
               repository: context.read<UserSearchRepository>(),
+            ),
+          ),
+          BlocProvider<WikiSearchBloc>(
+            create: (_) => WikiSearchBloc(
+              repository: WikiRepository(restClient: deps.publicRestClient),
+              locale: () => deps.localeController.effectiveLanguageCode,
             ),
           ),
           BlocProvider<BeatmapSearchBloc>(

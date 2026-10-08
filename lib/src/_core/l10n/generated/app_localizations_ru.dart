@@ -2126,4 +2126,29 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get eventsSupporters => 'Supporter и ники';
+
+  @override
+  String get wikiTitle => 'Вики';
+
+  @override
+  String get wikiLoading => 'Загружаем вики';
+
+  @override
+  String get wikiFailed => 'Не удалось загрузить вики';
+
+  @override
+  String get wikiNotFound => 'Статья не найдена';
+
+  @override
+  String get wikiShownInEnglish =>
+      'Перевода пока нет — показана английская статья.';
+
+  @override
+  String get wikiSearchHint => 'Статья вики';
+
+  @override
+  String get wikiSearchHelp => 'Гайды, правила, режимы игры и всё об osu!.';
+
+  @override
+  String get wikiNoResults => 'Статьи не найдены';
 }

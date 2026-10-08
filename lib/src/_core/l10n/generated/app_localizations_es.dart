@@ -2120,4 +2120,30 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eventsSupporters => 'Supporters y nombres';
+
+  @override
+  String get wikiTitle => 'Wiki';
+
+  @override
+  String get wikiLoading => 'Cargando wiki';
+
+  @override
+  String get wikiFailed => 'No se pudo cargar la wiki';
+
+  @override
+  String get wikiNotFound => 'Artículo no encontrado';
+
+  @override
+  String get wikiShownInEnglish =>
+      'Aún sin traducir; se muestra el artículo en inglés.';
+
+  @override
+  String get wikiSearchHint => 'Artículo de la wiki';
+
+  @override
+  String get wikiSearchHelp =>
+      'Guías, reglas, modos de juego y todo sobre osu!.';
+
+  @override
+  String get wikiNoResults => 'No se encontraron artículos';
 }

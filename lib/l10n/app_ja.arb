@@ -558,5 +558,13 @@
   "eventsRanks": "ランク",
   "eventsMedals": "メダル",
   "eventsBeatmaps": "ビートマップ",
-  "eventsSupporters": "サポーターと名前"
+  "eventsSupporters": "サポーターと名前",
+  "wikiTitle": "Wiki",
+  "wikiLoading": "Wikiを読み込み中",
+  "wikiFailed": "Wikiを読み込めませんでした",
+  "wikiNotFound": "記事が見つかりません",
+  "wikiShownInEnglish": "未翻訳のため英語版を表示しています。",
+  "wikiSearchHint": "Wiki記事",
+  "wikiSearchHelp": "ガイド、ルール、ゲームモードなどosu!のすべて。",
+  "wikiNoResults": "記事が見つかりません"
 }

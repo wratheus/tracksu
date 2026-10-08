@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/wiki/domain/wiki.dart';
+import 'package:tracksu/src/wiki/main.dart';
 import 'package:tracksu/src/about/licenses/screen.dart';
 import 'package:tracksu/src/about/main.dart';
 import 'package:tracksu/src/settings/main.dart';
@@ -144,6 +146,13 @@ final class TracksuAppRouter {
         params: NewsArticleParams(_positiveId(state.pathParameters['id'])!),
       ),
     ),
+    GoRoute(
+      path: 'wiki',
+      redirect: (_, GoRouterState state) =>
+          _wikiParams(state) == null ? '/search' : null,
+      builder: (_, GoRouterState state) =>
+          WikiMain(params: _wikiParams(state)!),
+    ),
     GoRoute(path: 'spotlights', builder: (_, _) => const SpotlightsMain()),
     GoRoute(path: 'daily', builder: (_, _) => const DailyChallengeMain()),
     GoRoute(path: 'daily/history', builder: (_, _) => const DailyHistoryMain()),
@@ -166,9 +175,11 @@ final class TracksuAppRouter {
       path: 'find',
       builder: (_, GoRouterState state) => SearchMain(
         params: SearchParams(
-          tab: state.uri.queryParameters['tab'] == 'maps'
-              ? SearchTab.maps
-              : SearchTab.players,
+          tab: switch (state.uri.queryParameters['tab']) {
+            'maps' => SearchTab.maps,
+            'wiki' => SearchTab.wiki,
+            _ => SearchTab.players,
+          },
           // Bounded so a pasted deep link cannot carry an unbounded query.
           text: (state.uri.queryParameters['q'] ?? '')
               .trim()
@@ -220,6 +231,18 @@ final class TracksuAppRouter {
     NewsArticleParams params,
   ) async => config.push<void>('$_branchPath/article/${params.id}');
 
+  /// osu! wiki article; the path travels as a query value (it has slashes).
+  Future<void> openWiki(BuildContext context, WikiParams params) async =>
+      config.push<void>(
+        Uri(
+          path: '$_branchPath/wiki',
+          queryParameters: <String, String>{
+            'path': params.path,
+            'locale': ?params.locale,
+          },
+        ).toString(),
+      );
+
   Future<void> openSpotlights(BuildContext context) async =>
       config.push<void>('$_branchPath/spotlights');
 
@@ -270,6 +293,24 @@ final class TracksuAppRouter {
   }
 
   void dispose() => config.dispose();
+
+  static WikiParams? _wikiParams(GoRouterState state) {
+    final String? path = state.uri.queryParameters['path'];
+    final String? locale = state.uri.queryParameters['locale'];
+    if (path == null || path.length > 300) return null;
+    try {
+      return WikiParams(
+        path,
+        locale:
+            locale != null &&
+                RegExp(r'^[a-z]{2}(-[a-z]{2})?$').hasMatch(locale)
+            ? locale
+            : null,
+      );
+    } on ArgumentError {
+      return null;
+    }
+  }
 
   static int? _positiveId(String? text) {
     final int? id = int.tryParse(text ?? '');

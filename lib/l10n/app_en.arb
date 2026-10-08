@@ -1885,5 +1885,37 @@
   "eventsSupporters": "Supporters and names",
   "@eventsSupporters": {
     "description": "Global events group: osu!supporter tags and username changes."
+  },
+  "wikiTitle": "Wiki",
+  "@wikiTitle": {
+    "description": "osu! wiki: search tab and article page title."
+  },
+  "wikiLoading": "Loading wiki",
+  "@wikiLoading": {
+    "description": "Wiki article or search loading label."
+  },
+  "wikiFailed": "Couldn't load the wiki",
+  "@wikiFailed": {
+    "description": "Wiki could not be loaded."
+  },
+  "wikiNotFound": "Article not found",
+  "@wikiNotFound": {
+    "description": "Wiki article does not exist."
+  },
+  "wikiShownInEnglish": "Not translated yet; showing the English article.",
+  "@wikiShownInEnglish": {
+    "description": "Wiki article has no translation in the app language."
+  },
+  "wikiSearchHint": "Wiki article",
+  "@wikiSearchHint": {
+    "description": "Search field label on the wiki tab."
+  },
+  "wikiSearchHelp": "Guides, rules, game modes and everything about osu!.",
+  "@wikiSearchHelp": {
+    "description": "Wiki search prompt."
+  },
+  "wikiNoResults": "No articles found",
+  "@wikiNoResults": {
+    "description": "Wiki search found nothing."
   }
 }

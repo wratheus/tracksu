@@ -3449,6 +3449,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Supporters and names'**
   String get eventsSupporters;
+
+  /// osu! wiki: search tab and article page title.
+  ///
+  /// In en, this message translates to:
+  /// **'Wiki'**
+  String get wikiTitle;
+
+  /// Wiki article or search loading label.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading wiki'**
+  String get wikiLoading;
+
+  /// Wiki could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the wiki'**
+  String get wikiFailed;
+
+  /// Wiki article does not exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Article not found'**
+  String get wikiNotFound;
+
+  /// Wiki article has no translation in the app language.
+  ///
+  /// In en, this message translates to:
+  /// **'Not translated yet; showing the English article.'**
+  String get wikiShownInEnglish;
+
+  /// Search field label on the wiki tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Wiki article'**
+  String get wikiSearchHint;
+
+  /// Wiki search prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Guides, rules, game modes and everything about osu!.'**
+  String get wikiSearchHelp;
+
+  /// Wiki search found nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No articles found'**
+  String get wikiNoResults;
 }
 
 class _AppLocalizationsDelegate

@@ -43,7 +43,7 @@ callback, скрытый secret, кэш и собственные функции
 | Comments | создать / голос / удалить | `*` (lazer) | недоступно |
 | News | список / статья | без токена | есть |
 | Changelog | `changelog`, `{stream}/{build}` | без токена | есть (P50) |
-| Wiki | `wiki/{locale}/{path}`, `suggestions/wiki` | без токена | волна 2 |
+| Wiki | `wiki/{locale}/{path}`, `suggestions/wiki` | без токена | есть (P52), suggestions — нет |
 | Events | `events` (глобальная лента, cursor) | public | есть (P51) |
 | Seasonal backgrounds | список фонов сезона | без токена | волна 2 (оформление) |
 | Forum | `forums`, `forums/{id}`, `topics`, `topics/{id}` | public | волна 3 |
@@ -51,7 +51,7 @@ callback, скрытый secret, кэш и собственные функции
 | Matches | `matches`, `matches/{id}` (legacy multiplayer) | public | волна 3 |
 | Multiplayer | `rooms`, `leaderboard`, `events`, `playlist/{id}/scores` | public | частично (карта дня), волна 3 |
 | Teams | `teams/{id}[/{ruleset}]` | public | есть |
-| Search | `search?mode=user\|wiki_page` | public | игроки есть, wiki — волна 2 |
+| Search | `search?mode=user\|wiki_page` | public | есть (P48, P52) |
 | Chat | каналы, сообщения, ЛС, presence | chat.* (bot-only) | недоступно без bot-клиента |
 | Websocket | уведомления и чат в реальном времени | `*` или chat.read | недоступно без bot-клиента |
 | Notifications | список / прочитано | `*` | недоступно |
@@ -64,7 +64,7 @@ callback, скрытый secret, кэш и собственные функции
    активность; оценки SS/S/A/B/C/D/F в стиле osu!lazer `DrawableRank`.
 2. **Лента osu!** (поэтапно, решение 2026-10-08): changelog — готово в
    [P50](P50-osu-hub-changelog.md) внутри вкладки «osu!»; глобальные события —
-   готово в [P51](P51-global-events.md); далее wiki (вкладка поиска), сезонные фоны.
+   готово в [P51](P51-global-events.md); wiki — [P52](P52-wiki.md); остались сезонные фоны.
 3. **Сообщество**: форум (разделы, темы, посты — только чтение), beatmap packs,
    мультиплеерные матчи и комнаты, моддинг-обсуждения карт.
 4. **Карты и результаты**: результат игрока на сложности, звёзды с модами

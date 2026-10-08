@@ -558,5 +558,13 @@
   "eventsRanks": "Рекорды",
   "eventsMedals": "Медали",
   "eventsBeatmaps": "Карты",
-  "eventsSupporters": "Supporter и ники"
+  "eventsSupporters": "Supporter и ники",
+  "wikiTitle": "Вики",
+  "wikiLoading": "Загружаем вики",
+  "wikiFailed": "Не удалось загрузить вики",
+  "wikiNotFound": "Статья не найдена",
+  "wikiShownInEnglish": "Перевода пока нет — показана английская статья.",
+  "wikiSearchHint": "Статья вики",
+  "wikiSearchHelp": "Гайды, правила, режимы игры и всё об osu!.",
+  "wikiNoResults": "Статьи не найдены"
 }

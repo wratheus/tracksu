@@ -39,7 +39,10 @@ final class OsuPublicAuthorizationInterceptor
           // osu! changelog (P50); public without a token, sent like the rest.
           request.uri.path == '/api/v2/changelog' ||
           // Global osu! event feed (P51).
-          request.uri.path == '/api/v2/events');
+          request.uri.path == '/api/v2/events' ||
+          // osu! wiki articles (P52); public without a token.
+          RegExp(r'^/api/v2/wiki/[a-z]{2}(-[a-z]{2})?/.+$')
+              .hasMatch(request.uri.path));
 
   @override
   Future<RestRequest> onRequest(RestRequest request) async {

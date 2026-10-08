@@ -558,5 +558,13 @@
   "eventsRanks": "Platzierungen",
   "eventsMedals": "Medaillen",
   "eventsBeatmaps": "Beatmaps",
-  "eventsSupporters": "Supporter und Namen"
+  "eventsSupporters": "Supporter und Namen",
+  "wikiTitle": "Wiki",
+  "wikiLoading": "Wiki wird geladen",
+  "wikiFailed": "Wiki konnte nicht geladen werden",
+  "wikiNotFound": "Artikel nicht gefunden",
+  "wikiShownInEnglish": "Noch nicht übersetzt; der englische Artikel wird angezeigt.",
+  "wikiSearchHint": "Wiki-Artikel",
+  "wikiSearchHelp": "Anleitungen, Regeln, Spielmodi und alles über osu!.",
+  "wikiNoResults": "Keine Artikel gefunden"
 }
