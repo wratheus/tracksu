@@ -978,12 +978,6 @@ abstract class AppLocalizations {
   /// **'Mod settings'**
   String get scoreModSettingsTitle;
 
-  /// Result details and shared content reader: scoreModSettingsExplanation.
-  ///
-  /// In en, this message translates to:
-  /// **'API setting names are retained. Only explicitly supplied settings are shown; no default values are assumed.'**
-  String get scoreModSettingsExplanation;
-
   /// Result details and shared content reader: scoreNoModSettings.
   ///
   /// In en, this message translates to:

@@ -144,7 +144,6 @@
   "scoreHitsAchieved": "取得数",
   "scoreHitsMaximum": "完全なプレイの判定数",
   "scoreModSettingsTitle": "Modの設定",
-  "scoreModSettingsExplanation": "APIの設定名を使用しています。送信された設定のみを表示し、既定値は推測しません。",
   "scoreNoModSettings": "明示的な設定はありません。",
   "scoreDetailsUnavailable": "利用できません",
   "scoreSettingEnabled": "有効",

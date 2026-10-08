@@ -144,7 +144,6 @@
   "scoreHitsAchieved": "实际数量",
   "scoreHitsMaximum": "完美游玩数量",
   "scoreModSettingsTitle": "模组设置",
-  "scoreModSettingsExplanation": "保留API参数名称。仅显示已提供的设置，不推测默认值。",
   "scoreNoModSettings": "未提供明确设置。",
   "scoreDetailsUnavailable": "不可用",
   "scoreSettingEnabled": "已启用",

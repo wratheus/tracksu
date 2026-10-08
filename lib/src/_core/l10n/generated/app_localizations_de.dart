@@ -544,10 +544,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get scoreModSettingsTitle => 'Mod-Einstellungen';
 
   @override
-  String get scoreModSettingsExplanation =>
-      'Die Parameternamen entsprechen der API. Nur übermittelte Einstellungen werden angezeigt; Standardwerte werden nicht angenommen.';
-
-  @override
   String get scoreNoModSettings =>
       'Keine expliziten Einstellungen übermittelt.';
 

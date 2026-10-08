@@ -144,7 +144,6 @@
   "scoreHitsAchieved": "Получено",
   "scoreHitsMaximum": "При идеальном прохождении",
   "scoreModSettingsTitle": "Настройки модов",
-  "scoreModSettingsExplanation": "Названия параметров сохранены из API. Показаны только переданные настройки — значения по умолчанию не подставляются.",
   "scoreNoModSettings": "Явные настройки не переданы.",
   "scoreDetailsUnavailable": "Недоступно",
   "scoreSettingEnabled": "Включено",

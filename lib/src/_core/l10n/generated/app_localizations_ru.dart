@@ -547,10 +547,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get scoreModSettingsTitle => 'Настройки модов';
 
   @override
-  String get scoreModSettingsExplanation =>
-      'Названия параметров сохранены из API. Показаны только переданные настройки — значения по умолчанию не подставляются.';
-
-  @override
   String get scoreNoModSettings => 'Явные настройки не переданы.';
 
   @override

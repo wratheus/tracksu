@@ -513,10 +513,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scoreModSettingsTitle => 'Modの設定';
 
   @override
-  String get scoreModSettingsExplanation =>
-      'APIの設定名を使用しています。送信された設定のみを表示し、既定値は推測しません。';
-
-  @override
   String get scoreNoModSettings => '明示的な設定はありません。';
 
   @override

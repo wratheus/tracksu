@@ -289,8 +289,6 @@
   "@scoreHitsMaximum": {"description": "Result details and shared content reader: scoreHitsMaximum."},
   "scoreModSettingsTitle": "Mod settings",
   "@scoreModSettingsTitle": {"description": "Result details and shared content reader: scoreModSettingsTitle."},
-  "scoreModSettingsExplanation": "API setting names are retained. Only explicitly supplied settings are shown; no default values are assumed.",
-  "@scoreModSettingsExplanation": {"description": "Result details and shared content reader: scoreModSettingsExplanation."},
   "scoreNoModSettings": "No explicit settings supplied.",
   "@scoreNoModSettings": {"description": "Result details and shared content reader: scoreNoModSettings."},
   "scoreDetailsUnavailable": "Not available",

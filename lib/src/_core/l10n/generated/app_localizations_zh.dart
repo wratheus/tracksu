@@ -508,9 +508,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get scoreModSettingsTitle => '模组设置';
 
   @override
-  String get scoreModSettingsExplanation => '保留API参数名称。仅显示已提供的设置，不推测默认值。';
-
-  @override
   String get scoreNoModSettings => '未提供明确设置。';
 
   @override

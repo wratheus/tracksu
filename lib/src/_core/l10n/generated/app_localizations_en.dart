@@ -537,10 +537,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scoreModSettingsTitle => 'Mod settings';
 
   @override
-  String get scoreModSettingsExplanation =>
-      'API setting names are retained. Only explicitly supplied settings are shown; no default values are assumed.';
-
-  @override
   String get scoreNoModSettings => 'No explicit settings supplied.';
 
   @override

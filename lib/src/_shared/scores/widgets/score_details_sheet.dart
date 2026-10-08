@@ -216,10 +216,6 @@ final class ScoreDetailsSheet extends StatelessWidget {
                     spacing: UiSpace.sm,
                     children: <Widget>[
                       UiText.titleMedium(context.t.scoreModSettingsTitle),
-                      UiText.bodySmall(
-                        context.t.scoreModSettingsExplanation,
-                        secondary: true,
-                      ),
                       if (settings.isEmpty)
                         UiText.bodySmall(
                           context.t.scoreNoModSettings,

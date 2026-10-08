@@ -144,7 +144,6 @@
   "scoreHitsAchieved": "Erreicht",
   "scoreHitsMaximum": "Bei perfektem Durchlauf",
   "scoreModSettingsTitle": "Mod-Einstellungen",
-  "scoreModSettingsExplanation": "Die Parameternamen entsprechen der API. Nur übermittelte Einstellungen werden angezeigt; Standardwerte werden nicht angenommen.",
   "scoreNoModSettings": "Keine expliziten Einstellungen übermittelt.",
   "scoreDetailsUnavailable": "Nicht verfügbar",
   "scoreSettingEnabled": "Aktiviert",

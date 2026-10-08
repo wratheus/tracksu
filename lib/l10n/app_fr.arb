@@ -144,7 +144,6 @@
   "scoreHitsAchieved": "Obtenus",
   "scoreHitsMaximum": "Lors d’une partie parfaite",
   "scoreModSettingsTitle": "Paramètres des mods",
-  "scoreModSettingsExplanation": "Les noms de l’API sont conservés. Seuls les paramètres fournis sont affichés, sans supposer de valeurs par défaut.",
   "scoreNoModSettings": "Aucun paramètre explicite fourni.",
   "scoreDetailsUnavailable": "Indisponible",
   "scoreSettingEnabled": "Activé",

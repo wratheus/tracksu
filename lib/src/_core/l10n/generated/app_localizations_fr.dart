@@ -541,10 +541,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get scoreModSettingsTitle => 'Paramètres des mods';
 
   @override
-  String get scoreModSettingsExplanation =>
-      'Les noms de l’API sont conservés. Seuls les paramètres fournis sont affichés, sans supposer de valeurs par défaut.';
-
-  @override
   String get scoreNoModSettings => 'Aucun paramètre explicite fourni.';
 
   @override
