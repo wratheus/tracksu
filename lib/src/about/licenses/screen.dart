@@ -24,7 +24,8 @@ final class LicensesScreen extends StatelessWidget {
         MaterialLocalizations.of(context).licensesPageTitle,
       ),
     ),
-    body: const LicensesView(),
+    // Landscape notch and home indicator; the bar handles the top.
+    body: const SafeArea(top: false, child: LicensesView()),
   );
 }
 

@@ -54,64 +54,70 @@ final class _AuthorizationScreenState extends State<AuthorizationScreen>
             DepsScope.of(context).appRouter.finishAuthorization(context),
         child: Scaffold(
           appBar: UiAppBar(title: UiText.titleLarge(context.t.loginToOsu)),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(UiSpace.xl),
-              child: BlocBuilder<AuthorizationBloc, AuthorizationState>(
-                builder: (BuildContext context, AuthorizationState state) {
-                  final bool busy = switch (state) {
-                    AuthorizationIdleState() ||
-                    AuthorizationFailureState() => false,
-                    AuthorizationPreparingState() ||
-                    AuthorizationWaitingState() ||
-                    AuthorizationCompletingState() ||
-                    AuthorizationSuccessState() => true,
-                  };
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      if (busy)
-                        UiContentState.loading(
-                          title:
-                              state is AuthorizationCompletingState ||
-                                  state is AuthorizationSuccessState
-                              ? context.t.signingIn
-                              : context.t.openingOsu,
+          // Safe insets (landscape notch, home indicator); scrolls when a
+          // short landscape screen cannot fit the column.
+          body: SafeArea(
+            top: false,
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(UiSpace.xl),
+                child: BlocBuilder<AuthorizationBloc, AuthorizationState>(
+                  builder: (BuildContext context, AuthorizationState state) {
+                    final bool busy = switch (state) {
+                      AuthorizationIdleState() ||
+                      AuthorizationFailureState() => false,
+                      AuthorizationPreparingState() ||
+                      AuthorizationWaitingState() ||
+                      AuthorizationCompletingState() ||
+                      AuthorizationSuccessState() => true,
+                    };
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        if (busy)
+                          UiContentState.loading(
+                            title:
+                                state is AuthorizationCompletingState ||
+                                    state is AuthorizationSuccessState
+                                ? context.t.signingIn
+                                : context.t.openingOsu,
+                          ),
+                        if (state
+                            case AuthorizationFailureState(:final failure))
+                          UiContentState.error(
+                            title: switch (failure) {
+                              AuthorizationFailure.expired =>
+                                context.t.authorizationExpired,
+                              AuthorizationFailure.responseUnavailable =>
+                                context.t.authorizationResponseUnavailable,
+                              AuthorizationFailure.mismatch =>
+                                context.t.authorizationResponseMismatch,
+                              AuthorizationFailure.cancelled =>
+                                context.t.authorizationCancelled,
+                              AuthorizationFailure.invalidResponse =>
+                                context.t.authorizationResponseInvalid,
+                              AuthorizationFailure.preparation =>
+                                context.t.authorizationPreparationFailed,
+                              AuthorizationFailure.launch =>
+                                context.t.authorizationLaunchFailed,
+                              AuthorizationFailure.completion =>
+                                context.t.authorizationCompletionFailed,
+                              AuthorizationFailure.incomplete =>
+                                context.t.authorizationIncomplete,
+                            },
+                          ),
+                        UiButton.primary(
+                          onPressed: busy
+                              ? null
+                              : () => context.read<AuthorizationBloc>().add(
+                                  const AuthorizationRequested(),
+                                ),
+                          label: context.t.continueWithOsu,
                         ),
-                      if (state case AuthorizationFailureState(:final failure))
-                        UiContentState.error(
-                          title: switch (failure) {
-                            AuthorizationFailure.expired =>
-                              context.t.authorizationExpired,
-                            AuthorizationFailure.responseUnavailable =>
-                              context.t.authorizationResponseUnavailable,
-                            AuthorizationFailure.mismatch =>
-                              context.t.authorizationResponseMismatch,
-                            AuthorizationFailure.cancelled =>
-                              context.t.authorizationCancelled,
-                            AuthorizationFailure.invalidResponse =>
-                              context.t.authorizationResponseInvalid,
-                            AuthorizationFailure.preparation =>
-                              context.t.authorizationPreparationFailed,
-                            AuthorizationFailure.launch =>
-                              context.t.authorizationLaunchFailed,
-                            AuthorizationFailure.completion =>
-                              context.t.authorizationCompletionFailed,
-                            AuthorizationFailure.incomplete =>
-                              context.t.authorizationIncomplete,
-                          },
-                        ),
-                      UiButton.primary(
-                        onPressed: busy
-                            ? null
-                            : () => context.read<AuthorizationBloc>().add(
-                                const AuthorizationRequested(),
-                              ),
-                        label: context.t.continueWithOsu,
-                      ),
-                    ],
-                  );
-                },
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ),

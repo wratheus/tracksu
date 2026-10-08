@@ -103,6 +103,22 @@ lint rules. Formatter не заменяет analyzer и не сортирует 
 `wiki/search/bloc/`), а не `*_bloc.dart` рядом. Импортируется только
 `bloc.dart`. Проверка перед коммитом: `find lib -name '*_bloc.dart'` пусто.
 
+## Safe area и шапка (обязательно)
+
+- Экран — `Scaffold` + `UiAppBar` (не голый `AppBar`): шапка сама обходит
+  статус-бар и вырез в landscape (iPhone поддерживает landscape), высота
+  её `bottom` считается (`UiAppBar.segmentedRowHeight`,
+  `UiSegmentedControl.heightOf`, `UiSearchField.heightOf`), а не пишется
+  числом.
+- Тело — `SafeArea(top: false, …)` (верх уже обработан шапкой) или
+  `UiFrame`, в котором SafeArea встроена. Слева/справа — вырез в landscape,
+  снизу — home indicator для маршрутов поверх нижней навигации (вход).
+  Внутри оболочки нижний отступ съедает `NavigationBar`.
+- Колонки, которые могут не влезть по высоте (landscape, крупный шрифт),
+  оборачиваются в прокрутку, а не центрируются как есть.
+- Модальные окна — `UiModal` (SafeArea + клавиатура), полноэкранный
+  просмотр картинок/видео и кнопка «наверх» — уже со SafeArea.
+
 ## Подключение в P02 небольшими частями
 
 1. Зафиксировать SDK/Flutter и совместимую версию `flutter_lints` в
