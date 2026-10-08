@@ -996,7 +996,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get viewMyProfile => 'Ver mi perfil';
 
   @override
-  String get profileSearchHint => 'Nombre exacto o ID';
+  String get profileSearchHint => 'Nombre o ID';
 
   @override
   String get profileSearchInvalid =>
@@ -1073,7 +1073,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get profileSearchHelp =>
-      'Elige el modo, escribe el nombre completo o ID y confirma. No hay sugerencias al escribir. Para nombres numéricos, usa @.';
+      'Busca por nombre o introduce un ID exacto. Usa @ para un nombre exacto, incluidos los nombres numéricos.';
 
   @override
   String get profileOpen => 'Abrir perfil';
@@ -1929,4 +1929,26 @@ class AppLocalizationsEs extends AppLocalizations {
 
     return 'Kudosu disponibles: $countString';
   }
+
+  @override
+  String get unifiedSearchTitle => 'Buscar jugadores y mapas';
+
+  @override
+  String get unifiedSearchDescription => 'Jugadores, mapas e ID exactos';
+
+  @override
+  String get unifiedSearchMaps => 'Mapas';
+
+  @override
+  String get unifiedSearchPrompt => 'Escribe al menos dos caracteres';
+
+  @override
+  String get userSearchEmpty => 'No se encontraron jugadores';
+
+  @override
+  String get userSearchFailed => 'No se pudieron cargar los jugadores';
+
+  @override
+  String get userSearchLimit =>
+      'Se muestran los primeros 100 jugadores. Afina la búsqueda.';
 }

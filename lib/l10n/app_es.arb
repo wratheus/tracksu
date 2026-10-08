@@ -277,7 +277,7 @@
   "authorizationIncomplete": "La autorización no se completó. Inténtalo de nuevo.",
   "viewMyProfile": "Ver mi perfil",
   "profileTitle": "Perfil",
-  "profileSearchHint": "Nombre exacto o ID",
+  "profileSearchHint": "Nombre o ID",
   "profileSearchInvalid": "Introduce un nombre de usuario válido o un ID positivo.",
   "rulesetOsu": "ctd",
   "rulesetTaiko": "taiko",
@@ -292,7 +292,7 @@
   "profileAccuracy": "Precisión: {accuracy} %",
   "profilePlayCount": "Partidas jugadas: {count}",
   "profileSearchIntroduction": "Abre un perfil con el nombre exacto o ID del jugador. No necesitas iniciar sesión.",
-  "profileSearchHelp": "Elige el modo, escribe el nombre completo o ID y confirma. No hay sugerencias al escribir. Para nombres numéricos, usa @.",
+  "profileSearchHelp": "Busca por nombre o introduce un ID exacto. Usa @ para un nombre exacto, incluidos los nombres numéricos.",
   "profileOpen": "Abrir perfil",
   "profileSearch": "Buscar jugador",
   "profileRefreshing": "Actualizando perfil",
@@ -508,5 +508,12 @@
   "languageUnspecified": "Sin especificar",
   "rankingsKudosu": "Kudosu",
   "rankingsKudosuHint": "Clasificación por kudosu totales ganados ayudando a los mappers. Hasta 1000 jugadores.",
-  "rankingsKudosuAvailable": "Kudosu disponibles: {count}"
+  "rankingsKudosuAvailable": "Kudosu disponibles: {count}",
+  "unifiedSearchTitle": "Buscar jugadores y mapas",
+  "unifiedSearchDescription": "Jugadores, mapas e ID exactos",
+  "unifiedSearchMaps": "Mapas",
+  "unifiedSearchPrompt": "Escribe al menos dos caracteres",
+  "userSearchEmpty": "No se encontraron jugadores",
+  "userSearchFailed": "No se pudieron cargar los jugadores",
+  "userSearchLimit": "Se muestran los primeros 100 jugadores. Afina la búsqueda."
 }

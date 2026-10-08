@@ -122,7 +122,12 @@ final class BeatmapSearchPage {
   final int? total;
 }
 
-enum BeatmapSearchFailureKind { connection, unavailable, invalidResponse }
+enum BeatmapSearchFailureKind {
+  connection,
+  unavailable,
+  invalidResponse,
+  rateLimited,
+}
 
 final class BeatmapSearchFailure implements Exception {
   const BeatmapSearchFailure(this.kind);
@@ -130,5 +135,6 @@ final class BeatmapSearchFailure implements Exception {
 }
 
 abstract interface class BeatmapSearchRepository {
+  void cancelPending();
   Future<BeatmapSearchPage> search(BeatmapSearchQuery query, {String? cursor});
 }

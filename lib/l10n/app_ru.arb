@@ -277,7 +277,7 @@
   "authorizationIncomplete": "Авторизация не была завершена. Повторите попытку.",
   "viewMyProfile": "Мой профиль",
   "profileTitle": "Профиль",
-  "profileSearchHint": "Точный ник или ID",
+  "profileSearchHint": "Ник или ID",
   "profileSearchInvalid": "Введите корректное имя пользователя или положительный ID.",
   "rulesetOsu": "ctd",
   "rulesetTaiko": "taiko",
@@ -292,7 +292,7 @@
   "profileAccuracy": "Точность: {accuracy}%",
   "profilePlayCount": "Количество игр: {count}",
   "profileSearchIntroduction": "Откройте профиль игрока по точному нику или ID. Вход не нужен.",
-  "profileSearchHelp": "Выберите режим статистики, введите полный ник или ID и нажмите кнопку. Подсказок при вводе пока нет. Для числового ника добавьте @.",
+  "profileSearchHelp": "Ищите игрока по нику или введите точный ID. Для точного ника, в том числе числового, используйте @.",
   "profileOpen": "Открыть профиль",
   "profileSearch": "Найти игрока",
   "profileRefreshing": "Обновление профиля",
@@ -508,5 +508,12 @@
   "languageUnspecified": "Не указан",
   "rankingsKudosu": "Kudosu",
   "rankingsKudosuHint": "Лучшие участники по сумме kudosu за помощь мапперам. До 1000 игроков.",
-  "rankingsKudosuAvailable": "Доступно kudosu: {count}"
+  "rankingsKudosuAvailable": "Доступно kudosu: {count}",
+  "unifiedSearchTitle": "Поиск игроков и карт",
+  "unifiedSearchDescription": "Игроки, карты и точный поиск по ID",
+  "unifiedSearchMaps": "Карты",
+  "unifiedSearchPrompt": "Введите хотя бы два символа",
+  "userSearchEmpty": "Игроки не найдены",
+  "userSearchFailed": "Не удалось загрузить игроков",
+  "userSearchLimit": "Показаны первые 100 игроков. Уточните запрос."
 }

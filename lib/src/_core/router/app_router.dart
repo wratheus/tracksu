@@ -20,7 +20,8 @@ import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/profile/main.dart';
 import 'package:tracksu/src/rankings/main.dart';
-import 'package:tracksu/src/beatmap_search/main.dart';
+import 'package:tracksu/src/search/main.dart';
+import 'package:tracksu/src/search/domain/search_params.dart';
 import 'package:tracksu/src/daily/main.dart';
 import 'package:tracksu/src/spotlights/main.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
@@ -155,13 +156,25 @@ final class TracksuAppRouter {
     ),
     GoRoute(
       path: 'beatmaps',
-      builder: (_, GoRouterState state) => BeatmapSearchMain(
-        // Bounded so a pasted deep link cannot carry an unbounded query.
-        text: (state.uri.queryParameters['q'] ?? '')
-            .trim()
-            .characters
-            .take(200)
-            .toString(),
+      redirect: (_, GoRouterState state) => Uri(
+        path: state.uri.path.replaceFirst(RegExp(r'/beatmaps$'), '/find'),
+        queryParameters: {...state.uri.queryParameters, 'tab': 'maps'},
+      ).toString(),
+    ),
+    GoRoute(
+      path: 'find',
+      builder: (_, GoRouterState state) => SearchMain(
+        params: SearchParams(
+          tab: state.uri.queryParameters['tab'] == 'maps'
+              ? SearchTab.maps
+              : SearchTab.players,
+          // Bounded so a pasted deep link cannot carry an unbounded query.
+          text: (state.uri.queryParameters['q'] ?? '')
+              .trim()
+              .characters
+              .take(200)
+              .toString(),
+        ),
       ),
     ),
   ];
@@ -220,15 +233,19 @@ final class TracksuAppRouter {
     await config.push<void>('$_branchPath/daily/day/$roomId');
   }
 
-  Future<void> openBeatmapSearch(BuildContext context, {String text = ''}) =>
-      config.push<void>(
-        Uri(
-          path: '$_branchPath/beatmaps',
-          queryParameters: text.trim().isEmpty
-              ? null
-              : <String, String>{'q': text.trim()},
-        ).toString(),
-      );
+  Future<void> openSearch(
+    BuildContext context, {
+    String text = '',
+    SearchTab tab = SearchTab.players,
+  }) => config.push<void>(
+    Uri(
+      path: '$_branchPath/find',
+      queryParameters: {
+        if (text.trim().isNotEmpty) 'q': text.trim(),
+        'tab': tab.name,
+      },
+    ).toString(),
+  );
 
   Future<void> openBeatmap(BuildContext context, BeatmapParams params) async {
     final String kind = params is BeatmapsetParams ? 'set' : 'difficulty';

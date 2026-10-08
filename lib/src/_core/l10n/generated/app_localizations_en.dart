@@ -983,7 +983,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewMyProfile => 'View my profile';
 
   @override
-  String get profileSearchHint => 'Exact username or ID';
+  String get profileSearchHint => 'Username or ID';
 
   @override
   String get profileSearchInvalid => 'Enter a valid username or positive ID.';
@@ -1058,7 +1058,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSearchHelp =>
-      'Choose the statistics mode, then enter a full username or ID and submit. No suggestions while typing. For a numeric username, use @.';
+      'Find players by name, or enter an exact user ID. Use @ for an exact username, including numeric names.';
 
   @override
   String get profileOpen => 'Open profile';
@@ -1904,4 +1904,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
     return 'Available kudosu: $countString';
   }
+
+  @override
+  String get unifiedSearchTitle => 'Search players and maps';
+
+  @override
+  String get unifiedSearchDescription => 'Players, beatmaps and exact user IDs';
+
+  @override
+  String get unifiedSearchMaps => 'Maps';
+
+  @override
+  String get unifiedSearchPrompt => 'Type at least two characters';
+
+  @override
+  String get userSearchEmpty => 'No players found';
+
+  @override
+  String get userSearchFailed => 'Could not load players';
+
+  @override
+  String get userSearchLimit =>
+      'Showing the first 100 players. Refine your search.';
 }

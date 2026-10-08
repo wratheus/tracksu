@@ -22,6 +22,11 @@ final class BeatmapSearchMoreRequested extends BeatmapSearchEvent {
   const BeatmapSearchMoreRequested();
 }
 
+final class BeatmapSearchPaused extends BeatmapSearchEvent {
+  const BeatmapSearchPaused({this.text});
+  final String? text;
+}
+
 enum BeatmapSearchOperation { refresh, loadMore }
 
 /// [items] is null until the first page of the current query arrives.
@@ -55,6 +60,7 @@ final class BeatmapSearchBloc
     extends Bloc<BeatmapSearchEvent, BeatmapSearchState> {
   BeatmapSearchBloc({
     required this._repository,
+    this.minimumQueryLength = 0,
     BeatmapSearchQuery initial = const BeatmapSearchQuery(),
   }) : super(BeatmapSearchState(query: initial)) {
     on<BeatmapSearchEvent>(_onEvent, transformer: concurrent());
@@ -62,6 +68,15 @@ final class BeatmapSearchBloc
 
   final BeatmapSearchRepository _repository;
   int _generation = 0;
+  final int minimumQueryLength;
+  final Map<BeatmapSearchQuery, (DateTime, BeatmapSearchState)> _cache = {};
+
+  @override
+  Future<void> close() {
+    _generation++;
+    _repository.cancelPending();
+    return super.close();
+  }
 
   Future<void> _onEvent(
     BeatmapSearchEvent event,
@@ -70,9 +85,22 @@ final class BeatmapSearchBloc
     BeatmapSearchQuery query = state.query;
     bool more = false;
     switch (event) {
+      case BeatmapSearchPaused():
+        _generation++;
+        _repository.cancelPending();
+        emit(BeatmapSearchState(query: query.copyWith(text: event.text)));
+        return;
       case BeatmapSearchQueryChanged():
         if (state.started && event.query == query) return;
         query = event.query;
+        final cached = _cache[query];
+        if (cached != null &&
+            DateTime.now().difference(cached.$1) < const Duration(minutes: 2)) {
+          _generation++;
+          _repository.cancelPending();
+          emit(cached.$2);
+          return;
+        }
       case BeatmapSearchRefreshRequested():
         if (state.busy) return;
       case BeatmapSearchMoreRequested():
@@ -83,6 +111,12 @@ final class BeatmapSearchBloc
           return;
         }
         more = true;
+    }
+    if (query.text.length < minimumQueryLength) {
+      _generation++;
+      _repository.cancelPending();
+      emit(BeatmapSearchState(query: query));
+      return;
     }
     final int generation = more ? _generation : ++_generation;
     final BeatmapSearchOperation operation = more
@@ -130,6 +164,9 @@ final class BeatmapSearchBloc
           started: true,
         ),
       );
+      _cache.remove(query);
+      _cache[query] = (DateTime.now(), state);
+      if (_cache.length > 10) _cache.remove(_cache.keys.first);
     } on Object catch (error, stackTrace) {
       if (generation != _generation || isClosed) return;
       final BeatmapSearchFailureKind kind = error is BeatmapSearchFailure

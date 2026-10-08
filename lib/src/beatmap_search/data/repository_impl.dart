@@ -10,19 +10,30 @@ import 'package:tracksu/src/profile/beatmaps/domain/beatmaps_query.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 
 final class BeatmapSearchRepositoryImpl implements BeatmapSearchRepository {
-  const BeatmapSearchRepositoryImpl({required this._source});
+  BeatmapSearchRepositoryImpl({required this._source});
   final BeatmapSearchRemoteSource _source;
+  RestCancellationToken? _pending;
+  @override
+  void cancelPending() => _pending?.cancel();
 
   @override
   Future<BeatmapSearchPage> search(
     BeatmapSearchQuery query, {
     String? cursor,
   }) async {
+    cancelPending();
+    final RestCancellationToken token = _pending = RestCancellationToken();
     try {
-      return decode(await _source.search(query, cursor: cursor));
-    } on BeatmapSearchRemoteException catch (_, stackTrace) {
+      return decode(
+        await _source.search(query, cursor: cursor, cancellationToken: token),
+      );
+    } on BeatmapSearchRemoteException catch (error, stackTrace) {
       Error.throwWithStackTrace(
-        const BeatmapSearchFailure(BeatmapSearchFailureKind.unavailable),
+        BeatmapSearchFailure(
+          error.statusCode == 429
+              ? BeatmapSearchFailureKind.rateLimited
+              : BeatmapSearchFailureKind.unavailable,
+        ),
         stackTrace,
       );
     } on OAuthRemoteSourceException catch (_, stackTrace) {

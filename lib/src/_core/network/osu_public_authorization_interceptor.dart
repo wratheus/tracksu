@@ -16,6 +16,7 @@ final class OsuPublicAuthorizationInterceptor
       request.uri.host == 'osu.ppy.sh' &&
       request.method == RestMethod.get &&
       (request.uri.path.startsWith('/api/v2/users/') ||
+          request.uri.path == '/api/v2/search' ||
           request.uri.path == '/api/v2/spotlights' ||
           request.uri.path == '/api/v2/rankings/kudosu' ||
           RegExp(r'^/api/v2/news(/[1-9][0-9]*)?$').hasMatch(request.uri.path) ||

@@ -929,7 +929,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get viewMyProfile => '查看我的资料';
 
   @override
-  String get profileSearchHint => '完整用户名或 ID';
+  String get profileSearchHint => '用户名或 ID';
 
   @override
   String get profileSearchInvalid => '请输入有效的用户名或正整数 ID。';
@@ -1002,8 +1002,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profileSearchIntroduction => '通过完整用户名或 ID 打开玩家资料，无需登录。';
 
   @override
-  String get profileSearchHelp =>
-      '选择统计模式，输入完整用户名或 ID 后提交。目前不提供输入建议。纯数字用户名请加上 @。';
+  String get profileSearchHelp => '按名称搜索玩家，或输入精确的用户 ID。精确搜索用户名（包括纯数字名称）时请加 @。';
 
   @override
   String get profileOpen => '打开资料';
@@ -1825,4 +1824,25 @@ class AppLocalizationsZh extends AppLocalizations {
 
     return '可用Kudosu：$countString';
   }
+
+  @override
+  String get unifiedSearchTitle => '搜索玩家和谱面';
+
+  @override
+  String get unifiedSearchDescription => '玩家、谱面和精确用户 ID';
+
+  @override
+  String get unifiedSearchMaps => '谱面';
+
+  @override
+  String get unifiedSearchPrompt => '请输入至少两个字符';
+
+  @override
+  String get userSearchEmpty => '未找到玩家';
+
+  @override
+  String get userSearchFailed => '无法加载玩家';
+
+  @override
+  String get userSearchLimit => '仅显示前 100 位玩家，请缩小搜索范围。';
 }

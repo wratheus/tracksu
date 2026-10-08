@@ -277,7 +277,7 @@
   "authorizationIncomplete": "Die Anmeldung wurde nicht abgeschlossen. Versuche es erneut.",
   "viewMyProfile": "Mein Profil anzeigen",
   "profileTitle": "Profil",
-  "profileSearchHint": "Exakter Benutzername oder ID",
+  "profileSearchHint": "Benutzername oder ID",
   "profileSearchInvalid": "Gib einen gültigen Benutzernamen oder eine positive ID ein.",
   "rulesetOsu": "ctd",
   "rulesetTaiko": "taiko",
@@ -292,7 +292,7 @@
   "profileAccuracy": "Genauigkeit: {accuracy} %",
   "profilePlayCount": "Spielanzahl: {count}",
   "profileSearchIntroduction": "Öffne ein Spielerprofil mit dem exakten Benutzernamen oder der ID. Keine Anmeldung nötig.",
-  "profileSearchHelp": "Wähle den Statistikmodus, gib den vollständigen Namen oder die ID ein und bestätige. Keine Vorschläge beim Tippen. Für numerische Namen: @.",
+  "profileSearchHelp": "Suche Spieler nach Namen oder gib eine genaue Benutzer-ID ein. Nutze @ für einen genauen Namen, auch bei numerischen Namen.",
   "profileOpen": "Profil öffnen",
   "profileSearch": "Spieler suchen",
   "profileRefreshing": "Profil wird aktualisiert",
@@ -508,5 +508,12 @@
   "languageUnspecified": "Nicht angegeben",
   "rankingsKudosu": "Kudosu",
   "rankingsKudosuHint": "Die besten Mitwirkenden nach insgesamt verdienten Kudosu für Mapping-Hilfe. Bis zu 1.000 Spieler.",
-  "rankingsKudosuAvailable": "Verfügbare Kudosu: {count}"
+  "rankingsKudosuAvailable": "Verfügbare Kudosu: {count}",
+  "unifiedSearchTitle": "Spieler und Beatmaps suchen",
+  "unifiedSearchDescription": "Spieler, Beatmaps und genaue Benutzer-IDs",
+  "unifiedSearchMaps": "Beatmaps",
+  "unifiedSearchPrompt": "Mindestens zwei Zeichen eingeben",
+  "userSearchEmpty": "Keine Spieler gefunden",
+  "userSearchFailed": "Spieler konnten nicht geladen werden",
+  "userSearchLimit": "Die ersten 100 Spieler werden angezeigt. Grenze die Suche ein."
 }

@@ -941,7 +941,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get viewMyProfile => '自分のプロフィールを表示';
 
   @override
-  String get profileSearchHint => '正確なユーザー名またはID';
+  String get profileSearchHint => 'ユーザー名またはID';
 
   @override
   String get profileSearchInvalid => '有効なユーザー名または正のIDを入力してください。';
@@ -1016,7 +1016,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get profileSearchHelp =>
-      '統計のモードを選び、完全なユーザー名またはIDを入力してボタンを押してください。入力中の候補表示はありません。数字のみの名前には@を付けてください。';
+      '名前で検索するか、正確なユーザーIDを入力してください。数字だけの名前を含め、正確な名前には @ を付けてください。';
 
   @override
   String get profileOpen => 'プロフィールを開く';
@@ -1839,4 +1839,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
     return '利用可能なKudosu: $countString';
   }
+
+  @override
+  String get unifiedSearchTitle => 'プレイヤーとビートマップを検索';
+
+  @override
+  String get unifiedSearchDescription => 'プレイヤー、ビートマップ、正確なユーザーID';
+
+  @override
+  String get unifiedSearchMaps => 'ビートマップ';
+
+  @override
+  String get unifiedSearchPrompt => '2文字以上入力してください';
+
+  @override
+  String get userSearchEmpty => 'プレイヤーが見つかりません';
+
+  @override
+  String get userSearchFailed => 'プレイヤーを読み込めませんでした';
+
+  @override
+  String get userSearchLimit => '最初の100人を表示しています。検索条件を絞ってください。';
 }

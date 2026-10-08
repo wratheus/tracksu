@@ -277,7 +277,7 @@
   "authorizationIncomplete": "授权尚未完成，请重试。",
   "viewMyProfile": "查看我的资料",
   "profileTitle": "个人资料",
-  "profileSearchHint": "完整用户名或 ID",
+  "profileSearchHint": "用户名或 ID",
   "profileSearchInvalid": "请输入有效的用户名或正整数 ID。",
   "rulesetOsu": "ctd",
   "rulesetTaiko": "taiko",
@@ -292,7 +292,7 @@
   "profileAccuracy": "准确率：{accuracy}%",
   "profilePlayCount": "游玩次数：{count}",
   "profileSearchIntroduction": "通过完整用户名或 ID 打开玩家资料，无需登录。",
-  "profileSearchHelp": "选择统计模式，输入完整用户名或 ID 后提交。目前不提供输入建议。纯数字用户名请加上 @。",
+  "profileSearchHelp": "按名称搜索玩家，或输入精确的用户 ID。精确搜索用户名（包括纯数字名称）时请加 @。",
   "profileOpen": "打开资料",
   "profileSearch": "搜索玩家",
   "profileRefreshing": "正在更新个人资料",
@@ -508,5 +508,12 @@
   "languageUnspecified": "未指定",
   "rankingsKudosu": "Kudosu",
   "rankingsKudosuHint": "按帮助谱师获得的Kudosu总数排名，最多显示1,000名玩家。",
-  "rankingsKudosuAvailable": "可用Kudosu：{count}"
+  "rankingsKudosuAvailable": "可用Kudosu：{count}",
+  "unifiedSearchTitle": "搜索玩家和谱面",
+  "unifiedSearchDescription": "玩家、谱面和精确用户 ID",
+  "unifiedSearchMaps": "谱面",
+  "unifiedSearchPrompt": "请输入至少两个字符",
+  "userSearchEmpty": "未找到玩家",
+  "userSearchFailed": "无法加载玩家",
+  "userSearchLimit": "仅显示前 100 位玩家，请缩小搜索范围。"
 }

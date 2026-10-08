@@ -22,6 +22,24 @@ final class ShareTarget {
         ),
         title,
       );
+  factory ShareTarget.rankingCategory(
+    ProfileRuleset ruleset,
+    String category,
+    String title,
+  ) {
+    if (!{'team', 'country', 'kudosu'}.contains(category)) {
+      throw ArgumentError.value(category, 'category');
+    }
+    return ShareTarget._(
+      Uri.https(
+        'osu.ppy.sh',
+        category == 'kudosu'
+            ? '/rankings/kudosu'
+            : '/rankings/${ruleset.apiValue}/$category',
+      ),
+      title,
+    );
+  }
   factory ShareTarget.spotlight(
     ProfileRuleset ruleset,
     int? id,

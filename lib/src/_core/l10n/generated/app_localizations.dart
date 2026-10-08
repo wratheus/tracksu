@@ -1767,7 +1767,7 @@ abstract class AppLocalizations {
   /// Search field hint accepting a username or numeric player ID.
   ///
   /// In en, this message translates to:
-  /// **'Exact username or ID'**
+  /// **'Username or ID'**
   String get profileSearchHint;
 
   /// Validation message for an invalid player query.
@@ -1857,7 +1857,7 @@ abstract class AppLocalizations {
   /// Prefix a numeric username with the literal @ character to distinguish it from an ID.
   ///
   /// In en, this message translates to:
-  /// **'Choose the statistics mode, then enter a full username or ID and submit. No suggestions while typing. For a numeric username, use @.'**
+  /// **'Find players by name, or enter an exact user ID. Use @ for an exact username, including numeric names.'**
   String get profileSearchHelp;
 
   /// Submit exact player lookup from the search landing screen.
@@ -3149,6 +3149,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Available kudosu: {count}'**
   String rankingsKudosuAvailable(int count);
+
+  /// Unified AppBar search: Search players and maps
+  ///
+  /// In en, this message translates to:
+  /// **'Search players and maps'**
+  String get unifiedSearchTitle;
+
+  /// Unified AppBar search: Players, beatmaps and exact user IDs
+  ///
+  /// In en, this message translates to:
+  /// **'Players, beatmaps and exact user IDs'**
+  String get unifiedSearchDescription;
+
+  /// Unified AppBar search: Maps
+  ///
+  /// In en, this message translates to:
+  /// **'Maps'**
+  String get unifiedSearchMaps;
+
+  /// Unified AppBar search: Type at least two characters
+  ///
+  /// In en, this message translates to:
+  /// **'Type at least two characters'**
+  String get unifiedSearchPrompt;
+
+  /// Unified AppBar search: No players found
+  ///
+  /// In en, this message translates to:
+  /// **'No players found'**
+  String get userSearchEmpty;
+
+  /// Unified AppBar search: Could not load players
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load players'**
+  String get userSearchFailed;
+
+  /// Unified AppBar search: Showing the first 100 players. Refine your search.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing the first 100 players. Refine your search.'**
+  String get userSearchLimit;
 }
 
 class _AppLocalizationsDelegate

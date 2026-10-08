@@ -648,7 +648,7 @@
   "@profileTitle": {
     "description": "Player profile screen title."
   },
-  "profileSearchHint": "Exact username or ID",
+  "profileSearchHint": "Username or ID",
   "@profileSearchHint": {
     "description": "Search field hint accepting a username or numeric player ID."
   },
@@ -742,7 +742,7 @@
   "@profileSearchIntroduction": {
     "description": "Guest-first introduction to public player search."
   },
-  "profileSearchHelp": "Choose the statistics mode, then enter a full username or ID and submit. No suggestions while typing. For a numeric username, use @.",
+  "profileSearchHelp": "Find players by name, or enter an exact user ID. Use @ for an exact username, including numeric names.",
   "profileOpen": "Open profile",
   "@profileOpen": {"description": "Submit exact player lookup from the search landing screen."},
   "@profileSearchHelp": {
@@ -1601,5 +1601,33 @@
         "format": "decimalPattern"
       }
     }
+  },
+  "unifiedSearchTitle": "Search players and maps",
+  "@unifiedSearchTitle": {
+    "description": "Unified AppBar search: Search players and maps"
+  },
+  "unifiedSearchDescription": "Players, beatmaps and exact user IDs",
+  "@unifiedSearchDescription": {
+    "description": "Unified AppBar search: Players, beatmaps and exact user IDs"
+  },
+  "unifiedSearchMaps": "Maps",
+  "@unifiedSearchMaps": {
+    "description": "Unified AppBar search: Maps"
+  },
+  "unifiedSearchPrompt": "Type at least two characters",
+  "@unifiedSearchPrompt": {
+    "description": "Unified AppBar search: Type at least two characters"
+  },
+  "userSearchEmpty": "No players found",
+  "@userSearchEmpty": {
+    "description": "Unified AppBar search: No players found"
+  },
+  "userSearchFailed": "Could not load players",
+  "@userSearchFailed": {
+    "description": "Unified AppBar search: Could not load players"
+  },
+  "userSearchLimit": "Showing the first 100 players. Refine your search.",
+  "@userSearchLimit": {
+    "description": "Unified AppBar search: Showing the first 100 players. Refine your search."
   }
 }

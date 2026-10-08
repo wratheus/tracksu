@@ -19,9 +19,11 @@ final class BeatmapSearchRemoteSource {
   Future<Map<String, dynamic>> search(
     BeatmapSearchQuery query, {
     String? cursor,
+    RestCancellationToken? cancellationToken,
   }) async {
     final RestResponse response = await _client.get(
       path: '/beatmapsets/search',
+      options: RestClientOptions(cancellationToken: cancellationToken),
       queryParameters: <String, Object?>{
         if (query.text.trim().isNotEmpty) 'q': query.text.trim(),
         // Ruleset ids: osu 0, taiko 1, fruits 2, mania 3 (enum order);

@@ -29,6 +29,8 @@ Map<String, dynamic> _result(List<int> ids, {String? cursor}) =>
     };
 
 final class _Repository implements BeatmapSearchRepository {
+  @override
+  void cancelPending() {}
   final List<({BeatmapSearchQuery query, String? cursor})> calls = [];
   final List<BeatmapSearchPage> pages = <BeatmapSearchPage>[];
 
@@ -43,6 +45,43 @@ final class _Repository implements BeatmapSearchRepository {
 }
 
 void main() {
+  test('unified map search keeps filters on pause, suppresses short text and reuses cache', () async {
+    final repository = _Repository()
+      ..pages.addAll([
+        BeatmapSearchRepositoryImpl.decode(_result([1])),
+        BeatmapSearchRepositoryImpl.decode(_result([2])),
+      ]);
+    final bloc = BeatmapSearchBloc(
+      repository: repository,
+      minimumQueryLength: 2,
+    );
+    bloc.add(const BeatmapSearchQueryChanged(BeatmapSearchQuery(text: 'a')));
+    await Future<void>.delayed(Duration.zero);
+    expect(repository.calls, isEmpty);
+    const query = BeatmapSearchQuery(
+      text: 'song',
+      genre: BeatmapGenre.electronic,
+    );
+    bloc.add(const BeatmapSearchQueryChanged(query));
+    await bloc.stream.firstWhere((s) => s.items != null && !s.busy);
+    bloc.add(const BeatmapSearchPaused(text: 'new'));
+    await Future<void>.delayed(Duration.zero);
+    expect(bloc.state.query.text, 'new');
+    expect(bloc.state.query.genre, BeatmapGenre.electronic);
+    bloc.add(const BeatmapSearchQueryChanged(query));
+    await bloc.stream.firstWhere((s) => s.items != null);
+    expect(repository.calls.length, 1);
+    bloc.add(
+      BeatmapSearchQueryChanged(
+        query.copyWith(language: BeatmapLanguage.instrumental),
+      ),
+    );
+    await bloc.stream.firstWhere((s) => s.items != null && !s.busy);
+    expect(repository.calls.length, 2);
+    expect(bloc.state.items!.single.id, 2);
+    await bloc.close();
+  });
+
   test('result decodes sets, cursor and total', () {
     final BeatmapSearchPage page = BeatmapSearchRepositoryImpl.decode(
       _result(<int>[1, 2], cursor: 'abc'),

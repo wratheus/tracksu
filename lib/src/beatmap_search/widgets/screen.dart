@@ -74,223 +74,171 @@ String languageLabel(BuildContext context, BeatmapLanguage language) =>
       BeatmapLanguage.unspecified => context.t.languageUnspecified,
     };
 
-/// Beatmap listing: text, ruleset (or any), status, genre and language; results load page by page as
-/// the end nears. Typing searches after a short pause; pull to refresh.
-final class BeatmapSearchScreen extends StatefulWidget {
-  const BeatmapSearchScreen({this.initialText = '', super.key});
-  final String initialText;
+/// Map filters and results embedded under the unified search AppBar.
+final class BeatmapSearchResults extends StatelessWidget {
+  const BeatmapSearchResults({super.key});
 
-  @override
-  State<BeatmapSearchScreen> createState() => _BeatmapSearchScreenState();
-}
-
-final class _BeatmapSearchScreenState extends State<BeatmapSearchScreen> {
-  late final TextEditingController _text = TextEditingController(
-    text: widget.initialText,
-  );
-  Timer? _debounce;
-
-  @override
-  void dispose() {
-    _debounce?.cancel();
-    _text.dispose();
-    super.dispose();
-  }
-
-  void _update(BeatmapSearchQuery Function(BeatmapSearchQuery) change) {
+  void _update(
+    BuildContext context,
+    BeatmapSearchQuery Function(BeatmapSearchQuery) change,
+  ) {
     final BeatmapSearchBloc bloc = context.read<BeatmapSearchBloc>();
     bloc.add(BeatmapSearchQueryChanged(change(bloc.state.query)));
   }
 
-  void _typed(String value) {
-    _debounce?.cancel();
-    _debounce = Timer(
-      const Duration(milliseconds: 500),
-      () => _update((BeatmapSearchQuery q) => q.copyWith(text: value.trim())),
-    );
-  }
-
-  void _submitted(String value) {
-    _debounce?.cancel();
-    _update((BeatmapSearchQuery q) => q.copyWith(text: value.trim()));
-  }
-
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: UiText.titleLarge(context.t.beatmapSearchTitle),
-      bottom: UiAppBarProgressSlot(
-        child: BlocSelector<BeatmapSearchBloc, BeatmapSearchState, bool>(
-          selector: (BeatmapSearchState state) =>
-              state.items != null &&
-              state.operation == BeatmapSearchOperation.refresh,
-          builder: (BuildContext context, bool busy) => UiAppBarProgress(
-            visible: busy,
-            semanticsLabel: context.t.beatmapsLoading,
-          ),
+  Widget build(BuildContext context) => UiScrollToTop(
+    tooltip: context.t.scrollToTop,
+    child: SafeArea(
+      top: false,
+      child: RefreshIndicator(
+        onRefresh: () async => context.read<BeatmapSearchBloc>().add(
+          const BeatmapSearchRefreshRequested(),
         ),
-      ),
-    ),
-    body: UiScrollToTop(
-      tooltip: context.t.scrollToTop,
-      child: SafeArea(
-        top: false,
-        child: RefreshIndicator(
-          onRefresh: () async => context.read<BeatmapSearchBloc>().add(
-            const BeatmapSearchRefreshRequested(),
-          ),
-          child: CustomScrollView(
-            primary: true,
-            physics: const AlwaysScrollableScrollPhysics(),
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            slivers: <Widget>[
-              SliverPadding(
-                padding: const EdgeInsets.all(UiSpace.lg),
-                sliver: SliverToBoxAdapter(
-                  child:
-                      BlocSelector<
-                        BeatmapSearchBloc,
-                        BeatmapSearchState,
-                        BeatmapSearchQuery
-                      >(
-                        selector: (BeatmapSearchState state) => state.query,
-                        builder:
-                            (
-                              BuildContext context,
-                              BeatmapSearchQuery query,
-                            ) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              spacing: UiSpace.md,
-                              children: <Widget>[
-                                UiSearchField(
-                                  controller: _text,
-                                  label: context.t.beatmapSearchHint,
-                                  clearLabel: context.t.searchClear,
-                                  onChanged: _typed,
-                                  onSubmitted: _submitted,
-                                ),
-                                // Same control as the ruleset selector, plus "All".
-                                UiSegmentedControl<int>(
-                                  selected: query.ruleset?.index ?? -1,
-                                  segments: <UiSegment<int>>[
-                                    UiSegment<int>(
-                                      value: -1,
-                                      label: context.t.beatmapSearchAnyMode,
-                                      icon: const Icon(Icons.all_inclusive),
-                                    ),
-                                    for (final ProfileRuleset ruleset
-                                        in ProfileRuleset.values)
-                                      UiSegment<int>(
-                                        value: ruleset.index,
-                                        label: OsuRulesetSelector.label(
-                                          context,
-                                          ruleset,
-                                        ),
-                                        icon: OsuRulesetIcon(ruleset: ruleset),
-                                      ),
-                                  ],
-                                  onChanged: (int index) => _update(
-                                    (BeatmapSearchQuery q) => index < 0
-                                        ? q.copyWith(anyRuleset: true)
-                                        : q.copyWith(
-                                            ruleset:
-                                                ProfileRuleset.values[index],
-                                          ),
+        child: CustomScrollView(
+          primary: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          slivers: <Widget>[
+            SliverPadding(
+              padding: const EdgeInsets.all(UiSpace.lg),
+              sliver: SliverToBoxAdapter(
+                child:
+                    BlocSelector<
+                      BeatmapSearchBloc,
+                      BeatmapSearchState,
+                      BeatmapSearchQuery
+                    >(
+                      selector: (BeatmapSearchState state) => state.query,
+                      builder:
+                          (
+                            BuildContext context,
+                            BeatmapSearchQuery query,
+                          ) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            spacing: UiSpace.md,
+                            children: <Widget>[
+                              // Same control as the ruleset selector, plus "All".
+                              UiSegmentedControl<int>(
+                                selected: query.ruleset?.index ?? -1,
+                                segments: <UiSegment<int>>[
+                                  UiSegment<int>(
+                                    value: -1,
+                                    label: context.t.beatmapSearchAnyMode,
+                                    icon: const Icon(Icons.all_inclusive),
                                   ),
-                                ),
-                                OsuCategoryPicker<BeatmapSearchStatus>(
-                                  title: context.t.beatmapSearchStatus,
-                                  selected: query.status,
-                                  icon: (BeatmapSearchStatus s) => s.icon,
-                                  label: (
-                                    BuildContext context,
-                                    BeatmapSearchStatus s,
-                                  ) => s.label(context),
-                                  onSelected: (BeatmapSearchStatus status) =>
-                                      _update(
-                                        (BeatmapSearchQuery q) =>
-                                            q.copyWith(status: status),
+                                  for (final ProfileRuleset ruleset
+                                      in ProfileRuleset.values)
+                                    UiSegment<int>(
+                                      value: ruleset.index,
+                                      label: OsuRulesetSelector.label(
+                                        context,
+                                        ruleset,
                                       ),
-                                  groups:
-                                      const <
-                                        OsuCategoryGroup<BeatmapSearchStatus>
-                                      >[
-                                        OsuCategoryGroup<BeatmapSearchStatus>(
-                                          options: BeatmapSearchStatus.values,
+                                      icon: OsuRulesetIcon(ruleset: ruleset),
+                                    ),
+                                ],
+                                onChanged: (int index) => _update(
+                                  context,
+                                  (BeatmapSearchQuery q) => index < 0
+                                      ? q.copyWith(anyRuleset: true)
+                                      : q.copyWith(
+                                          ruleset: ProfileRuleset.values[index],
                                         ),
-                                      ],
                                 ),
-                                Row(
-                                  spacing: UiSpace.sm,
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: OsuCategoryPicker<BeatmapGenre>(
-                                        title: context.t.beatmapSearchGenre,
-                                        selected: query.genre,
-                                        icon: (_) => Icons.music_note_outlined,
-                                        label:
-                                            (
-                                              BuildContext context,
-                                              BeatmapGenre g,
-                                            ) => g == BeatmapGenre.any
-                                            ? context.t.beatmapSearchAnyGenre
-                                            : genreLabel(context, g),
-                                        onSelected: (BeatmapGenre genre) =>
-                                            _update(
-                                              (BeatmapSearchQuery q) =>
-                                                  q.copyWith(genre: genre),
+                              ),
+                              OsuCategoryPicker<BeatmapSearchStatus>(
+                                title: context.t.beatmapSearchStatus,
+                                selected: query.status,
+                                icon: (BeatmapSearchStatus s) => s.icon,
+                                label: (
+                                  BuildContext context,
+                                  BeatmapSearchStatus s,
+                                ) => s.label(context),
+                                onSelected: (BeatmapSearchStatus status) =>
+                                    _update(
+                                      context,
+                                      (BeatmapSearchQuery q) =>
+                                          q.copyWith(status: status),
+                                    ),
+                                groups:
+                                    const <
+                                      OsuCategoryGroup<BeatmapSearchStatus>
+                                    >[
+                                      OsuCategoryGroup<BeatmapSearchStatus>(
+                                        options: BeatmapSearchStatus.values,
+                                      ),
+                                    ],
+                              ),
+                              Row(
+                                spacing: UiSpace.sm,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: OsuCategoryPicker<BeatmapGenre>(
+                                      title: context.t.beatmapSearchGenre,
+                                      selected: query.genre,
+                                      icon: (_) => Icons.music_note_outlined,
+                                      label:
+                                          (
+                                            BuildContext context,
+                                            BeatmapGenre g,
+                                          ) => g == BeatmapGenre.any
+                                          ? context.t.beatmapSearchAnyGenre
+                                          : genreLabel(context, g),
+                                      onSelected: (BeatmapGenre genre) =>
+                                          _update(
+                                            context,
+                                            (BeatmapSearchQuery q) =>
+                                                q.copyWith(genre: genre),
+                                          ),
+                                      groups:
+                                          const <
+                                            OsuCategoryGroup<BeatmapGenre>
+                                          >[
+                                            OsuCategoryGroup<BeatmapGenre>(
+                                              options: BeatmapGenre.values,
                                             ),
-                                        groups:
-                                            const <
-                                              OsuCategoryGroup<BeatmapGenre>
-                                            >[
-                                              OsuCategoryGroup<BeatmapGenre>(
-                                                options: BeatmapGenre.values,
-                                              ),
-                                            ],
-                                      ),
+                                          ],
                                     ),
-                                    Expanded(
-                                      child: OsuCategoryPicker<BeatmapLanguage>(
-                                        title: context.t.beatmapSearchLanguage,
-                                        selected: query.language,
-                                        icon: (_) => Icons.translate_rounded,
-                                        label:
-                                            (
-                                              BuildContext context,
-                                              BeatmapLanguage l,
-                                            ) => l == BeatmapLanguage.any
-                                            ? context.t.beatmapSearchAnyLanguage
-                                            : languageLabel(context, l),
-                                        onSelected:
-                                            (BeatmapLanguage language) =>
-                                                _update(
-                                                  (BeatmapSearchQuery q) =>
-                                                      q.copyWith(
-                                                        language: language,
-                                                      ),
-                                                ),
-                                        groups:
-                                            const <
-                                              OsuCategoryGroup<BeatmapLanguage>
-                                            >[
-                                              OsuCategoryGroup<BeatmapLanguage>(
-                                                options: BeatmapLanguage.values,
-                                              ),
-                                            ],
-                                      ),
+                                  ),
+                                  Expanded(
+                                    child: OsuCategoryPicker<BeatmapLanguage>(
+                                      title: context.t.beatmapSearchLanguage,
+                                      selected: query.language,
+                                      icon: (_) => Icons.translate_rounded,
+                                      label:
+                                          (
+                                            BuildContext context,
+                                            BeatmapLanguage l,
+                                          ) => l == BeatmapLanguage.any
+                                          ? context.t.beatmapSearchAnyLanguage
+                                          : languageLabel(context, l),
+                                      onSelected: (BeatmapLanguage language) =>
+                                          _update(
+                                            context,
+                                            (BeatmapSearchQuery q) =>
+                                                q.copyWith(language: language),
+                                          ),
+                                      groups:
+                                          const <
+                                            OsuCategoryGroup<BeatmapLanguage>
+                                          >[
+                                            OsuCategoryGroup<BeatmapLanguage>(
+                                              options: BeatmapLanguage.values,
+                                            ),
+                                          ],
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                      ),
-                ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                    ),
               ),
-              const _Results(),
-              UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
-            ],
-          ),
+            ),
+            const _Results(),
+            UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+          ],
         ),
       ),
     ),
@@ -305,6 +253,13 @@ final class _Results extends StatelessWidget {
       BlocBuilder<BeatmapSearchBloc, BeatmapSearchState>(
         builder: (BuildContext context, BeatmapSearchState state) {
           final List<ProfileBeatmap>? items = state.items;
+          if (!state.started) {
+            return SliverToBoxAdapter(
+              child: state.query.text.length < 2
+                  ? UiContentState.empty(title: context.t.unifiedSearchPrompt)
+                  : UiPageSkeleton.list(label: context.t.beatmapsLoading),
+            );
+          }
           if (items == null) {
             return SliverToBoxAdapter(
               child: state.failure == null
@@ -397,7 +352,11 @@ final class _Error extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => UiContentState.error(
-    title: context.t.beatmapSearchFailed,
+    title:
+        context.select((BeatmapSearchBloc bloc) => bloc.state.failure) ==
+            BeatmapSearchFailureKind.rateLimited
+        ? context.t.profileRateLimited
+        : context.t.beatmapSearchFailed,
     actionLabel: context.t.retry,
     onAction: () => context.read<BeatmapSearchBloc>().add(
       more

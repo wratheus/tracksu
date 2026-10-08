@@ -16,12 +16,11 @@ final class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => PageActivityHost(
-    child: Builder(builder: _scaffold),
-  );
+  Widget build(BuildContext context) =>
+      PageActivityHost(child: Builder(builder: _scaffold));
 
   Widget _scaffold(BuildContext context) => Scaffold(
-    appBar: AppBar(
+    appBar: UiAppBar(
       title: BlocSelector<ProfileBloc, ProfileState, String?>(
         selector: (ProfileState state) =>
             state is ProfileLoadedState ? state.profile.username : null,
@@ -62,18 +61,40 @@ final class ProfileScreen extends StatelessWidget {
         ),
       ],
       // One line for the profile and its score/map sections.
-      bottom: UiAppBarProgressSlot(
-        child: BlocSelector<ProfileBloc, ProfileState, bool>(
-          selector: (ProfileState state) =>
-              state is ProfileLoadedState &&
-              (state.isBusy || state.requestedRuleset != null),
-          builder: (BuildContext context, bool busy) => ListenableBuilder(
-            listenable: PageActivityHost.maybeOf(context)!,
-            builder: (BuildContext context, _) => UiAppBarProgress(
-              visible: busy || PageActivityHost.maybeOf(context)!.busy,
-              semanticsLabel: context.t.profileRefreshing,
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(62),
+        child: Column(
+          children: [
+            BlocSelector<ProfileBloc, ProfileState, ProfileRuleset>(
+              selector: (ProfileState state) => switch (state) {
+                ProfileLoadedState(:final requestedRuleset) =>
+                  requestedRuleset ?? state.ruleset,
+                _ => state.ruleset,
+              },
+              builder: (BuildContext context, ProfileRuleset selected) =>
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
+                    child: OsuRulesetSelector(
+                      selected: selected,
+                      onChanged: (ProfileRuleset mode) => context
+                          .read<ProfileBloc>()
+                          .add(ProfileRulesetSelected(mode)),
+                    ),
+                  ),
             ),
-          ),
+            BlocSelector<ProfileBloc, ProfileState, bool>(
+              selector: (ProfileState state) =>
+                  state is ProfileLoadedState &&
+                  (state.isBusy || state.requestedRuleset != null),
+              builder: (BuildContext context, bool busy) => ListenableBuilder(
+                listenable: PageActivityHost.maybeOf(context)!,
+                builder: (BuildContext context, _) => UiAppBarProgress(
+                  visible: busy || PageActivityHost.maybeOf(context)!.busy,
+                  semanticsLabel: context.t.profileRefreshing,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     ),
@@ -81,22 +102,6 @@ final class ProfileScreen extends StatelessWidget {
       top: false,
       child: Column(
         children: <Widget>[
-          BlocSelector<ProfileBloc, ProfileState, ProfileRuleset>(
-            selector: (ProfileState state) => switch (state) {
-              ProfileLoadedState(:final requestedRuleset) =>
-                requestedRuleset ?? state.ruleset,
-              _ => state.ruleset,
-            },
-            builder: (BuildContext context, ProfileRuleset selected) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
-              child: OsuRulesetSelector(
-                selected: selected,
-                onChanged: (ProfileRuleset mode) => context
-                    .read<ProfileBloc>()
-                    .add(ProfileRulesetSelected(mode)),
-              ),
-            ),
-          ),
           Expanded(
             child: BlocBuilder<ProfileBloc, ProfileState>(
               builder: (BuildContext context, ProfileState state) =>

@@ -999,7 +999,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get viewMyProfile => 'Mein Profil anzeigen';
 
   @override
-  String get profileSearchHint => 'Exakter Benutzername oder ID';
+  String get profileSearchHint => 'Benutzername oder ID';
 
   @override
   String get profileSearchInvalid =>
@@ -1076,7 +1076,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get profileSearchHelp =>
-      'Wähle den Statistikmodus, gib den vollständigen Namen oder die ID ein und bestätige. Keine Vorschläge beim Tippen. Für numerische Namen: @.';
+      'Suche Spieler nach Namen oder gib eine genaue Benutzer-ID ein. Nutze @ für einen genauen Namen, auch bei numerischen Namen.';
 
   @override
   String get profileOpen => 'Profil öffnen';
@@ -1930,4 +1930,27 @@ class AppLocalizationsDe extends AppLocalizations {
 
     return 'Verfügbare Kudosu: $countString';
   }
+
+  @override
+  String get unifiedSearchTitle => 'Spieler und Beatmaps suchen';
+
+  @override
+  String get unifiedSearchDescription =>
+      'Spieler, Beatmaps und genaue Benutzer-IDs';
+
+  @override
+  String get unifiedSearchMaps => 'Beatmaps';
+
+  @override
+  String get unifiedSearchPrompt => 'Mindestens zwei Zeichen eingeben';
+
+  @override
+  String get userSearchEmpty => 'Keine Spieler gefunden';
+
+  @override
+  String get userSearchFailed => 'Spieler konnten nicht geladen werden';
+
+  @override
+  String get userSearchLimit =>
+      'Die ersten 100 Spieler werden angezeigt. Grenze die Suche ein.';
 }

@@ -995,7 +995,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get viewMyProfile => 'Мой профиль';
 
   @override
-  String get profileSearchHint => 'Точный ник или ID';
+  String get profileSearchHint => 'Ник или ID';
 
   @override
   String get profileSearchInvalid =>
@@ -1071,7 +1071,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileSearchHelp =>
-      'Выберите режим статистики, введите полный ник или ID и нажмите кнопку. Подсказок при вводе пока нет. Для числового ника добавьте @.';
+      'Ищите игрока по нику или введите точный ID. Для точного ника, в том числе числового, используйте @.';
 
   @override
   String get profileOpen => 'Открыть профиль';
@@ -1934,4 +1934,25 @@ class AppLocalizationsRu extends AppLocalizations {
 
     return 'Доступно kudosu: $countString';
   }
+
+  @override
+  String get unifiedSearchTitle => 'Поиск игроков и карт';
+
+  @override
+  String get unifiedSearchDescription => 'Игроки, карты и точный поиск по ID';
+
+  @override
+  String get unifiedSearchMaps => 'Карты';
+
+  @override
+  String get unifiedSearchPrompt => 'Введите хотя бы два символа';
+
+  @override
+  String get userSearchEmpty => 'Игроки не найдены';
+
+  @override
+  String get userSearchFailed => 'Не удалось загрузить игроков';
+
+  @override
+  String get userSearchLimit => 'Показаны первые 100 игроков. Уточните запрос.';
 }

@@ -54,7 +54,7 @@ final class ProductCatalogSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SliverList.builder(
-    itemCount: 21,
+    itemCount: 22,
     itemBuilder: (BuildContext context, int index) =>
         KeyedSubtree(key: ValueKey<int>(index), child: _sample(context, index)),
   );
@@ -103,6 +103,21 @@ final class ProductCatalogSliver extends StatelessWidget {
         ),
     ];
     final Widget sample = switch (index) {
+      21 => UiSurface.card(
+        child: SizedBox(
+          height: 160,
+          child: Scaffold(
+            appBar: UiAppBar(
+              title: UiText.titleLarge(t.unifiedSearchTitle),
+              bottom: UiAppBarProgress(
+                visible: true,
+                semanticsLabel: t.unifiedSearchTitle,
+              ),
+            ),
+            body: Center(child: UiText.bodyMedium(t.unifiedSearchDescription)),
+          ),
+        ),
+      ),
       0 => UiSection(
         title: t.uiCatalogCards,
         child: UiNotice(message: t.uiCatalogSampleNotice),
