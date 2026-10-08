@@ -63,6 +63,8 @@ final class UiAudioPlayer extends StatefulWidget {
 final class _UiAudioPlayerState extends State<UiAudioPlayer> {
   double? _scrub;
 
+  static const double _unboundedWidth = 260;
+
   @override
   void didUpdateWidget(UiAudioPlayer oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -148,10 +150,17 @@ final class _UiAudioPlayerState extends State<UiAudioPlayer> {
         if (widget.onSeek != null)
           '${widget.positionLabel} / ${widget.durationLabel}',
       ].join(', '),
-      child: Align(
-        alignment: AlignmentDirectional.bottomStart,
-        heightFactor: 1,
-        child: surface,
+      // The active capsule fills the available width; given none (a Row
+      // child), it takes a fixed one instead of failing layout.
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) => Align(
+          alignment: AlignmentDirectional.bottomStart,
+          heightFactor: 1,
+          widthFactor: constraints.hasBoundedWidth ? null : 1,
+          child: constraints.hasBoundedWidth || !active
+              ? surface
+              : SizedBox(width: _unboundedWidth, child: surface),
+        ),
       ),
     );
   }

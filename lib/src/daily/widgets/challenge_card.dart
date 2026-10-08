@@ -97,40 +97,38 @@ final class DailyChallengeCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                // Title and artist, then the preview on its own line: the
+                // player grows to a full-width timeline while it plays, so
+                // it needs the card's width (as a Row child it had none and
+                // could neither expand nor be paused).
                 Positioned(
                   left: UiSpace.lg,
                   right: UiSpace.lg,
                   bottom: UiSpace.md,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    spacing: UiSpace.md,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: UiSpace.sm,
                     children: <Widget>[
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            UiText.titleLarge(
-                              challenge.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              color: Colors.white,
-                            ),
-                            if (challenge.artist.isNotEmpty)
-                              UiText.bodyMedium(
-                                challenge.artist,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                color: Colors.white70,
-                              ),
-                          ],
-                        ),
+                      UiText.titleLarge(
+                        challenge.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        color: Colors.white,
                       ),
+                      if (challenge.artist.isNotEmpty)
+                        UiText.bodyMedium(
+                          challenge.artist,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          color: Colors.white70,
+                        ),
                       if (challenge.metadata?.preview case final track?)
                         AudioTrackPlayer.overlay(
                           key: ValueKey<Uri>(track.uri),
                           track: track,
-                          controller: DepsScope.of(context)
-                              .audioPlaybackController,
+                          controller: DepsScope.of(
+                            context,
+                          ).audioPlaybackController,
                         ),
                     ],
                   ),
