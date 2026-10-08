@@ -1,7 +1,8 @@
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 
-enum ProfileScoresType { best, recent }
+/// Profile score lists as on osu.ppy.sh; API `users/{id}/scores/{type}`.
+enum ProfileScoresType { best, pinned, firsts, recent }
 
 final class ProfileScoresQuery {
   ProfileScoresQuery({

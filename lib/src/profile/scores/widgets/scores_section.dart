@@ -56,11 +56,15 @@ final class ProfileScoresSection extends StatelessWidget {
                       ],
                       icon: (ProfileScoresType type) => switch (type) {
                         ProfileScoresType.best => Icons.emoji_events_outlined,
+                        ProfileScoresType.pinned => Icons.push_pin_outlined,
+                        ProfileScoresType.firsts => Icons.looks_one_outlined,
                         ProfileScoresType.recent => Icons.history,
                       },
                       label: (BuildContext context, ProfileScoresType type) =>
                           switch (type) {
                             ProfileScoresType.best => context.t.scoresBest,
+                            ProfileScoresType.pinned => context.t.scoresPinned,
+                            ProfileScoresType.firsts => context.t.scoresFirsts,
                             ProfileScoresType.recent => context.t.scoresRecent,
                           },
                       onSelected: (ProfileScoresType type) => context

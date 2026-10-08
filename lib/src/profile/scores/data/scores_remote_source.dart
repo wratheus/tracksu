@@ -22,6 +22,8 @@ final class OsuProfileScoresRemoteSource implements ProfileScoresRemoteSource {
   }) async {
     final String type = switch (query.type) {
       ProfileScoresType.best => 'best',
+      ProfileScoresType.pinned => 'pinned',
+      ProfileScoresType.firsts => 'firsts',
       ProfileScoresType.recent => 'recent',
     };
     final RestResponse response = await _restClient.get(
