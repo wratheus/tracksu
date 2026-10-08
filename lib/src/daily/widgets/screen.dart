@@ -27,7 +27,7 @@ final class DailyChallengeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
+    appBar: UiAppBar(
       title: past
           ? BlocSelector<DailyChallengeBloc, DailyChallengeState, DateTime?>(
               selector: (DailyChallengeState state) => switch (state) {

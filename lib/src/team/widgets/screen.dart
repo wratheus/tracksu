@@ -21,7 +21,7 @@ final class TeamScreen extends StatelessWidget {
           state is TeamLoading ||
           (state is TeamLoaded && state.refreshing);
       return Scaffold(
-        appBar: AppBar(
+        appBar: UiAppBar(
           title: Text(data?.identity.name ?? context.t.teamTitle),
           actions: <Widget>[
             AppBarActions(

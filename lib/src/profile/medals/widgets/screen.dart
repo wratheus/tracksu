@@ -18,7 +18,7 @@ final class MedalsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
+    appBar: UiAppBar(
       title: UiText.titleLarge(context.t.profileMedals),
       actions: <Widget>[
         AppBarActions(

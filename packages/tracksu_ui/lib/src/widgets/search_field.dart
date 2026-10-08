@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu_ui/src/theme/tokens.dart';
 
 /// Controller/focus/query policy belong to the calling feature.
 final class UiSearchField extends StatelessWidget {
@@ -15,6 +16,20 @@ final class UiSearchField extends StatelessWidget {
     this.autofocus = false,
     super.key,
   });
+
+  /// One-line field height at the current text scale (theme padding is
+  /// [UiSpace.lg] around a body-large line); app bars size from it.
+  static double heightOf(BuildContext context) {
+    final TextPainter painter = TextPainter(
+      text: TextSpan(text: 'Ag', style: Theme.of(context).textTheme.bodyLarge),
+      textDirection: TextDirection.ltr,
+      textScaler: MediaQuery.textScalerOf(context),
+      maxLines: 1,
+    )..layout();
+    final double line = painter.height;
+    painter.dispose();
+    return (UiSpace.lg * 2 + line).ceilToDouble();
+  }
 
   final TextEditingController controller;
   final String label;

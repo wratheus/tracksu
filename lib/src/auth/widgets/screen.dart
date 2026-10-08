@@ -53,7 +53,7 @@ final class _AuthorizationScreenState extends State<AuthorizationScreen>
         listener: (BuildContext context, _) =>
             DepsScope.of(context).appRouter.finishAuthorization(context),
         child: Scaffold(
-          appBar: AppBar(title: UiText.titleLarge(context.t.loginToOsu)),
+          appBar: UiAppBar(title: UiText.titleLarge(context.t.loginToOsu)),
           body: Center(
             child: Padding(
               padding: const EdgeInsets.all(UiSpace.xl),

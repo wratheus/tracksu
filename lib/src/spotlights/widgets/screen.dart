@@ -27,7 +27,7 @@ final class SpotlightsScreen extends StatelessWidget {
   const SpotlightsScreen({super.key});
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
+    appBar: UiAppBar(
       title: UiText.titleLarge(context.t.spotlightsTitle),
       actions: <Widget>[
         BlocBuilder<SpotlightsBloc, SpotlightsState>(

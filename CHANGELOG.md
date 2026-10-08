@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Steady app bar
+
+- Title and actions no longer jump by a few points between screens: rows
+  under the bar get exactly the height they need, measured from the text
+  size, so the toolbar is never squeezed.
+- A compact back button in the style of the segmented controls replaces
+  the default arrow on every screen.
+
 ### Links stay in the app (P53, ADR-009)
 
 - osu! links in news, profiles, comments, changelog, wiki and teams open the

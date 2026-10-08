@@ -44,7 +44,9 @@ final class ProfileScreen extends StatelessWidget {
       ],
       // One line for the profile and its score/map sections.
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(62),
+        preferredSize: Size.fromHeight(
+          UiAppBar.segmentedRowHeight(context) + UiAppBarProgress.height,
+        ),
         child: Column(
           children: [
             BlocSelector<ProfileBloc, ProfileState, ProfileRuleset>(
@@ -55,7 +57,7 @@ final class ProfileScreen extends StatelessWidget {
               },
               builder: (BuildContext context, ProfileRuleset selected) =>
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
+                    padding: UiAppBar.rowPadding,
                     child: OsuRulesetSelector(
                       selected: selected,
                       onChanged: (ProfileRuleset mode) => context

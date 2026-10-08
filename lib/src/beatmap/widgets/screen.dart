@@ -37,7 +37,7 @@ final class BeatmapScreen extends StatelessWidget {
       PageActivityHost(child: Builder(builder: _scaffold));
 
   Widget _scaffold(BuildContext context) => Scaffold(
-    appBar: AppBar(
+    appBar: UiAppBar(
       title: UiText.titleLarge(context.t.beatmapTitle),
       actions: <Widget>[
         BlocBuilder<BeatmapBloc, BeatmapState>(

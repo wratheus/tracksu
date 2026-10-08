@@ -25,7 +25,7 @@ final class NewsScreen extends StatelessWidget {
   final bool article;
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
+    appBar: UiAppBar(
       title: UiText.titleLarge(context.t.newsTitle),
       actions: <Widget>[
         BlocBuilder<NewsBloc, NewsState>(

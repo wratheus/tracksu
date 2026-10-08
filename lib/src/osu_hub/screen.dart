@@ -85,16 +85,13 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
         ),
       ],
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(66),
+        preferredSize: Size.fromHeight(
+          UiAppBar.segmentedRowHeight(context) + UiAppBarProgress.height,
+        ),
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(
-                UiSpace.lg,
-                UiSpace.sm,
-                UiSpace.lg,
-                UiSpace.xs,
-              ),
+              padding: UiAppBar.rowPadding,
               child: UiSegmentedControl<int>(
                 selected: _index,
                 // Switches as soon as a page is swiped past halfway.

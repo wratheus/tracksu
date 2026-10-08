@@ -37,7 +37,7 @@ final class WikiScreen extends StatelessWidget {
     builder: (BuildContext context, WikiArticleState state) {
       final WikiArticle? article = state.article;
       return Scaffold(
-        appBar: AppBar(
+        appBar: UiAppBar(
           title: UiText.titleLarge(
             article?.title ?? context.t.wikiTitle,
             maxLines: 1,

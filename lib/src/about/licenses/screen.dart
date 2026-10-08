@@ -19,7 +19,7 @@ final class LicensesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
+    appBar: UiAppBar(
       title: UiText.titleLarge(
         MaterialLocalizations.of(context).licensesPageTitle,
       ),

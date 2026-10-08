@@ -38,6 +38,27 @@ final class UiSegmentedControl<T extends Object> extends StatefulWidget {
          segments.any((UiSegment<T> segment) => segment.value == selected),
        );
 
+  /// Height of a labelled control at the current text scale (padding, icon,
+  /// gap and one label line, at least the 48 pt target). Without room for
+  /// labels the control is shorter, never taller.
+  static double heightOf(BuildContext context) {
+    final TextPainter painter = TextPainter(
+      text: TextSpan(
+        text: 'Ag',
+        style: Theme.of(context).textTheme.labelMedium,
+      ),
+      textDirection: TextDirection.ltr,
+      textScaler: MediaQuery.textScalerOf(context),
+      maxLines: 1,
+    )..layout();
+    final double label = painter.height;
+    painter.dispose();
+    final double icon = IconTheme.of(context).size ?? 24;
+    final double height = UiSpace.sm * 2 + icon + UiSpace.xs + label;
+    return (height < UiShape.minTarget ? UiShape.minTarget : height)
+        .ceilToDouble();
+  }
+
   final List<UiSegment<T>> segments;
   final T selected;
   final ValueChanged<T>? onChanged;

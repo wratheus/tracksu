@@ -90,7 +90,7 @@ final class _WebPageScreenState extends State<WebPageScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
+    appBar: UiAppBar(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

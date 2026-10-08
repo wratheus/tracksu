@@ -98,7 +98,7 @@ final class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final deps = DepsScope.of(context);
     return Scaffold(
-      appBar: AppBar(
+      appBar: UiAppBar(
         title: UiText.titleLarge(context.t.settingsTitle),
         bottom: UiAppBarProgressSlot(
           child: FutureBuilder<void>(

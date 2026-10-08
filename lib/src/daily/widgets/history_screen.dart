@@ -18,7 +18,7 @@ final class DailyHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
+    appBar: UiAppBar(
       title: UiText.titleLarge(context.t.dailyHistory),
       actions: <Widget>[
         AppBarActions(share: ShareTarget.dailyHistory(context.t.dailyHistory)),

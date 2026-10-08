@@ -28,7 +28,7 @@ final class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) => DefaultTabController(
     length: 2,
     child: Scaffold(
-      appBar: AppBar(title: UiText.titleLarge(context.t.aboutTitle)),
+      appBar: UiAppBar(title: UiText.titleLarge(context.t.aboutTitle)),
       body: SafeArea(
         top: false,
         child: Column(

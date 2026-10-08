@@ -185,7 +185,12 @@ final class _SearchScreenState extends State<SearchScreen> {
       ],
       // The field sits under the shared actions so it keeps the full width.
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(136),
+        preferredSize: Size.fromHeight(
+          UiSpace.xs +
+              UiSearchField.heightOf(context) +
+              UiSpace.sm * 2 +
+              UiSegmentedControl.heightOf(context),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
