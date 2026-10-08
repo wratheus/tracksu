@@ -2038,4 +2038,19 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get wikiNoResults => '未找到文章';
+
+  @override
+  String get eventsLoadOlder => '加载更早的';
+
+  @override
+  String get changelogShowText => '显示内容';
+
+  @override
+  String get webPageLoading => '正在加载页面';
+
+  @override
+  String get webPageFailed => '无法加载页面';
+
+  @override
+  String get webPageOpenInBrowser => '在浏览器中打开';
 }

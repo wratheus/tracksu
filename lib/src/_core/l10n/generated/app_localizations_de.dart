@@ -2148,4 +2148,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get wikiNoResults => 'Keine Artikel gefunden';
+
+  @override
+  String get eventsLoadOlder => 'Ältere laden';
+
+  @override
+  String get changelogShowText => 'Text anzeigen';
+
+  @override
+  String get webPageLoading => 'Seite wird geladen';
+
+  @override
+  String get webPageFailed => 'Seite konnte nicht geladen werden';
+
+  @override
+  String get webPageOpenInBrowser => 'Im Browser öffnen';
 }

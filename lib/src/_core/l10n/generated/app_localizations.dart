@@ -3497,6 +3497,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No articles found'**
   String get wikiNoResults;
+
+  /// Button that loads older events when a filter matches few of them.
+  ///
+  /// In en, this message translates to:
+  /// **'Load older'**
+  String get eventsLoadOlder;
+
+  /// Changelog entry: expand or collapse its full text.
+  ///
+  /// In en, this message translates to:
+  /// **'Show text'**
+  String get changelogShowText;
+
+  /// Linked web page loading label.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading page'**
+  String get webPageLoading;
+
+  /// Linked web page could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the page'**
+  String get webPageFailed;
+
+  /// Open the linked page in the system browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in browser'**
+  String get webPageOpenInBrowser;
 }
 
 class _AppLocalizationsDelegate

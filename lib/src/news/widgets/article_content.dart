@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracksu/src/_shared/navigation/external_links.dart';
+import 'package:tracksu/src/_shared/navigation/app_links.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
 import 'package:intl/intl.dart';
@@ -56,7 +56,7 @@ final class _NewsArticleContentState extends State<NewsArticleContent> {
     );
     setState(() => _opening = true);
     try {
-      if (uri == null || !await ExternalLinks.open(uri)) {
+      if (uri == null || !await AppLinks.open(context, uri)) {
         if (mounted) _showFailure();
       }
     } on Object {

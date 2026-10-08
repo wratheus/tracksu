@@ -7,6 +7,7 @@ import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
+import 'package:tracksu/src/_shared/navigation/app_links.dart';
 import 'package:tracksu/src/_shared/navigation/external_links.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/wiki/article/bloc/bloc.dart';
@@ -25,12 +26,8 @@ final class WikiScreen extends StatelessWidget {
       base: WikiLinks.base(article.path, article.locale),
     );
     if (uri == null) return Future<bool>.value(true);
-    if (WikiLinks.fromUri(uri) case final WikiParams params) {
-      unawaited(DepsScope.of(context).appRouter.openWiki(context, params));
-      return Future<bool>.value(true);
-    }
-    unawaited(ExternalLinks.open(uri));
-    return Future<bool>.value(true);
+    // Wiki articles, players and maps open in the app (AppLinks).
+    return AppLinks.open(context, uri);
   }
 
   @override
@@ -132,8 +129,9 @@ final class WikiScreen extends StatelessWidget {
                         child: UiContentState.error(
                           title: context.t.contentUnavailable,
                           actionLabel: context.t.contentOriginal,
-                          onAction: () =>
-                              unawaited(ExternalLinks.open(article.webUri)),
+                          onAction: () => unawaited(
+                            ExternalLinks.openInBrowser(article.webUri),
+                          ),
                         ),
                       ),
                   ],

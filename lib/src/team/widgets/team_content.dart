@@ -1,4 +1,4 @@
-import 'package:tracksu/src/_shared/navigation/external_links.dart';
+import 'package:tracksu/src/_shared/navigation/app_links.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
@@ -26,11 +26,11 @@ final class TeamContent extends StatelessWidget {
   final ProfileRuleset selectedMode;
   final ContentMediaController mediaPermission;
 
-  Future<bool> _link(String url) async {
+  Future<bool> _link(BuildContext context, String url) async {
     final Uri? uri = PublicWebLink.resolve(url, base: data.uri);
     if (uri == null) return false;
     try {
-      return await ExternalLinks.open(uri);
+      return await AppLinks.open(context, uri);
     } on Object {
       return false;
     }
@@ -143,7 +143,7 @@ final class TeamContent extends StatelessWidget {
                           label: context.t.contentOriginal,
                           icon: Icons.open_in_new,
                           onPressed: () async {
-                            if (!await _link(data.uri.toString()) &&
+                            if (!await _link(context, data.uri.toString()) &&
                                 context.mounted) {
                               UiFeedback.snack(
                                 context,
@@ -220,14 +220,14 @@ final class TeamContent extends StatelessWidget {
               ContentFrame.sliver(
                 audioController: DepsScope.of(context).audioPlaybackController,
                 document: document,
-                onOpenLink: _link,
+                onOpenLink: (String url) => _link(context, url),
                 mediaPermission: mediaPermission,
               )
             else
               SliverToBoxAdapter(
                 child: UiButton.text(
                   label: context.t.contentOriginal,
-                  onPressed: () => _link(data.uri.toString()),
+                  onPressed: () => _link(context, data.uri.toString()),
                 ),
               ),
           ],

@@ -199,6 +199,7 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Сейчас · [P50](work/P50-osu-hub-changelog.md) | Вкладка «osu!»: Новости / Изменения; changelog по потокам | awaiting_manual_check |
 | Сейчас · [P51](work/P51-global-events.md) | Лента событий osu! третьей страницей вкладки «osu!» | awaiting_manual_check |
 | Сейчас · [P52](work/P52-wiki.md) | Wiki: вкладка поиска и читалка статей (Markdown, ADR-008) | awaiting_manual_check |
+| Сейчас · [P53](work/P53-in-app-links.md) | Ссылки osu! открываются в приложении; внешние — одной страницей без свободной навигации (ADR-009) | awaiting_manual_check |
 | На будущее · [P43](work/P43-tablet-and-ipad-plan.md) | Планшеты и iPad: брейкпоинты, ширина контента, NavigationRail, сетки, master-detail; решение по iPad до релиза | backlog |
 | До analytics/release · [P01.3](work/P01.3-privacy-and-terms.md) | Data inventory, privacy notice/policy, условия, About/атрибуции, ссылки из guest/OAuth/settings и store disclosures | backlog |
 | Сейчас · [P07.1](work/P07.1-languages.md) | en/ru/de/fr/es/ja/zh, стандартный ARB template, language persistence и fallback подключены; ручная языковая проверка | awaiting_manual_check |

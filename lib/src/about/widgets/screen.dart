@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracksu/src/_shared/navigation/external_links.dart';
+import 'package:tracksu/src/_shared/navigation/app_links.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
@@ -88,7 +88,7 @@ final class _AboutTabs extends StatelessWidget {
 
 Future<void> _openLink(BuildContext context, Uri uri) async {
   try {
-    if (!await ExternalLinks.open(uri) && context.mounted) {
+    if (!await AppLinks.open(context, uri) && context.mounted) {
       UiFeedback.snack(context, message: context.t.aboutLinkFailed);
     }
   } on Object {

@@ -568,5 +568,8 @@
   "wikiSearchHelp": "Гайды, правила, режимы игры и всё об osu!.",
   "wikiNoResults": "Статьи не найдены",
   "eventsLoadOlder": "Загрузить ещё",
-  "changelogShowText": "Показать текст"
+  "changelogShowText": "Показать текст",
+  "webPageLoading": "Загружаем страницу",
+  "webPageFailed": "Не удалось загрузить страницу",
+  "webPageOpenInBrowser": "Открыть в браузере"
 }

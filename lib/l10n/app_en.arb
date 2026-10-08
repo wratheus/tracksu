@@ -1925,5 +1925,17 @@
   "changelogShowText": "Show text",
   "@changelogShowText": {
     "description": "Changelog entry: expand or collapse its full text."
+  },
+  "webPageLoading": "Loading page",
+  "@webPageLoading": {
+    "description": "Linked web page loading label."
+  },
+  "webPageFailed": "Couldn't load the page",
+  "@webPageFailed": {
+    "description": "Linked web page could not be loaded."
+  },
+  "webPageOpenInBrowser": "Open in browser",
+  "@webPageOpenInBrowser": {
+    "description": "Open the linked page in the system browser."
   }
 }

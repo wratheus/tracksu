@@ -568,5 +568,8 @@
   "wikiSearchHelp": "Anleitungen, Regeln, Spielmodi und alles über osu!.",
   "wikiNoResults": "Keine Artikel gefunden",
   "eventsLoadOlder": "Ältere laden",
-  "changelogShowText": "Text anzeigen"
+  "changelogShowText": "Text anzeigen",
+  "webPageLoading": "Seite wird geladen",
+  "webPageFailed": "Seite konnte nicht geladen werden",
+  "webPageOpenInBrowser": "Im Browser öffnen"
 }

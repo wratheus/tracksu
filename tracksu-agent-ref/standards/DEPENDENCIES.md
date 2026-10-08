@@ -12,6 +12,7 @@
 
 | Зависимость | Решение и замена | Когда |
 | --- | --- | --- |
+| `webview_flutter: ^4.14.1` | Добавлен: просмотр одной внешней страницы без свободной навигации (`WebPageScreen`). flutter.dev, BSD-3. `url_launcher` остаётся для системного браузера. [ADR-009](../decisions/ADR-009-single-page-viewer.md) | P53 |
 | `markdown: ^7.3.1` | Добавлен: Markdown → HTML для единого конвейера контента (wiki, Markdown в «О себе»). dart-lang, BSD-3, без нативного кода. [ADR-008](../decisions/ADR-008-unified-rich-content.md) | P52 |
 | `curved_navigation_bar: ^1.0.3` | Удалить. Навигационный компонент своего UI kit на Flutter primitives; штатный NavigationBar — кандидат, дизайн решаем на P07. Сохранить tab/back behavior, состояние вкладок и accessibility, не воспроизводить старую анимацию автоматически | P07, при переносе app shell/navigation |
 | `fluttericon: ^2.0.0` | Удалить. Единый semantic icon API в UI kit, небольшой согласованный набор SDK icons/собственных разрешённых assets вместо зависимости на весь каталог | API — P07; profile consumers — P09/P10; удаление после последнего consumer |
@@ -119,6 +120,6 @@ Diff/format/analyze/build — по scope; автотесты не писать �
 `http`, создан `tracksu_network` с DI-owned transport, отменой и узкими hooks.
 Удалены три generator/icon
 direct dependencies, обновлена согласованная runtime-группа и удалена прямая
-dependency `webview_flutter`. Она пока остаётся транзитивной зависимостью HTML
-renderer; её последний consumer разбирается отдельно на P13. Удаление navigation,
+dependency `webview_flutter`. На P53 она возвращена как прямая — для
+`WebPageScreen` ([ADR-009](../decisions/ADR-009-single-page-viewer.md)). Удаление navigation,
 fluttericon ещё не начинался; legacy REST consumers переносятся по одному.

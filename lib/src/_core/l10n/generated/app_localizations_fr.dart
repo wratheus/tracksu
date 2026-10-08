@@ -2138,4 +2138,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get wikiNoResults => 'Aucun article trouvé';
+
+  @override
+  String get eventsLoadOlder => 'Charger plus ancien';
+
+  @override
+  String get changelogShowText => 'Afficher le texte';
+
+  @override
+  String get webPageLoading => 'Chargement de la page';
+
+  @override
+  String get webPageFailed => 'Impossible de charger la page';
+
+  @override
+  String get webPageOpenInBrowser => 'Ouvrir dans le navigateur';
 }

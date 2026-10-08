@@ -4,7 +4,13 @@
 
 ### Links stay in the app (P53, ADR-009)
 
+- osu! links in news, profiles, comments, changelog, wiki and teams open the
+  wiki article, profile, beatmap or team screen in the app.
+- Other https pages open as a single page: title and site in the header,
+  share, progress, no address bar. Links inside the page open in the system
+  browser, so the app is not a general-purpose browser.
 - The whole changelog entry row is tappable; the chevron shows the text.
+- Added `webview_flutter` (flutter.dev, BSD-3) for the page viewer.
 
 ### Search, events and wiki fixes
 
@@ -17,31 +23,6 @@
   group with 15+ rows, otherwise a "Load older" button; at most one page
   request per second.
 - Wiki `::: Infobox` / `::: Notice` blocks render as framed boxes.
-
-### Search, events and wiki fixes
-
-- The search field is focused when Search opens. Player rows match other
-  tiles: rounded square avatar, name with supporter and online marks,
-  country and team flags below.
-- Opening a player from search no longer waits for an extra lookup: the
-  profile loads in the player's default mode in one request.
-- Events no longer hammer the API: automatic paging only for "All" or a
-  group with 15+ rows, otherwise a "Load older" button; at most one page
-  request per second.
-- Wiki `::: Infobox` / `::: Notice` blocks render as framed boxes.
-
-### Search, events and wiki fixes
-
-- Events no longer hammer the API: automatic paging only for "All" or a
-  group with 15+ rows, otherwise a "Load older" button; at most one page
-  request per second.
-- Wiki `::: Infobox` / `::: Notice` blocks render as framed boxes.
-
-### Search, events and wiki fixes
-
-- Events no longer hammer the API: automatic paging only for "All" or a
-  group with 15+ rows, otherwise a "Load older" button; at most one page
-  request per second.
 
 ### osu! wiki (P52, wave 2 step 3)
 

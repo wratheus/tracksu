@@ -2151,4 +2151,19 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get wikiNoResults => 'Статьи не найдены';
+
+  @override
+  String get eventsLoadOlder => 'Загрузить ещё';
+
+  @override
+  String get changelogShowText => 'Показать текст';
+
+  @override
+  String get webPageLoading => 'Загружаем страницу';
+
+  @override
+  String get webPageFailed => 'Не удалось загрузить страницу';
+
+  @override
+  String get webPageOpenInBrowser => 'Открыть в браузере';
 }

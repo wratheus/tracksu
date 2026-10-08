@@ -568,5 +568,8 @@
   "wikiSearchHelp": "Guías, reglas, modos de juego y todo sobre osu!.",
   "wikiNoResults": "No se encontraron artículos",
   "eventsLoadOlder": "Cargar anteriores",
-  "changelogShowText": "Mostrar texto"
+  "changelogShowText": "Mostrar texto",
+  "webPageLoading": "Cargando página",
+  "webPageFailed": "No se pudo cargar la página",
+  "webPageOpenInBrowser": "Abrir en el navegador"
 }

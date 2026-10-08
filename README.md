@@ -171,6 +171,7 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 - Search has a Wiki tab: osu! wiki articles open in the app's reader in your
   language (English when not translated); article links stay in the app.
+  Infobox and notice blocks are framed.
 
 ### osu! tab: news and changelog
 
@@ -181,8 +182,10 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Changelog lists builds of every update stream (Stable, Beta, Cutting Edge,
   Lazer, Web) with entries grouped by category, authors and pull requests,
   filterable by stream and paged to older builds.
-- Web links open in an in-app browser sheet (Safari / Chrome Custom Tabs)
-  over the app; YouTube links open the YouTube app when installed.
+- osu! links (wiki, profiles, beatmaps, teams) open the matching screen in
+  the app. Other https links open as a single page with no address bar;
+  following a link inside it leaves for the system browser. YouTube and
+  non-https links open outside the app.
 - API requests use the app language; switching it drops cached pages.
 
 ### News and comments

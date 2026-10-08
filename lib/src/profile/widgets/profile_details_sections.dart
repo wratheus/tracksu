@@ -1,4 +1,4 @@
-import 'package:tracksu/src/_shared/navigation/external_links.dart';
+import 'package:tracksu/src/_shared/navigation/app_links.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
@@ -42,7 +42,7 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
     if (_opening) return;
     setState(() => _opening = true);
     try {
-      if (!await ExternalLinks.open(uri) && mounted) {
+      if (!await AppLinks.open(context, uri) && mounted) {
         UiFeedback.snack(context, message: context.t.contentLinkFailed);
       }
     } on Object {

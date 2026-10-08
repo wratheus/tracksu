@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/web_page/screen.dart';
 import 'package:tracksu/src/wiki/domain/wiki.dart';
 import 'package:tracksu/src/wiki/main.dart';
 import 'package:tracksu/src/about/licenses/screen.dart';
@@ -153,6 +154,13 @@ final class TracksuAppRouter {
       builder: (_, GoRouterState state) =>
           WikiMain(params: _wikiParams(state)!),
     ),
+    GoRoute(
+      path: 'web',
+      redirect: (_, GoRouterState state) =>
+          _webUri(state) == null ? '/search' : null,
+      builder: (_, GoRouterState state) =>
+          WebPageScreen(uri: _webUri(state)!),
+    ),
     GoRoute(path: 'spotlights', builder: (_, _) => const SpotlightsMain()),
     GoRoute(path: 'daily', builder: (_, _) => const DailyChallengeMain()),
     GoRoute(path: 'daily/history', builder: (_, _) => const DailyHistoryMain()),
@@ -243,6 +251,15 @@ final class TracksuAppRouter {
         ).toString(),
       );
 
+  /// One linked web page in the single-page viewer (ADR-009).
+  Future<void> openWebPage(BuildContext context, Uri uri) async =>
+      config.push<void>(
+        Uri(
+          path: '$_branchPath/web',
+          queryParameters: <String, String>{'url': uri.toString()},
+        ).toString(),
+      );
+
   Future<void> openSpotlights(BuildContext context) async =>
       config.push<void>('$_branchPath/spotlights');
 
@@ -293,6 +310,18 @@ final class TracksuAppRouter {
   }
 
   void dispose() => config.dispose();
+
+  static Uri? _webUri(GoRouterState state) {
+    final String? value = state.uri.queryParameters['url'];
+    if (value == null || value.length > 4096) return null;
+    final Uri? uri = Uri.tryParse(value);
+    return uri != null &&
+            uri.isScheme('https') &&
+            uri.host.isNotEmpty &&
+            uri.userInfo.isEmpty
+        ? uri
+        : null;
+  }
 
   static WikiParams? _wikiParams(GoRouterState state) {
     final String? path = state.uri.queryParameters['path'];

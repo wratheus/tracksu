@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tracksu/src/_shared/navigation/external_links.dart';
+import 'package:tracksu/src/_shared/navigation/app_links.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
@@ -85,7 +85,7 @@ final class _CommentsSectionState extends State<CommentsSection> {
       return true;
     }
     try {
-      if (!await ExternalLinks.open(uri) && mounted) {
+      if (!await AppLinks.open(context, uri) && mounted) {
         UiFeedback.snack(context, message: context.t.newsLinkFailed);
       }
     } on Object {

@@ -2121,4 +2121,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wikiNoResults => 'No articles found';
+
+  @override
+  String get eventsLoadOlder => 'Load older';
+
+  @override
+  String get changelogShowText => 'Show text';
+
+  @override
+  String get webPageLoading => 'Loading page';
+
+  @override
+  String get webPageFailed => 'Couldn\'t load the page';
+
+  @override
+  String get webPageOpenInBrowser => 'Open in browser';
 }

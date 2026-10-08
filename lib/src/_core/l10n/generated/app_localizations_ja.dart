@@ -2052,4 +2052,19 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get wikiNoResults => '記事が見つかりません';
+
+  @override
+  String get eventsLoadOlder => 'さらに読み込む';
+
+  @override
+  String get changelogShowText => '本文を表示';
+
+  @override
+  String get webPageLoading => 'ページを読み込み中';
+
+  @override
+  String get webPageFailed => 'ページを読み込めませんでした';
+
+  @override
+  String get webPageOpenInBrowser => 'ブラウザで開く';
 }

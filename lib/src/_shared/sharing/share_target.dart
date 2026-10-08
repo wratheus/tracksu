@@ -121,6 +121,14 @@ final class ShareTarget {
     title,
   );
 
+  /// A linked page opened in the page viewer; only https links are shared.
+  factory ShareTarget.webPage(Uri uri, String? title) {
+    if (!uri.isScheme('https') || uri.userInfo.isNotEmpty) {
+      throw ArgumentError('Expected a public https page.');
+    }
+    return ShareTarget._(uri, title ?? uri.host);
+  }
+
   /// An osu! wiki article on the website.
   factory ShareTarget.wiki(Uri uri, String title) {
     if (uri.scheme != 'https' ||
