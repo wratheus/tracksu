@@ -2,6 +2,21 @@
 
 ## Unreleased
 
+### Unified AppBar search (P48)
+
+- Replaced the large player lookup form with a compact entry to Players / Maps.
+  Both tabs share a field in the AppBar and retain its text on tab changes.
+- Player suggestions work for guests with 400 ms debounce, immediate Enter,
+  exact ID / @username lookup, pagination up to 100 accounts, and profile opening
+  in the player's preferred ruleset. No ruleset choice is needed before searching.
+- Cancelled queries cannot replace newer results. Search caches are bounded,
+  live for two minutes, and rate limits display an explicit retry state.
+- Map search retains filters, cards and paging; existing beatmaps routes redirect
+  to the Maps tab. Empty searches do not issue API requests.
+- Shared AppBar integrates search/ranking tabs and profile mode selection.
+  Ranking share links and progress now match the visible ranking page.
+- Updated all seven translations and added behavioral and large-text UI checks.
+
 ### Daily history, search filters, beatmap details and Kudosu (P44–P47)
 
 - Map of the day links to past days with dates, difficulties, mods and final

@@ -2,7 +2,7 @@
 
 # Tracksu
 
-[![Flutter 3.47.5](https://img.shields.io/badge/Flutter-3.47.5-02569B?logo=flutter&logoColor=white)](https://flutter.dev/)
+[![Flutter 3.47.6](https://img.shields.io/badge/Flutter-3.47.6-02569B?logo=flutter&logoColor=white)](https://flutter.dev/)
 [![Dart 3.13](https://img.shields.io/badge/Dart-3.13-0175C2?logo=dart&logoColor=white)](https://dart.dev/)
 [![Platform: Android](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)](#platform-status)
 [![License: MIT](https://img.shields.io/badge/license-MIT-A78BFA)](LICENSE)
@@ -51,8 +51,8 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 - Compact ranking rows show the position, avatar/country/team and a separate
   right-aligned PP or ranked-score value. Team flags open a native team page.
-- The Rankings tab switches between Players, Teams and Countries (a
-  country opens its player table).
+- The Rankings tab switches between Players, Teams, Countries and Kudosu
+  (a country opens its player table).
 - Teams follow the selected ruleset and PP/Score view; the osu! API
   orders teams by PP only.
 - Mods appear as small chips with the official osu! icon and acronym.
@@ -152,10 +152,19 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 - Router restoration covers destinations and identifiers, not the entire
   network cache or search/filter state after process death.
 
-### Beatmap search
+### Unified search
 
-- Search osu! beatmaps by text, ruleset and status from the home screen.
-  Without a signed-in user osu! ignores sorting and advanced filters.
+- One AppBar field with Players / Maps tabs, available without signing in.
+  Typing two or more characters searches after 400 ms; Enter searches immediately.
+  Switching tabs keeps the text and queries only the active tab. Empty input
+  makes no search request. Old requests are cancelled and results cache for two minutes.
+- Players appear as avatar/name/country rows; up to 100 matching accounts are
+  accessible through the API. A numeric ID or an `@username` performs an exact lookup.
+  Profiles open in the player's preferred mode; statistics modes switch in the profile.
+- Maps keep the existing cards, pagination and mode/status/genre/language filters.
+  Without a signed-in user osu! ignores sorting and advanced query syntax.
+- Search, rankings and profile use the shared UI kit AppBar. Ranking share links
+  follow the selected Players / Teams / Countries / Kudosu page.
 
 ### News and comments
 
