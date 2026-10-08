@@ -573,5 +573,18 @@
   "webPageFailed": "无法加载页面",
   "webPageOpenInBrowser": "在浏览器中打开",
   "eventsGroupEmpty": "已加载的事件中没有此类",
-  "eventsGroupHint": "筛选仅作用于已加载的事件。加载更早的事件以查看更多。"
+  "eventsGroupHint": "筛选仅作用于已加载的事件。加载更早的事件以查看更多。",
+  "forumTitle": "论坛",
+  "forumLoading": "正在加载论坛",
+  "forumFailed": "无法加载论坛",
+  "forumNotFound": "此版块或主题不可用",
+  "forumEmpty": "暂无主题",
+  "forumSubforums": "子版块",
+  "forumTopics": "主题",
+  "forumPinned": "置顶",
+  "forumAnnouncement": "公告",
+  "forumLocked": "已锁定",
+  "forumReplies": "{count, plural, other{{count} 条回复}}",
+  "forumViews": "{count, plural, other{{count} 次浏览}}",
+  "forumPostUnavailable": "此帖子无法在此显示"
 }

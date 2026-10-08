@@ -2168,4 +2168,70 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get eventsGroupHint =>
       'El filtro solo se aplica a lo cargado. Carga eventos anteriores para ver más atrás.';
+
+  @override
+  String get forumTitle => 'Foro';
+
+  @override
+  String get forumLoading => 'Cargando el foro';
+
+  @override
+  String get forumFailed => 'No se pudo cargar el foro';
+
+  @override
+  String get forumNotFound => 'Este foro o tema no está disponible';
+
+  @override
+  String get forumEmpty => 'Aún no hay temas';
+
+  @override
+  String get forumSubforums => 'Subforos';
+
+  @override
+  String get forumTopics => 'Temas';
+
+  @override
+  String get forumPinned => 'Fijado';
+
+  @override
+  String get forumAnnouncement => 'Anuncio';
+
+  @override
+  String get forumLocked => 'Cerrado';
+
+  @override
+  String forumReplies(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString respuestas',
+      one: '$countString respuesta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String forumViews(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString vistas',
+      one: '$countString vista',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPostUnavailable =>
+      'Esta publicación no se puede mostrar aquí';
 }

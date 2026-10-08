@@ -2173,4 +2173,73 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get eventsGroupHint =>
       'Фильтр работает по уже загруженной ленте. Загрузите более старые события, чтобы посмотреть дальше.';
+
+  @override
+  String get forumTitle => 'Форум';
+
+  @override
+  String get forumLoading => 'Загружаем форум';
+
+  @override
+  String get forumFailed => 'Не удалось загрузить форум';
+
+  @override
+  String get forumNotFound => 'Этот раздел или тема недоступны';
+
+  @override
+  String get forumEmpty => 'Тем пока нет';
+
+  @override
+  String get forumSubforums => 'Подразделы';
+
+  @override
+  String get forumTopics => 'Темы';
+
+  @override
+  String get forumPinned => 'Закреплено';
+
+  @override
+  String get forumAnnouncement => 'Объявление';
+
+  @override
+  String get forumLocked => 'Закрыто';
+
+  @override
+  String forumReplies(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString ответа',
+      many: '$countString ответов',
+      few: '$countString ответа',
+      one: '$countString ответ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String forumViews(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString просмотра',
+      many: '$countString просмотров',
+      few: '$countString просмотра',
+      one: '$countString просмотр',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPostUnavailable => 'Этот пост нельзя показать здесь';
 }

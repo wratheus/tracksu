@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+### osu! forum (P54, wave 3 step 1)
+
+- The osu! tab gains a Forum page: forum sections with their subforums.
+- A forum shows its description, subforums, pinned announcements and
+  topics by latest post, loading older topics at the end.
+- Topics read like articles: posts in order with quotes, spoilers, images
+  and links, the author's avatar and name opening their profile.
+- Forum links from news, comments and other pages open in the app.
+- Read only: replying needs a signed-in user (after P37).
+
 ### Steady app bar
 
 - Title and actions no longer jump by a few points between screens: rows

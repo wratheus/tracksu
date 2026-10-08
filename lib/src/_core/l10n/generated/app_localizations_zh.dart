@@ -2059,4 +2059,67 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get eventsGroupHint => '筛选仅作用于已加载的事件。加载更早的事件以查看更多。';
+
+  @override
+  String get forumTitle => '论坛';
+
+  @override
+  String get forumLoading => '正在加载论坛';
+
+  @override
+  String get forumFailed => '无法加载论坛';
+
+  @override
+  String get forumNotFound => '此版块或主题不可用';
+
+  @override
+  String get forumEmpty => '暂无主题';
+
+  @override
+  String get forumSubforums => '子版块';
+
+  @override
+  String get forumTopics => '主题';
+
+  @override
+  String get forumPinned => '置顶';
+
+  @override
+  String get forumAnnouncement => '公告';
+
+  @override
+  String get forumLocked => '已锁定';
+
+  @override
+  String forumReplies(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 条回复',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String forumViews(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 次浏览',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPostUnavailable => '此帖子无法在此显示';
 }

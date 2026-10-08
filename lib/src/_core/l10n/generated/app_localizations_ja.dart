@@ -2074,4 +2074,67 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get eventsGroupHint =>
       'フィルターは読み込み済みのイベントにのみ適用されます。さらに遡るには古いイベントを読み込んでください。';
+
+  @override
+  String get forumTitle => 'フォーラム';
+
+  @override
+  String get forumLoading => 'フォーラムを読み込み中';
+
+  @override
+  String get forumFailed => 'フォーラムを読み込めませんでした';
+
+  @override
+  String get forumNotFound => 'このフォーラムまたはトピックは利用できません';
+
+  @override
+  String get forumEmpty => 'トピックはまだありません';
+
+  @override
+  String get forumSubforums => 'サブフォーラム';
+
+  @override
+  String get forumTopics => 'トピック';
+
+  @override
+  String get forumPinned => '固定';
+
+  @override
+  String get forumAnnouncement => 'お知らせ';
+
+  @override
+  String get forumLocked => 'ロック中';
+
+  @override
+  String forumReplies(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '返信 $countString 件',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String forumViews(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '閲覧 $countString 回',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPostUnavailable => 'この投稿はここでは表示できません';
 }

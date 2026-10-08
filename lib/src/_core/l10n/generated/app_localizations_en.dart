@@ -2143,4 +2143,69 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get eventsGroupHint =>
       'The feed only filters what is loaded. Load older events to look further back.';
+
+  @override
+  String get forumTitle => 'Forum';
+
+  @override
+  String get forumLoading => 'Loading forum';
+
+  @override
+  String get forumFailed => 'Couldn\'t load the forum';
+
+  @override
+  String get forumNotFound => 'This forum or topic is not available';
+
+  @override
+  String get forumEmpty => 'No topics yet';
+
+  @override
+  String get forumSubforums => 'Subforums';
+
+  @override
+  String get forumTopics => 'Topics';
+
+  @override
+  String get forumPinned => 'Pinned';
+
+  @override
+  String get forumAnnouncement => 'Announcement';
+
+  @override
+  String get forumLocked => 'Locked';
+
+  @override
+  String forumReplies(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString replies',
+      one: '$countString reply',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String forumViews(int count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString views',
+      one: '$countString view',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get forumPostUnavailable => 'This post can\'t be shown here';
 }

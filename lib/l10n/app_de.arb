@@ -573,5 +573,18 @@
   "webPageFailed": "Seite konnte nicht geladen werden",
   "webPageOpenInBrowser": "Im Browser öffnen",
   "eventsGroupEmpty": "Keine unter den geladenen Ereignissen",
-  "eventsGroupHint": "Der Filter gilt nur für geladene Ereignisse. Lade ältere, um weiter zurückzusehen."
+  "eventsGroupHint": "Der Filter gilt nur für geladene Ereignisse. Lade ältere, um weiter zurückzusehen.",
+  "forumTitle": "Forum",
+  "forumLoading": "Forum wird geladen",
+  "forumFailed": "Forum konnte nicht geladen werden",
+  "forumNotFound": "Dieses Forum oder Thema ist nicht verfügbar",
+  "forumEmpty": "Noch keine Themen",
+  "forumSubforums": "Unterforen",
+  "forumTopics": "Themen",
+  "forumPinned": "Angeheftet",
+  "forumAnnouncement": "Ankündigung",
+  "forumLocked": "Gesperrt",
+  "forumReplies": "{count, plural, one{{count} Antwort} other{{count} Antworten}}",
+  "forumViews": "{count, plural, one{{count} Aufruf} other{{count} Aufrufe}}",
+  "forumPostUnavailable": "Dieser Beitrag kann hier nicht angezeigt werden"
 }

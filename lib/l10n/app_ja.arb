@@ -573,5 +573,18 @@
   "webPageFailed": "ページを読み込めませんでした",
   "webPageOpenInBrowser": "ブラウザで開く",
   "eventsGroupEmpty": "読み込んだイベントには該当なし",
-  "eventsGroupHint": "フィルターは読み込み済みのイベントにのみ適用されます。さらに遡るには古いイベントを読み込んでください。"
+  "eventsGroupHint": "フィルターは読み込み済みのイベントにのみ適用されます。さらに遡るには古いイベントを読み込んでください。",
+  "forumTitle": "フォーラム",
+  "forumLoading": "フォーラムを読み込み中",
+  "forumFailed": "フォーラムを読み込めませんでした",
+  "forumNotFound": "このフォーラムまたはトピックは利用できません",
+  "forumEmpty": "トピックはまだありません",
+  "forumSubforums": "サブフォーラム",
+  "forumTopics": "トピック",
+  "forumPinned": "固定",
+  "forumAnnouncement": "お知らせ",
+  "forumLocked": "ロック中",
+  "forumReplies": "{count, plural, other{返信 {count} 件}}",
+  "forumViews": "{count, plural, other{閲覧 {count} 回}}",
+  "forumPostUnavailable": "この投稿はここでは表示できません"
 }

@@ -42,7 +42,12 @@ final class OsuPublicAuthorizationInterceptor
           request.uri.path == '/api/v2/events' ||
           // osu! wiki articles (P52); public without a token.
           RegExp(r'^/api/v2/wiki/[a-z]{2}(-[a-z]{2})?/.+$')
-              .hasMatch(request.uri.path));
+              .hasMatch(request.uri.path) ||
+          // Forum, read only (P54): index, one forum, topic list, topic.
+          RegExp(r'^/api/v2/forums(/[1-9][0-9]*|/topics(/[1-9][0-9]*)?)?$')
+              .hasMatch(request.uri.path) ||
+          // Several users by id (`ids[]`, up to 50), e.g. forum authors.
+          request.uri.path == '/api/v2/users');
 
   @override
   Future<RestRequest> onRequest(RestRequest request) async {

@@ -173,12 +173,14 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   language (English when not translated); article links stay in the app.
   Infobox and notice blocks are framed.
 
-### osu! tab: news and changelog
+### osu! tab: news, events, forum and changelog
 
-- The third tab, **osu!**, holds News, Events and Changelog pages: tap the switch or
+- The third tab, **osu!**, holds News, Events, Forum and Changelog pages: tap the switch or
   swipe between them; each keeps its scroll and refreshes by pulling down.
 - Events is the live osu! feed: ranks, medals, new and ranked maps,
   supporter tags and name changes, each opening the map or player.
+- Forum lists the osu! forum sections; forums show pinned and latest
+  topics, topics show their posts with authors (read only).
 - Changelog lists builds of every update stream (Stable, Beta, Cutting Edge,
   Lazer, Web) with entries grouped by category, authors and pull requests,
   filterable by stream and paged to older builds.

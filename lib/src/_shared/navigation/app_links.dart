@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_shared/navigation/external_links.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
+import 'package:tracksu/src/forum/domain/forum.dart';
 import 'package:tracksu/src/profile/domain/profile_params.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
@@ -12,7 +13,7 @@ import 'package:tracksu/src/wiki/domain/wiki.dart';
 /// One place that decides where a tapped link goes (ADR-009):
 ///
 /// 1. osu.ppy.sh pages the app has natively — wiki articles, players,
-///    beatmaps and sets, teams — open as app screens.
+///    beatmaps and sets, teams, forums and topics — open as app screens.
 /// 2. Video sites open in their own app.
 /// 3. Any other https page opens in the single-page viewer: no address bar,
 ///    links inside it leave for the system browser.
@@ -88,6 +89,14 @@ abstract final class AppLinks {
             BeatmapDifficultyParams(int.parse(match.group(1)!)),
           ),
         );
+        return true;
+      }
+      if (ForumLinks.topicId(uri) case final int topic) {
+        unawaited(router.openForumTopic(context, topic));
+        return true;
+      }
+      if (ForumLinks.boardId(uri) case final int forum) {
+        unawaited(router.openForum(context, forum));
         return true;
       }
       if (_team.firstMatch(uri.path) case final RegExpMatch match) {

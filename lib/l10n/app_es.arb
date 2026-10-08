@@ -573,5 +573,18 @@
   "webPageFailed": "No se pudo cargar la página",
   "webPageOpenInBrowser": "Abrir en el navegador",
   "eventsGroupEmpty": "Ninguno entre los eventos cargados",
-  "eventsGroupHint": "El filtro solo se aplica a lo cargado. Carga eventos anteriores para ver más atrás."
+  "eventsGroupHint": "El filtro solo se aplica a lo cargado. Carga eventos anteriores para ver más atrás.",
+  "forumTitle": "Foro",
+  "forumLoading": "Cargando el foro",
+  "forumFailed": "No se pudo cargar el foro",
+  "forumNotFound": "Este foro o tema no está disponible",
+  "forumEmpty": "Aún no hay temas",
+  "forumSubforums": "Subforos",
+  "forumTopics": "Temas",
+  "forumPinned": "Fijado",
+  "forumAnnouncement": "Anuncio",
+  "forumLocked": "Cerrado",
+  "forumReplies": "{count, plural, one{{count} respuesta} other{{count} respuestas}}",
+  "forumViews": "{count, plural, one{{count} vista} other{{count} vistas}}",
+  "forumPostUnavailable": "Esta publicación no se puede mostrar aquí"
 }

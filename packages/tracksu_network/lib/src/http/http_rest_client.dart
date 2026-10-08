@@ -381,10 +381,17 @@ final class HttpRestClient implements RestClient {
     }
 
     final String normalizedPath = path.startsWith('/') ? path : '/$path';
-    final Map<String, String> normalizedQueryParameters = <String, String>{};
+    // A list repeats the key once per value (`ids[]=1&ids[]=2`).
+    final Map<String, Object> normalizedQueryParameters = <String, Object>{};
     for (final MapEntry<String, Object?> entry in queryParameters.entries) {
       final Object? value = entry.value;
-      if (value != null) {
+      if (value is Iterable<Object?>) {
+        final List<String> values = <String>[
+          for (final Object? item in value)
+            if (item != null) _scalarValue(item, 'queryParameters'),
+        ];
+        if (values.isNotEmpty) normalizedQueryParameters[entry.key] = values;
+      } else if (value != null) {
         normalizedQueryParameters[entry.key] = _scalarValue(
           value,
           'queryParameters',

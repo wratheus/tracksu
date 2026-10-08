@@ -113,6 +113,18 @@ final class ShareTarget {
     title,
   );
 
+  /// osu! forum index, one forum or one topic (P54).
+  factory ShareTarget.forums(String title) =>
+      ShareTarget._(Uri.https('osu.ppy.sh', '/community/forums'), title);
+  factory ShareTarget.forum(int id, String title) => ShareTarget._(
+    Uri.https('osu.ppy.sh', '/community/forums/${_id(id)}'),
+    title,
+  );
+  factory ShareTarget.forumTopic(int id, String title) => ShareTarget._(
+    Uri.https('osu.ppy.sh', '/community/forums/topics/${_id(id)}'),
+    title,
+  );
+
   factory ShareTarget.wikiSearch(String query, String title) => ShareTarget._(
     Uri.https('osu.ppy.sh', '/home/search', <String, String>{
       'mode': 'wiki_page',

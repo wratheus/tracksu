@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/forum/main.dart';
 import 'package:tracksu/src/web_page/screen.dart';
 import 'package:tracksu/src/wiki/domain/wiki.dart';
 import 'package:tracksu/src/wiki/main.dart';
@@ -161,6 +162,20 @@ final class TracksuAppRouter {
       builder: (_, GoRouterState state) =>
           WebPageScreen(uri: _webUri(state)!),
     ),
+    GoRoute(
+      path: 'forums/:id',
+      redirect: (_, GoRouterState state) =>
+          _positiveId(state.pathParameters['id']) == null ? '/search' : null,
+      builder: (_, GoRouterState state) =>
+          ForumBoardMain(forumId: _positiveId(state.pathParameters['id'])!),
+    ),
+    GoRoute(
+      path: 'topic/:id',
+      redirect: (_, GoRouterState state) =>
+          _positiveId(state.pathParameters['id']) == null ? '/search' : null,
+      builder: (_, GoRouterState state) =>
+          ForumTopicMain(topicId: _positiveId(state.pathParameters['id'])!),
+    ),
     GoRoute(path: 'spotlights', builder: (_, _) => const SpotlightsMain()),
     GoRoute(path: 'daily', builder: (_, _) => const DailyChallengeMain()),
     GoRoute(path: 'daily/history', builder: (_, _) => const DailyHistoryMain()),
@@ -259,6 +274,18 @@ final class TracksuAppRouter {
           queryParameters: <String, String>{'url': uri.toString()},
         ).toString(),
       );
+
+  /// One osu! forum (topics and subforums), P54.
+  Future<void> openForum(BuildContext context, int id) async {
+    if (id <= 0) throw ArgumentError.value(id, 'id');
+    await config.push<void>('$_branchPath/forums/$id');
+  }
+
+  /// One forum topic, read from the first post.
+  Future<void> openForumTopic(BuildContext context, int id) async {
+    if (id <= 0) throw ArgumentError.value(id, 'id');
+    await config.push<void>('$_branchPath/topic/$id');
+  }
 
   Future<void> openSpotlights(BuildContext context) async =>
       config.push<void>('$_branchPath/spotlights');

@@ -573,5 +573,18 @@
   "webPageFailed": "Impossible de charger la page",
   "webPageOpenInBrowser": "Ouvrir dans le navigateur",
   "eventsGroupEmpty": "Aucun parmi les événements chargés",
-  "eventsGroupHint": "Le filtre ne porte que sur les événements chargés. Chargez-en de plus anciens pour remonter plus loin."
+  "eventsGroupHint": "Le filtre ne porte que sur les événements chargés. Chargez-en de plus anciens pour remonter plus loin.",
+  "forumTitle": "Forum",
+  "forumLoading": "Chargement du forum",
+  "forumFailed": "Impossible de charger le forum",
+  "forumNotFound": "Ce forum ou ce sujet n'est pas disponible",
+  "forumEmpty": "Aucun sujet pour le moment",
+  "forumSubforums": "Sous-forums",
+  "forumTopics": "Sujets",
+  "forumPinned": "Épinglé",
+  "forumAnnouncement": "Annonce",
+  "forumLocked": "Verrouillé",
+  "forumReplies": "{count, plural, one{{count} réponse} other{{count} réponses}}",
+  "forumViews": "{count, plural, one{{count} vue} other{{count} vues}}",
+  "forumPostUnavailable": "Ce message ne peut pas être affiché ici"
 }

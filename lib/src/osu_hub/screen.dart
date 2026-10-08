@@ -8,11 +8,13 @@ import 'package:tracksu/src/changelog/bloc/bloc.dart';
 import 'package:tracksu/src/changelog/widgets/changelog_slivers.dart';
 import 'package:tracksu/src/events/bloc/bloc.dart';
 import 'package:tracksu/src/events/widgets/events_slivers.dart';
+import 'package:tracksu/src/forum/index/bloc/bloc.dart';
+import 'package:tracksu/src/forum/widgets/forum_index_slivers.dart';
 import 'package:tracksu/src/news/bloc/bloc.dart';
 import 'package:tracksu/src/news/widgets/screen.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
-enum _HubTab { news, events, changelog }
+enum _HubTab { news, events, forum, changelog }
 
 /// "osu!" tab: News / Changelog pages under one AppBar, switched by the
 /// segmented control or a swipe (snaps past halfway, as in Rankings). Each
@@ -59,6 +61,8 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
         }
       case _HubTab.events:
         context.read<OsuEventsBloc>().add(const OsuEventsRefreshRequested());
+      case _HubTab.forum:
+        context.read<ForumIndexBloc>().add(const ForumIndexRefreshRequested());
       case _HubTab.changelog:
         context.read<ChangelogBloc>().add(const ChangelogRefreshRequested());
     }
@@ -76,6 +80,7 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
               _HubTab.news => ShareTarget.newsList(context.t.newsTitle),
               // The website has no page for the global feed.
               _HubTab.events => null,
+              _HubTab.forum => ShareTarget.forums(context.t.forumTitle),
               _HubTab.changelog => ShareTarget.changelog(
                 stream,
                 context.t.changelogTitle,
@@ -108,6 +113,11 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
                     icon: const Icon(Icons.bolt_rounded),
                   ),
                   UiSegment<int>(
+                    value: _HubTab.forum.index,
+                    label: context.t.forumTitle,
+                    icon: const Icon(Icons.forum_outlined),
+                  ),
+                  UiSegment<int>(
                     value: _HubTab.changelog.index,
                     label: context.t.changelogTitle,
                     icon: const Icon(Icons.update_rounded),
@@ -131,13 +141,23 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
                               state.items != null &&
                               state.operation == OsuEventsOperation.refresh,
                           builder: (BuildContext context, bool events) =>
-                              UiAppBarProgress(
-                                visible: switch (_tab) {
-                                  _HubTab.news => news,
-                                  _HubTab.events => events,
-                                  _HubTab.changelog => changelog,
-                                },
-                                semanticsLabel: context.t.hubTitle,
+                              BlocSelector<
+                                ForumIndexBloc,
+                                ForumIndexState,
+                                bool
+                              >(
+                                selector: (ForumIndexState state) =>
+                                    state.forums != null && state.loading,
+                                builder: (BuildContext context, bool forum) =>
+                                    UiAppBarProgress(
+                                      visible: switch (_tab) {
+                                        _HubTab.news => news,
+                                        _HubTab.events => events,
+                                        _HubTab.forum => forum,
+                                        _HubTab.changelog => changelog,
+                                      },
+                                      semanticsLabel: context.t.hubTitle,
+                                    ),
                               ),
                         ),
                   ),
@@ -163,6 +183,7 @@ final class _OsuHubScreenState extends State<OsuHubScreen>
               slivers: switch (tab) {
                 _HubTab.news => const <Widget>[NewsSlivers(article: false)],
                 _HubTab.events => const <Widget>[OsuEventsSlivers()],
+                _HubTab.forum => const <Widget>[ForumIndexSlivers()],
                 _HubTab.changelog => const <Widget>[ChangelogSlivers()],
               },
             ),

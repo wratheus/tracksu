@@ -1945,5 +1945,69 @@
   "eventsGroupHint": "The feed only filters what is loaded. Load older events to look further back.",
   "@eventsGroupHint": {
     "description": "Why a group can be empty: the feed has no type filter."
+  },
+  "forumTitle": "Forum",
+  "@forumTitle": {
+    "description": "Forum section of the osu! tab and its title."
+  },
+  "forumLoading": "Loading forum",
+  "@forumLoading": {
+    "description": "Forum list, forum or topic is loading."
+  },
+  "forumFailed": "Couldn't load the forum",
+  "@forumFailed": {
+    "description": "Forum content could not be loaded."
+  },
+  "forumNotFound": "This forum or topic is not available",
+  "@forumNotFound": {
+    "description": "Forum or topic does not exist or is not public."
+  },
+  "forumEmpty": "No topics yet",
+  "@forumEmpty": {
+    "description": "Forum has no topics."
+  },
+  "forumSubforums": "Subforums",
+  "@forumSubforums": {
+    "description": "Heading above the subforums of a forum."
+  },
+  "forumTopics": "Topics",
+  "@forumTopics": {
+    "description": "Heading above the topics of a forum."
+  },
+  "forumPinned": "Pinned",
+  "@forumPinned": {
+    "description": "Marker of a pinned (sticky) topic."
+  },
+  "forumAnnouncement": "Announcement",
+  "@forumAnnouncement": {
+    "description": "Marker of an announcement topic."
+  },
+  "forumLocked": "Locked",
+  "@forumLocked": {
+    "description": "Marker of a locked topic."
+  },
+  "forumReplies": "{count, plural, one{{count} reply} other{{count} replies}}",
+  "@forumReplies": {
+    "description": "Number of replies in a topic.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "forumViews": "{count, plural, one{{count} view} other{{count} views}}",
+  "@forumViews": {
+    "description": "Number of views of a topic.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "forumPostUnavailable": "This post can't be shown here",
+  "@forumPostUnavailable": {
+    "description": "A forum post body cannot be shown in the app."
   }
 }

@@ -3539,6 +3539,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The feed only filters what is loaded. Load older events to look further back.'**
   String get eventsGroupHint;
+
+  /// Forum section of the osu! tab and its title.
+  ///
+  /// In en, this message translates to:
+  /// **'Forum'**
+  String get forumTitle;
+
+  /// Forum list, forum or topic is loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading forum'**
+  String get forumLoading;
+
+  /// Forum content could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the forum'**
+  String get forumFailed;
+
+  /// Forum or topic does not exist or is not public.
+  ///
+  /// In en, this message translates to:
+  /// **'This forum or topic is not available'**
+  String get forumNotFound;
+
+  /// Forum has no topics.
+  ///
+  /// In en, this message translates to:
+  /// **'No topics yet'**
+  String get forumEmpty;
+
+  /// Heading above the subforums of a forum.
+  ///
+  /// In en, this message translates to:
+  /// **'Subforums'**
+  String get forumSubforums;
+
+  /// Heading above the topics of a forum.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics'**
+  String get forumTopics;
+
+  /// Marker of a pinned (sticky) topic.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get forumPinned;
+
+  /// Marker of an announcement topic.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcement'**
+  String get forumAnnouncement;
+
+  /// Marker of a locked topic.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get forumLocked;
+
+  /// Number of replies in a topic.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} reply} other{{count} replies}}'**
+  String forumReplies(int count);
+
+  /// Number of views of a topic.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} view} other{{count} views}}'**
+  String forumViews(int count);
+
+  /// A forum post body cannot be shown in the app.
+  ///
+  /// In en, this message translates to:
+  /// **'This post can\'t be shown here'**
+  String get forumPostUnavailable;
 }
 
 class _AppLocalizationsDelegate
