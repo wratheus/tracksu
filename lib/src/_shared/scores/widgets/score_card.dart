@@ -124,7 +124,7 @@ final class _OsuScoreCardState extends State<OsuScoreCard> {
       artist: score.artist,
       difficulty: score.difficulty,
       grade: score.rank,
-      gradeLabel: context.t.scoresGrade(score.rank),
+      gradeLabel: OsuGradeBadge.semanticLabel(context, score.rank),
       accuracyLabel: NumberFormat.decimalPercentPattern(
         locale: locale,
         decimalDigits: 2,

@@ -109,10 +109,7 @@ final class ScoreDetailsSheet extends StatelessWidget {
                       spacing: UiSpace.md,
                       runSpacing: UiSpace.sm,
                       children: <Widget>[
-                        OsuGradeBadge(
-                          grade: score.rank,
-                          label: context.t.scoresGrade(score.rank),
-                        ),
+                        OsuGradeBadge(grade: score.rank, height: 32),
                         if (!score.passed)
                           UiBadge.negative(context.t.scoresFailedPlay),
                       ],

@@ -1121,6 +1121,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scoresBest => 'ベスト';
 
   @override
+  String get scoresPinned => 'ピン留め';
+
+  @override
+  String get scoresFirsts => '1位';
+
+  @override
   String get scoresRecent => '最近';
 
   @override
@@ -1170,6 +1176,11 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String scoresGrade(String grade) {
     return 'ランク: $grade';
+  }
+
+  @override
+  String gradeSilver(String grade) {
+    return 'シルバー$grade';
   }
 
   @override
@@ -1856,4 +1867,87 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get userSearchLimit => '最初の100人を表示しています。検索条件を絞ってください。';
+
+  @override
+  String get profileActivity => 'アクティビティ';
+
+  @override
+  String get activityEmpty => '最近のアクティビティはありません';
+
+  @override
+  String get activityLoading => 'アクティビティを読み込み中';
+
+  @override
+  String get activityFailed => 'アクティビティを読み込めませんでした';
+
+  @override
+  String activityRank(int rank, String beatmap) {
+    return '$beatmapで#$rank位';
+  }
+
+  @override
+  String activityRankLost(String beatmap) {
+    return '$beatmapで1位を失いました';
+  }
+
+  @override
+  String activityMedal(String medal) {
+    return 'メダル「$medal」を獲得';
+  }
+
+  @override
+  String activityPlaycount(String beatmap, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '#回',
+    );
+    return '$beatmapが$_temp0プレイされました';
+  }
+
+  @override
+  String activityApproved(String beatmapset, String status) {
+    String _temp0 = intl.Intl.selectLogic(status, {
+      'ranked': 'Ranked',
+      'approved': 'Approved',
+      'qualified': 'Qualified',
+      'loved': 'Loved',
+      'other': '更新',
+    });
+    return '$beatmapsetが$_temp0になりました';
+  }
+
+  @override
+  String activityUpload(String beatmapset) {
+    return '新しいビートマップ $beatmapset を投稿';
+  }
+
+  @override
+  String activityUpdate(String beatmapset) {
+    return '$beatmapset を更新';
+  }
+
+  @override
+  String activityRevive(String beatmapset) {
+    return '$beatmapset を墓場から復活';
+  }
+
+  @override
+  String activityDelete(String beatmapset) {
+    return '$beatmapset は削除されました';
+  }
+
+  @override
+  String get activitySupportFirst => 'osu!supporterになりました';
+
+  @override
+  String get activitySupportAgain => '再びosu!をサポート';
+
+  @override
+  String get activitySupportGift => 'osu!supporterをプレゼントされました';
+
+  @override
+  String activityUsernameChange(String previous, String current) {
+    return 'ユーザー名を変更：$previous → $current';
+  }
 }

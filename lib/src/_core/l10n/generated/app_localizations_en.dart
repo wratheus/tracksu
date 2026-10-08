@@ -1167,6 +1167,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scoresBest => 'Best';
 
   @override
+  String get scoresPinned => 'Pinned';
+
+  @override
+  String get scoresFirsts => 'First places';
+
+  @override
   String get scoresRecent => 'Recent';
 
   @override
@@ -1218,6 +1224,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String scoresGrade(String grade) {
     return 'Grade: $grade';
+  }
+
+  @override
+  String gradeSilver(String grade) {
+    return 'Silver $grade';
   }
 
   @override
@@ -1922,4 +1933,88 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get userSearchLimit =>
       'Showing the first 100 players. Refine your search.';
+
+  @override
+  String get profileActivity => 'Activity';
+
+  @override
+  String get activityEmpty => 'No recent activity';
+
+  @override
+  String get activityLoading => 'Loading activity';
+
+  @override
+  String get activityFailed => 'Couldn\'t load activity';
+
+  @override
+  String activityRank(int rank, String beatmap) {
+    return 'Rank #$rank on $beatmap';
+  }
+
+  @override
+  String activityRankLost(String beatmap) {
+    return 'Lost first place on $beatmap';
+  }
+
+  @override
+  String activityMedal(String medal) {
+    return 'Unlocked the “$medal” medal';
+  }
+
+  @override
+  String activityPlaycount(String beatmap, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# times',
+      one: '# time',
+    );
+    return '$beatmap has been played $_temp0';
+  }
+
+  @override
+  String activityApproved(String beatmapset, String status) {
+    String _temp0 = intl.Intl.selectLogic(status, {
+      'ranked': 'ranked',
+      'approved': 'approved',
+      'qualified': 'qualified',
+      'loved': 'loved',
+      'other': 'updated',
+    });
+    return '$beatmapset has been $_temp0';
+  }
+
+  @override
+  String activityUpload(String beatmapset) {
+    return 'Submitted a new beatmap $beatmapset';
+  }
+
+  @override
+  String activityUpdate(String beatmapset) {
+    return 'Updated $beatmapset';
+  }
+
+  @override
+  String activityRevive(String beatmapset) {
+    return 'Revived $beatmapset from the graveyard';
+  }
+
+  @override
+  String activityDelete(String beatmapset) {
+    return '$beatmapset was deleted';
+  }
+
+  @override
+  String get activitySupportFirst => 'Became an osu!supporter';
+
+  @override
+  String get activitySupportAgain => 'Supported osu! again';
+
+  @override
+  String get activitySupportGift => 'Received osu!supporter as a gift';
+
+  @override
+  String activityUsernameChange(String previous, String current) {
+    return 'Changed username from $previous to $current';
+  }
 }

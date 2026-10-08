@@ -868,6 +868,14 @@
   "@scoresBest": {
     "description": "Tab for a player's best scores."
   },
+  "scoresPinned": "Pinned",
+  "@scoresPinned": {
+    "description": "Profile score list: scores the player pinned."
+  },
+  "scoresFirsts": "First places",
+  "@scoresFirsts": {
+    "description": "Profile score list: scores that hold first place on their beatmap."
+  },
   "scoresRecent": "Recent",
   "@scoresRecent": {
     "description": "Tab for a player's recent scores."
@@ -936,6 +944,15 @@
   "scoresGrade": "Grade: {grade}",
   "@scoresGrade": {
     "description": "Score grade such as SS, S, A or B; do not translate the parameter.",
+    "placeholders": {
+      "grade": {
+        "type": "String"
+      }
+    }
+  },
+  "gradeSilver": "Silver {grade}",
+  "@gradeSilver": {
+    "description": "Accessibility name of a silver grade (Hidden/Flashlight S or SS); do not translate the parameter.",
     "placeholders": {
       "grade": {
         "type": "String"
@@ -1627,5 +1644,135 @@
   "userSearchLimit": "Showing the first 100 players. Refine your search.",
   "@userSearchLimit": {
     "description": "Unified AppBar search: Showing the first 100 players. Refine your search."
+  },
+  "profileActivity": "Activity",
+  "@profileActivity": {
+    "description": "Profile tab with the player's recent activity."
+  },
+  "activityEmpty": "No recent activity",
+  "@activityEmpty": {
+    "description": "Profile activity: nothing in the recent feed."
+  },
+  "activityLoading": "Loading activity",
+  "@activityLoading": {
+    "description": "Profile activity: loading label."
+  },
+  "activityFailed": "Couldn't load activity",
+  "@activityFailed": {
+    "description": "Profile activity: the feed could not be loaded."
+  },
+  "activityRank": "Rank #{rank} on {beatmap}",
+  "@activityRank": {
+    "description": "Profile activity: leaderboard place on a beatmap.",
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      },
+      "beatmap": {
+        "type": "String"
+      }
+    }
+  },
+  "activityRankLost": "Lost first place on {beatmap}",
+  "@activityRankLost": {
+    "description": "Profile activity: first place lost to another player.",
+    "placeholders": {
+      "beatmap": {
+        "type": "String"
+      }
+    }
+  },
+  "activityMedal": "Unlocked the “{medal}” medal",
+  "@activityMedal": {
+    "description": "Profile activity: medal unlocked.",
+    "placeholders": {
+      "medal": {
+        "type": "String"
+      }
+    }
+  },
+  "activityPlaycount": "{beatmap} has been played {count, plural, =1{# time} other{# times}}",
+  "@activityPlaycount": {
+    "description": "Profile activity: a beatmap of the player reached a play count milestone.",
+    "placeholders": {
+      "beatmap": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "activityApproved": "{beatmapset} has been {status, select, ranked{ranked} approved{approved} qualified{qualified} loved{loved} other{updated}}",
+  "@activityApproved": {
+    "description": "Profile activity: the player's beatmapset changed status.",
+    "placeholders": {
+      "beatmapset": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "activityUpload": "Submitted a new beatmap {beatmapset}",
+  "@activityUpload": {
+    "description": "Profile activity: new beatmapset submitted.",
+    "placeholders": {
+      "beatmapset": {
+        "type": "String"
+      }
+    }
+  },
+  "activityUpdate": "Updated {beatmapset}",
+  "@activityUpdate": {
+    "description": "Profile activity: beatmapset updated.",
+    "placeholders": {
+      "beatmapset": {
+        "type": "String"
+      }
+    }
+  },
+  "activityRevive": "Revived {beatmapset} from the graveyard",
+  "@activityRevive": {
+    "description": "Profile activity: beatmapset brought back from the graveyard.",
+    "placeholders": {
+      "beatmapset": {
+        "type": "String"
+      }
+    }
+  },
+  "activityDelete": "{beatmapset} was deleted",
+  "@activityDelete": {
+    "description": "Profile activity: beatmapset deleted.",
+    "placeholders": {
+      "beatmapset": {
+        "type": "String"
+      }
+    }
+  },
+  "activitySupportFirst": "Became an osu!supporter",
+  "@activitySupportFirst": {
+    "description": "Profile activity: first osu!supporter purchase."
+  },
+  "activitySupportAgain": "Supported osu! again",
+  "@activitySupportAgain": {
+    "description": "Profile activity: osu!supporter bought again."
+  },
+  "activitySupportGift": "Received osu!supporter as a gift",
+  "@activitySupportGift": {
+    "description": "Profile activity: osu!supporter received as a gift."
+  },
+  "activityUsernameChange": "Changed username from {previous} to {current}",
+  "@activityUsernameChange": {
+    "description": "Profile activity: username changed.",
+    "placeholders": {
+      "previous": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      }
+    }
   }
 }

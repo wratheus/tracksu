@@ -1107,6 +1107,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get scoresBest => '最佳';
 
   @override
+  String get scoresPinned => '置顶';
+
+  @override
+  String get scoresFirsts => '第一名';
+
+  @override
   String get scoresRecent => '最近';
 
   @override
@@ -1156,6 +1162,11 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String scoresGrade(String grade) {
     return '评级：$grade';
+  }
+
+  @override
+  String gradeSilver(String grade) {
+    return '银色 $grade';
   }
 
   @override
@@ -1842,4 +1853,87 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get userSearchLimit => '仅显示前 100 位玩家，请缩小搜索范围。';
+
+  @override
+  String get profileActivity => '动态';
+
+  @override
+  String get activityEmpty => '暂无最近动态';
+
+  @override
+  String get activityLoading => '正在加载动态';
+
+  @override
+  String get activityFailed => '无法加载动态';
+
+  @override
+  String activityRank(int rank, String beatmap) {
+    return '在 $beatmap 上获得第 #$rank 名';
+  }
+
+  @override
+  String activityRankLost(String beatmap) {
+    return '失去了 $beatmap 的第一名';
+  }
+
+  @override
+  String activityMedal(String medal) {
+    return '解锁了奖章「$medal」';
+  }
+
+  @override
+  String activityPlaycount(String beatmap, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# 次',
+    );
+    return '$beatmap 已被游玩 $_temp0';
+  }
+
+  @override
+  String activityApproved(String beatmapset, String status) {
+    String _temp0 = intl.Intl.selectLogic(status, {
+      'ranked': '进入 Ranked',
+      'approved': '进入 Approved',
+      'qualified': '进入 Qualified',
+      'loved': '进入 Loved',
+      'other': '更新',
+    });
+    return '$beatmapset 已$_temp0';
+  }
+
+  @override
+  String activityUpload(String beatmapset) {
+    return '上传了新谱面 $beatmapset';
+  }
+
+  @override
+  String activityUpdate(String beatmapset) {
+    return '更新了 $beatmapset';
+  }
+
+  @override
+  String activityRevive(String beatmapset) {
+    return '将 $beatmapset 从坟场中复活';
+  }
+
+  @override
+  String activityDelete(String beatmapset) {
+    return '$beatmapset 已被删除';
+  }
+
+  @override
+  String get activitySupportFirst => '成为了 osu!supporter';
+
+  @override
+  String get activitySupportAgain => '再次支持了 osu!';
+
+  @override
+  String get activitySupportGift => '获赠 osu!supporter';
+
+  @override
+  String activityUsernameChange(String previous, String current) {
+    return '更改了用户名：$previous → $current';
+  }
 }

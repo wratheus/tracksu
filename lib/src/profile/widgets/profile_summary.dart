@@ -187,7 +187,7 @@ final class ProfileSummary extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 spacing: UiSpace.sm,
                                 children: <Widget>[
-                                  OsuGradeBadge(grade: grade, label: grade),
+                                  OsuGradeBadge(grade: grade, height: 28),
                                   UiText.titleMedium(number.format(count)),
                                 ],
                               ),

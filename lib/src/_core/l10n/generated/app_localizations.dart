@@ -2010,6 +2010,18 @@ abstract class AppLocalizations {
   /// **'Best'**
   String get scoresBest;
 
+  /// Profile score list: scores the player pinned.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned'**
+  String get scoresPinned;
+
+  /// Profile score list: scores that hold first place on their beatmap.
+  ///
+  /// In en, this message translates to:
+  /// **'First places'**
+  String get scoresFirsts;
+
   /// Tab for a player's recent scores.
   ///
   /// In en, this message translates to:
@@ -2105,6 +2117,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Grade: {grade}'**
   String scoresGrade(String grade);
+
+  /// Accessibility name of a silver grade (Hidden/Flashlight S or SS); do not translate the parameter.
+  ///
+  /// In en, this message translates to:
+  /// **'Silver {grade}'**
+  String gradeSilver(String grade);
 
   /// Maximum combo achieved in this score.
   ///
@@ -3185,6 +3203,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Showing the first 100 players. Refine your search.'**
   String get userSearchLimit;
+
+  /// Profile tab with the player's recent activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get profileActivity;
+
+  /// Profile activity: nothing in the recent feed.
+  ///
+  /// In en, this message translates to:
+  /// **'No recent activity'**
+  String get activityEmpty;
+
+  /// Profile activity: loading label.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading activity'**
+  String get activityLoading;
+
+  /// Profile activity: the feed could not be loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load activity'**
+  String get activityFailed;
+
+  /// Profile activity: leaderboard place on a beatmap.
+  ///
+  /// In en, this message translates to:
+  /// **'Rank #{rank} on {beatmap}'**
+  String activityRank(int rank, String beatmap);
+
+  /// Profile activity: first place lost to another player.
+  ///
+  /// In en, this message translates to:
+  /// **'Lost first place on {beatmap}'**
+  String activityRankLost(String beatmap);
+
+  /// Profile activity: medal unlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked the “{medal}” medal'**
+  String activityMedal(String medal);
+
+  /// Profile activity: a beatmap of the player reached a play count milestone.
+  ///
+  /// In en, this message translates to:
+  /// **'{beatmap} has been played {count, plural, =1{# time} other{# times}}'**
+  String activityPlaycount(String beatmap, int count);
+
+  /// Profile activity: the player's beatmapset changed status.
+  ///
+  /// In en, this message translates to:
+  /// **'{beatmapset} has been {status, select, ranked{ranked} approved{approved} qualified{qualified} loved{loved} other{updated}}'**
+  String activityApproved(String beatmapset, String status);
+
+  /// Profile activity: new beatmapset submitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted a new beatmap {beatmapset}'**
+  String activityUpload(String beatmapset);
+
+  /// Profile activity: beatmapset updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {beatmapset}'**
+  String activityUpdate(String beatmapset);
+
+  /// Profile activity: beatmapset brought back from the graveyard.
+  ///
+  /// In en, this message translates to:
+  /// **'Revived {beatmapset} from the graveyard'**
+  String activityRevive(String beatmapset);
+
+  /// Profile activity: beatmapset deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{beatmapset} was deleted'**
+  String activityDelete(String beatmapset);
+
+  /// Profile activity: first osu!supporter purchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Became an osu!supporter'**
+  String get activitySupportFirst;
+
+  /// Profile activity: osu!supporter bought again.
+  ///
+  /// In en, this message translates to:
+  /// **'Supported osu! again'**
+  String get activitySupportAgain;
+
+  /// Profile activity: osu!supporter received as a gift.
+  ///
+  /// In en, this message translates to:
+  /// **'Received osu!supporter as a gift'**
+  String get activitySupportGift;
+
+  /// Profile activity: username changed.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed username from {previous} to {current}'**
+  String activityUsernameChange(String previous, String current);
 }
 
 class _AppLocalizationsDelegate

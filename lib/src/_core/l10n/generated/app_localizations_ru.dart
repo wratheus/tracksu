@@ -1180,6 +1180,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get scoresBest => 'Лучшие';
 
   @override
+  String get scoresPinned => 'Закреплённые';
+
+  @override
+  String get scoresFirsts => 'Первые места';
+
+  @override
   String get scoresRecent => 'Последние';
 
   @override
@@ -1230,6 +1236,11 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String scoresGrade(String grade) {
     return 'Оценка: $grade';
+  }
+
+  @override
+  String gradeSilver(String grade) {
+    return 'Серебряная $grade';
   }
 
   @override
@@ -1951,4 +1962,90 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get userSearchLimit => 'Показаны первые 100 игроков. Уточните запрос.';
+
+  @override
+  String get profileActivity => 'Активность';
+
+  @override
+  String get activityEmpty => 'Недавней активности нет';
+
+  @override
+  String get activityLoading => 'Загружаем активность';
+
+  @override
+  String get activityFailed => 'Не удалось загрузить активность';
+
+  @override
+  String activityRank(int rank, String beatmap) {
+    return '#$rank место на $beatmap';
+  }
+
+  @override
+  String activityRankLost(String beatmap) {
+    return 'Первое место на $beatmap потеряно';
+  }
+
+  @override
+  String activityMedal(String medal) {
+    return 'Получена медаль «$medal»';
+  }
+
+  @override
+  String activityPlaycount(String beatmap, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# раза',
+      many: '# раз',
+      few: '# раза',
+      one: '# раз',
+    );
+    return '$beatmap сыграна $_temp0';
+  }
+
+  @override
+  String activityApproved(String beatmapset, String status) {
+    String _temp0 = intl.Intl.selectLogic(status, {
+      'ranked': 'стала рейтинговой',
+      'approved': 'одобрена',
+      'qualified': 'квалифицирована',
+      'loved': 'попала в Loved',
+      'other': 'обновлена',
+    });
+    return 'Карта $beatmapset $_temp0';
+  }
+
+  @override
+  String activityUpload(String beatmapset) {
+    return 'Загружена новая карта $beatmapset';
+  }
+
+  @override
+  String activityUpdate(String beatmapset) {
+    return 'Обновлена карта $beatmapset';
+  }
+
+  @override
+  String activityRevive(String beatmapset) {
+    return 'Карта $beatmapset возвращена с кладбища';
+  }
+
+  @override
+  String activityDelete(String beatmapset) {
+    return 'Карта $beatmapset удалена';
+  }
+
+  @override
+  String get activitySupportFirst => 'Впервые поддержка osu! — osu!supporter';
+
+  @override
+  String get activitySupportAgain => 'Снова поддержка osu!';
+
+  @override
+  String get activitySupportGift => 'Получен osu!supporter в подарок';
+
+  @override
+  String activityUsernameChange(String previous, String current) {
+    return 'Ник изменён: $previous → $current';
+  }
 }

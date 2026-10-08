@@ -6,6 +6,7 @@ import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
+export 'package:tracksu/src/_shared/ui/osu_grade.dart';
 export 'package:tracksu/src/_shared/ui/osu_mods.dart';
 
 /// Asset paths stay in the host. Unknown/missing codes have a visible fallback.
@@ -193,81 +194,6 @@ final class OsuRulesetSelector extends StatelessWidget {
         )
         .toList(growable: false),
   );
-}
-
-final class OsuGradeBadge extends StatelessWidget {
-  const OsuGradeBadge({required this.grade, required this.label, super.key});
-  final String grade;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final String value = grade.toUpperCase();
-    final ColorScheme colors = Theme.of(context).colorScheme;
-    final (
-      Color background,
-      Color foreground,
-      IconData? icon,
-    ) = switch (value) {
-      'X' || 'SS' => (colors.primary, colors.onPrimary, Icons.star_rounded),
-      'XH' ||
-      'SSH' => (colors.tertiary, colors.onTertiary, Icons.auto_awesome_rounded),
-      'S' => (colors.secondary, colors.onSecondary, Icons.check_rounded),
-      'SH' => (
-        colors.secondaryContainer,
-        colors.onSecondaryContainer,
-        Icons.verified_rounded,
-      ),
-      'A' => (
-        colors.primaryContainer,
-        colors.onPrimaryContainer,
-        Icons.keyboard_double_arrow_up_rounded,
-      ),
-      'B' => (
-        colors.tertiaryContainer,
-        colors.onTertiaryContainer,
-        Icons.remove_rounded,
-      ),
-      'C' || 'D' => (colors.errorContainer, colors.onErrorContainer, null),
-      _ => (colors.surfaceContainerHighest, colors.onSurfaceVariant, null),
-    };
-    return Semantics(
-      label: label,
-      excludeSemantics: true,
-      child: Transform.rotate(
-        angle: -0.035,
-        child: Material(
-          color: background,
-          borderRadius: BorderRadius.circular(UiShape.control),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minWidth: 48, minHeight: 32),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: UiSpace.sm,
-                vertical: UiSpace.xs,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                spacing: UiSpace.xs,
-                children: <Widget>[
-                  if (icon != null) Icon(icon, size: 16, color: foreground),
-                  Text(
-                    value,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: foreground,
-                      fontWeight: FontWeight.w800,
-                      fontStyle: FontStyle.italic,
-                      letterSpacing: 0.8,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 /// osu!supporter tag as on osu.ppy.sh: a soft pink heart with a light top

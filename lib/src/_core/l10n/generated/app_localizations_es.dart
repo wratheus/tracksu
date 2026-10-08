@@ -1184,6 +1184,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get scoresBest => 'Mejores';
 
   @override
+  String get scoresPinned => 'Fijados';
+
+  @override
+  String get scoresFirsts => 'Primeros puestos';
+
+  @override
   String get scoresRecent => 'Recientes';
 
   @override
@@ -1237,6 +1243,11 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String scoresGrade(String grade) {
     return 'Grado: $grade';
+  }
+
+  @override
+  String gradeSilver(String grade) {
+    return '$grade plateada';
   }
 
   @override
@@ -1947,4 +1958,88 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get userSearchLimit =>
       'Se muestran los primeros 100 jugadores. Afina la búsqueda.';
+
+  @override
+  String get profileActivity => 'Actividad';
+
+  @override
+  String get activityEmpty => 'Sin actividad reciente';
+
+  @override
+  String get activityLoading => 'Cargando actividad';
+
+  @override
+  String get activityFailed => 'No se pudo cargar la actividad';
+
+  @override
+  String activityRank(int rank, String beatmap) {
+    return 'Puesto #$rank en $beatmap';
+  }
+
+  @override
+  String activityRankLost(String beatmap) {
+    return 'Perdió el primer puesto en $beatmap';
+  }
+
+  @override
+  String activityMedal(String medal) {
+    return 'Medalla «$medal» desbloqueada';
+  }
+
+  @override
+  String activityPlaycount(String beatmap, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# veces',
+      one: '# vez',
+    );
+    return '$beatmap se ha jugado $_temp0';
+  }
+
+  @override
+  String activityApproved(String beatmapset, String status) {
+    String _temp0 = intl.Intl.selectLogic(status, {
+      'ranked': 'clasificado',
+      'approved': 'aprobado',
+      'qualified': 'calificado',
+      'loved': 'añadido a Loved',
+      'other': 'actualizado',
+    });
+    return '$beatmapset ha sido $_temp0';
+  }
+
+  @override
+  String activityUpload(String beatmapset) {
+    return 'Subió un nuevo mapa $beatmapset';
+  }
+
+  @override
+  String activityUpdate(String beatmapset) {
+    return 'Actualizó $beatmapset';
+  }
+
+  @override
+  String activityRevive(String beatmapset) {
+    return 'Revivió $beatmapset del cementerio';
+  }
+
+  @override
+  String activityDelete(String beatmapset) {
+    return '$beatmapset fue eliminado';
+  }
+
+  @override
+  String get activitySupportFirst => 'Primer apoyo a osu! (osu!supporter)';
+
+  @override
+  String get activitySupportAgain => 'Volvió a apoyar osu!';
+
+  @override
+  String get activitySupportGift => 'Recibió osu!supporter como regalo';
+
+  @override
+  String activityUsernameChange(String previous, String current) {
+    return 'Cambió su nombre: $previous → $current';
+  }
 }
