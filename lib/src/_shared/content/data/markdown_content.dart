@@ -181,7 +181,7 @@ abstract final class MarkdownContent {
       );
       final List<Node> parsed = <Node>[
         if (lead.isNotEmpty) Text(lead),
-        ...parser.parseFragment(html).nodes.toList(),
+        ...parser.parseFragment(html).nodes,
         if (trail.isNotEmpty) Text(trail),
       ];
       for (final Node part in parsed) {

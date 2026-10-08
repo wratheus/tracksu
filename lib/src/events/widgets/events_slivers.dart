@@ -84,9 +84,7 @@ final class OsuEventsSlivers extends StatelessWidget {
                   padding: const EdgeInsets.all(UiSpace.lg),
                   sliver: SliverToBoxAdapter(
                     child: UiSurface.card(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: UiSpace.xs,
-                      ),
+                      padding: const EdgeInsets.symmetric(vertical: UiSpace.xs),
                       child: Column(
                         children: <Widget>[
                           for (int i = 0; i < items.length; i++) ...<Widget>[
@@ -103,9 +101,7 @@ final class OsuEventsSlivers extends StatelessWidget {
                 ),
               if (state.operation == OsuEventsOperation.loadMore)
                 SliverToBoxAdapter(
-                  child: UiContentState.loading(
-                    title: context.t.eventsLoading,
-                  ),
+                  child: UiContentState.loading(title: context.t.eventsLoading),
                 )
               else if (state.failure case final OsuEventsFailureKind failure
                   when state.failedOperation == OsuEventsOperation.loadMore)

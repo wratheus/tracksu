@@ -38,12 +38,8 @@ final class WikiSearchState {
 }
 
 final class WikiSearchBloc extends Bloc<WikiSearchEvent, WikiSearchState> {
-  WikiSearchBloc({
-    required WikiRepository repository,
-    required String Function() locale,
-  }) : _repository = repository,
-       _locale = locale,
-       super(const WikiSearchState()) {
+  WikiSearchBloc({required this._repository, required this._locale})
+    : super(const WikiSearchState()) {
     on<WikiSearchChanged>(_changed, transformer: restartable());
     on<WikiSearchMoreRequested>(_more, transformer: droppable());
   }

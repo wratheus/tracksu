@@ -70,21 +70,18 @@ final class OsuEventsState {
 
 /// Global osu! feed: first page cached for the session, cursor paging.
 final class OsuEventsBloc extends Bloc<OsuEventsEvent, OsuEventsState> {
-  OsuEventsBloc({
-    required OsuEventsRepository repository,
-    required PageCache cache,
-  }) : _repository = repository,
-       _cache = cache,
-       super(const OsuEventsState()) {
+  OsuEventsBloc({required this._repository, required this._cache})
+    : super(const OsuEventsState()) {
     on<OsuEventsLoadEvent>(_onLoad, transformer: sequential());
     // Switching the group never waits for a request in flight.
-    on<OsuEventsFilterSelected>(
-      (OsuEventsFilterSelected event, Emitter<OsuEventsState> emit) {
-        if (event.filter != state.filter) {
-          emit(state.copyWith(filter: event.filter));
-        }
-      },
-    );
+    on<OsuEventsFilterSelected>((
+      OsuEventsFilterSelected event,
+      Emitter<OsuEventsState> emit,
+    ) {
+      if (event.filter != state.filter) {
+        emit(state.copyWith(filter: event.filter));
+      }
+    });
   }
 
   final OsuEventsRepository _repository;

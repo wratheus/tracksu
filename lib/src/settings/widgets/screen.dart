@@ -233,8 +233,9 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                                       onChanged: deps.cachePreference.saving
                                           ? null
                                           : (bool value) => _run(
-                                              () => deps.cachePreference
-                                                  .select(value),
+                                              () => deps.cachePreference.select(
+                                                value,
+                                              ),
                                             ),
                                     ),
                               ),

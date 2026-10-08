@@ -8,9 +8,7 @@ abstract interface class CachePreferenceStore {
 }
 
 final class FlutterSecureCachePreferenceStore implements CachePreferenceStore {
-  const FlutterSecureCachePreferenceStore({
-    required FlutterSecureStorage storage,
-  }) : _storage = storage;
+  const FlutterSecureCachePreferenceStore({required this._storage});
   final FlutterSecureStorage _storage;
   static const String _key = 'cache_enabled_v1';
 

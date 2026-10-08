@@ -302,8 +302,7 @@ final class TracksuAppRouter {
       return WikiParams(
         path,
         locale:
-            locale != null &&
-                RegExp(r'^[a-z]{2}(-[a-z]{2})?$').hasMatch(locale)
+            locale != null && RegExp(r'^[a-z]{2}(-[a-z]{2})?$').hasMatch(locale)
             ? locale
             : null,
       );

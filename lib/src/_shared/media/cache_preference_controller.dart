@@ -9,14 +9,11 @@ import 'package:tracksu_storage/tracksu_storage.dart';
 /// cache. On by default; off drops what is stored right away.
 final class CachePreferenceController extends ChangeNotifier {
   CachePreferenceController({
-    required CachePreferenceStore store,
-    required PageCache pageCache,
-    required MediaCacheRepository mediaCache,
-    required AudioPlaybackController audio,
-  }) : _store = store,
-       _pageCache = pageCache,
-       _mediaCache = mediaCache,
-       _audio = audio;
+    required this._store,
+    required this._pageCache,
+    required this._mediaCache,
+    required this._audio,
+  });
 
   final CachePreferenceStore _store;
   final PageCache _pageCache;

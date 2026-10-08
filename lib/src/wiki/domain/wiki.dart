@@ -2,8 +2,7 @@ import 'package:tracksu/src/_shared/content/domain/content_document.dart';
 
 /// Opens a wiki article: `path` as in osu.ppy.sh/wiki/{locale}/{path}.
 final class WikiParams {
-  WikiParams(String path, {this.locale})
-    : path = WikiLinks.cleanPath(path) {
+  WikiParams(String path, {this.locale}) : path = WikiLinks.cleanPath(path) {
     if (this.path.isEmpty) throw ArgumentError.value(path, 'path');
   }
   final String path;

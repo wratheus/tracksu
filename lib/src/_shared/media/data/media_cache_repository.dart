@@ -74,6 +74,7 @@ final class MediaCacheRepository extends ChangeNotifier {
     if (!enabled) await clear();
     _changed();
   }
+
   int get revision => _revision;
 
   Future<T> _serial<T>(Future<T> Function() action) {

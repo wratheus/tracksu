@@ -13,6 +13,7 @@ final class ContentPageDto {
     this.markdownInText = false,
   });
   const ContentPageDto.unavailable() : this._(invalid: true);
+
   /// Profile pages also render Markdown that players type as plain text.
   factory ContentPageDto.profile(Map<String, dynamic> json) =>
       ContentPageDto._read(

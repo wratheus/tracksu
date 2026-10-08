@@ -108,8 +108,7 @@ final class OsuEventRow extends StatelessWidget {
     if (item.kind == OsuEventKind.rank && item.grade != null) {
       return OsuGradeBadge(grade: item.grade!, height: 22);
     }
-    if (item.kind == OsuEventKind.achievement &&
-        item.medalIcon != null) {
+    if (item.kind == OsuEventKind.achievement && item.medalIcon != null) {
       return UiImage(
         image: AppMedia.image(context, item.medalIcon),
         width: 36,
@@ -118,10 +117,7 @@ final class OsuEventRow extends StatelessWidget {
       );
     }
     final (IconData icon, Color tint) = switch (item.kind) {
-      OsuEventKind.rankLost => (
-        Icons.trending_down_rounded,
-        colors.error,
-      ),
+      OsuEventKind.rankLost => (Icons.trending_down_rounded, colors.error),
       OsuEventKind.beatmapPlaycount => (
         Icons.play_circle_outline_rounded,
         colors.primary,
@@ -142,14 +138,8 @@ final class OsuEventRow extends StatelessWidget {
       ),
       OsuEventKind.userSupportFirst ||
       OsuEventKind.userSupportAgain ||
-      OsuEventKind.userSupportGift => (
-        Icons.favorite_rounded,
-        OsuColors.pink,
-      ),
-      OsuEventKind.usernameChange => (
-        Icons.badge_outlined,
-        colors.secondary,
-      ),
+      OsuEventKind.userSupportGift => (Icons.favorite_rounded, OsuColors.pink),
+      OsuEventKind.usernameChange => (Icons.badge_outlined, colors.secondary),
       _ => (Icons.emoji_events_outlined, colors.primary),
     };
     return Icon(icon, color: tint, size: 24);

@@ -34,122 +34,116 @@ final class WikiScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<WikiArticleBloc, WikiArticleState>(
-        builder: (BuildContext context, WikiArticleState state) {
-          final WikiArticle? article = state.article;
-          return Scaffold(
-            appBar: AppBar(
-              title: UiText.titleLarge(
-                article?.title ?? context.t.wikiTitle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              actions: <Widget>[
-                AppBarActions(
-                  share: article == null
-                      ? null
-                      : ShareTarget.wiki(article.webUri, article.title),
-                ),
-              ],
-              bottom: UiAppBarProgressSlot(
-                child: UiAppBarProgress(
-                  visible: state.loading && article != null,
-                  semanticsLabel: context.t.wikiLoading,
-                ),
-              ),
+  Widget build(
+    BuildContext context,
+  ) => BlocBuilder<WikiArticleBloc, WikiArticleState>(
+    builder: (BuildContext context, WikiArticleState state) {
+      final WikiArticle? article = state.article;
+      return Scaffold(
+        appBar: AppBar(
+          title: UiText.titleLarge(
+            article?.title ?? context.t.wikiTitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          actions: <Widget>[
+            AppBarActions(
+              share: article == null
+                  ? null
+                  : ShareTarget.wiki(article.webUri, article.title),
             ),
-            body: UiScrollToTop(
-              tooltip: context.t.scrollToTop,
-              child: SafeArea(
-                top: false,
-                child: RefreshIndicator(
-                  onRefresh: () async => context.read<WikiArticleBloc>().add(
-                    const WikiArticleRequested(),
-                  ),
-                  child: CustomScrollView(
-                    primary: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    slivers: <Widget>[
-                      if (article == null)
-                        SliverToBoxAdapter(
-                          child: state.failure == null
-                              ? UiPageSkeleton.article(
-                                  label: context.t.wikiLoading,
-                                )
-                              : UiContentState.error(
-                                  title:
-                                      state.failure == WikiFailureKind.notFound
-                                      ? context.t.wikiNotFound
-                                      : context.t.wikiFailed,
-                                  actionLabel: context.t.retry,
-                                  onAction: () => context
-                                      .read<WikiArticleBloc>()
-                                      .add(const WikiArticleRequested()),
-                                ),
-                        )
-                      else ...<Widget>[
-                        SliverPadding(
-                          padding: const EdgeInsets.fromLTRB(
-                            UiSpace.lg,
-                            UiSpace.lg,
-                            UiSpace.lg,
-                            UiSpace.sm,
-                          ),
-                          sliver: SliverToBoxAdapter(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              spacing: UiSpace.xs,
-                              children: <Widget>[
-                                if (article.subtitle case final String sub)
-                                  UiText.labelLarge(sub, secondary: true),
-                                UiText.headlineSmall(article.title),
-                                if (article.locale !=
-                                    Localizations.localeOf(
-                                      context,
-                                    ).languageCode)
-                                  UiText.bodySmall(
-                                    context.t.wikiShownInEnglish,
-                                    secondary: true,
-                                  ),
-                              ],
+          ],
+          bottom: UiAppBarProgressSlot(
+            child: UiAppBarProgress(
+              visible: state.loading && article != null,
+              semanticsLabel: context.t.wikiLoading,
+            ),
+          ),
+        ),
+        body: UiScrollToTop(
+          tooltip: context.t.scrollToTop,
+          child: SafeArea(
+            top: false,
+            child: RefreshIndicator(
+              onRefresh: () async => context.read<WikiArticleBloc>().add(
+                const WikiArticleRequested(),
+              ),
+              child: CustomScrollView(
+                primary: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: <Widget>[
+                  if (article == null)
+                    SliverToBoxAdapter(
+                      child: state.failure == null
+                          ? UiPageSkeleton.article(label: context.t.wikiLoading)
+                          : UiContentState.error(
+                              title: state.failure == WikiFailureKind.notFound
+                                  ? context.t.wikiNotFound
+                                  : context.t.wikiFailed,
+                              actionLabel: context.t.retry,
+                              onAction: () => context
+                                  .read<WikiArticleBloc>()
+                                  .add(const WikiArticleRequested()),
                             ),
-                          ),
+                    )
+                  else ...<Widget>[
+                    SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(
+                        UiSpace.lg,
+                        UiSpace.lg,
+                        UiSpace.lg,
+                        UiSpace.sm,
+                      ),
+                      sliver: SliverToBoxAdapter(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: UiSpace.xs,
+                          children: <Widget>[
+                            if (article.subtitle case final String sub)
+                              UiText.labelLarge(sub, secondary: true),
+                            UiText.headlineSmall(article.title),
+                            if (article.locale !=
+                                Localizations.localeOf(context).languageCode)
+                              UiText.bodySmall(
+                                context.t.wikiShownInEnglish,
+                                secondary: true,
+                              ),
+                          ],
                         ),
-                        if (article.document case final document?)
-                          SliverPadding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: UiSpace.lg,
-                            ),
-                            sliver: ContentFrame.sliver(
-                              audioController: DepsScope.of(
-                                context,
-                              ).audioPlaybackController,
-                              mediaPermission: DepsScope.of(
-                                context,
-                              ).contentMediaController,
-                              document: document,
-                              onOpenLink: (String url) =>
-                                  _open(context, article, url),
-                            ),
-                          )
-                        else
-                          SliverToBoxAdapter(
-                            child: UiContentState.error(
-                              title: context.t.contentUnavailable,
-                              actionLabel: context.t.contentOriginal,
-                              onAction: () =>
-                                  unawaited(ExternalLinks.open(article.webUri)),
-                            ),
-                          ),
-                      ],
-                      UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
-                    ],
-                  ),
-                ),
+                      ),
+                    ),
+                    if (article.document case final document?)
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: UiSpace.lg,
+                        ),
+                        sliver: ContentFrame.sliver(
+                          audioController: DepsScope.of(context)
+                              .audioPlaybackController,
+                          mediaPermission: DepsScope.of(context)
+                              .contentMediaController,
+                          document: document,
+                          onOpenLink: (String url) =>
+                              _open(context, article, url),
+                        ),
+                      )
+                    else
+                      SliverToBoxAdapter(
+                        child: UiContentState.error(
+                          title: context.t.contentUnavailable,
+                          actionLabel: context.t.contentOriginal,
+                          onAction: () =>
+                              unawaited(ExternalLinks.open(article.webUri)),
+                        ),
+                      ),
+                  ],
+                  UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+                ],
               ),
             ),
-          );
-        },
+          ),
+        ),
       );
+    },
+  );
 }

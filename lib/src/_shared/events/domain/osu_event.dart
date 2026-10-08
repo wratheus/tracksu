@@ -62,6 +62,7 @@ final class OsuEvent {
   final String? title;
   final String? medalName;
   final Uri? medalIcon;
+
   /// Player the event is about (the beatmapset owner for map events).
   final int? userId;
   final String? username;

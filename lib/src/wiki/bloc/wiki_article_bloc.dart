@@ -18,17 +18,14 @@ final class WikiArticleState {
 }
 
 /// One article in the app language (English fallback), session-cached.
-final class WikiArticleBloc extends Bloc<WikiArticleRequested, WikiArticleState> {
+final class WikiArticleBloc
+    extends Bloc<WikiArticleRequested, WikiArticleState> {
   WikiArticleBloc({
-    required WikiRepository repository,
-    required PageCache cache,
-    required WikiParams params,
-    required String Function() appLocale,
-  }) : _repository = repository,
-       _cache = cache,
-       _params = params,
-       _appLocale = appLocale,
-       super(const WikiArticleState()) {
+    required this._repository,
+    required this._cache,
+    required this._params,
+    required this._appLocale,
+  }) : super(const WikiArticleState()) {
     on<WikiArticleRequested>(_load, transformer: droppable());
   }
 
@@ -44,8 +41,7 @@ final class WikiArticleBloc extends Bloc<WikiArticleRequested, WikiArticleState>
     final String locale = _params.locale ?? _appLocale();
     final Object key = ('wiki', locale, _params.path);
     final int revision = _cache.revision;
-    final WikiArticle? shown =
-        state.article ?? _cache.read<WikiArticle>(key);
+    final WikiArticle? shown = state.article ?? _cache.read<WikiArticle>(key);
     emit(WikiArticleState(article: shown));
     try {
       final WikiArticle article = await _repository.article(
