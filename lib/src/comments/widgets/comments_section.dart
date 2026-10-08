@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tracksu/src/_shared/ui/category_picker.dart';
 import 'package:tracksu/src/_shared/navigation/app_links.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
@@ -132,26 +133,28 @@ final class _CommentsSectionState extends State<CommentsSection> {
                             ? context.t.commentsTitle
                             : context.t.commentsTitleCount(state.total!),
                       ),
-                    UiSegmentedControl<CommentSort>(
+                    // The app's compact picker, as in profile lists and
+                    // events, instead of a segmented row.
+                    OsuCategoryPicker<CommentSort>(
+                      title: context.t.commentsSortTitle,
                       selected: state.sort,
-                      segments: <UiSegment<CommentSort>>[
-                        UiSegment<CommentSort>(
-                          value: CommentSort.newest,
-                          label: context.t.commentsSortNew,
-                          icon: const Icon(Icons.schedule_rounded),
-                        ),
-                        UiSegment<CommentSort>(
-                          value: CommentSort.oldest,
-                          label: context.t.commentsSortOld,
-                          icon: const Icon(Icons.history_rounded),
-                        ),
-                        UiSegment<CommentSort>(
-                          value: CommentSort.top,
-                          label: context.t.commentsSortTop,
-                          icon: const Icon(Icons.thumb_up_alt_outlined),
+                      groups: const <OsuCategoryGroup<CommentSort>>[
+                        OsuCategoryGroup<CommentSort>(
+                          options: CommentSort.values,
                         ),
                       ],
-                      onChanged: (CommentSort sort) {
+                      icon: (CommentSort sort) => switch (sort) {
+                        CommentSort.newest => Icons.schedule_rounded,
+                        CommentSort.oldest => Icons.history_rounded,
+                        CommentSort.top => Icons.thumb_up_alt_outlined,
+                      },
+                      label: (BuildContext context, CommentSort sort) =>
+                          switch (sort) {
+                            CommentSort.newest => context.t.commentsSortNew,
+                            CommentSort.oldest => context.t.commentsSortOld,
+                            CommentSort.top => context.t.commentsSortTop,
+                          },
+                      onSelected: (CommentSort sort) {
                         setState(_expanded.clear);
                         context.read<CommentsBloc>().add(
                           CommentsSortChanged(sort),
