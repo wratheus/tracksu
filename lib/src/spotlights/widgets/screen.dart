@@ -1,15 +1,14 @@
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_cover.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_shared/navigation/team_navigation.dart';
-import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_core/l10n/localized_count.dart';
 import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_facts.dart';
-import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
@@ -31,11 +30,16 @@ final class SpotlightsScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.spotlightsTitle),
       actions: <Widget>[
-        const SettingsButton(),
         BlocBuilder<SpotlightsBloc, SpotlightsState>(
-          builder: (BuildContext context, SpotlightsState state) => Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+          builder: (BuildContext context, SpotlightsState state) => AppBarActions(
+            share: ShareTarget.spotlight(
+              state is SpotlightsLoadedState ? state.ruleset : ProfileRuleset.osu,
+              state is SpotlightsLoadedState ? state.selectedId : null,
+              state is SpotlightsLoadedState
+                  ? state.details?.spotlight.name ?? context.t.spotlightsTitle
+                  : context.t.spotlightsTitle,
+            ),
+            tools: <Widget>[
               UiIconButton.standard(
                 tooltip: context.t.rankingsRefresh,
                 icon: Icons.refresh,
@@ -46,18 +50,6 @@ final class SpotlightsScreen extends StatelessWidget {
                     : () => context.read<SpotlightsBloc>().add(
                         const SpotlightsRefreshRequested(),
                       ),
-              ),
-              ShareButton.icon(
-                target: ShareTarget.spotlight(
-                  state is SpotlightsLoadedState
-                      ? state.ruleset
-                      : ProfileRuleset.osu,
-                  state is SpotlightsLoadedState ? state.selectedId : null,
-                  state is SpotlightsLoadedState
-                      ? state.details?.spotlight.name ??
-                            context.t.spotlightsTitle
-                      : context.t.spotlightsTitle,
-                ),
               ),
             ],
           ),

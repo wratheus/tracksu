@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
-import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/_shared/sharing/share_destination.dart';
-import 'package:tracksu/src/_shared/sharing/share_sheet.dart';
 import 'package:tracksu/src/_shared/sharing/share_service.dart';
+import 'package:tracksu/src/_shared/sharing/share_sheet.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// App composition of UI kit controls; platform sharing stays out of the UI kit.
@@ -13,7 +13,10 @@ final class ShareButton extends StatefulWidget {
     : _labelled = false;
   const ShareButton.labelled({required this.target, this.label, super.key})
     : _labelled = true;
-  final ShareTarget target;
+
+  /// Null while the page has nothing to share yet; the button stays visible
+  /// but disabled so neighbouring AppBar actions do not shift.
+  final ShareTarget? target;
   final String? label;
   final bool _labelled;
 
@@ -25,8 +28,8 @@ final class _ShareButtonState extends State<ShareButton> {
   bool _busy = false;
 
   Future<void> _share() async {
-    if (_busy) return;
-    final ShareTarget target = widget.target;
+    final ShareTarget? target = widget.target;
+    if (_busy || target == null) return;
     final ShareService service = DepsScope.of(context).shareService;
     FocusScope.of(context).unfocus();
     final RenderObject? render = context.findRenderObject();
@@ -62,12 +65,12 @@ final class _ShareButtonState extends State<ShareButton> {
         ? UiButton.secondary(
             label: widget.label ?? context.t.shareAction,
             icon: icon,
-            onPressed: _busy ? null : _share,
+            onPressed: _busy || widget.target == null ? null : _share,
           )
         : UiIconButton.standard(
             tooltip: widget.label ?? context.t.shareAction,
             icon: icon,
-            onPressed: _busy ? null : _share,
+            onPressed: _busy || widget.target == null ? null : _share,
           );
   }
 }

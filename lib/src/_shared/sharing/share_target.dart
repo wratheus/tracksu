@@ -88,6 +88,31 @@ final class ShareTarget {
   factory ShareTarget.score(int id, String title) =>
       ShareTarget._(Uri.https('osu.ppy.sh', '/scores/${_id(id)}'), title);
 
+  /// The website's own player search; an empty query opens the search page.
+  factory ShareTarget.playerSearch(String query, String title) => ShareTarget._(
+    Uri.https('osu.ppy.sh', '/home/search', <String, String>{
+      'mode': 'user',
+      if (query.trim().isNotEmpty) 'query': query.trim(),
+    }),
+    title,
+  );
+
+  factory ShareTarget.beatmapSearch(String query, String title) => ShareTarget._(
+    Uri.https('osu.ppy.sh', '/beatmapsets', <String, String>{
+      if (query.trim().isNotEmpty) 'q': query.trim(),
+    }),
+    title,
+  );
+
+  /// Daily challenges are multiplayer rooms on the website.
+  factory ShareTarget.room(int id, String title) => ShareTarget._(
+    Uri.https('osu.ppy.sh', '/multiplayer/rooms/${_id(id)}'),
+    title,
+  );
+
+  factory ShareTarget.dailyHistory(String title) =>
+      ShareTarget._(Uri.https('osu.ppy.sh', '/rankings/daily-challenge'), title);
+
   factory ShareTarget.news(Uri uri, String title) {
     if (uri.scheme != 'https' ||
         uri.host != 'osu.ppy.sh' ||

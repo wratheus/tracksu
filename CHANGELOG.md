@@ -16,6 +16,12 @@
 - Shared AppBar integrates search/ranking tabs and profile mode selection.
   Ranking share links and progress now match the visible ranking page.
 - Updated all seven translations and added behavioral and large-text UI checks.
+- Every screen now ends its AppBar with the same controls in the same order:
+  Share, page tools such as Refresh, Settings and the account button, so signing
+  in is reachable from any tab. Share stays visible (disabled) while loading.
+- The search field moved under the title to keep full width; search, daily
+  challenge and its history gained website share links.
+- Removed the API-naming note under mod settings in score details.
 
 ### Daily history, search filters, beatmap details and Kudosu (P44–P47)
 

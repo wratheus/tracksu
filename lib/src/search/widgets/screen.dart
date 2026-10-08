@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/beatmap_search/bloc/bloc.dart';
 import 'package:tracksu/src/beatmap_search/widgets/screen.dart';
 import 'package:tracksu/src/profile/domain/profile_params.dart';
@@ -153,23 +155,50 @@ final class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: UiAppBar(
-      toolbarHeight: 76,
-      title: UiSearchField(
-        controller: _text,
-        label: _tab == SearchTab.players
-            ? context.t.profileSearchHint
-            : context.t.beatmapSearchHint,
-        clearLabel: context.t.searchClear,
-        onSubmitted: (_) => _submit(),
-      ),
+      title: UiText.titleLarge(context.t.navigationSearch),
+      actions: <Widget>[
+        ValueListenableBuilder<TextEditingValue>(
+          valueListenable: _text,
+          builder: (BuildContext context, TextEditingValue value, _) =>
+              AppBarActions(
+                share: _tab == SearchTab.players
+                    ? ShareTarget.playerSearch(
+                        value.text,
+                        context.t.navigationSearch,
+                      )
+                    : ShareTarget.beatmapSearch(
+                        value.text,
+                        context.t.navigationSearch,
+                      ),
+              ),
+        ),
+      ],
+      // The field sits under the shared actions so it keeps the full width.
       bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(66),
+        preferredSize: const Size.fromHeight(136),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 UiSpace.lg,
                 UiSpace.xs,
+                UiSpace.lg,
+                0,
+              ),
+              child: UiSearchField(
+                controller: _text,
+                label: _tab == SearchTab.players
+                    ? context.t.profileSearchHint
+                    : context.t.beatmapSearchHint,
+                clearLabel: context.t.searchClear,
+                onSubmitted: (_) => _submit(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                UiSpace.lg,
+                UiSpace.sm,
                 UiSpace.lg,
                 UiSpace.sm,
               ),

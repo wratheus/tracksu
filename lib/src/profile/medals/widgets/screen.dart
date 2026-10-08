@@ -1,10 +1,9 @@
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
-import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
-import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/profile/medals/bloc/bloc.dart';
 import 'package:tracksu/src/profile/medals/domain/medal.dart';
@@ -22,9 +21,10 @@ final class MedalsScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.profileMedals),
       actions: <Widget>[
-        const SettingsButton(),
         BlocBuilder<MedalsBloc, MedalsState>(
-          builder: (BuildContext context, MedalsState state) =>
+          builder: (BuildContext context, MedalsState state) => AppBarActions(
+            share: ShareTarget.medals(userId, context.t.profileMedals),
+            tools: <Widget>[
               UiIconButton.standard(
                 tooltip: context.t.profileRefresh,
                 icon: Icons.refresh,
@@ -34,9 +34,8 @@ final class MedalsScreen extends StatelessWidget {
                     ? null
                     : () => _refresh(context),
               ),
-        ),
-        ShareButton.icon(
-          target: ShareTarget.medals(userId, context.t.profileMedals),
+            ],
+          ),
         ),
       ],
     ),

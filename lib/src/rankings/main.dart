@@ -1,8 +1,7 @@
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_shared/navigation/shell_reselect.dart';
-import 'package:tracksu/src/_shared/preferences/settings_button.dart';
-import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/rankings/domain/rankings_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -187,11 +186,10 @@ final class _RankingsBodyState extends State<_RankingsBody>
     appBar: UiAppBar(
       title: UiText.titleLarge(context.t.rankingsTitle),
       actions: <Widget>[
-        const SettingsButton(),
         BlocBuilder<RankingsBloc, RankingsState>(
           builder: (BuildContext context, RankingsState state) =>
-              ShareButton.icon(
-                target: _tab == _RankingsTab.players
+              AppBarActions(
+                share: _tab == _RankingsTab.players
                     ? ShareTarget.rankings(
                         RankingsQuery(
                           type: state.type,

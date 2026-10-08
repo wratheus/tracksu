@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
-import 'package:tracksu/src/_shared/preferences/settings_button.dart';
-import 'package:tracksu/src/_shared/sharing/share_button.dart';
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/team/bloc/bloc.dart';
 import 'package:tracksu/src/team/domain/team.dart';
@@ -25,22 +24,23 @@ final class TeamScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(data?.identity.name ?? context.t.teamTitle),
           actions: <Widget>[
-            const SettingsButton(),
-            UiIconButton.standard(
-              icon: Icons.refresh,
-              tooltip: context.t.retry,
-              onPressed: busy
-                  ? null
-                  : () => context.read<TeamBloc>().add(
-                      const TeamRefreshRequested(),
-                    ),
-            ),
-            ShareButton.icon(
-              target: ShareTarget.team(
+            AppBarActions(
+              share: ShareTarget.team(
                 id,
                 data?.ruleset,
                 data?.identity.name ?? context.t.teamTitle,
               ),
+              tools: <Widget>[
+                UiIconButton.standard(
+                  icon: Icons.refresh,
+                  tooltip: context.t.retry,
+                  onPressed: busy
+                      ? null
+                      : () => context.read<TeamBloc>().add(
+                          const TeamRefreshRequested(),
+                        ),
+                ),
+              ],
             ),
           ],
         ),

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/_shared/ui/osu_badges.dart';
 import 'package:tracksu/src/daily/bloc/bloc.dart';
 import 'package:tracksu/src/daily/domain/daily_challenge.dart';
@@ -18,6 +20,9 @@ final class DailyHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: UiText.titleLarge(context.t.dailyHistory),
+      actions: <Widget>[
+        AppBarActions(share: ShareTarget.dailyHistory(context.t.dailyHistory)),
+      ],
       bottom: UiAppBarProgressSlot(
         child: BlocSelector<DailyHistoryBloc, DailyHistoryState, bool>(
           selector: (DailyHistoryState state) =>

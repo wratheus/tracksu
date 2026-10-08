@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
-import 'package:tracksu/src/_core/l10n/localized_count.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/_core/l10n/localized_count.dart';
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:tracksu/src/_shared/navigation/team_navigation.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu/src/beatmap/domain/beatmap.dart';
 import 'package:tracksu/src/daily/bloc/bloc.dart';
@@ -42,6 +44,17 @@ final class DailyChallengeScreen extends StatelessWidget {
                   ),
             )
           : UiText.titleLarge(context.t.dailyTitle),
+      actions: <Widget>[
+        BlocSelector<DailyChallengeBloc, DailyChallengeState, DailyChallenge?>(
+          selector: (DailyChallengeState state) => switch (state) {
+            DailyChallengeLoaded(challenge: final DailyChallenge day) => day,
+            _ => null,
+          },
+          builder: (BuildContext context, DailyChallenge? day) => AppBarActions(
+            share: day == null ? null : ShareTarget.room(day.roomId, day.title),
+          ),
+        ),
+      ],
       bottom: UiAppBarProgressSlot(
         child: BlocSelector<DailyChallengeBloc, DailyChallengeState, bool>(
           selector: (DailyChallengeState state) =>

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tracksu/src/_shared/preferences/settings_button.dart';
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_shared/content/data/content_media_loader.dart';
 import 'package:tracksu/src/_shared/content/domain/content_document.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_image.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_media_scope.dart';
-import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
@@ -29,33 +28,25 @@ final class NewsScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.newsTitle),
       actions: <Widget>[
-        const SettingsButton(),
         BlocBuilder<NewsBloc, NewsState>(
-          builder: (BuildContext context, NewsState state) =>
-              state is NewsArticleState
-              ? ShareButton.icon(
-                  target: ShareTarget.news(
-                    state.article.post.uri,
-                    state.article.post.title,
-                  ),
-                )
-              : ShareButton.icon(
-                  target: ShareTarget.newsList(context.t.newsTitle),
-                ),
-        ),
-        BlocSelector<NewsBloc, NewsState, bool>(
-          selector: (NewsState state) =>
-              state is NewsInitialState ||
-              state is NewsLoadingState ||
-              (state is NewsContentState && state.operation != null),
-          builder: (BuildContext context, bool busy) => UiIconButton.standard(
-            tooltip: context.t.newsRefresh,
-            onPressed: busy
-                ? null
-                : () => context.read<NewsBloc>().add(
-                    const NewsRefreshRequested(),
-                  ),
-            icon: Icons.refresh,
+          builder: (BuildContext context, NewsState state) => AppBarActions(
+            share: state is NewsArticleState
+                ? ShareTarget.news(state.article.post.uri, state.article.post.title)
+                : ShareTarget.newsList(context.t.newsTitle),
+            tools: <Widget>[
+              UiIconButton.standard(
+                tooltip: context.t.newsRefresh,
+                icon: Icons.refresh,
+                onPressed:
+                    state is NewsInitialState ||
+                        state is NewsLoadingState ||
+                        (state is NewsContentState && state.operation != null)
+                    ? null
+                    : () => context.read<NewsBloc>().add(
+                        const NewsRefreshRequested(),
+                      ),
+              ),
+            ],
           ),
         ),
       ],

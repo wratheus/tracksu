@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/ui/osu_colors.dart';
 import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_cover.dart';
-import 'package:tracksu/src/_shared/preferences/settings_button.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_shared/sharing/share_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
@@ -40,9 +40,18 @@ final class BeatmapScreen extends StatelessWidget {
     appBar: AppBar(
       title: UiText.titleLarge(context.t.beatmapTitle),
       actions: <Widget>[
-        const SettingsButton(),
         BlocBuilder<BeatmapBloc, BeatmapState>(
-          builder: (BuildContext context, BeatmapState state) =>
+          builder: (BuildContext context, BeatmapState state) => AppBarActions(
+            share: switch (state) {
+              BeatmapLoadedState(:final int? selectedId) when selectedId != null =>
+                ShareTarget.beatmap(selectedId, state.details.title),
+              BeatmapLoadedState() => ShareTarget.beatmapset(
+                state.details.id,
+                state.details.title,
+              ),
+              _ => null,
+            },
+            tools: <Widget>[
               UiIconButton.standard(
                 tooltip: context.t.beatmapRefresh,
                 icon: Icons.refresh,
@@ -52,22 +61,8 @@ final class BeatmapScreen extends StatelessWidget {
                       )
                     : null,
               ),
-        ),
-        BlocBuilder<BeatmapBloc, BeatmapState>(
-          builder: (BuildContext context, BeatmapState state) =>
-              state is BeatmapLoadedState
-              ? ShareButton.icon(
-                  target: state.selectedId == null
-                      ? ShareTarget.beatmapset(
-                          state.details.id,
-                          state.details.title,
-                        )
-                      : ShareTarget.beatmap(
-                          state.selectedId!,
-                          state.details.title,
-                        ),
-                )
-              : const SizedBox.shrink(),
+            ],
+          ),
         ),
       ],
       // Map and leaderboard refreshes share one line under the app bar.

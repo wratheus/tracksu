@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tracksu/src/_shared/sharing/share_button.dart';
-import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
-import 'package:tracksu/src/_core/router/app_router.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/_core/router/app_router.dart';
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/navigation/shell_reselect.dart';
+import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/daily/bloc/bloc.dart';
 import 'package:tracksu/src/daily/main.dart';
 import 'package:tracksu/src/daily/widgets/home_section.dart';
-import 'package:tracksu/src/guest/widgets/account_actions.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Guest landing with one entry to player and map search.
@@ -77,8 +76,7 @@ final class _SearchHomeState extends State<SearchHome> {
     appBar: UiAppBar(
       title: UiText.titleLarge(context.t.appTitle),
       actions: <Widget>[
-        ShareButton.icon(target: ShareTarget.search(context.t.appTitle)),
-        const AccountActions(),
+        AppBarActions(share: ShareTarget.search(context.t.appTitle)),
       ],
       bottom: UiAppBarProgressSlot(
         child: BlocSelector<DailyChallengeBloc, DailyChallengeState, bool>(

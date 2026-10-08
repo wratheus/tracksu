@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tracksu/src/_shared/preferences/settings_button.dart';
-import 'package:tracksu/src/_shared/sharing/share_button.dart';
+import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
@@ -31,32 +30,29 @@ final class ProfileScreen extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        const SettingsButton(),
         BlocBuilder<ProfileBloc, ProfileState>(
-          builder: (BuildContext context, ProfileState state) =>
-              state is ProfileLoadedState
-              ? ShareButton.icon(
-                  target: ShareTarget.profile(
+          builder: (BuildContext context, ProfileState state) => AppBarActions(
+            share: state is ProfileLoadedState
+                ? ShareTarget.profile(
                     state.profile.id,
                     state.ruleset,
                     state.profile.username,
-                  ),
-                )
-              : const SizedBox.shrink(),
-        ),
-        BlocSelector<ProfileBloc, ProfileState, bool>(
-          selector: (ProfileState state) =>
-              state is ProfileInitialState ||
-              state is ProfileLoadingState ||
-              (state is ProfileLoadedState && state.isBusy),
-          builder: (BuildContext context, bool busy) => UiIconButton.standard(
-            tooltip: context.t.profileRefresh,
-            icon: Icons.refresh,
-            onPressed: busy
-                ? null
-                : () => context.read<ProfileBloc>().add(
-                    const ProfileRefreshRequested(),
-                  ),
+                  )
+                : null,
+            tools: <Widget>[
+              UiIconButton.standard(
+                tooltip: context.t.profileRefresh,
+                icon: Icons.refresh,
+                onPressed:
+                    state is ProfileInitialState ||
+                        state is ProfileLoadingState ||
+                        (state is ProfileLoadedState && state.isBusy)
+                    ? null
+                    : () => context.read<ProfileBloc>().add(
+                        const ProfileRefreshRequested(),
+                      ),
+              ),
+            ],
           ),
         ),
       ],
