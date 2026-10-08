@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_badges.dart';
@@ -79,16 +76,7 @@ final class RankingsFilters extends StatelessWidget {
           ),
         ),
       if (_players) const _CountryControl(),
-      // osu! no longer runs Spotlights; the old charts are a ranking archive.
-      if (_players)
-        UiTile.navigation(
-          title: context.t.spotlightsOpen,
-          subtitle: context.t.spotlightsArchiveHint,
-          leading: const Icon(Icons.inventory_2_outlined),
-          onTap: () => unawaited(
-            DepsScope.of(context).appRouter.openSpotlights(context),
-          ),
-        ),
+
       if (_players)
         BlocSelector<RankingsBloc, RankingsState, (bool, ManiaVariant)>(
           selector: (RankingsState state) =>

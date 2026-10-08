@@ -2146,7 +2146,4 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dailyLeaderboardFinal => '最終ランキング';
-
-  @override
-  String get spotlightsArchiveHint => '2020年までのシーズンチャート';
 }

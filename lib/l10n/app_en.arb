@@ -2021,9 +2021,5 @@
   "dailyLeaderboardFinal": "Final leaderboard",
   "@dailyLeaderboardFinal": {
     "description": "Heading above the final leaderboard of a past map of the day."
-  },
-  "spotlightsArchiveHint": "Seasonal charts, until 2020",
-  "@spotlightsArchiveHint": {
-    "description": "Short subtitle of the Spotlights archive row in Rankings."
   }
 }

@@ -2243,7 +2243,4 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dailyLeaderboardFinal => 'Clasificación final';
-
-  @override
-  String get spotlightsArchiveHint => 'Rankings de temporada hasta 2020';
 }

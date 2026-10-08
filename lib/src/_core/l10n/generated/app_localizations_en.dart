@@ -2217,7 +2217,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dailyLeaderboardFinal => 'Final leaderboard';
-
-  @override
-  String get spotlightsArchiveHint => 'Seasonal charts, until 2020';
 }

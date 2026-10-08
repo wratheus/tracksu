@@ -2245,7 +2245,4 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dailyLeaderboardFinal => 'Endgültige Rangliste';
-
-  @override
-  String get spotlightsArchiveHint => 'Saisonale Charts bis 2020';
 }

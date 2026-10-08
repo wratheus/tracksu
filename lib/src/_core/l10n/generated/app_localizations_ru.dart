@@ -2251,7 +2251,4 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dailyLeaderboardFinal => 'Итоговая таблица';
-
-  @override
-  String get spotlightsArchiveHint => 'Сезонные чарты до 2020 года';
 }

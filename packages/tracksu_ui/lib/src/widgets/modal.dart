@@ -203,10 +203,7 @@ abstract final class UiModal {
     showDragHandle: cover == null ? null : false,
     clipBehavior: Clip.antiAlias,
     builder: (BuildContext modalContext) {
-      final Widget titleHeader = _ModalHeader(
-        title: title,
-        onClose: () => _finish<T>(modalContext, null),
-      );
+      final Widget titleHeader = _ModalHeader(title: title);
       final Widget header = cover == null
           ? titleHeader
           : _ModalCoverHeader(
@@ -451,26 +448,15 @@ final class _AdaptiveScrollSheetState extends State<_AdaptiveScrollSheet> {
   );
 }
 
+/// Title only: sheets close by swiping down or tapping outside (and the
+/// accessibility "dismiss" action of the barrier), not by a close button.
 final class _ModalHeader extends StatelessWidget {
-  const _ModalHeader({required this.title, required this.onClose});
+  const _ModalHeader({required this.title});
   final String title;
-  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.fromLTRB(UiSpace.lg, 0, UiSpace.sm, UiSpace.md),
-    child: Row(
-      spacing: UiSpace.sm,
-      children: <Widget>[
-        Expanded(
-          child: Semantics(header: true, child: UiText.headlineSmall(title)),
-        ),
-        UiIconButton.standard(
-          icon: Icons.close,
-          tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-          onPressed: onClose,
-        ),
-      ],
-    ),
+    padding: const EdgeInsets.fromLTRB(UiSpace.lg, 0, UiSpace.lg, UiSpace.md),
+    child: Semantics(header: true, child: UiText.headlineSmall(title)),
   );
 }

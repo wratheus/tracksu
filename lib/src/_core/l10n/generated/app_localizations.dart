@@ -3635,12 +3635,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Final leaderboard'**
   String get dailyLeaderboardFinal;
-
-  /// Short subtitle of the Spotlights archive row in Rankings.
-  ///
-  /// In en, this message translates to:
-  /// **'Seasonal charts, until 2020'**
-  String get spotlightsArchiveHint;
 }
 
 class _AppLocalizationsDelegate

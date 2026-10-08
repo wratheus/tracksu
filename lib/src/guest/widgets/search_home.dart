@@ -35,6 +35,11 @@ final class _SearchHomeState extends State<SearchHome> {
     }
   }
 
+  Future<void> _openSpotlights() async {
+    if (_opening) return;
+    await _open((TracksuAppRouter router) => router.openSpotlights(context));
+  }
+
   Future<void> _openDaily() async {
     if (_opening) return;
     await _open(
@@ -105,6 +110,31 @@ final class _SearchHomeState extends State<SearchHome> {
                         onOpen: _opening ? null : _openDaily,
                       ),
                     ],
+                  ),
+                ),
+              ),
+              // Discontinued osu! feature kept as a quiet archive at the very
+              // bottom, under everything current; see P32.
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      UiSpace.sm,
+                      UiSpace.xl,
+                      UiSpace.sm,
+                      UiSpace.sm,
+                    ),
+                    child: Opacity(
+                      opacity: .8,
+                      child: UiTile.navigation(
+                        leading: const Icon(Icons.inventory_2_outlined),
+                        title: context.t.spotlightsOpen,
+                        subtitle: context.t.spotlightsHomeDescription,
+                        onTap: _opening ? null : _openSpotlights,
+                      ),
+                    ),
                   ),
                 ),
               ),
