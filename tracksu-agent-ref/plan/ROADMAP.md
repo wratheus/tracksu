@@ -167,23 +167,12 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 (поделиться · настройки · аккаунт), обновление только pull-to-refresh.
 Код реализован, сборка в симуляторе пройдена; ждёт проверки пользователем.
 
-## Кандидаты на следующий срез (не одобрены, API сверить перед выбором)
+## Следующее: покрытие API
 
-Публичные данные, вход не нужен:
-- Профиль: «Первые места» и «Закреплённые» (`/users/{id}/scores/firsts|pinned`),
-  лента недавней активности (`/users/{id}/recent_activity`).
-- Карта: результат конкретного игрока на сложности
-  (`/beatmaps/{id}/scores/users/{user}`), например при переходе из профиля.
-- Beatmap packs (`/beatmaps/packs`), changelog osu! (`/changelog`),
-  wiki (`/wiki/{locale}/{path}`) через общий ContentFrame,
-  мультиплеерные матчи (`/matches`).
-
-Требуют входа — заблокированы решением [P37](work/P37-ios-oauth-callback.md):
-личный результат на карте, leaderboard friends/country (проверить требование
-supporter), друзья (`friends.read`), ответы/голоса в комментариях (scope `lazer`).
-
-Не делаем без отдельного решения: Seasons (нет в публичном API), чаты/push,
-сравнение игроков и BFF/AI — [PRODUCT-FUTURE](work/PRODUCT-FUTURE.md).
+[P49 — матрица покрытия osu! API v2](work/P49-api-coverage.md): что доступно
+гостю, после входа, только bot-клиенту и только официальному lazer; волны
+реализации. Сейчас — волна 1 (профиль: первые места, закреплённые,
+активность; оценки в стиле lazer).
 
 ## Активные задачи — только оставшаяся работа
 
@@ -206,6 +195,7 @@ supporter), друзья (`friends.read`), ответы/голоса в комм
 | Сейчас · [Поэкранная доработка](work/P07-product-integration.md) | Функциональный shell/главная, затем каждый экран по отдельным data/UX критериям; raw migration не является завершением | in_progress |
 | Сейчас · [P44](work/P44-daily-history.md)–[P47](work/P47-kudosu.md) | История карты дня, фильтры поиска карт, моды/статистика сложности, рейтинг Kudosu | awaiting_manual_check |
 | Сейчас · [P48](work/P48-appbar-unified-search.md) | Единый поиск «Игроки / Карты», общий AppBar и одинаковые действия шапки на всех экранах | awaiting_manual_check |
+| Сейчас · [P49](work/P49-api-coverage.md) | Покрытие API волнами; волна 1 — профиль и оценки | in_progress |
 | На будущее · [P43](work/P43-tablet-and-ipad-plan.md) | Планшеты и iPad: брейкпоинты, ширина контента, NavigationRail, сетки, master-detail; решение по iPad до релиза | backlog |
 | До analytics/release · [P01.3](work/P01.3-privacy-and-terms.md) | Data inventory, privacy notice/policy, условия, About/атрибуции, ссылки из guest/OAuth/settings и store disclosures | backlog |
 | Сейчас · [P07.1](work/P07.1-languages.md) | en/ru/de/fr/es/ja/zh, стандартный ARB template, language persistence и fallback подключены; ручная языковая проверка | awaiting_manual_check |
