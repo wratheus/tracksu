@@ -2122,4 +2122,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get forumPostUnavailable => '此帖子无法在此显示';
+
+  @override
+  String get settingsImages => '图片';
 }

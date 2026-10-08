@@ -586,5 +586,6 @@
   "forumLocked": "已锁定",
   "forumReplies": "{count, plural, other{{count} 条回复}}",
   "forumViews": "{count, plural, other{{count} 次浏览}}",
-  "forumPostUnavailable": "此帖子无法在此显示"
+  "forumPostUnavailable": "此帖子无法在此显示",
+  "settingsImages": "图片"
 }

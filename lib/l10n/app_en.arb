@@ -2009,5 +2009,9 @@
   "forumPostUnavailable": "This post can't be shown here",
   "@forumPostUnavailable": {
     "description": "A forum post body cannot be shown in the app."
+  },
+  "settingsImages": "Images",
+  "@settingsImages": {
+    "description": "Settings group with the image loading switch."
   }
 }

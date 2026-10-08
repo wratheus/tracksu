@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tracksu_ui/src/widgets/switch.dart';
 
-enum _TileStyle { navigation, action, selection, value }
+enum _TileStyle { navigation, action, selection, value, toggle }
 
 /// Semantic rows for menus, settings and choices. Theme owns density and shape.
 final class UiTile extends StatelessWidget {
@@ -11,6 +12,7 @@ final class UiTile extends StatelessWidget {
     this.leading,
     super.key,
   }) : _style = _TileStyle.navigation,
+       _onToggle = null,
        selected = false,
        value = null;
   const UiTile.action({
@@ -20,6 +22,7 @@ final class UiTile extends StatelessWidget {
     this.leading,
     super.key,
   }) : _style = _TileStyle.action,
+       _onToggle = null,
        selected = false,
        value = null;
   const UiTile.selection({
@@ -30,6 +33,7 @@ final class UiTile extends StatelessWidget {
     this.leading,
     super.key,
   }) : _style = _TileStyle.selection,
+       _onToggle = null,
        value = null;
 
   /// Settings-style row: the current [value] sits on the trailing edge before
@@ -42,7 +46,22 @@ final class UiTile extends StatelessWidget {
     this.leading,
     super.key,
   }) : _style = _TileStyle.value,
+       _onToggle = null,
        selected = false;
+
+  /// On/off row: [UiSwitch] on the trailing edge, the whole row toggles.
+  /// A null [onToggle] disables it (e.g. while saving).
+  const UiTile.toggle({
+    required this.title,
+    required this.selected,
+    required ValueChanged<bool>? onToggle,
+    this.subtitle,
+    this.leading,
+    super.key,
+  }) : _style = _TileStyle.toggle,
+       _onToggle = onToggle,
+       onTap = null,
+       value = null;
 
   final String title;
   final String? subtitle;
@@ -51,19 +70,30 @@ final class UiTile extends StatelessWidget {
   final bool selected;
   final String? value;
   final _TileStyle _style;
+  final ValueChanged<bool>? _onToggle;
 
   @override
-  Widget build(BuildContext context) => ListTile(
+  Widget build(BuildContext context) => _style == _TileStyle.toggle
+      // The row is the control: it reports on/off, the switch is visual.
+      ? Semantics(toggled: selected, child: _tile(context))
+      : _tile(context);
+
+  Widget _tile(BuildContext context) => ListTile(
     title: Text(title),
     subtitle: subtitle == null ? null : Text(subtitle!),
     leading: leading,
-    enabled: onTap != null,
-    selected: selected,
-    onTap: onTap,
+    enabled: _style == _TileStyle.toggle ? _onToggle != null : onTap != null,
+    selected: _style == _TileStyle.toggle ? false : selected,
+    onTap: _style == _TileStyle.toggle
+        ? (_onToggle == null ? null : () => _onToggle(!selected))
+        : onTap,
     trailing: switch (_style) {
       _TileStyle.navigation => const Icon(Icons.chevron_right),
       _TileStyle.action => null,
       _TileStyle.selection => selected ? const Icon(Icons.check) : null,
+      _TileStyle.toggle => ExcludeSemantics(
+        child: UiSwitch(value: selected, onChanged: _onToggle),
+      ),
       _TileStyle.value => Row(
         mainAxisSize: MainAxisSize.min,
         spacing: 4,

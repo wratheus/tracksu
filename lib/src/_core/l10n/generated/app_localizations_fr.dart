@@ -2225,4 +2225,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get forumPostUnavailable => 'Ce message ne peut pas être affiché ici';
+
+  @override
+  String get settingsImages => 'Images';
 }

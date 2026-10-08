@@ -586,5 +586,6 @@
   "forumLocked": "Закрыто",
   "forumReplies": "{count, plural, one{{count} ответ} few{{count} ответа} many{{count} ответов} other{{count} ответа}}",
   "forumViews": "{count, plural, one{{count} просмотр} few{{count} просмотра} many{{count} просмотров} other{{count} просмотра}}",
-  "forumPostUnavailable": "Этот пост нельзя показать здесь"
+  "forumPostUnavailable": "Этот пост нельзя показать здесь",
+  "settingsImages": "Изображения"
 }

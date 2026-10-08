@@ -3617,6 +3617,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This post can\'t be shown here'**
   String get forumPostUnavailable;
+
+  /// Settings group with the image loading switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Images'**
+  String get settingsImages;
 }
 
 class _AppLocalizationsDelegate

@@ -205,13 +205,11 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                             ],
                           ),
                           UiListGroup(
-                            title: context.t.contentMediaSettings,
+                            title: context.t.settingsImages,
+                            footer: context.t.contentMediaConsent,
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(UiSpace.lg),
-                                child: ContentMediaSettings(
-                                  controller: deps.contentMediaController,
-                                ),
+                              ContentMediaSettings(
+                                controller: deps.contentMediaController,
                               ),
                             ],
                           ),
@@ -222,15 +220,13 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                               ListenableBuilder(
                                 listenable: deps.cachePreference,
                                 builder: (BuildContext context, _) =>
-                                    SwitchListTile.adaptive(
-                                      secondary: const UiTileIcon(
+                                    UiTile.toggle(
+                                      leading: const UiTileIcon(
                                         Icons.storage_rounded,
                                       ),
-                                      title: Text(
-                                        context.t.settingsCacheEnabled,
-                                      ),
-                                      value: deps.cachePreference.enabled,
-                                      onChanged: deps.cachePreference.saving
+                                      title: context.t.settingsCacheEnabled,
+                                      selected: deps.cachePreference.enabled,
+                                      onToggle: deps.cachePreference.saving
                                           ? null
                                           : (bool value) => _run(
                                               () => deps.cachePreference.select(

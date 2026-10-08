@@ -2242,4 +2242,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get forumPostUnavailable => 'Этот пост нельзя показать здесь';
+
+  @override
+  String get settingsImages => 'Изображения';
 }

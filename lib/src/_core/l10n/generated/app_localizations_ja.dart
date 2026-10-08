@@ -2137,4 +2137,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get forumPostUnavailable => 'この投稿はここでは表示できません';
+
+  @override
+  String get settingsImages => '画像';
 }

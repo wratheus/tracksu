@@ -586,5 +586,6 @@
   "forumLocked": "Cerrado",
   "forumReplies": "{count, plural, one{{count} respuesta} other{{count} respuestas}}",
   "forumViews": "{count, plural, one{{count} vista} other{{count} vistas}}",
-  "forumPostUnavailable": "Esta publicación no se puede mostrar aquí"
+  "forumPostUnavailable": "Esta publicación no se puede mostrar aquí",
+  "settingsImages": "Imágenes"
 }
