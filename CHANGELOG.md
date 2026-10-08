@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Smoother player, glass search, tidy filters
+
+- The preview player glides: the timeline eases between position reports,
+  the play disc and icon morph, and a short rebuffer no longer flips it to
+  a spinner and back.
+- Search: a Liquid Glass capsule floating over the results — frosted, a
+  light rim, hint and text centred on one line.
+- Comment sorting uses the app's compact picker instead of a segment row.
+
 ### Beatmap packs (P55, wave 3 step 2)
 
 - Home gains a Beatmap packs shelf: a tile per type (Standard, Featured
@@ -10,6 +19,8 @@
 - A type opens its packs: tag, name, date and author, ruleset; older packs
   load at the end. A pack shows its header and its beatmapsets.
 - osu! pack links open in the app.
+- Rows carry their type's colour and icon (the list has no covers). Typing
+  a tag (S1500) opens that pack; other text filters the loaded packs.
 
 ### Smoother loading
 

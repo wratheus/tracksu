@@ -263,25 +263,31 @@ final class _SearchScreenState extends State<SearchScreen> {
     // thumb reach and right above the keyboard (the bottom bar hides then).
     body: SafeArea(
       top: false,
-      child: Column(
+      child: Stack(
         children: <Widget>[
-          Expanded(
-            child: switch (_tab) {
-              SearchTab.maps => const BeatmapSearchResults(),
-              SearchTab.wiki => const WikiSearchResults(),
-              SearchTab.players => _Players(
-                onOpen: _opening ? null : _open,
-                openFailure: _openFailure,
+          // Results scroll under the glass bar; the extra bottom inset keeps
+          // their end and the scroll-to-top button clear of it.
+          Positioned.fill(
+            child: MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                padding: MediaQuery.paddingOf(
+                  context,
+                ).copyWith(bottom: UiSearchBar.area),
               ),
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-              UiSpace.lg,
-              UiSpace.sm,
-              UiSpace.lg,
-              UiSpace.sm,
+              child: switch (_tab) {
+                SearchTab.maps => const BeatmapSearchResults(),
+                SearchTab.wiki => const WikiSearchResults(),
+                SearchTab.players => _Players(
+                  onOpen: _opening ? null : _open,
+                  openFailure: _openFailure,
+                ),
+              },
             ),
+          ),
+          PositionedDirectional(
+            start: UiSpace.lg,
+            end: UiSpace.lg,
+            bottom: UiSpace.md,
             child: UiSearchBar(
               controller: _text,
               focusNode: _focus,
