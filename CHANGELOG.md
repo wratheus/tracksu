@@ -10,6 +10,10 @@
 - Changelog shows every update stream (latest version, active players) and
   builds with entries grouped by category, add/fix/misc markers, authors and
   pull requests. Entries expand to their full text and open on GitHub.
+- Web links (changelog, comments, articles, About, teams, groups) open in an
+  in-app browser sheet instead of leaving the app; YouTube opens its own app.
+- API requests carry the app language, and changing the language clears
+  cached pages so the next visit loads localized data.
 
 ### Profile activity and lazer grades (P49, wave 1)
 

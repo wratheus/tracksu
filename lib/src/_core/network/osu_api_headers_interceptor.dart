@@ -1,7 +1,13 @@
 import 'package:tracksu_network/tracksu_network.dart';
 
+/// Common osu! API headers. `Accept-Language` follows the app language, so
+/// texts the API localizes (osu-web `SetLocaleApi`) match the interface; a
+/// signed-in user's osu! profile language is used only when it is absent.
 final class OsuApiHeadersInterceptor implements RestClientInterceptor {
-  const OsuApiHeadersInterceptor();
+  const OsuApiHeadersInterceptor({this.languageCode});
+
+  /// Current app language (`en`, `ru`, …); null sends no header.
+  final String? Function()? languageCode;
 
   static const apiResponseVersion = '20220705';
 
@@ -15,6 +21,10 @@ final class OsuApiHeadersInterceptor implements RestClientInterceptor {
     }
     if (!_hasHeader(headers, 'x-api-version')) {
       headers['x-api-version'] = apiResponseVersion;
+    }
+    final String? language = languageCode?.call();
+    if (language != null && !_hasHeader(headers, 'accept-language')) {
+      headers['accept-language'] = language;
     }
 
     return Future<RestRequest>.value(request.copyWith(headers: headers));

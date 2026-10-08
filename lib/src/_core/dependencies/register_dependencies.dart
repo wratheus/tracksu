@@ -70,7 +70,9 @@ Future<DepsContainer> registerDependencies() async {
     client: http.Client(),
     baseUri: Uri.https('osu.ppy.sh', '/api/v2'),
     interceptors: <RestClientInterceptor>[
-      const OsuApiHeadersInterceptor(),
+      OsuApiHeadersInterceptor(
+        languageCode: () => localeController.effectiveLanguageCode,
+      ),
       OsuAuthorizationInterceptor(
         authRepository: authRepository,
         tokenProvider: sessionController,
@@ -82,7 +84,9 @@ Future<DepsContainer> registerDependencies() async {
     client: http.Client(),
     baseUri: Uri.https('osu.ppy.sh', '/api/v2'),
     interceptors: <RestClientInterceptor>[
-      const OsuApiHeadersInterceptor(),
+      OsuApiHeadersInterceptor(
+        languageCode: () => localeController.effectiveLanguageCode,
+      ),
       OsuPublicAuthorizationInterceptor(
         repository: PublicAccessRepositoryImpl(
           remoteSource: OsuOAuthRemoteSource(
@@ -94,12 +98,17 @@ Future<DepsContainer> registerDependencies() async {
     ],
   );
 
+  final PageCache pageCache = PageCache(
+    identityRevision: () => sessionController.identityRevision,
+  );
+  // Cached pages hold API text in the previous language: drop them when the
+  // language changes so the next visit loads localized data.
+  localeController.addListener(pageCache.clear);
+
   return DepsContainer(
     mediaCache: mediaCache,
     audioPlaybackController: AudioPlaybackController(repository: mediaCache),
-    pageCache: PageCache(
-      identityRevision: () => sessionController.identityRevision,
-    ),
+    pageCache: pageCache,
     appRouter: TracksuAppRouter(
       initialOAuthCallbackUri: initialOAuthCallbackUri,
     ),
