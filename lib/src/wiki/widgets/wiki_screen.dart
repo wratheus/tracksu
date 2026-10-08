@@ -9,7 +9,7 @@ import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
 import 'package:tracksu/src/_shared/navigation/external_links.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
-import 'package:tracksu/src/wiki/bloc/wiki_article_bloc.dart';
+import 'package:tracksu/src/wiki/article/bloc/bloc.dart';
 import 'package:tracksu/src/wiki/domain/wiki.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
-import 'package:tracksu/src/wiki/bloc/wiki_search_bloc.dart';
+import 'package:tracksu/src/wiki/search/bloc/bloc.dart';
 import 'package:tracksu/src/wiki/domain/wiki.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 

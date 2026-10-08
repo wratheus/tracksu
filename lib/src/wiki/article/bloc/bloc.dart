@@ -4,18 +4,8 @@ import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/wiki/data/wiki_repository.dart';
 import 'package:tracksu/src/wiki/domain/wiki.dart';
 
-final class WikiArticleRequested {
-  const WikiArticleRequested();
-}
-
-/// [article] null until loaded; a failed refresh keeps the article and sets
-/// [failure].
-final class WikiArticleState {
-  const WikiArticleState({this.article, this.loading = true, this.failure});
-  final WikiArticle? article;
-  final bool loading;
-  final WikiFailureKind? failure;
-}
+part 'event.dart';
+part 'state.dart';
 
 /// One article in the app language (English fallback), session-cached.
 final class WikiArticleBloc

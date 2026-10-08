@@ -7,6 +7,13 @@
 - Events no longer hammer the API: automatic paging only for "All" or a
   group with 15+ rows, otherwise a "Load older" button; at most one page
   request per second.
+- Wiki `::: Infobox` / `::: Notice` blocks render as framed boxes.
+
+### Search, events and wiki fixes
+
+- Events no longer hammer the API: automatic paging only for "All" or a
+  group with 15+ rows, otherwise a "Load older" button; at most one page
+  request per second.
 
 ### osu! wiki (P52, wave 2 step 3)
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tracksu/src/wiki/bloc/wiki_search_bloc.dart';
+import 'package:tracksu/src/wiki/search/bloc/bloc.dart';
 import 'package:tracksu/src/wiki/data/wiki_repository.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/beatmap_search/bloc/bloc.dart';

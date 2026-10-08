@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
-import 'package:tracksu/src/wiki/bloc/wiki_article_bloc.dart';
+import 'package:tracksu/src/wiki/article/bloc/bloc.dart';
 import 'package:tracksu/src/wiki/data/wiki_repository.dart';
 import 'package:tracksu/src/wiki/domain/wiki.dart';
 import 'package:tracksu/src/wiki/widgets/wiki_screen.dart';

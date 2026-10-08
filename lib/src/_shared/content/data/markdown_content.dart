@@ -9,19 +9,49 @@ abstract final class MarkdownContent {
   static const int _maxSource = 500000;
 
   /// A whole Markdown document (osu! wiki): GitHub-flavoured tables, lists,
-  /// code, strikethrough and autolinks. YAML front matter and osu! container
-  /// fences (`::: Infobox`) are layout hints, not content.
+  /// code, strikethrough and autolinks. YAML front matter is dropped; osu!
+  /// containers (`::: Infobox`, `::: Notice`) become quote boxes.
   static String document(String source) {
     if (source.length > _maxSource) {
       throw const FormatException('Markdown too large.');
     }
     final String body = source
-        .replaceFirst(RegExp(r'^---\r?\n[\s\S]*?\r?\n---\r?\n'), '')
-        .replaceAll(RegExp(r'^:::.*$', multiLine: true), '');
+        .replaceFirst(RegExp(r'^---\r?\n[\s\S]*?\r?\n---\r?\n'), '');
     return md.markdownToHtml(
-      body,
+      _containers(body),
       extensionSet: md.ExtensionSet.gitHubFlavored,
     );
+  }
+
+  static final RegExp _fence = RegExp(r'^\s{0,3}(```|~~~)');
+  static final RegExp _container = RegExp(r'^\s{0,3}:::\s*(\S.*)?$');
+
+  /// osu! wiki containers are `::: Name` … `:::` blocks. Each open block
+  /// prefixes its lines with `> `, so the content pipeline renders a quote
+  /// box; fenced code is left alone and unclosed blocks end with the text.
+  static String _containers(String source) {
+    final List<String> lines = source.split('\n');
+    final StringBuffer output = StringBuffer();
+    int depth = 0;
+    bool code = false;
+    for (final String raw in lines) {
+      final String line = raw.endsWith('\r')
+          ? raw.substring(0, raw.length - 1)
+          : raw;
+      final RegExpMatch? container = code ? null : _container.firstMatch(line);
+      if (container != null) {
+        if (container.group(1) != null) {
+          if (depth < 4) depth += 1;
+        } else if (depth > 0) {
+          depth -= 1;
+        }
+        output.writeln(depth > 0 ? '> ' * depth : '');
+        continue;
+      }
+      if (_fence.hasMatch(line)) code = !code;
+      output.writeln(depth > 0 ? '${'> ' * depth}$line' : line);
+    }
+    return output.toString();
   }
 
   static final RegExp _hint = RegExp(
