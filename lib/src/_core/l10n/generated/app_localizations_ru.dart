@@ -604,7 +604,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileTitle => 'Профиль';
 
   @override
-  String get profileOverview => 'Обзор';
+  String get profileOverview => 'Профиль';
 
   @override
   String get profilePpLabel => 'Очки производительности (PP)';
@@ -2047,5 +2047,15 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String activityUsernameChange(String previous, String current) {
     return 'Ник изменён: $previous → $current';
+  }
+
+  @override
+  String profileFollowers(int count) {
+    return 'Подписчики: $count';
+  }
+
+  @override
+  String profileMappingFollowers(int count) {
+    return 'Подписчики на карты: $count';
   }
 }

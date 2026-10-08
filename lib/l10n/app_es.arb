@@ -162,7 +162,7 @@
   "contentPageNotice": "Las imágenes externas siguen tu preferencia guardada. El contenido incrustado se abre en la página original. Sin contenido con formato, el BBCode se muestra como texto plano.",
   "contentLinkFailed": "No se pudo abrir el enlace.",
   "profileTitle": "Perfil del jugador",
-  "profileOverview": "Resumen",
+  "profileOverview": "Perfil",
   "profilePpLabel": "Rendimiento (PP)",
   "profileGlobalRankLabel": "Clasificación mundial",
   "profileCountryRankLabel": "Clasificación nacional",
@@ -534,5 +534,7 @@
   "activitySupportFirst": "Primer apoyo a osu! (osu!supporter)",
   "activitySupportAgain": "Volvió a apoyar osu!",
   "activitySupportGift": "Recibió osu!supporter como regalo",
-  "activityUsernameChange": "Cambió su nombre: {previous} → {current}"
+  "activityUsernameChange": "Cambió su nombre: {previous} → {current}",
+  "profileFollowers": "Seguidores: {count}",
+  "profileMappingFollowers": "Suscriptores de mapas: {count}"
 }

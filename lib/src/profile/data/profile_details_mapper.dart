@@ -17,6 +17,8 @@ extension ProfileDetailsDtoMapper on ProfileDetailsDto {
       (ProfileMedal a, ProfileMedal b) => b.achievedAt.compareTo(a.achievedAt),
     );
     return ProfileDetails(
+      followerCount: followerCount,
+      mappingFollowerCount: mappingFollowerCount,
       previousNames: previousNames?.toSet().toList(growable: false),
       groups: groups
           ?.map(

@@ -11,6 +11,12 @@
 - New profile Activity tab: ranks, lost first places, medals, beatmap uploads
   and status changes, supporter and name changes, with links to the map, set
   or medals. Pull to refresh; older events load at the end (up to 100).
+- Grade badges follow the website proportions: capitals at 55 % of the height,
+  optically centred, wide letters with a soft lower shadow.
+- Profile tabs are Profile / Results / Activity / Maps. The profile page now
+  follows osu.ppy.sh order: header, friends and mapping subscribers, team,
+  rank history, daily challenge, grades in one row, About, statistics with a
+  compact level line, then medals and charts.
 
 ### Unified AppBar search (P48)
 

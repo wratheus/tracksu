@@ -8,15 +8,30 @@ import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Groups of profile detail cards, placed separately in the overview so the
+/// page follows osu.ppy.sh order.
+enum ProfileDetailsPart {
+  /// Team and user groups, under the header.
+  affiliations,
+
+  /// Daily challenge statistics, under the rank history.
+  daily,
+
+  /// Medals and ranked play, after the statistics.
+  achievements,
+}
+
 /// Bounded summary cards; API-backed collections stay lazy, including sheets.
 final class ProfileDetailsSections extends StatefulWidget {
   const ProfileDetailsSections({
     required this.details,
     required this.userId,
+    required this.parts,
     super.key,
   });
   final ProfileDetails details;
   final int userId;
+  final Set<ProfileDetailsPart> parts;
   @override
   State<ProfileDetailsSections> createState() => _ProfileDetailsSectionsState();
 }
@@ -63,6 +78,12 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
   @override
   Widget build(BuildContext context) {
     final ProfileDetails details = widget.details;
+    final bool affiliations = widget.parts.contains(
+      ProfileDetailsPart.affiliations,
+    );
+    final bool achievements = widget.parts.contains(
+      ProfileDetailsPart.achievements,
+    );
     final List<ProfileGroup> groups = details.groups ?? const <ProfileGroup>[];
     final List<ProfileRankedPlay> ranked =
         details.rankedPlay ?? const <ProfileRankedPlay>[];
@@ -73,12 +94,12 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
       padding: const EdgeInsets.fromLTRB(UiSpace.lg, 0, UiSpace.lg, UiSpace.lg),
       sliver: SliverMainAxisGroup(
         slivers: <Widget>[
-          if (details.dailyChallenge
-              case final ProfileDailyChallenge daily) ...<Widget>[
+          if (details.dailyChallenge case final ProfileDailyChallenge daily
+              when widget.parts.contains(ProfileDetailsPart.daily)) ...<Widget>[
             _heading(context.t.profileDailyChallenge),
             SliverToBoxAdapter(child: _DailyChallengeCard(stats: daily)),
           ],
-          if (details.team case final ProfileTeam team)
+          if (details.team case final ProfileTeam team when affiliations)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: UiSpace.md),
@@ -94,7 +115,7 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
                 ),
               ),
             ),
-          if (groups.isNotEmpty) ...<Widget>[
+          if (affiliations && groups.isNotEmpty) ...<Widget>[
             _heading(context.t.profileGroups),
             UiSliverCardList(
               itemCount: groups.length,
@@ -116,7 +137,8 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
               },
             ),
           ],
-          if (details.medals case final List<ProfileMedal> medals)
+          if (details.medals case final List<ProfileMedal> medals
+              when achievements)
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.only(top: UiSpace.lg),
@@ -142,7 +164,7 @@ final class _ProfileDetailsSectionsState extends State<ProfileDetailsSections> {
                 ),
               ),
             ),
-          if (details.rankedPlay != null) ...<Widget>[
+          if (achievements && details.rankedPlay != null) ...<Widget>[
             _heading(context.t.profileRankedPlay),
             if (ranked.isEmpty)
               SliverToBoxAdapter(

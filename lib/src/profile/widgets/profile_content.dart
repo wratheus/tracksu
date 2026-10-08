@@ -77,8 +77,8 @@ final class ProfileContent extends StatelessWidget {
                   tabs: <(IconData, String)>[
                     (Icons.person_outline_rounded, context.t.profileOverview),
                     (Icons.emoji_events_outlined, context.t.scoresTitle),
-                    (Icons.library_music_outlined, context.t.beatmapsTitle),
                     (Icons.timeline_rounded, context.t.profileActivity),
+                    (Icons.library_music_outlined, context.t.beatmapsTitle),
                   ],
                 ),
                 Expanded(
@@ -99,12 +99,14 @@ final class ProfileContent extends StatelessWidget {
                           ProfileSummary(
                             profile: state.profile,
                             ruleset: state.ruleset,
+                            about: switch (state.profile.about) {
+                              final about? => ContentPageSection(
+                                page: about,
+                                title: context.t.profileAbout,
+                              ),
+                              null => null,
+                            },
                           ),
-                          if (state.profile.about case final about?)
-                            ContentPageSection(
-                              page: about,
-                              title: context.t.profileAbout,
-                            ),
                         ],
                       ),
                       _ProfileSection(
@@ -114,15 +116,15 @@ final class ProfileContent extends StatelessWidget {
                         ],
                       ),
                       _ProfileSection(
-                        key: const ValueKey<String>('maps'),
-                        slivers: <Widget>[
-                          const ProfileBeatmapsSection(),
-                        ],
-                      ),
-                      _ProfileSection(
                         key: const ValueKey<String>('activity'),
                         slivers: <Widget>[
                           ProfileActivitySection(userId: state.profile.id),
+                        ],
+                      ),
+                      _ProfileSection(
+                        key: const ValueKey<String>('maps'),
+                        slivers: <Widget>[
+                          const ProfileBeatmapsSection(),
                         ],
                       ),
                     ],

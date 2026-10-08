@@ -325,7 +325,7 @@
   "@contentLinkFailed": {"description": "Shared rich-content reader link launch failure."},
   "profileTitle": "Player profile",
   "@profileTitle": {"description":"Player profile UI: Player profile."},
-  "profileOverview": "Overview",
+  "profileOverview": "Profile",
   "@profileOverview": {"description":"Player profile UI: Overview."},
   "profilePpLabel": "Performance (PP)",
   "@profilePpLabel": {"description":"Metric heading only, without a duplicated numeric value."},
@@ -1772,6 +1772,24 @@
       },
       "current": {
         "type": "String"
+      }
+    }
+  },
+  "profileFollowers": "Followers: {count}",
+  "@profileFollowers": {
+    "description": "Profile pill: players following this one (friends).",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "profileMappingFollowers": "Mapping subscribers: {count}",
+  "@profileMappingFollowers": {
+    "description": "Profile pill: subscribers to this player's new beatmaps.",
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   }

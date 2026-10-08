@@ -162,7 +162,7 @@
   "contentPageNotice": "外部图片按您保存的设置加载。嵌入内容仅在原页面打开。如无已排版的内容，BBCode 将以纯文本显示。",
   "contentLinkFailed": "无法打开链接。",
   "profileTitle": "玩家资料",
-  "profileOverview": "概览",
+  "profileOverview": "资料",
   "profilePpLabel": "表现分 (PP)",
   "profileGlobalRankLabel": "全球排名",
   "profileCountryRankLabel": "地区排名",
@@ -534,5 +534,7 @@
   "activitySupportFirst": "成为了 osu!supporter",
   "activitySupportAgain": "再次支持了 osu!",
   "activitySupportGift": "获赠 osu!supporter",
-  "activityUsernameChange": "更改了用户名：{previous} → {current}"
+  "activityUsernameChange": "更改了用户名：{previous} → {current}",
+  "profileFollowers": "关注者：{count}",
+  "profileMappingFollowers": "谱面订阅者：{count}"
 }

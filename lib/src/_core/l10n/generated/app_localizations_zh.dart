@@ -563,7 +563,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profileTitle => '个人资料';
 
   @override
-  String get profileOverview => '概览';
+  String get profileOverview => '资料';
 
   @override
   String get profilePpLabel => '表现分 (PP)';
@@ -1935,5 +1935,15 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String activityUsernameChange(String previous, String current) {
     return '更改了用户名：$previous → $current';
+  }
+
+  @override
+  String profileFollowers(int count) {
+    return '关注者：$count';
+  }
+
+  @override
+  String profileMappingFollowers(int count) {
+    return '谱面订阅者：$count';
   }
 }

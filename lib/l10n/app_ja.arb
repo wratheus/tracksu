@@ -162,7 +162,7 @@
   "contentPageNotice": "外部画像は保存された設定に従って読み込まれます。埋め込みコンテンツは元のページで開きます。整形済みコンテンツがない場合、BBCodeはプレーンテキストで表示されます。",
   "contentLinkFailed": "リンクを開けませんでした。",
   "profileTitle": "プレイヤープロフィール",
-  "profileOverview": "概要",
+  "profileOverview": "プロフィール",
   "profilePpLabel": "パフォーマンス (PP)",
   "profileGlobalRankLabel": "世界ランキング",
   "profileCountryRankLabel": "国内ランキング",
@@ -534,5 +534,7 @@
   "activitySupportFirst": "osu!supporterになりました",
   "activitySupportAgain": "再びosu!をサポート",
   "activitySupportGift": "osu!supporterをプレゼントされました",
-  "activityUsernameChange": "ユーザー名を変更：{previous} → {current}"
+  "activityUsernameChange": "ユーザー名を変更：{previous} → {current}",
+  "profileFollowers": "フォロワー: {count}",
+  "profileMappingFollowers": "マッピング購読者: {count}"
 }

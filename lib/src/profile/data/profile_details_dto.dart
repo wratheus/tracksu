@@ -44,6 +44,8 @@ final class ProfileDetailsDto {
     required this.medals,
     required this.rankedPlay,
     required this.dailyChallenge,
+    this.followerCount,
+    this.mappingFollowerCount,
   });
 
   factory ProfileDetailsDto.fromJson(Map<String, dynamic> json) {
@@ -53,6 +55,8 @@ final class ProfileDetailsDto {
       'daily_challenge_user_stats',
     );
     return ProfileDetailsDto(
+      followerCount: reader.optionalInt('follower_count'),
+      mappingFollowerCount: reader.optionalInt('mapping_follower_count'),
       previousNames: reader
           .optionalList('previous_usernames')
           ?.map(
@@ -139,4 +143,6 @@ final class ProfileDetailsDto {
   final List<ProfileMedalDto>? medals;
   final List<ProfileRankedPlayDto>? rankedPlay;
   final ProfileDailyChallengeDto? dailyChallenge;
+  final int? followerCount;
+  final int? mappingFollowerCount;
 }

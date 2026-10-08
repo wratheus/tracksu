@@ -1089,7 +1089,7 @@ abstract class AppLocalizations {
   /// Player profile UI: Overview.
   ///
   /// In en, this message translates to:
-  /// **'Overview'**
+  /// **'Profile'**
   String get profileOverview;
 
   /// Metric heading only, without a duplicated numeric value.
@@ -3305,6 +3305,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Changed username from {previous} to {current}'**
   String activityUsernameChange(String previous, String current);
+
+  /// Profile pill: players following this one (friends).
+  ///
+  /// In en, this message translates to:
+  /// **'Followers: {count}'**
+  String profileFollowers(int count);
+
+  /// Profile pill: subscribers to this player's new beatmaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Mapping subscribers: {count}'**
+  String profileMappingFollowers(int count);
 }
 
 class _AppLocalizationsDelegate

@@ -162,7 +162,7 @@
   "contentPageNotice": "Внешние картинки загружаются согласно вашему выбору. Вставки доступны в оригинале. Если готового HTML нет, BBCode показан обычным текстом.",
   "contentLinkFailed": "Не удалось открыть ссылку.",
   "profileTitle": "Профиль игрока",
-  "profileOverview": "Обзор",
+  "profileOverview": "Профиль",
   "profilePpLabel": "Очки производительности (PP)",
   "profileGlobalRankLabel": "Мировой рейтинг",
   "profileCountryRankLabel": "Рейтинг страны",
@@ -534,5 +534,7 @@
   "activitySupportFirst": "Впервые поддержка osu! — osu!supporter",
   "activitySupportAgain": "Снова поддержка osu!",
   "activitySupportGift": "Получен osu!supporter в подарок",
-  "activityUsernameChange": "Ник изменён: {previous} → {current}"
+  "activityUsernameChange": "Ник изменён: {previous} → {current}",
+  "profileFollowers": "Подписчики: {count}",
+  "profileMappingFollowers": "Подписчики на карты: {count}"
 }

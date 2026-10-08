@@ -600,7 +600,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileTitle => 'Perfil';
 
   @override
-  String get profileOverview => 'Resumen';
+  String get profileOverview => 'Perfil';
 
   @override
   String get profilePpLabel => 'Rendimiento (PP)';
@@ -2041,5 +2041,15 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String activityUsernameChange(String previous, String current) {
     return 'Cambió su nombre: $previous → $current';
+  }
+
+  @override
+  String profileFollowers(int count) {
+    return 'Seguidores: $count';
+  }
+
+  @override
+  String profileMappingFollowers(int count) {
+    return 'Suscriptores de mapas: $count';
   }
 }

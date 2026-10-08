@@ -162,7 +162,7 @@
   "contentPageNotice": "Externe Bilder folgen deiner gespeicherten Einstellung. Einbettungen öffnen sich nur im Original. Fehlen aufbereitete Inhalte, wird BBCode als Klartext angezeigt.",
   "contentLinkFailed": "Der Link konnte nicht geöffnet werden.",
   "profileTitle": "Spielerprofil",
-  "profileOverview": "Übersicht",
+  "profileOverview": "Profil",
   "profilePpLabel": "Leistung (PP)",
   "profileGlobalRankLabel": "Weltrang",
   "profileCountryRankLabel": "Länderrang",
@@ -534,5 +534,7 @@
   "activitySupportFirst": "Ist jetzt osu!supporter",
   "activitySupportAgain": "Unterstützt osu! erneut",
   "activitySupportGift": "osu!supporter geschenkt bekommen",
-  "activityUsernameChange": "Name geändert: {previous} → {current}"
+  "activityUsernameChange": "Name geändert: {previous} → {current}",
+  "profileFollowers": "Follower: {count}",
+  "profileMappingFollowers": "Mapping-Abonnenten: {count}"
 }

@@ -569,7 +569,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profileTitle => 'プロフィール';
 
   @override
-  String get profileOverview => '概要';
+  String get profileOverview => 'プロフィール';
 
   @override
   String get profilePpLabel => 'パフォーマンス (PP)';
@@ -1949,5 +1949,15 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String activityUsernameChange(String previous, String current) {
     return 'ユーザー名を変更：$previous → $current';
+  }
+
+  @override
+  String profileFollowers(int count) {
+    return 'フォロワー: $count';
+  }
+
+  @override
+  String profileMappingFollowers(int count) {
+    return 'マッピング購読者: $count';
   }
 }

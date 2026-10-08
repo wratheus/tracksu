@@ -10,6 +10,8 @@ final class ProfileDetails {
     List<ProfileRankedPlay>? rankedPlay,
     this.team,
     this.dailyChallenge,
+    this.followerCount,
+    this.mappingFollowerCount,
   }) : previousNames = previousNames == null
            ? null
            : List.unmodifiable(previousNames),
@@ -23,6 +25,12 @@ final class ProfileDetails {
   final List<ProfileMedal>? medals;
   final List<ProfileRankedPlay>? rankedPlay;
   final ProfileDailyChallenge? dailyChallenge;
+
+  /// Players who added this one as a friend (`follower_count`).
+  final int? followerCount;
+
+  /// Subscribers to this player's new beatmaps (`mapping_follower_count`).
+  final int? mappingFollowerCount;
 }
 
 @immutable
