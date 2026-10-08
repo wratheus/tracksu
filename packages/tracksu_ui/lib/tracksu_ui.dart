@@ -28,3 +28,4 @@ export 'src/widgets/app_bar_progress.dart';
 export 'src/widgets/glass.dart';
 
 export 'src/widgets/app_bar.dart';
+export 'src/widgets/app_bar_search.dart';

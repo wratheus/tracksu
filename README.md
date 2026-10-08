@@ -154,7 +154,8 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
 
 ### Unified search
 
-- One AppBar field with Players / Maps tabs, available without signing in.
+- A search pill in every app bar opens search; the field sits in the bar
+  with Players / Maps / Wiki tabs below, available without signing in.
   Typing two or more characters searches after 400 ms; Enter searches immediately.
   Switching tabs keeps the text and queries only the active tab. Empty input
   makes no search request. Old requests are cancelled and results cache for two minutes.

@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Search from every app bar
+
+- A search pill sits first in every app bar ("Search" on tab roots, icon
+  only on pages) and grows into the search field when tapped.
+- The search screen keeps the field in the bar, tabs below; the 2 pt
+  overflow under the tabs is gone.
+
 ### osu! forum (P54, wave 3 step 1)
 
 - The osu! tab gains a Forum page: forum sections with their subforums.

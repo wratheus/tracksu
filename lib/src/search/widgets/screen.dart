@@ -160,12 +160,26 @@ final class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: UiAppBar(
-      title: UiText.titleLarge(context.t.navigationSearch),
+      // The field takes the title's place; the pill on other screens grows
+      // into it (shared hero).
+      title: UiAppBarSearchField(
+        controller: _text,
+        hint: switch (_tab) {
+          SearchTab.players => context.t.profileSearchHint,
+          SearchTab.maps => context.t.beatmapSearchHint,
+          SearchTab.wiki => context.t.wikiSearchHint,
+        },
+        clearLabel: context.t.searchClear,
+        // Opening search means typing: the keyboard comes up at once.
+        autofocus: true,
+        onSubmitted: (_) => _submit(),
+      ),
       actions: <Widget>[
         ValueListenableBuilder<TextEditingValue>(
           valueListenable: _text,
           builder: (BuildContext context, TextEditingValue value, _) =>
               AppBarActions(
+                search: false,
                 share: switch (_tab) {
                   SearchTab.players => ShareTarget.playerSearch(
                     value.text,
@@ -183,44 +197,15 @@ final class _SearchScreenState extends State<SearchScreen> {
               ),
         ),
       ],
-      // The field sits under the shared actions so it keeps the full width.
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(
-          UiSpace.xs +
-              UiSearchField.heightOf(context) +
-              UiSpace.sm * 2 +
-              UiSegmentedControl.heightOf(context),
+          UiAppBar.segmentedRowHeight(context) + UiAppBarProgress.height,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(
-                UiSpace.lg,
-                UiSpace.xs,
-                UiSpace.lg,
-                0,
-              ),
-              child: UiSearchField(
-                controller: _text,
-                label: switch (_tab) {
-                  SearchTab.players => context.t.profileSearchHint,
-                  SearchTab.maps => context.t.beatmapSearchHint,
-                  SearchTab.wiki => context.t.wikiSearchHint,
-                },
-                clearLabel: context.t.searchClear,
-                // Opening search means typing: the keyboard comes up at once.
-                autofocus: true,
-                onSubmitted: (_) => _submit(),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                UiSpace.lg,
-                UiSpace.sm,
-                UiSpace.lg,
-                UiSpace.sm,
-              ),
+              padding: UiAppBar.rowPadding,
               child: UiSegmentedControl<SearchTab>(
                 selected: _tab,
                 onChanged: _select,
