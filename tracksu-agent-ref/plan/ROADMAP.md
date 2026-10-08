@@ -163,8 +163,27 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 
 Текущий этап: [P48 — общий AppBar и единый поиск](work/P48-appbar-unified-search.md).
 Решение 2026-10-07: «Игроки / Карты», без выбора режима до поиска игрока,
-подсказки после паузы. Код реализован, автоматические проверки пройдены;
-проводится проверка в симуляторе. Подробности и ограничения — в карточке.
+подсказки после паузы. 2026-10-08: на всех экранах одни действия шапки
+(поделиться · настройки · аккаунт), обновление только pull-to-refresh.
+Код реализован, сборка в симуляторе пройдена; ждёт проверки пользователем.
+
+## Кандидаты на следующий срез (не одобрены, API сверить перед выбором)
+
+Публичные данные, вход не нужен:
+- Профиль: «Первые места» и «Закреплённые» (`/users/{id}/scores/firsts|pinned`),
+  лента недавней активности (`/users/{id}/recent_activity`).
+- Карта: результат конкретного игрока на сложности
+  (`/beatmaps/{id}/scores/users/{user}`), например при переходе из профиля.
+- Beatmap packs (`/beatmaps/packs`), changelog osu! (`/changelog`),
+  wiki (`/wiki/{locale}/{path}`) через общий ContentFrame,
+  мультиплеерные матчи (`/matches`).
+
+Требуют входа — заблокированы решением [P37](work/P37-ios-oauth-callback.md):
+личный результат на карте, leaderboard friends/country (проверить требование
+supporter), друзья (`friends.read`), ответы/голоса в комментариях (scope `lazer`).
+
+Не делаем без отдельного решения: Seasons (нет в публичном API), чаты/push,
+сравнение игроков и BFF/AI — [PRODUCT-FUTURE](work/PRODUCT-FUTURE.md).
 
 ## Активные задачи — только оставшаяся работа
 
@@ -185,6 +204,8 @@ P09–P13 имеют рабочие API-срезы, но требуют прод
 | Сейчас · [P36](work/P36-settings-and-about.md) | «Настройки» — сгруппированный список; «О приложении» — вкладки, авторы, история, лицензии | awaiting_manual_check (уточнить год/текст 2-й версии) |
 | Сейчас · [P28](work/P28-media-cache-and-browsing.md) | Дисковый media cache/размер/очистка, плееры на обложках, default-on картинки, поиск, страны и flags реализованы; ручная проверка | awaiting_manual_check |
 | Сейчас · [Поэкранная доработка](work/P07-product-integration.md) | Функциональный shell/главная, затем каждый экран по отдельным data/UX критериям; raw migration не является завершением | in_progress |
+| Сейчас · [P44](work/P44-daily-history.md)–[P47](work/P47-kudosu.md) | История карты дня, фильтры поиска карт, моды/статистика сложности, рейтинг Kudosu | awaiting_manual_check |
+| Сейчас · [P48](work/P48-appbar-unified-search.md) | Единый поиск «Игроки / Карты», общий AppBar и одинаковые действия шапки на всех экранах | awaiting_manual_check |
 | На будущее · [P43](work/P43-tablet-and-ipad-plan.md) | Планшеты и iPad: брейкпоинты, ширина контента, NavigationRail, сетки, master-detail; решение по iPad до релиза | backlog |
 | До analytics/release · [P01.3](work/P01.3-privacy-and-terms.md) | Data inventory, privacy notice/policy, условия, About/атрибуции, ссылки из guest/OAuth/settings и store disclosures | backlog |
 | Сейчас · [P07.1](work/P07.1-languages.md) | en/ru/de/fr/es/ja/zh, стандартный ARB template, language persistence и fallback подключены; ручная языковая проверка | awaiting_manual_check |
@@ -230,7 +251,7 @@ UI kit и каталог уже существуют. Следующие стр�
 
 ## Уже принятые решения — не спрашивать повторно
 
-- Flutter 3.47.5 / Dart 3.13; Pub workspace в корне; JDK 25, Android по TSD.
+- Flutter 3.47.6 (fvm) / Dart 3.13; Pub workspace в корне; JDK 25, Android по TSD.
 - Android ID/namespace: `io.github.wratheus.tracksu`. iOS simulator host восстановлен локально; web/desktop hosts отсутствуют.
 - REST поверх `http`, именованные методы, interceptors, cancellation, один retry.
 - DTO parsing в repository, raw payload в source, общие JSON readers.
