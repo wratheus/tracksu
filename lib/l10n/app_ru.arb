@@ -567,5 +567,6 @@
   "wikiSearchHint": "Статья вики",
   "wikiSearchHelp": "Гайды, правила, режимы игры и всё об osu!.",
   "wikiNoResults": "Статьи не найдены",
-  "eventsLoadOlder": "Загрузить ещё"
+  "eventsLoadOlder": "Загрузить ещё",
+  "changelogShowText": "Показать текст"
 }

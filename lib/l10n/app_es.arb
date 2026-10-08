@@ -567,5 +567,6 @@
   "wikiSearchHint": "Artículo de la wiki",
   "wikiSearchHelp": "Guías, reglas, modos de juego y todo sobre osu!.",
   "wikiNoResults": "No se encontraron artículos",
-  "eventsLoadOlder": "Cargar anteriores"
+  "eventsLoadOlder": "Cargar anteriores",
+  "changelogShowText": "Mostrar texto"
 }

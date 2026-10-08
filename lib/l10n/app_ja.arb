@@ -567,5 +567,6 @@
   "wikiSearchHint": "Wiki記事",
   "wikiSearchHelp": "ガイド、ルール、ゲームモードなどosu!のすべて。",
   "wikiNoResults": "記事が見つかりません",
-  "eventsLoadOlder": "さらに読み込む"
+  "eventsLoadOlder": "さらに読み込む",
+  "changelogShowText": "本文を表示"
 }

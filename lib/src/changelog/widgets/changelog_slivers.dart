@@ -329,7 +329,13 @@ final class _EntryRowState extends State<_EntryRow> {
     final Uri? link = entry.githubUrl ?? entry.url;
     final String? html = entry.messageHtml;
     return InkWell(
-      onTap: html == null ? null : () => setState(() => _expanded = !_expanded),
+      // The whole row opens the pull request or post; with no link it
+      // expands the text instead. The chevron always toggles the text.
+      onTap: link != null
+          ? () => unawaited(_open(link))
+          : html == null
+          ? null
+          : () => setState(() => _expanded = !_expanded),
       borderRadius: BorderRadius.circular(UiShape.control),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 2),
@@ -380,18 +386,19 @@ final class _EntryRowState extends State<_EntryRow> {
                   ),
                 ),
                 if (html != null)
-                  Icon(
-                    _expanded
+                  UiIconButton.standard(
+                    tooltip: context.t.changelogShowText,
+                    icon: _expanded
                         ? Icons.expand_less_rounded
                         : Icons.expand_more_rounded,
-                    size: 18,
+                    onPressed: () => setState(() => _expanded = !_expanded),
+                  )
+                else if (link != null)
+                  Icon(
+                    Icons.open_in_new_rounded,
+                    size: 16,
+                    semanticLabel: context.t.changelogOpenLink,
                     color: colors.onSurfaceVariant,
-                  ),
-                if (link != null)
-                  UiIconButton.standard(
-                    tooltip: context.t.changelogOpenLink,
-                    icon: Icons.open_in_new_rounded,
-                    onPressed: () => unawaited(_open(link)),
                   ),
               ],
             ),

@@ -1921,5 +1921,9 @@
   "eventsLoadOlder": "Load older",
   "@eventsLoadOlder": {
     "description": "Button that loads older events when a filter matches few of them."
+  },
+  "changelogShowText": "Show text",
+  "@changelogShowText": {
+    "description": "Changelog entry: expand or collapse its full text."
   }
 }
