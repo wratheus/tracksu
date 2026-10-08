@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+### Map of the day, dressed up
+
+- The map of the day is a poster: the cover fills the card with the title
+  on it, glass chips for the day and the time left, the preview in the
+  corner — on Home and on its page.
+- The top three stand on a podium (gold, silver, bronze); a past day reads
+  "Final leaderboard" instead of "Today's leaderboard".
+- History rows show each day's cover fading in behind the text.
+- Home drops the search card (search is a tab) and the Spotlights archive,
+  which moved to Rankings → Players under the country filter.
+
 ### Navigation by the iOS guidelines (ADR-010)
 
 - App bars keep two actions, share and account; Settings moved into the

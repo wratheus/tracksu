@@ -588,5 +588,7 @@
   "forumViews": "{count, plural, other{{count} 次浏览}}",
   "forumPostUnavailable": "此帖子无法在此显示",
   "settingsImages": "图片",
-  "navigationHome": "首页"
+  "navigationHome": "首页",
+  "dailyLeaderboardFinal": "最终排行榜",
+  "spotlightsArchiveHint": "截至 2020 年的赛季排行"
 }

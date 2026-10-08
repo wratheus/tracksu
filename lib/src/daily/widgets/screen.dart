@@ -165,7 +165,11 @@ final class _Content extends StatelessWidget {
                     message: context.t.profileShowingPreviousData,
                     tone: UiNoticeTone.warning,
                   ),
-                UiText.titleMedium(context.t.dailyLeaderboard),
+                UiText.titleMedium(
+                  past
+                      ? context.t.dailyLeaderboardFinal
+                      : context.t.dailyLeaderboard,
+                ),
               ],
             ),
           ),
@@ -173,13 +177,36 @@ final class _Content extends StatelessWidget {
         if (scores.isEmpty)
           SliverToBoxAdapter(
             child: UiContentState.empty(title: context.t.rankingsEmpty),
+          )
+        else
+          // The day's winners stand on a podium; the rest follow as rows.
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              UiSpace.lg,
+              0,
+              UiSpace.lg,
+              UiSpace.md,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _Podium(
+                scores: scores.take(3).toList(growable: false),
+                onOpen: (DailyChallengeScore score) =>
+                    DepsScope.of(context).appRouter.openProfile(
+                      context,
+                      ProfileParams(
+                        user: ProfileUserId(score.userId),
+                        ruleset: challenge.ruleset,
+                      ),
+                    ),
+              ),
+            ),
           ),
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
           sliver: UiSliverCardList(
-            itemCount: scores.length,
+            itemCount: scores.length > 3 ? scores.length - 3 : 0,
             itemBuilder: (BuildContext context, int index) {
-              final DailyChallengeScore score = scores[index];
+              final DailyChallengeScore score = scores[index + 3];
               final String locale = context.t.localeName;
               return TeamNavigation(
                 key: ValueKey<int>(score.userId),
@@ -215,6 +242,140 @@ final class _Content extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Top three as a podium: second · first · third, the winner raised, each
+/// with a metal accent (gold, silver, bronze), avatar, name and score.
+final class _Podium extends StatelessWidget {
+  const _Podium({required this.scores, required this.onOpen});
+  final List<DailyChallengeScore> scores;
+  final ValueChanged<DailyChallengeScore> onOpen;
+
+  static const List<Color> _metals = <Color>[
+    Color(0xFFE8B84A),
+    Color(0xFFB9C3CE),
+    Color(0xFFD08A5C),
+  ];
+  static const List<double> _steps = <double>[64, 44, 30];
+
+  @override
+  Widget build(BuildContext context) {
+    final List<int> order = <int>[
+      if (scores.length > 1) 1,
+      0,
+      if (scores.length > 2) 2,
+    ];
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      spacing: UiSpace.sm,
+      children: <Widget>[
+        for (final int index in order)
+          Expanded(
+            child: _Step(
+              score: scores[index],
+              metal: _metals[index],
+              step: _steps[index],
+              winner: index == 0,
+              onTap: () => onOpen(scores[index]),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+final class _Step extends StatelessWidget {
+  const _Step({
+    required this.score,
+    required this.metal,
+    required this.step,
+    required this.winner,
+    required this.onTap,
+  });
+  final DailyChallengeScore score;
+  final Color metal;
+  final double step;
+  final bool winner;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final String locale = context.t.localeName;
+    final double avatar = winner ? 72 : 56;
+    return Semantics(
+      button: true,
+      label: '#${score.position} ${score.username}',
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(UiShape.card),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: UiSpace.xs,
+          children: <Widget>[
+            if (winner)
+              Icon(Icons.emoji_events_rounded, color: metal, size: 22),
+            Container(
+              padding: const EdgeInsets.all(3),
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(UiShape.card),
+                ),
+                color: metal,
+              ),
+              child: SizedBox.square(
+                dimension: avatar,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(UiShape.card - 3),
+                  child: UiImage(
+                    image: score.avatarUri == null
+                        ? null
+                        : AppMedia.image(context, score.avatarUri),
+                    width: avatar,
+                    height: avatar,
+                  ),
+                ),
+              ),
+            ),
+            UiText.titleSmall(
+              score.username,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            UiText.labelMedium(
+              LocalizedCount(score.totalScore, locale: locale).compact,
+              color: metal,
+            ),
+            // The step: chamfered block with the place number.
+            Container(
+              height: step,
+              width: double.infinity,
+              alignment: Alignment.center,
+              decoration: ShapeDecoration(
+                shape: const BeveledRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(UiSpace.sm),
+                    topRight: Radius.circular(UiSpace.sm),
+                  ),
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
+                    metal.withValues(alpha: 0.55),
+                    metal.withValues(alpha: 0.12),
+                  ],
+                ),
+              ),
+              child: UiText.titleLarge(
+                '${score.position}',
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

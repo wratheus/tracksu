@@ -2231,4 +2231,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get navigationHome => 'Accueil';
+
+  @override
+  String get dailyLeaderboardFinal => 'Classement final';
+
+  @override
+  String get spotlightsArchiveHint => 'Classements saisonniers jusqu\'en 2020';
 }

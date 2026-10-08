@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:tracksu/src/_shared/ui/osu_badges.dart';
@@ -134,7 +135,7 @@ final class DailyHistoryScreen extends StatelessWidget {
 }
 
 /// Compact day row: a date block (day number over month) on the left, the
-/// map on the right; no cover so a month of days fits a couple of screens.
+/// map on the right over its faded cover; a month fits a couple of screens.
 final class _DayCard extends StatelessWidget {
   const _DayCard({required this.day, super.key});
   final DailyChallenge day;
@@ -144,8 +145,9 @@ final class _DayCard extends StatelessWidget {
     final ColorScheme colors = Theme.of(context).colorScheme;
     final String locale = context.t.localeName;
     final DateTime? date = day.startsAt?.toLocal();
+    final Uri? cover = day.metadata?.coverUri ?? day.metadata?.bannerUri;
     return UiSurface.card(
-      padding: const EdgeInsets.all(UiSpace.md),
+      padding: EdgeInsets.zero,
       onTap: () {
         final deps = DepsScope.of(context);
         deps.pageCache.write(
@@ -155,7 +157,37 @@ final class _DayCard extends StatelessWidget {
         );
         deps.appRouter.openPastDailyChallenge(context, day.roomId);
       },
-      child: Row(
+      // The day's cover fades in from the right behind the text, so the
+      // list reads as a strip of posters without losing density.
+      child: Stack(
+        children: <Widget>[
+          if (AppMedia.image(context, cover) case final ImageProvider image)
+            Positioned.fill(
+              child: ShaderMask(
+                blendMode: BlendMode.dstIn,
+                shaderCallback: (Rect bounds) => const LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: <Color>[Color(0x00000000), Color(0x59000000)],
+                ).createShader(bounds),
+                child: Image(image: image, fit: BoxFit.cover),
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(UiSpace.md),
+            child: _row(context, colors, locale, date),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _row(
+    BuildContext context,
+    ColorScheme colors,
+    String locale,
+    DateTime? date,
+  ) => Row(
         spacing: UiSpace.md,
         children: <Widget>[
           SizedBox(
@@ -228,7 +260,5 @@ final class _DayCard extends StatelessWidget {
           ),
           Icon(Icons.chevron_right_rounded, color: colors.onSurfaceVariant),
         ],
-      ),
-    );
-  }
+      );
 }

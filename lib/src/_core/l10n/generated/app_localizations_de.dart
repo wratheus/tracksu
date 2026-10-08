@@ -2242,4 +2242,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get navigationHome => 'Start';
+
+  @override
+  String get dailyLeaderboardFinal => 'Endgültige Rangliste';
+
+  @override
+  String get spotlightsArchiveHint => 'Saisonale Charts bis 2020';
 }

@@ -588,5 +588,7 @@
   "forumViews": "{count, plural, one{{count} vista} other{{count} vistas}}",
   "forumPostUnavailable": "Esta publicación no se puede mostrar aquí",
   "settingsImages": "Imágenes",
-  "navigationHome": "Inicio"
+  "navigationHome": "Inicio",
+  "dailyLeaderboardFinal": "Clasificación final",
+  "spotlightsArchiveHint": "Rankings de temporada hasta 2020"
 }

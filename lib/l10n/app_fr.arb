@@ -588,5 +588,7 @@
   "forumViews": "{count, plural, one{{count} vue} other{{count} vues}}",
   "forumPostUnavailable": "Ce message ne peut pas être affiché ici",
   "settingsImages": "Images",
-  "navigationHome": "Accueil"
+  "navigationHome": "Accueil",
+  "dailyLeaderboardFinal": "Classement final",
+  "spotlightsArchiveHint": "Classements saisonniers jusqu'en 2020"
 }

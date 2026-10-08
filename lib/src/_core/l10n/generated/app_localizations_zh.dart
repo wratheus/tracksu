@@ -2128,4 +2128,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get navigationHome => '首页';
+
+  @override
+  String get dailyLeaderboardFinal => '最终排行榜';
+
+  @override
+  String get spotlightsArchiveHint => '截至 2020 年的赛季排行';
 }
