@@ -6,6 +6,7 @@ import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
+import 'package:tracksu/src/_shared/ui/osu_badges.dart';
 import 'package:tracksu/src/beatmap_search/bloc/bloc.dart';
 import 'package:tracksu/src/beatmap_search/widgets/screen.dart';
 import 'package:tracksu/src/profile/domain/profile_params.dart';
@@ -302,10 +303,28 @@ final class _Players extends StatelessWidget {
               itemCount: state.items.length,
               itemBuilder: (context, index) {
                 final SearchPlayer player = state.items[index];
-                return UiTile.navigation(
+                // Flag after the name, as on osu.ppy.sh; no country code.
+                return ListTile(
                   key: ValueKey(player.id),
-                  title: player.username,
-                  subtitle: player.country,
+                  enabled: onOpen != null,
+                  title: Row(
+                    spacing: UiSpace.sm,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          player.username,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      if (player.country.isNotEmpty)
+                        OsuCountryFlag(
+                          code: player.country,
+                          label: context.t.profileCountry(player.country),
+                        ),
+                    ],
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
                   leading: ClipOval(
                     child: UiImage(
                       image: player.avatarUrl == null
