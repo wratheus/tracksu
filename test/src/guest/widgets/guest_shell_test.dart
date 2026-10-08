@@ -35,7 +35,7 @@ void main() {
 
   setUp(() {
     router = GoRouter(
-      initialLocation: '/search',
+      initialLocation: '/home',
       routes: <RouteBase>[
         StatefulShellRoute.indexedStack(
           builder: (
@@ -97,59 +97,83 @@ void main() {
     matching: find.text(label),
   );
 
+  /// The search tab is a round icon button labelled only by its tooltip.
+  Finder searchTab() => find.descendant(
+    of: find.byType(UiNavigationBar),
+    matching: find.byTooltip(t.navigationSearch),
+  );
+
   testWidgets('reselect scrolls only the active root; other tab retained', (
     WidgetTester tester,
   ) async {
     await pumpShell(tester);
-    position(tester, ShellTab.search).jumpTo(3000);
+    position(tester, ShellTab.home).jumpTo(3000);
 
     await tester.tap(tabLabel(t.rankingsTitle));
     await tester.pumpAndSettle();
     expect(position(tester, ShellTab.rankings).pixels, 0);
     position(tester, ShellTab.rankings).jumpTo(2000);
 
-    await tester.tap(tabLabel(t.navigationSearch));
+    await tester.tap(tabLabel(t.navigationHome));
     await tester.pumpAndSettle();
-    expect(position(tester, ShellTab.search).pixels, 3000);
+    expect(position(tester, ShellTab.home).pixels, 3000);
 
-    await tester.tap(tabLabel(t.navigationSearch));
+    await tester.tap(tabLabel(t.navigationHome));
     await tester.pumpAndSettle();
 
-    expect(position(tester, ShellTab.search).pixels, 0);
+    expect(position(tester, ShellTab.home).pixels, 0);
     expect(position(tester, ShellTab.rankings).pixels, 2000);
+  });
+
+  testWidgets('the round search button selects and reselects its branch', (
+    WidgetTester tester,
+  ) async {
+    await pumpShell(tester);
+    position(tester, ShellTab.home).jumpTo(1500);
+
+    await tester.tap(searchTab());
+    await tester.pumpAndSettle();
+    expect(position(tester, ShellTab.find).pixels, 0);
+    position(tester, ShellTab.find).jumpTo(3000);
+
+    await tester.tap(searchTab());
+    await tester.pumpAndSettle();
+
+    expect(position(tester, ShellTab.find).pixels, 0);
+    expect(position(tester, ShellTab.home).pixels, 1500);
   });
 
   testWidgets('reselect from details returns to root and scrolls it to top', (
     WidgetTester tester,
   ) async {
     await pumpShell(tester);
-    await tester.tap(tabLabel(t.newsTitle));
+    await tester.tap(tabLabel(t.hubTitle));
     await tester.pumpAndSettle();
     position(tester, ShellTab.news).jumpTo(3000);
-    position(tester, ShellTab.search).jumpTo(1500);
+    position(tester, ShellTab.home).jumpTo(1500);
     router.go('/news/details');
     await tester.pumpAndSettle();
     expect(find.text('details'), findsOneWidget);
 
-    await tester.tap(tabLabel(t.newsTitle));
+    await tester.tap(tabLabel(t.hubTitle));
     await tester.pumpAndSettle();
 
     expect(find.text('details'), findsNothing);
     expect(position(tester, ShellTab.news).pixels, 0);
-    expect(position(tester, ShellTab.search).pixels, 1500);
+    expect(position(tester, ShellTab.home).pixels, 1500);
   });
 
   testWidgets('a reselect superseded by a tab switch scrolls nothing', (
     WidgetTester tester,
   ) async {
     await pumpShell(tester);
-    position(tester, ShellTab.search).jumpTo(3000);
+    position(tester, ShellTab.home).jumpTo(3000);
 
-    await tester.tap(tabLabel(t.navigationSearch));
+    await tester.tap(tabLabel(t.navigationHome));
     await tester.tap(tabLabel(t.rankingsTitle));
     await tester.pumpAndSettle();
 
-    expect(position(tester, ShellTab.search).pixels, 3000);
+    expect(position(tester, ShellTab.home).pixels, 3000);
     expect(position(tester, ShellTab.rankings).pixels, 0);
 
     await tester.pumpWidget(const SizedBox.shrink());

@@ -6,7 +6,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+import 'package:tracksu/src/_core/cache/page_cache.dart';
+import 'package:tracksu/src/_core/dependencies/deps_container.dart';
+import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/generated/app_localizations.dart';
+import 'package:tracksu/src/_core/l10n/locale_controller.dart';
+import 'package:tracksu/src/_core/router/app_router.dart';
+import 'package:tracksu/src/_core/theme/theme_controller.dart';
+import 'package:tracksu/src/_shared/audio/audio_playback_controller.dart';
+import 'package:tracksu/src/_shared/content/content_media_controller.dart';
+import 'package:tracksu/src/_shared/media/cache_preference_controller.dart';
+import 'package:tracksu/src/_shared/media/data/media_cache_repository.dart';
+import 'package:tracksu/src/_shared/sharing/share_service.dart';
+import 'package:tracksu/src/auth/data/local_osu_oauth_client_credentials.dart';
+import 'package:tracksu/src/auth/domain/auth_repository.dart';
+import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
 import 'package:tracksu/src/beatmap_search/bloc/bloc.dart';
 import 'package:tracksu/src/beatmap_search/domain/beatmap_search.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
@@ -17,8 +31,12 @@ import 'package:tracksu/src/search/data/repository_impl.dart';
 import 'package:tracksu/src/search/domain/user_search.dart';
 import 'package:tracksu/src/search/domain/search_params.dart';
 import 'package:tracksu/src/search/widgets/screen.dart';
+import 'package:tracksu/src/session/session_controller.dart';
+import 'package:tracksu/src/wiki/data/wiki_repository.dart';
+import 'package:tracksu/src/wiki/search/bloc/bloc.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
 import 'package:tracksu_network/tracksu_network.dart';
+import 'package:tracksu_storage/tracksu_storage.dart';
 
 SearchPlayer player(int id) =>
     SearchPlayer(id: id, username: 'Player $id', country: 'JP');
@@ -62,6 +80,73 @@ final class Maps implements BeatmapSearchRepository {
     calls.add(query);
     return BeatmapSearchPage(items: [], cursor: null);
   }
+}
+
+/// Collaborators the search screen never calls in these tests.
+abstract class _Unused {
+  @override
+  dynamic noSuchMethod(Invocation invocation) =>
+      throw UnimplementedError('${invocation.memberName}');
+}
+
+final class _Tokens extends _Unused implements TokenStore {}
+
+final class _Locales extends _Unused implements LocaleStore {}
+
+final class _Themes extends _Unused implements ThemeStore {}
+
+final class _CachePreferences extends _Unused implements CachePreferenceStore {}
+
+final class _MediaPermission extends _Unused implements ContentMediaStore {}
+
+final class _Transactions extends _Unused implements OAuthTransactionStore {}
+
+final class _Auth extends _Unused implements AuthRepository {}
+
+final class _Links extends _Unused implements OAuthCallbackLinkSource {}
+
+/// AppBarActions' account button reads [DepsScope]; signed out, offline.
+DepsContainer _deps() {
+  final RestClient rest = HttpRestClient(
+    baseUri: Uri.https('osu.ppy.sh', '/api/v2'),
+    client: MockClient((_) async => http.Response('', 404)),
+  );
+  final SessionController session = SessionController(tokenStore: _Tokens());
+  final MediaCacheRepository media = MediaCacheRepository();
+  final AudioPlaybackController audio = AudioPlaybackController(
+    repository: media,
+  );
+  final PageCache pages = PageCache(
+    identityRevision: () => session.identityRevision,
+  );
+  return DepsContainer(
+    appRouter: TracksuAppRouter(),
+    pageCache: pages,
+    mediaCache: media,
+    audioPlaybackController: audio,
+    localeController: LocaleController(localeStore: _Locales()),
+    themeController: ThemeController(store: _Themes()),
+    contentMediaController: ContentMediaController(
+      store: _MediaPermission(),
+      repository: media,
+    ),
+    cachePreference: CachePreferenceController(
+      store: _CachePreferences(),
+      pageCache: pages,
+      mediaCache: media,
+      audio: audio,
+    ),
+    shareService: ShareService(),
+    authRepository: _Auth(),
+    oauthClientCredentials: const LocalOsuOAuthClientCredentials(),
+    oauthCallbackLinkSource: _Links(),
+    oauthRestClient: rest,
+    oauthTransactionStore: _Transactions(),
+    publicRestClient: rest,
+    restClient: rest,
+    sessionController: session,
+    tokenStore: _Tokens(),
+  );
 }
 
 void main() {
@@ -228,6 +313,7 @@ void main() {
     double scale = 1,
     Brightness brightness = Brightness.light,
   }) async {
+    final DepsContainer deps = _deps();
     await tester.pumpWidget(
       MaterialApp(
         locale: const Locale('en'),
@@ -241,19 +327,32 @@ void main() {
               .copyWith(textScaler: TextScaler.linear(scale)),
           child: child!,
         ),
-        home: RepositoryProvider<UserSearchRepository>.value(
-          value: users,
-          child: MultiBlocProvider(
-            providers: [
-              BlocProvider(create: (_) => UserSearchBloc(repository: users)),
-              BlocProvider(
-                create: (_) =>
-                    BeatmapSearchBloc(repository: maps, minimumQueryLength: 2),
+        home: DepsScope(
+          dependencies: deps,
+          child: RepositoryProvider<UserSearchRepository>.value(
+            value: users,
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (_) => UserSearchBloc(repository: users)),
+                BlocProvider(
+                  create: (_) => BeatmapSearchBloc(
+                    repository: maps,
+                    minimumQueryLength: 2,
+                  ),
+                ),
+                BlocProvider(
+                  create: (_) => WikiSearchBloc(
+                    repository: WikiRepository(
+                      restClient: deps.publicRestClient,
+                    ),
+                    locale: () => 'en',
+                  ),
+                ),
+              ],
+              child: const SearchScreen(
+                initialText: '',
+                initialTab: SearchTab.players,
               ),
-            ],
-            child: const SearchScreen(
-              initialText: '',
-              initialTab: SearchTab.players,
             ),
           ),
         ),
