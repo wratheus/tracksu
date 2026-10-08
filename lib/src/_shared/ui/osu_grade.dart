@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/ui/osu_colors.dart';
@@ -55,7 +53,7 @@ final class OsuGradeBadge extends StatelessWidget {
 
   /// `DrawableRank.GetRankLetterColour`: gradients top → bottom.
   static List<Color> _letterColours(String grade) => switch (_normal(grade)) {
-    'XH' || 'SH' => const <Color>[Color(0xFFFFFFFF), Color(0xFFAFDFF0)],
+    'XH' || 'SH' => const <Color>[Color(0xFFFFFFFF), Color(0xFFAADFF0)],
     'X' || 'S' => const <Color>[Color(0xFFFFE7A8), Color(0xFFFFB800)],
     'A' => const <Color>[Color(0xFF275227), Color(0xFF275227)],
     'B' => const <Color>[Color(0xFF553A2B), Color(0xFF553A2B)],
@@ -65,99 +63,144 @@ final class OsuGradeBadge extends StatelessWidget {
   };
 
   @override
-  Widget build(BuildContext context) {
-    final Color background = _background(grade);
-    final List<Color> letterColours = _letterColours(grade);
-    final String text = letter(grade);
-    final double fontSize = height * .74;
-    return Semantics(
-      label: label ?? semanticLabel(context, grade),
-      excludeSemantics: true,
-      child: SizedBox(
-        width: height * 2,
-        height: height,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(height / 2),
-          child: CustomPaint(
-            painter: _GradeTrianglesPainter(
-              background: background,
-              seed: _normal(grade).hashCode,
-            ),
-            child: Center(
-              child: Text(
-                text,
-                maxLines: 1,
-                textScaler: TextScaler.noScaling,
-                style: TextStyle(
-                  fontFamily: 'Exo 2',
-                  fontSize: fontSize,
-                  height: 1,
-                  fontWeight: FontWeight.w900,
-                  // Exo 2 is a variable font: weight comes from the axis.
-                  fontVariations: const <FontVariation>[FontVariation.weight(900)],
-                  letterSpacing: -height * .04,
-                  // Gradient over the glyph box only; shadows keep their
-                  // own colour (a ShaderMask would tint them too).
-                  foreground: Paint()
-                    ..shader = LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: letterColours,
-                    ).createShader(Rect.fromLTWH(0, 0, height * 2, fontSize)),
-                  shadows: <Shadow>[
-                    Shadow(
-                      color: Colors.black.withValues(alpha: .3),
-                      offset: Offset(0, height * .06),
-                      blurRadius: height * .08,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+  Widget build(BuildContext context) => Semantics(
+    label: label ?? semanticLabel(context, grade),
+    excludeSemantics: true,
+    child: SizedBox(
+      width: height * 2,
+      height: height,
+      child: CustomPaint(
+        painter: _GradePainter(
+          grade: _normal(grade),
+          letter: letter(grade),
+          background: _background(grade),
+          letterColours: _letterColours(grade),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
 
-/// lazer's `Triangles` background frozen in place: a few triangles a shade
-/// darker or lighter than the grade colour. Deterministic per grade so lists
-/// do not shimmer on rebuild.
-final class _GradeTrianglesPainter extends CustomPainter {
-  const _GradeTrianglesPainter({required this.background, required this.seed});
+/// Draws the badge in proportions measured from the osu! website grades
+/// (32×16): capitals take 55 % of the height, centred slightly above the
+/// middle, wide letters with a dark copy one sixteenth lower for S/SS. The
+/// artwork itself is not used (osu-web is AGPL); shapes and font are ours.
+final class _GradePainter extends CustomPainter {
+  const _GradePainter({
+    required this.grade,
+    required this.letter,
+    required this.background,
+    required this.letterColours,
+  });
+
+  final String grade;
+  final String letter;
   final Color background;
-  final int seed;
+  final List<Color> letterColours;
+
+  /// Exo 2 capital height in em (OS/2 sCapHeight 690 / 1000 units).
+  static const double _capHeight = .69;
+
+  bool get _shadowed => switch (grade) {
+    'X' || 'XH' || 'S' || 'SH' || 'F' => true,
+    _ => false,
+  };
+
+  static Color _shade(Color colour, double delta) {
+    final HSLColor hsl = HSLColor.fromColor(colour);
+    return hsl.withLightness((hsl.lightness + delta).clamp(0.0, 1.0)).toColor();
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawRect(Offset.zero & size, Paint()..color = background);
-    final HSLColor base = HSLColor.fromColor(background);
-    final Color dark = base
-        .withLightness((base.lightness - .06).clamp(0, 1))
-        .toColor();
-    final Color light = base
-        .withLightness((base.lightness + .06).clamp(0, 1))
-        .toColor();
-    final math.Random random = math.Random(seed);
-    final Paint paint = Paint();
-    for (int i = 0; i < 9; i++) {
-      final double side = size.height * (.35 + random.nextDouble() * .7);
-      final double x = random.nextDouble() * size.width;
-      final double y = random.nextDouble() * (size.height + side) - side / 2;
-      paint.color = (random.nextBool() ? dark : light).withValues(alpha: .7);
+    final double h = size.height;
+    final double w = size.width;
+    final RRect pill = RRect.fromRectAndRadius(
+      Offset.zero & size,
+      Radius.circular(h / 2),
+    );
+    canvas.save();
+    canvas.clipRRect(pill);
+    canvas.drawRect(Offset.zero & size, Paint()..color = _shade(background, -.04));
+    void triangle(double cx, double top, double side, Color colour) {
+      final double half = side / 1.732;
       canvas.drawPath(
         Path()
-          ..moveTo(x, y)
-          ..lineTo(x - side * .58, y + side)
-          ..lineTo(x + side * .58, y + side)
+          ..moveTo(cx, top)
+          ..lineTo(cx + half, top + side)
+          ..lineTo(cx - half, top + side)
           ..close(),
-        paint,
+        Paint()..color = colour,
       );
     }
+
+    // lazer-style triangles: one large in the grade colour, three darker.
+    triangle(w * .52, -h * .55, h * 1.9, background);
+    triangle(w * .88, h * .15, h * .7, _shade(background, -.06));
+    triangle(w * .2, -h * .2, h * .45, _shade(background, -.08));
+    triangle(w * .3, h * .78, h * .45, _shade(background, -.08));
+    canvas.restore();
+
+    final double fontSize = h * .55 / _capHeight;
+    final double spacing = fontSize * .04;
+    TextPainter layout(Paint? foreground, Color? colour) => TextPainter(
+      text: TextSpan(
+        text: letter,
+        style: TextStyle(
+          fontFamily: 'Exo 2',
+          fontSize: fontSize,
+          fontWeight: FontWeight.w600,
+          fontVariations: const <FontVariation>[FontVariation.weight(600)],
+          letterSpacing: spacing,
+          color: colour,
+          foreground: foreground,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+      textScaler: TextScaler.noScaling,
+      maxLines: 1,
+    )..layout();
+
+    final TextPainter probe = layout(null, const Color(0xFF000000));
+    final double baseline = probe.computeDistanceToActualBaseline(
+      TextBaseline.alphabetic,
+    );
+    final double capTop = baseline - fontSize * _capHeight;
+    // Capitals centred at 48 % of the height, as on the website.
+    final double top = h * .48 - (capTop + fontSize * _capHeight / 2);
+    final double inkWidth = probe.width - spacing;
+    final Paint fill = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: letterColours,
+      ).createShader(
+        Rect.fromLTRB(0, capTop - h * .08, probe.width, capTop + h * .79),
+      );
+
+    canvas.save();
+    canvas.translate(w / 2, top);
+    // Wide letters like the website's grade font.
+    canvas.scale(1.4, 1);
+    final Offset origin = Offset(-inkWidth / 2, 0);
+    if (_shadowed) {
+      final TextPainter shadow = layout(
+        null,
+        _shade(background, -.32).withValues(alpha: .5),
+      );
+      shadow.paint(canvas, origin.translate(0, h / 16));
+      shadow.dispose();
+    }
+    final TextPainter face = layout(fill, null);
+    face.paint(canvas, origin);
+    face.dispose();
+    probe.dispose();
+    canvas.restore();
   }
 
   @override
-  bool shouldRepaint(_GradeTrianglesPainter old) =>
-      old.background != background || old.seed != seed;
+  bool shouldRepaint(_GradePainter old) =>
+      old.grade != grade ||
+      old.letter != letter ||
+      old.background != background;
 }
