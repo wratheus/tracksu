@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:tracksu/src/_shared/events/domain/osu_event.dart';
 import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/profile/activity/domain/activity.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
@@ -82,10 +83,10 @@ final class ProfileActivityBloc
       if (operation == ProfileActivityOperation.refresh) {
         _cache.write(cacheKey, page, revision: cacheRevision);
       }
-      final Map<int, ProfileActivity> unique = <int, ProfileActivity>{
+      final Map<int, OsuEvent> unique = <int, OsuEvent>{
         if (operation == ProfileActivityOperation.loadMore && previous != null)
-          for (final ProfileActivity item in previous.items) item.id: item,
-        for (final ProfileActivity item in page.items) item.id: item,
+          for (final OsuEvent item in previous.items) item.id: item,
+        for (final OsuEvent item in page.items) item.id: item,
       };
       emit(
         ProfileActivityLoadedState(

@@ -1,5 +1,6 @@
+import 'package:tracksu/src/_shared/events/domain/osu_event.dart';
 import 'package:tracksu/src/auth/data/oauth_remote_source_exception.dart';
-import 'package:tracksu/src/profile/activity/data/dto.dart';
+import 'package:tracksu/src/_shared/events/data/osu_event_dto.dart';
 import 'package:tracksu/src/profile/activity/data/remote_source.dart';
 import 'package:tracksu/src/profile/activity/domain/activity.dart';
 import 'package:tracksu_network/tracksu_network.dart';
@@ -35,12 +36,12 @@ final class ProfileActivityRepositoryImpl implements ProfileActivityRepository {
           ProfileActivityFailureKind.cancelled,
         );
       }
-      final List<ProfileActivity> items = <ProfileActivity>[];
+      final List<OsuEvent> items = <OsuEvent>[];
       for (final Object? item in payload) {
         if (item is! Map<String, dynamic>) {
           throw const FormatException('Expected an event object.');
         }
-        if (ProfileActivityDto.fromJson(item) case final ProfileActivity a) {
+        if (OsuEventDto.fromJson(item) case final OsuEvent a) {
           items.add(a);
         }
       }
