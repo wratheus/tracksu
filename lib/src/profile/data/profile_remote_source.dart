@@ -9,7 +9,7 @@ abstract interface class ProfileRemoteSource {
 
   Future<Map<String, dynamic>> getProfile({
     required String userIdentifier,
-    required ProfileRuleset ruleset,
+    required ProfileRuleset? ruleset,
     RestClientOptions options = const RestClientOptions(),
   });
 }

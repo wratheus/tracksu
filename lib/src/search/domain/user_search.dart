@@ -1,3 +1,4 @@
+import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 
 final class SearchPlayer {
@@ -7,12 +8,20 @@ final class SearchPlayer {
     required this.country,
     this.avatarUrl,
     this.ruleset,
+    this.team,
+    this.isOnline = false,
+    this.isSupporter = false,
   });
   final int id;
   final String username;
   final String country;
   final String? avatarUrl;
   final ProfileRuleset? ruleset;
+
+  /// Present when the API includes it in compact users.
+  final ProfileTeam? team;
+  final bool isOnline;
+  final bool isSupporter;
 }
 
 final class UserSearchPage {

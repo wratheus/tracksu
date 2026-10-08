@@ -2,17 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tracksu/src/wiki/bloc/wiki_search_bloc.dart';
+import 'package:tracksu/src/wiki/search/bloc/bloc.dart';
 import 'package:tracksu/src/wiki/widgets/wiki_search_results.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
+import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
+import 'package:tracksu/src/_shared/ui/avatar_bands.dart';
 import 'package:tracksu/src/_shared/ui/osu_badges.dart';
 import 'package:tracksu/src/beatmap_search/bloc/bloc.dart';
 import 'package:tracksu/src/beatmap_search/widgets/screen.dart';
 import 'package:tracksu/src/profile/domain/profile_params.dart';
-import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
 import 'package:tracksu/src/search/bloc/bloc.dart';
 import 'package:tracksu/src/search/domain/user_search.dart';
@@ -129,19 +130,18 @@ final class _SearchScreenState extends State<SearchScreen> {
       _openFailure = null;
     });
     try {
-      // Compact search rows may omit playmode. Resolve the user's own mode
-      // before opening the existing, explicitly-mode-scoped profile route.
-      final SearchPlayer resolved = await context
-          .read<UserSearchBloc>()
-          .resolve(player);
-      if (!mounted || generation != _generation) return;
-      await DepsScope.of(context).appRouter.openProfile(
+      // Compact rows omit playmode: open the player's own main mode
+      // directly instead of looking it up first (one request, no wait).
+      final ProfileUserId user = ProfileUserId(player.id);
+      final Future<void> opening = DepsScope.of(context).appRouter.openProfile(
         context,
-        ProfileParams(
-          user: ProfileUserId(resolved.id),
-          ruleset: resolved.ruleset ?? ProfileRuleset.osu,
-        ),
+        player.ruleset == null
+            ? ProfileParams.defaultMode(user: user)
+            : ProfileParams(user: user, ruleset: player.ruleset),
       );
+      // The row is free again as soon as the profile route is pushed.
+      setState(() => _opening = false);
+      await opening;
     } on Object catch (error) {
       if (mounted && generation == _generation) {
         setState(
@@ -204,6 +204,8 @@ final class _SearchScreenState extends State<SearchScreen> {
                   SearchTab.wiki => context.t.wikiSearchHint,
                 },
                 clearLabel: context.t.searchClear,
+                // Opening search means typing: the keyboard comes up at once.
+                autofocus: true,
                 onSubmitted: (_) => _submit(),
               ),
             ),
@@ -329,39 +331,59 @@ final class _Players extends StatelessWidget {
               itemCount: state.items.length,
               itemBuilder: (context, index) {
                 final SearchPlayer player = state.items[index];
-                // Flag after the name, as on osu.ppy.sh; no country code.
-                return ListTile(
+                // Same geometry as ranking rows: rounded square avatar,
+                // the name on its top edge, flags (and team) on its bottom.
+                return UiSurface.card(
                   key: ValueKey(player.id),
-                  enabled: onOpen != null,
-                  title: Row(
-                    spacing: UiSpace.sm,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          player.username,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      if (player.country.isNotEmpty)
-                        OsuCountryFlag(
-                          code: player.country,
-                          label: context.t.profileCountry(player.country),
-                        ),
-                    ],
-                  ),
-                  trailing: const Icon(Icons.chevron_right),
-                  leading: ClipOval(
-                    child: UiImage(
+                  onTap: onOpen == null ? null : () => onOpen!(player),
+                  padding: const EdgeInsets.all(UiSpace.md),
+                  child: OsuAvatarBands(
+                    avatar: UiAvatar.row(
+                      name: player.username,
                       image: player.avatarUrl == null
                           ? null
-                          : NetworkImage(player.avatarUrl!),
-                      width: 44,
-                      height: 44,
-                      fallbackIcon: Icons.person_outline,
+                          : AppMedia.image(
+                              context,
+                              Uri.parse(player.avatarUrl!),
+                            ),
+                    ),
+                    top: Row(
+                      spacing: UiSpace.sm,
+                      children: [
+                        Flexible(
+                          child: UiText.titleMedium(
+                            player.username,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (player.isSupporter)
+                          const OsuSupporterHeart(size: 14),
+                        if (player.isOnline)
+                          Semantics(
+                            label: context.t.profileOnline,
+                            child: Container(
+                              width: 8,
+                              height: 8,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFB3D944),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    bottom: Align(
+                      alignment: AlignmentDirectional.bottomStart,
+                      child: OsuPlayerFlags(
+                        countryCode: player.country.isEmpty
+                            ? null
+                            : player.country,
+                        team: player.team,
+                        bottomAligned: true,
+                      ),
                     ),
                   ),
-                  onTap: onOpen == null ? null : () => onOpen!(player),
                 );
               },
             ),

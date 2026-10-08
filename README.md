@@ -158,7 +158,8 @@ without signing in; osu! OAuth can optionally be used to open your own profile.
   Typing two or more characters searches after 400 ms; Enter searches immediately.
   Switching tabs keeps the text and queries only the active tab. Empty input
   makes no search request. Old requests are cancelled and results cache for two minutes.
-- Players appear as avatar/name/country rows; up to 100 matching accounts are
+- The field is focused on open. Players appear as cards: rounded avatar,
+  name with supporter/online marks, country and team flags; up to 100 matching accounts are
   accessible through the API. A numeric ID or an `@username` performs an exact lookup.
   Profiles open in the player's preferred mode; statistics modes switch in the profile.
 - Maps keep the existing cards, pagination and mode/status/genre/language filters.

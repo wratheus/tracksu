@@ -200,7 +200,7 @@ final class TracksuAppRouter {
       ProfileUsername(:final value) => ('name', value),
     };
     await config.push<void>(
-      '$_branchPath/profile/$kind/${Uri.encodeComponent(value)}/${params.ruleset.apiValue}',
+      '$_branchPath/profile/$kind/${Uri.encodeComponent(value)}/${params.ruleset?.apiValue ?? _defaultMode}',
     );
   }
 
@@ -320,10 +320,16 @@ final class TracksuAppRouter {
       .where((ProfileRuleset mode) => mode.apiValue == value)
       .firstOrNull;
 
+  /// Route segment for "the player's own main mode".
+  static const String _defaultMode = 'default';
+
   static ProfileParams? _profileParams(GoRouterState state) {
-    final ProfileRuleset? ruleset = _ruleset(state.pathParameters['ruleset']);
+    final String? mode = state.pathParameters['ruleset'];
+    final ProfileRuleset? ruleset = _ruleset(mode);
     final String? value = state.pathParameters['user'];
-    if (ruleset == null || value == null) return null;
+    if ((ruleset == null && mode != _defaultMode) || value == null) {
+      return null;
+    }
     try {
       final ProfileUserReference? user = switch (state.pathParameters['kind']) {
         'id' when _positiveId(value) != null => ProfileUserId(

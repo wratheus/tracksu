@@ -10,6 +10,7 @@ final class ProfileDto {
     required this.countryCode,
     required this.isOnline,
     required this.isSupporter,
+    this.playmode,
     required this.statistics,
     required this.coverUrl,
     required this.rankHistory,
@@ -29,6 +30,7 @@ final class ProfileDto {
       countryCode: reader.requiredString('country_code'),
       isOnline: reader.requiredBool('is_online'),
       isSupporter: reader.requiredBool('is_supporter'),
+      playmode: reader.optionalString('playmode'),
       page: switch (json['page']) {
         null => null,
         final Map<String, dynamic> value => ContentPageDto.profile(value),
@@ -67,6 +69,7 @@ final class ProfileDto {
   final String countryCode;
   final bool isOnline;
   final bool isSupporter;
+  final String? playmode;
   final ProfileStatisticsDto? statistics;
   final String? coverUrl;
   final ProfileRankHistoryDto? rankHistory;

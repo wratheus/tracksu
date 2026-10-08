@@ -49,25 +49,6 @@ final class UserSearchBloc extends Bloc<UserSearchEvent, UserSearchState> {
   final Map<String, (DateTime, UserSearchState)> _cache = {};
   int _generation = 0;
 
-  Future<SearchPlayer> resolve(SearchPlayer player) async {
-    if (player.ruleset != null) return player;
-    try {
-      return await _repository.lookup(player.id.toString());
-    } on Object catch (error, stack) {
-      if (!isClosed) {
-        addError(
-          UserSearchFailure(
-            error is UserSearchFailure
-                ? error.kind
-                : UserSearchFailureKind.unavailable,
-          ),
-          stack,
-        );
-      }
-      rethrow;
-    }
-  }
-
   @override
   Future<void> close() {
     _generation++;

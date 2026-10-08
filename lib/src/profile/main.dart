@@ -21,7 +21,9 @@ final class ProfileMain extends StatelessWidget {
       create: (_) {
         final ProfileBloc bloc = ProfileBloc(
           cache: DepsScope.of(context).pageCache,
-          initialRuleset: params?.ruleset ?? ProfileRuleset.osu,
+          initialRuleset: params == null
+              ? ProfileRuleset.osu
+              : params!.ruleset,
           repository: ProfileRepositoryImpl(
             remoteSource: OsuProfileRemoteSource(
               restClient: deps.restClient,

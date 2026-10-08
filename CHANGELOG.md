@@ -4,6 +4,18 @@
 
 ### Search, events and wiki fixes
 
+- The search field is focused when Search opens. Player rows match other
+  tiles: rounded square avatar, name with supporter and online marks,
+  country and team flags below.
+- Opening a player from search no longer waits for an extra lookup: the
+  profile loads in the player's default mode in one request.
+- Events no longer hammer the API: automatic paging only for "All" or a
+  group with 15+ rows, otherwise a "Load older" button; at most one page
+  request per second.
+- Wiki `::: Infobox` / `::: Notice` blocks render as framed boxes.
+
+### Search, events and wiki fixes
+
 - Events no longer hammer the API: automatic paging only for "All" or a
   group with 15+ rows, otherwise a "Load older" button; at most one page
   request per second.

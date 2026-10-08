@@ -1,3 +1,4 @@
+import 'package:tracksu/src/profile/domain/profile_details.dart';
 import 'package:tracksu/src/_core/serialization/json_map_reader.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/profile/domain/profile_user_reference.dart';
@@ -100,7 +101,28 @@ final class UserSearchRepositoryImpl implements UserSearchRepository {
       ruleset: ProfileRuleset.values
           .where((value) => value.apiValue == mode)
           .firstOrNull,
+      team: _team(reader.optionalMap('team')),
+      isOnline: reader.optionalBool('is_online') ?? false,
+      isSupporter: reader.optionalBool('is_supporter') ?? false,
     );
+  }
+
+  /// Optional decoration: a malformed team never hides the player.
+  static ProfileTeam? _team(Map<String, dynamic>? raw) {
+    if (raw == null) return null;
+    try {
+      final JsonMapReader reader = JsonMapReader(raw);
+      final String? flag = reader.optionalString('flag_url');
+      final Uri? flagUri = flag == null ? null : Uri.tryParse(flag);
+      return ProfileTeam(
+        id: reader.requiredInt('id', positive: true),
+        name: reader.requiredString('name'),
+        shortName: reader.requiredString('short_name'),
+        flagUri: flagUri != null && flagUri.isScheme('https') ? flagUri : null,
+      );
+    } on FormatException {
+      return null;
+    }
   }
 
   static UserSearchPage decode(Map<String, dynamic> raw) {

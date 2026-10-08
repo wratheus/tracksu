@@ -11,14 +11,18 @@ part 'event.dart';
 part 'state.dart';
 
 final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
+  /// [initialRuleset] null opens the player in their own main mode.
   factory ProfileBloc({
     required ProfileRepository repository,
     required PageCache cache,
-    ProfileRuleset initialRuleset = ProfileRuleset.osu,
+    ProfileRuleset? initialRuleset = ProfileRuleset.osu,
   }) => ProfileBloc._(repository, cache, initialRuleset);
 
-  ProfileBloc._(this._repository, this._cache, ProfileRuleset initialRuleset)
-    : super(ProfileInitialState(ruleset: initialRuleset)) {
+  ProfileBloc._(this._repository, this._cache, ProfileRuleset? initialRuleset)
+    : _followDefault = initialRuleset == null,
+      super(
+        ProfileInitialState(ruleset: initialRuleset ?? ProfileRuleset.osu),
+      ) {
     // One concurrent event bucket, latest-wins across search AND ruleset.
     // A generation guard covers completions; the repository aborts old IO.
     on<ProfileEvent>(_onEvent);
@@ -30,8 +34,11 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   bool _hasTarget = false;
   int _generation = 0;
 
+  /// Until the first profile arrives, ask for the player's main mode.
+  bool _followDefault;
+
   Future<void> _onEvent(ProfileEvent event, Emitter<ProfileState> emit) async {
-    final ProfileRuleset ruleset;
+    ProfileRuleset ruleset;
     ProfileLoadedState? previous;
     switch (event) {
       case ProfileLookupRequested(:final user):
@@ -76,11 +83,12 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
     final int generation = ++_generation;
     final ProfileUserReference? user = _user;
+    final bool followDefault = _followDefault && user != null;
     final Object cacheKey = (
       'profile',
       user.runtimeType,
       user?.apiValue,
-      ruleset,
+      followDefault ? null : ruleset,
     );
     final int cacheRevision = _cache.revision;
     final Profile? cached = _cache.read<Profile>(cacheKey);
@@ -100,9 +108,17 @@ final class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       final Profile profile = user == null
           ? await _repository.getCurrentProfile(ruleset: ruleset)
-          : await _repository.getProfile(user: user, ruleset: ruleset);
+          : await _repository.getProfile(
+              user: user,
+              ruleset: followDefault ? null : ruleset,
+            );
       if (generation != _generation || emit.isDone || isClosed) {
         return;
+      }
+      if (followDefault) {
+        // The answer is in the player's main mode; continue in that mode.
+        _followDefault = false;
+        ruleset = profile.defaultRuleset ?? ruleset;
       }
       // Follow this player's stable ID after resolving a name.
       _cache.write(cacheKey, profile, revision: cacheRevision);

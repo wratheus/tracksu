@@ -18,6 +18,9 @@ extension ProfileDtoMapper on ProfileDto {
       countryCode: countryCode,
       isOnline: isOnline,
       isSupporter: isSupporter,
+      defaultRuleset: ProfileRuleset.values
+          .where((ProfileRuleset mode) => mode.apiValue == playmode)
+          .firstOrNull,
       statistics: statistics?.toDomain(),
       coverUri: _optionalCoverUri(coverUrl),
       rankHistory: rankHistory?.toDomain(),

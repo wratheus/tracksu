@@ -12,6 +12,7 @@ final class UiSearchField extends StatelessWidget {
     this.errorText,
     this.helperText,
     this.enabled = true,
+    this.autofocus = false,
     super.key,
   });
 
@@ -25,6 +26,9 @@ final class UiSearchField extends StatelessWidget {
   final String? helperText;
   final bool enabled;
 
+  /// Opens the keyboard as soon as the field appears (search screens).
+  final bool autofocus;
+
   @override
   Widget build(BuildContext context) =>
       ValueListenableBuilder<TextEditingValue>(
@@ -35,6 +39,7 @@ final class UiSearchField extends StatelessWidget {
                   controller: controller,
                   focusNode: focusNode,
                   enabled: enabled,
+                  autofocus: autofocus,
                   onSubmitted: onSubmitted,
                   onChanged: onChanged,
                   textInputAction: TextInputAction.search,

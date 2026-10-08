@@ -113,3 +113,16 @@ Scope не включает OAuth callback, iPad master-detail, локально
 Также удалено пояснение под «Настройками модов» в подробностях результата
 («Названия параметров сохранены из API…») и ключ
 `scoreModSettingsExplanation` во всех 7 ARB.
+
+## Поиск игроков (2026-10-08, запрос пользователя)
+
+- Поле поиска получает фокус при открытии экрана (`UiSearchField.autofocus`).
+- Строка игрока — как остальные плитки: `UiSurface.card` + `OsuAvatarBands`,
+  квадратный скруглённый аватар (`UiAvatar.row`), ник с сердцем supporter и
+  точкой «в сети», под ним флаг страны и команды (`OsuPlayerFlags`).
+  `SearchPlayer` получил `team`, `isOnline`, `isSupporter` из ответа
+  `/search` (UserCompact: `team`, `is_online`, `is_supporter`).
+- Переход к игроку больше не ждёт lookup режима: профиль открывается сразу
+  (`ProfileParams.defaultMode`, route `…/users/{id}/default`), один запрос
+  `GET /users/{id}` без режима отдаёт статистику режима игрока по умолчанию
+  (`playmode`), Bloc берёт его как текущий ruleset.

@@ -35,12 +35,15 @@ final class OsuProfileRemoteSource implements ProfileRemoteSource {
   @override
   Future<Map<String, dynamic>> getProfile({
     required String userIdentifier,
-    required ProfileRuleset ruleset,
+    required ProfileRuleset? ruleset,
     RestClientOptions options = const RestClientOptions(),
   }) async {
     final String encodedUserIdentifier = Uri.encodeComponent(userIdentifier);
     final RestResponse response = await _publicRestClient.get(
-      path: '/users/$encodedUserIdentifier/${ruleset.apiValue}',
+      // No mode segment: osu! answers in the player's own main mode.
+      path: ruleset == null
+          ? '/users/$encodedUserIdentifier'
+          : '/users/$encodedUserIdentifier/${ruleset.apiValue}',
       options: options,
     );
     if (response.statusCode != 200) {

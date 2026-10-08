@@ -10,6 +10,6 @@ abstract interface class ProfileRepository {
 
   Future<Profile> getProfile({
     required ProfileUserReference user,
-    required ProfileRuleset ruleset,
+    required ProfileRuleset? ruleset,
   });
 }

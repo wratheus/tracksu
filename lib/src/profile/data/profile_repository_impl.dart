@@ -37,7 +37,7 @@ final class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<Profile> getProfile({
     required ProfileUserReference user,
-    required ProfileRuleset ruleset,
+    required ProfileRuleset? ruleset,
   }) {
     return _read(
       (RestClientOptions options) => _remoteSource.getProfile(

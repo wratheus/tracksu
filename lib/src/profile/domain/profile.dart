@@ -19,6 +19,7 @@ final class Profile {
     this.replayHistory,
     this.playHistory,
     this.details,
+    this.defaultRuleset,
   });
 
   final int id;
@@ -34,6 +35,9 @@ final class Profile {
   final ProfileMonthlyHistory? replayHistory;
   final ProfileMonthlyHistory? playHistory;
   final ProfileDetails? details;
+
+  /// The player's main mode (`playmode`), used when opened without a mode.
+  final ProfileRuleset? defaultRuleset;
 }
 
 @immutable
