@@ -54,6 +54,21 @@ enum _ImageFault {
   };
 }
 
+/// Decoded sizes of recent images. A lazy article disposes images that
+/// scroll far away; when one comes back, its box is reserved at the exact
+/// final size instead of a placeholder that then grows, so scrolling back up
+/// does not shake the page while images above re-decode.
+final Map<Uri, Size> _knownSizes = <Uri, Size>{};
+const int _knownSizesLimit = 256;
+
+void _rememberSize(Uri uri, Size size) {
+  _knownSizes.remove(uri);
+  _knownSizes[uri] = size;
+  if (_knownSizes.length > _knownSizesLimit) {
+    _knownSizes.remove(_knownSizes.keys.first);
+  }
+}
+
 /// Mounted lazily by ContentFrame. Owns decoding, not transport policy.
 final class ContentImageView extends StatefulWidget {
   const ContentImageView({required this.image, required this.loader, super.key})
@@ -159,6 +174,9 @@ final class _ContentImageViewState extends State<ContentImageView> {
           width * height > 40000000) {
         throw const MediaDownloadFailure(MediaFailureReason.tooLarge);
       }
+      // Known from the header already: kept even if this view is disposed
+      // before decoding ends (scrolled past quickly).
+      _rememberSize(uri, Size(width.toDouble(), height.toDouble()));
       if (!mounted || _request != request) return;
       final double ratio = _decodeScale(width, height);
       codec = await descriptor.instantiateCodec(
@@ -251,7 +269,35 @@ final class _ContentImageViewState extends State<ContentImageView> {
     final double maxWidth = box.maxWidth.isFinite
         ? box.maxWidth
         : MediaQuery.sizeOf(context).width;
+    // Final width for a raster of [source] size: never above the intrinsic
+    // size, the column, the authored maxima or the screen height.
+    double fit(Size source) {
+      final double aspect = source.width / source.height;
+      double width = math.min(source.width, maxWidth);
+      if (authoredWidth != null) {
+        width = math.min(width, authoredWidth.toDouble());
+      }
+      if (authoredHeight != null) {
+        width = math.min(width, authoredHeight * aspect);
+      }
+      if (width / aspect > maxHeight) width = maxHeight * aspect;
+      return width;
+    }
+
     if (image == null || intrinsic == null) {
+      // Seen before: reserve exactly the box the decoded image will take.
+      if (_fault == null && widget.image.uri != null) {
+        if (_knownSizes[widget.image.uri] case final Size known) {
+          final double width = fit(known);
+          return Center(
+            heightFactor: 1,
+            child: SizedBox(
+              width: width,
+              height: width * known.height / known.width,
+            ),
+          );
+        }
+      }
       // A failed image must not reserve the authored or placeholder area.
       if (_fault != null) {
         return const Center(
@@ -286,14 +332,7 @@ final class _ContentImageViewState extends State<ContentImageView> {
       );
     }
     final double aspect = intrinsic.width / intrinsic.height;
-    double width = math.min(intrinsic.width, maxWidth);
-    if (authoredWidth != null) {
-      width = math.min(width, authoredWidth.toDouble());
-    }
-    if (authoredHeight != null) {
-      width = math.min(width, authoredHeight * aspect);
-    }
-    if (width / aspect > maxHeight) width = maxHeight * aspect;
+    final double width = fit(intrinsic);
     // Integer upscaling of small pixel art stays crisp; downscaling smooths.
     final double scale =
         width * MediaQuery.devicePixelRatioOf(context) / image.width;

@@ -141,8 +141,14 @@ final class _ContentFrameState extends State<ContentFrame>
     },
     itemBuilder: (BuildContext context, int index) {
       final (:ContentBlock block, :int depth) = _visible[index];
-      return Padding(
+      return _KeepBuilt(
         key: ValueKey<int>(block.id),
+        // Text is costly to rebuild (HTML parse, maybe async with a smaller
+        // first frame); rebuilt blocks above the viewport changed height and
+        // shook the page while scrolling back up. Images and video are let
+        // go to bound memory; their boxes come back at the known size.
+        keep: block is! ContentImage && block is! ContentVideo,
+        child: Padding(
         padding: EdgeInsetsDirectional.only(
           start: depth.clamp(0, 3) * UiSpace.sm,
           top: UiSpace.sm,
@@ -221,6 +227,7 @@ final class _ContentFrameState extends State<ContentFrame>
             ),
           ),
         },
+        ),
       );
     },
   );
@@ -280,5 +287,34 @@ final class _ContentFrameState extends State<ContentFrame>
             ),
           ),
     );
+  }
+}
+
+/// Keeps a built block alive once it has been laid out, so scrolling back
+/// does not rebuild it with a different height.
+final class _KeepBuilt extends StatefulWidget {
+  const _KeepBuilt({required this.keep, required this.child, super.key});
+  final bool keep;
+  final Widget child;
+
+  @override
+  State<_KeepBuilt> createState() => _KeepBuiltState();
+}
+
+final class _KeepBuiltState extends State<_KeepBuilt>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => widget.keep;
+
+  @override
+  void didUpdateWidget(_KeepBuilt oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.keep != widget.keep) updateKeepAlive();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
   }
 }

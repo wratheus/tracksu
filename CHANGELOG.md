@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Articles scroll back up smoothly
+
+- News, wiki and forum posts no longer shake when you scroll back up from
+  the comments: text blocks stay built once laid out, and images coming
+  back into view take their exact final size at once instead of growing
+  from a placeholder while they re-decode.
+
 ### Game mode in the app bar (ADR-011)
 
 - The game mode is chosen once, from its icon in the app bar, and kept
