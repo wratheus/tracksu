@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
+import 'package:tracksu_ui/src/widgets/option_row.dart';
 import 'package:tracksu_ui/src/widgets/button.dart';
-import 'package:tracksu_ui/src/widgets/icon_button.dart';
 import 'package:tracksu_ui/src/widgets/text.dart';
-import 'package:tracksu_ui/src/widgets/tile.dart';
 
 @immutable
 final class UiChoice<T extends Object> {
@@ -134,16 +133,23 @@ abstract final class UiModal {
       context,
       title: title,
       useRootNavigator: useRootNavigator,
-      builder: (BuildContext modalContext) => ListView.builder(
+      builder: (BuildContext modalContext) => ListView.separated(
         primary: true,
+        padding: const EdgeInsets.fromLTRB(
+          UiSpace.lg,
+          0,
+          UiSpace.lg,
+          UiSpace.lg,
+        ),
         itemCount: items.length,
+        separatorBuilder: (_, _) => const SizedBox(height: UiSpace.sm),
         itemBuilder: (BuildContext context, int index) {
           final UiChoice<T> item = items[index];
-          return UiTile.selection(
+          return UiOptionRow(
             key: ValueKey<T>(item.value),
-            title: item.label,
+            label: item.label,
             subtitle: item.subtitle,
-            leading: item.icon == null ? null : Icon(item.icon),
+            icon: item.icon,
             selected: item.value == selected,
             onTap: item.enabled
                 ? () => _finish(modalContext, item.value)
@@ -362,8 +368,11 @@ final class _AdaptiveScrollSheetState extends State<_AdaptiveScrollSheet> {
     }
     final double minimum =
         ((render.size.height + UiShape.minTarget) / available).clamp(0.18, 0.9);
+    // Never exactly the minimum: a modal sheet pops when its draggable child
+    // reports the min extent, so a short list fitted to it closed the moment
+    // it opened. Dragging down past it still dismisses.
     _target = ((content + render.size.height + UiSpace.lg) / available).clamp(
-      minimum,
+      (minimum + 0.04).clamp(0, 0.9),
       0.9,
     );
     if (!_scheduled) {

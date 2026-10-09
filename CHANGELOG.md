@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Sheets, pickers, glass
+
+- Short sheets (e.g. "Previously known as") no longer close the moment
+  they open: a sheet fitted exactly to its minimum height was taken for a
+  dismissal. Option lists use the app's chamfered rows with an icon chip
+  and a check for the selected one.
+
 ### Smoother player, glass search, tidy filters
 
 - The preview player glides: the timeline eases between position reports,

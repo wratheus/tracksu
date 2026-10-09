@@ -19,12 +19,20 @@ final class _PreviousNamesButtonState extends State<PreviousNamesButton> {
       await UiModal.scrollable<void>(
         context,
         title: context.t.profilePreviousNames,
-        builder: (_) => ListView.builder(
+        // Same rows as the other sheets, static (nothing to choose).
+        builder: (_) => ListView.separated(
           primary: true,
+          padding: const EdgeInsets.fromLTRB(
+            UiSpace.lg,
+            0,
+            UiSpace.lg,
+            UiSpace.lg,
+          ),
           itemCount: names.length,
-          itemBuilder: (BuildContext context, int index) => ListTile(
-            leading: const Icon(Icons.history),
-            title: UiText.bodyLarge(names[index]),
+          separatorBuilder: (_, _) => const SizedBox(height: UiSpace.sm),
+          itemBuilder: (BuildContext context, int index) => UiOptionRow(
+            label: names[index],
+            icon: Icons.history_rounded,
           ),
         ),
       );
