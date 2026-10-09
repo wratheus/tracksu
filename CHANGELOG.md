@@ -5,8 +5,9 @@
 ### Plans
 
 - Multiplayer matches are next (contract and design prepared, P56).
-- Added to the plan: replay viewing (P57), stats after a pp rebalance
-  (P58), player comparison (P59), widgets (P60), notifications (P61).
+- Added to the plan: replay viewing (P57) and widgets (P58). Stats after a
+  pp rebalance joined the backend ideas; notifications and player
+  comparison were already there.
 
 ### Calmer search, smoother pages
 

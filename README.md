@@ -451,8 +451,9 @@ Android release and physical-device acceptance are separate work.
 
 - Next: multiplayer matches — live and finished matches, games with team
   scores (preparing the contract and design).
-- Planned: replay viewing, stats after a pp rebalance, player comparison,
-  lock-screen and home-screen widgets, notifications.
+- Planned: replay viewing; lock-screen and home-screen widgets.
+- Later, with our own backend: notifications, player comparison with
+  explanations, stats after a pp rebalance.
 - Explore personal score tables and additional leaderboard scopes.
 - Complete the visual system and unified themes.
 - Move production-sensitive OAuth credentials behind a backend service.
