@@ -74,6 +74,46 @@ String languageLabel(BuildContext context, BeatmapLanguage language) =>
       BeatmapLanguage.unspecified => context.t.languageUnspecified,
     };
 
+/// The flag of a song language; null where no country fits (instrumental,
+/// other, unspecified, any), which keep the translate icon.
+Widget? languageFlag(BuildContext context, BeatmapLanguage language) {
+  final String? code = switch (language) {
+    BeatmapLanguage.english => 'GB',
+    BeatmapLanguage.japanese => 'JP',
+    BeatmapLanguage.chinese => 'CN',
+    BeatmapLanguage.korean => 'KR',
+    BeatmapLanguage.french => 'FR',
+    BeatmapLanguage.german => 'DE',
+    BeatmapLanguage.swedish => 'SE',
+    BeatmapLanguage.spanish => 'ES',
+    BeatmapLanguage.italian => 'IT',
+    BeatmapLanguage.russian => 'RU',
+    BeatmapLanguage.polish => 'PL',
+    BeatmapLanguage.instrumental ||
+    BeatmapLanguage.other ||
+    BeatmapLanguage.unspecified ||
+    BeatmapLanguage.any => null,
+  };
+  return code == null
+      ? null
+      : OsuCountryFlag(code: code, label: languageLabel(context, language));
+}
+
+IconData genreIcon(BeatmapGenre genre) => switch (genre) {
+  BeatmapGenre.any => Icons.library_music_outlined,
+  BeatmapGenre.videoGame => Icons.sports_esports_outlined,
+  BeatmapGenre.anime => Icons.movie_filter_outlined,
+  BeatmapGenre.rock || BeatmapGenre.metal => Icons.electric_bolt_outlined,
+  BeatmapGenre.pop => Icons.mic_external_on_outlined,
+  BeatmapGenre.hipHop => Icons.headphones_outlined,
+  BeatmapGenre.electronic => Icons.graphic_eq_rounded,
+  BeatmapGenre.classical => Icons.piano_outlined,
+  BeatmapGenre.folk => Icons.forest_outlined,
+  BeatmapGenre.jazz => Icons.nightlife_outlined,
+  BeatmapGenre.novelty => Icons.celebration_outlined,
+  BeatmapGenre.other || BeatmapGenre.unspecified => Icons.music_note_outlined,
+};
+
 /// Map filters and results embedded under the unified search AppBar.
 final class BeatmapSearchResults extends StatelessWidget {
   const BeatmapSearchResults({super.key});
@@ -177,7 +217,7 @@ final class BeatmapSearchResults extends StatelessWidget {
                                     child: OsuCategoryPicker<BeatmapGenre>(
                                       title: context.t.beatmapSearchGenre,
                                       selected: query.genre,
-                                      icon: (_) => Icons.music_note_outlined,
+                                      icon: genreIcon,
                                       label:
                                           (
                                             BuildContext context,
@@ -206,6 +246,8 @@ final class BeatmapSearchResults extends StatelessWidget {
                                       title: context.t.beatmapSearchLanguage,
                                       selected: query.language,
                                       icon: (_) => Icons.translate_rounded,
+                                      leading: (BeatmapLanguage l) =>
+                                          languageFlag(context, l),
                                       label:
                                           (
                                             BuildContext context,
@@ -256,7 +298,7 @@ final class _Results extends StatelessWidget {
           if (!state.started) {
             return SliverToBoxAdapter(
               child: state.query.text.length < 2
-                  ? UiContentState.empty(title: context.t.unifiedSearchPrompt)
+                  ? UiContentState.empty(title: context.t.beatmapSearchPrompt)
                   : UiPageSkeleton.list(label: context.t.beatmapsLoading),
             );
           }

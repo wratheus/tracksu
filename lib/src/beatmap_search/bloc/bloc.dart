@@ -62,13 +62,18 @@ final class BeatmapSearchBloc
     required this._repository,
     this.minimumQueryLength = 0,
     BeatmapSearchQuery initial = const BeatmapSearchQuery(),
-  }) : super(BeatmapSearchState(query: initial)) {
+  }) : _initial = initial,
+       super(BeatmapSearchState(query: initial)) {
     on<BeatmapSearchEvent>(_onEvent, transformer: concurrent());
   }
 
   final BeatmapSearchRepository _repository;
   int _generation = 0;
   final int minimumQueryLength;
+
+  /// The filters the screen opens with; empty text with other filters
+  /// browses (as on the website), the opening filters alone do not search.
+  final BeatmapSearchQuery _initial;
   final Map<BeatmapSearchQuery, (DateTime, BeatmapSearchState)> _cache = {};
 
   @override
@@ -112,7 +117,9 @@ final class BeatmapSearchBloc
         }
         more = true;
     }
-    if (query.text.length < minimumQueryLength) {
+    final bool browsing =
+        query.text.trim().isEmpty && query != _initial.copyWith(text: '');
+    if (query.text.length < minimumQueryLength && !browsing) {
       _generation++;
       _repository.cancelPending();
       emit(BeatmapSearchState(query: query));

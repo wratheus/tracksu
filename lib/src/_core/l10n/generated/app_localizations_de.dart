@@ -2347,4 +2347,8 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get rulesetTitle => 'Spielmodus';
+
+  @override
+  String get beatmapSearchPrompt =>
+      'Titel oder Künstler eingeben – oder Status, Genre oder Sprache wählen';
 }

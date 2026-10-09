@@ -2354,4 +2354,8 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get rulesetTitle => 'Режим игры';
+
+  @override
+  String get beatmapSearchPrompt =>
+      'Введите название или исполнителя — или выберите статус, жанр или язык';
 }

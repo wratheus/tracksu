@@ -618,5 +618,6 @@
   "packsOpenTag": "パック {tag} を開く",
   "packsFilterEmpty": "読み込んだパックに一致なし",
   "packsLoadMore": "パックをさらに読み込む",
-  "rulesetTitle": "ゲームモード"
+  "rulesetTitle": "ゲームモード",
+  "beatmapSearchPrompt": "曲名やアーティストを入力するか、ステータス・ジャンル・言語を選んでください"
 }

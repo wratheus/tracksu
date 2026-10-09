@@ -618,5 +618,6 @@
   "packsOpenTag": "Paket {tag} öffnen",
   "packsFilterEmpty": "Kein Treffer unter den geladenen Paketen",
   "packsLoadMore": "Weitere Pakete laden",
-  "rulesetTitle": "Spielmodus"
+  "rulesetTitle": "Spielmodus",
+  "beatmapSearchPrompt": "Titel oder Künstler eingeben – oder Status, Genre oder Sprache wählen"
 }

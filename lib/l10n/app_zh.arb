@@ -618,5 +618,6 @@
   "packsOpenTag": "打开谱面包 {tag}",
   "packsFilterEmpty": "已加载的谱面包中无匹配",
   "packsLoadMore": "加载更多谱面包",
-  "rulesetTitle": "游戏模式"
+  "rulesetTitle": "游戏模式",
+  "beatmapSearchPrompt": "输入标题或艺术家，或选择状态、流派或语言"
 }

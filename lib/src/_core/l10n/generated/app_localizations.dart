@@ -3809,6 +3809,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Game mode'**
   String get rulesetTitle;
+
+  /// Map search before anything is typed or filtered: empty text with a filter browses.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a title or artist, or pick a status, genre or language'**
+  String get beatmapSearchPrompt;
 }
 
 class _AppLocalizationsDelegate

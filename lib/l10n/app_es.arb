@@ -618,5 +618,6 @@
   "packsOpenTag": "Abrir el paquete {tag}",
   "packsFilterEmpty": "Sin coincidencias entre los paquetes cargados",
   "packsLoadMore": "Cargar más paquetes",
-  "rulesetTitle": "Modo de juego"
+  "rulesetTitle": "Modo de juego",
+  "beatmapSearchPrompt": "Escribe un título o artista, o elige estado, género o idioma"
 }

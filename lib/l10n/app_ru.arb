@@ -618,5 +618,6 @@
   "packsOpenTag": "Открыть пак {tag}",
   "packsFilterEmpty": "Среди загруженных паков совпадений нет",
   "packsLoadMore": "Загрузить ещё паки",
-  "rulesetTitle": "Режим игры"
+  "rulesetTitle": "Режим игры",
+  "beatmapSearchPrompt": "Введите название или исполнителя — или выберите статус, жанр или язык"
 }

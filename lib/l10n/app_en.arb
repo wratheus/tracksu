@@ -2148,5 +2148,9 @@
   "rulesetTitle": "Game mode",
   "@rulesetTitle": {
     "description": "App bar button and sheet that choose the game mode (osu!, taiko, catch, mania)."
+  },
+  "beatmapSearchPrompt": "Type a title or artist, or pick a status, genre or language",
+  "@beatmapSearchPrompt": {
+    "description": "Map search before anything is typed or filtered: empty text with a filter browses."
   }
 }

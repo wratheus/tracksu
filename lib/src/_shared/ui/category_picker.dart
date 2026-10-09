@@ -20,6 +20,7 @@ final class OsuCategoryPicker<T extends Object> extends StatefulWidget {
     required this.icon,
     required this.label,
     required this.onSelected,
+    this.leading,
     super.key,
   });
 
@@ -28,6 +29,10 @@ final class OsuCategoryPicker<T extends Object> extends StatefulWidget {
   final T selected;
   final List<OsuCategoryGroup<T>> groups;
   final IconData Function(T) icon;
+
+  /// A picture for an option instead of its [icon] (e.g. a language's
+  /// flag); null for an option keeps the icon.
+  final Widget? Function(T)? leading;
   final String Function(BuildContext, T) label;
   final ValueChanged<T> onSelected;
 
@@ -108,10 +113,14 @@ final class _OsuCategoryPickerState<T extends Object>
                     ),
                     child: SizedBox.square(
                       dimension: 36,
-                      child: Icon(
-                        widget.icon(widget.selected),
-                        size: 20,
-                        color: colors.onPrimaryContainer,
+                      child: Center(
+                        child:
+                            widget.leading?.call(widget.selected) ??
+                            Icon(
+                              widget.icon(widget.selected),
+                              size: 20,
+                              color: colors.onPrimaryContainer,
+                            ),
                       ),
                     ),
                   ),
@@ -172,7 +181,10 @@ final class _CategorySheet<T extends Object> extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: UiSpace.sm),
             child: UiOptionRow(
               label: picker.label(context, option),
-              icon: picker.icon(option),
+              icon: picker.leading?.call(option) == null
+                  ? picker.icon(option)
+                  : null,
+              leading: picker.leading?.call(option),
               selected: option == picker.selected,
               onTap: () {
                 if (ModalRoute.of(context)?.isCurrent == true) {
