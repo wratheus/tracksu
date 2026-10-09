@@ -123,27 +123,26 @@ final class _UiSearchBarState extends State<UiSearchBar> {
                 ),
                 ValueListenableBuilder<TextEditingValue>(
                   valueListenable: widget.controller,
-                  builder:
-                      (BuildContext context, TextEditingValue value, _) =>
-                          AnimatedSwitcher(
-                            duration: duration,
-                            child: value.text.isEmpty
-                                ? const SizedBox(width: UiSpace.sm)
-                                : IconButton(
-                                    key: const ValueKey<String>('clear'),
-                                    tooltip: widget.clearLabel,
-                                    visualDensity: VisualDensity.compact,
-                                    onPressed: () {
-                                      widget.controller.clear();
-                                      widget.onChanged?.call('');
-                                    },
-                                    icon: Icon(
-                                      Icons.cancel_rounded,
-                                      size: 20,
-                                      color: colors.onSurfaceVariant,
-                                    ),
-                                  ),
-                          ),
+                  builder: (BuildContext context, TextEditingValue value, _) =>
+                      AnimatedSwitcher(
+                        duration: duration,
+                        child: value.text.isEmpty
+                            ? const SizedBox(width: UiSpace.sm)
+                            : IconButton(
+                                key: const ValueKey<String>('clear'),
+                                tooltip: widget.clearLabel,
+                                visualDensity: VisualDensity.compact,
+                                onPressed: () {
+                                  widget.controller.clear();
+                                  widget.onChanged?.call('');
+                                },
+                                icon: Icon(
+                                  Icons.cancel_rounded,
+                                  size: 20,
+                                  color: colors.onSurfaceVariant,
+                                ),
+                              ),
+                      ),
                 ),
               ],
             ),

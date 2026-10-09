@@ -63,16 +63,16 @@ final class ChangelogSlivers extends StatelessWidget {
                   ),
                 UiSliverReveal(
                   sliver: SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
-                  sliver: SliverList.builder(
-                    itemCount: loaded.builds.length,
-                    itemBuilder: (BuildContext context, int index) => Padding(
-                      key: ValueKey<int>(loaded.builds[index].id),
-                      padding: const EdgeInsets.only(bottom: UiSpace.md),
-                      child: _BuildCard(item: loaded.builds[index]),
+                    padding: const EdgeInsets.symmetric(horizontal: UiSpace.lg),
+                    sliver: SliverList.builder(
+                      itemCount: loaded.builds.length,
+                      itemBuilder: (BuildContext context, int index) => Padding(
+                        key: ValueKey<int>(loaded.builds[index].id),
+                        padding: const EdgeInsets.only(bottom: UiSpace.md),
+                        child: _BuildCard(item: loaded.builds[index]),
+                      ),
                     ),
                   ),
-                ),
                 ),
                 if (loaded.operation == ChangelogOperation.loadMore)
                   SliverToBoxAdapter(

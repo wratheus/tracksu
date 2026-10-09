@@ -39,24 +39,24 @@ final class ForumIndexSlivers extends StatelessWidget {
           }
           return UiSliverReveal(
             sliver: SliverPadding(
-            padding: const EdgeInsets.all(UiSpace.lg),
-            sliver: SliverList.separated(
-              itemCount: forums.length,
-              separatorBuilder: (_, _) => const SizedBox(height: UiSpace.lg),
-              itemBuilder: (BuildContext context, int index) {
-                final ForumNode group = forums[index];
-                return UiListGroup(
-                  title: group.name,
-                  children: <Widget>[
-                    for (final ForumNode forum
-                        in group.subforums.isEmpty
-                            ? <ForumNode>[group]
-                            : group.subforums)
-                      ForumNodeTile(forum: forum),
-                  ],
-                );
-              },
-            ),
+              padding: const EdgeInsets.all(UiSpace.lg),
+              sliver: SliverList.separated(
+                itemCount: forums.length,
+                separatorBuilder: (_, _) => const SizedBox(height: UiSpace.lg),
+                itemBuilder: (BuildContext context, int index) {
+                  final ForumNode group = forums[index];
+                  return UiListGroup(
+                    title: group.name,
+                    children: <Widget>[
+                      for (final ForumNode forum
+                          in group.subforums.isEmpty
+                              ? <ForumNode>[group]
+                              : group.subforums)
+                        ForumNodeTile(forum: forum),
+                    ],
+                  );
+                },
+              ),
             ),
           );
         },

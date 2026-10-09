@@ -126,9 +126,8 @@ final class DailyChallengeCard extends StatelessWidget {
                         AudioTrackPlayer.overlay(
                           key: ValueKey<Uri>(track.uri),
                           track: track,
-                          controller: DepsScope.of(
-                            context,
-                          ).audioPlaybackController,
+                          controller: DepsScope.of(context)
+                              .audioPlaybackController,
                         ),
                     ],
                   ),

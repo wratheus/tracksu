@@ -23,97 +23,89 @@ final class BeatmapPackScreen extends StatelessWidget {
   const BeatmapPackScreen({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<BeatmapPackBloc, BeatmapPackState>(
-        builder: (BuildContext context, BeatmapPackState state) {
-          final BeatmapPack? pack = state.pack;
-          final BeatmapPackBloc bloc = context.read<BeatmapPackBloc>();
-          final List<ProfileBeatmap> sets =
-              pack?.beatmapsets ?? const <ProfileBeatmap>[];
-          return Scaffold(
-            appBar: UiAppBar(
-              title: UiText.titleLarge(context.t.packTitle),
-              actions: <Widget>[
-                AppBarActions(
-                  share: pack == null
-                      ? null
-                      : ShareTarget.pack(pack.tag, pack.name),
-                ),
-              ],
-              bottom: UiAppBarProgressSlot(
-                child: UiAppBarProgress(
-                  visible: pack != null && state.loading,
-                  semanticsLabel: context.t.packsLoading,
-                ),
-              ),
+  Widget build(
+    BuildContext context,
+  ) => BlocBuilder<BeatmapPackBloc, BeatmapPackState>(
+    builder: (BuildContext context, BeatmapPackState state) {
+      final BeatmapPack? pack = state.pack;
+      final BeatmapPackBloc bloc = context.read<BeatmapPackBloc>();
+      final List<ProfileBeatmap> sets =
+          pack?.beatmapsets ?? const <ProfileBeatmap>[];
+      return Scaffold(
+        appBar: UiAppBar(
+          title: UiText.titleLarge(context.t.packTitle),
+          actions: <Widget>[
+            AppBarActions(
+              share: pack == null
+                  ? null
+                  : ShareTarget.pack(pack.tag, pack.name),
             ),
-            body: UiScrollToTop(
-              tooltip: context.t.scrollToTop,
-              child: SafeArea(
-                top: false,
-                child: RefreshIndicator(
-                  onRefresh: () async =>
-                      bloc.add(const BeatmapPackRefreshRequested()),
-                  child: CustomScrollView(
-                    primary: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    slivers: <Widget>[
-                      if (pack == null)
-                        SliverToBoxAdapter(
-                          child: state.failure == null
-                              ? UiPageSkeleton.list(
-                                  label: context.t.packsLoading,
-                                )
-                              : UiContentState.error(
-                                  title: packsFailureTitle(
-                                    context,
-                                    state.failure!,
-                                  ),
-                                  actionLabel: context.t.retry,
-                                  onAction: () => bloc.add(
-                                    const BeatmapPackRefreshRequested(),
-                                  ),
-                                ),
-                        )
-                      else ...<Widget>[
-                        SliverPadding(
-                          padding: const EdgeInsets.all(UiSpace.lg),
-                          sliver: SliverToBoxAdapter(
-                            child: UiReveal(child: _Header(pack: pack)),
-                          ),
-                        ),
-                        SliverPadding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: UiSpace.lg,
-                          ),
-                          sliver: UiSliverCardList(
-                            itemCount: sets.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                ProfileBeatmapCard(
-                                  key: ValueKey<int>(sets[index].id),
-                                  beatmap: sets[index],
-                                  onTap: () => unawaited(
-                                    DepsScope.of(context).appRouter
-                                        .openBeatmap(
-                                          context,
-                                          BeatmapsetParams(sets[index].id),
-                                        ),
-                                  ),
-                                ),
-                          ),
-                        ),
-                      ],
-                      UiSliverScrollToTopSpace(
-                        tooltip: context.t.scrollToTop,
+          ],
+          bottom: UiAppBarProgressSlot(
+            child: UiAppBarProgress(
+              visible: pack != null && state.loading,
+              semanticsLabel: context.t.packsLoading,
+            ),
+          ),
+        ),
+        body: UiScrollToTop(
+          tooltip: context.t.scrollToTop,
+          child: SafeArea(
+            top: false,
+            child: RefreshIndicator(
+              onRefresh: () async =>
+                  bloc.add(const BeatmapPackRefreshRequested()),
+              child: CustomScrollView(
+                primary: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: <Widget>[
+                  if (pack == null)
+                    SliverToBoxAdapter(
+                      child: state.failure == null
+                          ? UiPageSkeleton.list(label: context.t.packsLoading)
+                          : UiContentState.error(
+                              title: packsFailureTitle(context, state.failure!),
+                              actionLabel: context.t.retry,
+                              onAction: () =>
+                                  bloc.add(const BeatmapPackRefreshRequested()),
+                            ),
+                    )
+                  else ...<Widget>[
+                    SliverPadding(
+                      padding: const EdgeInsets.all(UiSpace.lg),
+                      sliver: SliverToBoxAdapter(
+                        child: UiReveal(child: _Header(pack: pack)),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: UiSpace.lg,
+                      ),
+                      sliver: UiSliverCardList(
+                        itemCount: sets.length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            ProfileBeatmapCard(
+                              key: ValueKey<int>(sets[index].id),
+                              beatmap: sets[index],
+                              onTap: () => unawaited(
+                                DepsScope.of(context).appRouter.openBeatmap(
+                                  context,
+                                  BeatmapsetParams(sets[index].id),
+                                ),
+                              ),
+                            ),
+                      ),
+                    ),
+                  ],
+                  UiSliverScrollToTopSpace(tooltip: context.t.scrollToTop),
+                ],
               ),
             ),
-          );
-        },
+          ),
+        ),
       );
+    },
+  );
 }
 
 final class _Header extends StatelessWidget {

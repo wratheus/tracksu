@@ -81,10 +81,7 @@ final class BeatmapPacksBloc
       emit(
         BeatmapPacksState(
           type: type,
-          items: <BeatmapPack>[
-            if (more) ...?before.items,
-            ...page.items,
-          ],
+          items: <BeatmapPack>[if (more) ...?before.items, ...page.items],
           cursor: page.cursor,
         ),
       );

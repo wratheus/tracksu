@@ -270,9 +270,8 @@ final class _SearchScreenState extends State<SearchScreen> {
           Positioned.fill(
             child: MediaQuery(
               data: MediaQuery.of(context).copyWith(
-                padding: MediaQuery.paddingOf(
-                  context,
-                ).copyWith(bottom: UiSearchBar.area),
+                padding: MediaQuery.paddingOf(context)
+                    .copyWith(bottom: UiSearchBar.area),
               ),
               child: switch (_tab) {
                 SearchTab.maps => const BeatmapSearchResults(),

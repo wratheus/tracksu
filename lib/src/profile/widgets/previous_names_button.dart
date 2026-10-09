@@ -30,10 +30,8 @@ final class _PreviousNamesButtonState extends State<PreviousNamesButton> {
           ),
           itemCount: names.length,
           separatorBuilder: (_, _) => const SizedBox(height: UiSpace.sm),
-          itemBuilder: (BuildContext context, int index) => UiOptionRow(
-            label: names[index],
-            icon: Icons.history_rounded,
-          ),
+          itemBuilder: (BuildContext context, int index) =>
+              UiOptionRow(label: names[index], icon: Icons.history_rounded),
         ),
       );
     } finally {

@@ -79,69 +79,74 @@ final class OsuEventsSlivers extends StatelessWidget {
           UiSliverReveal(
             sliver: SliverMainAxisGroup(
               slivers: <Widget>[
-              if (state.failure case final OsuEventsFailureKind failure
-                  when state.failedOperation == OsuEventsOperation.refresh)
-                SliverToBoxAdapter(child: _Failure(failure, keeping: true)),
-              if (items.isEmpty && (state.cursor == null || !grouped))
-                SliverToBoxAdapter(
-                  child: UiContentState.empty(title: context.t.eventsEmpty),
-                )
-              else if (items.isEmpty)
-                SliverToBoxAdapter(
-                  child: UiContentState.empty(
-                    title: context.t.eventsGroupEmpty,
-                    message: context.t.eventsGroupHint,
-                    actionLabel: idle ? context.t.eventsLoadOlder : null,
-                    onAction: idle ? loadOlder : null,
-                  ),
-                )
-              else if (items.isNotEmpty)
-                SliverPadding(
-                  padding: const EdgeInsets.all(UiSpace.lg),
-                  sliver: SliverToBoxAdapter(
-                    child: UiSurface.card(
-                      padding: const EdgeInsets.symmetric(vertical: UiSpace.xs),
-                      child: Column(
-                        children: <Widget>[
-                          for (int i = 0; i < items.length; i++) ...<Widget>[
-                            if (i > 0) const Divider(height: 1, indent: 64),
-                            OsuEventRow(
-                              key: ValueKey<int>(items[i].id),
-                              event: items[i],
-                            ),
+                if (state.failure case final OsuEventsFailureKind failure
+                    when state.failedOperation == OsuEventsOperation.refresh)
+                  SliverToBoxAdapter(child: _Failure(failure, keeping: true)),
+                if (items.isEmpty && (state.cursor == null || !grouped))
+                  SliverToBoxAdapter(
+                    child: UiContentState.empty(title: context.t.eventsEmpty),
+                  )
+                else if (items.isEmpty)
+                  SliverToBoxAdapter(
+                    child: UiContentState.empty(
+                      title: context.t.eventsGroupEmpty,
+                      message: context.t.eventsGroupHint,
+                      actionLabel: idle ? context.t.eventsLoadOlder : null,
+                      onAction: idle ? loadOlder : null,
+                    ),
+                  )
+                else if (items.isNotEmpty)
+                  SliverPadding(
+                    padding: const EdgeInsets.all(UiSpace.lg),
+                    sliver: SliverToBoxAdapter(
+                      child: UiSurface.card(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: UiSpace.xs,
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            for (int i = 0; i < items.length; i++) ...<Widget>[
+                              if (i > 0) const Divider(height: 1, indent: 64),
+                              OsuEventRow(
+                                key: ValueKey<int>(items[i].id),
+                                event: items[i],
+                              ),
+                            ],
                           ],
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              if (state.operation == OsuEventsOperation.loadMore)
-                SliverToBoxAdapter(
-                  child: UiContentState.loading(title: context.t.eventsLoading),
-                )
-              else if (state.failure case final OsuEventsFailureKind failure
-                  when state.failedOperation == OsuEventsOperation.loadMore)
-                SliverToBoxAdapter(
-                  child: _Failure(failure, keeping: true, more: true),
-                )
-              else if (state.cursor case final String cursor when idle && !grouped)
-                UiSliverAutoLoad(
-                  pageKey: cursor,
-                  label: context.t.eventsLoading,
-                  onLoad: loadOlder,
-                )
-              // One page per tap: a group never walks the feed by itself.
-              else if (state.cursor != null && idle && items.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.all(UiSpace.lg),
-                    child: UiButton.secondary(
-                      label: context.t.eventsLoadOlder,
-                      icon: Icons.expand_more_rounded,
-                      onPressed: loadOlder,
+                if (state.operation == OsuEventsOperation.loadMore)
+                  SliverToBoxAdapter(
+                    child: UiContentState.loading(
+                      title: context.t.eventsLoading,
+                    ),
+                  )
+                else if (state.failure case final OsuEventsFailureKind failure
+                    when state.failedOperation == OsuEventsOperation.loadMore)
+                  SliverToBoxAdapter(
+                    child: _Failure(failure, keeping: true, more: true),
+                  )
+                else if (state.cursor case final String cursor
+                    when idle && !grouped)
+                  UiSliverAutoLoad(
+                    pageKey: cursor,
+                    label: context.t.eventsLoading,
+                    onLoad: loadOlder,
+                  )
+                // One page per tap: a group never walks the feed by itself.
+                else if (state.cursor != null && idle && items.isNotEmpty)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(UiSpace.lg),
+                      child: UiButton.secondary(
+                        label: context.t.eventsLoadOlder,
+                        icon: Icons.expand_more_rounded,
+                        onPressed: loadOlder,
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           ),

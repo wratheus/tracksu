@@ -82,60 +82,63 @@ final class ForumTopicScreen extends StatelessWidget {
                     UiSliverReveal(
                       sliver: SliverMainAxisGroup(
                         slivers: <Widget>[
-                    if (state.failure case final ForumFailureKind failure
-                        when state.failedOperation ==
-                            ForumTopicOperation.refresh)
-                      SliverToBoxAdapter(
-                        child: UiContentState.error(
-                          title: forumFailureTitle(context, failure),
-                          message: context.t.newsKeepingContent,
-                          actionLabel: context.t.retry,
-                          onAction: () =>
-                              bloc.add(const ForumTopicRefreshRequested()),
-                        ),
-                      ),
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(
-                        UiSpace.lg,
-                        UiSpace.lg,
-                        UiSpace.lg,
-                        UiSpace.sm,
-                      ),
-                      sliver: SliverToBoxAdapter(
-                        child: _TopicHeader(topic: topic),
-                      ),
-                    ),
-                    for (final ForumPost post in posts)
-                      _PostSlivers(
-                        key: ValueKey<int>(post.id),
-                        topic: topic,
-                        post: post,
-                        author: state.authors[post.userId],
-                      ),
-                    if (state.operation == ForumTopicOperation.loadMore)
-                      SliverToBoxAdapter(
-                        child: UiContentState.loading(
-                          title: context.t.forumLoading,
-                        ),
-                      )
-                    else if (state.failure case final ForumFailureKind failure
-                        when state.failedOperation ==
-                            ForumTopicOperation.loadMore)
-                      SliverToBoxAdapter(
-                        child: UiContentState.error(
-                          title: forumFailureTitle(context, failure),
-                          actionLabel: context.t.retry,
-                          onAction: () =>
-                              bloc.add(const ForumTopicMoreRequested()),
-                        ),
-                      )
-                    else if (state.cursor case final String cursor
-                        when state.operation == null)
-                      UiSliverAutoLoad(
-                        pageKey: cursor,
-                        label: context.t.forumLoading,
-                        onLoad: () => bloc.add(const ForumTopicMoreRequested()),
-                      ),
+                          if (state.failure case final ForumFailureKind failure
+                              when state.failedOperation ==
+                                  ForumTopicOperation.refresh)
+                            SliverToBoxAdapter(
+                              child: UiContentState.error(
+                                title: forumFailureTitle(context, failure),
+                                message: context.t.newsKeepingContent,
+                                actionLabel: context.t.retry,
+                                onAction: () => bloc.add(
+                                  const ForumTopicRefreshRequested(),
+                                ),
+                              ),
+                            ),
+                          SliverPadding(
+                            padding: const EdgeInsets.fromLTRB(
+                              UiSpace.lg,
+                              UiSpace.lg,
+                              UiSpace.lg,
+                              UiSpace.sm,
+                            ),
+                            sliver: SliverToBoxAdapter(
+                              child: _TopicHeader(topic: topic),
+                            ),
+                          ),
+                          for (final ForumPost post in posts)
+                            _PostSlivers(
+                              key: ValueKey<int>(post.id),
+                              topic: topic,
+                              post: post,
+                              author: state.authors[post.userId],
+                            ),
+                          if (state.operation == ForumTopicOperation.loadMore)
+                            SliverToBoxAdapter(
+                              child: UiContentState.loading(
+                                title: context.t.forumLoading,
+                              ),
+                            )
+                          else if (state.failure
+                              case final ForumFailureKind failure
+                              when state.failedOperation ==
+                                  ForumTopicOperation.loadMore)
+                            SliverToBoxAdapter(
+                              child: UiContentState.error(
+                                title: forumFailureTitle(context, failure),
+                                actionLabel: context.t.retry,
+                                onAction: () =>
+                                    bloc.add(const ForumTopicMoreRequested()),
+                              ),
+                            )
+                          else if (state.cursor case final String cursor
+                              when state.operation == null)
+                            UiSliverAutoLoad(
+                              pageKey: cursor,
+                              label: context.t.forumLoading,
+                              onLoad: () =>
+                                  bloc.add(const ForumTopicMoreRequested()),
+                            ),
                         ],
                       ),
                     ),

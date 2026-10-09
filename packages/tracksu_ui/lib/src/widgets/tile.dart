@@ -50,16 +50,15 @@ final class UiTile extends StatelessWidget {
        selected = false;
 
   /// On/off row: [UiSwitch] on the trailing edge, the whole row toggles.
-  /// A null [onToggle] disables it (e.g. while saving).
+  /// A null [_onToggle] disables it (e.g. while saving).
   const UiTile.toggle({
     required this.title,
     required this.selected,
-    required ValueChanged<bool>? onToggle,
+    required this._onToggle,
     this.subtitle,
     this.leading,
     super.key,
   }) : _style = _TileStyle.toggle,
-       _onToggle = onToggle,
        onTap = null,
        value = null;
 

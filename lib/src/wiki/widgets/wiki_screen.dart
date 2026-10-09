@@ -85,56 +85,57 @@ final class WikiScreen extends StatelessWidget {
                     UiSliverReveal(
                       sliver: SliverMainAxisGroup(
                         slivers: <Widget>[
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(
-                        UiSpace.lg,
-                        UiSpace.lg,
-                        UiSpace.lg,
-                        UiSpace.sm,
-                      ),
-                      sliver: SliverToBoxAdapter(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: UiSpace.xs,
-                          children: <Widget>[
-                            if (article.subtitle case final String sub)
-                              UiText.labelLarge(sub, secondary: true),
-                            UiText.headlineSmall(article.title),
-                            if (article.locale !=
-                                Localizations.localeOf(context).languageCode)
-                              UiText.bodySmall(
-                                context.t.wikiShownInEnglish,
-                                secondary: true,
+                          SliverPadding(
+                            padding: const EdgeInsets.fromLTRB(
+                              UiSpace.lg,
+                              UiSpace.lg,
+                              UiSpace.lg,
+                              UiSpace.sm,
+                            ),
+                            sliver: SliverToBoxAdapter(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                spacing: UiSpace.xs,
+                                children: <Widget>[
+                                  if (article.subtitle case final String sub)
+                                    UiText.labelLarge(sub, secondary: true),
+                                  UiText.headlineSmall(article.title),
+                                  if (article.locale !=
+                                      Localizations.localeOf(context)
+                                          .languageCode)
+                                    UiText.bodySmall(
+                                      context.t.wikiShownInEnglish,
+                                      secondary: true,
+                                    ),
+                                ],
                               ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (article.document case final document?)
-                      SliverPadding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: UiSpace.lg,
-                        ),
-                        sliver: ContentFrame.sliver(
-                          audioController: DepsScope.of(context)
-                              .audioPlaybackController,
-                          mediaPermission: DepsScope.of(context)
-                              .contentMediaController,
-                          document: document,
-                          onOpenLink: (String url) =>
-                              _open(context, article, url),
-                        ),
-                      )
-                    else
-                      SliverToBoxAdapter(
-                        child: UiContentState.error(
-                          title: context.t.contentUnavailable,
-                          actionLabel: context.t.contentOriginal,
-                          onAction: () => unawaited(
-                            ExternalLinks.openInBrowser(article.webUri),
+                            ),
                           ),
-                        ),
-                      ),
+                          if (article.document case final document?)
+                            SliverPadding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: UiSpace.lg,
+                              ),
+                              sliver: ContentFrame.sliver(
+                                audioController: DepsScope.of(context)
+                                    .audioPlaybackController,
+                                mediaPermission: DepsScope.of(context)
+                                    .contentMediaController,
+                                document: document,
+                                onOpenLink: (String url) =>
+                                    _open(context, article, url),
+                              ),
+                            )
+                          else
+                            SliverToBoxAdapter(
+                              child: UiContentState.error(
+                                title: context.t.contentUnavailable,
+                                actionLabel: context.t.contentOriginal,
+                                onAction: () => unawaited(
+                                  ExternalLinks.openInBrowser(article.webUri),
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),

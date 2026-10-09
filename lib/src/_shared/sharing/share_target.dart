@@ -115,9 +115,7 @@ final class ShareTarget {
 
   /// Beatmap packs of a type, or one pack (P55).
   factory ShareTarget.packs(String type, String title) => ShareTarget._(
-    Uri.https('osu.ppy.sh', '/beatmaps/packs', <String, String>{
-      'type': type,
-    }),
+    Uri.https('osu.ppy.sh', '/beatmaps/packs', <String, String>{'type': type}),
     title,
   );
   factory ShareTarget.pack(String tag, String title) => ShareTarget._(

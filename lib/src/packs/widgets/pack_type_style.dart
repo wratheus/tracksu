@@ -84,9 +84,8 @@ final class BeatmapPackTag extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         child: Text(
           tag,
-          style: Theme.of(
-            context,
-          ).textTheme.labelMedium?.copyWith(color: accent),
+          style: Theme.of(context).textTheme.labelMedium
+              ?.copyWith(color: accent),
         ),
       ),
     );
