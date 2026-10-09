@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+### Calmer search, smoother pages
+
+- The search field is drawn like the app's other controls (chamfered tonal
+  field, hairline edge that turns pink on focus) instead of a glowing glass
+  capsule, and it no longer blurs what is behind it.
+- Only the field follows the keyboard; the results stay still instead of
+  re-laying out every frame, and a short ease smooths keyboards that jump.
+- Map search browses with an empty query once a status, genre or language
+  is picked (as on the website); languages show their flags, genres their
+  own icons.
+- The account button opens one of our sheets (who is signed in, then
+  profile / settings / sign out) instead of a stock menu.
+- Less work per frame while pages load or swipe, most visible on Android:
+  placeholders pulse by repainting their fill instead of fading a layer,
+  segment thumbs and Android glass no longer blur the backdrop.
+
 ### Design docs
 
 - UI kit, nine screens and the main flows as one page

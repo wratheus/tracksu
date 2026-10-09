@@ -62,51 +62,119 @@ final class _AccountButtonState extends State<AccountButton> {
     BuildContext context, {
     required bool authenticated,
     required Uri? image,
-  }) => PopupMenuButton<_AccountSelection>(
+  }) => IconButton(
     tooltip: context.t.account,
+    onPressed: () => unawaited(_open(context, authenticated, image)),
     icon: authenticated && image != null
         ? UiAvatar.small(
             name: context.t.account,
             image: AppMedia.image(context, image),
           )
         : Icon(authenticated ? Icons.account_circle : Icons.person_outline),
-    onSelected: _select,
-    itemBuilder: (BuildContext context) => <PopupMenuEntry<_AccountSelection>>[
-      if (authenticated)
-        PopupMenuItem<_AccountSelection>(
-          value: _AccountSelection.myProfile,
-          child: _AccountMenuLabel(
-            label: context.t.viewMyProfile,
-            icon: Icons.person_outline,
-          ),
-        ),
-      // One account per device: switching is sign out, then sign in.
-      if (!authenticated)
-        PopupMenuItem<_AccountSelection>(
-          value: _AccountSelection.signIn,
-          child: _AccountMenuLabel(
-            icon: Icons.login,
-            label: context.t.signInWithOsu,
-          ),
-        ),
-      if (authenticated)
-        PopupMenuItem<_AccountSelection>(
-          value: _AccountSelection.signOut,
-          child: _AccountMenuLabel(
-            label: context.t.signOut,
-            icon: Icons.logout,
-          ),
-        ),
-      const PopupMenuDivider(),
-      PopupMenuItem<_AccountSelection>(
-        value: _AccountSelection.settings,
-        child: _AccountMenuLabel(
-          label: context.t.settingsTitle,
-          icon: Icons.settings_outlined,
-        ),
-      ),
-    ],
   );
+
+  /// The account sheet, in the app's sheet style instead of a stock popup
+  /// menu: who is signed in, then option rows.
+  Future<void> _open(
+    BuildContext context,
+    bool authenticated,
+    Uri? image,
+  ) async {
+    final String? username = _AccountAvatar.of(DepsScope.of(context)).username;
+    final _AccountSelection? selection = await UiModal.sheet<_AccountSelection>(
+      context,
+      title: context.t.account,
+      builder: (BuildContext sheetContext) => _AccountSheet(
+        authenticated: authenticated,
+        username: username,
+        image: image,
+      ),
+    );
+    if (selection != null && mounted) _select(selection);
+  }
+}
+
+final class _AccountSheet extends StatelessWidget {
+  const _AccountSheet({
+    required this.authenticated,
+    required this.username,
+    required this.image,
+  });
+  final bool authenticated;
+  final String? username;
+  final Uri? image;
+
+  void _pick(BuildContext context, _AccountSelection selection) {
+    if (ModalRoute.of(context)?.isCurrent == true) {
+      Navigator.of(context).pop(selection);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    Widget row(_AccountSelection value, String label, IconData icon) =>
+        UiOptionRow(
+          label: label,
+          icon: icon,
+          onTap: () => _pick(context, value),
+        );
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        UiSpace.lg,
+        0,
+        UiSpace.lg,
+        UiSpace.lg,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: UiSpace.sm,
+        children: <Widget>[
+          if (authenticated)
+            Padding(
+              padding: const EdgeInsets.only(bottom: UiSpace.sm),
+              child: Row(
+                spacing: UiSpace.md,
+                children: <Widget>[
+                  UiAvatar.small(
+                    name: username ?? context.t.account,
+                    image: image == null ? null : AppMedia.image(context, image),
+                  ),
+                  Expanded(
+                    child: UiText.titleMedium(
+                      username ?? context.t.account,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Icon(Icons.verified_user_outlined, color: colors.primary),
+                ],
+              ),
+            ),
+          if (authenticated)
+            row(
+              _AccountSelection.myProfile,
+              context.t.viewMyProfile,
+              Icons.person_outline,
+            )
+          else
+            row(
+              _AccountSelection.signIn,
+              context.t.signInWithOsu,
+              Icons.login,
+            ),
+          row(
+            _AccountSelection.settings,
+            context.t.settingsTitle,
+            Icons.settings_outlined,
+          ),
+          if (authenticated)
+            row(_AccountSelection.signOut, context.t.signOut, Icons.logout),
+        ],
+      ),
+    );
+  }
 }
 
 /// The account button now sits on every page, so the avatar is looked up once
@@ -141,6 +209,9 @@ final class _AccountAvatar {
   final SessionController _session;
   final ProfileRepository _repository;
   final ValueNotifier<Uri?> uri = ValueNotifier<Uri?>(null);
+
+  /// The signed-in player's name for the account sheet; null until loaded.
+  String? username;
   StreamSubscription<SessionStatus>? _subscription;
   int _epoch = 0;
 
@@ -148,12 +219,16 @@ final class _AccountAvatar {
     final int epoch = ++_epoch;
     _repository.cancelPending();
     uri.value = null;
+    username = null;
     if (status != SessionStatus.authenticated) return;
     try {
       final profile = await _repository.getCurrentProfile(
         ruleset: ProfileRuleset.osu,
       );
-      if (epoch == _epoch) uri.value = profile.avatarUri;
+      if (epoch == _epoch) {
+        username = profile.username;
+        uri.value = profile.avatarUri;
+      }
     } on Object {
       // Identity decoration must not block the account menu on API failure.
     }
@@ -168,18 +243,3 @@ final class _AccountAvatar {
 }
 
 enum _AccountSelection { signIn, myProfile, signOut, settings }
-
-final class _AccountMenuLabel extends StatelessWidget {
-  const _AccountMenuLabel({required this.label, required this.icon});
-  final String label;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) => Row(
-    spacing: UiSpace.md,
-    children: <Widget>[
-      Icon(icon),
-      Expanded(child: UiText.bodyMedium(label)),
-    ],
-  );
-}
