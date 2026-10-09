@@ -298,9 +298,16 @@ selected semantics, tooltips and reduced-motion duration are preserved.
 Labels fall back to icons when measured text does not fit, without clamping
 the user's text scale. Use for a small choice set, not a long category list.
 The standard Material splash/overlay is disabled: a shape-matched local press
-highlight and keyboard focus border are rendered explicitly. One clipped blur
-(sigma 6) plus a translucent tonal gradient gives a restrained glass effect;
-high-contrast mode uses a solid surface. No looping animation or per-cell filters.
+highlight and keyboard focus border are rendered explicitly. The thumb is a
+translucent tonal gradient with a faint sheen — paint only, no backdrop blur
+(it re-ran on every swipe frame and stuttered on Android); high-contrast mode
+uses a solid surface. No looping animation or per-cell filters.
+
+Blur budget: `UiGlass` is the only backdrop filter, and it blurs only on Apple
+platforms (elsewhere a denser veil). `UiSearchBar` is a chamfered tonal field
+like the pickers, not glass. `UiPageSkeleton` pulses its blocks by repainting
+their fill through `UiSkeletonPulse` (no opacity layer), behind its own
+`RepaintBoundary`; `UiSkeleton.fill` covers an aspect box (news covers).
 
 Line charts accept `UiChartPoint.breakBefore` to start a new segment after
 missing observations. The caller keeps the original x coordinates and provides

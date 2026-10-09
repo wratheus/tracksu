@@ -107,29 +107,83 @@ final class UiContentState extends StatelessWidget {
       _state == _ContentState.empty || _state == _ContentState.offline;
 }
 
-/// Static skeleton: reduced-motion friendly; its parent announces loading once.
+/// The pulse a page skeleton gives its blocks: their fill fades between
+/// [opacity] values without an opacity layer over the whole placeholder,
+/// which had to be re-composited every frame (and stuttered page swipes
+/// while several pages were loading, on Android most of all).
+final class UiSkeletonPulse extends InheritedWidget {
+  const UiSkeletonPulse({
+    required this.opacity,
+    required super.child,
+    super.key,
+  });
+  final Animation<double> opacity;
+
+  static Animation<double>? maybeOf(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<UiSkeletonPulse>()
+      ?.opacity;
+
+  @override
+  bool updateShouldNotify(UiSkeletonPulse oldWidget) =>
+      oldWidget.opacity != opacity;
+}
+
+/// Skeleton block: static on its own, pulsing inside a page skeleton
+/// ([UiSkeletonPulse]); its parent announces loading once.
 final class UiSkeleton extends StatelessWidget {
   const UiSkeleton.line({this.width = double.infinity, super.key})
-    : height = 12;
+    : height = 12,
+      radius = UiShape.control;
   const UiSkeleton.block({
     required this.height,
     this.width = double.infinity,
     super.key,
-  }) : assert(height > 0);
+  }) : assert(height > 0),
+       radius = UiShape.control;
+
+  /// Fills its parent (e.g. a cover's aspect box) with square corners.
+  const UiSkeleton.fill({super.key})
+    : width = double.infinity,
+      height = double.infinity,
+      radius = 0;
   final double width;
   final double height;
+  final double radius;
 
   @override
   Widget build(BuildContext context) => ExcludeSemantics(
     child: SizedBox(
       width: width,
       height: height,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
+      child: CustomPaint(
+        painter: _SkeletonPainter(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(UiShape.control),
+          radius: radius,
+          pulse: UiSkeletonPulse.maybeOf(context),
         ),
       ),
     ),
   );
+}
+
+/// Repaints with the pulse; never rebuilds or adds a layer.
+final class _SkeletonPainter extends CustomPainter {
+  _SkeletonPainter({required this.color, required this.radius, this.pulse})
+    : super(repaint: pulse);
+  final Color color;
+  final double radius;
+  final Animation<double>? pulse;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double alpha = color.a * (pulse?.value ?? 1);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(radius)),
+      Paint()..color = color.withValues(alpha: alpha),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_SkeletonPainter old) =>
+      old.color != color || old.radius != radius || old.pulse != pulse;
 }

@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
 
@@ -350,7 +348,9 @@ final class _Thumb extends StatelessWidget {
   );
 }
 
-/// One bounded blur, not one filter per segment. Ink never paints the thumb.
+/// The thumb's glass is paint only (tint, sheen, edge): a backdrop blur
+/// behind a thumb over a flat track was invisible but re-ran every frame of
+/// a page swipe, which stuttered on Android. Ink never paints the thumb.
 final class _SegmentGlass extends StatelessWidget {
   const _SegmentGlass({required this.shape, required this.child});
   final ShapeBorder shape;
@@ -360,32 +360,25 @@ final class _SegmentGlass extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;
     final bool solid = MediaQuery.highContrastOf(context);
-    return ClipPath(
-      clipper: ShapeBorderClipper(shape: shape),
-      child: BackdropFilter(
-        enabled: !solid,
-        filter: ui.ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-        child: Material(
-          color: colors.surfaceContainerHighest.withValues(
-            alpha: solid ? 1 : 0.72,
-          ),
+    return Material(
+      color: colors.surfaceContainerHighest.withValues(
+        alpha: solid ? 1 : 0.72,
+      ),
+      shape: shape,
+      clipBehavior: Clip.antiAlias,
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
           shape: shape,
-          clipBehavior: Clip.antiAlias,
-          child: DecoratedBox(
-            decoration: ShapeDecoration(
-              shape: shape,
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: <Color>[
-                  colors.onSurface.withValues(alpha: 0.08),
-                  colors.onSurface.withValues(alpha: 0.01),
-                ],
-              ),
-            ),
-            child: child,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[
+              colors.onSurface.withValues(alpha: 0.08),
+              colors.onSurface.withValues(alpha: 0.01),
+            ],
           ),
         ),
+        child: child,
       ),
     );
   }

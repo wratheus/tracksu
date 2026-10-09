@@ -7,8 +7,9 @@ import 'package:tracksu_ui/src/widgets/surface.dart';
 enum _SkeletonShape { profile, list, news, article }
 
 /// Initial load only. Never replaces usable content during revalidation.
-/// One controller per page pulses all placeholders together; reduced motion
-/// and inactive tickers (TickerMode) keep it static.
+/// One controller per page pulses all placeholders together (by repainting
+/// their fill, not through an opacity layer); reduced motion and inactive
+/// tickers (TickerMode) keep it static.
 /// A fixed small number of placeholders; never sized by expected content.
 final class UiPageSkeleton extends StatefulWidget {
   const UiPageSkeleton.profile({required this.label, super.key})
@@ -84,9 +85,12 @@ final class _UiPageSkeletonState extends State<UiPageSkeleton>
   Widget build(BuildContext context) => Semantics(
     label: widget.label,
     liveRegion: true,
-    child: FadeTransition(
-      opacity: _entryOpacity,
+    // Its pulse repaints only the placeholder, not the page around it.
+    child: RepaintBoundary(
       child: FadeTransition(
+      opacity: _entryOpacity,
+      // The pulse reaches the blocks' paint directly, no opacity layer.
+      child: UiSkeletonPulse(
         opacity: _opacity,
         child: Padding(
           padding: const EdgeInsets.all(UiSpace.lg),
@@ -108,6 +112,7 @@ final class _UiPageSkeletonState extends State<UiPageSkeleton>
         ),
       ),
     ),
+    )
   );
 }
 
@@ -155,12 +160,7 @@ final class _NewsCardSkeleton extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        AspectRatio(
-          aspectRatio: 16 / 9,
-          child: ColoredBox(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          ),
-        ),
+        const AspectRatio(aspectRatio: 16 / 9, child: UiSkeleton.fill()),
         const Padding(
           padding: EdgeInsets.all(UiSpace.lg),
           child: Column(

@@ -55,9 +55,22 @@ final class UiGlass extends StatelessWidget {
         : light
         ? Colors.black.withValues(alpha: .08)
         : Colors.white.withValues(alpha: .16);
+    // Real blur on Apple platforms; elsewhere (Android) a denser veil
+    // instead: a backdrop blur re-runs whenever anything under it moves and
+    // stuttered there.
+    final TargetPlatform platform = Theme.of(context).platform;
+    final bool blur =
+        platform == TargetPlatform.iOS || platform == TargetPlatform.macOS;
+    final List<Color> tint = blur
+        ? veil
+        : <Color>[
+            for (final Color color in veil)
+              color.withValues(alpha: (color.a * 1.6).clamp(0, .9)),
+          ];
     final Widget glass = ClipPath(
       clipper: ShapeBorderClipper(shape: shape),
       child: BackdropFilter(
+        enabled: blur,
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: DecoratedBox(
           decoration: ShapeDecoration(
@@ -65,7 +78,7 @@ final class UiGlass extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: veil,
+              colors: tint,
             ),
           ),
           child: child,
