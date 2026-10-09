@@ -103,7 +103,9 @@ final class DailyChallengeBloc
           ? error.kind
           : DailyChallengeFailureKind.unavailable;
       addError(
-        error is DailyChallengeFailure ? error : DailyChallengeFailure(kind, cause: error),
+        error is DailyChallengeFailure
+            ? error
+            : DailyChallengeFailure(kind, cause: error),
         stackTrace,
       );
       emit(
@@ -211,7 +213,9 @@ final class DailyHistoryBloc
           ? error.kind
           : DailyChallengeFailureKind.unavailable;
       addError(
-        error is DailyChallengeFailure ? error : DailyChallengeFailure(kind, cause: error),
+        error is DailyChallengeFailure
+            ? error
+            : DailyChallengeFailure(kind, cause: error),
         stackTrace,
       );
       emit(

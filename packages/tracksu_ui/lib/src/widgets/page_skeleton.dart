@@ -88,31 +88,31 @@ final class _UiPageSkeletonState extends State<UiPageSkeleton>
     // Its pulse repaints only the placeholder, not the page around it.
     child: RepaintBoundary(
       child: FadeTransition(
-      opacity: _entryOpacity,
-      // The pulse reaches the blocks' paint directly, no opacity layer.
-      child: UiSkeletonPulse(
-        opacity: _opacity,
-        child: Padding(
-          padding: const EdgeInsets.all(UiSpace.lg),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: UiSpace.md,
-            children: switch (widget._shape) {
-              _SkeletonShape.profile || _SkeletonShape.list => <Widget>[
-                if (widget._shape == _SkeletonShape.profile)
-                  const UiSkeleton.block(height: 160),
-                for (int i = 0; i < 3; i++) const _RowSkeleton(),
-              ],
-              _SkeletonShape.news => <Widget>[
-                for (int i = 0; i < 2; i++) const _NewsCardSkeleton(),
-              ],
-              _SkeletonShape.article => const <Widget>[_ArticleSkeleton()],
-            },
+        opacity: _entryOpacity,
+        // The pulse reaches the blocks' paint directly, no opacity layer.
+        child: UiSkeletonPulse(
+          opacity: _opacity,
+          child: Padding(
+            padding: const EdgeInsets.all(UiSpace.lg),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: UiSpace.md,
+              children: switch (widget._shape) {
+                _SkeletonShape.profile || _SkeletonShape.list => <Widget>[
+                  if (widget._shape == _SkeletonShape.profile)
+                    const UiSkeleton.block(height: 160),
+                  for (int i = 0; i < 3; i++) const _RowSkeleton(),
+                ],
+                _SkeletonShape.news => <Widget>[
+                  for (int i = 0; i < 2; i++) const _NewsCardSkeleton(),
+                ],
+                _SkeletonShape.article => const <Widget>[_ArticleSkeleton()],
+              },
+            ),
           ),
         ),
       ),
     ),
-    )
   );
 }
 

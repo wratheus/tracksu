@@ -18,7 +18,7 @@ import 'package:tracksu_ui/tracksu_ui.dart';
 final class RulesetButton extends StatelessWidget {
   const RulesetButton({
     required ProfileRuleset this.value,
-    required ValueChanged<ProfileRuleset>? this.onChanged,
+    required this.onChanged,
     super.key,
   });
 
@@ -77,9 +77,8 @@ final class RulesetButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!_global) return _button(context, value!, onChanged);
-    final RulesetController controller = DepsScope.of(
-      context,
-    ).rulesetController;
+    final RulesetController controller = DepsScope.of(context)
+        .rulesetController;
     return ValueListenableBuilder<ProfileRuleset>(
       valueListenable: controller,
       builder: (BuildContext context, ProfileRuleset selected, _) => _button(

@@ -119,9 +119,8 @@ final class UiSkeletonPulse extends InheritedWidget {
   });
   final Animation<double> opacity;
 
-  static Animation<double>? maybeOf(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<UiSkeletonPulse>()
-      ?.opacity;
+  static Animation<double>? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<UiSkeletonPulse>()?.opacity;
 
   @override
   bool updateShouldNotify(UiSkeletonPulse oldWidget) =>

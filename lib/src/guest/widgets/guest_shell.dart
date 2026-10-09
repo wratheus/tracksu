@@ -82,31 +82,31 @@ final class _GuestShellState extends State<GuestShell> {
             child: Opacity(
               opacity: 1 - covered,
               child: UiNavigationBar(
-              // The last branch is search: its own round button.
-              selectedIndex: _shell.currentIndex == _searchIndex
-                  ? null
-                  : _shell.currentIndex,
-              onSelected: _select,
-              search: context.t.navigationSearch,
-              searchSelected: _shell.currentIndex == _searchIndex,
-              onSearch: () => _select(_searchIndex),
-              items: <UiNavigationItem>[
-                UiNavigationItem(
-                  label: context.t.navigationHome,
-                  icon: Icons.home_outlined,
-                  selectedIcon: Icons.home_rounded,
-                ),
-                UiNavigationItem(
-                  label: context.t.rankingsTitle,
-                  icon: Icons.leaderboard_outlined,
-                  selectedIcon: Icons.leaderboard,
-                ),
-                UiNavigationItem(
-                  label: context.t.hubTitle,
-                  icon: Icons.explore_outlined,
-                  selectedIcon: Icons.explore,
-                ),
-              ],
+                // The last branch is search: its own round button.
+                selectedIndex: _shell.currentIndex == _searchIndex
+                    ? null
+                    : _shell.currentIndex,
+                onSelected: _select,
+                search: context.t.navigationSearch,
+                searchSelected: _shell.currentIndex == _searchIndex,
+                onSearch: () => _select(_searchIndex),
+                items: <UiNavigationItem>[
+                  UiNavigationItem(
+                    label: context.t.navigationHome,
+                    icon: Icons.home_outlined,
+                    selectedIcon: Icons.home_rounded,
+                  ),
+                  UiNavigationItem(
+                    label: context.t.rankingsTitle,
+                    icon: Icons.leaderboard_outlined,
+                    selectedIcon: Icons.leaderboard,
+                  ),
+                  UiNavigationItem(
+                    label: context.t.hubTitle,
+                    icon: Icons.explore_outlined,
+                    selectedIcon: Icons.explore,
+                  ),
+                ],
               ),
             ),
           ),

@@ -361,9 +361,7 @@ final class _SegmentGlass extends StatelessWidget {
     final ColorScheme colors = Theme.of(context).colorScheme;
     final bool solid = MediaQuery.highContrastOf(context);
     return Material(
-      color: colors.surfaceContainerHighest.withValues(
-        alpha: solid ? 1 : 0.72,
-      ),
+      color: colors.surfaceContainerHighest.withValues(alpha: solid ? 1 : 0.72),
       shape: shape,
       clipBehavior: Clip.antiAlias,
       child: DecoratedBox(

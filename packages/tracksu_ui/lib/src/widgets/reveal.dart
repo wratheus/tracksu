@@ -29,7 +29,8 @@ bool _followsPlaceholder(BuildContext context) {
   final ModalRoute<Object?>? route = ModalRoute.of(context);
   if (scrollable == null && route == null) return true;
   if (scrollable != null) {
-    return _shownIn[scrollable] ?? (route != null && _shownAround[route] == true);
+    return _shownIn[scrollable] ??
+        (route != null && _shownAround[route] == true);
   }
   return _shownIn[route!] ?? false;
 }

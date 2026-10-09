@@ -120,12 +120,7 @@ final class _AccountSheet extends StatelessWidget {
           onTap: () => _pick(context, value),
         );
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        UiSpace.lg,
-        0,
-        UiSpace.lg,
-        UiSpace.lg,
-      ),
+      padding: const EdgeInsets.fromLTRB(UiSpace.lg, 0, UiSpace.lg, UiSpace.lg),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -139,7 +134,9 @@ final class _AccountSheet extends StatelessWidget {
                 children: <Widget>[
                   UiAvatar.small(
                     name: username ?? context.t.account,
-                    image: image == null ? null : AppMedia.image(context, image),
+                    image: image == null
+                        ? null
+                        : AppMedia.image(context, image),
                   ),
                   Expanded(
                     child: UiText.titleMedium(
@@ -159,11 +156,7 @@ final class _AccountSheet extends StatelessWidget {
               Icons.person_outline,
             )
           else
-            row(
-              _AccountSelection.signIn,
-              context.t.signInWithOsu,
-              Icons.login,
-            ),
+            row(_AccountSelection.signIn, context.t.signInWithOsu, Icons.login),
           row(
             _AccountSelection.settings,
             context.t.settingsTitle,

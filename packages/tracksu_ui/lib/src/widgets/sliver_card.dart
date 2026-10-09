@@ -31,9 +31,7 @@ final class UiSliverCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(UiShape.card),
         );
     // Ink of the first and last rows follows the card's rounded corners.
-    final Radius corner = Radius.circular(
-      math.max(0, UiShape.card - _inset),
-    );
+    final Radius corner = Radius.circular(math.max(0, UiShape.card - _inset));
     return DecoratedSliver(
       decoration: ShapeDecoration(
         shape: shape,
@@ -43,8 +41,7 @@ final class UiSliverCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: _inset),
         sliver: SliverList.separated(
           itemCount: itemCount,
-          separatorBuilder: (_, _) =>
-              Divider(height: 1, indent: dividerIndent),
+          separatorBuilder: (_, _) => Divider(height: 1, indent: dividerIndent),
           itemBuilder: (BuildContext context, int index) => Material(
             type: MaterialType.transparency,
             shape: RoundedRectangleBorder(

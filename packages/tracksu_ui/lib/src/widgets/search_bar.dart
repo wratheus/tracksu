@@ -63,84 +63,79 @@ final class _UiSearchBarState extends State<UiSearchBar> {
       height: UiSearchBar.height,
       child: ListenableBuilder(
         listenable: _focus,
-        builder: (BuildContext context, Widget? child) => _Field(
-          focused: _focus.hasFocus,
-          duration: duration,
-          child: child!,
-        ),
-          child: Padding(
-            padding: const EdgeInsetsDirectional.only(
-              start: UiSpace.lg,
-              end: UiSpace.xs,
-            ),
-            child: Row(
-              spacing: UiSpace.sm,
-              children: <Widget>[
-                Icon(
-                  Icons.search_rounded,
-                  size: 22,
-                  color: colors.onSurfaceVariant,
-                ),
-                Expanded(
-                  child: Center(
-                    child: TextField(
-                      controller: widget.controller,
-                      focusNode: _focus,
-                      autofocus: widget.autofocus,
-                      onSubmitted: widget.onSubmitted,
-                      onChanged: widget.onChanged,
-                      textInputAction: TextInputAction.search,
-                      textAlignVertical: TextAlignVertical.center,
-                      autocorrect: false,
-                      maxLines: 1,
-                      style: style,
-                      strutStyle: strut,
-                      cursorColor: colors.primary,
-                      cursorHeight: 20,
-                      // The capsule is the field: no theme fill or outline.
-                      decoration: InputDecoration(
-                        isCollapsed: true,
-                        filled: false,
-                        contentPadding: EdgeInsets.zero,
-                        border: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        hintText: widget.hint,
-                        hintMaxLines: 1,
-                        hintStyle: style.copyWith(
-                          color: colors.onSurfaceVariant,
-                        ),
-                      ),
+        builder: (BuildContext context, Widget? child) =>
+            _Field(focused: _focus.hasFocus, duration: duration, child: child!),
+        child: Padding(
+          padding: const EdgeInsetsDirectional.only(
+            start: UiSpace.lg,
+            end: UiSpace.xs,
+          ),
+          child: Row(
+            spacing: UiSpace.sm,
+            children: <Widget>[
+              Icon(
+                Icons.search_rounded,
+                size: 22,
+                color: colors.onSurfaceVariant,
+              ),
+              Expanded(
+                child: Center(
+                  child: TextField(
+                    controller: widget.controller,
+                    focusNode: _focus,
+                    autofocus: widget.autofocus,
+                    onSubmitted: widget.onSubmitted,
+                    onChanged: widget.onChanged,
+                    textInputAction: TextInputAction.search,
+                    textAlignVertical: TextAlignVertical.center,
+                    autocorrect: false,
+                    maxLines: 1,
+                    style: style,
+                    strutStyle: strut,
+                    cursorColor: colors.primary,
+                    cursorHeight: 20,
+                    // The capsule is the field: no theme fill or outline.
+                    decoration: InputDecoration(
+                      isCollapsed: true,
+                      filled: false,
+                      contentPadding: EdgeInsets.zero,
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      hintText: widget.hint,
+                      hintMaxLines: 1,
+                      hintStyle: style.copyWith(color: colors.onSurfaceVariant),
                     ),
                   ),
                 ),
-                ValueListenableBuilder<TextEditingValue>(
-                  valueListenable: widget.controller,
-                  builder: (BuildContext context, TextEditingValue value, _) =>
-                      AnimatedSwitcher(
-                        duration: duration,
-                        child: value.text.isEmpty
-                            ? const SizedBox(width: UiSpace.sm)
-                            : IconButton(
-                                key: const ValueKey<String>('clear'),
-                                tooltip: widget.clearLabel,
-                                visualDensity: VisualDensity.compact,
-                                onPressed: () {
-                                  widget.controller.clear();
-                                  widget.onChanged?.call('');
-                                },
-                                icon: Icon(
-                                  Icons.cancel_rounded,
-                                  size: 20,
-                                  color: colors.onSurfaceVariant,
-                                ),
+              ),
+              ValueListenableBuilder<TextEditingValue>(
+                valueListenable: widget.controller,
+                builder: (BuildContext context, TextEditingValue value, _) =>
+                    AnimatedSwitcher(
+                      duration: duration,
+                      child: value.text.isEmpty
+                          ? const SizedBox(width: UiSpace.sm)
+                          : IconButton(
+                              key: const ValueKey<String>('clear'),
+                              tooltip: widget.clearLabel,
+                              visualDensity: VisualDensity.compact,
+                              onPressed: () {
+                                widget.controller.clear();
+                                widget.onChanged?.call('');
+                              },
+                              icon: Icon(
+                                Icons.cancel_rounded,
+                                size: 20,
+                                color: colors.onSurfaceVariant,
                               ),
-                      ),
-                ),
-              ],
-            ),
+                            ),
+                    ),
+              ),
+            ],
           ),
+        ),
       ),
     );
   }

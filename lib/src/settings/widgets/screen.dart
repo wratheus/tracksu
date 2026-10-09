@@ -154,17 +154,15 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                                   leading: const UiTileIcon(
                                     Icons.person_outline,
                                   ),
-                                  onTap: () => _open(
-                                    deps.appRouter.openCurrentProfile,
-                                  ),
+                                  onTap: () =>
+                                      _open(deps.appRouter.openCurrentProfile),
                                 ),
                               if (!authenticated)
                                 UiTile.value(
                                   title: context.t.signInWithOsu,
                                   leading: const UiTileIcon(Icons.login),
                                   // Always available while signed out.
-                                  onTap: () =>
-                                      _open(deps.appRouter.openLogin),
+                                  onTap: () => _open(deps.appRouter.openLogin),
                                 ),
                             ],
                           ),

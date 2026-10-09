@@ -24,9 +24,8 @@ final class _RulesetListenerState extends State<RulesetListener> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final RulesetController controller = DepsScope.of(
-      context,
-    ).rulesetController;
+    final RulesetController controller = DepsScope.of(context)
+        .rulesetController;
     if (identical(controller, _controller)) return;
     _controller?.removeListener(_changed);
     _controller = controller..addListener(_changed);

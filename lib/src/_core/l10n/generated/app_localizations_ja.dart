@@ -2248,6 +2248,5 @@ class AppLocalizationsJa extends AppLocalizations {
   String get rulesetTitle => 'ゲームモード';
 
   @override
-  String get beatmapSearchPrompt =>
-      '曲名やアーティストを入力するか、ステータス・ジャンル・言語を選んでください';
+  String get beatmapSearchPrompt => '曲名やアーティストを入力するか、ステータス・ジャンル・言語を選んでください';
 }

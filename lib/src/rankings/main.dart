@@ -69,22 +69,23 @@ final class RankingsMain extends StatelessWidget {
                 ),
               ),
               child: BlocProvider<RankingsBloc>(
-                create: (_) => RankingsBloc(
-                  cache: DepsScope.of(context).pageCache,
-                  repository: RankingsRepositoryImpl(
-                    remoteSource: OsuRankingsRemoteSource(
-                      restClient: DepsScope.of(context).publicRestClient,
+                create: (_) =>
+                    RankingsBloc(
+                      cache: DepsScope.of(context).pageCache,
+                      repository: RankingsRepositoryImpl(
+                        remoteSource: OsuRankingsRemoteSource(
+                          restClient: DepsScope.of(context).publicRestClient,
+                        ),
+                      ),
+                    )..add(
+                      // The app's game mode (ADR-011), PP first.
+                      RankingsStarted(
+                        type: RankingsType.select(
+                          DepsScope.of(context).rulesetController.value,
+                          true,
+                        ),
+                      ),
                     ),
-                  ),
-                )..add(
-                  // The app's game mode (ADR-011), PP first.
-                  RankingsStarted(
-                    type: RankingsType.select(
-                      DepsScope.of(context).rulesetController.value,
-                      true,
-                    ),
-                  ),
-                ),
                 child: const _RankingsBody(),
               ),
             ),

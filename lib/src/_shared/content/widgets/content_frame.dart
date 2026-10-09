@@ -149,84 +149,87 @@ final class _ContentFrameState extends State<ContentFrame>
         // go to bound memory; their boxes come back at the known size.
         keep: block is! ContentImage && block is! ContentVideo,
         child: Padding(
-        padding: EdgeInsetsDirectional.only(
-          start: depth.clamp(0, 3) * UiSpace.sm,
-          top: UiSpace.sm,
-          bottom: UiSpace.sm,
-        ),
-        child: switch (block) {
-          ContentAudio(:final track) when widget.audioController != null =>
-            AudioTrackPlayer(track: track, controller: widget.audioController!),
-          ContentText() => _text(context, block),
-          // Video downloads follow the same media preference as images.
-          ContentVideo() when widget.mediaPermission?.allowed == true =>
-            ContentVideoView(
-              video: block,
-              audioController: widget.audioController,
-              onOpenOriginal: () =>
-                  widget.onOpenLink(widget.document.uri.toString()),
-            ),
-          ContentEmbed() => ContentEmbedCard(
-            embed: block,
-            onOpenLink: widget.onOpenLink,
+          padding: EdgeInsetsDirectional.only(
+            start: depth.clamp(0, 3) * UiSpace.sm,
+            top: UiSpace.sm,
+            bottom: UiSpace.sm,
           ),
-          ContentImage() =>
-            widget.mediaPermission?.allowed == true
-                ? ContentImageView(image: block, loader: _media)
-                : UiSurface.inset(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      spacing: UiSpace.sm,
-                      children: <Widget>[
-                        if (block.alt.isNotEmpty) UiText.bodySmall(block.alt),
-                        UiText.bodySmall(
-                          context.t.contentMediaDisabled,
-                          secondary: true,
-                        ),
-                      ],
+          child: switch (block) {
+            ContentAudio(:final track) when widget.audioController != null =>
+              AudioTrackPlayer(
+                track: track,
+                controller: widget.audioController!,
+              ),
+            ContentText() => _text(context, block),
+            // Video downloads follow the same media preference as images.
+            ContentVideo() when widget.mediaPermission?.allowed == true =>
+              ContentVideoView(
+                video: block,
+                audioController: widget.audioController,
+                onOpenOriginal: () =>
+                    widget.onOpenLink(widget.document.uri.toString()),
+              ),
+            ContentEmbed() => ContentEmbedCard(
+              embed: block,
+              onOpenLink: widget.onOpenLink,
+            ),
+            ContentImage() =>
+              widget.mediaPermission?.allowed == true
+                  ? ContentImageView(image: block, loader: _media)
+                  : UiSurface.inset(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        spacing: UiSpace.sm,
+                        children: <Widget>[
+                          if (block.alt.isNotEmpty) UiText.bodySmall(block.alt),
+                          UiText.bodySmall(
+                            context.t.contentMediaDisabled,
+                            secondary: true,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-          ContentDisclosure() => Semantics(
-            expanded: _expanded.contains(block.id),
-            child: UiSurface.outlined(
-              padding: const EdgeInsets.all(UiSpace.xs),
-              child: UiButton.text(
-                label: block.title.isEmpty
-                    ? context.t.contentDisclosure
-                    : block.title,
-                icon: _expanded.contains(block.id)
-                    ? Icons.expand_less
-                    : Icons.expand_more,
-                onPressed: () => setState(() {
-                  if (!_expanded.remove(block.id)) _expanded.add(block.id);
-                  _flatten();
-                }),
+            ContentDisclosure() => Semantics(
+              expanded: _expanded.contains(block.id),
+              child: UiSurface.outlined(
+                padding: const EdgeInsets.all(UiSpace.xs),
+                child: UiButton.text(
+                  label: block.title.isEmpty
+                      ? context.t.contentDisclosure
+                      : block.title,
+                  icon: _expanded.contains(block.id)
+                      ? Icons.expand_less
+                      : Icons.expand_more,
+                  onPressed: () => setState(() {
+                    if (!_expanded.remove(block.id)) _expanded.add(block.id);
+                    _flatten();
+                  }),
+                ),
               ),
             ),
-          ),
-          ContentUnsupported() ||
-          ContentAudio() ||
-          ContentVideo() => UiSurface.inset(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: UiSpace.sm,
-              children: <Widget>[
-                UiText.bodySmall(
-                  block is ContentVideo
-                      ? context.t.contentMediaDisabled
-                      : context.t.contentUnsupported,
-                  secondary: true,
-                ),
-                UiButton.text(
-                  label: context.t.contentOriginal,
-                  icon: Icons.open_in_new,
-                  onPressed: () =>
-                      widget.onOpenLink(widget.document.uri.toString()),
-                ),
-              ],
+            ContentUnsupported() ||
+            ContentAudio() ||
+            ContentVideo() => UiSurface.inset(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: UiSpace.sm,
+                children: <Widget>[
+                  UiText.bodySmall(
+                    block is ContentVideo
+                        ? context.t.contentMediaDisabled
+                        : context.t.contentUnsupported,
+                    secondary: true,
+                  ),
+                  UiButton.text(
+                    label: context.t.contentOriginal,
+                    icon: Icons.open_in_new,
+                    onPressed: () =>
+                        widget.onOpenLink(widget.document.uri.toString()),
+                  ),
+                ],
+              ),
             ),
-          ),
-        },
+          },
         ),
       );
     },

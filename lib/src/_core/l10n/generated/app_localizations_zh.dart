@@ -2233,6 +2233,5 @@ class AppLocalizationsZh extends AppLocalizations {
   String get rulesetTitle => '游戏模式';
 
   @override
-  String get beatmapSearchPrompt =>
-      '输入标题或艺术家，或选择状态、流派或语言';
+  String get beatmapSearchPrompt => '输入标题或艺术家，或选择状态、流派或语言';
 }
