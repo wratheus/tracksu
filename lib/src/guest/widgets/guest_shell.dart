@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
@@ -41,20 +43,45 @@ final class _GuestShellState extends State<GuestShell> {
   }
 
   @override
-  Widget build(BuildContext context) => PopScope<void>(
-    // The delegate tries the active branch first. This scope belongs only
-    // to the shell's root page: it does not veto a detail's native pop/swipe.
-    canPop: _shell.currentIndex == 0,
-    onPopInvokedWithResult: (bool didPop, _) {
-      if (!didPop && _shell.currentIndex != 0) _select(0);
-    },
-    child: Scaffold(
-      // The inner feature Scaffold handles keyboard insets once.
-      resizeToAvoidBottomInset: false,
-      body: ShellReselectScope(controller: _reselect, child: _shell),
-      bottomNavigationBar: MediaQuery.viewInsetsOf(context).bottom > 0
-          ? null
-          : UiNavigationBar(
+  Widget build(BuildContext context) {
+    final double keyboard = MediaQuery.viewInsetsOf(context).bottom;
+    final double bar = UiNavigationBar.extentOf(context);
+    // The bar stays put while the keyboard rises over it and fades by how
+    // much of it is covered; pages only see the part of the keyboard above
+    // the bar. Follows the keyboard frame by frame, no jump when it starts.
+    final double covered = bar <= 0 ? 0 : (keyboard / bar).clamp(0, 1);
+    return PopScope<void>(
+      // The delegate tries the active branch first. This scope belongs only
+      // to the shell's root page: it does not veto a detail's native pop/swipe.
+      canPop: _shell.currentIndex == 0,
+      onPopInvokedWithResult: (bool didPop, _) {
+        if (!didPop && _shell.currentIndex != 0) _select(0);
+      },
+      child: Scaffold(
+        // The inner feature Scaffold handles keyboard insets once.
+        resizeToAvoidBottomInset: false,
+        // The body's own MediaQuery: the Scaffold has already taken the
+        // bottom safe area for the bar.
+        body: Builder(
+          builder: (BuildContext context) {
+            final MediaQueryData media = MediaQuery.of(context);
+            return MediaQuery(
+              data: media.copyWith(
+                viewInsets: media.viewInsets.copyWith(
+                  bottom: math.max(0, keyboard - bar),
+                ),
+              ),
+              child: ShellReselectScope(controller: _reselect, child: _shell),
+            );
+          },
+        ),
+        bottomNavigationBar: IgnorePointer(
+          ignoring: covered > 0.5,
+          child: ExcludeSemantics(
+            excluding: covered >= 1,
+            child: Opacity(
+              opacity: 1 - covered,
+              child: UiNavigationBar(
               // The last branch is search: its own round button.
               selectedIndex: _shell.currentIndex == _searchIndex
                   ? null
@@ -80,7 +107,11 @@ final class _GuestShellState extends State<GuestShell> {
                   selectedIcon: Icons.explore,
                 ),
               ],
+              ),
             ),
-    ),
-  );
+          ),
+        ),
+      ),
+    );
+  }
 }

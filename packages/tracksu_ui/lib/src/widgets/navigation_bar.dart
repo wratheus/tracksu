@@ -38,6 +38,10 @@ final class UiNavigationBar extends StatelessWidget {
 
   static const double height = 72;
 
+  /// Full height on screen: the bar and the bottom safe area under it.
+  static double extentOf(BuildContext context) =>
+      height + MediaQuery.paddingOf(context).bottom;
+
   @override
   Widget build(BuildContext context) {
     final ColorScheme colors = Theme.of(context).colorScheme;

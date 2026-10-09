@@ -8,6 +8,9 @@
   feed builds only the rows on screen, and a page whose content is already
   loaded appears at once instead of fading in during the swipe. Content still
   fades in over its placeholder after a real load.
+- The bottom bar no longer vanishes the moment the keyboard starts to open:
+  the keyboard slides over it while it fades by how much is covered, and the
+  search field rides up with the keyboard frame by frame.
 
 ### Sheets, pickers, glass
 
