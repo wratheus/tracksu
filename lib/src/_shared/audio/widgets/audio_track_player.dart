@@ -167,6 +167,7 @@ final class _AudioTrackPlayerState extends State<AudioTrackPlayer>
               ? position.inMilliseconds / duration.inMilliseconds
               : 0,
           loading: phase == AudioPlaybackPhase.loading,
+          playing: phase == AudioPlaybackPhase.playing,
           failed: phase == AudioPlaybackPhase.failed,
           onAction: !_visible || !_foreground
               ? null

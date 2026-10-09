@@ -23,6 +23,7 @@ final class UiAudioPlayer extends StatefulWidget {
     this.onSeek,
     this.loading = false,
     this.failed = false,
+    this.playing = false,
     super.key,
   }) : _overlay = false;
 
@@ -40,6 +41,7 @@ final class UiAudioPlayer extends StatefulWidget {
     this.onSeek,
     this.loading = false,
     this.failed = false,
+    this.playing = false,
     super.key,
   }) : _overlay = true;
   final bool _overlay;
@@ -55,6 +57,10 @@ final class UiAudioPlayer extends StatefulWidget {
   final ValueChanged<double>? onSeek;
   final bool loading;
   final bool failed;
+
+  /// Sound is running: the timeline glides between position reports. Paused
+  /// or stopped, it holds still at once (no glide past the pause point).
+  final bool playing;
 
   @override
   State<UiAudioPlayer> createState() => _UiAudioPlayerState();
@@ -107,7 +113,7 @@ final class _UiAudioPlayerState extends State<UiAudioPlayer> {
                       progress: widget.loading
                           ? null
                           : _scrub ?? widget.progress.clamp(0, 1),
-                      scrubbing: _scrub != null,
+                      scrubbing: _scrub != null || !widget.playing,
                       positionLabel: widget.positionLabel,
                       durationLabel: widget.durationLabel,
                       seekLabel: widget.seekLabel,

@@ -10,6 +10,8 @@
   and a check for the selected one.
 - The category dropdown is a chamfered glass button: the choice's icon,
   a small caption with the picker's title, the value, and an unfold mark.
+- Pausing the preview stops the timeline where it is instead of letting it
+  glide on to the next expected position.
 
 ### Smoother player, glass search, tidy filters
 
