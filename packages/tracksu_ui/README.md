@@ -1,6 +1,8 @@
 # tracksu_ui
 
 `UiSliverCardList` — lazy card list with the shared `UiSpace.md` (12 px) gap.
+`UiSliverCard` — lazy rows inside one card (dividers, per-row ink); use it
+instead of a `Column` in `UiSurface.card` for feeds that grow by pages.
 The screen owns outer padding; surfaces do not impose hidden margins.
 
 Presentation foundation for Tracksu. Public import:
@@ -239,9 +241,14 @@ placeholders of one page pulse together from a single controller; under reduced
 motion they stay static.
 
 `UiReveal` (box) and `UiSliverReveal` (sliver) fade their child in once when
-first mounted, using `UiMotion.reveal`/`revealCurve`; keep them at a stable tree
-position so refresh and pagination do not replay the fade. They honor reduced
-motion and never wrap lazy lists in an `AnimatedSwitcher`.
+it replaces a `UiPageSkeleton`, using `UiMotion.reveal`/`revealCurve`. Content
+that is ready on the page's first build (a cache hit, a tab page swiped into
+after it loaded) appears at once: the skeleton marks its list (or its route,
+when it sits outside a list) and the reveal checks that mark.
+`UiReveal(always: true)` fades regardless, for an image that just decoded. Keep
+them at a stable tree position so refresh and pagination do not replay the
+fade. They honor reduced motion and never wrap lazy lists in an
+`AnimatedSwitcher`.
 
 `UiAvatar` uses a proportional corner radius (16% of its side), so small ranking
 avatars remain recognizably square. Flags are an app-level composition, not an
@@ -303,7 +310,10 @@ is local state and does not rebuild the profile page or fetch data.
 shared Material navigation theme. `UiNavigationItem` carries localized labels
 and normal/selected icons. It owns no router, stacks or reselect policy; those
 belong to the app's stateful shell. The manual catalog includes a selectable
-three-destination sample.
+three-destination sample. `UiNavigationBar.extentOf(context)` is its height
+with the bottom safe area; the shell uses it to let the keyboard cover the bar
+gradually (the bar fades by the covered fraction and pages only see the part of
+the keyboard above it) instead of removing the bar when the keyboard opens.
 ### Images and assets
 
 Pass an `ImageProvider` (e.g. `AssetImage` or an already validated `NetworkImage`)

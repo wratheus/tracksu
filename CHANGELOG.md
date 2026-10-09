@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### osu! tabs, keyboard, account
+
+- Events, Forum and Changelog no longer stutter when swiped into: the event
+  feed builds only the rows on screen, and a page whose content is already
+  loaded appears at once instead of fading in during the swipe. Content still
+  fades in over its placeholder after a real load.
+
 ### Sheets, pickers, glass
 
 - Short sheets (e.g. "Previously known as") no longer close the moment

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
 import 'package:tracksu_ui/src/widgets/content_state.dart';
+import 'package:tracksu_ui/src/widgets/reveal.dart';
 import 'package:tracksu_ui/src/widgets/surface.dart';
 
 enum _SkeletonShape { profile, list, news, article }
@@ -51,9 +52,16 @@ final class _UiPageSkeletonState extends State<UiPageSkeleton>
     ).chain(CurveTween(curve: Curves.easeInOut)),
   );
 
+  bool _marked = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (!_marked) {
+      _marked = true;
+      // Content that replaces this placeholder fades in over it.
+      markRevealPlaceholder(context);
+    }
     if (MediaQuery.disableAnimationsOf(context)) {
       _controller
         ..stop()

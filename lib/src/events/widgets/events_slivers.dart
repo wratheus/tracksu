@@ -98,22 +98,14 @@ final class OsuEventsSlivers extends StatelessWidget {
                 else if (items.isNotEmpty)
                   SliverPadding(
                     padding: const EdgeInsets.all(UiSpace.lg),
-                    sliver: SliverToBoxAdapter(
-                      child: UiSurface.card(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: UiSpace.xs,
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            for (int i = 0; i < items.length; i++) ...<Widget>[
-                              if (i > 0) const Divider(height: 1, indent: 64),
-                              OsuEventRow(
-                                key: ValueKey<int>(items[i].id),
-                                event: items[i],
-                              ),
-                            ],
-                          ],
-                        ),
+                    // Lazy: hundreds of loaded events must not be laid out
+                    // when the tab is swiped into.
+                    sliver: UiSliverCard(
+                      itemCount: items.length,
+                      dividerIndent: 64,
+                      itemBuilder: (BuildContext context, int i) => OsuEventRow(
+                        key: ValueKey<int>(items[i].id),
+                        event: items[i],
                       ),
                     ),
                   ),

@@ -328,6 +328,7 @@ final class _ContentImageViewState extends State<ContentImageView> {
           // spinner flash for fast cache hits.
           child: _image != null
               ? UiReveal(
+                  always: true,
                   child: Semantics(
                     image: true,
                     label: label,
