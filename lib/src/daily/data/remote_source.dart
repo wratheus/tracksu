@@ -13,6 +13,9 @@ abstract interface class DailyChallengeRemoteSource {
 final class DailyChallengeRemoteException implements Exception {
   const DailyChallengeRemoteException(this.statusCode);
   final int statusCode;
+
+  @override
+  String toString() => 'HTTP $statusCode';
 }
 
 /// `GET /rooms?category=daily_challenge` — documented as "Get Multiplayer

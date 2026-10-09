@@ -67,8 +67,14 @@ final class DailyChallengeScore {
 enum DailyChallengeFailureKind { connection, unavailable, invalidResponse }
 
 final class DailyChallengeFailure implements Exception {
-  const DailyChallengeFailure(this.kind);
+  const DailyChallengeFailure(this.kind, {this.cause});
   final DailyChallengeFailureKind kind;
+
+  /// What went wrong underneath (status code, decode error), for logs only.
+  final Object? cause;
+
+  @override
+  String toString() => 'DailyChallengeFailure(${kind.name}, $cause)';
 }
 
 abstract interface class DailyChallengeRepository {

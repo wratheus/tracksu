@@ -291,6 +291,14 @@ final class HttpRestClient implements RestClient {
     } on RestClientException {
       rethrow;
     } on Object catch (error, stackTrace) {
+      // A pooled keep-alive connection can die while the app is in the
+      // background (e.g. during sign-in in the browser); the first request
+      // after it fails at once. A read is repeated once on a new connection.
+      if (allowRetry &&
+          interceptedRequest.method == RestMethod.get &&
+          !(cancellationToken?.isCancelled ?? false)) {
+        return _send(request, cancellationToken, allowRetry: false);
+      }
       throw RestTransportException(
         uri: interceptedRequest.uri,
         cause: error,

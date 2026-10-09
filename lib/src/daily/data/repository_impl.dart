@@ -31,25 +31,37 @@ final class DailyChallengeRepositoryImpl implements DailyChallengeRepository {
   Future<T> _guard<T>(Future<T> Function() read) async {
     try {
       return await read();
-    } on DailyChallengeRemoteException catch (_, stackTrace) {
+    } on DailyChallengeRemoteException catch (error, stackTrace) {
       Error.throwWithStackTrace(
-        const DailyChallengeFailure(DailyChallengeFailureKind.unavailable),
+        DailyChallengeFailure(
+          DailyChallengeFailureKind.unavailable,
+          cause: error,
+        ),
         stackTrace,
       );
-    } on OAuthRemoteSourceException catch (_, stackTrace) {
+    } on OAuthRemoteSourceException catch (error, stackTrace) {
       Error.throwWithStackTrace(
-        const DailyChallengeFailure(DailyChallengeFailureKind.unavailable),
+        DailyChallengeFailure(
+          DailyChallengeFailureKind.unavailable,
+          cause: error,
+        ),
         stackTrace,
       );
-    } on FormatException catch (_, stackTrace) {
+    } on FormatException catch (error, stackTrace) {
       Error.throwWithStackTrace(
-        const DailyChallengeFailure(DailyChallengeFailureKind.invalidResponse),
+        DailyChallengeFailure(
+          DailyChallengeFailureKind.invalidResponse,
+          cause: error,
+        ),
         stackTrace,
       );
     } on Object catch (error, stackTrace) {
       if (error is RestClientException || error is IOException) {
         Error.throwWithStackTrace(
-          const DailyChallengeFailure(DailyChallengeFailureKind.connection),
+          DailyChallengeFailure(
+            DailyChallengeFailureKind.connection,
+            cause: error,
+          ),
           stackTrace,
         );
       }
