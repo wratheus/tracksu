@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
@@ -58,6 +60,12 @@ final class _SettingsScreenState extends State<SettingsScreen> {
       }
     }
   }
+
+  /// Opens a page without holding [_busy]: a pushed page's future only
+  /// completes on pop, and a page removed another way (a tab re-tap resets
+  /// the branch) would leave the rows disabled for good.
+  void _open(Future<void> Function(BuildContext context) open) =>
+      unawaited(open(context));
 
   Future<void> _run(Future<void> Function() action) async {
     if (_busy) return;
@@ -146,23 +154,17 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                                   leading: const UiTileIcon(
                                     Icons.person_outline,
                                   ),
-                                  onTap: _busy
-                                      ? null
-                                      : () => _run(
-                                          () => deps.appRouter
-                                              .openCurrentProfile(context),
-                                        ),
+                                  onTap: () => _open(
+                                    deps.appRouter.openCurrentProfile,
+                                  ),
                                 ),
                               if (!authenticated)
                                 UiTile.value(
                                   title: context.t.signInWithOsu,
                                   leading: const UiTileIcon(Icons.login),
-                                  onTap: _busy
-                                      ? null
-                                      : () => _run(
-                                          () =>
-                                              deps.appRouter.openLogin(context),
-                                        ),
+                                  // Always available while signed out.
+                                  onTap: () =>
+                                      _open(deps.appRouter.openLogin),
                                 ),
                             ],
                           ),
@@ -275,11 +277,7 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                               UiTile.value(
                                 title: context.t.aboutTitle,
                                 leading: const UiTileIcon(Icons.info_outline),
-                                onTap: _busy
-                                    ? null
-                                    : () => _run(
-                                        () => deps.appRouter.openAbout(context),
-                                      ),
+                                onTap: () => _open(deps.appRouter.openAbout),
                               ),
                             ],
                           ),

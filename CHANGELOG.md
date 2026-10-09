@@ -13,6 +13,9 @@
   search field rides up with the keyboard frame by frame.
 - "Sign in with another account" is gone from the account menu and Settings:
   sign out, then sign in.
+- Sign in (and the other account entries) never stays greyed out: the
+  account button and Settings rows no longer wait for the page they opened
+  to be closed with Back.
 - After signing in in the browser, the first request could fail on a
   connection that died while the app was in the background (the map of the
   day turned into an error). A failed read is now repeated once on a fresh

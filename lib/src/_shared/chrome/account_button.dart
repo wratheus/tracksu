@@ -24,26 +24,18 @@ final class AccountButton extends StatefulWidget {
 }
 
 final class _AccountButtonState extends State<AccountButton> {
-  bool _busy = false;
-
-  Future<void> _select(_AccountSelection selection) async {
-    if (_busy) return;
-    setState(() => _busy = true);
-    try {
-      final DepsContainer deps = DepsScope.of(context);
-      switch (selection) {
-        case _AccountSelection.signIn:
-          await deps.appRouter.openLogin(context);
-        case _AccountSelection.myProfile:
-          await deps.appRouter.openCurrentProfile(context);
-        case _AccountSelection.signOut:
-          await SignOutAction.show(context);
-        case _AccountSelection.settings:
-          await deps.appRouter.openSettings(context);
-      }
-    } finally {
-      if (mounted) setState(() => _busy = false);
-    }
+  /// Never waits for the opened page: a pushed page's future completes only
+  /// on pop, and one removed another way (a tab re-tap resets the branch)
+  /// left the button disabled for good. The menu closes on selection, so a
+  /// second tap cannot double-fire.
+  void _select(_AccountSelection selection) {
+    final DepsContainer deps = DepsScope.of(context);
+    unawaited(switch (selection) {
+      _AccountSelection.signIn => deps.appRouter.openLogin(context),
+      _AccountSelection.myProfile => deps.appRouter.openCurrentProfile(context),
+      _AccountSelection.signOut => SignOutAction.show(context),
+      _AccountSelection.settings => deps.appRouter.openSettings(context),
+    });
   }
 
   @override
@@ -71,7 +63,6 @@ final class _AccountButtonState extends State<AccountButton> {
     required bool authenticated,
     required Uri? image,
   }) => PopupMenuButton<_AccountSelection>(
-    enabled: !_busy,
     tooltip: context.t.account,
     icon: authenticated && image != null
         ? UiAvatar.small(
@@ -79,7 +70,7 @@ final class _AccountButtonState extends State<AccountButton> {
             image: AppMedia.image(context, image),
           )
         : Icon(authenticated ? Icons.account_circle : Icons.person_outline),
-    onSelected: (_AccountSelection selection) => unawaited(_select(selection)),
+    onSelected: _select,
     itemBuilder: (BuildContext context) => <PopupMenuEntry<_AccountSelection>>[
       if (authenticated)
         PopupMenuItem<_AccountSelection>(
