@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
+import 'package:tracksu/src/_shared/chrome/ruleset_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
-import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu/src/_shared/ui/page_activity.dart';
 import 'package:tracksu/src/profile/bloc/bloc.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
@@ -32,6 +32,20 @@ final class ProfileScreen extends StatelessWidget {
       actions: <Widget>[
         BlocBuilder<ProfileBloc, ProfileState>(
           builder: (BuildContext context, ProfileState state) => AppBarActions(
+            // This player's mode: opens in their main mode (or the one of
+            // the page they came from) and changes only this page (ADR-011).
+            ruleset: RulesetButton(
+              value: switch (state) {
+                ProfileLoadedState(:final requestedRuleset) =>
+                  requestedRuleset ?? state.ruleset,
+                _ => state.ruleset,
+              },
+              onChanged: state is ProfileLoadedState
+                  ? (ProfileRuleset mode) => context.read<ProfileBloc>().add(
+                      ProfileRulesetSelected(mode),
+                    )
+                  : null,
+            ),
             share: state is ProfileLoadedState
                 ? ShareTarget.profile(
                     state.profile.id,
@@ -42,43 +56,18 @@ final class ProfileScreen extends StatelessWidget {
           ),
         ),
       ],
-      // One line for the profile and its score/map sections.
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(
-          UiAppBar.segmentedRowHeight(context) + UiAppBarProgress.height,
-        ),
-        child: Column(
-          children: [
-            BlocSelector<ProfileBloc, ProfileState, ProfileRuleset>(
-              selector: (ProfileState state) => switch (state) {
-                ProfileLoadedState(:final requestedRuleset) =>
-                  requestedRuleset ?? state.ruleset,
-                _ => state.ruleset,
-              },
-              builder: (BuildContext context, ProfileRuleset selected) =>
-                  Padding(
-                    padding: UiAppBar.rowPadding,
-                    child: OsuRulesetSelector(
-                      selected: selected,
-                      onChanged: (ProfileRuleset mode) => context
-                          .read<ProfileBloc>()
-                          .add(ProfileRulesetSelected(mode)),
-                    ),
-                  ),
+      bottom: UiAppBarProgressSlot(
+        child: BlocSelector<ProfileBloc, ProfileState, bool>(
+          selector: (ProfileState state) =>
+              state is ProfileLoadedState &&
+              (state.isBusy || state.requestedRuleset != null),
+          builder: (BuildContext context, bool busy) => ListenableBuilder(
+            listenable: PageActivityHost.maybeOf(context)!,
+            builder: (BuildContext context, _) => UiAppBarProgress(
+              visible: busy || PageActivityHost.maybeOf(context)!.busy,
+              semanticsLabel: context.t.profileRefreshing,
             ),
-            BlocSelector<ProfileBloc, ProfileState, bool>(
-              selector: (ProfileState state) =>
-                  state is ProfileLoadedState &&
-                  (state.isBusy || state.requestedRuleset != null),
-              builder: (BuildContext context, bool busy) => ListenableBuilder(
-                listenable: PageActivityHost.maybeOf(context)!,
-                builder: (BuildContext context, _) => UiAppBarProgress(
-                  visible: busy || PageActivityHost.maybeOf(context)!.busy,
-                  semanticsLabel: context.t.profileRefreshing,
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     ),

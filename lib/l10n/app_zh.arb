@@ -617,5 +617,6 @@
   "packsFilter": "名称或标签，例如 S1500",
   "packsOpenTag": "打开谱面包 {tag}",
   "packsFilterEmpty": "已加载的谱面包中无匹配",
-  "packsLoadMore": "加载更多谱面包"
+  "packsLoadMore": "加载更多谱面包",
+  "rulesetTitle": "游戏模式"
 }

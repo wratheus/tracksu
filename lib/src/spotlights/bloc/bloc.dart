@@ -12,8 +12,9 @@ final class SpotlightsBloc extends Bloc<SpotlightsEvent, SpotlightsState> {
   factory SpotlightsBloc({
     required SpotlightsRepository repository,
     required PageCache cache,
-  }) => SpotlightsBloc._(repository, cache);
-  SpotlightsBloc._(this._repository, this._cache)
+    ProfileRuleset ruleset = ProfileRuleset.osu,
+  }) => SpotlightsBloc._(repository, cache, ruleset);
+  SpotlightsBloc._(this._repository, this._cache, this._ruleset)
     : super(const SpotlightsInitialState()) {
     // Concurrent latest-wins selection; repeated refresh is ignored while busy.
     on<SpotlightsEvent>(_onEvent, transformer: concurrent());
@@ -23,12 +24,16 @@ final class SpotlightsBloc extends Bloc<SpotlightsEvent, SpotlightsState> {
   static const String _catalogKey = 'spotlights-catalog';
   int _generation = 0;
 
+  /// The mode charts load in (the app's mode); a change made before the
+  /// catalog arrives is kept for the first chart.
+  ProfileRuleset _ruleset;
+
   Future<void> _onEvent(
     SpotlightsEvent event,
     Emitter<SpotlightsState> emit,
   ) async {
     List<Spotlight>? catalog;
-    ProfileRuleset ruleset = ProfileRuleset.osu;
+    ProfileRuleset ruleset = _ruleset;
     int? id;
     SpotlightDetails? previous;
     final SpotlightsState current = state;
@@ -47,6 +52,7 @@ final class SpotlightsBloc extends Bloc<SpotlightsEvent, SpotlightsState> {
           return;
         }
       case SpotlightRulesetSelected(:final ruleset):
+        _ruleset = ruleset;
         if (current is! SpotlightsLoadedState ||
             current.selectedId == null ||
             ruleset == current.ruleset) {

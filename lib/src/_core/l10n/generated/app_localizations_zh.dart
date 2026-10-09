@@ -2228,4 +2228,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get packsLoadMore => '加载更多谱面包';
+
+  @override
+  String get rulesetTitle => '游戏模式';
 }

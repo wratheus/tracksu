@@ -5,7 +5,9 @@ sealed class RankingsEvent {
 }
 
 final class RankingsStarted extends RankingsEvent {
-  const RankingsStarted();
+  /// [type] is the first table, e.g. PP in the app's game mode.
+  const RankingsStarted({this.type});
+  final RankingsType? type;
 }
 
 final class RankingsCountrySelected extends RankingsEvent {

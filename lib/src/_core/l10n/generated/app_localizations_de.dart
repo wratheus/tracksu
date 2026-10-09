@@ -2344,4 +2344,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get packsLoadMore => 'Weitere Pakete laden';
+
+  @override
+  String get rulesetTitle => 'Spielmodus';
 }

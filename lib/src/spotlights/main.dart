@@ -17,6 +17,8 @@ final class SpotlightsMain extends StatelessWidget {
           restClient: DepsScope.of(context).publicRestClient,
         ),
       ),
+      // The app's game mode (ADR-011); the screen follows later changes.
+      ruleset: DepsScope.of(context).rulesetController.value,
     )..add(const SpotlightsStarted()),
     child: const SpotlightsScreen(),
   );

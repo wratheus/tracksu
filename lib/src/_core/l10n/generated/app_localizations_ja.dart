@@ -2243,4 +2243,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get packsLoadMore => 'パックをさらに読み込む';
+
+  @override
+  String get rulesetTitle => 'ゲームモード';
 }

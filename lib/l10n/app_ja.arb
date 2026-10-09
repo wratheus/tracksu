@@ -617,5 +617,6 @@
   "packsFilter": "名前またはタグ（例: S1500）",
   "packsOpenTag": "パック {tag} を開く",
   "packsFilterEmpty": "読み込んだパックに一致なし",
-  "packsLoadMore": "パックをさらに読み込む"
+  "packsLoadMore": "パックをさらに読み込む",
+  "rulesetTitle": "ゲームモード"
 }

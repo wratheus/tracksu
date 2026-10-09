@@ -11,8 +11,8 @@ import 'package:tracksu_ui/tracksu_ui.dart';
 
 /// Which part of the rankings filters to show.
 enum RankingsFilterScope {
-  /// Ruleset and PP/score: one fixed block above the Players / Teams /
-  /// Countries pages, shared by all three.
+  /// PP/score: one fixed block above the Players / Teams / Countries pages,
+  /// shared by all three. The game mode is in the app bar (ADR-011).
   shared,
 
   /// Country and mania variant: osu-web applies them to players only, so
@@ -37,18 +37,6 @@ final class RankingsFilters extends StatelessWidget {
           builder: (BuildContext context, RankingsType type) => Column(
             spacing: UiSpace.md,
             children: <Widget>[
-              OsuRulesetSelector(
-                selected: type.ruleset,
-                onChanged: (ProfileRuleset ruleset) =>
-                    context.read<RankingsBloc>().add(
-                      RankingsTypeSelected(
-                        RankingsType.select(
-                          ruleset,
-                          type.sort == 'performance',
-                        ),
-                      ),
-                    ),
-              ),
               UiSegmentedControl<bool>(
                 selected: type.sort == 'performance',
                 segments: <UiSegment<bool>>[

@@ -3803,6 +3803,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Load more packs'**
   String get packsLoadMore;
+
+  /// App bar button and sheet that choose the game mode (osu!, taiko, catch, mania).
+  ///
+  /// In en, this message translates to:
+  /// **'Game mode'**
+  String get rulesetTitle;
 }
 
 class _AppLocalizationsDelegate

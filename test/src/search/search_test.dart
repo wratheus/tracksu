@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+import 'package:tracksu/src/_shared/ruleset/ruleset_controller.dart';
 import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:tracksu/src/_core/dependencies/deps_container.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
@@ -105,6 +106,8 @@ final class _Auth extends _Unused implements AuthRepository {}
 
 final class _Links extends _Unused implements OAuthCallbackLinkSource {}
 
+final class _Rulesets extends _Unused implements RulesetStore {}
+
 /// AppBarActions' account button reads [DepsScope]; signed out, offline.
 DepsContainer _deps() {
   final RestClient rest = HttpRestClient(
@@ -126,6 +129,7 @@ DepsContainer _deps() {
     audioPlaybackController: audio,
     localeController: LocaleController(localeStore: _Locales()),
     themeController: ThemeController(store: _Themes()),
+    rulesetController: RulesetController(store: _Rulesets()),
     contentMediaController: ContentMediaController(
       store: _MediaPermission(),
       repository: media,

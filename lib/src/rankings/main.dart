@@ -1,4 +1,6 @@
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
+import 'package:tracksu/src/_shared/chrome/ruleset_button.dart';
+import 'package:tracksu/src/_shared/ruleset/ruleset_controller.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_shared/navigation/shell_reselect.dart';
@@ -74,7 +76,15 @@ final class RankingsMain extends StatelessWidget {
                       restClient: DepsScope.of(context).publicRestClient,
                     ),
                   ),
-                )..add(const RankingsStarted()),
+                )..add(
+                  // The app's game mode (ADR-011), PP first.
+                  RankingsStarted(
+                    type: RankingsType.select(
+                      DepsScope.of(context).rulesetController.value,
+                      true,
+                    ),
+                  ),
+                ),
                 child: const _RankingsBody(),
               ),
             ),
@@ -92,8 +102,8 @@ final class _RankingsBody extends StatefulWidget {
 enum _RankingsTab { players, teams, countries, kudosu }
 
 /// Players / Teams / Countries as swipeable pages under one fixed header:
-/// the linked page switcher and the ruleset + PP/score filters all three
-/// pages share. Each page keeps its own scroll, pull-to-refresh and
+/// the linked page switcher and the PP/score filter all three pages share;
+/// the game mode is the app-wide one in the app bar. Each page keeps its own scroll, pull-to-refresh and
 /// return-to-top; country and 4K/7K stay on the Players page.
 final class _RankingsBodyState extends State<_RankingsBody>
     with SingleTickerProviderStateMixin {
@@ -105,11 +115,36 @@ final class _RankingsBodyState extends State<_RankingsBody>
     for (final _RankingsTab _ in _RankingsTab.values) ScrollController(),
   ];
   int _index = 0;
+  RulesetController? _ruleset;
 
   _RankingsTab get _tab => _RankingsTab.values[_index];
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final RulesetController ruleset = DepsScope.of(context).rulesetController;
+    if (identical(ruleset, _ruleset)) return;
+    _ruleset?.removeListener(_rulesetChanged);
+    _ruleset = ruleset..addListener(_rulesetChanged);
+  }
+
+  /// The app-bar mode changed: same PP/score, new mode; teams and countries
+  /// follow through the type listener below.
+  void _rulesetChanged() {
+    final RankingsBloc bloc = context.read<RankingsBloc>();
+    bloc.add(
+      RankingsTypeSelected(
+        RankingsType.select(
+          _ruleset!.value,
+          bloc.state.type.sort == 'performance',
+        ),
+      ),
+    );
+  }
+
+  @override
   void dispose() {
+    _ruleset?.removeListener(_rulesetChanged);
     _tabs.dispose();
     for (final ScrollController scroll in _scrolls) {
       scroll.dispose();
@@ -188,6 +223,10 @@ final class _RankingsBodyState extends State<_RankingsBody>
       actions: <Widget>[
         BlocBuilder<RankingsBloc, RankingsState>(
           builder: (BuildContext context, RankingsState state) => AppBarActions(
+            // Kudosu has no game mode.
+            ruleset: _tab == _RankingsTab.kudosu
+                ? null
+                : const RulesetButton.global(),
             share: _tab == _RankingsTab.players
                 ? ShareTarget.rankings(
                     RankingsQuery(
@@ -305,7 +344,7 @@ final class _RankingsBodyState extends State<_RankingsBody>
         },
         child: Column(
           children: <Widget>[
-            // Kudosu has no ruleset or PP/score: the shared block folds away.
+            // Kudosu has no PP/score: the shared block folds away.
             AnimatedSize(
               duration: MediaQuery.disableAnimationsOf(context)
                   ? Duration.zero

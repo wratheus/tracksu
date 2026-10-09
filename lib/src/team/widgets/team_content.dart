@@ -2,7 +2,6 @@ import 'package:tracksu/src/_shared/navigation/app_links.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:flutter/material.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/content/content_media_controller.dart';
@@ -10,7 +9,6 @@ import 'package:tracksu/src/_shared/content/domain/public_web_link.dart';
 import 'package:tracksu/src/_shared/content/widgets/content_frame.dart';
 import 'package:tracksu/src/_shared/ui/osu_ui.dart';
 import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
-import 'package:tracksu/src/team/bloc/bloc.dart';
 import 'package:tracksu/src/team/domain/team.dart';
 import 'package:tracksu/src/team/widgets/member_row.dart';
 import 'package:tracksu_ui/tracksu_ui.dart';
@@ -166,11 +164,6 @@ final class TeamContent extends StatelessWidget {
                 spacing: UiSpace.md,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  OsuRulesetSelector(
-                    selected: selectedMode,
-                    onChanged: (ProfileRuleset mode) =>
-                        context.read<TeamBloc>().add(TeamModeSelected(mode)),
-                  ),
                   if (selectedMode != data.ruleset)
                     UiNotice(
                       message: context.t.newsKeepingContent,

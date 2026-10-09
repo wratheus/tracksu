@@ -617,5 +617,6 @@
   "packsFilter": "Nom ou tag, ex. S1500",
   "packsOpenTag": "Ouvrir le pack {tag}",
   "packsFilterEmpty": "Aucun résultat parmi les packs chargés",
-  "packsLoadMore": "Charger plus de packs"
+  "packsLoadMore": "Charger plus de packs",
+  "rulesetTitle": "Mode de jeu"
 }

@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Game mode in the app bar (ADR-011)
+
+- The game mode is chosen once, from its icon in the app bar, and kept
+  across pages and launches: rankings (players, teams, countries) and
+  spotlights follow it. The full-width mode rows are gone, giving the
+  content that space back.
+- A player's or a team's page opens in their own main mode (or the mode of
+  the page you came from); its app-bar mode changes only that page.
+
 ### osu! tabs, keyboard, account
 
 - Events, Forum and Changelog no longer stutter when swiped into: the event

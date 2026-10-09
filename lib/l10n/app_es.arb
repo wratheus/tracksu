@@ -617,5 +617,6 @@
   "packsFilter": "Nombre o etiqueta, p. ej. S1500",
   "packsOpenTag": "Abrir el paquete {tag}",
   "packsFilterEmpty": "Sin coincidencias entre los paquetes cargados",
-  "packsLoadMore": "Cargar más paquetes"
+  "packsLoadMore": "Cargar más paquetes",
+  "rulesetTitle": "Modo de juego"
 }

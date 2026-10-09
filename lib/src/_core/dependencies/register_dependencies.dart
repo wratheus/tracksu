@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:tracksu/src/_shared/ruleset/ruleset_controller.dart';
 import 'package:tracksu/src/_core/cache/page_cache.dart';
 import 'package:http/http.dart' as http;
 import 'package:tracksu/src/auth/data/app_links_oauth_callback_link_source.dart';
@@ -36,6 +37,10 @@ Future<DepsContainer> registerDependencies() async {
     store: FlutterSecureThemeStore(storage: storage),
   );
   await themeController.restore();
+  final RulesetController rulesetController = RulesetController(
+    store: FlutterSecureRulesetStore(storage: storage),
+  );
+  await rulesetController.restore();
   final MediaCacheRepository mediaCache = MediaCacheRepository();
   final ContentMediaController contentMediaController = ContentMediaController(
     repository: mediaCache,
@@ -125,6 +130,7 @@ Future<DepsContainer> registerDependencies() async {
     ),
     localeController: localeController,
     themeController: themeController,
+    rulesetController: rulesetController,
     contentMediaController: contentMediaController,
     shareService: ShareService(),
     authRepository: authRepository,

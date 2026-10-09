@@ -1,4 +1,6 @@
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
+import 'package:tracksu/src/_shared/chrome/ruleset_button.dart';
+import 'package:tracksu/src/_shared/ruleset/ruleset_listener.dart';
 import 'package:tracksu/src/_shared/media/widgets/app_media.dart';
 import 'package:tracksu/src/_shared/beatmaps/widgets/beatmap_cover.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,7 @@ final class SpotlightsScreen extends StatelessWidget {
         BlocBuilder<SpotlightsBloc, SpotlightsState>(
           builder: (BuildContext context, SpotlightsState state) =>
               AppBarActions(
+                ruleset: const RulesetButton.global(),
                 share: ShareTarget.spotlight(
                   state is SpotlightsLoadedState
                       ? state.ruleset
@@ -59,9 +62,14 @@ final class SpotlightsScreen extends StatelessWidget {
         ),
       ),
     ),
-    body: UiScrollToTop(
-      tooltip: context.t.scrollToTop,
-      child: const SafeArea(child: _SpotlightsBody()),
+    // Charts follow the app-bar game mode (ADR-011).
+    body: RulesetListener(
+      onChanged: (ProfileRuleset ruleset) =>
+          context.read<SpotlightsBloc>().add(SpotlightRulesetSelected(ruleset)),
+      child: UiScrollToTop(
+        tooltip: context.t.scrollToTop,
+        child: const SafeArea(child: _SpotlightsBody()),
+      ),
     ),
   );
 }
@@ -153,12 +161,6 @@ final class _SpotlightsBodyState extends State<_SpotlightsBody> {
                             label: context.t.spotlightsChoose,
                             icon: Icons.filter_list,
                             onPressed: _choosing ? null : () => _choose(state),
-                          ),
-                          OsuRulesetSelector(
-                            selected: state.ruleset,
-                            onChanged: (ProfileRuleset ruleset) => context
-                                .read<SpotlightsBloc>()
-                                .add(SpotlightRulesetSelected(ruleset)),
                           ),
                         ],
                       ],

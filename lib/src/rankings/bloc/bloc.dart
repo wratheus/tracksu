@@ -37,10 +37,11 @@ final class RankingsBloc extends Bloc<RankingsEvent, RankingsState> {
     var operation = RankingsOperation.refresh;
     var requestedPage = 1;
     switch (event) {
-      case RankingsStarted():
+      case RankingsStarted(type: final RankingsType? start):
         if (state is! RankingsInitialState) {
           return;
         }
+        if (start != null) type = start;
       case RankingsTypeSelected(:final value):
         if (value == state.type) {
           return;

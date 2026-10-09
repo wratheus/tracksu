@@ -2351,4 +2351,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get packsLoadMore => 'Загрузить ещё паки';
+
+  @override
+  String get rulesetTitle => 'Режим игры';
 }

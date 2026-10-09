@@ -6,6 +6,7 @@ import 'package:tracksu/src/auth/domain/oauth_callback_link_source.dart';
 import 'package:tracksu/src/_core/router/app_router.dart';
 import 'package:tracksu/src/_core/l10n/locale_controller.dart';
 import 'package:tracksu/src/_core/theme/theme_controller.dart';
+import 'package:tracksu/src/_shared/ruleset/ruleset_controller.dart';
 import 'package:tracksu/src/session/session_controller.dart';
 import 'package:tracksu_network/tracksu_network.dart';
 import 'package:tracksu_storage/tracksu_storage.dart';
@@ -22,6 +23,7 @@ final class DepsContainer {
     required this.audioPlaybackController,
     required this.localeController,
     required this.themeController,
+    required this.rulesetController,
     required this.contentMediaController,
     required this.cachePreference,
     required this.shareService,
@@ -42,6 +44,7 @@ final class DepsContainer {
   final AudioPlaybackController audioPlaybackController;
   final LocaleController localeController;
   final ThemeController themeController;
+  final RulesetController rulesetController;
   final ContentMediaController contentMediaController;
   final CachePreferenceController cachePreference;
   final ShareService shareService;
@@ -63,6 +66,7 @@ final class DepsContainer {
     sessionController.dispose();
     localeController.dispose();
     themeController.dispose();
+    rulesetController.dispose();
     contentMediaController.dispose();
     restClient.close();
     publicRestClient.close();

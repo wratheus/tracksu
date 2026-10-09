@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracksu/src/_core/dependencies/deps_scope.dart';
 import 'package:tracksu/src/_core/l10n/localizations_context.dart';
 import 'package:tracksu/src/_shared/chrome/app_bar_actions.dart';
+import 'package:tracksu/src/_shared/chrome/ruleset_button.dart';
 import 'package:tracksu/src/_shared/sharing/share_target.dart';
+import 'package:tracksu/src/profile/domain/profile_ruleset.dart';
 import 'package:tracksu/src/team/bloc/bloc.dart';
 import 'package:tracksu/src/team/domain/team.dart';
 import 'package:tracksu/src/team/widgets/team_content.dart';
@@ -25,6 +27,16 @@ final class TeamScreen extends StatelessWidget {
           title: Text(data?.identity.name ?? context.t.teamTitle),
           actions: <Widget>[
             AppBarActions(
+              // The team's own mode first, changed only here (ADR-011).
+              ruleset: data == null
+                  ? null
+                  : RulesetButton(
+                      value: state is TeamLoaded
+                          ? (state.requestedMode ?? data.ruleset)
+                          : data.ruleset,
+                      onChanged: (ProfileRuleset mode) =>
+                          context.read<TeamBloc>().add(TeamModeSelected(mode)),
+                    ),
               share: ShareTarget.team(
                 id,
                 data?.ruleset,

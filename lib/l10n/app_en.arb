@@ -2144,5 +2144,9 @@
   "packsLoadMore": "Load more packs",
   "@packsLoadMore": {
     "description": "Loads the next page of packs while filtering."
+  },
+  "rulesetTitle": "Game mode",
+  "@rulesetTitle": {
+    "description": "App bar button and sheet that choose the game mode (osu!, taiko, catch, mania)."
   }
 }

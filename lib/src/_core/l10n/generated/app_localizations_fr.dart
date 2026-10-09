@@ -2333,4 +2333,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get packsLoadMore => 'Charger plus de packs';
+
+  @override
+  String get rulesetTitle => 'Mode de jeu';
 }

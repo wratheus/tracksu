@@ -2315,4 +2315,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get packsLoadMore => 'Load more packs';
+
+  @override
+  String get rulesetTitle => 'Game mode';
 }
