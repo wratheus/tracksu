@@ -254,7 +254,6 @@
   "guestSignedOutDescription": "Öffentliche osu!-Daten als Gast ansehen. Melde dich an, um Kontofunktionen zu nutzen.",
   "guestSignedInDescription": "Du bist angemeldet. Öffentliche Inhalte sind auch ohne Konto zugänglich.",
   "signInWithOsu": "Mit osu! anmelden",
-  "signInWithAnotherAccount": "Mit einem anderen Konto anmelden",
   "signOut": "Abmelden",
   "signingOut": "Abmeldung läuft…",
   "signOutFailed": "Abmeldung fehlgeschlagen. Versuche es erneut.",

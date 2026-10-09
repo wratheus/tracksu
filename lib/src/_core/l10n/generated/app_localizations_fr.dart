@@ -918,9 +918,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get signInWithOsu => 'Se connecter avec osu!';
 
   @override
-  String get signInWithAnotherAccount => 'Se connecter avec un autre compte';
-
-  @override
   String get signOut => 'Se déconnecter';
 
   @override

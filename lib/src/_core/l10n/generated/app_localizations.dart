@@ -1632,12 +1632,6 @@ abstract class AppLocalizations {
   /// **'Sign in with osu!'**
   String get signInWithOsu;
 
-  /// Account menu action to switch osu! accounts.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in with another account'**
-  String get signInWithAnotherAccount;
-
   /// Account menu action to end the app session.
   ///
   /// In en, this message translates to:

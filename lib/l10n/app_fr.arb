@@ -254,7 +254,6 @@
   "guestSignedOutDescription": "Consultez les données publiques d’osu! en tant qu’invité. Connectez-vous pour accéder aux fonctions du compte.",
   "guestSignedInDescription": "Vous êtes connecté. La consultation des données publiques reste accessible sans compte.",
   "signInWithOsu": "Se connecter avec osu!",
-  "signInWithAnotherAccount": "Se connecter avec un autre compte",
   "signOut": "Se déconnecter",
   "signingOut": "Déconnexion…",
   "signOutFailed": "Impossible de se déconnecter. Réessayez.",

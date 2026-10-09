@@ -874,9 +874,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get signInWithOsu => 'osu!でログイン';
 
   @override
-  String get signInWithAnotherAccount => '別のアカウントでログイン';
-
-  @override
   String get signOut => 'ログアウト';
 
   @override

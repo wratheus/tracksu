@@ -254,7 +254,6 @@
   "guestSignedOutDescription": "ゲストとしてosu!の公開データを閲覧できます。ログインするとアカウント機能を利用できます。",
   "guestSignedInDescription": "ログインしています。公開データはアカウントがなくても閲覧できます。",
   "signInWithOsu": "osu!でログイン",
-  "signInWithAnotherAccount": "別のアカウントでログイン",
   "signOut": "ログアウト",
   "signingOut": "ログアウト中…",
   "signOutFailed": "ログアウトできませんでした。もう一度お試しください。",

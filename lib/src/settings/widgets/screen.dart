@@ -153,17 +153,17 @@ final class _SettingsScreenState extends State<SettingsScreen> {
                                               .openCurrentProfile(context),
                                         ),
                                 ),
-                              UiTile.value(
-                                title: authenticated
-                                    ? context.t.signInWithAnotherAccount
-                                    : context.t.signInWithOsu,
-                                leading: const UiTileIcon(Icons.login),
-                                onTap: _busy
-                                    ? null
-                                    : () => _run(
-                                        () => deps.appRouter.openLogin(context),
-                                      ),
-                              ),
+                              if (!authenticated)
+                                UiTile.value(
+                                  title: context.t.signInWithOsu,
+                                  leading: const UiTileIcon(Icons.login),
+                                  onTap: _busy
+                                      ? null
+                                      : () => _run(
+                                          () =>
+                                              deps.appRouter.openLogin(context),
+                                        ),
+                                ),
                             ],
                           ),
                           UiListGroup(

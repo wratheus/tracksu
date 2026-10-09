@@ -920,9 +920,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signInWithOsu => 'Iniciar sesión con osu!';
 
   @override
-  String get signInWithAnotherAccount => 'Iniciar sesión con otra cuenta';
-
-  @override
   String get signOut => 'Cerrar sesión';
 
   @override

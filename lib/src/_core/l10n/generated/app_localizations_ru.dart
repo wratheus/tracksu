@@ -918,9 +918,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get signInWithOsu => 'Войти через osu!';
 
   @override
-  String get signInWithAnotherAccount => 'Войти в другой аккаунт';
-
-  @override
   String get signOut => 'Выйти';
 
   @override

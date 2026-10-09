@@ -254,7 +254,6 @@
   "guestSignedOutDescription": "Просматривайте публичные данные osu! в гостевом режиме. Вход добавит возможности аккаунта.",
   "guestSignedInDescription": "Вы вошли в аккаунт. Публичные данные доступны и без него.",
   "signInWithOsu": "Войти через osu!",
-  "signInWithAnotherAccount": "Войти в другой аккаунт",
   "signOut": "Выйти",
   "signingOut": "Выход из аккаунта...",
   "signOutFailed": "Не удалось выйти из аккаунта. Повторите попытку.",

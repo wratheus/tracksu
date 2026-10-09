@@ -11,6 +11,8 @@
 - The bottom bar no longer vanishes the moment the keyboard starts to open:
   the keyboard slides over it while it fades by how much is covered, and the
   search field rides up with the keyboard frame by frame.
+- "Sign in with another account" is gone from the account menu and Settings:
+  sign out, then sign in.
 
 ### Sheets, pickers, glass
 

@@ -558,10 +558,6 @@
   "@signInWithOsu": {
     "description": "Account menu action to sign in through osu!."
   },
-  "signInWithAnotherAccount": "Sign in with another account",
-  "@signInWithAnotherAccount": {
-    "description": "Account menu action to switch osu! accounts."
-  },
   "signOut": "Sign out",
   "@signOut": {
     "description": "Account menu action to end the app session."

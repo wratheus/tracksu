@@ -254,7 +254,6 @@
   "guestSignedOutDescription": "Consulta los datos públicos de osu! como invitado. Inicia sesión para acceder a las funciones de cuenta.",
   "guestSignedInDescription": "Has iniciado sesión. Los datos públicos siguen estando disponibles sin cuenta.",
   "signInWithOsu": "Iniciar sesión con osu!",
-  "signInWithAnotherAccount": "Iniciar sesión con otra cuenta",
   "signOut": "Cerrar sesión",
   "signingOut": "Cerrando sesión…",
   "signOutFailed": "No se pudo cerrar sesión. Inténtalo de nuevo.",

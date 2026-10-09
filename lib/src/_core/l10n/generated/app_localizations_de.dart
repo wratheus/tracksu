@@ -923,9 +923,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get signInWithOsu => 'Mit osu! anmelden';
 
   @override
-  String get signInWithAnotherAccount => 'Mit einem anderen Konto anmelden';
-
-  @override
   String get signOut => 'Abmelden';
 
   @override

@@ -863,9 +863,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get signInWithOsu => '使用 osu! 登录';
 
   @override
-  String get signInWithAnotherAccount => '使用其他账号登录';
-
-  @override
   String get signOut => '退出登录';
 
   @override

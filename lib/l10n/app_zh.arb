@@ -254,7 +254,6 @@
   "guestSignedOutDescription": "以访客身份浏览 osu! 公开数据。登录后即可使用账号功能。",
   "guestSignedInDescription": "你已登录。无需账号也能浏览公开数据。",
   "signInWithOsu": "使用 osu! 登录",
-  "signInWithAnotherAccount": "使用其他账号登录",
   "signOut": "退出登录",
   "signingOut": "正在退出登录…",
   "signOutFailed": "无法退出登录，请重试。",
