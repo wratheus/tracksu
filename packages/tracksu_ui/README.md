@@ -92,6 +92,8 @@ into fixed-height boxes. Platform page transitions are not replaced by this them
   Rows are `UiOptionRow`s (chamfered card, icon chip, check when selected).
 - `UiOptionRow`: one option in a sheet list. Without `onTap` it is a static row
   (e.g. a list of past names), so lists of facts and lists of choices look alike.
+  `leading` takes a custom chip glyph (an image icon) when no `IconData` fits;
+  `UiChoice.leading` passes it through `UiModal.selection`.
 - `UiModal.sheet<T>`: custom short content/form. Owns scrolling and keyboard insets.
 - `UiModal.scrollable<T>`: content-fit draggable viewport for a lazy list or
   composed slivers. Return a scrollable with `primary: true` and no private

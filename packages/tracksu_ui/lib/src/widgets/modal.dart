@@ -12,12 +12,16 @@ final class UiChoice<T extends Object> {
     required this.label,
     this.subtitle,
     this.icon,
+    this.leading,
     this.enabled = true,
   });
   final T value;
   final String label;
   final String? subtitle;
   final IconData? icon;
+
+  /// Custom chip glyph when no [IconData] fits; see [UiOptionRow.leading].
+  final Widget? leading;
   final bool enabled;
 }
 
@@ -150,6 +154,7 @@ abstract final class UiModal {
             label: item.label,
             subtitle: item.subtitle,
             icon: item.icon,
+            leading: item.leading,
             selected: item.value == selected,
             onTap: item.enabled
                 ? () => _finish(modalContext, item.value)

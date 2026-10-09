@@ -9,6 +9,7 @@ final class UiOptionRow extends StatelessWidget {
   const UiOptionRow({
     required this.label,
     this.icon,
+    this.leading,
     this.subtitle,
     this.selected = false,
     this.onTap,
@@ -16,6 +17,10 @@ final class UiOptionRow extends StatelessWidget {
   });
   final String label;
   final IconData? icon;
+
+  /// A custom glyph for the chip when no [IconData] fits (e.g. an image
+  /// icon); it gets the chip's icon colour and size. Ignored with [icon].
+  final Widget? leading;
   final String? subtitle;
   final bool selected;
   final VoidCallback? onTap;
@@ -87,7 +92,7 @@ final class UiOptionRow extends StatelessWidget {
                 child: Row(
                   spacing: UiSpace.md,
                   children: <Widget>[
-                    if (icon case final IconData glyph)
+                    if (icon != null || leading != null)
                       DecoratedBox(
                         decoration: ShapeDecoration(
                           shape: _chip,
@@ -96,10 +101,14 @@ final class UiOptionRow extends StatelessWidget {
                         ),
                         child: SizedBox.square(
                           dimension: 36,
-                          child: Icon(
-                            glyph,
-                            size: 20,
-                            color: selected ? foreground : colors.primary,
+                          child: IconTheme(
+                            data: IconThemeData(
+                              size: 20,
+                              color: selected ? foreground : colors.primary,
+                            ),
+                            child: Center(
+                              child: icon != null ? Icon(icon) : leading,
+                            ),
                           ),
                         ),
                       ),
