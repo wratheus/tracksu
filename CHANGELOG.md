@@ -8,6 +8,8 @@
   they open: a sheet fitted exactly to its minimum height was taken for a
   dismissal. Option lists use the app's chamfered rows with an icon chip
   and a check for the selected one.
+- The category dropdown is a chamfered glass button: the choice's icon,
+  a small caption with the picker's title, the value, and an unfold mark.
 
 ### Smoother player, glass search, tidy filters
 

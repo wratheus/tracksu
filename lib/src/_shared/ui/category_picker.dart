@@ -55,38 +55,95 @@ final class _OsuCategoryPickerState<T extends Object>
     }
   }
 
+  /// The closed picker in the app's control shape: a chamfered glass bar
+  /// like the segmented controls, the current option's icon in an accent
+  /// chip, the picker's name above the value, an unfold mark at the end.
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colors = Theme.of(context).colorScheme;
+    final ThemeData theme = Theme.of(context);
+    final ColorScheme colors = theme.colorScheme;
     return Semantics(
       button: true,
       label: widget.title,
       value: widget.label(context, widget.selected),
       excludeSemantics: true,
-      child: UiSurface.tonal(
-        onTap: _open ? null : _choose,
-        padding: const EdgeInsets.symmetric(
-          horizontal: UiSpace.md,
-          vertical: UiSpace.sm,
+      child: Material(
+        shape: UiOptionRow.shape.copyWith(
+          side: BorderSide(color: colors.onSurface.withValues(alpha: 0.1)),
         ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 32),
-          child: Row(
-            spacing: UiSpace.sm,
-            children: <Widget>[
-              Icon(
-                widget.icon(widget.selected),
-                size: 20,
-                color: colors.primary,
+        clipBehavior: Clip.antiAlias,
+        color: colors.surfaceContainerHighest.withValues(alpha: 0.72),
+        child: Ink(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                colors.onSurface.withValues(alpha: 0.08),
+                colors.onSurface.withValues(alpha: 0.01),
+              ],
+            ),
+          ),
+          child: InkWell(
+            onTap: _open ? null : _choose,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                UiSpace.sm,
+                UiSpace.sm,
+                UiSpace.md,
+                UiSpace.sm,
               ),
-              Expanded(
-                child: UiText.labelLarge(
-                  widget.label(context, widget.selected),
-                  maxLines: 1,
-                ),
+              child: Row(
+                spacing: UiSpace.md,
+                children: <Widget>[
+                  DecoratedBox(
+                    decoration: ShapeDecoration(
+                      shape: const BeveledRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(UiSpace.sm),
+                          bottomRight: Radius.circular(UiSpace.sm),
+                        ),
+                      ),
+                      color: colors.primaryContainer,
+                    ),
+                    child: SizedBox.square(
+                      dimension: 36,
+                      child: Icon(
+                        widget.icon(widget.selected),
+                        size: 20,
+                        color: colors.onPrimaryContainer,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          widget.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: colors.onSurfaceVariant,
+                          ),
+                        ),
+                        Text(
+                          widget.label(context, widget.selected),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleSmall,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    Icons.unfold_more_rounded,
+                    color: colors.onSurfaceVariant,
+                  ),
+                ],
               ),
-              Icon(Icons.expand_more_rounded, color: colors.onSurfaceVariant),
-            ],
+            ),
           ),
         ),
       ),
@@ -101,30 +158,28 @@ final class _CategorySheet<T extends Object> extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListView(
     primary: true,
-    padding: const EdgeInsets.only(bottom: UiSpace.lg),
+    padding: const EdgeInsets.fromLTRB(UiSpace.lg, 0, UiSpace.lg, UiSpace.lg),
     children: <Widget>[
       for (final OsuCategoryGroup<T> group in picker.groups) ...<Widget>[
         if (group.title case final String title)
           Padding(
-            padding: const EdgeInsets.fromLTRB(
-              UiSpace.lg,
-              UiSpace.md,
-              UiSpace.lg,
-              UiSpace.xs,
-            ),
+            padding: const EdgeInsets.fromLTRB(0, UiSpace.md, 0, UiSpace.sm),
             child: UiText.labelLarge(title, secondary: true),
           ),
         for (final T option in group.options)
-          UiTile.selection(
+          Padding(
             key: ValueKey<T>(option),
-            title: picker.label(context, option),
-            leading: Icon(picker.icon(option)),
-            selected: option == picker.selected,
-            onTap: () {
-              if (ModalRoute.of(context)?.isCurrent == true) {
-                Navigator.of(context).pop(option);
-              }
-            },
+            padding: const EdgeInsets.only(bottom: UiSpace.sm),
+            child: UiOptionRow(
+              label: picker.label(context, option),
+              icon: picker.icon(option),
+              selected: option == picker.selected,
+              onTap: () {
+                if (ModalRoute.of(context)?.isCurrent == true) {
+                  Navigator.of(context).pop(option);
+                }
+              },
+            ),
           ),
       ],
     ],
