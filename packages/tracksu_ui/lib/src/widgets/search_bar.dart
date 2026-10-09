@@ -1,6 +1,7 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:tracksu_ui/src/theme/tokens.dart';
-import 'package:tracksu_ui/src/widgets/glass.dart';
 
 /// The search tab's field, floating at the bottom over the results, right
 /// above the keyboard (iOS 26 search tab, Liquid Glass): a frosted capsule
@@ -61,7 +62,8 @@ final class _UiSearchBarState extends State<UiSearchBar> {
         : const Duration(milliseconds: 180);
     return SizedBox(
       height: UiSearchBar.height,
-      child: UiGlass.surface(
+      child: _LiquidGlass(
+        light: theme.brightness == Brightness.light,
         child: ListenableBuilder(
           listenable: _focus,
           builder: (BuildContext context, Widget? child) => CustomPaint(
@@ -147,6 +149,96 @@ final class _UiSearchBarState extends State<UiSearchBar> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Liquid Glass after iOS 26: the backdrop is blurred and its colours
+/// lifted (vibrancy), a thin tint brighter at the top, a soft lift shadow
+/// and an inner sheen along the upper edge; the rim is painted on top.
+final class _LiquidGlass extends StatelessWidget {
+  const _LiquidGlass({required this.light, required this.child});
+  final bool light;
+  final Widget child;
+
+  /// Saturation boost of the blurred backdrop (the "vibrancy" of glass).
+  static List<double> _saturation(double s) {
+    const double r = 0.2126, g = 0.7152, b = 0.0722;
+    final double i = 1 - s;
+    return <double>[
+      r * i + s, g * i, b * i, 0, 0, //
+      r * i, g * i + s, b * i, 0, 0, //
+      r * i, g * i, b * i + s, 0, 0, //
+      0, 0, 0, 1, 0, //
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool solid = MediaQuery.highContrastOf(context);
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    const StadiumBorder shape = StadiumBorder();
+    final Widget tint = DecoratedBox(
+      decoration: ShapeDecoration(
+        shape: shape,
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: solid
+              ? <Color>[
+                  colors.surfaceContainerHigh,
+                  colors.surfaceContainerHigh,
+                ]
+              : light
+              ? <Color>[
+                  Colors.white.withValues(alpha: .72),
+                  Colors.white.withValues(alpha: .52),
+                ]
+              : <Color>[
+                  Colors.white.withValues(alpha: .16),
+                  Colors.white.withValues(alpha: .05),
+                ],
+        ),
+      ),
+      child: DecoratedBox(
+        // Inner sheen: light pooled along the top inside the capsule.
+        decoration: ShapeDecoration(
+          shape: shape,
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.center,
+            colors: <Color>[
+              Colors.white.withValues(alpha: light ? .35 : .10),
+              Colors.white.withValues(alpha: 0),
+            ],
+          ),
+        ),
+        child: child,
+      ),
+    );
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        shape: shape,
+        shadows: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withValues(alpha: light ? .12 : .35),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: ClipPath(
+        clipper: const ShapeBorderClipper(shape: shape),
+        child: solid
+            ? tint
+            : BackdropFilter(
+                filter: ui.ImageFilter.compose(
+                  outer: ui.ColorFilter.matrix(_saturation(1.8)),
+                  inner: ui.ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+                ),
+                child: tint,
+              ),
       ),
     );
   }

@@ -12,6 +12,9 @@
   a small caption with the picker's title, the value, and an unfold mark.
 - Pausing the preview stops the timeline where it is instead of letting it
   glide on to the next expected position.
+- The search capsule is real Liquid Glass: it blurs and saturates what is
+  behind it, with a tinted sheen and a specular rim (solid under high
+  contrast).
 
 ### Smoother player, glass search, tidy filters
 
