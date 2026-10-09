@@ -181,6 +181,9 @@ final class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+    // The results never resize with the keyboard (a relayout of the whole
+    // list per keyboard frame was the stutter); only the field moves.
+    resizeToAvoidBottomInset: false,
     appBar: UiAppBar(
       title: UiText.titleLarge(context.t.navigationSearch),
       actions: <Widget>[
@@ -260,19 +263,16 @@ final class _SearchScreenState extends State<SearchScreen> {
       ),
     ),
     // iOS 26 search tab: results above, the field at the bottom within
-    // thumb reach and right above the keyboard (the bottom bar hides then).
+    // thumb reach and right above the keyboard (the bottom bar fades under it).
     body: SafeArea(
       top: false,
       child: Stack(
         children: <Widget>[
-          // Results scroll under the glass bar; the extra bottom inset keeps
-          // their end and the scroll-to-top button clear of it.
+          // Results scroll under the field; the extra bottom inset keeps
+          // their end and the scroll-to-top button clear of it. Dragging
+          // the list dismisses the keyboard, so nothing stays hidden.
           Positioned.fill(
-            child: MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                padding: MediaQuery.paddingOf(context)
-                    .copyWith(bottom: UiSearchBar.area),
-              ),
+            child: _ResultsInsets(
               child: switch (_tab) {
                 SearchTab.maps => const BeatmapSearchResults(),
                 SearchTab.wiki => const WikiSearchResults(),
@@ -283,10 +283,7 @@ final class _SearchScreenState extends State<SearchScreen> {
               },
             ),
           ),
-          PositionedDirectional(
-            start: UiSpace.lg,
-            end: UiSpace.lg,
-            bottom: UiSpace.md,
+          _AboveKeyboard(
             child: UiSearchBar(
               controller: _text,
               focusNode: _focus,
@@ -449,4 +446,45 @@ final class _Players extends StatelessWidget {
       ),
     ),
   );
+}
+
+/// Keeps the search field just above the keyboard. Only this small subtree
+/// reads the keyboard inset, so the results do not rebuild or relayout while
+/// it moves; a short ease smooths platforms that report the keyboard in a
+/// few large steps instead of every frame.
+final class _AboveKeyboard extends StatelessWidget {
+  const _AboveKeyboard({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => AnimatedPositionedDirectional(
+    duration: MediaQuery.disableAnimationsOf(context)
+        ? Duration.zero
+        : const Duration(milliseconds: 90),
+    curve: Curves.easeOutCubic,
+    start: UiSpace.lg,
+    end: UiSpace.lg,
+    bottom: UiSpace.md + MediaQuery.viewInsetsOf(context).bottom,
+    child: child,
+  );
+}
+
+/// The results' insets: room for the field at the bottom, and no keyboard
+/// inset at all, so the lists below are not notified (and do not rebuild)
+/// on every keyboard frame. Only this widget follows the keyboard.
+final class _ResultsInsets extends StatelessWidget {
+  const _ResultsInsets({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final MediaQueryData media = MediaQuery.of(context);
+    return MediaQuery(
+      data: media.copyWith(
+        padding: media.padding.copyWith(bottom: UiSearchBar.area),
+        viewInsets: EdgeInsets.zero,
+      ),
+      child: child,
+    );
+  }
 }
