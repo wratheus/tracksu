@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Design docs
+
+- UI kit, nine screens and the main flows as one page
+  (`docs/design/tracksu-design.html`), imported into Figma; flows also as
+  Mermaid (`docs/design/FLOWS.md`). README shows the new mockups; the old
+  README is kept in `docs/legacy`.
+
 ### Articles scroll back up smoothly
 
 - News, wiki and forum posts no longer shake when you scroll back up from
