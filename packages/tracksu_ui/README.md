@@ -87,14 +87,20 @@ into fixed-height boxes. Platform page transitions are not replaced by this them
 - `UiModal.selection<T>`: typed single choice from `UiChoice<T>` items, lazy list;
   selected value is highlighted, disabled items cannot be picked, dismiss is null.
   Values must be unique; non-null `T` distinguishes cancellation from selection.
+  Rows are `UiOptionRow`s (chamfered card, icon chip, check when selected).
+- `UiOptionRow`: one option in a sheet list. Without `onTap` it is a static row
+  (e.g. a list of past names), so lists of facts and lists of choices look alike.
 - `UiModal.sheet<T>`: custom short content/form. Owns scrolling and keyboard insets.
 - `UiModal.scrollable<T>`: content-fit draggable viewport for a lazy list or
   composed slivers. Return a scrollable with `primary: true` and no private
   controller/`shrinkWrap`. Its inherited controller expands the sheet before
   scrolling. Initial fitting uses sliver extent estimates (18–90% bounds);
   dragging takes ownership of size (18–95%). No eager measurement of all rows.
+  The fitted size always stays a little above the minimum: a modal bottom sheet
+  pops when its draggable child reports the minimum extent, so short content
+  fitted exactly to it closed as soon as it opened.
   Does not wrap another SingleChildScrollView around the lazy content.
-  Both methods own the title/close header and have explicit root navigator choice.
+  Both methods own the title header (no close button: swipe or tap outside) and have explicit root navigator choice.
 - `UiFrame.body/scroll`: body composition, common padding/safe areas and optional
   footer outside the scroll view; does not own Scaffold, routes or data.
 - `UiSection`: title, optional action, content and common section spacing.
@@ -165,7 +171,7 @@ if (!context.mounted || !confirmed) return;
 Do not open modals from build, and do not treat dismiss as successful consent.
 
 `UiModal.scrollable(cover: UiCover(...), ...)` places artwork flush with the
-rounded sheet top, behind a contrast-protected title/close header. Do not repeat
+rounded sheet top, behind a contrast-protected title header. Do not repeat
 that cover inside the padded body. The adaptive minimum extent reserves room
 for the measured header and content. A manual cover example is in the catalog.
 Use `coverAction` for an interactive overlay (for example `UiAudioPlayer.overlay`),
