@@ -48,7 +48,7 @@ callback, скрытый secret, кэш и собственные функции
 | Seasonal backgrounds | список фонов сезона | без токена | волна 2 (оформление) |
 | Forum | `forums`, `forums/{id}`, `topics`, `topics/{id}` | public | готово ([P54](P54-forum.md)) |
 | Forum | ответ / новая тема / правка | forum.write | после P37 |
-| Matches | `matches`, `matches/{id}` (legacy multiplayer) | public | волна 3 |
+| Matches | `matches`, `matches/{id}` (legacy multiplayer) | public | волна 3, [P56](P56-multiplayer-matches.md) — подготовка |
 | Multiplayer | `rooms`, `leaderboard`, `events`, `playlist/{id}/scores` | public | частично (карта дня), волна 3 |
 | Teams | `teams/{id}[/{ruleset}]` | public | есть |
 | Search | `search?mode=user\|wiki_page` | public | есть (P48, P52) |
